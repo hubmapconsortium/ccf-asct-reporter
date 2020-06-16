@@ -1,5 +1,5 @@
-<div style="padding: 20px;">
-    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" #indentTree>
+<div>
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" #indentTree style="padding: 20px !important;">
         <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
             <button mat-icon-button disabled></button> {{node.name}}
         </mat-tree-node>
