@@ -11,5 +11,6 @@
 
 .sidenav-drawer {
     padding: 20px;
-    width: 25%;
+    width: 45%;
+    overflow-x: auto;
 }

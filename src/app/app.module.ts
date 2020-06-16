@@ -18,10 +18,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTreeModule } from "@angular/material/tree";
 import { MatIconModule } from "@angular/material/icon";
-
-
-
-
+import { MatListModule } from "@angular/material/list";
 
 let MatModules = [
   MatToolbarModule,
@@ -29,7 +26,8 @@ let MatModules = [
   MatSelectModule,
   MatSidenavModule,
   MatTreeModule,
-  MatIconModule
+  MatIconModule,
+  MatListModule
 ];
 
 @NgModule({

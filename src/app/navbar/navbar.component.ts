@@ -23,7 +23,6 @@ export class NavbarComponent implements OnInit {
   }
 
   getSelection() {
-    console.log(this.selectedOption)
     this.showGraph.emit(this.selectedOption)
   }
 

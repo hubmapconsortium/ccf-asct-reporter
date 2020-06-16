@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { parse } from 'papaparse'
+import { ReportService } from './report.service';
 
 export class TNode {
   id: any;
@@ -66,7 +67,7 @@ export class Node {
 })
 export class SheetService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public report: ReportService) { }
 
   public getSheetData() {
     const sheetId = '1iUBrmiI_dB67_zCj3FBK9expLTmpBjwS'
@@ -101,12 +102,20 @@ export class SheetService {
         } else {
           tree.id += 1;
           let newNode = new TNode(tree.id, row[cols[col]], parent.id, row[cols[col]+2]);
+          if (!(row[cols[col]+2].includes('UBERON')) && !(row[cols[col]+2].includes('CL'))) {
+            this.report.reportLog(`Uberon: ${row[cols[col]]} - ${row[cols[col]+2]}`, 'warning')
+          }
           tree.append(newNode)
           parent = newNode;
         }
       }
     })
-
+    
+    if (tree.nodes.length < 0) {
+      this.report.reportLog(`Tree cata failed to fetch.`, 'error')
+      return []
+    }
+    this.report.reportLog(`Tree data succesfully fetched.`, 'success')
     return tree.nodes;
 
   }
@@ -131,12 +140,20 @@ export class SheetService {
           parent = searchedNode;
         } else {
           let newNode = new Node(row[cols[col]], [], row[cols[col]+2]);
+          if (!(row[cols[col]+2].includes('UBERON')) && !(row[cols[col]+2].includes('CL'))) {
+            this.report.reportLog(`${row[cols[col]]} - ${row[cols[col]+2]}`, 'warning')
+          }
           parent.children.push(newNode)
           parent = newNode;
         }
       }
     })
 
+    if (root.children.length < 0) {
+      this.report.reportLog(`Indent data failed to fetch.`, 'error')
+    } else {
+      this.report.reportLog(`Indent Tree data succesfully fetched.`, 'success')
+    }
     return root;
   }
 }
