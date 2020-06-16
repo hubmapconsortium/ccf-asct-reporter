@@ -4,8 +4,7 @@
 
 .gap {
     margin-right: 10px;
-    font-size: 22pt;
-    font-weight: bold;
+    width: 200px;
 }
 
 ::ng-deep .mat-form-field-underline {
