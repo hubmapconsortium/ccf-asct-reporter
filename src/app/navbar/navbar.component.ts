@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -17,6 +17,7 @@ export class NavbarComponent implements OnInit {
   ]
 
   selectedOption = this.options[0]
+  @Output() showLog = new EventEmitter<any>();
 
   constructor() { }
 
@@ -25,6 +26,10 @@ export class NavbarComponent implements OnInit {
 
   getSelection() {
     console.log(this.selectedOption)
+  }
+
+  showLogs() {
+    this.showLog.emit(true)
   }
 
 }

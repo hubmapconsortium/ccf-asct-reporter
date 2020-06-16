@@ -1,3 +1,11 @@
-<app-navbar></app-navbar>
-
-<app-tree></app-tree>
+<div style="width: 100%;">
+    <mat-drawer-container class="drawer-container" autosize hasBackdrop="true">
+        <mat-drawer #logs_drawer class="sidenav-drawer" mode="over" opened="false" position="end">
+            <h1>Reported Logs</h1>
+        </mat-drawer>
+        <div class="content text-center">
+            <app-navbar (showLog)="toggleDrawer($event)"></app-navbar>
+            <app-tree></app-tree>
+        </div>
+    </mat-drawer-container>
+</div>

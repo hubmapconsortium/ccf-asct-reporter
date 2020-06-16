@@ -1,17 +1,17 @@
-<mat-toolbar color="secondary">
+<mat-toolbar color="secondary" style="padding-left: 30px !important; padding-right: 30px !important;">
     <span class="gap">CCF ASCT Reporter</span>
     <span class="filler"></span>
     <div>
         <mat-form-field style="margin-right: 20px;">
-            <div>
+            <button mat-flat-button style="width: 100%;" color="primary">
                 <mat-select [(value)]="selectedOption.value" (selectionChange)="getSelection()">
                     <mat-option *ngFor="let option of options" [value]="option.value">
                         {{option.display}}
                     </mat-option>
                 </mat-select>
-            </div>
+            </button>
         </mat-form-field>
         <button mat-flat-button style="background-color: #90CAF9; margin-right: 20px;">Refresh</button>
-        <button mat-flat-button style="background-color: #9FA8DA;">Logs</button>
+        <button mat-flat-button style="background-color: #9FA8DA;" (click)="showLogs()">Logs</button>
     </div>
 </mat-toolbar>
