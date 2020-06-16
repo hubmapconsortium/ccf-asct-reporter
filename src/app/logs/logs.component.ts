@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ReportService } from '../report.service';
 
 @Component({
@@ -8,11 +8,17 @@ import { ReportService } from '../report.service';
 })
 export class LogsComponent implements OnInit {
   logs = [];
+  @Output() close = new EventEmitter();
+  
   constructor(public report: ReportService) { 
     this.logs = report.getAllLogs();
   }
 
   ngOnInit(): void {
+  }
+
+  closeDrawer() {
+    this.close.emit(false);
   }
 
 }

@@ -1,7 +1,7 @@
 <div style="width: 100%;">
     <mat-drawer-container class="drawer-container" autosize hasBackdrop="true">
         <mat-drawer #logs_drawer class="sidenav-drawer" mode="over" opened="false" position="end">
-            <app-logs></app-logs>
+            <app-logs (close)="logs_drawer.toggle()"></app-logs>
         </mat-drawer>
         <div class="content text-center">
             <app-navbar (showLog)="toggleDrawer($event)" (showGraph)="showGraph($event)" (refresh)="refreshData($event)"></app-navbar>

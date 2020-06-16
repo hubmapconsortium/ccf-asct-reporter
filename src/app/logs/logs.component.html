@@ -1,20 +1,22 @@
-<div style="height: 100%;">
+<div style="height: 100%; width: 100%;">
     <div class="header">
-        <h1>Reported Logs</h1>
-    </div>
+        <div style="display: flex; width: 100%; justify-content: space-between;">
+            <h1>Reported Logs</h1>
+            <button mat-flat-button (click)="closeDrawer()"><mat-icon>close</mat-icon></button>
+        </div>
 
-    <div class="content">
-        <mat-list>
-            <mat-list-item *ngFor="let log of logs">
-                <mat-icon mat-list-icon [ngStyle]="{'color': log.icon === 'check_circle' ? '#66BB6A' : log.icon === 'error' ? '#FFCA28' : '#FF5722'}">{{log.icon}}</mat-icon>
-                <div mat-line>
-                    {{log.message}}
-                </div>
-            </mat-list-item>
-        </mat-list>
-    </div>
+        <div class="content">
+            <mat-list>
+                <mat-list-item *ngFor="let log of logs">
+                    <mat-icon mat-list-icon [ngStyle]="{'color': log.icon === 'check_circle' ? '#66BB6A' : log.icon === 'error' ? '#FFCA28' : '#FF5722'}">{{log.icon}}</mat-icon>
+                    <div mat-line>
+                        {{log.message}}
+                    </div>
+                </mat-list-item>
+            </mat-list>
+        </div>
 
-    <div class="footer">
-        <button mat-flat-button color="warn">Report</button>
+        <div class="footer" style="padding-top: 20px;">
+            <button mat-flat-button color="warn">Report</button>
+        </div>
     </div>
-</div>
