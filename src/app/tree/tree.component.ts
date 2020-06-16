@@ -110,14 +110,14 @@ export class TreeComponent implements OnInit {
             "from": { "data": "tree" },
             "encode": {
               "enter": {
-                "size": { "value": 300 },
+                "size": { "value": 500 },
                 "stroke": { "value": "#fff" }
               },
               "update": {
                 "x": { "field": "x" },
                 "y": { "field": "y" },
                 "tooltip": [
-                  {"field": "uberon_id", "type": "quantitative", "title": "date"}
+                  {"field": "uberon_id", "type": "quantitative"}
                 ],
                 "fill": { "scale": "color", "field": "depth" }
               }
