@@ -1,0 +1,11 @@
+.filler {
+    flex: 1 1 auto;
+}
+
+.gap {
+    margin-right: 10px;
+}
+
+::ng-deep .mat-form-field-underline {
+    display: none;
+}
