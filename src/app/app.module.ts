@@ -19,6 +19,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTreeModule } from "@angular/material/tree";
 import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
+import { MatDialogModule } from "@angular/material/dialog";
+import { LoadingComponent } from './loading/loading.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 let MatModules = [
   MatToolbarModule,
@@ -27,7 +31,10 @@ let MatModules = [
   MatSidenavModule,
   MatTreeModule,
   MatIconModule,
-  MatListModule
+  MatListModule,
+  MatDialogModule,
+  MatProgressSpinnerModule,
+  MatSnackBarModule
 ];
 
 @NgModule({
@@ -36,7 +43,8 @@ let MatModules = [
     NavbarComponent,
     TreeComponent,
     LogsComponent,
-    IndentComponent
+    IndentComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

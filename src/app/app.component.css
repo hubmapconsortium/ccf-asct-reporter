@@ -4,8 +4,6 @@
 }
 
 .content {
-    /* display: flex;
-    flex-direction: column; */
     height: 100%;
 }
 
@@ -13,4 +11,15 @@
     padding: 20px;
     width: 45%;
     overflow-x: auto;
+}
+
+
+/* SNACKABR */
+
+::ng-deep .green-snackbar {
+    background: #4CAF50;
+}
+
+::ng-deep .mat-simple-snackbar-action {
+    color: white;
 }
