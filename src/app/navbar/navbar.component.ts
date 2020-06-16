@@ -14,6 +14,7 @@ export class NavbarComponent implements OnInit {
 
   @Output() showLog = new EventEmitter<any>();
   @Output() showGraph = new EventEmitter<any>();
+  @Output() refresh = new EventEmitter<any>();
 
   constructor() { 
     this.getSelection();
@@ -28,6 +29,10 @@ export class NavbarComponent implements OnInit {
 
   showLogs() {
     this.showLog.emit(true)
+  }
+
+  refreshData() {
+    this.refresh.emit(this.selectedOption)
   }
 
 }

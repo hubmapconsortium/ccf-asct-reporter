@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output } from '@angular/core';
 import { SheetService } from './sheet.service';
+import { EventEmitter } from 'protractor';
 
 @Component({
   selector: 'app-root',
@@ -10,15 +11,14 @@ export class AppComponent implements OnInit {
 
   @ViewChild('logs_drawer') logs_drawer;
 
+
   displayGraph = 'Tree';
+  refreshTree = false;
+  refreshIndent = false;
 
-  constructor() {
-    
-  }
+  constructor() {}
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
 
   toggleDrawer(val) {
     this.logs_drawer.opened = val;
@@ -27,4 +27,21 @@ export class AppComponent implements OnInit {
   showGraph(val) {
     this.displayGraph = val;
   }
-}
+
+  refreshData(val) {
+    if (val== 'Tree') {
+      this.refreshTree = true;
+    } else if (val == 'Indent') {
+      this.refreshIndent = true;
+    }
+  }
+
+  returnRefresh(val) {
+    if (val == 'Tree') {
+      this.refreshTree = false;
+
+    } else if (val == 'Indent') {
+      this.refreshIndent = false;
+    }
+  }
+ }

@@ -1,19 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, Output,EventEmitter } from '@angular/core';
 import { SheetService } from '../sheet.service';
 import embed from 'vega-embed'
-
-
 
 @Component({
   selector: 'app-tree',
   templateUrl: './tree.component.html',
   styleUrls: ['./tree.component.css']
 })
-export class TreeComponent implements OnInit {
+export class TreeComponent implements OnInit, OnChanges {
   sheetData;
   treeData;
+
+  @Input() public refreshData = false;
+  @Output() retrunRefresh = new EventEmitter();
   
   constructor(public sheet: SheetService) {
+    this.getData();
+  }
+
+
+
+  ngOnInit(): void {
+
+  }
+
+  ngOnChanges() {
+    if (this.refreshData) 
+      this.getData()
+  }
+
+  getData() {
     this.sheet.getSheetData().then(data => {
       this.sheetData = data.data;
       this.sheetData.shift() // removing headers
@@ -145,14 +161,9 @@ export class TreeComponent implements OnInit {
       }
 
       embed('#vis', config)
+      this.retrunRefresh.emit('Tree')
 
     })
-  }
-
-
-
-  ngOnInit(): void {
-
   }
 
 
