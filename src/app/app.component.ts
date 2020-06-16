@@ -10,6 +10,8 @@ export class AppComponent implements OnInit {
 
   @ViewChild('logs_drawer') logs_drawer;
 
+  displayGraph = 'Tree';
+
   constructor() {
     
   }
@@ -20,5 +22,9 @@ export class AppComponent implements OnInit {
 
   toggleDrawer(val) {
     this.logs_drawer.opened = val;
+  }
+
+  showGraph(val) {
+    this.displayGraph = val;
   }
 }

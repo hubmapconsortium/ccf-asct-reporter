@@ -6,26 +6,25 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-
   options = [
-    {
-      value: 'tree', display: 'Tree',
-    },
-    {
-      value: 'indent', display: 'Indent'
-    }
+    'Tree',
+    'Indent'
   ]
+  selectedOption = this.options[0];
 
-  selectedOption = this.options[0]
   @Output() showLog = new EventEmitter<any>();
+  @Output() showGraph = new EventEmitter<any>();
 
-  constructor() { }
+  constructor() { 
+    this.getSelection();
+  }
 
   ngOnInit(): void {
   }
 
   getSelection() {
     console.log(this.selectedOption)
+    this.showGraph.emit(this.selectedOption)
   }
 
   showLogs() {

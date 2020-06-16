@@ -12,6 +12,7 @@ import embed from 'vega-embed'
 export class TreeComponent implements OnInit {
   sheetData;
   treeData;
+  
   constructor(public sheet: SheetService) {
     this.sheet.getSheetData().then(data => {
       this.sheetData = data.data;
@@ -21,7 +22,7 @@ export class TreeComponent implements OnInit {
       let height = document.getElementsByTagName('body')[0].clientHeight;
       let width = document.getElementsByTagName('body')[0].clientWidth;
 
-      let yourVlSpec: any = {
+      let config: any = {
         "$schema": "https://vega.github.io/schema/vega/v5.json",
         "description": "An example of Cartesian layouts for a node-link diagram of hierarchical data.",
         "width": width - 700,
@@ -143,7 +144,7 @@ export class TreeComponent implements OnInit {
         ]
       }
 
-      embed('#vis', yourVlSpec)
+      embed('#vis', config)
 
     })
   }

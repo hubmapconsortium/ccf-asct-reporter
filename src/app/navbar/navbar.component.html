@@ -4,9 +4,9 @@
     <div>
         <mat-form-field style="margin-right: 20px;">
             <button mat-flat-button style="width: 100%;" color="primary">
-                <mat-select [(value)]="selectedOption.value" (selectionChange)="getSelection()">
-                    <mat-option *ngFor="let option of options" [value]="option.value">
-                        {{option.display}}
+                <mat-select (selectionChange)="getSelection()" [(ngModel)]="selectedOption">
+                    <mat-option *ngFor="let option of options" [value]="option">
+                        {{option}}
                     </mat-option>
                 </mat-select>
             </button>

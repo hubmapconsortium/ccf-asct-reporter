@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { parse } from 'papaparse'
 
-export class Node {
+export class TNode {
   id: any;
   name: String;
   parent: String;
@@ -40,6 +40,27 @@ export class Tree {
 
 }
 
+export class Node {
+  name: string;
+  uberon: string;
+  children?: Node[];
+
+  constructor(name, children, uberon) {
+    this.name = name;
+    this.children = children;
+    this.uberon = uberon;
+  }
+
+  public search(name) {
+    for (var i = 0 ; i < this.children.length; i++) {
+      if (this.children[i].name == name) {
+        return this.children[i]
+      } 
+    }
+    return {};
+  }
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -61,7 +82,7 @@ export class SheetService {
     let parent;
     let tree = new Tree(id);
 
-    let root = new Node(id, 'body', 0, 0);
+    let root = new TNode(id, 'body', 0, 0);
     delete root.parent; delete root.uberon_id;
     tree.append(root)
 
@@ -79,7 +100,7 @@ export class SheetService {
           parent = searchedNode;
         } else {
           tree.id += 1;
-          let newNode = new Node(tree.id, row[cols[col]], parent.id, row[cols[col]+2]);
+          let newNode = new TNode(tree.id, row[cols[col]], parent.id, row[cols[col]+2]);
           tree.append(newNode)
           parent = newNode;
         }
@@ -88,5 +109,34 @@ export class SheetService {
 
     return tree.nodes;
 
+  }
+
+  public makeIndentData(data) {
+    let cols = [0, 3, 6, 9, 12, 15]
+    let root = new Node('body', [], '');
+    delete root.uberon;
+
+    let parent;
+
+    data.forEach(row => {
+      parent = root;
+      for (var col = 0; col < cols.length; col++) {
+        if (row[cols[col]] == '') {
+          continue
+        }
+
+        let searchedNode = parent.search(row[cols[col]]);
+
+        if (Object.keys(searchedNode).length !== 0) {
+          parent = searchedNode;
+        } else {
+          let newNode = new Node(row[cols[col]], [], row[cols[col]+2]);
+          parent.children.push(newNode)
+          parent = newNode;
+        }
+      }
+    })
+
+    return root;
   }
 }

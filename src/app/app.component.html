@@ -4,8 +4,9 @@
             <app-logs></app-logs>
         </mat-drawer>
         <div class="content text-center">
-            <app-navbar (showLog)="toggleDrawer($event)"></app-navbar>
-            <app-tree></app-tree>
+            <app-navbar (showLog)="toggleDrawer($event)" (showGraph)="showGraph($event)"></app-navbar>
+            <app-tree *ngIf="displayGraph === 'Tree'"></app-tree>
+            <app-indent *ngIf="displayGraph === 'Indent'"></app-indent>
         </div>
     </mat-drawer-container>
 </div>
