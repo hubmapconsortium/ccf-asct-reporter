@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
+import * as moment from 'moment';
 
 export class Log {
   message: string;
-  icon: string
+  icon: string;
+  time: string;
 
-  constructor(message, icon) {
-    this.message = message
-    this.icon = icon
+  constructor(message, icon, time) {
+    this.message = message;
+    this.icon = icon;
+    this.time = time;
   }
 }
 
@@ -23,7 +26,8 @@ export class ReportService {
   constructor() { }
 
   reportLog(message, icon) {
-    this.reportedLogs.push(new Log(message, this.icons[icon]))
+    var time = new Date();
+    this.reportedLogs.push(new Log(message, this.icons[icon], moment(time).format('hh:mm A')))
   }
 
   getAllLogs() {

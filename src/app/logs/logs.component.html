@@ -9,8 +9,11 @@
             <mat-list>
                 <mat-list-item *ngFor="let log of logs">
                     <mat-icon mat-list-icon [ngStyle]="{'color': log.icon === 'check_circle' ? '#66BB6A' : log.icon === 'error' ? '#FFCA28' : '#FF5722'}">{{log.icon}}</mat-icon>
-                    <div mat-line>
-                        {{log.message}}
+                    <div mat-line style="width: 100%; display: flex; justify-content: space-between;">
+                        <span>{{log.message}}</span>
+                        <span class="date">
+                            {{log.time}}
+                        </span>
                     </div>
                 </mat-list-item>
             </mat-list>
