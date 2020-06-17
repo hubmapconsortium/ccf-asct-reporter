@@ -28,7 +28,7 @@ export class IndentComponent implements OnInit, OnChanges {
   indentData = [];
 
   @Input() public refreshData = false;
-  @Output() retrunRefresh = new EventEmitter();
+  @Output() returnRefresh = new EventEmitter();
 
   private _transformer = (node: Node, level: number) => {
     return {
@@ -69,7 +69,18 @@ export class IndentComponent implements OnInit, OnChanges {
       this.sheetData.shift() // removing headers
       this.dataSource.data = [this.sheet.makeIndentData(this.sheetData)];
       this.indentTree.treeControl.expandAll();
-      this.retrunRefresh.emit('Indent')
+      this.returnRefresh.emit({
+        comp: 'Indent',
+        val: true
+      })
+    }).catch(err => {
+      if (err) {
+        console.log(err)
+        this.returnRefresh.emit({
+          comp: 'Indent',
+          val: false
+        })
+      }
     })
   }
 }

@@ -3,7 +3,6 @@ import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { LoadingComponent } from './loading/loading.component';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -43,13 +42,22 @@ export class AppComponent implements OnInit {
   }
 
   returnRefresh(val) {
-    if (val == 'Tree') {
-      this.openSnackBar('Tree data successfully fetched.', 'Close')
+    if (val.comp == 'Tree') {
       this.dialog.closeAll();
+      if (val.val) {
+        this.openSnackBar('Tree data successfully fetched.', 'Close', 'green')
+      } else {
+        this.openSnackBar('Error while fetching data.', 'Close', 'red')
+      }
       this.refreshTree = false;
-    } else if (val == 'Indent') {
-      this.openSnackBar('Indent data successfully fetched.', 'Close')
+     
+    } else if (val.comp == 'Indent') {
       this.dialog.closeAll();
+      if (val.val) {
+        this.openSnackBar('Indent data successfully fetched.', 'Close', 'green')
+      } else {
+        this.openSnackBar('Error while fetching data.', 'Close', 'red')
+      }
       this.refreshIndent = false;
     }
   }
@@ -62,12 +70,12 @@ export class AppComponent implements OnInit {
     this.dialog.open(LoadingComponent, dialogConfig);
   }
 
-  openSnackBar(message, action) {
+  openSnackBar(message, action, style) {
     this.snackBar.open(message, action, {
-      duration: 2000,
+      duration: style === 'green' ? 2500: undefined,
       verticalPosition: 'bottom',
       horizontalPosition: 'end',
-      panelClass: ['green-snackbar']
+      panelClass: [`${style}-snackbar`]
     })
   }
 }

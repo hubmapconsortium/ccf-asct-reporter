@@ -6,7 +6,7 @@
         <div class="content text-center">
             <app-navbar (showLog)="toggleDrawer($event)" (showGraph)="showGraph($event)" (refresh)="refreshData($event)"></app-navbar>
             <app-tree *ngIf="displayGraph === 'Tree'" [refreshData]="refreshTree" (retrunRefresh)="returnRefresh($event)"></app-tree>
-            <app-indent *ngIf="displayGraph === 'Indent'" [refreshData]="refreshIndent" (retrunRefresh)="returnRefresh($event)"></app-indent>
+            <app-indent *ngIf="displayGraph === 'Indent'" [refreshData]="refreshIndent" (returnRefresh)="returnRefresh($event)"></app-indent>
         </div>
     </mat-drawer-container>
 </div>

@@ -23,3 +23,7 @@
 ::ng-deep .mat-simple-snackbar-action {
     color: white;
 }
+
+::ng-deep .red-snackbar {
+    background: rgb(194, 87, 87);
+}

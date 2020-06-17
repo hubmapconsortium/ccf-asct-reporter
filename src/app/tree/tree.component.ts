@@ -18,8 +18,6 @@ export class TreeComponent implements OnInit, OnChanges {
     this.getData();
   }
 
-
-
   ngOnInit(): void {
 
   }
@@ -161,8 +159,19 @@ export class TreeComponent implements OnInit, OnChanges {
       }
 
       embed('#vis', config)
-      this.retrunRefresh.emit('Tree')
+      this.retrunRefresh.emit({
+        comp: 'Tree',
+        val: true
+      })
 
+    }).catch(err => {
+      if (err) {
+        this.retrunRefresh.emit({
+          comp: 'Tree',
+          val: false
+        })
+      }
+      
     })
   }
 
