@@ -21,13 +21,13 @@ export class ReportService {
     error: 'cancel',
     warning: 'error',
     success: 'check_circle'
-  }
+  };
   reportedLogs = [];
   constructor() { }
 
   reportLog(message, icon) {
-    var time = new Date();
-    this.reportedLogs.push(new Log(message, this.icons[icon], moment(time).format('hh:mm A')))
+    const time = new Date();
+    this.reportedLogs.push(new Log(message, this.icons[icon], moment(time).format('hh:mm A')));
   }
 
   getAllLogs() {

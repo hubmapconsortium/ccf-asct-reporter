@@ -9,14 +9,14 @@ export class NavbarComponent implements OnInit {
   options = [
     'Tree',
     'Indent'
-  ]
+  ];
   selectedOption = this.options[0];
 
   @Output() showLog = new EventEmitter<any>();
   @Output() showGraph = new EventEmitter<any>();
   @Output() refresh = new EventEmitter<any>();
 
-  constructor() { 
+  constructor() {
     this.getSelection();
   }
 
@@ -24,19 +24,19 @@ export class NavbarComponent implements OnInit {
   }
 
   getSelection() {
-    this.showGraph.emit(this.selectedOption)
+    this.showGraph.emit(this.selectedOption);
   }
 
   showLogs() {
-    this.showLog.emit(true)
+    this.showLog.emit(true);
   }
 
   refreshData() {
-    this.refresh.emit(this.selectedOption)
+    this.refresh.emit(this.selectedOption);
   }
 
   openGithub() {
-    window.open('https://github.com/hubmapconsortium/ccf-asct-reporter','_blank');
+    window.open('https://github.com/hubmapconsortium/ccf-asct-reporter', '_blank');
   }
 
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter, OnChanges} from '@angular/core';
-import { NestedTreeControl, FlatTreeControl } from "@angular/cdk/tree";
+import { FlatTreeControl } from '@angular/cdk/tree';
 import { SheetService } from '../sheet.service';
-import { of as observableOf } from 'rxjs';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 
 interface Node {
@@ -11,10 +10,10 @@ interface Node {
 }
 
 interface FlatNode {
-  expandable: boolean,
-  name: string,
-  uberon: string,
-  level: number
+  expandable: boolean;
+  name: string;
+  uberon: string;
+  level: number;
 }
 
 @Component({
@@ -24,18 +23,24 @@ interface FlatNode {
 })
 export class IndentComponent implements OnInit, OnChanges {
 
+  constructor(public sheet: SheetService) {
+    this.getData();
+  }
+
   sheetData;
   indentData = [];
 
   @Input() public refreshData = false;
   @Output() returnRefresh = new EventEmitter();
 
+  @ViewChild('indentTree') indentTree;
+
   private _transformer = (node: Node, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
       uberon: node.uberon,
-      level: level,
+      level,
     };
   }
 
@@ -47,18 +52,12 @@ export class IndentComponent implements OnInit, OnChanges {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-
-  @ViewChild('indentTree') indentTree;
-
-  constructor(public sheet: SheetService) {
-    this.getData();
-  }
-
   ngOnInit(): void {}
 
   ngOnChanges() {
-    if (this.refreshData) 
-      this.getData()
+    if (this.refreshData) {
+      this.getData();
+    }
   }
 
   hasChild = (_: number, node: FlatNode) => node.expandable;
@@ -66,21 +65,21 @@ export class IndentComponent implements OnInit, OnChanges {
   getData() {
     this.sheet.getSheetData().then(data => {
       this.sheetData = data.data;
-      this.sheetData.shift() // removing headers
+      this.sheetData.shift(); // removing headers
       this.dataSource.data = [this.sheet.makeIndentData(this.sheetData)];
       this.indentTree.treeControl.expandAll();
       this.returnRefresh.emit({
         comp: 'Indent',
         val: true
-      })
+      });
     }).catch(err => {
       if (err) {
-        console.log(err)
+        console.log(err);
         this.returnRefresh.emit({
           comp: 'Indent',
           val: false
-        })
+        });
       }
-    })
+    });
   }
 }

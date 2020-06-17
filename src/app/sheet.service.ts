@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { parse } from 'papaparse'
+import { parse } from 'papaparse';
 import { ReportService } from './report.service';
 
 export class TNode {
@@ -22,18 +22,18 @@ export class Tree {
   id: any;
 
   constructor(id) {
-    this.nodes = []
-    this.id = id
+    this.nodes = [];
+    this.id = id;
   }
 
   public append(node) {
-    this.nodes.push(node)
+    this.nodes.push(node);
   }
 
   public search(name) {
-    for (var i = 0; i < this.nodes.length; i++) {
+    for (let i = 0; i < this.nodes.length; i++) {
       if (this.nodes[i].name == name) {
-        return this.nodes[i]
+        return this.nodes[i];
       }
     }
     return {};
@@ -53,10 +53,10 @@ export class Node {
   }
 
   public search(name) {
-    for (var i = 0 ; i < this.children.length; i++) {
+    for (let i = 0 ; i < this.children.length; i++) {
       if (this.children[i].name == name) {
-        return this.children[i]
-      } 
+        return this.children[i];
+      }
     }
     return {};
   }
@@ -70,89 +70,89 @@ export class SheetService {
   constructor(private http: HttpClient, public report: ReportService) { }
 
   public getSheetData() {
-    const sheetId = '1iUBrmiI_dB67_zCj3FBK9expLTmpBjwS'
-    const gid = '567133323'
+    const sheetId = '1iUBrmiI_dB67_zCj3FBK9expLTmpBjwS';
+    const gid = '567133323';
     return this.http.get(`https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`, { responseType: 'text' }).toPromise().then(data => {
-      return parse(data)
-    })
+      return parse(data);
+    });
   }
 
   public makeTreeData(data) {
-    let cols = [0, 3, 6, 9, 12, 15]
-    let id = 1;
+    const cols = [0, 3, 6, 9, 12, 15];
+    const id = 1;
     let parent;
-    let tree = new Tree(id);
+    const tree = new Tree(id);
 
-    let root = new TNode(id, 'body', 0, 0);
+    const root = new TNode(id, 'body', 0, 0);
     delete root.parent; delete root.uberon_id;
-    tree.append(root)
+    tree.append(root);
 
     data.forEach(row => {
       parent = root;
-      for (var col = 0; col < cols.length; col++) {
+      for (let col = 0; col < cols.length; col++) {
 
         if (row[cols[col]] == '') {
-          continue
+          continue;
         }
 
-        let searchedNode = tree.search(row[cols[col]])
+        const searchedNode = tree.search(row[cols[col]]);
 
         if (Object.keys(searchedNode).length !== 0) {
           parent = searchedNode;
         } else {
           tree.id += 1;
-          let newNode = new TNode(tree.id, row[cols[col]], parent.id, row[cols[col]+2]);
-          if (!(row[cols[col]+2].includes('UBERON')) && !(row[cols[col]+2].includes('CL'))) {
-            this.report.reportLog(`Uberon: ${row[cols[col]]} - ${row[cols[col]+2]}`, 'warning')
+          const newNode = new TNode(tree.id, row[cols[col]], parent.id, row[cols[col] + 2]);
+          if (!(row[cols[col] + 2].includes('UBERON')) && !(row[cols[col] + 2].includes('CL'))) {
+            this.report.reportLog(`Uberon: ${row[cols[col]]} - ${row[cols[col] + 2]}`, 'warning');
           }
-          tree.append(newNode)
+          tree.append(newNode);
           parent = newNode;
         }
       }
-    })
-    
+    });
+
     if (tree.nodes.length < 0) {
-      this.report.reportLog(`Tree cata failed to fetch.`, 'error')
-      return []
+      this.report.reportLog(`Tree cata failed to fetch.`, 'error');
+      return [];
     }
-    this.report.reportLog(`Tree data succesfully fetched.`, 'success')
+    this.report.reportLog(`Tree data succesfully fetched.`, 'success');
     return tree.nodes;
 
   }
 
   public makeIndentData(data) {
-    let cols = [0, 3, 6, 9, 12, 15]
-    let root = new Node('body', [], '');
+    const cols = [0, 3, 6, 9, 12, 15];
+    const root = new Node('body', [], '');
     delete root.uberon;
 
     let parent;
 
     data.forEach(row => {
       parent = root;
-      for (var col = 0; col < cols.length; col++) {
+      for (let col = 0; col < cols.length; col++) {
         if (row[cols[col]] == '') {
-          continue
+          continue;
         }
 
-        let searchedNode = parent.search(row[cols[col]]);
+        const searchedNode = parent.search(row[cols[col]]);
 
         if (Object.keys(searchedNode).length !== 0) {
           parent = searchedNode;
         } else {
-          let newNode = new Node(row[cols[col]], [], row[cols[col]+2]);
-          if (!(row[cols[col]+2].includes('UBERON')) && !(row[cols[col]+2].includes('CL'))) {
-            this.report.reportLog(`${row[cols[col]]} - ${row[cols[col]+2]}`, 'warning')
+          const newNode = new Node(row[cols[col]], [], row[cols[col] + 2]);
+          if (!(row[cols[col] + 2].includes('UBERON')) && !(row[cols[col] + 2].includes('CL'))) {
+            this.report.reportLog(`${row[cols[col]]} - ${row[cols[col] + 2]}`, 'warning');
           }
-          parent.children.push(newNode)
+          parent.children.push(newNode);
           parent = newNode;
         }
       }
-    })
+    });
 
     if (root.children.length < 0) {
-      this.report.reportLog(`Indent data failed to fetch.`, 'error')
+      this.report.reportLog(`Indent data failed to fetch.`, 'error');
     } else {
-      this.report.reportLog(`Indent Tree data succesfully fetched.`, 'success')
+      this.report.reportLog(`Indent Tree data succesfully fetched.`, 'success');
     }
     return root;
   }

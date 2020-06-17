@@ -9,8 +9,8 @@ import { ReportService } from '../report.service';
 export class LogsComponent implements OnInit {
   logs = [];
   @Output() close = new EventEmitter();
-  
-  constructor(public report: ReportService) { 
+
+  constructor(public report: ReportService) {
     this.logs = report.getAllLogs();
   }
 
