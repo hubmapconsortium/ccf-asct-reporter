@@ -5,6 +5,7 @@
 .gap {
     margin-right: 10px;
     width: 200px;
+    cursor: pointer;
 }
 
 ::ng-deep .mat-form-field-underline {

@@ -35,4 +35,8 @@ export class NavbarComponent implements OnInit {
     this.refresh.emit(this.selectedOption)
   }
 
+  openGithub() {
+    window.open('https://github.com/hubmapconsortium/ccf-asct-reporter','_blank');
+  }
+
 }
