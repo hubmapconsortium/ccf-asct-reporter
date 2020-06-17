@@ -29,6 +29,7 @@ export class IndentComponent implements OnInit, OnChanges {
 
   sheetData;
   indentData = [];
+  activateNode;
 
   @Input() public refreshData = false;
   @Output() returnRefresh = new EventEmitter();

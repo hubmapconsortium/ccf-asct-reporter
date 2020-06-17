@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
 
   @ViewChild('logs_drawer') logs_drawer;
 
-  displayGraph = 'Tree';
+  displayGraph = 'Indent';
   refreshTree = false;
   refreshIndent = false;
 
