@@ -1,26 +1,23 @@
-<div style="height: 100%; width: 100%;">
+<div style="height: 100%; width: 100%; position: relative;">
     <div class="header">
-        <div style="display: flex; width: 100%; justify-content: space-between;">
-            <h1>Reported Logs</h1>
-            <button mat-flat-button (click)="closeDrawer()"><mat-icon>close</mat-icon></button>
-        </div>
-
-        <div class="content">
-            <mat-list>
-                <mat-list-item *ngFor="let log of logs">
-                    <mat-icon mat-list-icon [ngStyle]="{'color': log.icon === 'check_circle' ? '#66BB6A' : log.icon === 'error' ? '#FFCA28' : '#FF5722'}">{{log.icon}}</mat-icon>
-                    <div style="width: 100%; display: flex; justify-content: space-between;">
-                        <span>{{log.message}}</span>
-                        <span class="date">
-                            {{log.time}}
-                        </span>
-                    </div>
-                </mat-list-item>
-            </mat-list>
-        </div>
-
-        <div class="footer" style="padding-top: 20px;">
-            <button mat-flat-button color="warn">Report</button>
-        </div>
+        <h1 style="margin: 0;"><b>Reported Logs</b></h1>
+        <button mat-flat-button (click)="closeDrawer()"><mat-icon>close</mat-icon></button>
     </div>
+
+    <div class="content">
+        <mat-list>
+            <mat-list-item *ngFor="let log of logs">
+                <mat-icon mat-list-icon [ngStyle]="{'color': log.icon === 'check_circle' ? '#66BB6A' : log.icon === 'error' ? '#FFCA28' : '#FF5722'}">{{log.icon}}</mat-icon>
+                <div style="width: 100%; display: flex; justify-content: space-between;">
+                    <span>{{log.message}}</span>
+                    <span class="date">{{log.time}}</span>
+                </div>
+            </mat-list-item>
+        </mat-list>
+    </div>
+
+    <div class="footer">
+        <button mat-flat-button color="warn">Report</button>
+    </div>
+
 </div>

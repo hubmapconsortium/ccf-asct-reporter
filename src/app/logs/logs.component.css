@@ -1,4 +1,28 @@
 .date {
     color: grey;
-    font-size: 10pt;
+    font-size: 9pt;
+}
+
+.header {
+    display: flex;
+    width: inherit;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    height: 5vh;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    background-color: white;
+}
+
+.content {
+    height: 92vh;
+    overflow: auto;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
