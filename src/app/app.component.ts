@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   constructor(private dialog: MatDialog, public snackBar: MatSnackBar) { }
 
   ngOnInit() { 
-    this.openDialog();
+    this.openLoading();
   }
 
   toggleDrawer(val) {
@@ -28,23 +28,24 @@ export class AppComponent implements OnInit {
   }
 
   showGraph(val) {
+    this.openLoading();
     this.displayGraph = val;
   }
 
   refreshData(val) {
     if (val == 'Tree') {
-      this.openDialog();
+      this.openLoading();
       this.refreshTree = true;
     } else if (val == 'Indent') {
-      this.openDialog();
+      this.openLoading();
       this.refreshIndent = true;
     }
   }
 
   returnRefresh(val) {
     if (val == 'Tree') {
-      this.dialog.closeAll();
       this.openSnackBar('Tree data successfully fetched.', 'Close')
+      this.dialog.closeAll();
       this.refreshTree = false;
     } else if (val == 'Indent') {
       this.openSnackBar('Indent data successfully fetched.', 'Close')
@@ -53,7 +54,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  openDialog() {
+  openLoading() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
