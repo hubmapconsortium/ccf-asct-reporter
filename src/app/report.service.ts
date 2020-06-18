@@ -23,6 +23,7 @@ export class ReportService {
     success: 'check_circle'
   };
   reportedLogs = [];
+  report = {};
   constructor() { }
 
   reportLog(message, icon) {
@@ -32,5 +33,17 @@ export class ReportService {
 
   getAllLogs() {
     return this.reportedLogs;
+  }
+
+  createReport(anatomicalStructures, cellTypes) {
+    this.report = {
+      anatomicalStructures: anatomicalStructures,
+      cellTypes: cellTypes
+    }
+    console.log(this.report)
+  }
+
+  getAllReport() {
+    return this.report;
   }
 }

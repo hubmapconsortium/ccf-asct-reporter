@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { OrderModule } from 'ngx-order-pipe';
 
 import { SheetService } from './sheet.service';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -24,6 +25,7 @@ import { LoadingComponent } from './loading/loading.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 const MatModules = [
   MatToolbarModule,
@@ -36,7 +38,8 @@ const MatModules = [
   MatDialogModule,
   MatProgressSpinnerModule,
   MatSnackBarModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatExpansionModule
 ];
 
 @NgModule({
@@ -53,7 +56,8 @@ const MatModules = [
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    MatModules
+    MatModules,
+    OrderModule
   ],
   providers: [
     SheetService

@@ -53,7 +53,7 @@ export class Node {
   }
 
   public search(name) {
-    for (let i = 0 ; i < this.children.length; i++) {
+    for (let i = 0; i < this.children.length; i++) {
       if (this.children[i].name == name) {
         return this.children[i];
       }
@@ -67,13 +67,18 @@ export class Node {
 })
 export class SheetService {
 
+  anatomicalStructures = [];
+  cellTypes = [];
+  markers = [];
+
   constructor(private http: HttpClient, public report: ReportService) { }
 
   public getSheetData() {
     const sheetId = '1iUBrmiI_dB67_zCj3FBK9expLTmpBjwS';
     const gid = '567133323';
     return this.http.get(`https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`, { responseType: 'text' }).toPromise().then(data => {
-      return parse(data);
+      let parsedData = parse(data);
+      return parsedData;
     });
   }
 
@@ -102,9 +107,19 @@ export class SheetService {
         } else {
           tree.id += 1;
           const newNode = new TNode(tree.id, row[cols[col]], parent.id, row[cols[col] + 2]);
-          if (!(row[cols[col] + 2].includes('UBERON')) && !(row[cols[col] + 2].includes('CL'))) {
-            this.report.reportLog(`Uberon: ${row[cols[col]]} - ${row[cols[col] + 2]}`, 'warning');
+          if (cols[col] != 15) {
+            this.anatomicalStructures.push({
+              structure: row[cols[col]],
+              uberon: row[cols[col]+2]
+            })
+
+          } else {
+            this.cellTypes.push({
+              structure: row[cols[col]],
+              link: row[cols[col]+2]
+            })
           }
+
           tree.append(newNode);
           parent = newNode;
         }
@@ -112,12 +127,9 @@ export class SheetService {
     });
 
     if (tree.nodes.length < 0) {
-      this.report.reportLog(`Tree cata failed to fetch.`, 'error');
       return [];
     }
-    this.report.reportLog(`Tree data succesfully fetched.`, 'success');
     return tree.nodes;
-
   }
 
   public makeIndentData(data) {
@@ -140,20 +152,12 @@ export class SheetService {
           parent = searchedNode;
         } else {
           const newNode = new Node(row[cols[col]], [], row[cols[col] + 2]);
-          if (!(row[cols[col] + 2].includes('UBERON')) && !(row[cols[col] + 2].includes('CL'))) {
-            this.report.reportLog(`${row[cols[col]]} - ${row[cols[col] + 2]}`, 'warning');
-          }
           parent.children.push(newNode);
           parent = newNode;
         }
       }
     });
 
-    if (root.children.length < 0) {
-      this.report.reportLog(`Indent data failed to fetch.`, 'error');
-    } else {
-      this.report.reportLog(`Indent Tree data succesfully fetched.`, 'success');
-    }
     return root;
   }
 }

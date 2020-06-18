@@ -1,23 +1,141 @@
 <div style="height: 100%; width: 100%; position: relative;">
     <div class="header">
-        <h1 style="margin: 0;"><b>Reported Logs</b></h1>
-        <button mat-icon-button (click)="closeDrawer()"><mat-icon style="color: grey;">close</mat-icon></button>
+        <span style="margin: 0;" class="title"><b>Reported Logs</b></span>
+        <button mat-icon-button (click)="closeDrawer()">
+            <mat-icon style="color: grey;">close</mat-icon>
+        </button>
     </div>
+    <hr style="opacity: 0.5;">
 
     <div class="content">
-        <mat-list>
-            <mat-list-item *ngFor="let log of logs">
-                <mat-icon mat-list-icon [ngStyle]="{'color': log.icon === 'check_circle' ? '#66BB6A' : log.icon === 'error' ? '#FFCA28' : '#FF5722'}">{{log.icon}}</mat-icon>
-                <div style="width: 100%; display: flex; justify-content: space-between;">
-                    <span>{{log.message}}</span>
-                    <span class="date">{{log.time}}</span>
-                </div>
-            </mat-list-item>
-        </mat-list>
-    </div>
+        <br>
+        <div class="title1">Overview</div>
 
-    <div class="footer">
-        <button mat-flat-button color="warn">Report</button>
+        <div class="overview">
+            <div class="i1">
+                <span>Unique anatomical structures: </span>
+                <span class="number">{{anatomicalStructures.length}}</span>
+            </div>
+            <div class="i1"> <span>Unique cell types: </span>
+                <span class="number">{{cellTypes.length}}</span>
+            </div>
+            <div class="i1"> <span>Unique biomarkers: </span>
+                <span class="number">{{biomarkers.length}}</span>
+            </div>
+            <br>
+
+            <div class="i1"> <span>Anatomical structures with no Uberon link: </span>
+                <span class="number">{{getASWithNoLink().length}}</span>
+            </div>
+            <div class="i1"> <span>Cells with no CL link: </span>
+                <span class="number">{{getCTWithNoLink().length}}</span></div>
+            <div class="i1"> <span>Biomarkers with no Go/UniProt link: </span>
+                <span class="number">{{getBMWithNoLink().length}}</span></div>
+        </div>
+
+        <br>
+        <div class="title1">Details</div>
+
+        <div class="details">
+            <div class="title2">Alphabetically sorted listings of all ASCT+B</div>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <div style="font-weight: 500; font-size: 13pt;">Unique anatomical structures (AS)</div>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="as-details">
+                    <div *ngFor="let a of anatomicalStructures | orderBy : 'structure'" class="i1">
+                        {{a.structure}}
+                    </div>
+                </div>
+            </mat-expansion-panel>
+            <br>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <div style="font-weight: 500; font-size: 13pt;">Unique cell types (CT)</div>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="as-details">
+                    <div *ngFor="let a of cellTypes | orderBy : 'structure'" class="i1">
+                        {{a.structure}}
+                    </div>
+                </div>
+            </mat-expansion-panel>
+            <br>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <div style="font-weight: 500; font-size: 13pt;">Unique biomarkers (B)</div>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="as-details">
+                    <div *ngFor="let a of biomarkers | orderBy : 'structure'" class="i1">
+                        {{a.structure}}
+                    </div>
+                </div>
+            </mat-expansion-panel>
+            <br>
+            <br>
+            <div class="title2">Missing Ontology Links</div>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <div style="font-weight: 500; font-size: 13pt;">AS with no Uberon link</div>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="as-details">
+                    <div *ngFor="let a of getASWithNoLink() | orderBy : 'structure'" class="i1">
+                        {{a.structure}}
+                    </div>
+                </div>
+            </mat-expansion-panel>
+            <br>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <div style="font-weight: 500; font-size: 13pt;">CT with no CL link</div>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="as-details">
+                    <div *ngFor="let a of getCTWithNoLink() | orderBy : 'structure'" class="i1">
+                        {{a.structure}}
+                    </div>
+                </div>
+            </mat-expansion-panel>
+            <br>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <div style="font-weight: 500; font-size: 13pt;">Biomarkers with no links(B)</div>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="as-details">
+                    <div *ngFor="let a of getBMWithNoLink() | orderBy : 'structure'" class="i1">
+                        {{a.structure}}
+                    </div>
+                </div>
+            </mat-expansion-panel>
+
+        </div>
+    </div>
+    <br>
+    <hr style="opacity: 0.5;">
+    <div>
+        <button mat-flat-button color="warn">Report Problem</button>
     </div>
 
 </div>
