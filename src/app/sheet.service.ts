@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { parse } from 'papaparse';
-import { ReportService } from './report.service';
 
 export class TNode {
   id: any;
@@ -62,6 +61,21 @@ export class Node {
   }
 }
 
+export class ASCT {
+  structure: string;
+  uberon: string;
+  substructure: string;
+  sub_uberon: string;
+  sub_2x: string;
+  sub_2x_uberon: string;
+  sub_3x: string;
+  sub_3x_uberon: string;
+  sub_4x: string;
+  sub_4x_uberon: string;
+  cell_types: string;
+  cl_id: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -71,7 +85,7 @@ export class SheetService {
   cellTypes = [];
   markers = [];
 
-  constructor(private http: HttpClient, public report: ReportService) { }
+  constructor(private http: HttpClient) { }
 
   public getSheetData() {
     const sheetId = '1iUBrmiI_dB67_zCj3FBK9expLTmpBjwS';
@@ -110,13 +124,13 @@ export class SheetService {
           if (cols[col] != 15) {
             this.anatomicalStructures.push({
               structure: row[cols[col]],
-              uberon: row[cols[col]+2]
+              uberon: row[cols[col] + 2]
             })
 
           } else {
             this.cellTypes.push({
               structure: row[cols[col]],
-              link: row[cols[col]+2]
+              link: row[cols[col] + 2]
             })
           }
 
@@ -159,5 +173,29 @@ export class SheetService {
     });
 
     return root;
+  }
+
+  public makeTableData(data) {
+    let tableData = [];
+
+    data.forEach(ele => {
+      let entry = new ASCT();
+      entry.structure = ele[0]
+      entry.uberon = ele[2]
+      entry.substructure = ele[3]
+      entry.sub_uberon = ele[5]
+      entry.sub_2x = ele[6]
+      entry.sub_2x_uberon = ele[8]
+      entry.sub_3x = ele[9]
+      entry.sub_3x_uberon = ele[10]
+      entry.sub_4x = ele[12]
+      entry.sub_4x_uberon = ele[14]
+      entry.cell_types = ele[15]
+      entry.cl_id = ele[17]
+
+      tableData.push(entry)
+    })
+    console.log(tableData)
+    return tableData;
   }
 }

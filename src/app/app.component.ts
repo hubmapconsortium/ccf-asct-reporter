@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   displayGraph = 'Tree';
   refreshTree = false;
   refreshIndent = false;
+  refreshTable = false;
 
   constructor(private dialog: MatDialog, public snackBar: MatSnackBar) { }
 
@@ -38,6 +39,9 @@ export class AppComponent implements OnInit {
     } else if (val == 'Indent') {
       this.openLoading();
       this.refreshIndent = true;
+    } else if (val == 'Table') {
+      this.openLoading()
+      this.refreshTable = true;
     }
   }
 
@@ -59,6 +63,14 @@ export class AppComponent implements OnInit {
         this.openSnackBar('Error while fetching data.', 'Close', 'red');
       }
       this.refreshIndent = false;
+    } else if (val.comp == 'Table') {
+      this.dialog.closeAll();
+      if (val.val) {
+        this.openSnackBar('Table data successfully fetched.', 'Close', 'green');
+      } else {
+        this.openSnackBar('Error while fetching data.', 'Close', 'red');
+      }
+      this.refreshTable = false;
     }
   }
 

@@ -1,0 +1,61 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="structure">
+        <th mat-header-cell *matHeaderCellDef>Structure</th>
+        <td mat-cell *matCellDef="let element"> {{element.structure}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="uberon">
+        <th mat-header-cell *matHeaderCellDef>Uberon</th>
+        <td mat-cell *matCellDef="let element"> {{element.uberon}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="substructure">
+        <th mat-header-cell *matHeaderCellDef>substructure</th>
+        <td mat-cell *matCellDef="let element"> {{element.substructure}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sub_uberon">
+        <th mat-header-cell *matHeaderCellDef>sub_uberon</th>
+        <td mat-cell *matCellDef="let element"> {{element.sub_uberon}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sub_2x">
+        <th mat-header-cell *matHeaderCellDef>sub_2x</th>
+        <td mat-cell *matCellDef="let element"> {{element.sub_2x}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sub_2x_uberon">
+        <th mat-header-cell *matHeaderCellDef>sub_2x_uberon</th>
+        <td mat-cell *matCellDef="let element"> {{element.sub_2x}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sub_3x">
+        <th mat-header-cell *matHeaderCellDef>sub_3x</th>
+        <td mat-cell *matCellDef="let element"> {{element.sub_3x}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sub_3x_uberon">
+        <th mat-header-cell *matHeaderCellDef>sub_3x_uberon</th>
+        <td mat-cell *matCellDef="let element"> {{element.sub_3x_uberon}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sub_4x">
+        <th mat-header-cell *matHeaderCellDef>sub_4x</th>
+        <td mat-cell *matCellDef="let element"> {{element.sub_4x}} </td>
+    </ng-container>
+    <ng-container matColumnDef="sub_4x_uberon">
+        <th mat-header-cell *matHeaderCellDef>sub_4x_uberon</th>
+        <td mat-cell *matCellDef="let element"> {{element.sub_4x_uberon}} </td>
+    </ng-container>
+    <ng-container matColumnDef="cell_types">
+        <th mat-header-cell *matHeaderCellDef>cell_types</th>
+        <td mat-cell *matCellDef="let element"> {{element.cell_types}} </td>
+    </ng-container>
+    <ng-container matColumnDef="cl_id">
+        <th mat-header-cell *matHeaderCellDef>cl_id</th>
+        <td mat-cell *matCellDef="let element"> {{element.cl_id}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: dataColumns;"></tr>
+</table>
