@@ -27,3 +27,7 @@
 ::ng-deep .red-snackbar {
     background: rgb(194, 87, 87);
 }
+
+::ng-deep .mat-dialog-container {
+    box-shadow: none !important;
+}
