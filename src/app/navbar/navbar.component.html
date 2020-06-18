@@ -6,7 +6,7 @@
     <span class="filler"></span>
     <div>
         <mat-form-field style="margin-right: 20px; margin-bottom: 0;">
-            <button mat-flat-button style="width: 100%; background-color: rgb(247, 247, 247);">
+            <button mat-flat-button style="width: 100%; background-color: rgb(247, 247, 247);" #tooltip="matTooltip" matTooltip="Select Visualization" matTooltipPosition="below">
                 <mat-select (selectionChange)="getSelection()" [(ngModel)]="selectedOption">
                     <mat-option *ngFor="let option of options" [value]="option">
                         {{option}}
@@ -14,10 +14,10 @@
                 </mat-select>
             </button>
         </mat-form-field>
-        <button mat-icon-button style="margin-right: 20px;" (click)="refreshData()">
+        <button mat-icon-button style="margin-right: 20px;" (click)="refreshData()" #tooltip="matTooltip" matTooltip="Refresh Data" matTooltipPosition="below">
             <mat-icon style=" color: white; font-weight: bold; ">refresh</mat-icon>
         </button>
-        <button mat-icon-button (click)="showLogs() ">
+        <button mat-icon-button (click)="showLogs()" #tooltip="matTooltip" matTooltip="Report" matTooltipPosition="below">
             <mat-icon style="color: white; ">article</mat-icon>
         </button>
     </div>
