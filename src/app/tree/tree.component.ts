@@ -41,7 +41,7 @@ export class TreeComponent implements OnInit, OnChanges {
         $schema: 'https://vega.github.io/schema/vega/v5.json',
         description: 'An example of Cartesian layouts for a node-link diagram of hierarchical data.',
         width: width - 700,
-        height,
+        height: height + 500,
         padding: 5,
 
         signals: [
