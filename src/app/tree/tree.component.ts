@@ -50,7 +50,7 @@ export class TreeComponent implements OnInit, OnChanges {
             bind: { input: 'checkbox' }
           },
           {
-            name: 'layout', value: 'tidy',
+            name: 'layout', value: 'cluster',
             bind: { input: 'radio', options: ['tidy', 'cluster'] }
           },
           {
@@ -61,7 +61,7 @@ export class TreeComponent implements OnInit, OnChanges {
             }
           },
           {
-            name: 'separation', value: true,
+            name: 'separation', value: false,
             bind: { input: 'checkbox' }
           }
         ],
