@@ -83,7 +83,7 @@ export class SheetService {
 
   anatomicalStructures = [];
   cellTypes = [];
-  markers = [];
+  bioMarkers = [];
   reportHasData = false;
 
   constructor(private http: HttpClient) { }
@@ -95,6 +95,42 @@ export class SheetService {
       let parsedData = parse(data);
       return parsedData;
     });
+  }
+
+  public makeReportData(data) {
+    const cols = [0, 3, 6, 9, 12, 15, 18];
+    data.forEach(row => {
+      for (let col = 0; col < cols.length; col++) {
+        if (!this.reportHasData) {
+          if (cols[col] != 15 && cols[col] != 18) {
+            if (!this.doesElementExist(this.anatomicalStructures, row[cols[col]])) {
+              this.anatomicalStructures.push({
+                structure: row[cols[col]],
+                uberon: row[cols[col] + 2]
+              })
+            }
+
+          } else if (cols[col] == 15) {
+            if (!this.doesElementExist(this.cellTypes, row[cols[col]])) {
+              this.cellTypes.push({
+                structure: row[cols[col]],
+                link: row[cols[col] + 2]
+              })
+            }
+          } else {
+            let markers = row[cols[col]].split(',')
+            for (let i = 0 ; i < markers.length; i ++ ) {
+              if (!this.doesElementExist(this.bioMarkers, markers[i])) {
+                this.bioMarkers.push({
+                  structure: markers[i]
+                })
+              }
+            }
+          }
+        }
+      }
+    })
+    this.reportHasData = true;
   }
 
   public makeTreeData(data) {
@@ -122,24 +158,6 @@ export class SheetService {
         } else {
           tree.id += 1;
           const newNode = new TNode(tree.id, row[cols[col]], parent.id, row[cols[col] + 2]);
-          if (!this.reportHasData) {
-            if (cols[col] != 15) {
-              if (!this.doesElementExist(this.anatomicalStructures, row[cols[col]])) {
-                this.anatomicalStructures.push({
-                  structure: row[cols[col]],
-                  uberon: row[cols[col] + 2]
-                })
-              }
-
-            } else {
-              if (!this.doesElementExist(this.cellTypes, row[cols[col]])) {
-                this.cellTypes.push({
-                  structure: row[cols[col]],
-                  link: row[cols[col] + 2]
-                })
-              }
-            }
-          }
           tree.append(newNode);
           parent = newNode;
         }
@@ -149,7 +167,7 @@ export class SheetService {
     if (tree.nodes.length < 0) {
       return [];
     }
-    this.reportHasData = true;
+   
     return tree.nodes;
   }
 
@@ -206,8 +224,8 @@ export class SheetService {
   }
 
   doesElementExist(obj, item) {
-    for(var i = 0; i < obj.length; i++) {
-      if (obj[i].structure.toLowerCase() == item.toLowerCase()) {
+    for(let i = 0; i < obj.length; i++) {
+      if (obj[i].structure.toUpperCase() == item.toUpperCase()) {
         return true
       }
     }

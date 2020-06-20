@@ -9,19 +9,30 @@ import { SheetService } from '../sheet.service';
 })
 export class LogsComponent implements OnInit {
   logs; any;
+  sheetData;
   anatomicalStructures= []
   cellTypes =[]
-  biomarkers = []
+  bioMarkers = []
   @Output() close = new EventEmitter();
 
   sheetName = 'Spleen_R2'
 
   constructor(public report: ReportService, public sheet: SheetService) {
-    this.anatomicalStructures = sheet.anatomicalStructures
-    this.cellTypes = sheet.cellTypes
   }
 
   ngOnInit(): void {
+    this.getData();
+  }
+
+  getData() {
+    this.sheet.getSheetData().then(data => {
+      this.sheetData = data.data;
+      this.sheetData.shift(); // removing headers
+      this.sheet.makeReportData(this.sheetData);
+      this.anatomicalStructures = this.sheet.anatomicalStructures
+      this.cellTypes = this.sheet.cellTypes
+      this.bioMarkers = this.sheet.bioMarkers
+    })
   }
 
   getASWithNoLink() {

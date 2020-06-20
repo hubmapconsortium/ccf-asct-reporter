@@ -20,7 +20,7 @@
                 <span class="number">{{cellTypes.length}}</span>
             </div>
             <div class="i1"> <span>Unique biomarkers: </span>
-                <span class="number">{{biomarkers.length}}</span>
+                <span class="number">{{bioMarkers.length}}</span>
             </div>
             <br>
 
@@ -30,7 +30,7 @@
             <div class="i1"> <span>Cells with no CL link: </span>
                 <span class="number">{{getCTWithNoLink().length}}</span></div>
             <div class="i1"> <span>Biomarkers with no Go/UniProt link: </span>
-                <span class="number">{{getBMWithNoLink().length}}</span></div>
+                <span class="number">{{bioMarkers.length}}</span></div>
         </div>
 
         <br>
@@ -77,7 +77,7 @@
                 </mat-expansion-panel-header>
 
                 <div class="as-details">
-                    <div *ngFor="let a of biomarkers | orderBy : 'structure'" class="i1">
+                    <div *ngFor="let a of bioMarkers | orderBy : 'structure'" class="i1">
                         {{a.structure}}
                     </div>
                 </div>
@@ -124,7 +124,7 @@
                 </mat-expansion-panel-header>
 
                 <div class="as-details">
-                    <div *ngFor="let a of getBMWithNoLink() | orderBy : 'structure'" class="i1">
+                    <div *ngFor="let a of bioMarkers | orderBy : 'structure'" class="i1">
                         {{a.structure}}
                     </div>
                 </div>
