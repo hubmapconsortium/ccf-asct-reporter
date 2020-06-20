@@ -28,6 +28,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
+import { ForcedComponent } from './forced/forced.component';
 
 
 const MatModules = [
@@ -54,7 +55,8 @@ const MatModules = [
     LogsComponent,
     IndentComponent,
     LoadingComponent,
-    TableComponent
+    TableComponent,
+    ForcedComponent
   ],
   imports: [
     BrowserModule,

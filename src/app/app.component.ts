@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   constructor(private dialog: MatDialog, public snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.openLoading();
+    // this.openLoading();
   }
 
   toggleDrawer(val) {
