@@ -70,14 +70,14 @@ export class IndentComponent implements OnInit, OnChanges {
       this.dataSource.data = [this.sheet.makeIndentData(this.sheetData)];
       this.indentTree.treeControl.expandAll();
       this.returnRefresh.emit({
-        comp: 'Indent',
+        comp: 'Indented List',
         val: true
       });
     }).catch(err => {
       if (err) {
         console.log(err);
         this.returnRefresh.emit({
-          comp: 'Indent',
+          comp: 'Indented List',
           val: false
         });
       }

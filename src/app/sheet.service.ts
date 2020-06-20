@@ -124,16 +124,20 @@ export class SheetService {
           const newNode = new TNode(tree.id, row[cols[col]], parent.id, row[cols[col] + 2]);
           if (!this.reportHasData) {
             if (cols[col] != 15) {
-              this.anatomicalStructures.push({
-                structure: row[cols[col]],
-                uberon: row[cols[col] + 2]
-              })
-  
+              if (!this.doesElementExist(this.anatomicalStructures, row[cols[col]])) {
+                this.anatomicalStructures.push({
+                  structure: row[cols[col]],
+                  uberon: row[cols[col] + 2]
+                })
+              }
+
             } else {
-              this.cellTypes.push({
-                structure: row[cols[col]],
-                link: row[cols[col] + 2]
-              })
+              if (!this.doesElementExist(this.cellTypes, row[cols[col]])) {
+                this.cellTypes.push({
+                  structure: row[cols[col]],
+                  link: row[cols[col] + 2]
+                })
+              }
             }
           }
           tree.append(newNode);
@@ -199,5 +203,14 @@ export class SheetService {
       tableData.push(entry)
     })
     return tableData;
+  }
+
+  doesElementExist(obj, item) {
+    for(var i = 0; i < obj.length; i++) {
+      if (obj[i].structure.toLowerCase() == item.toLowerCase()) {
+        return true
+      }
+    }
+    return false
   }
 }

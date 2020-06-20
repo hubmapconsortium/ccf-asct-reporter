@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
     if (val == 'Tree') {
       this.openLoading();
       this.refreshTree = true;
-    } else if (val == 'Indent') {
+    } else if (val == 'Indented List') {
       this.openLoading();
       this.refreshIndent = true;
     } else if (val == 'Table') {
@@ -55,10 +55,10 @@ export class AppComponent implements OnInit {
       }
       this.refreshTree = false;
 
-    } else if (val.comp == 'Indent') {
+    } else if (val.comp == 'Indented List') {
       this.dialog.closeAll();
       if (val.val) {
-        this.openSnackBar('Indent data successfully fetched.', 'Close', 'green');
+        this.openSnackBar('Indented List data successfully fetched.', 'Close', 'green');
       } else {
         this.openSnackBar('Error while fetching data.', 'Close', 'red');
       }

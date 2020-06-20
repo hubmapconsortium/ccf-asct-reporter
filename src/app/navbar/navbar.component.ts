@@ -8,7 +8,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class NavbarComponent implements OnInit {
   options = [
     'Tree',
-    'Indent',
+    'Indented List',
     'Table'
   ];
   selectedOption = this.options[0];
