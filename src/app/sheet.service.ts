@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { parse } from 'papaparse';
+import { async } from '@angular/core/testing';
 
 export class TNode {
   id: any;
@@ -76,6 +77,22 @@ export class ASCT {
   cl_id: string;
 }
 
+export class BMNode {
+  name: string;
+  group: number;
+  first: string;
+  last: string;
+  fontSize: number;
+
+  constructor(name, group, first, last, fontSize) {
+    this.name = name;
+    this.group = group;
+    this.first = first;
+    this.last = last;
+    this.fontSize = fontSize;
+  }
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -85,6 +102,7 @@ export class SheetService {
   cellTypes = [];
   bioMarkers = [];
   reportHasData = false;
+  bioModalData= {};
 
   constructor(private http: HttpClient) { }
 
@@ -95,6 +113,72 @@ export class SheetService {
       let parsedData = parse(data);
       return parsedData;
     });
+  }
+
+  async calcNodes() {
+    let nodes = [];
+    const promise = new Promise((resolve, rej) => {
+      for (var i = 0; i <= this.cellTypes.length; i++) {
+        let newNode = new BMNode(this.cellTypes[i], 1, this.cellTypes[i].structure, '', 14)
+        nodes.push(newNode)
+
+        if (i+1 == this.cellTypes.length) {
+          resolve(i)
+        }
+      }
+  
+      for (var i = 0; i < this.bioMarkers.length; i++) {
+        nodes.push(new BMNode(this.bioMarkers[i], 2, '', this.bioMarkers[i].structure, 14))
+      }
+    });
+    const result = await promise;
+    console.log(nodes)
+    return nodes;
+  }
+
+  async makeBimodalData(data) {
+    let links = [];
+    let nodes = [];
+
+    for (var i = 0; i < this.cellTypes.length; i++) {
+      let newNode = new BMNode(this.cellTypes[i].structure, 1, this.cellTypes[i].structure, '', 14)
+      nodes.push(newNode)
+    }
+
+    for (var i = 0; i < this.bioMarkers.length; i++) {
+      nodes.push(new BMNode(this.bioMarkers[i].structure, 2, '', this.bioMarkers[i].structure, 14))
+    }
+    
+
+    data.forEach(row => {
+      let cell = row[15]
+      let markers = row[18].split(',')
+
+      let cellId = 0;
+
+      for (var i = 0; i < nodes.length; i ++) {
+        if (cell == nodes[i].name) {
+          cellId = i;
+          break;
+        }
+      }
+
+      markers.forEach(m => {
+        for (var i = 0 ; i < nodes.length; i ++ ) {
+          if (m == nodes[i].name) {
+            links.push({
+              source: cellId,
+              target: i
+            })
+          }
+        }
+      })
+    })
+
+    this.bioModalData =  {
+      nodes: nodes, links: links
+    }
+    
   }
 
   public makeReportData(data) {
@@ -119,7 +203,7 @@ export class SheetService {
             }
           } else {
             let markers = row[cols[col]].split(',')
-            for (let i = 0 ; i < markers.length; i ++ ) {
+            for (let i = 0; i < markers.length; i++) {
               if (!this.doesElementExist(this.bioMarkers, markers[i])) {
                 this.bioMarkers.push({
                   structure: markers[i]
@@ -130,6 +214,7 @@ export class SheetService {
         }
       }
     })
+    this.makeBimodalData(data)
     this.reportHasData = true;
   }
 
@@ -167,7 +252,7 @@ export class SheetService {
     if (tree.nodes.length < 0) {
       return [];
     }
-   
+
     return tree.nodes;
   }
 
@@ -224,7 +309,7 @@ export class SheetService {
   }
 
   doesElementExist(obj, item) {
-    for(let i = 0; i < obj.length; i++) {
+    for (let i = 0; i < obj.length; i++) {
       if (obj[i].structure.toUpperCase() == item.toUpperCase()) {
         return true
       }
