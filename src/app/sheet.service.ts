@@ -130,7 +130,6 @@ export class SheetService {
     for (var i = 0; i < this.bioMarkers.length; i++) {
       nodes.push(new BMNode(this.bioMarkers[i].structure, 2, '', this.bioMarkers[i].structure, 14))
     }
-    
 
     data.forEach(row => {
       let cell = row[15]
@@ -150,7 +149,8 @@ export class SheetService {
           if (m == nodes[i].name) {
             links.push({
               source: cellId,
-              target: i
+              target: i,
+              value: Math.floor(Math.random() * 100)
             })
           }
         }
