@@ -8,12 +8,14 @@ export class TNode {
   name: String;
   parent: String;
   uberon_id: String;
+  cc;
 
   constructor(id, name, parent, u_id) {
     this.id = id;
     this.name = name;
     this.parent = parent;
     this.uberon_id = u_id;
+    this.cc = []
   }
 }
 
@@ -103,6 +105,7 @@ export class SheetService {
   bioMarkers = [];
   reportHasData = false;
   bioModalData= {};
+  forcedData = []
 
   constructor(private http: HttpClient) { }
 
@@ -113,27 +116,6 @@ export class SheetService {
       let parsedData = parse(data);
       return parsedData;
     });
-  }
-
-  async calcNodes() {
-    let nodes = [];
-    const promise = new Promise((resolve, rej) => {
-      for (var i = 0; i <= this.cellTypes.length; i++) {
-        let newNode = new BMNode(this.cellTypes[i], 1, this.cellTypes[i].structure, '', 14)
-        nodes.push(newNode)
-
-        if (i+1 == this.cellTypes.length) {
-          resolve(i)
-        }
-      }
-  
-      for (var i = 0; i < this.bioMarkers.length; i++) {
-        nodes.push(new BMNode(this.bioMarkers[i], 2, '', this.bioMarkers[i].structure, 14))
-      }
-    });
-    const result = await promise;
-    console.log(nodes)
-    return nodes;
   }
 
   async makeBimodalData(data) {
@@ -174,7 +156,7 @@ export class SheetService {
         }
       })
     })
-
+    
     this.bioModalData =  {
       nodes: nodes, links: links
     }
@@ -243,8 +225,18 @@ export class SheetService {
         } else {
           tree.id += 1;
           const newNode = new TNode(tree.id, row[cols[col]], parent.id, row[cols[col] + 2]);
+          
           tree.append(newNode);
           parent = newNode;
+
+          if(cols[col] == 15) {
+            let markers = row[18].split(',')
+            for (var i = 0 ; i < markers.length; i ++) {
+              parent.cc.push({
+                name: markers[i]
+              })
+            }
+          }
         }
       }
     });

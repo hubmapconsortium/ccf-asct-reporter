@@ -33,6 +33,7 @@ export class TreeComponent implements OnInit, OnChanges {
       this.sheetData = data.data;
       this.sheetData.shift(); // removing headers
       this.treeData = this.sheet.makeTreeData(this.sheetData);
+      console.log(this.sheet.bioModalData)
 
       const height = document.getElementsByTagName('body')[0].clientHeight;
       const width = document.getElementsByTagName('body')[0].clientWidth;
@@ -63,7 +64,13 @@ export class TreeComponent implements OnInit, OnChanges {
           {
             name: 'separation', value: false,
             bind: { input: 'checkbox' }
-          }
+          },
+          {
+            "name": "tension", "value": 0.85,
+            "bind": { "input": "range", "min": 0, "max": 1, "step": 0.01 }
+          },
+          { "name": "colorIn", "value": "firebrick" },
+          { "name": "colorOut", "value": "forestgreen" },
         ],
 
         data: [
@@ -85,6 +92,17 @@ export class TreeComponent implements OnInit, OnChanges {
               }
             ]
           },
+          {
+            "name": "leaves",
+            "source": "tree",
+            "transform": [
+              {
+                "type": "filter",
+                "expr": "!datum.cc"
+              }
+            ]
+          },
+          
           {
             name: 'links',
             source: 'tree',
@@ -132,7 +150,7 @@ export class TreeComponent implements OnInit, OnChanges {
                 x: { field: 'x' },
                 y: { field: 'y' },
                 tooltip: [
-                  {field: 'uberon_id', type: 'quantitative'}
+                  { field: 'uberon_id', type: 'quantitative' }
                 ],
                 fill: { scale: 'color', field: 'depth' }
               }
