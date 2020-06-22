@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { parse } from 'papaparse';
 
+// Used in the tree visualization
 export class TNode {
   id: any;
   name: String;
@@ -16,6 +17,7 @@ export class TNode {
   }
 }
 
+// Used in the tree visualization
 export class Tree {
   nodes: Array<Node>;
   id: any;
@@ -40,6 +42,7 @@ export class Tree {
 
 }
 
+// Used in the indented list vis
 export class Node {
   name: string;
   uberon: string;
@@ -61,6 +64,7 @@ export class Node {
   }
 }
 
+// Used in the table vis
 export class ASCT {
   structure: string;
   uberon: string;
@@ -88,6 +92,11 @@ export class SheetService {
 
   constructor(private http: HttpClient) { }
 
+
+  /**
+   * Extract data from Google Sheet
+   *  @return {[Array]}      Google Sheet data parsed by PapaParse.
+   */
   public getSheetData() {
     const sheetId = '1iUBrmiI_dB67_zCj3FBK9expLTmpBjwS';
     const gid = '567133323';
@@ -97,6 +106,10 @@ export class SheetService {
     });
   }
 
+  /**
+   * Generate data from the Google Sheet to be represented in the report
+   * @param  {[Array]} data Google Sheet data
+   */
   public makeReportData(data) {
     const cols = [0, 3, 6, 9, 12, 15, 18];
     data.forEach(row => {
@@ -119,7 +132,7 @@ export class SheetService {
             }
           } else {
             let markers = row[cols[col]].split(',')
-            for (let i = 0 ; i < markers.length; i ++ ) {
+            for (let i = 0; i < markers.length; i++) {
               if (!this.doesElementExist(this.bioMarkers, markers[i])) {
                 this.bioMarkers.push({
                   structure: markers[i]
@@ -133,6 +146,11 @@ export class SheetService {
     this.reportHasData = true;
   }
 
+  /**
+    * Generate data from the Google Sheet to be represented in the tree vis.
+    * @param  {[Array]} data Google Sheet data
+    * @returns {[Array]}     Objects to build the tree
+    */
   public makeTreeData(data) {
     const cols = [0, 3, 6, 9, 12, 15];
     const id = 1;
@@ -167,10 +185,15 @@ export class SheetService {
     if (tree.nodes.length < 0) {
       return [];
     }
-   
+
     return tree.nodes;
   }
 
+  /**
+    * Generate data from the Google Sheet to be represented in the indented list vis.
+    * @param  {[Array]} data Google Sheet data
+    * @returns {[Array]}     Objects to build the indented list
+    */
   public makeIndentData(data) {
     const cols = [0, 3, 6, 9, 12, 15];
     const root = new Node('body', [], '');
@@ -200,6 +223,11 @@ export class SheetService {
     return root;
   }
 
+  /**
+    * Generate data from the Google Sheet to be represented in the table vis.
+    * @param  {[Array]} data Google Sheet data
+    * @returns {[Array]}     Objects to build the table
+    */
   public makeTableData(data) {
     let tableData = [];
 
@@ -223,8 +251,14 @@ export class SheetService {
     return tableData;
   }
 
+  /**
+    * Helper function used by makeReportData() to check if element is present in the array
+    * @param  {[Array]} obj   The array in which the search should be conducted
+    * @param  {[String]} item The string to be searched for
+    * @returns {[Boolean]}    If the object is present or not
+    */
   doesElementExist(obj, item) {
-    for(let i = 0; i < obj.length; i++) {
+    for (let i = 0; i < obj.length; i++) {
       if (obj[i].structure.toUpperCase() == item.toUpperCase()) {
         return true
       }
