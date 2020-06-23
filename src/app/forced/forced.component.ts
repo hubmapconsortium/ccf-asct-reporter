@@ -96,24 +96,6 @@ export class ForcedComponent implements OnInit {
             }
           }
         },
-        // {
-        //   "type": "text",
-        //   "zindex": 5,
-        //   "dx": 5,
-        //   "from": { "data": "nodes" },
-        //   "encode": {
-        //     "update": {
-        //       "x": { "field": "x", offset: 10},
-        //       "y": { "field": "y"},
-        //       "dx": { value: -20 },
-        //       "align": { "value": "right" },
-        //       "baseline": { "value": "middle" },
-        //       "text": { "field": "first" },
-        //       "fontSize": { "field": "fontSize" },
-        //       "opacity": { "value": 1 }
-        //     }
-        //   }
-        // },
       ]
     }
 
