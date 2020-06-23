@@ -10,6 +10,7 @@ import embed from 'vega-embed';
 export class TreeComponent implements OnInit, OnChanges {
   sheetData;
   treeData;
+  shouldRenderBiomodal = false;
 
   @Input() public refreshData = false;
   @Output() retrunRefresh = new EventEmitter();
@@ -41,8 +42,8 @@ export class TreeComponent implements OnInit, OnChanges {
       const config: any = {
         $schema: 'https://vega.github.io/schema/vega/v5.json',
         description: 'An example of Cartesian layouts for a node-link diagram of hierarchical data.',
-        width: width - 700,
-        height: height + 500,
+        width: 1500,
+        height: 1800,
         padding: 5,
         signals: [
           {
@@ -150,24 +151,30 @@ export class TreeComponent implements OnInit, OnChanges {
               update: {
                 x: { field: 'x' },
                 y: { field: 'y' },
-                dx: { signal: 'datum.children ? -15 : 15' },
-                align: { signal: 'datum.children ? \'right\' : \'left\'' },
-                opacity: { signal: 'labels ? 1 : 0' }
+                // dx: { signal: 'datum.children ? -15 : 15' },
+                dx: {value: 15},
+                // align: { signal: 'datum.children ? \'right\' : \'left\'' },
+                align: { value: 'left' },
+                // opacity: { signal: 'datum.children ? 1 : 0' }
               }
             }
           }
         ]
       };
       
-      let embedding = embed("#vis", config)
-      embedding.then((data) => {
-        this.sheet.makeBimodalData(this.sheetData, data.spec.data[0].values)
-      })
-      this.retrunRefresh.emit({
-        comp: 'Tree',
-        val: true
-      });
+      let embedding = embed("#vis", config, {actions: false})
 
+      embedding.then((data) => {
+        this.sheet.makeBimodalData(this.sheetData, data.spec.data[0].values).then(data => {
+          if (data) {
+            this.shouldRenderBiomodal = true;
+            this.retrunRefresh.emit({
+              comp: 'Tree',
+              val: true
+            });
+          }
+        })
+      })
     }).catch(err => {
       if (err) {
         this.retrunRefresh.emit({

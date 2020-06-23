@@ -56,7 +56,7 @@ export class Node {
 
   public search(name) {
     for (let i = 0; i < this.children.length; i++) {
-      if (this.children[i].name == name) {
+      if (this.children[i].name.toLowerCase() == name.toLowerCase()) {
         return this.children[i];
       }
     }
@@ -109,7 +109,7 @@ export class SheetService {
   cellTypes = [];
   bioMarkers = [];
   reportHasData = false;
-  bioModalData = {};
+  bimodalData = {};
   forcedData = []
 
   constructor(private http: HttpClient) { }
@@ -124,61 +124,62 @@ export class SheetService {
   }
 
   async makeBimodalData(sheetData, treeData) {
-    let links = [];
-    let nodes = [];
-    let treeX = 0;
-    let treeY = 20;
-    let i =0;
+    return new Promise((resolve, reject) => {
+      let links = [];
+      let nodes = [];
+      let treeX = 0;
+      let treeY = 20;
+      let i = 0;
 
-
-    for (; i < this.cellTypes.length; i++) {
-      treeData.forEach(ele => {
-        treeX = ele.x
-        if (ele.name == this.cellTypes[i].structure) {
-          let newNode = new BMNode(this.cellTypes[i].structure, 1, this.cellTypes[i].structure, '', ele.x, ele.y, 14)
-          newNode.id = i;
-          nodes.push(newNode)
-        }
-      })
-    }
-
-    
-
-    for (; i < this.bioMarkers.length; i++) {
-      let newNode = new BMNode(this.bioMarkers[i].structure, 2, '', this.bioMarkers[i].structure, treeX + 300, treeY, 14)
-      newNode.id = i;
-      nodes.push(newNode)
-      treeY += 100;
-    }
-
-    sheetData.forEach(row => {
-      let cell = row[15]
-      let markers = row[18].split(',')
-
-      let cellId = 0;
-
-      for (var i = 0; i < nodes.length; i++) {
-        if (cell == nodes[i].name) {
-          cellId = i;
-          break;
-        }
+      for (; i < this.cellTypes.length; i++) {
+        treeData.forEach(ele => {
+          treeX = ele.x
+          if (ele.name == this.cellTypes[i].structure) {
+            let newNode = new BMNode(this.cellTypes[i].structure, 1, this.cellTypes[i].structure, '', ele.x, ele.y, 16)
+            newNode.id = i;
+            nodes.push(newNode)
+          }
+        })
       }
 
-      markers.forEach(m => {
+      for (; i < this.bioMarkers.length; i++) {
+        let newNode = new BMNode(this.bioMarkers[i].structure, 2, '', this.bioMarkers[i].structure, treeX + 500, treeY, 16)
+        newNode.id = i;
+        nodes.push(newNode)
+        treeY += 60;
+      }
+
+      sheetData.forEach(row => {
+        let cell = row[15]
+        let markers = row[18].split(',')
+
+        let cellId = 0;
+
         for (var i = 0; i < nodes.length; i++) {
-          if (m == nodes[i].name) {
-            links.push({
-              s: cellId,
-              t: i,
-            })
+          if (cell == nodes[i].name) {
+            cellId = i;
+            break;
           }
         }
-      })
-    })
 
-    this.bioModalData = {
-      nodes: nodes, links: links
-    }
+        markers.forEach(m => {
+          for (var i = 0; i < nodes.length; i++) {
+            if (m == nodes[i].name) {
+              links.push({
+                s: cellId,
+                t: i,
+              })
+            }
+          }
+        })
+      })
+
+      this.bimodalData = {
+        nodes: nodes, links: links
+      }
+      
+      resolve(this.bimodalData)
+    })
 
   }
 
