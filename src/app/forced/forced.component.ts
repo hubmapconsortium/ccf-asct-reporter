@@ -70,10 +70,11 @@ export class ForcedComponent implements OnInit {
           "encode": {
             "enter": {
               "size": { value: 500 },
-              "fill": { "signal": "datum.group == 1 ? '#39568CFF' : datum.group == 2 ? '#DCE319FF' : '#287D8EFF'" },
+              "fill": { "signal": "datum.group == 2 ? '#DCE319FF' : '#287D8EFF'" },
               "color": { "field": "Origin", "type": "nominal" },
               "x": { "field": "x" },
               "y": { "field": "y", "offset": 5 },
+              "opacity": {"signal": "datum.group == 1 ? 0 : 1"}
             }
           }
         },

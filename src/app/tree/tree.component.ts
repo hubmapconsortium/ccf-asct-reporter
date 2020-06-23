@@ -152,9 +152,9 @@ export class TreeComponent implements OnInit, OnChanges {
                 x: { field: 'x' },
                 y: { field: 'y' },
                 // dx: { signal: 'datum.children ? -15 : 15' },
-                dx: {value: 15},
-                // align: { signal: 'datum.children ? \'right\' : \'left\'' },
-                align: { value: 'left' },
+                dx: {signal: 'datum.children ? 15: -15' },
+                align: { signal: 'datum.children ? \'left\' : \'right\'' },
+                // align: { value: 'left' },
                 // opacity: { signal: 'datum.children ? 1 : 0' }
               }
             }
