@@ -85,13 +85,18 @@ export class BMNode {
   first: string;
   last: string;
   fontSize: number;
+  x: number;
+  y: number;
+  id: number;
 
-  constructor(name, group, first, last, fontSize) {
+  constructor(name, group, first, last, x, y, fontSize) {
     this.name = name;
     this.group = group;
     this.first = first;
     this.last = last;
     this.fontSize = fontSize;
+    this.x = x;
+    this.y = y;
   }
 }
 
@@ -104,7 +109,7 @@ export class SheetService {
   cellTypes = [];
   bioMarkers = [];
   reportHasData = false;
-  bioModalData= {};
+  bioModalData = {};
   forcedData = []
 
   constructor(private http: HttpClient) { }
@@ -118,26 +123,41 @@ export class SheetService {
     });
   }
 
-  async makeBimodalData(data) {
+  async makeBimodalData(sheetData, treeData) {
     let links = [];
     let nodes = [];
+    let treeX = 0;
+    let treeY = 20;
+    let i =0;
 
-    for (var i = 0; i < this.cellTypes.length; i++) {
-      let newNode = new BMNode(this.cellTypes[i].structure, 1, this.cellTypes[i].structure, '', 14)
+
+    for (; i < this.cellTypes.length; i++) {
+      treeData.forEach(ele => {
+        treeX = ele.x
+        if (ele.name == this.cellTypes[i].structure) {
+          let newNode = new BMNode(this.cellTypes[i].structure, 1, this.cellTypes[i].structure, '', ele.x, ele.y, 14)
+          newNode.id = i;
+          nodes.push(newNode)
+        }
+      })
+    }
+
+    
+
+    for (; i < this.bioMarkers.length; i++) {
+      let newNode = new BMNode(this.bioMarkers[i].structure, 2, '', this.bioMarkers[i].structure, treeX + 300, treeY, 14)
+      newNode.id = i;
       nodes.push(newNode)
+      treeY += 100;
     }
 
-    for (var i = 0; i < this.bioMarkers.length; i++) {
-      nodes.push(new BMNode(this.bioMarkers[i].structure, 2, '', this.bioMarkers[i].structure, 14))
-    }
-
-    data.forEach(row => {
+    sheetData.forEach(row => {
       let cell = row[15]
       let markers = row[18].split(',')
 
       let cellId = 0;
 
-      for (var i = 0; i < nodes.length; i ++) {
+      for (var i = 0; i < nodes.length; i++) {
         if (cell == nodes[i].name) {
           cellId = i;
           break;
@@ -145,22 +165,21 @@ export class SheetService {
       }
 
       markers.forEach(m => {
-        for (var i = 0 ; i < nodes.length; i ++ ) {
+        for (var i = 0; i < nodes.length; i++) {
           if (m == nodes[i].name) {
             links.push({
-              source: cellId,
-              target: i,
-              value: Math.floor(Math.random() * 100)
+              s: cellId,
+              t: i,
             })
           }
         }
       })
     })
-    
-    this.bioModalData =  {
+
+    this.bioModalData = {
       nodes: nodes, links: links
     }
-    
+
   }
 
   public makeReportData(data) {
@@ -196,7 +215,7 @@ export class SheetService {
         }
       }
     })
-    this.makeBimodalData(data)
+
     this.reportHasData = true;
   }
 
@@ -225,13 +244,13 @@ export class SheetService {
         } else {
           tree.id += 1;
           const newNode = new TNode(tree.id, row[cols[col]], parent.id, row[cols[col] + 2]);
-          
+
           tree.append(newNode);
           parent = newNode;
 
-          if(cols[col] == 15) {
+          if (cols[col] == 15) {
             let markers = row[18].split(',')
-            for (var i = 0 ; i < markers.length; i ++) {
+            for (var i = 0; i < markers.length; i++) {
               parent.cc.push({
                 name: markers[i]
               })

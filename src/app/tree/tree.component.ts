@@ -33,18 +33,17 @@ export class TreeComponent implements OnInit, OnChanges {
       this.sheetData = data.data;
       this.sheetData.shift(); // removing headers
       this.treeData = this.sheet.makeTreeData(this.sheetData);
-      console.log(this.sheet.bioModalData)
+      // console.log(this.sheet.bioModalData)
 
       const height = document.getElementsByTagName('body')[0].clientHeight;
       const width = document.getElementsByTagName('body')[0].clientWidth;
-
+      
       const config: any = {
         $schema: 'https://vega.github.io/schema/vega/v5.json',
         description: 'An example of Cartesian layouts for a node-link diagram of hierarchical data.',
         width: width - 700,
         height: height + 500,
         padding: 5,
-
         signals: [
           {
             name: 'labels', value: true,
@@ -64,13 +63,7 @@ export class TreeComponent implements OnInit, OnChanges {
           {
             name: 'separation', value: false,
             bind: { input: 'checkbox' }
-          },
-          {
-            "name": "tension", "value": 0.85,
-            "bind": { "input": "range", "min": 0, "max": 1, "step": 0.01 }
-          },
-          { "name": "colorIn", "value": "firebrick" },
-          { "name": "colorOut", "value": "forestgreen" },
+          }
         ],
 
         data: [
@@ -92,17 +85,6 @@ export class TreeComponent implements OnInit, OnChanges {
               }
             ]
           },
-          {
-            "name": "leaves",
-            "source": "tree",
-            "transform": [
-              {
-                "type": "filter",
-                "expr": "!datum.cc"
-              }
-            ]
-          },
-          
           {
             name: 'links',
             source: 'tree',
@@ -176,8 +158,11 @@ export class TreeComponent implements OnInit, OnChanges {
           }
         ]
       };
-
-      embed('#vis', config);
+      
+      let embedding = embed("#vis", config)
+      embedding.then((data) => {
+        this.sheet.makeBimodalData(this.sheetData, data.spec.data[0].values)
+      })
       this.retrunRefresh.emit({
         comp: 'Tree',
         val: true
