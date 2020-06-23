@@ -8,25 +8,42 @@ import { SheetService } from '../sheet.service';
   styleUrls: ['./forced.component.css']
 })
 export class ForcedComponent implements OnInit {
-  
+
   @Output() graphCompleted = new EventEmitter();
-
+  sortOptions = [
+    'Alphabetically',
+    'Degree'
+  ]
+  selectedOption = this.sortOptions[0]
   constructor(public sheet: SheetService) {
+    this.makeGraph();
 
+
+  }
+
+  ngOnInit(): void {
+
+  }
+
+  makeGraph() {
     let config: any = {
       "$schema": "https://vega.github.io/schema/vega/v5.json",
       "signals": [
+        {
+          "name": "shape", "value": "line",
+          "bind": { "input": "select", "options": ["line", "curve", "diagonal"] }
+        }
       ],
 
       "data": [
         {
           "name": "nodes",
-          values: sheet.ASCTGraphData,
+          values: this.sheet.ASCTGraphData,
           "format": { "type": "json", "property": "nodes" },
         },
         {
           "name": "edges",
-          values: sheet.ASCTGraphData,
+          values: this.sheet.ASCTGraphData,
           "format": { "type": "json", "property": "links" },
           "transform": [
             {
@@ -43,7 +60,7 @@ export class ForcedComponent implements OnInit {
               "targetX": "target.x",
               "targetY": "target.y",
               "orient": "vertical",
-              "shape": "diagonal",
+              "shape": { "signal": "shape" },
             }
           ]
         }
@@ -57,7 +74,7 @@ export class ForcedComponent implements OnInit {
               "stroke": { "value": "#ccc" },
               "strokeWidth": { "value": 1.5 },
               "x": { "value": 0 },
-              "y": { "value": 5 },
+              "y": { "value": 5 }
             },
             "update": {
               "path": { "field": "path" }
@@ -74,7 +91,7 @@ export class ForcedComponent implements OnInit {
               "color": { "field": "Origin", "type": "nominal" },
               "x": { "field": "x" },
               "y": { "field": "y", "offset": 5 },
-              "opacity": {"signal": "datum.group == 1 ? 0 : 1"}
+              "opacity": { "signal": "datum.group == 1 ? 0 : 1" }
             }
           }
         },
@@ -101,16 +118,25 @@ export class ForcedComponent implements OnInit {
 
     let embedded = embed('#ASCTVis', config, { actions: false })
     embedded.then(data => {
-      if(data) {
+      if (data) {
         this.graphCompleted.emit({
           val: true
         })
       }
     })
-
   }
 
-  ngOnInit(): void {
+  getSelection() {
+    if (this.selectedOption == 'Degree')
+      this.sheet.shouldSortAlphabetically = false
+    else
+      this.sheet.shouldSortAlphabetically = true
+
+    this.sheet.makeASCTData(this.sheet.sheetData, this.sheet.updatedTreeData).then(data => {
+      if (data) {
+        this.makeGraph();
+      }
+    })
 
   }
 

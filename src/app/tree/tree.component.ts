@@ -10,6 +10,7 @@ import embed from 'vega-embed';
 export class TreeComponent implements OnInit, OnChanges {
   sheetData;
   treeData;
+  updatedTreeData;
   shouldRenderASCTBiomodal = false;
 
   @Input() public refreshData = false;
@@ -33,12 +34,13 @@ export class TreeComponent implements OnInit, OnChanges {
     this.sheet.getSheetData().then(data => {
       this.sheetData = data.data;
       this.sheetData.shift(); // removing headers
+      this.sheet.sheetData = this.sheetData
       this.treeData = this.sheet.makeTreeData(this.sheetData);
       // console.log(this.sheet.bioModalData)
 
       const height = document.getElementsByTagName('body')[0].clientHeight;
       const width = document.getElementsByTagName('body')[0].clientWidth;
-      
+
       const config: any = {
         $schema: 'https://vega.github.io/schema/vega/v5.json',
         description: 'An example of Cartesian layouts for a node-link diagram of hierarchical data.',
@@ -151,22 +153,19 @@ export class TreeComponent implements OnInit, OnChanges {
               update: {
                 x: { field: 'x' },
                 y: { field: 'y' },
-                // dx: { signal: 'datum.children ? -15 : 15' },
-                dx: {signal: 'datum.children ? 15: -15' },
+                dx: { signal: 'datum.children ? 15: -15' },
                 align: { signal: 'datum.children ? \'left\' : \'right\'' },
-                // align: { value: 'left' },
-                // opacity: { signal: 'datum.children ? 1 : 0' }
               }
             }
           }
         ]
       };
-      
-      let embedding = embed("#vis", config, {actions: false})
+
+      let embedding = embed("#vis", config, { actions: false })
 
       embedding.then((data) => {
+        this.sheet.updatedTreeData = data.spec.data[0].values
         this.sheet.makeASCTData(this.sheetData, data.spec.data[0].values).then(data => {
-          
           if (data) {
             this.shouldRenderASCTBiomodal = true;
             this.retrunRefresh.emit({

@@ -109,7 +109,13 @@ export class SheetService {
   bioMarkers = [];
   reportHasData = false;
   ASCTGraphData = {};
-  forcedData = []
+  forcedData = [];
+  bioMarkerDegree = [];
+  sheetData;
+  updatedTreeData;
+
+  // BIOMODAL DATA
+  shouldSortAlphabetically = true;
 
   constructor(private http: HttpClient) { }
 
@@ -170,13 +176,18 @@ export class SheetService {
       treeY = 35;
       treeX += distance
 
-      //making group 3: bio markers
-      this.bioMarkers.sort((a,b) =>  {
-        return a.structure > b.structure ? 1 : ((b.structure > a.structure) ? -1 : 0)
-      })
+      // based on select input, sorting markers
+      if (this.shouldSortAlphabetically) {
+        biomarkers = this.bioMarkers.sort((a, b) => {
+          return a.structure > b.structure ? 1 : ((b.structure > a.structure) ? -1 : 0)
+        })
+      } else {
+        biomarkers = this.bioMarkerDegree;
+      }
 
-      for (let i = 0; i < this.bioMarkers.length; i++) {
-        let newNode = new BMNode(this.bioMarkers[i].structure, 3, '', this.bioMarkers[i].structure, treeX, treeY, 16)
+      // making group 3: bio markers
+      for (let i = 0; i < biomarkers.length; i++) {
+        let newNode = new BMNode(biomarkers[i].structure, 3, '', biomarkers[i].structure, treeX, treeY, 16)
         newNode.id = id;
         nodes.push(newNode)
         treeY += 60;
@@ -204,23 +215,16 @@ export class SheetService {
       }
 
       sheetData.forEach(row => {
-        let cell = row[15]
+        let cell;
         let markers = row[18].split(',')
 
-        let cellId = 0;
-
-        for (var i = 0; i < nodes.length; i++) {
-          if (cell == nodes[i].name) {
-            cellId = i;
-            break;
-          }
-        }
+        cell = nodes.findIndex(r => r.name.toLowerCase() == row[15].toLowerCase())
 
         markers.forEach(m => {
           for (var i = 0; i < nodes.length; i++) {
-            if (m == nodes[i].name) {
+            if (m.toLowerCase() == nodes[i].name.toLowerCase()) {
               links.push({
-                s: cellId,
+                s: cell,
                 t: i,
               })
             }
@@ -228,14 +232,12 @@ export class SheetService {
         })
       })
 
-
-
       this.ASCTGraphData = {
         nodes: nodes,
         links: links
       }
 
-      // console.log(this.ASCTGraphData)
+
 
       resolve(this.ASCTGraphData)
     })
@@ -244,6 +246,7 @@ export class SheetService {
 
   public makeReportData(data) {
     const cols = [0, 3, 6, 9, 12, 15, 18];
+    let markerDegrees = {};
     data.forEach(row => {
       for (let col = 0; col < cols.length; col++) {
         if (!this.reportHasData) {
@@ -265,6 +268,7 @@ export class SheetService {
           } else {
             let markers = row[cols[col]].split(',')
             for (let i = 0; i < markers.length; i++) {
+              markerDegrees[markers[i]] = (markerDegrees[markers[i]] || 0) + 1;;
               if (!this.doesElementExist(this.bioMarkers, markers[i])) {
                 this.bioMarkers.push({
                   structure: markers[i]
@@ -275,6 +279,13 @@ export class SheetService {
         }
       }
     })
+    
+    // calculating degree 
+    Object.keys(markerDegrees).sort((a, b) => {
+      return markerDegrees[b] - markerDegrees[a];
+    }).forEach((key) => {
+      this.bioMarkerDegree.push({structure: key})
+    });
 
     this.reportHasData = true;
   }
