@@ -135,7 +135,7 @@ export class SheetService {
         treeData.forEach(ele => {
           treeX = ele.x
           if (ele.name == this.cellTypes[i].structure) {
-            let newNode = new BMNode(this.cellTypes[i].structure, 1, this.cellTypes[i].structure, '', ele.x, ele.y, 16)
+            let newNode = new BMNode(this.cellTypes[i].structure, 1, this.cellTypes[i].structure, '', 0, ele.y, 16)
             newNode.id = i;
             nodes.push(newNode)
           }
@@ -143,7 +143,7 @@ export class SheetService {
       }
 
       for (; i < this.bioMarkers.length; i++) {
-        let newNode = new BMNode(this.bioMarkers[i].structure, 2, '', this.bioMarkers[i].structure, treeX + 500, treeY, 16)
+        let newNode = new BMNode(this.bioMarkers[i].structure, 2, '', this.bioMarkers[i].structure, 500, treeY, 16)
         newNode.id = i;
         nodes.push(newNode)
         treeY += 60;
