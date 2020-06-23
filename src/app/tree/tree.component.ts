@@ -10,7 +10,7 @@ import embed from 'vega-embed';
 export class TreeComponent implements OnInit, OnChanges {
   sheetData;
   treeData;
-  shouldRenderBiomodal = false;
+  shouldRenderASCTBiomodal = false;
 
   @Input() public refreshData = false;
   @Output() retrunRefresh = new EventEmitter();
@@ -165,9 +165,10 @@ export class TreeComponent implements OnInit, OnChanges {
       let embedding = embed("#vis", config, {actions: false})
 
       embedding.then((data) => {
-        this.sheet.makeBimodalData(this.sheetData, data.spec.data[0].values).then(data => {
+        this.sheet.makeASCTData(this.sheetData, data.spec.data[0].values).then(data => {
+          
           if (data) {
-            this.shouldRenderBiomodal = true;
+            this.shouldRenderASCTBiomodal = true;
             this.retrunRefresh.emit({
               comp: 'Tree',
               val: true

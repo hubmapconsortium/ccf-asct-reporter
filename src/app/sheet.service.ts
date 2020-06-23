@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { parse } from 'papaparse';
-import { async } from '@angular/core/testing';
 
 export class TNode {
   id: any;
@@ -109,7 +108,7 @@ export class SheetService {
   cellTypes = [];
   bioMarkers = [];
   reportHasData = false;
-  bimodalData = {};
+  ASCTGraphData = {};
   forcedData = []
 
   constructor(private http: HttpClient) { }
@@ -123,30 +122,85 @@ export class SheetService {
     });
   }
 
-  async makeBimodalData(sheetData, treeData) {
+  public makeASCTData(sheetData, treeData) {
     return new Promise((resolve, reject) => {
       let links = [];
       let nodes = [];
       let treeX = 0;
-      let treeY = 20;
-      let i = 0;
+      let treeY = 35;
+      let distance = 600;
+      let id = 0;
+      let biomarkers = [];
 
-      for (; i < this.cellTypes.length; i++) {
-        treeData.forEach(ele => {
-          treeX = ele.x
-          if (ele.name == this.cellTypes[i].structure) {
-            let newNode = new BMNode(this.cellTypes[i].structure, 1, this.cellTypes[i].structure, '', 0, ele.y, 16)
-            newNode.id = i;
-            nodes.push(newNode)
-          }
-        })
-      }
+      // making anatomical structures
+      treeData.forEach(td => {
+        if (td.children == 0) {
+          let leaf = td.name;
+          let newLeaf = new BMNode(leaf, 1, leaf, '', treeX, td.y, 16)
+          newLeaf.id = id;
+          nodes.push(newLeaf)
+          id += 1;
+        }
+      })
 
-      for (; i < this.bioMarkers.length; i++) {
-        let newNode = new BMNode(this.bioMarkers[i].structure, 2, '', this.bioMarkers[i].structure, 500, treeY, 16)
-        newNode.id = i;
+      treeX += distance
+
+      // making group 2: cell types 
+      treeData.forEach(td => {
+        if (td.children == 0) {
+          let leaf = td.name;
+
+          sheetData.forEach(row => {
+            for (var i = 0; i < row.length; i++) {
+              if (row[i] == leaf) {
+                if (!nodes.some(r => r.name.toLowerCase() == row[15].toLowerCase())) {
+                  let cell = row[15];
+                  let newNode = new BMNode(cell, 2, '', cell, treeX, treeY, 16)
+                  newNode.id = id;
+                  nodes.push(newNode)
+                  treeY += 90;
+                  id += 1;
+                }
+              }
+            }
+          })
+        }
+      })
+
+      treeY = 35;
+      treeX += distance
+
+      //making group 3: bio markers
+      this.bioMarkers.sort((a,b) =>  {
+        return a.structure > b.structure ? 1 : ((b.structure > a.structure) ? -1 : 0)
+      })
+
+      for (let i = 0; i < this.bioMarkers.length; i++) {
+        let newNode = new BMNode(this.bioMarkers[i].structure, 3, '', this.bioMarkers[i].structure, treeX, treeY, 16)
+        newNode.id = id;
         nodes.push(newNode)
         treeY += 60;
+        id += 1
+      }
+
+      let parent = 0;
+
+      for (var i = 0; i < treeData.length; i++) {
+        if (treeData[i].children == 0) {
+          parent = nodes.findIndex(r => r.name.toLowerCase() == treeData[i].name.toLowerCase())
+
+          sheetData.forEach(row => {
+            for (var j = 0; j < row.length; j++) {
+              if (row[j] == treeData[i].name) {
+                let cell = row[15]
+                links.push({
+                  s: parent,
+                  t: nodes.findIndex(r => r.name.toLowerCase() == cell.toLowerCase())
+                })
+              }
+            }
+          })
+        }
       }
 
       sheetData.forEach(row => {
@@ -174,11 +228,16 @@ export class SheetService {
         })
       })
 
-      this.bimodalData = {
-        nodes: nodes, links: links
+
+
+      this.ASCTGraphData = {
+        nodes: nodes,
+        links: links
       }
-      
-      resolve(this.bimodalData)
+
+      // console.log(this.ASCTGraphData)
+
+      resolve(this.ASCTGraphData)
     })
 
   }
@@ -221,7 +280,7 @@ export class SheetService {
   }
 
   public makeTreeData(data) {
-    const cols = [0, 3, 6, 9, 12, 15];
+    const cols = [0, 3, 6, 9, 12];
     const id = 1;
     let parent;
     const tree = new Tree(id);

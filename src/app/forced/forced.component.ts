@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import embed, { vega } from 'vega-embed';
 import { SheetService } from '../sheet.service';
 
@@ -8,6 +8,9 @@ import { SheetService } from '../sheet.service';
   styleUrls: ['./forced.component.css']
 })
 export class ForcedComponent implements OnInit {
+  
+  @Output() graphCompleted = new EventEmitter();
+
   constructor(public sheet: SheetService) {
 
     let config: any = {
@@ -18,12 +21,12 @@ export class ForcedComponent implements OnInit {
       "data": [
         {
           "name": "nodes",
-          values: sheet.bimodalData,
+          values: sheet.ASCTGraphData,
           "format": { "type": "json", "property": "nodes" },
         },
         {
           "name": "edges",
-          values: sheet.bimodalData,
+          values: sheet.ASCTGraphData,
           "format": { "type": "json", "property": "links" },
           "transform": [
             {
@@ -52,7 +55,7 @@ export class ForcedComponent implements OnInit {
           "encode": {
             "enter": {
               "stroke": { "value": "#ccc" },
-              "strokeWidth": { "value": 1 },
+              "strokeWidth": { "value": 1.5 },
               "x": { "value": 0 },
               "y": { "value": 5 },
             },
@@ -67,11 +70,10 @@ export class ForcedComponent implements OnInit {
           "encode": {
             "enter": {
               "size": { value: 500 },
-              "fill": { "signal": "datum.group == 1 ? '#39568CFF' : '#DCE319FF'" },
+              "fill": { "signal": "datum.group == 1 ? '#39568CFF' : datum.group == 2 ? '#DCE319FF' : '#287D8EFF'" },
               "color": { "field": "Origin", "type": "nominal" },
               "x": { "field": "x" },
               "y": { "field": "y", "offset": 5 },
-              // "opacity": { "signal": "datum.group == 1 ? 0 : 1" },
             }
           }
         },
@@ -114,7 +116,14 @@ export class ForcedComponent implements OnInit {
       ]
     }
 
-    embed('#forcedVis', config, { actions: false })
+    let embedded = embed('#ASCTVis', config, { actions: false })
+    embedded.then(data => {
+      if(data) {
+        this.graphCompleted.emit({
+          val: true
+        })
+      }
+    })
 
   }
 
