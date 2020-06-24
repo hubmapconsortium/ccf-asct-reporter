@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges} from '@angular/core';
 import { ReportService } from '../report.service';
 import { SheetService } from '../sheet.service';
 
@@ -7,17 +7,22 @@ import { SheetService } from '../sheet.service';
   templateUrl: './logs.component.html',
   styleUrls: ['./logs.component.css']
 })
-export class LogsComponent implements OnInit {
+export class LogsComponent implements OnInit, OnChanges {
   logs; any;
   sheetData;
   anatomicalStructures= []
   cellTypes =[]
   bioMarkers = []
   @Output() close = new EventEmitter();
+  @Input() refreshData;
 
   sheetName = 'Spleen_R2'
 
   constructor(public report: ReportService, public sheet: SheetService) {
+  }
+
+  ngOnChanges() {
+    
   }
 
   ngOnInit(): void {
@@ -27,7 +32,6 @@ export class LogsComponent implements OnInit {
   getData() {
     this.sheet.getSheetData().then(data => {
       this.sheetData = data.data;
-      this.sheetData.shift(); // removing headers
       this.sheet.makeReportData(this.sheetData);
       this.anatomicalStructures = this.sheet.anatomicalStructures
       this.cellTypes = this.sheet.cellTypes

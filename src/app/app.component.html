@@ -1,14 +1,14 @@
 <div style="width: 100%;">
     <mat-drawer-container class="drawer-container" autosize hasBackdrop="true">
         <mat-drawer #logs_drawer class="sidenav-drawer" mode="over" opened="false" position="end">
-            <app-logs (close)="logs_drawer.toggle()"></app-logs>
+            <app-logs (close)="logs_drawer.toggle()" [refreshData]="refreshLogs" #log_conponent></app-logs>
         </mat-drawer>
-        <div class="content text-center">
-            <app-navbar (showLog)="toggleDrawer($event)" (showGraph)="showGraph($event)" (refresh)="refreshData($event)"></app-navbar>
-            <app-tree *ngIf="displayGraph === 'Tree'" [refreshData]="refreshTree" (retrunRefresh)="returnRefresh($event)"></app-tree>
-            <!-- <app-forced *ngIf="displayGraph === 'Tree'"></app-forced> -->
-            <app-indent *ngIf="displayGraph === 'Indented List'" [refreshData]="refreshIndent" (returnRefresh)="returnRefresh($event)"></app-indent>
-            <app-table *ngIf="displayGraph === 'Table'" [refreshData]="refreshTable" (returnRefresh)="returnRefresh($event)"></app-table>
+        <div class=" content text-center ">
+            <app-navbar (showLog)="toggleDrawer($event) " (showGraph)="showGraph($event) " (refresh)="refreshData($event) " (getSheet)="getSelectedSheet($event) "></app-navbar>
+            <app-tree *ngIf="displayGraph==='Tree' " [refreshData]="refreshTree " (retrunRefresh)="returnRefresh($event) " [shouldReloadData]="shouldRefreshData "></app-tree>
+            <!-- <app-forced *ngIf="displayGraph==='Tree' "></app-forced> -->
+            <app-indent *ngIf="displayGraph==='Indented List' " [refreshData]="refreshIndent " (returnRefresh)="returnRefresh($event) "></app-indent>
+            <app-table *ngIf="displayGraph==='Table' " [refreshData]="refreshTable " (returnRefresh)="returnRefresh($event) "></app-table>
         </div>
     </mat-drawer-container>
 </div>

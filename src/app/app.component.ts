@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingComponent } from './loading/loading.component';
+import { SconfigService } from './sconfig.service';
+import { SheetService } from './sheet.service';
 
 @Component({
   selector: 'app-root',
@@ -11,19 +13,26 @@ import { LoadingComponent } from './loading/loading.component';
 export class AppComponent implements OnInit {
 
   @ViewChild('logs_drawer') logs_drawer;
+  @ViewChild('log_conponent') log_conponent;
 
   displayGraph = 'Tree';
   refreshTree = false;
   refreshIndent = false;
   refreshTable = false;
+  refreshLogs = false;
+  sheetName = 'Spleen_R2_EMQverify.xlsx';
+  shouldRefreshData = false;
 
-  constructor(private dialog: MatDialog, public snackBar: MatSnackBar) { }
+  constructor(private dialog: MatDialog, public snackBar: MatSnackBar, public sc: SconfigService, public sheet: SheetService) { 
+    this.getSelectedSheet(this.sheetName)
+  }
 
   ngOnInit() {
     this.openLoading();
   }
 
   toggleDrawer(val) {
+    this.refreshLogs = val;
     this.logs_drawer.opened = val;
   }
 
@@ -54,6 +63,7 @@ export class AppComponent implements OnInit {
         this.openSnackBar('Error while fetching data.', 'Close', 'red');
       }
       this.refreshTree = false;
+      this.shouldRefreshData = false;
 
     } else if (val.comp == 'Indented List') {
       this.dialog.closeAll();
@@ -63,6 +73,8 @@ export class AppComponent implements OnInit {
         this.openSnackBar('Error while fetching data.', 'Close', 'red');
       }
       this.refreshIndent = false;
+      this.shouldRefreshData = false;
+
     } else if (val.comp == 'Table') {
       this.dialog.closeAll();
       if (val.val) {
@@ -71,6 +83,7 @@ export class AppComponent implements OnInit {
         this.openSnackBar('Error while fetching data.', 'Close', 'red');
       }
       this.refreshTable = false;
+      this.shouldRefreshData = false;
     }
   }
 
@@ -78,7 +91,6 @@ export class AppComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-
     this.dialog.open(LoadingComponent, dialogConfig);
   }
 
@@ -89,5 +101,20 @@ export class AppComponent implements OnInit {
       horizontalPosition: 'end',
       panelClass: [`${style}-snackbar`]
     });
+  }
+
+  getSelectedSheet(event) {
+    this.sheetName = event;
+    new Promise((res, rej) => {
+      this.sheet.sheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.name == this.sheetName)]
+      res(true)
+    }).then(data => {
+      if (data) {
+        this.openLoading();
+        this.shouldRefreshData = true;
+        this.log_conponent.getData();
+      }
+    })
+    
   }
 }

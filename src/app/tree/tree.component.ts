@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
 import { SheetService } from '../sheet.service';
 import embed from 'vega-embed';
 
@@ -7,14 +7,16 @@ import embed from 'vega-embed';
   templateUrl: './tree.component.html',
   styleUrls: ['./tree.component.css']
 })
-export class TreeComponent implements OnInit, OnChanges {
+export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   sheetData;
   treeData;
   updatedTreeData;
   shouldRenderASCTBiomodal = false;
 
   @Input() public refreshData = false;
+  @Input() public shouldReloadData = false;
   @Output() retrunRefresh = new EventEmitter();
+  @ViewChild('bimodal') biomodal;
 
   constructor(public sheet: SheetService) {
     this.getData();
@@ -24,8 +26,16 @@ export class TreeComponent implements OnInit, OnChanges {
 
   }
 
+  ngOnDestroy() {
+    this.shouldReloadData = false;
+  }
+
   ngOnChanges() {
     if (this.refreshData) {
+      this.getData();
+    }
+
+    if (this.shouldReloadData && !this.refreshData) {
       this.getData();
     }
   }
@@ -33,18 +43,13 @@ export class TreeComponent implements OnInit, OnChanges {
   getData() {
     this.sheet.getSheetData().then(data => {
       this.sheetData = data.data;
-      this.sheetData.shift(); // removing headers
       this.sheet.sheetData = this.sheetData
       this.treeData = this.sheet.makeTreeData(this.sheetData);
-      // console.log(this.sheet.bioModalData)
-
-      const height = document.getElementsByTagName('body')[0].clientHeight;
-      const width = document.getElementsByTagName('body')[0].clientWidth;
 
       const config: any = {
         $schema: 'https://vega.github.io/schema/vega/v5.json',
         description: 'An example of Cartesian layouts for a node-link diagram of hierarchical data.',
-        width: 1500,
+        width: 1200,
         height: 1800,
         padding: 5,
         signals: [
@@ -168,6 +173,8 @@ export class TreeComponent implements OnInit, OnChanges {
         this.sheet.makeASCTData(this.sheetData, data.spec.data[0].values).then(data => {
           if (data) {
             this.shouldRenderASCTBiomodal = true;
+            if (this.shouldRenderASCTBiomodal)
+              this.biomodal.makeGraph();
             this.retrunRefresh.emit({
               comp: 'Tree',
               val: true

@@ -5,6 +5,15 @@
     </div>
     <span class="filler"></span>
     <div>
+        <mat-form-field style="margin-right: 60px; margin-bottom: 0;">
+            <button mat-flat-button style="width: 120%; background-color: rgb(247, 247, 247);" #tooltip="matTooltip" matTooltip="Select Sheet" matTooltipPosition="below">
+                <mat-select (selectionChange)="getSheetSelection()" [(ngModel)]="selectedSheetOption">
+                    <mat-option *ngFor="let option of sheetOptions" [value]="option">
+                        {{option}}
+                    </mat-option>
+                </mat-select>
+            </button>
+        </mat-form-field>
         <mat-form-field style="margin-right: 20px; margin-bottom: 0;">
             <button mat-flat-button style="width: 100%; background-color: rgb(247, 247, 247);" #tooltip="matTooltip" matTooltip="Select Visualization" matTooltipPosition="below">
                 <mat-select (selectionChange)="getSelection()" [(ngModel)]="selectedOption">

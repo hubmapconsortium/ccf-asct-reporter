@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { parse } from 'papaparse';
+import { SconfigService } from './sconfig.service';
 
 // Used in the tree visualization
 export class TNode {
@@ -108,6 +109,9 @@ export class BMNode {
 })
 export class SheetService {
 
+  // NAVBAR SHEET SELECTION
+  sheet;
+
   anatomicalStructures = [];
   cellTypes = [];
   bioMarkers = [];
@@ -121,7 +125,11 @@ export class SheetService {
   // BIOMODAL DATA
   shouldSortAlphabetically = true;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public sc: SconfigService) { }
+
+  public setSheet(sheet) {
+
+  }
 
 
   /**
@@ -129,10 +137,13 @@ export class SheetService {
    *  @return {[Array]}      Google Sheet data parsed by PapaParse.
    */
   public getSheetData() {
-    const sheetId = '1iUBrmiI_dB67_zCj3FBK9expLTmpBjwS';
-    const gid = '567133323';
-    return this.http.get(`https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`, { responseType: 'text' }).toPromise().then(data => {
+    let sheetId = this.sheet.sheetId;
+    let gid = this.sheet.gid;
+
+    let constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`
+    return this.http.get(constructedURL, { responseType: 'text' }).toPromise().then(data => {
       let parsedData = parse(data);
+      parsedData.data.splice(0, this.sheet.header_count)
       return parsedData;
     });
   }
@@ -170,15 +181,18 @@ export class SheetService {
           let leaf = td.name;
 
           sheetData.forEach(row => {
-            for (var i = 0; i < row.length; i++) {
-              if (row[i] == leaf) {
-                if (!nodes.some(r => r.name.toLowerCase() == row[15].toLowerCase())) {
-                  let cell = row[15];
-                  let newNode = new BMNode(cell, 2, '', cell, treeX, treeY, 16)
-                  newNode.id = id;
-                  nodes.push(newNode)
-                  treeY += 90;
-                  id += 1;
+            if (row[this.sheet.cell_row] != '') {
+              for (var i = 0; i < row.length; i++) {
+                if (row[i] == leaf) {
+                  let cell_r = row[this.sheet.cell_row]
+                  if (!nodes.some(r => r.name.toLowerCase() == cell_r.toLowerCase())) {
+                    let cell = row[this.sheet.cell_row];
+                    let newNode = new BMNode(cell, 2, '', cell, treeX, treeY, 16)
+                    newNode.id = id;
+                    nodes.push(newNode)
+                    treeY += 90;
+                    id += 1;
+                  }
                 }
               }
             }
@@ -190,9 +204,12 @@ export class SheetService {
       treeX += distance
 
       // based on select input, sorting markers
+      this.makeBioMarkers(sheetData)
+      // if (data) 
+      // biomarkers = this.bioMarkers;
       if (this.shouldSortAlphabetically) {
         biomarkers = this.bioMarkers.sort((a, b) => {
-          return a.structure > b.structure ? 1 : ((b.structure > a.structure) ? -1 : 0)
+          return a.structure.toLowerCase() > b.structure.toLowerCase() ? 1 : ((b.structure.toLowerCase() > a.structure.toLowerCase()) ? -1 : 0)
         })
       } else {
         biomarkers = this.bioMarkerDegree;
@@ -207,6 +224,7 @@ export class SheetService {
         id += 1
       }
 
+
       let parent = 0;
 
       for (var i = 0; i < treeData.length; i++) {
@@ -216,7 +234,10 @@ export class SheetService {
           sheetData.forEach(row => {
             for (var j = 0; j < row.length; j++) {
               if (row[j] == treeData[i].name) {
-                let cell = row[15]
+                let cell = row[this.sheet.cell_row]
+                if (nodes.findIndex(r => r.name.toLowerCase() == cell.toLowerCase()) == -1) {
+                  continue
+                }
                 links.push({
                   s: parent,
                   t: nodes.findIndex(r => r.name.toLowerCase() == cell.toLowerCase())
@@ -229,20 +250,22 @@ export class SheetService {
 
       sheetData.forEach(row => {
         let cell;
-        let markers = row[18].split(',')
+        let markers = row[this.sheet.marker_row].trim().split(',')
 
-        cell = nodes.findIndex(r => r.name.toLowerCase() == row[15].toLowerCase())
+        cell = nodes.findIndex(r => r.name.toLowerCase() == row[this.sheet.cell_row].toLowerCase())
 
-        markers.forEach(m => {
-          for (var i = 0; i < nodes.length; i++) {
-            if (m.toLowerCase() == nodes[i].name.toLowerCase()) {
-              links.push({
-                s: cell,
-                t: i,
-              })
+        if (cell != -1) {
+          markers.forEach(m => {
+            for (var i = 0; i < nodes.length; i++) {
+              if (m.trim().toLowerCase() == nodes[i].name.toLowerCase()) {
+                links.push({
+                  s: cell,
+                  t: i,
+                })
+              }
             }
-          }
-        })
+          })
+        }
       })
 
       this.ASCTGraphData = {
@@ -250,61 +273,92 @@ export class SheetService {
         links: links
       }
 
-
-
       resolve(this.ASCTGraphData)
-    })
 
+    })
   }
 
   public makeReportData(data) {
-    const cols = [0, 3, 6, 9, 12, 15, 18];
-    let markerDegrees = {};
+    this.anatomicalStructures = []
+    this.cellTypes = []
+    this.bioMarkers = []
+    this.bioMarkerDegree = []
+
+    const cols = this.sheet.report_cols;
+
+
+    this.makeBioMarkers(data)
+
     data.forEach(row => {
       for (let col = 0; col < cols.length; col++) {
-        if (!this.reportHasData) {
-          if (cols[col] != 15 && cols[col] != 18) {
-            if (!this.doesElementExist(this.anatomicalStructures, row[cols[col]])) {
-              this.anatomicalStructures.push({
-                structure: row[cols[col]].toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
-                uberon: row[cols[col] + 2]
-              })
-            }
+        // if (!this.reportHasData) {
+        if (cols[col] != this.sheet.cell_row && cols[col] != this.sheet.marker_row) {
+          if (!this.doesElementExist(this.anatomicalStructures, row[cols[col]])) {
+            this.anatomicalStructures.push({
+              structure: row[cols[col]].toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
+              uberon: row[cols[col] + this.sheet.uberon_row]
+            })
+          }
 
-          } else if (cols[col] == 15) {
-            let cells = row[cols[col]].split(',')
-            for (let i = 0; i < cells.length; i ++) {
-              if (!this.doesElementExist(this.cellTypes,cells[i])) {
+        } else if (cols[col] == this.sheet.cell_row) {
+          let cells = row[cols[col]].trim().split(',')
+          for (let i = 0; i < cells.length; i++) {
+            if (cells[i] !== "") {
+              if (!this.doesElementExist(this.cellTypes, cells[i])) {
                 this.cellTypes.push({
                   structure: cells[i].toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
-                  link: row[cols[col] + 2]
-                })
-              }
-            }
-            
-          } else {
-            let markers = row[cols[col]].split(',')
-            for (let i = 0; i < markers.length; i++) {
-              markerDegrees[markers[i]] = (markerDegrees[markers[i]] || 0) + 1;;
-              if (!this.doesElementExist(this.bioMarkers, markers[i])) {
-                this.bioMarkers.push({
-                  structure: markers[i]
+                  link: row[cols[col] + this.sheet.uberon_row]
                 })
               }
             }
           }
+
+        } else {
+          if (row[cols[col]]) {
+
+          }
         }
+        // }
       }
     })
-    
-    // calculating degree 
-    Object.keys(markerDegrees).sort((a, b) => {
-      return markerDegrees[b] - markerDegrees[a];
-    }).forEach((key) => {
-      this.bioMarkerDegree.push({structure: key})
-    });
-
     this.reportHasData = true;
+  }
+
+  public getASCTData() {
+    return this.ASCTGraphData
+  }
+
+  public makeBioMarkers(data) {
+    let markerDegrees = {};
+    this.bioMarkers = []
+    this.bioMarkerDegree = []
+    return new Promise((res, rej) => {
+      data.forEach(row => {
+        let markers = row[this.sheet.marker_row].split(',')
+
+        for (let i = 0; i < markers.length; i++) {
+          if (markers[i] !== "") {
+            markerDegrees[markers[i].trim()] = (markerDegrees[markers[i].trim()] || 0) + 1;;
+            if (!this.doesElementExist(this.bioMarkers, markers[i].trim())) {
+              this.bioMarkers.push({
+                structure: markers[i].trim().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
+              })
+            }
+          }
+        }
+      })
+
+
+      // calculating degree 
+      Object.keys(markerDegrees).sort((a, b) => {
+        return markerDegrees[b] - markerDegrees[a];
+      }).forEach((key) => {
+        this.bioMarkerDegree.push({ structure: key })
+      });
+
+
+      res(true)
+    })
   }
 
   /**
@@ -313,7 +367,7 @@ export class SheetService {
     * @returns {[Array]}     Objects to build the tree
     */
   public makeTreeData(data) {
-    const cols = [0, 3, 6, 9, 12];
+    const cols = this.sheet.tree_cols;
     const id = 1;
     let parent;
     const tree = new Tree(id);
@@ -336,13 +390,13 @@ export class SheetService {
           parent = searchedNode;
         } else {
           tree.id += 1;
-          const newNode = new TNode(tree.id, row[cols[col]], parent.id, row[cols[col] + 2]);
+          const newNode = new TNode(tree.id, row[cols[col]], parent.id, row[cols[col] + this.sheet.uberon_row]);
 
           tree.append(newNode);
           parent = newNode;
 
-          if (cols[col] == 15) {
-            let markers = row[18].split(',')
+          if (cols[col] == this.sheet.cell_row) {
+            let markers = row[this.sheet.marker_row].trim().split(',')
             for (var i = 0; i < markers.length; i++) {
               parent.cc.push({
                 name: markers[i]
@@ -366,7 +420,7 @@ export class SheetService {
     * @returns {[Array]}     Objects to build the indented list
     */
   public makeIndentData(data) {
-    const cols = [0, 3, 6, 9, 12, 15];
+    const cols = this.sheet.tree_cols;
     const root = new Node('body', [], '');
     delete root.uberon;
 
@@ -384,7 +438,7 @@ export class SheetService {
         if (Object.keys(searchedNode).length !== 0) {
           parent = searchedNode;
         } else {
-          const newNode = new Node(row[cols[col]], [], row[cols[col] + 2]);
+          const newNode = new Node(row[cols[col]], [], row[cols[col] + this.sheet.uberon_row]);
           parent.children.push(newNode);
           parent = newNode;
         }
