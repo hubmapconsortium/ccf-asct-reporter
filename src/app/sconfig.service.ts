@@ -16,7 +16,8 @@ export class SconfigService {
       uberon_row: 2,
       report_cols: [0, 3, 6, 9, 12, 15, 18],
       tree_cols: [0, 3, 6, 9, 12],
-      indent_cols: [0, 3, 6, 9, 12, 15]
+      indent_cols: [0, 3, 6, 9, 12, 15],
+      title_position: 'middle'
     },
     {
       name: 'Liver-R1_EMQverify.xlsx',
@@ -28,19 +29,21 @@ export class SconfigService {
       uberon_row: 0,
       report_cols: [0, 1, 2, 3, 4],
       tree_cols: [0, 1, 2],
-      indent_cols: [0, 1, 2, 3]
+      indent_cols: [0, 1, 2, 3],
+      title_position: 'middle'
     },
     {
       name: 'KidneyR1EMQverify.xlsx',
-      sheetId: '1Ja3PdoKZ7O2o3rlivM-6e6hWP5gbeoC8',
-      gid: '605610169',
+      sheetId: '1R0uLiUVBCPPbYCncZIc2t1BkBHsgjyUQ',
+      gid: '1516392899',
       header_count: 1,
       cell_row: 2,
       marker_row: 4,
       uberon_row: 0,
       report_cols: [0, 1, 2, 4],
       tree_cols: [0, 1, 2],
-      indent_cols: [0, 1, 2]
+      indent_cols: [0, 1, 2],
+      title_position: 'start'
     },
     {
       name: 'LymphNodes-R1_EMQverify.xlsx',
@@ -52,7 +55,8 @@ export class SconfigService {
       uberon_row: 0,
       report_cols: [0, 1, 5],
       tree_cols: [0, 1],
-      indent_cols: [0, 1]
+      indent_cols: [0, 1],
+      title_position: 'start'
     },
     {
       name: 'Heart-R1_EMQverify.xlsx',
@@ -64,7 +68,8 @@ export class SconfigService {
       uberon_row: 2,
       report_cols: [0, 3, 6, 9],
       tree_cols: [0, 3, 6],
-      indent_cols: [0, 3, 6]
+      indent_cols: [0, 3, 6],
+      title_position: 'start'
     },
     {
       name: 'Small intestine-R1_EMQverify06212020.xlsx',
@@ -76,7 +81,8 @@ export class SconfigService {
       uberon_row: 0,
       report_cols: [0, 1, 2, 3, 4, 6],
       tree_cols: [0, 1, 2, 3, 4],
-      indent_cols: [0, 1, 2, 3, 4]
+      indent_cols: [0, 1, 2, 3, 4],
+      title_position: 'start'
     },
     {
       name: 'Large Intestine_R1_EMQVerify06212020.xlsx',
@@ -88,7 +94,8 @@ export class SconfigService {
       uberon_row: 0,
       report_cols: [0, 1, 2, 3, 4, 5],
       tree_cols: [0, 1, 2, 3, 4],
-      indent_cols: [0, 1, 2, 3, 4]
+      indent_cols: [0, 1, 2, 3, 4],
+      title_position: 'start'
     },
   ]
 

@@ -15,6 +15,7 @@ export class ForcedComponent implements OnInit {
     'Degree'
   ]
   selectedOption = this.sortOptions[0]
+  hasGraphRendered = false;
   constructor(public sheet: SheetService) {
     // this.makeGraph();
   }
@@ -28,6 +29,11 @@ export class ForcedComponent implements OnInit {
     // setTimeout(() => {
       let config: any = {
         "$schema": "https://vega.github.io/schema/vega/v5.json",
+        "title": {
+          "text": "Cell Types (Sorted by 1st Occurance)",
+          "anchor": this.sheet.sheet.title_position,
+          fontSize: 20
+        },
         "signals": [
           {
             "name": "shape", "value": "line",
@@ -122,6 +128,7 @@ export class ForcedComponent implements OnInit {
           this.graphCompleted.emit({
             val: true
           })
+          this.hasGraphRendered = true;
         }
       })
     // }, 1000)

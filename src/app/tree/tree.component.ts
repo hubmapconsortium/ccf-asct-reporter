@@ -52,6 +52,11 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         width: 1500,
         height: 1800,
         padding: 5,
+        "title": {
+          "text": "Anatomical Structures",
+          "anchor": "start",
+          fontSize: 20
+        },
         signals: [
           {
             name: 'labels', value: true,
