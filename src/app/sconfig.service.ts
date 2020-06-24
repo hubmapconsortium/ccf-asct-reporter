@@ -41,7 +41,31 @@ export class SconfigService {
       report_cols: [0, 1, 2, 4],
       tree_cols: [0, 1, 2],
       indent_cols: [0, 1, 2]
-    }
+    },
+    {
+      name: 'LymphNodes-R1_EMQverify.xlsx',
+      sheetId: '1boY5g8b21_XzfM9tzKY-5b2lSQEsXbsT',
+      gid: '1911325594',
+      header_count: 1,
+      cell_row: 1,
+      marker_row: 5,
+      uberon_row: 0,
+      report_cols: [0, 1, 5],
+      tree_cols: [0, 1],
+      indent_cols: [0, 1]
+    },
+    {
+      name: 'Heart-R1_EMQverify.xlsx',
+      sheetId: '1opLDa7TzdQ4Y2cz2C-cl42AIvPUK3Iga',
+      gid: '1780473586',
+      header_count: 2,
+      cell_row: 6,
+      marker_row: 9,
+      uberon_row: 2,
+      report_cols: [0, 3, 6, 9],
+      tree_cols: [0, 3, 6],
+      indent_cols: [0, 3, 6]
+    },
   ]
     
 

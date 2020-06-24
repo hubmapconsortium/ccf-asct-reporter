@@ -188,7 +188,7 @@ export class SheetService {
                     let newNode = new BMNode(cell, 2, '', cell, treeX, treeY, 16)
                     newNode.id = id;
                     nodes.push(newNode)
-                    treeY += 90;
+                    treeY += 50;
                     id += 1;
                   }
                 }
@@ -218,16 +218,17 @@ export class SheetService {
         let newNode = new BMNode(biomarkers[i].structure, 3, '', biomarkers[i].structure, treeX, treeY, 16)
         newNode.id = id;
         nodes.push(newNode)
-        treeY += 60;
+        treeY += 40;
         id += 1
       }
 
-
+      // AS to CT
       let parent = 0;
 
       for (var i = 0; i < treeData.length; i++) {
         if (treeData[i].children == 0) {
           parent = nodes.findIndex(r => r.name.toLowerCase() == treeData[i].name.toLowerCase())
+
 
           sheetData.forEach(row => {
             for (var j = 0; j < row.length; j++) {
@@ -245,7 +246,8 @@ export class SheetService {
           })
         }
       }
-
+      
+      // CT to B
       sheetData.forEach(row => {
         let cell;
         let markers = row[this.sheet.marker_row].trim().split(',')
@@ -270,7 +272,7 @@ export class SheetService {
         nodes: nodes,
         links: links
       }
-
+      
       resolve(this.ASCTGraphData)
 
     })
@@ -311,10 +313,6 @@ export class SheetService {
             }
           }
 
-        } else {
-          if (row[cols[col]]) {
-
-          }
         }
         // }
       }
@@ -381,17 +379,22 @@ export class SheetService {
         if (row[cols[col]] == '') {
           continue;
         }
+        
+        let foundNodes = row[cols[col]].trim().split(',')
+        for (var i = 0; i < foundNodes.length; i++) {
+          if (foundNodes[i] != '') {
+            let searchedNode = tree.search(foundNodes[i]);
 
-        const searchedNode = tree.search(row[cols[col]]);
+            if (Object.keys(searchedNode).length !== 0) {
+              parent = searchedNode;
+            } else {
+              tree.id += 1;
+              let newNode = new TNode(tree.id, foundNodes[i], parent.id, row[cols[col] + this.sheet.uberon_row]);
 
-        if (Object.keys(searchedNode).length !== 0) {
-          parent = searchedNode;
-        } else {
-          tree.id += 1;
-          const newNode = new TNode(tree.id, row[cols[col]], parent.id, row[cols[col] + this.sheet.uberon_row]);
-
-          tree.append(newNode);
-          parent = newNode;
+              tree.append(newNode);
+              parent = newNode;
+            }
+          }
         }
       }
     });
@@ -421,15 +424,21 @@ export class SheetService {
         if (row[cols[col]] == '') {
           continue;
         }
+        
+        let foundNodes = row[cols[col]].trim().split(',')
 
-        const searchedNode = parent.search(row[cols[col]]);
+        for (var i = 0; i < foundNodes.length; i++) {
+          if (foundNodes[i] != '') {
+            let searchedNode = parent.search(foundNodes[i]);
 
-        if (Object.keys(searchedNode).length !== 0) {
-          parent = searchedNode;
-        } else {
-          const newNode = new Node(row[cols[col]], [], row[cols[col] + this.sheet.uberon_row]);
-          parent.children.push(newNode);
-          parent = newNode;
+            if (Object.keys(searchedNode).length !== 0) {
+              parent = searchedNode;
+            } else {
+              const newNode = new Node(foundNodes[i], [], row[cols[col] + this.sheet.uberon_row]);
+              parent.children.push(newNode);
+              parent = newNode;
+            }
+          }
         }
       }
     });

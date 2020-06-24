@@ -107,7 +107,6 @@ export class AppComponent implements OnInit {
     this.sheetName = event;
     new Promise((res, rej) => {
       this.sheet.sheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.name == this.sheetName)]
-      console.log(this.sheet.sheet)
       res(true)
     })
     .then(data => {

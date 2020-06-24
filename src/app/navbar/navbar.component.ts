@@ -44,7 +44,6 @@ export class NavbarComponent implements OnInit {
   }
 
   getSheetSelection() {
-    console.log(this.selectedSheetOption)
     this.getSheet.emit(this.selectedSheetOption)
   }
 
