@@ -5,7 +5,7 @@
         </mat-drawer>
         <div class=" content text-center ">
             <app-navbar (showLog)="toggleDrawer($event) " (showGraph)="showGraph($event) " (refresh)="refreshData($event) " (getSheet)="getSelectedSheet($event) "></app-navbar>
-            <app-tree *ngIf="displayGraph==='Tree' " [refreshData]="refreshTree " (retrunRefresh)="returnRefresh($event) " [shouldReloadData]="shouldRefreshData "></app-tree>
+            <app-tree *ngIf="displayGraph === 'Tree' " [refreshData]="refreshTree " (returnRefresh)="returnRefresh($event) " [shouldReloadData]="shouldRefreshData "></app-tree>
             <!-- <app-forced *ngIf="displayGraph==='Tree' "></app-forced> -->
             <app-indent *ngIf="displayGraph==='Indented List' " [refreshData]="refreshIndent " (returnRefresh)="returnRefresh($event) " [shouldReloadData]="shouldRefreshData "></app-indent>
             <app-table *ngIf="displayGraph==='Table' " [refreshData]="refreshTable " (returnRefresh)="returnRefresh($event) "></app-table>

@@ -15,7 +15,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() public refreshData = false;
   @Input() public shouldReloadData = false;
-  @Output() retrunRefresh = new EventEmitter();
+  @Output() returnRefresh = new EventEmitter();
   @ViewChild('bimodal') biomodal;
 
   constructor(public sheet: SheetService) {
@@ -175,7 +175,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             this.shouldRenderASCTBiomodal = true;
             if (this.shouldRenderASCTBiomodal)
               this.biomodal.makeGraph();
-            this.retrunRefresh.emit({
+            this.returnRefresh.emit({
               comp: 'Tree',
               val: true
             });
@@ -184,7 +184,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       })
     }).catch(err => {
       if (err) {
-        this.retrunRefresh.emit({
+        this.returnRefresh.emit({
           comp: 'Tree',
           val: false
         });

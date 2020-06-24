@@ -39,12 +39,14 @@ export class AppComponent implements OnInit {
   showGraph(val) {
     this.openLoading();
     this.displayGraph = val;
+    this.getSelectedSheet(this.sheetName)
   }
 
   refreshData(val) {
     if (val == 'Tree') {
       this.openLoading();
       this.refreshTree = true;
+      this.shouldRefreshData = true;
     } else if (val == 'Indented List') {
       this.openLoading();
       this.refreshIndent = true;
