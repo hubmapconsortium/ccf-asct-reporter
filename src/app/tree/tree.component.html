@@ -1,3 +1,10 @@
-<div style="padding: 20px;">
-    <div id="vis" #graph></div>
+<div style="max-width: 100%; overflow-x: auto;">
+    <div style="display: flex; flex-direction: row; margin-bottom: 20px">
+        <div style="z-index: 2; margin-top: 80px;">
+            <div id="vis" #graph></div>
+        </div>
+        <app-forced style="margin-left: -20px;" *ngIf="shouldRenderASCTBiomodal">
+        </app-forced>
+    </div>
+
 </div>
