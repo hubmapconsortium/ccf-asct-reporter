@@ -66,8 +66,20 @@ export class SconfigService {
       tree_cols: [0, 3, 6],
       indent_cols: [0, 3, 6]
     },
+    {
+      name: 'Small intestine-R1_EMQverify06212020.xlsx',
+      sheetId: '1_sK5-aVtI6gG1Dj3Bh3I4kVRveF_Bkgt',
+      gid: '550996293',
+      header_count: 1,
+      cell_row: 4,
+      marker_row: 6,
+      uberon_row: 0,
+      report_cols: [0, 1, 2, 3, 4, 6],
+      tree_cols: [0, 1, 2, 3, 4],
+      indent_cols: [0, 1, 2, 3, 4]
+    },
   ]
-    
+
 
   constructor() { }
 }
