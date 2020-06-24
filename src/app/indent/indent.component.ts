@@ -33,6 +33,7 @@ export class IndentComponent implements OnInit, OnChanges {
 
   @Input() public refreshData = false;
   @Output() returnRefresh = new EventEmitter();
+  @Input() public shouldReloadData = false;
 
   @ViewChild('indentTree') indentTree;
 
@@ -57,6 +58,10 @@ export class IndentComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     if (this.refreshData) {
+      this.getData();
+    }
+    
+    if (this.shouldReloadData && !this.refreshData) {
       this.getData();
     }
   }

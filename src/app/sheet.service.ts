@@ -9,14 +9,12 @@ export class TNode {
   name: String;
   parent: String;
   uberon_id: String;
-  cc;
 
   constructor(id, name, parent, u_id) {
     this.id = id;
     this.name = name;
     this.parent = parent;
     this.uberon_id = u_id;
-    this.cc = []
   }
 }
 
@@ -394,15 +392,6 @@ export class SheetService {
 
           tree.append(newNode);
           parent = newNode;
-
-          if (cols[col] == this.sheet.cell_row) {
-            let markers = row[this.sheet.marker_row].trim().split(',')
-            for (var i = 0; i < markers.length; i++) {
-              parent.cc.push({
-                name: markers[i]
-              })
-            }
-          }
         }
       }
     });
@@ -420,7 +409,7 @@ export class SheetService {
     * @returns {[Array]}     Objects to build the indented list
     */
   public makeIndentData(data) {
-    const cols = this.sheet.tree_cols;
+    const cols = this.sheet.indent_cols;
     const root = new Node('body', [], '');
     delete root.uberon;
 

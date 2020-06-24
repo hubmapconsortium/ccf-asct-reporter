@@ -15,7 +15,8 @@ export class SconfigService {
       marker_row: 18,
       uberon_row: 2,
       report_cols: [0, 3, 6, 9, 12, 15, 18],
-      tree_cols: [0, 3, 6, 9, 12]
+      tree_cols: [0, 3, 6, 9, 12],
+      indent_cols: [0, 3, 6, 9, 12, 15]
     },
     {
       name: 'Liver-R1_EMQverify.xlsx',
@@ -26,7 +27,8 @@ export class SconfigService {
       marker_row: 4,
       uberon_row: 0,
       report_cols: [0, 1, 2, 3, 4],
-      tree_cols: [0, 1, 2]
+      tree_cols: [0, 1, 2],
+      indent_cols: [0, 1, 2, 3]
     }
   ]
     
