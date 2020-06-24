@@ -78,6 +78,18 @@ export class SconfigService {
       tree_cols: [0, 1, 2, 3, 4],
       indent_cols: [0, 1, 2, 3, 4]
     },
+    {
+      name: 'Large Intestine_R1_EMQVerify06212020.xlsx',
+      sheetId: '1W4JjgX71NMTngr3BMnV2RV1TakQiffnj',
+      gid: '772211301',
+      header_count: 1,
+      cell_row: 4,
+      marker_row: 5,
+      uberon_row: 0,
+      report_cols: [0, 1, 2, 3, 4, 5],
+      tree_cols: [0, 1, 2, 3, 4],
+      indent_cols: [0, 1, 2, 3, 4]
+    },
   ]
 
 
