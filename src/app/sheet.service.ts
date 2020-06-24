@@ -253,18 +253,22 @@ export class SheetService {
           if (cols[col] != 15 && cols[col] != 18) {
             if (!this.doesElementExist(this.anatomicalStructures, row[cols[col]])) {
               this.anatomicalStructures.push({
-                structure: row[cols[col]],
+                structure: row[cols[col]].toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
                 uberon: row[cols[col] + 2]
               })
             }
 
           } else if (cols[col] == 15) {
-            if (!this.doesElementExist(this.cellTypes, row[cols[col]])) {
-              this.cellTypes.push({
-                structure: row[cols[col]],
-                link: row[cols[col] + 2]
-              })
+            let cells = row[cols[col]].split(',')
+            for (let i = 0; i < cells.length; i ++) {
+              if (!this.doesElementExist(this.cellTypes,cells[i])) {
+                this.cellTypes.push({
+                  structure: cells[i].toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
+                  link: row[cols[col] + 2]
+                })
+              }
             }
+            
           } else {
             let markers = row[cols[col]].split(',')
             for (let i = 0; i < markers.length; i++) {
