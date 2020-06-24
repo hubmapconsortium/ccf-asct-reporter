@@ -3,7 +3,7 @@
         <mat-drawer #logs_drawer class="sidenav-drawer" mode="over" opened="false" position="end">
             <app-logs (close)="logs_drawer.toggle()" [refreshData]="refreshLogs" #log_conponent></app-logs>
         </mat-drawer>
-        <div class=" content text-center ">
+        <div class=" content text-center">
             <app-navbar (showLog)="toggleDrawer($event) " (showGraph)="showGraph($event) " (refresh)="refreshData($event) " (getSheet)="getSelectedSheet($event) "></app-navbar>
             <app-tree *ngIf="displayGraph === 'Tree' " [refreshData]="refreshTree " (returnRefresh)="returnRefresh($event) " [shouldReloadData]="shouldRefreshData "></app-tree>
             <!-- <app-forced *ngIf="displayGraph==='Tree' "></app-forced> -->
