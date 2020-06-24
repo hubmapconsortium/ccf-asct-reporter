@@ -19,7 +19,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('bimodal') biomodal;
 
   constructor(public sheet: SheetService) {
-    this.getData();
+    // this.getData();
   }
 
   ngOnInit(): void {
@@ -49,7 +49,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       const config: any = {
         $schema: 'https://vega.github.io/schema/vega/v5.json',
         description: 'An example of Cartesian layouts for a node-link diagram of hierarchical data.',
-        width: 1200,
+        width: 1500,
         height: 1800,
         padding: 5,
         signals: [
