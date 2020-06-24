@@ -1,6 +1,6 @@
-<div>
-    <div style="display: flex; flex-direction: column; justify-content: center; float:right;" *ngIf="hasGraphRendered">
-        <mat-form-field style="margin-right: 20px; margin-bottom: 0; float: right; display: flex; flex-direction: row;">
+<div style="display: flex; flex-direction: column;">
+    <div *ngIf="hasGraphRendered" style="width: 100%; text-align: end; margin-top: -5px;" id="hello">
+        <mat-form-field>
             <button mat-flat-button style="width: 100%; background-color: rgb(223, 223, 223);" #tooltip="matTooltip" matTooltip="Sort Markers" matTooltipPosition="below">
             <mat-select (selectionChange)="getSelection()" [(ngModel)]="selectedOption">
                 <mat-option *ngFor="let option of sortOptions" [value]="option">
@@ -9,7 +9,8 @@
             </mat-select>
         </button>
         </mat-form-field>
-        <h2 style="position: relative; font-size: 20px; margin-top: -10px;"><b>B list: Biomarkers</b></h2>
+        <h2 style="font-size: 20px;"><b>B list: Biomarkers</b></h2>
+
     </div>
     <div id="ASCTVis" #graph style="margin-top: -40px;"></div>
 </div>
