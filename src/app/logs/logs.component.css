@@ -16,11 +16,12 @@
 }
 
 .title {
-    font-size: 22pt;
+    font-size: 20pt;
+    line-height: 1.6;
 }
 
 .title1 {
-    font-size: 20pt;
+    font-size: 18pt;
     font-weight: 500;
     margin-bottom: 20px;
 }

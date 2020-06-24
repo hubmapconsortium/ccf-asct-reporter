@@ -246,7 +246,7 @@ export class SheetService {
           })
         }
       }
-      
+
       // CT to B
       sheetData.forEach(row => {
         let cell;
@@ -257,11 +257,20 @@ export class SheetService {
         if (cell != -1) {
           markers.forEach(m => {
             for (var i = 0; i < nodes.length; i++) {
+              let linkFound = 0
               if (m.trim().toLowerCase() == nodes[i].name.toLowerCase()) {
-                links.push({
-                  s: cell,
-                  t: i,
-                })
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].t == i && links[j].s == cell) {
+                    linkFound = 1;
+                    break;
+                  }
+                }
+                if (linkFound == 0) {
+                  links.push({
+                    s: cell,
+                    t: i,
+                  })
+                }
               }
             }
           })
@@ -272,7 +281,9 @@ export class SheetService {
         nodes: nodes,
         links: links
       }
-      
+
+      console.log(this.ASCTGraphData)
+
       resolve(this.ASCTGraphData)
 
     })
@@ -285,8 +296,7 @@ export class SheetService {
     this.bioMarkerDegree = []
 
     const cols = this.sheet.report_cols;
-
-
+    
     this.makeBioMarkers(data)
 
     data.forEach(row => {
@@ -379,7 +389,7 @@ export class SheetService {
         if (row[cols[col]] == '') {
           continue;
         }
-        
+
         let foundNodes = row[cols[col]].trim().split(',')
         for (var i = 0; i < foundNodes.length; i++) {
           if (foundNodes[i] != '') {
@@ -424,7 +434,7 @@ export class SheetService {
         if (row[cols[col]] == '') {
           continue;
         }
-        
+
         let foundNodes = row[cols[col]].trim().split(',')
 
         for (var i = 0; i < foundNodes.length; i++) {
