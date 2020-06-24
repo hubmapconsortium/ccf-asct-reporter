@@ -378,7 +378,7 @@ export class SheetService {
     let parent;
     const tree = new Tree(id);
 
-    const root = new TNode(id, 'body', 0, 0);
+    const root = new TNode(id, this.sheet.body, 0, 0);
     delete root.parent; delete root.uberon_id;
     tree.append(root);
 

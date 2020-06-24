@@ -17,7 +17,8 @@ export class SconfigService {
       report_cols: [0, 3, 6, 9, 12, 15, 18],
       tree_cols: [0, 3, 6, 9, 12],
       indent_cols: [0, 3, 6, 9, 12, 15],
-      title_position: 'middle'
+      title_position: 'middle',
+      body: 'Spleen'
     },
     {
       name: 'Liver-R1_EMQverify.xlsx',
@@ -30,7 +31,8 @@ export class SconfigService {
       report_cols: [0, 1, 2, 3, 4],
       tree_cols: [0, 1, 2],
       indent_cols: [0, 1, 2, 3],
-      title_position: 'middle'
+      title_position: 'middle',
+      body: 'Liver'
     },
     {
       name: 'KidneyR1EMQverify.xlsx',
@@ -43,7 +45,8 @@ export class SconfigService {
       report_cols: [0, 1, 2, 4],
       tree_cols: [0, 1, 2],
       indent_cols: [0, 1, 2],
-      title_position: 'start'
+      title_position: 'start',
+      body: 'Kidney'
     },
     {
       name: 'LymphNodes-R1_EMQverify.xlsx',
@@ -56,7 +59,8 @@ export class SconfigService {
       report_cols: [0, 1, 5],
       tree_cols: [0, 1],
       indent_cols: [0, 1],
-      title_position: 'start'
+      title_position: 'start',
+      body: 'Lymph Nodes'
     },
     {
       name: 'Heart-R1_EMQverify.xlsx',
@@ -69,7 +73,8 @@ export class SconfigService {
       report_cols: [0, 3, 6, 9],
       tree_cols: [0, 3, 6],
       indent_cols: [0, 3, 6],
-      title_position: 'start'
+      title_position: 'start',
+      body: 'Heart'
     },
     {
       name: 'Small intestine-R1_EMQverify06212020.xlsx',
@@ -82,7 +87,8 @@ export class SconfigService {
       report_cols: [0, 1, 2, 3, 4, 6],
       tree_cols: [0, 1, 2, 3, 4],
       indent_cols: [0, 1, 2, 3, 4],
-      title_position: 'start'
+      title_position: 'start',
+      body: 'Small Intestine'
     },
     {
       name: 'Large Intestine_R1_EMQVerify06212020.xlsx',
@@ -95,7 +101,8 @@ export class SconfigService {
       report_cols: [0, 1, 2, 3, 4, 5],
       tree_cols: [0, 1, 2, 3, 4],
       indent_cols: [0, 1, 2, 3, 4],
-      title_position: 'start'
+      title_position: 'start',
+      body: 'Large Intestine'
     },
   ]
 
