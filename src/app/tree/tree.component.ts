@@ -58,25 +58,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
           fontSize: 20
         },
         signals: [
-          {
-            name: 'labels', value: true,
-            bind: { input: 'checkbox' }
-          },
-          {
-            name: 'layout', value: 'cluster',
-            bind: { input: 'radio', options: ['tidy', 'cluster'] }
-          },
-          {
-            name: 'links', value: 'diagonal',
-            bind: {
-              input: 'select',
-              options: ['line', 'curve', 'diagonal', 'orthogonal']
-            }
-          },
-          {
-            name: 'separation', value: false,
-            bind: { input: 'checkbox' }
-          }
         ],
 
         data: [
@@ -91,9 +72,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               },
               {
                 type: 'tree',
-                method: { signal: 'layout' },
+                method: 'cluster',
                 size: [{ signal: 'height + 100' }, { signal: `width + 50` }],
-                separation: { signal: 'separation' },
+                separation: { value: false },
                 as: ['y', 'x', 'depth', 'children']
               }
             ]
@@ -106,7 +87,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               {
                 type: 'linkpath',
                 orient: 'horizontal',
-                shape: { signal: 'links' }
+                shape: 'diagonal' 
               }
             ]
           }
@@ -147,7 +128,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                 tooltip: [
                   { field: 'uberon_id', type: 'quantitative' }
                 ],
-                fill: { scale: 'color', field: 'depth' }
+                fill: { field: 'color'}
+                // fill: { scale: 'color', field: 'depth' }
               }
             }
           },

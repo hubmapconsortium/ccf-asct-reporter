@@ -3,18 +3,25 @@ import { HttpClient } from '@angular/common/http';
 import { parse } from 'papaparse';
 import { SconfigService } from './sconfig.service';
 
+// colors for vis
+const AS_RED = "#E41A1C"
+const CT_BLUE = "#377EB8"
+const B_GREEN = "#4DAF4A"
+
 // Used in the tree visualization
 export class TNode {
   id: any;
   name: String;
   parent: String;
   uberon_id: String;
+  color: string;
 
-  constructor(id, name, parent, u_id) {
+  constructor(id, name, parent, u_id, color="#808080") {
     this.id = id;
     this.name = name;
     this.parent = parent;
     this.uberon_id = u_id;
+    this.color = color;
   }
 }
 
@@ -48,11 +55,13 @@ export class Node {
   name: string;
   uberon: string;
   children?: Node[];
+  color: string;
 
-  constructor(name, children, uberon) {
+  constructor(name, children, uberon, color="#808080") {
     this.name = name;
     this.children = children;
     this.uberon = uberon;
+    this.color = color;
   }
 
   public search(name) {
@@ -90,8 +99,9 @@ export class BMNode {
   x: number;
   y: number;
   id: number;
+  color: string;
 
-  constructor(name, group, first, last, x, y, fontSize) {
+  constructor(name, group, first, last, x, y, fontSize, color="#808080") {
     this.name = name;
     this.group = group;
     this.first = first;
@@ -99,6 +109,7 @@ export class BMNode {
     this.fontSize = fontSize;
     this.x = x;
     this.y = y;
+    this.color = color;
   }
 }
 
@@ -185,7 +196,7 @@ export class SheetService {
                   let cell_r = row[this.sheet.cell_row]
                   if (!nodes.some(r => r.name.toLowerCase() == cell_r.toLowerCase())) {
                     let cell = row[this.sheet.cell_row];
-                    let newNode = new BMNode(cell, 2, '', cell, treeX, treeY, 16)
+                    let newNode = new BMNode(cell, 2, '', cell, treeX, treeY, 16, CT_BLUE)
                     newNode.id = id;
                     nodes.push(newNode)
                     treeY += 50;
@@ -215,7 +226,7 @@ export class SheetService {
 
       // making group 3: bio markers
       for (let i = 0; i < biomarkers.length; i++) {
-        let newNode = new BMNode(biomarkers[i].structure, 3, '', biomarkers[i].structure, treeX, treeY, 16)
+        let newNode = new BMNode(biomarkers[i].structure, 3, '', biomarkers[i].structure, treeX, treeY, 16, B_GREEN)
         newNode.id = id;
         nodes.push(newNode)
         treeY += 40;
@@ -376,7 +387,7 @@ export class SheetService {
     let parent;
     const tree = new Tree(id);
 
-    const root = new TNode(id, this.sheet.body, 0, 0);
+    const root = new TNode(id, this.sheet.body, 0, 0, AS_RED);
     delete root.parent; delete root.uberon_id;
     tree.append(root);
 
@@ -397,7 +408,7 @@ export class SheetService {
               parent = searchedNode;
             } else {
               tree.id += 1;
-              let newNode = new TNode(tree.id, foundNodes[i], parent.id, row[cols[col] + this.sheet.uberon_row]);
+              let newNode = new TNode(tree.id, foundNodes[i], parent.id, row[cols[col] + this.sheet.uberon_row], AS_RED);
 
               tree.append(newNode);
               parent = newNode;
@@ -421,7 +432,7 @@ export class SheetService {
     */
   public makeIndentData(data) {
     const cols = this.sheet.indent_cols;
-    const root = new Node('body', [], '');
+    const root = new Node('body', [], '', AS_RED);
     delete root.uberon;
 
     let parent;
