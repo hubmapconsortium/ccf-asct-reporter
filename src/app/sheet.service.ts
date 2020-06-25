@@ -129,16 +129,16 @@ export class SheetService {
 
   }
 
-
   /**
    * Extract data from Google Sheet
    *  @return {[Array]}      Google Sheet data parsed by PapaParse.
    */
   public getSheetData() {
-    let sheetId = this.sheet.sheetId;
-    let gid = this.sheet.gid;
+    // let sheetId = this.sheet.sheetId;
+    // let gid = this.sheet.gid;    
+    // let constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`
 
-    let constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`
+    let constructedURL = `assets/${this.sheet.name}`
     return this.http.get(constructedURL, { responseType: 'text' }).toPromise().then(data => {
       let parsedData = parse(data);
       parsedData.data.splice(0, this.sheet.header_count)
@@ -281,8 +281,6 @@ export class SheetService {
         nodes: nodes,
         links: links
       }
-
-      console.log(this.ASCTGraphData)
 
       resolve(this.ASCTGraphData)
 

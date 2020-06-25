@@ -174,18 +174,20 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       let embedding = embed("#vis", config, { actions: false })
 
       embedding.then((data) => {
-        this.sheet.updatedTreeData = data.spec.data[0].values
-        this.sheet.makeASCTData(this.sheetData, data.spec.data[0].values).then(data => {
-          if (data) {
-            this.shouldRenderASCTBiomodal = true;
-            if (this.shouldRenderASCTBiomodal)
-              this.biomodal.makeGraph();
-            this.returnRefresh.emit({
-              comp: 'Tree',
-              val: true
-            });
-          }
-        })
+        setTimeout(() => {
+          this.sheet.updatedTreeData = data.spec.data[0].values
+          this.sheet.makeASCTData(this.sheetData, data.spec.data[0].values).then(data => {
+            if (data) {
+              this.shouldRenderASCTBiomodal = true;
+              if (this.shouldRenderASCTBiomodal)
+                this.biomodal.makeGraph();
+              this.returnRefresh.emit({
+                comp: 'Tree',
+                val: true
+              });
+            }
+          })
+        }, 500)
       })
     }).catch(err => {
       if (err) {

@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   refreshIndent = false;
   refreshTable = false;
   refreshLogs = false;
-  sheetName = 'Spleen_R2_EMQverify.xlsx';
+  sheetName = 'Spleen_R2_EMQverify.csv';
   shouldRefreshData = false;
 
   constructor(private dialog: MatDialog, public snackBar: MatSnackBar, public sc: SconfigService, public sheet: SheetService) { 
