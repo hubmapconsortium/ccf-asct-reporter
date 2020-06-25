@@ -121,7 +121,7 @@ export class SconfigService {
       indent_cols: [0, 1, 2, 3, 4],
       body: 'Large Intestine',
       config: {
-        width_offset: 900,
+        width_offset: 800,
         bimodal_distance: 360
       }
     },

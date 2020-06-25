@@ -174,7 +174,7 @@ export class SheetService {
       treeData.forEach(td => {
         if (td.children == 0) {
           let leaf = td.name;
-          let newLeaf = new BMNode(leaf, 1, leaf, '', treeX, td.y, 13)
+          let newLeaf = new BMNode(leaf, 1, leaf, '', treeX, td.y, 14)
           newLeaf.id = id;
           nodes.push(newLeaf)
           id += 1;
@@ -200,7 +200,7 @@ export class SheetService {
                       if (cell_r[c] != '') {
                         if (!nodes.some(r => r.name.toLowerCase() == cell_r[c].toLowerCase())) {
                           let cell = row[this.sheet.cell_row];
-                          let newNode = new BMNode(cell_r[c], 2, '', cell_r[c], treeX, treeY, 13, CT_BLUE)
+                          let newNode = new BMNode(cell_r[c], 2, '', cell_r[c], treeX, treeY, 14, CT_BLUE)
                           newNode.id = id;
                           nodes.push(newNode)
                           treeY += 50;
@@ -233,7 +233,7 @@ export class SheetService {
 
       // making group 3: bio markers
       for (let i = 0; i < biomarkers.length; i++) {
-        let newNode = new BMNode(biomarkers[i].structure, 3, '', biomarkers[i].structure, treeX, treeY, 13, B_GREEN)
+        let newNode = new BMNode(biomarkers[i].structure, 3, '', biomarkers[i].structure, treeX, treeY, 14, B_GREEN)
         newNode.id = id;
         nodes.push(newNode)
         treeY += 40;

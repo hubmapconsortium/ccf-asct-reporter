@@ -30,7 +30,15 @@ export class ForcedComponent implements OnInit {
       "title": {
         "text": "Cell Types (Sorted by 1st Occurrence)",
         "anchor": "middle",
-        fontSize: 16
+        fontSize: 16,
+        fontWeight: 500
+      },
+      "config": {
+        "axis": { "labelFont": "Inter", "titleFont": "Inter" },
+        "legend": { "labelFont": "Inter", "titleFont": "Inter" },
+        "header": { "labelFont": "Inter", "titleFont": "Inter" },
+        "mark": { "font": "Inter" },
+        "title": { "font": "Inter", "subtitleFont": "Inter" }
       },
       "signals": [
       ],
@@ -109,6 +117,7 @@ export class ForcedComponent implements OnInit {
               "baseline": { "value": "middle" },
               "text": { "field": "last" },
               "fontSize": { "field": "fontSize" },
+              "fontWeight": { "value": 400 },
               "opacity": { "value": 1 }
             }
           }

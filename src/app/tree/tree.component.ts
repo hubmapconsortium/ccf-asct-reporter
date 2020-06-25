@@ -55,11 +55,19 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         width: width - this.sheet.sheet.config.width_offset < 1000 ? 1000 : width - this.sheet.sheet.config.width_offset,
         height: height,
         padding: 5,
+        "config": {
+          "axis": {"labelFont": "Inter", "titleFont": "Inter"},
+          "legend": {"labelFont": "Inter", "titleFont": "Inter"},
+          "header": {"labelFont": "Inter", "titleFont": "Inter"},
+          "mark": {"font": "Inter"},
+          "title": {"font": "Inter", "subtitleFont": "Inter"}
+        },
         autosize: "fit",
         "title": {
           "text": "Anatomical Structures",
           "anchor": "start",
-          fontSize: 16
+          fontSize: 16,
+          fontWeight: 500
         },
         signals: [
         ],
@@ -143,8 +151,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             encode: {
               enter: {
                 text: { field: 'name' },
-                fontSize: { value: 13 },
+                fontSize: { value: 14 },
                 baseline: { value: 'middle' },
+                fontWeight: {value: 400}
               },
               update: {
                 x: { field: 'x' },
