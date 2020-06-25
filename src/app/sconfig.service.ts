@@ -17,20 +17,11 @@ export class SconfigService {
       report_cols: [0, 3, 6, 9, 12, 15, 18],
       tree_cols: [0, 3, 6, 9, 12],
       indent_cols: [0, 3, 6, 9, 12, 15],
-      body: 'Spleen'
-    },
-    {
-      name: 'Liver-R1_EMQverify.csv',
-      sheetId: '182y_T_K0r0Cq8-DP9mumyxhZdqBc2orF',
-      gid: '1812139231',
-      header_count: 1,
-      cell_row: 3,
-      marker_row: 4,
-      uberon_row: 0,
-      report_cols: [0, 1, 2, 3, 4],
-      tree_cols: [0, 1, 2],
-      indent_cols: [0, 1, 2, 3],
-      body: 'Liver'
+      body: 'Spleen',
+      config: {
+        width_offset: 900,
+        bimodal_distance: 350
+      }
     },
     {
       name: 'Kidney_updated_R1_EMQverify6_21_2020.csv',
@@ -43,7 +34,28 @@ export class SconfigService {
       report_cols: [0, 1, 2, 4],
       tree_cols: [0, 1],
       indent_cols: [0, 1, 2],
-      body: 'Kidney'
+      body: 'Kidney',
+      config: {
+        width_offset: 1100,
+        bimodal_distance: 420
+      }
+    },
+    {
+      name: 'Liver-R1_EMQverify.csv',
+      sheetId: '182y_T_K0r0Cq8-DP9mumyxhZdqBc2orF',
+      gid: '1812139231',
+      header_count: 1,
+      cell_row: 3,
+      marker_row: 4,
+      uberon_row: 0,
+      report_cols: [0, 1, 2, 3, 4],
+      tree_cols: [0, 1, 2],
+      indent_cols: [0, 1, 2, 3],
+      body: 'Liver',
+      config: {
+        width_offset: 1300,
+        bimodal_distance: 360
+      }
     },
     {
       name: 'LymphNodes-R1_EMQverify.csv',
@@ -56,7 +68,11 @@ export class SconfigService {
       report_cols: [0, 1, 5],
       tree_cols: [0],
       indent_cols: [0, 1],
-      body: 'Lymph Nodes'
+      body: 'Lymph Nodes',
+      config: {
+        width_offset: 1600,
+        bimodal_distance: 400
+      }
     },
     {
       name: 'Heart-R1_EMQverify.csv',
@@ -69,7 +85,11 @@ export class SconfigService {
       report_cols: [0, 3, 6, 9],
       tree_cols: [0, 3],
       indent_cols: [0, 3, 6],
-      body: 'Heart'
+      body: 'Heart',
+      config: {
+        width_offset: 1600,
+        bimodal_distance: 360
+      }
     },
     {
       name: 'Small intestine-R1_EMQverify06212020.csv',
@@ -82,7 +102,11 @@ export class SconfigService {
       report_cols: [0, 1, 2, 3, 4, 6],
       tree_cols: [0, 1, 2, 3],
       indent_cols: [0, 1, 2, 3, 4],
-      body: 'Small Intestine'
+      body: 'Small Intestine',
+      config: {
+        width_offset: 600,
+        bimodal_distance: 360
+      }
     },
     {
       name: 'Large Intestine_R1_EMQVerify06212020.csv',
@@ -95,7 +119,11 @@ export class SconfigService {
       report_cols: [0, 1, 2, 3, 4, 5],
       tree_cols: [0, 1, 2, 3],
       indent_cols: [0, 1, 2, 3, 4],
-      body: 'Large Intestine'
+      body: 'Large Intestine',
+      config: {
+        width_offset: 900,
+        bimodal_distance: 360
+      }
     },
   ]
 

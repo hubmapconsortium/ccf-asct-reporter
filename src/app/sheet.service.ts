@@ -16,7 +16,7 @@ export class TNode {
   uberon_id: String;
   color: string;
 
-  constructor(id, name, parent, u_id, color="#808080") {
+  constructor(id, name, parent, u_id, color = "#808080") {
     this.id = id;
     this.name = name;
     this.parent = parent;
@@ -57,7 +57,7 @@ export class Node {
   children?: Node[];
   color: string;
 
-  constructor(name, children, uberon, color="#808080") {
+  constructor(name, children, uberon, color = "#808080") {
     this.name = name;
     this.children = children;
     this.uberon = uberon;
@@ -101,7 +101,7 @@ export class BMNode {
   id: number;
   color: string;
 
-  constructor(name, group, first, last, x, y, fontSize, color="#808080") {
+  constructor(name, group, first, last, x, y, fontSize, color = "#808080") {
     this.name = name;
     this.group = group;
     this.first = first;
@@ -124,7 +124,6 @@ export class SheetService {
   anatomicalStructures = [];
   cellTypes = [];
   bioMarkers = [];
-  reportHasData = false;
   ASCTGraphData = {};
   forcedData = [];
   bioMarkerDegree = [];
@@ -167,7 +166,7 @@ export class SheetService {
       let nodes = [];
       let treeX = 0;
       let treeY = 35;
-      let distance = 600;
+      let distance = this.sheet.config.bimodal_distance;
       let id = 0;
       let biomarkers = [];
 
@@ -175,7 +174,7 @@ export class SheetService {
       treeData.forEach(td => {
         if (td.children == 0) {
           let leaf = td.name;
-          let newLeaf = new BMNode(leaf, 1, leaf, '', treeX, td.y, 16)
+          let newLeaf = new BMNode(leaf, 1, leaf, '', treeX, td.y, 13)
           newLeaf.id = id;
           nodes.push(newLeaf)
           id += 1;
@@ -195,12 +194,20 @@ export class SheetService {
                 if (row[i] == leaf) {
                   let cell_r = row[this.sheet.cell_row]
                   if (!nodes.some(r => r.name.toLowerCase() == cell_r.toLowerCase())) {
-                    let cell = row[this.sheet.cell_row];
-                    let newNode = new BMNode(cell, 2, '', cell, treeX, treeY, 16, CT_BLUE)
-                    newNode.id = id;
-                    nodes.push(newNode)
-                    treeY += 50;
-                    id += 1;
+                    let cell_r = row[this.sheet.cell_row].split(',')
+
+                    for (var c = 0; c < cell_r.length; c++) {
+                      if (cell_r[c] != '') {
+                        if (!nodes.some(r => r.name.toLowerCase() == cell_r[c].toLowerCase())) {
+                          let cell = row[this.sheet.cell_row];
+                          let newNode = new BMNode(cell_r[c], 2, '', cell_r[c], treeX, treeY, 13, CT_BLUE)
+                          newNode.id = id;
+                          nodes.push(newNode)
+                          treeY += 50;
+                          id += 1;
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -226,7 +233,7 @@ export class SheetService {
 
       // making group 3: bio markers
       for (let i = 0; i < biomarkers.length; i++) {
-        let newNode = new BMNode(biomarkers[i].structure, 3, '', biomarkers[i].structure, treeX, treeY, 16, B_GREEN)
+        let newNode = new BMNode(biomarkers[i].structure, 3, '', biomarkers[i].structure, treeX, treeY, 13, B_GREEN)
         newNode.id = id;
         nodes.push(newNode)
         treeY += 40;
@@ -293,6 +300,8 @@ export class SheetService {
         links: links
       }
 
+      console.log(this.ASCTGraphData)
+
       resolve(this.ASCTGraphData)
 
     })
@@ -305,12 +314,11 @@ export class SheetService {
     this.bioMarkerDegree = []
 
     const cols = this.sheet.report_cols;
-    
+
     this.makeBioMarkers(data)
 
     data.forEach(row => {
       for (let col = 0; col < cols.length; col++) {
-        // if (!this.reportHasData) {
         if (cols[col] != this.sheet.cell_row && cols[col] != this.sheet.marker_row) {
           if (!this.doesElementExist(this.anatomicalStructures, row[cols[col]])) {
             this.anatomicalStructures.push({
@@ -333,10 +341,8 @@ export class SheetService {
           }
 
         }
-        // }
       }
     })
-    this.reportHasData = true;
   }
 
   public getASCTData() {

@@ -5,11 +5,11 @@ Capsule,Trabeculae,Connective Tissue,Myofibroblasts,,"Collagen I+, Collagen III+
 Capsule,Trabeculae,Blood Vessels,Blood Endothelial Cells,,"CD31+, CD34+, CD105+",
 Capsule,Afferent Lymphatics,Lymphatic Vessels,Lymphatic Endothelial Cells,,"Podoplanin+, Lyve-1+, Prox-1+",
 Capsule,Afferent Lymphatics,Lymphatic Vessels,Smooth Muscle Cells,,Smooth Muscle Actin+,
-Lobule,"Subcapsular Sinus Trabecular Sinus,Macrophages,,,CD68+", CD169+, CD11b+," CD11c+""",,
-Lobule,"Subcapsular Sinus Trabecular Sinus,Blood Endothelial Cells,,,CD31+"," CD21+""",,,,
-Lobule,"Subcapsular Sinus Trabecular Sinus,Fibroblastic Reticular Cells,,,Podoplanin+", Desmin+," CD90+""",,,
-Lobule,"Subcapsular Sinus Trabecular Sinus,Lymphatic Endothelial Cells,,,Lyve-1+", Podoplanin+, CD9+," Prox-1+""",,
-Lobule,"Subcapsular Sinus Trabecular Sinus,Neutrophils,,,MPO+
+Lobule,"Subcapsular Sinus Trabecular Sinus,Macrophages", CD169+, CD11b+," CD11c+""",,
+Lobule,"Subcapsular Sinus Trabecular Sinus,Blood Endothelial Cells"," CD21+""",,,,
+Lobule,"Subcapsular Sinus Trabecular Sinus,Fibroblastic Reticular Cells", Desmin+," CD90+""",,,
+Lobule,"Subcapsular Sinus Trabecular Sinus,Lymphatic Endothelial Cells", Podoplanin+, CD9+," Prox-1+""",,
+Lobule,"Subcapsular Sinus Trabecular Sinus,Neutrophils,
 Lobule,Venule"," Arteriole""",Blood Vessels,Blood Endothelial Cells,,"CD31+, CD34+, CD105+"
 Lobule,Primary Follicle,Follicular Dendritic Cells,,,"CD21+, CD35+",
 Lobule,Primary Follicle,Naive B-Cells,,,"CD45RA+, CD21+, CD20+, IgM+, IgD+, CD23+,HLA DR+",

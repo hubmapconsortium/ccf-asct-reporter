@@ -46,16 +46,20 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       this.sheet.sheetData = this.sheetData
       this.treeData = this.sheet.makeTreeData(this.sheetData);
 
+      const height = document.getElementsByTagName('body')[0].clientHeight;
+      const width = document.getElementsByTagName('body')[0].clientWidth;
+
       const config: any = {
         $schema: 'https://vega.github.io/schema/vega/v5.json',
         description: 'An example of Cartesian layouts for a node-link diagram of hierarchical data.',
-        width: 2000,
-        height: 1800,
+        width: width - this.sheet.sheet.config.width_offset < 1000 ? 1000 : width - this.sheet.sheet.config.width_offset,
+        height: height,
         padding: 5,
+        autosize: "fit",
         "title": {
           "text": "Anatomical Structures",
           "anchor": "start",
-          fontSize: 20
+          fontSize: 16
         },
         signals: [
         ],
@@ -73,7 +77,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               {
                 type: 'tree',
                 method: 'cluster',
-                size: [{ signal: 'height + 100' }, { signal: `width + 50` }],
+                size: [{ signal: 'height + 200' }, { signal: `width ` }],
                 separation: { value: false },
                 as: ['y', 'x', 'depth', 'children']
               }
@@ -87,7 +91,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               {
                 type: 'linkpath',
                 orient: 'horizontal',
-                shape: 'diagonal' 
+                shape: 'diagonal'
               }
             ]
           }
@@ -119,7 +123,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             from: { data: 'tree' },
             encode: {
               enter: {
-                size: { value: 500 },
+                size: { value: 300 },
                 stroke: { value: '#fff' }
               },
               update: {
@@ -128,7 +132,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                 tooltip: [
                   { field: 'uberon_id', type: 'quantitative' }
                 ],
-                fill: { field: 'color'}
+                fill: { field: 'color' }
                 // fill: { scale: 'color', field: 'depth' }
               }
             }
@@ -139,7 +143,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             encode: {
               enter: {
                 text: { field: 'name' },
-                fontSize: { value: 16 },
+                fontSize: { value: 13 },
                 baseline: { value: 'middle' },
               },
               update: {
@@ -156,20 +160,18 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       let embedding = embed("#vis", config, { actions: false })
 
       embedding.then((data) => {
-        setTimeout(() => {
-          this.sheet.updatedTreeData = data.spec.data[0].values
-          this.sheet.makeASCTData(this.sheetData, data.spec.data[0].values).then(data => {
-            if (data) {
-              this.shouldRenderASCTBiomodal = true;
-              if (this.shouldRenderASCTBiomodal)
-                this.biomodal.makeGraph();
-              this.returnRefresh.emit({
-                comp: 'Tree',
-                val: true
-              });
-            }
-          })
-        }, 500)
+        this.sheet.updatedTreeData = data.spec.data[0].values
+        this.sheet.makeASCTData(this.sheetData, data.spec.data[0].values).then(data => {
+          if (data) {
+            this.shouldRenderASCTBiomodal = true;
+            if (this.shouldRenderASCTBiomodal)
+              this.biomodal.makeGraph();
+            this.returnRefresh.emit({
+              comp: 'Tree',
+              val: true
+            });
+          }
+        })
       })
     }).catch(err => {
       if (err) {

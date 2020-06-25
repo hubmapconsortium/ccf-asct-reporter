@@ -30,13 +30,9 @@ export class ForcedComponent implements OnInit {
       "title": {
         "text": "Cell Types (Sorted by 1st Occurrence)",
         "anchor": "middle",
-        fontSize: 20
+        fontSize: 16
       },
       "signals": [
-        {
-          "name": "shape", "value": "line",
-          "bind": { "input": "select", "options": ["line", "curve", "diagonal"] }
-        }
       ],
 
       "data": [
@@ -64,7 +60,7 @@ export class ForcedComponent implements OnInit {
               "targetX": "target.x",
               "targetY": "target.y",
               "orient": "vertical",
-              "shape": { "signal": "shape" },
+              "shape": "line"
             }
           ]
         }
@@ -90,7 +86,7 @@ export class ForcedComponent implements OnInit {
           "from": { "data": "nodes" },
           "encode": {
             "enter": {
-              "size": { value: 500 },
+              "size": { value: 300 },
               "fill": { "field": "color" },
               "color": { "field": "Origin", "type": "nominal" },
               "x": { "field": "x" },
@@ -129,8 +125,6 @@ export class ForcedComponent implements OnInit {
         this.hasGraphRendered = true;
       }
     })
-
-
   }
 
   getSelection() {
