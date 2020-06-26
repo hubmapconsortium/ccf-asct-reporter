@@ -44,7 +44,6 @@ export class Tree {
   public search(name, nodeParent) {
     for (let i = 0; i < this.nodes.length; i++) {
       if (this.nodes[i].name == name) {
-        let nodeParentIndex = this.nodes[i].parent
         let parent = this.nodes.findIndex(i => i.name == nodeParent.name)
         if(this.nodes[parent].id != this.nodes[i].parent) {
           this.nodes[i].problem = true;
@@ -479,7 +478,6 @@ export class SheetService {
         let foundNodes = row[cols[col]].trim().split()
         for (var i = 0; i < foundNodes.length; i++) {
           if (foundNodes[i] != '') {
-            console.log(`fn: ${foundNodes[i]}, parent: ${parent.name}, rowp: ${row[cols[col - 1]]},`)
             let searchedNode = tree.search(foundNodes[i], parent);
 
             if (Object.keys(searchedNode).length !== 0) {
