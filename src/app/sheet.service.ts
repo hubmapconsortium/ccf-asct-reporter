@@ -15,6 +15,7 @@ export class TNode {
   parent: String;
   uberon_id: String;
   color: string;
+  problem: boolean;
 
   constructor(id, name, parent, u_id, color = "#808080") {
     this.id = id;
@@ -22,12 +23,13 @@ export class TNode {
     this.parent = parent;
     this.uberon_id = u_id;
     this.color = color;
+    this.problem = false;
   }
 }
 
 // Used in the tree visualization
 export class Tree {
-  nodes: Array<Node>;
+  nodes: Array<TNode>;
   id: any;
 
   constructor(id) {
@@ -39,9 +41,14 @@ export class Tree {
     this.nodes.push(node);
   }
 
-  public search(name) {
+  public search(name, nodeParent) {
     for (let i = 0; i < this.nodes.length; i++) {
       if (this.nodes[i].name == name) {
+        let nodeParentIndex = this.nodes[i].parent
+        let parent = this.nodes.findIndex(i => i.name == nodeParent.name)
+        if(this.nodes[parent].id != this.nodes[i].parent) {
+          this.nodes[i].problem = true;
+        }
         return this.nodes[i];
       }
     }
@@ -472,7 +479,8 @@ export class SheetService {
         let foundNodes = row[cols[col]].trim().split()
         for (var i = 0; i < foundNodes.length; i++) {
           if (foundNodes[i] != '') {
-            let searchedNode = tree.search(foundNodes[i]);
+            console.log(`fn: ${foundNodes[i]}, parent: ${parent.name}, rowp: ${row[cols[col - 1]]},`)
+            let searchedNode = tree.search(foundNodes[i], parent);
 
             if (Object.keys(searchedNode).length !== 0) {
               parent = searchedNode;
@@ -491,7 +499,8 @@ export class SheetService {
     if (tree.nodes.length < 0) {
       return [];
     }
-
+    
+    console.log(tree.nodes)
     return tree.nodes;
   }
 

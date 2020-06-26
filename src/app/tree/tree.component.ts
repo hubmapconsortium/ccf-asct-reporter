@@ -53,9 +53,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         $schema: 'https://vega.github.io/schema/vega/v5.json',
         description: 'An example of Cartesian layouts for a node-link diagram of hierarchical data.',
         width: width - this.sheet.sheet.config.width_offset < 1000 ? 1000 : width - this.sheet.sheet.config.width_offset,
-        height: height,
+        height: height + 300,
         padding: 5,
-        autosize: "fit",
+        autosize: "pad",
         "title": {
           "text": "Anatomical Structures",
           "anchor": "start",
@@ -125,7 +125,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             encode: {
               enter: {
                 size: { value: 300 },
-                stroke: { value: '#fff' }
+                stroke: {signal: 'datum.problem ? "#000": "#fff"'},
+                strokeWidth: {signal: 'datum.problem ? 3: 0'}
               },
               update: {
                 x: { field: 'x' },
