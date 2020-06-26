@@ -55,19 +55,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         width: width - this.sheet.sheet.config.width_offset < 1000 ? 1000 : width - this.sheet.sheet.config.width_offset,
         height: height,
         padding: 5,
-        "config": {
-          "axis": {"labelFont": "Inter", "titleFont": "Inter"},
-          "legend": {"labelFont": "Inter", "titleFont": "Inter"},
-          "header": {"labelFont": "Inter", "titleFont": "Inter"},
-          "mark": {"font": "Inter"},
-          "title": {"font": "Inter", "subtitleFont": "Inter"}
-        },
         autosize: "fit",
         "title": {
           "text": "Anatomical Structures",
           "anchor": "start",
           fontSize: 16,
-          fontWeight: 500
+          fontWeight: 700
         },
         signals: [
         ],

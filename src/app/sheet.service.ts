@@ -148,7 +148,7 @@ export class SheetService {
     // let gid = this.sheet.gid;    
     // let constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`
 
-    let constructedURL = `assets/${this.sheet.name}`
+    let constructedURL = `assets/data/${this.sheet.name}`
     return this.http.get(constructedURL, { responseType: 'text' }).toPromise().then(data => {
       let parsedData = parse(data);
       parsedData.data.splice(0, this.sheet.header_count)
@@ -195,7 +195,6 @@ export class SheetService {
                   let cell_r = row[this.sheet.cell_row]
                   if (!nodes.some(r => r.name.toLowerCase() == cell_r.toLowerCase())) {
                     let cell_r = row[this.sheet.cell_row].split(',')
-
                     for (var c = 0; c < cell_r.length; c++) {
                       if (cell_r[c] != '') {
                         if (!nodes.some(r => r.name.toLowerCase() == cell_r[c].toLowerCase())) {
@@ -221,8 +220,6 @@ export class SheetService {
 
       // based on select input, sorting markers
       this.makeBioMarkers(sheetData)
-      // if (data) 
-      // biomarkers = this.bioMarkers;
       if (this.shouldSortAlphabetically) {
         biomarkers = this.bioMarkers.sort((a, b) => {
           return a.structure.toLowerCase() > b.structure.toLowerCase() ? 1 : ((b.structure.toLowerCase() > a.structure.toLowerCase()) ? -1 : 0)

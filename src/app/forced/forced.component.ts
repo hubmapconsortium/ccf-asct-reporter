@@ -31,14 +31,7 @@ export class ForcedComponent implements OnInit {
         "text": "Cell Types (Sorted by 1st Occurrence)",
         "anchor": "middle",
         fontSize: 16,
-        fontWeight: 500
-      },
-      "config": {
-        "axis": { "labelFont": "Inter", "titleFont": "Inter" },
-        "legend": { "labelFont": "Inter", "titleFont": "Inter" },
-        "header": { "labelFont": "Inter", "titleFont": "Inter" },
-        "mark": { "font": "Inter" },
-        "title": { "font": "Inter", "subtitleFont": "Inter" }
+        fontWeight: 600
       },
       "signals": [
       ],
