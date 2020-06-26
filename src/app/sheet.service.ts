@@ -332,8 +332,6 @@ export class SheetService {
         links: links
       }
 
-      console.log(this.ASCTGraphData)
-
       resolve(this.ASCTGraphData)
 
     })
@@ -411,7 +409,6 @@ export class SheetService {
     })
 
     markerDegrees.sort((a, b) => (b.count - a.count));
-    console.log(markerDegrees)
 
     return markerDegrees
   }
