@@ -113,6 +113,18 @@ export class BMNode {
   }
 }
 
+export class Marker {
+  structure: string;
+  parents: Array<string>;
+  count: number;
+
+  constructor(structure, count) {
+    this.structure = structure
+    this.parents = []
+    this.count = count
+  }
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -225,7 +237,8 @@ export class SheetService {
           return a.structure.toLowerCase() > b.structure.toLowerCase() ? 1 : ((b.structure.toLowerCase() > a.structure.toLowerCase()) ? -1 : 0)
         })
       } else {
-        biomarkers = this.bioMarkerDegree;
+        // biomarkers = this.bioMarkerDegree;
+        biomarkers = this.makeMarkerDegree(sheetData)
       }
 
       // making group 3: bio markers
@@ -244,51 +257,73 @@ export class SheetService {
         if (treeData[i].children == 0) {
           parent = nodes.findIndex(r => r.name.toLowerCase() == treeData[i].name.toLowerCase())
 
-
           sheetData.forEach(row => {
             for (var j = 0; j < row.length; j++) {
-              if (row[j] == treeData[i].name) {
-                let cell = row[this.sheet.cell_row]
-                if (nodes.findIndex(r => r.name.toLowerCase() == cell.toLowerCase()) == -1) {
-                  continue
+              if (row[j] == treeData[parent].name) {
+                let cells = row[this.sheet.cell_row].split(',')
+                for (var c = 0; c < cells.length; c++) {
+                  if (cells[c] != '') {
+                    let found = nodes.findIndex(r => r.name.toLowerCase().trim() == cells[c].toLowerCase().trim())
+                    if (found != -1) {
+                      links.push({
+                        s: parent,
+                        t: found
+                      })
+                    }
+
+                  }
                 }
-                links.push({
-                  s: parent,
-                  t: nodes.findIndex(r => r.name.toLowerCase() == cell.toLowerCase())
-                })
+
               }
             }
           })
         }
       }
 
+      // for (var i = 0; i < treeData.length; i++) {
+      //   if (treeData[i].children == 0) {
+      //     parent = nodes.findIndex(r => r.name.toLowerCase() == treeData[i].name.toLowerCase())
+
+
+      //     sheetData.forEach(row => {
+      //       for (var j = 0; j < row.length; j++) {
+      //         if (row[j] == treeData[i].name) {
+      //           let cell = row[this.sheet.cell_row]
+      //           if (nodes.findIndex(r => r.name.toLowerCase() == cell.toLowerCase()) == -1) {
+      //             continue
+      //           }
+      //           links.push({
+      //             s: parent,
+      //             t: nodes.findIndex(r => r.name.toLowerCase() == cell.toLowerCase())
+      //           })
+      //         }
+      //       }
+      //     })
+      //   }
+      // }
+
       // CT to B
       sheetData.forEach(row => {
-        let cell;
         let markers = row[this.sheet.marker_row].trim().split(',')
+        let cells = row[this.sheet.cell_row].trim().split(',')
 
-        cell = nodes.findIndex(r => r.name.toLowerCase() == row[this.sheet.cell_row].toLowerCase())
+        for (var c = 0; c < cells.length; c++) {
+          if (cells[c] != '') {
+            let cell = nodes.findIndex(r => r.name.toLowerCase().trim() == cells[c].toLowerCase().trim())
 
-        if (cell != -1) {
-          markers.forEach(m => {
-            for (var i = 0; i < nodes.length; i++) {
-              let linkFound = 0
-              if (m.trim().toLowerCase() == nodes[i].name.toLowerCase()) {
-                for (var j = 0; j < links.length; j++) {
-                  if (links[j].t == i && links[j].s == cell) {
-                    linkFound = 1;
-                    break;
-                  }
-                }
-                if (linkFound == 0) {
-                  links.push({
-                    s: cell,
-                    t: i,
-                  })
+            if (cell != -1) {
+              for (var m = 0; m < markers.length; m++) {
+                if (markers[m] != '') {
+                  let marker = nodes.findIndex(r => r.name.toLowerCase().trim() == markers[m].toLowerCase().trim())
+                  if (!links.some(n => n.s === cell && n.t === marker))
+                    links.push({
+                      s: cell,
+                      t: marker
+                    })
                 }
               }
             }
-          })
+          }
         }
       })
 
@@ -344,6 +379,41 @@ export class SheetService {
 
   public getASCTData() {
     return this.ASCTGraphData
+  }
+
+  public makeMarkerDegree(data) {
+    let markerDegrees = []
+
+    data.forEach(row => {
+      let markers = row[this.sheet.marker_row].split(',')
+      let cells = row[this.sheet.cell_row].split(',').map(str => str.trim())
+
+      for (var i = 0; i < markers.length; i++) {
+        if (markers[i] != '') {
+          let foundMarker = markerDegrees.findIndex(r => r.structure.toLowerCase().trim() == markers[i].toLowerCase().trim())
+          if (foundMarker == -1) {
+            let nm = new Marker(markers[i].trim(), cells.length)
+            nm.parents.push(...cells)
+            markerDegrees.push(nm)
+          } else {
+            let m = markerDegrees[foundMarker]
+            for (var c = 0; c < cells.length; c++) {
+              if (cells[c] != '') {
+                if (!m.parents.includes(cells[c])) {
+                  m.count += 1
+                  m.parents.push(cells[c])
+                }
+              }
+            }
+          }
+        }
+      }
+    })
+
+    markerDegrees.sort((a, b) => (b.count - a.count));
+    console.log(markerDegrees)
+
+    return markerDegrees
   }
 
   public makeBioMarkers(data) {
@@ -402,7 +472,7 @@ export class SheetService {
           continue;
         }
 
-        let foundNodes = row[cols[col]].trim().split(',')
+        let foundNodes = row[cols[col]].trim().split()
         for (var i = 0; i < foundNodes.length; i++) {
           if (foundNodes[i] != '') {
             let searchedNode = tree.search(foundNodes[i]);

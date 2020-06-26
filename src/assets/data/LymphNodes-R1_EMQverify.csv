@@ -9,8 +9,7 @@ Lobule,"Subcapsular Sinus Trabecular Sinus,Macrophages", CD169+, CD11b+," CD11c+
 Lobule,"Subcapsular Sinus Trabecular Sinus,Blood Endothelial Cells"," CD21+""",,,,
 Lobule,"Subcapsular Sinus Trabecular Sinus,Fibroblastic Reticular Cells", Desmin+," CD90+""",,,
 Lobule,"Subcapsular Sinus Trabecular Sinus,Lymphatic Endothelial Cells", Podoplanin+, CD9+," Prox-1+""",,
-Lobule,"Subcapsular Sinus Trabecular Sinus,Neutrophils,
-Lobule,Venule"," Arteriole""",Blood Vessels,Blood Endothelial Cells,,"CD31+, CD34+, CD105+"
+Lobule,"Subcapsular Sinus Trabecular Sinus,Neutrophils,Lobule*ELLEN, Venule"," Arteriole""",Blood Vessels,Blood Endothelial Cells,,"CD31+, CD34+, CD105+"
 Lobule,Primary Follicle,Follicular Dendritic Cells,,,"CD21+, CD35+",
 Lobule,Primary Follicle,Naive B-Cells,,,"CD45RA+, CD21+, CD20+, IgM+, IgD+, CD23+,HLA DR+",
 Lobule,Primary Follicle,Mature B-Cells,,,"CD19+, CD20+, CD79a+,CD45RO+",
