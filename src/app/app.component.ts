@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingComponent } from './loading/loading.component';
 import { SconfigService } from './sconfig.service';
 import { SheetService } from './sheet.service';
+import { ReportService } from './report.service';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,7 @@ export class AppComponent implements OnInit {
   sheetName = 'Spleen_R2_EMQverify.csv';
   shouldRefreshData = false;
 
-  constructor(private dialog: MatDialog, public snackBar: MatSnackBar, public sc: SconfigService, public sheet: SheetService) { 
+  constructor(private dialog: MatDialog, public snackBar: MatSnackBar, public sc: SconfigService, public sheet: SheetService, public report: ReportService) { 
     this.getSelectedSheet(this.sheetName)
   }
 
@@ -107,6 +108,7 @@ export class AppComponent implements OnInit {
 
   getSelectedSheet(event) {
     this.sheetName = event;
+    this.report.reportLog(this.sheetName, `${this.sheetName}`, 'success', 'file')
     new Promise((res, rej) => {
       this.sheet.sheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.name == this.sheetName)]
       res(true)

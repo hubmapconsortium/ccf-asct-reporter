@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, Input, Output, EventEmitter, OnChanges} f
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { SheetService } from '../sheet.service';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { ReportService } from '../report.service';
 
 interface Node {
   name: string;
@@ -23,7 +24,7 @@ interface FlatNode {
 })
 export class IndentComponent implements OnInit, OnChanges {
 
-  constructor(public sheet: SheetService) {
+  constructor(public sheet: SheetService, public report: ReportService) {
     this.getData();
   }
 
@@ -85,6 +86,7 @@ export class IndentComponent implements OnInit, OnChanges {
           comp: 'Indented List',
           val: false
         });
+        this.report.reportLog(this.sheet.sheet.name,`Indented List failed to render`, 'error', 'msg')
       }
     });
   }

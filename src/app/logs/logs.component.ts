@@ -13,6 +13,7 @@ export class LogsComponent implements OnInit, OnChanges {
   anatomicalStructures= []
   cellTypes =[]
   bioMarkers = []
+  warningCount = 0;
   @Output() close = new EventEmitter();
   @Input() refreshData;
 
@@ -36,6 +37,10 @@ export class LogsComponent implements OnInit, OnChanges {
       this.anatomicalStructures = this.sheet.anatomicalStructures
       this.cellTypes = this.sheet.cellTypes
       this.bioMarkers = this.sheet.bioMarkers
+      setTimeout(() => {
+        this.logs = this.report.getAllLogs();
+        console.log(this.logs)
+      }, 100)
     })
   }
 

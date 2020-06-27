@@ -3,6 +3,15 @@
     font-size: 9pt;
 }
 
+::ng-deep .mat-list-item-content {
+    padding: 0 !important;
+    margin-top: -10px;
+}
+
+::ng-deep .mat-subheader {
+    padding: 0 !important;
+}
+
 .header {
     display: flex;
     width: inherit;
@@ -42,6 +51,13 @@
 
 .i1:hover {
     color: #1976D2
+}
+
+.i2 {
+    font-size: 12pt;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-weight: 300;
 }
 
 .footer {

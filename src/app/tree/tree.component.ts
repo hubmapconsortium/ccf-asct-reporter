@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
 import { SheetService } from '../sheet.service';
 import embed from 'vega-embed';
+import { ReportService } from '../report.service';
 
 @Component({
   selector: 'app-tree',
@@ -18,7 +19,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   @Output() returnRefresh = new EventEmitter();
   @ViewChild('bimodal') biomodal;
 
-  constructor(public sheet: SheetService) {
+  constructor(public sheet: SheetService, public report: ReportService) {
     // this.getData();
   }
 
@@ -169,6 +170,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             this.shouldRenderASCTBiomodal = true;
             if (this.shouldRenderASCTBiomodal)
               this.biomodal.makeGraph();
+
+            this.report.reportLog(this.sheet.sheet.name, `Tree succesfully rendered`, 'success', 'msg')
             this.returnRefresh.emit({
               comp: 'Tree',
               val: true
@@ -182,6 +185,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
           comp: 'Tree',
           val: false
         });
+        this.report.reportLog(this.sheet.sheet.name,`Tree failed to render`, 'error', 'msg')
       }
 
     });

@@ -131,6 +131,27 @@
             </mat-expansion-panel>
 
         </div>
+
+        <br>
+        <br>
+
+        <div class="title1">Logs</div>
+        <div class="details">
+
+            <mat-list style="padding: 0; max-height: 50vh; overflow-y: auto;">
+                <mat-list-item style="padding-left: 0;" *ngFor="let l of logs">
+                    <mat-icon mat-list-icon style="color: grey;" *ngIf="l.type == 'file'">next_plan</mat-icon>
+                    <div mat-line style="width: 100%; display: flex; justify-content: space-between;" *ngIf="l.type == 'file'">
+                        <span class="i2">{{l.message}}</span>
+                    </div>
+                    <mat-icon mat-list-icon [ngStyle]="{'color': l.icon === 'check_circle' ? '#66BB6A' : l.icon === 'error' ? '#FFCA28' : '#FF5722'}" *ngIf="l.type !== 'file'">{{l.icon}}</mat-icon>
+                    <div mat-line style="width: 100%; display: flex; justify-content: space-between;" *ngIf="l.type != 'file'">
+                        <span class="i2">{{l.message}}</span>
+                    </div>
+                </mat-list-item>
+            </mat-list>
+
+        </div>
     </div>
     <br>
     <hr style="opacity: 0.5;">

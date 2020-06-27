@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { parse } from 'papaparse';
 import { SconfigService } from './sconfig.service';
+import { ReportService } from './report.service';
 
 // colors for vis
 const AS_RED = "#E41A1C"
@@ -151,7 +152,7 @@ export class SheetService {
   // BIOMODAL DATA
   shouldSortAlphabetically = true;
 
-  constructor(private http: HttpClient, public sc: SconfigService) { }
+  constructor(private http: HttpClient, public sc: SconfigService, public report: ReportService) { }
 
   public setSheet(sheet) {
 
@@ -285,28 +286,6 @@ export class SheetService {
           })
         }
       }
-
-      // for (var i = 0; i < treeData.length; i++) {
-      //   if (treeData[i].children == 0) {
-      //     parent = nodes.findIndex(r => r.name.toLowerCase() == treeData[i].name.toLowerCase())
-
-
-      //     sheetData.forEach(row => {
-      //       for (var j = 0; j < row.length; j++) {
-      //         if (row[j] == treeData[i].name) {
-      //           let cell = row[this.sheet.cell_row]
-      //           if (nodes.findIndex(r => r.name.toLowerCase() == cell.toLowerCase()) == -1) {
-      //             continue
-      //           }
-      //           links.push({
-      //             s: parent,
-      //             t: nodes.findIndex(r => r.name.toLowerCase() == cell.toLowerCase())
-      //           })
-      //         }
-      //       }
-      //     })
-      //   }
-      // }
 
       // CT to B
       sheetData.forEach(row => {
@@ -481,6 +460,9 @@ export class SheetService {
             let searchedNode = tree.search(foundNodes[i], parent);
 
             if (Object.keys(searchedNode).length !== 0) {
+              if(searchedNode['problem']) {
+                this.report.reportLog(this.sheet.name,`Multiple parents found for node - ${searchedNode['name']}`, 'warning', 'msg')
+              }
               parent = searchedNode;
             } else {
               tree.id += 1;
@@ -497,8 +479,7 @@ export class SheetService {
     if (tree.nodes.length < 0) {
       return [];
     }
-    
-    console.log(tree.nodes)
+
     return tree.nodes;
   }
 
