@@ -39,7 +39,6 @@ export class LogsComponent implements OnInit, OnChanges {
       this.bioMarkers = this.sheet.bioMarkers
       setTimeout(() => {
         this.logs = this.report.getAllLogs();
-        console.log(this.logs)
       }, 100)
     })
   }

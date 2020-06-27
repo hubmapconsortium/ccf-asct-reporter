@@ -32,7 +32,6 @@ export class ReportService {
 
   reportLog(sheetName, message, icon, type) {
     let time = new Date();
-    console.log(moment(time).format('hh:mm:ss'))
     if(!this.reportedLogs.some(i => i.message == message && moment(i.time).format('hh:mm:ss') == moment(i.time).format('hh:mm:ss')))
       this.reportedLogs.push(new Log(message, this.icons[icon], moment(time).format('hh:mm A'), type))
   }

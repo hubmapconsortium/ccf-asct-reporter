@@ -257,16 +257,17 @@ export class SheetService {
         id += 1
       }
 
+
       // AS to CT
       let parent = 0;
 
       for (var i = 0; i < treeData.length; i++) {
         if (treeData[i].children == 0) {
           parent = nodes.findIndex(r => r.name.toLowerCase() == treeData[i].name.toLowerCase())
-
+      
           sheetData.forEach(row => {
             for (var j = 0; j < row.length; j++) {
-              if (row[j] == treeData[parent].name) {
+              if (row[j] == treeData[i].name) {
                 let cells = row[this.sheet.cell_row].split(',')
                 for (var c = 0; c < cells.length; c++) {
                   if (cells[c] != '') {
@@ -277,10 +278,8 @@ export class SheetService {
                         t: found
                       })
                     }
-
                   }
                 }
-
               }
             }
           })
