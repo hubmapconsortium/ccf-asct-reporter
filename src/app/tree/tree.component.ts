@@ -12,12 +12,20 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   sheetData;
   treeData;
   updatedTreeData;
+  graphWidth;
+  bimodalDistance;
   shouldRenderASCTBiomodal = false;
 
   @Input() public refreshData = false;
   @Input() public shouldReloadData = false;
   @Output() returnRefresh = new EventEmitter();
   @ViewChild('bimodal') biomodal;
+
+  bimodalSortOptions = [
+    'Alphabetically',
+    'Degree'
+  ]
+  bimodalSelectedOption = this.bimodalSortOptions[0]
 
   constructor(public sheet: SheetService, public report: ReportService) {
     // this.getData();
@@ -29,6 +37,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnDestroy() {
     this.shouldReloadData = false;
+  }
+
+  getBimodalSelecion() {
+    this.biomodal.getSelection(this.bimodalSelectedOption)
   }
 
   ngOnChanges() {
@@ -49,20 +61,16 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
       const height = document.getElementsByTagName('body')[0].clientHeight;
       const width = document.getElementsByTagName('body')[0].clientWidth;
+      this.graphWidth = this.sheet.sheet.config.width
+      this.bimodalDistance = this.sheet.sheet.config.bimodal_distance * 2.5
 
       const config: any = {
         $schema: 'https://vega.github.io/schema/vega/v5.json',
         description: 'An example of Cartesian layouts for a node-link diagram of hierarchical data.',
-        width: width - this.sheet.sheet.config.width_offset < 1000 ? 1000 : width - this.sheet.sheet.config.width_offset,
+        width: this.sheet.sheet.config.width,
         height: height + 300,
         padding: 5,
         autosize: "pad",
-        "title": {
-          "text": "Anatomical Structures",
-          "anchor": "start",
-          fontSize: 16,
-          fontWeight: 700
-        },
         signals: [
         ],
 

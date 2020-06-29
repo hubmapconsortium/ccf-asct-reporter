@@ -1,0 +1,24 @@
+.mat-expansion-panel:not([class*='mat-elevation-z']) {
+    box-shadow: none;
+}
+
+.mat-expansion-panel-header {
+    background: #fafafa !important;
+}
+
+.mat-expansion-panel-header:hover {
+    background: rgb(225, 225, 225) !important;
+}
+
+.mat-form-field-infix {
+    border: 0 !important;
+}
+
+:ng-deep .mat-expansion-panel-body {
+    background: white !important;
+    padding: 0 !important;
+}
+
+::ng-deep .mat-expansion-panel {
+    background-color: #fafafa;
+}

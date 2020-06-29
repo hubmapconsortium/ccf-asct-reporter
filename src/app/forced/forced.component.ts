@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
 import embed, { vega } from 'vega-embed';
 import { SheetService } from '../sheet.service';
 
@@ -7,14 +7,12 @@ import { SheetService } from '../sheet.service';
   templateUrl: './forced.component.html',
   styleUrls: ['./forced.component.css']
 })
-export class ForcedComponent implements OnInit {
+export class ForcedComponent implements OnInit, OnChanges {
 
   @Output() graphCompleted = new EventEmitter();
-  sortOptions = [
-    'Alphabetically',
-    'Degree'
-  ]
-  selectedOption = this.sortOptions[0]
+  @Input() bimodalSelection;
+  selectedOption;
+
   hasGraphRendered = false;
   constructor(public sheet: SheetService) {
     // this.makeGraph();
@@ -24,18 +22,16 @@ export class ForcedComponent implements OnInit {
 
   }
 
+  ngOnChanges() {
+    this.selectedOption = this.bimodalSelection
+    // this.getSelection()
+  }
+
+
+
   makeGraph() {
     let config: any = {
       "$schema": "https://vega.github.io/schema/vega/v5.json",
-      "title": {
-        "text": "Cell Types (Sorted by 1st Occurrence)",
-        "anchor": "middle",
-        fontSize: 16,
-        fontWeight: 600
-      },
-      "signals": [
-      ],
-
       "data": [
         {
           "name": "nodes",
@@ -129,8 +125,8 @@ export class ForcedComponent implements OnInit {
     })
   }
 
-  getSelection() {
-    if (this.selectedOption == 'Degree')
+  getSelection(option) {
+    if (option == 'Degree')
       this.sheet.shouldSortAlphabetically = false
     else
       this.sheet.shouldSortAlphabetically = true

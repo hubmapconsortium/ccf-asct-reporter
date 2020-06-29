@@ -1,10 +1,56 @@
-<div style="max-width: 100%; overflow: scroll; padding-left: 25px;">
-    <div style="display: flex; flex-direction: row; margin-bottom: 20px;">
-        <div style="z-index: 2; margin-top: 80px;">
-            <div id="vis" #graph></div>
+<div style="max-width: 100%; overflow: scroll; padding-left: 25px; padding-top: 25px;">
+    <div>
+        <div [ngStyle]="{'width': graphWidth + bimodalDistance+'px' }" style="display: flex; flex-direction: row;">
+            <div [ngStyle]="{'width': graphWidth*1.2+'px' }">
+                <mat-expansion-panel style="width: 50%;" hideToggle="true">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <div style="font-weight: 500; font-size: 13pt;">Anatomical Strucutres</div>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                </mat-expansion-panel>
+            </div>
+            <div style="display: flex; justify-content: center;" [ngStyle]="{'width': bimodalDistance/2.85+'px' }">
+                <mat-expansion-panel style="width: 70%;">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <div style="font-weight: 500; font-size: 13pt;">Cell Types</div>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div>
+                        Hello
+                    </div>
+                </mat-expansion-panel>
+            </div>
+            <div style="display: flex; justify-content: center;" [ngStyle]="{'width': bimodalDistance/2.8 +'px' }">
+                <mat-expansion-panel style="width: 70%;">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <div style="font-weight: 500; font-size: 13pt;">Bio Markers</div>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div style="display: flex; flex-direction: row; align-items: center;">
+                        <b style="padding-right: 10px;">Sort</b>
+                        <mat-form-field style="text-align: start;">
+                            <button mat-flat-button style="width: 80%; background-color: rgb(223, 223, 223);" #tooltip="matTooltip" matTooltip="Sort Markers" matTooltipPosition="below">
+                        <mat-select (selectionChange)="getBimodalSelecion()" [(ngModel)]="bimodalSelectedOption">
+                            <mat-option *ngFor="let option of bimodalSortOptions" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-select>
+                    </button>
+                        </mat-form-field>
+                    </div>
+                </mat-expansion-panel>
+            </div>
         </div>
-        <app-forced style="margin-left: -28px; padding-right: 25px;" #bimodal>
-        </app-forced>
+        <div style="display: flex; flex-direction: row; margin-bottom: 20px;">
+            <div style="z-index: 2;">
+                <div id="vis" #graph></div>
+            </div>
+            <app-forced style="margin-left: -28px; padding-right: 25px;" #bimodal [bimodalSelection]="bimodalSelectedOption">
+            </app-forced>
+        </div>
     </div>
 
 </div>

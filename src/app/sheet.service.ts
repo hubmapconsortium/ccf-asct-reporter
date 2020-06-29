@@ -184,7 +184,7 @@ export class SheetService {
       let links = [];
       let nodes = [];
       let treeX = 0;
-      let treeY = 35;
+      let treeY = 50;
       let distance = this.sheet.config.bimodal_distance;
       let id = 0;
       let biomarkers = [];
@@ -234,7 +234,7 @@ export class SheetService {
         }
       })
 
-      treeY = 35;
+      treeY = 50;
       treeX += distance
 
       // based on select input, sorting markers

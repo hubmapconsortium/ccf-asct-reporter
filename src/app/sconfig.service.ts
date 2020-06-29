@@ -21,7 +21,8 @@ export class SconfigService {
       body: 'Spleen',
       config: {
         width_offset: 900,
-        bimodal_distance: 350
+        bimodal_distance: 350,
+        width: 1200
       }
     },
     {
@@ -39,7 +40,7 @@ export class SconfigService {
       body: 'Kidney',
       config: {
         width_offset: 1100,
-        bimodal_distance: 420
+        bimodal_distance: 420, width: 1200
       }
     },
     {
@@ -57,7 +58,8 @@ export class SconfigService {
       body: 'Liver',
       config: {
         width_offset: 1300,
-        bimodal_distance: 360
+        bimodal_distance: 360,
+        width: 1200
       }
     },
     {
@@ -69,13 +71,14 @@ export class SconfigService {
       cell_row: 4,
       marker_row: 5,
       uberon_row: 0,
-      report_cols: [0, 1, 2,3,4,5],
-      tree_cols: [0,1,2,3],
-      indent_cols: [0, 1,2,3,4],
+      report_cols: [0, 1, 2, 3, 4, 5],
+      tree_cols: [0, 1, 2, 3],
+      indent_cols: [0, 1, 2, 3, 4],
       body: 'Lymph Nodes',
       config: {
         width_offset: 1600,
-        bimodal_distance: 400
+        bimodal_distance: 400,
+        width: 1200
       }
     },
     {
@@ -93,7 +96,8 @@ export class SconfigService {
       body: 'Heart',
       config: {
         width_offset: 1600,
-        bimodal_distance: 360
+        bimodal_distance: 360,
+        width: 1200
       }
     },
     {
@@ -111,7 +115,8 @@ export class SconfigService {
       body: 'Small Intestine',
       config: {
         width_offset: 600,
-        bimodal_distance: 360
+        bimodal_distance: 360,
+        width: 1200
       }
     },
     {
@@ -129,7 +134,8 @@ export class SconfigService {
       body: 'Large Intestine',
       config: {
         width_offset: 800,
-        bimodal_distance: 360
+        bimodal_distance: 360,
+        width: 1200
       }
     },
     {
@@ -141,13 +147,14 @@ export class SconfigService {
       cell_row: 3,
       marker_row: 4,
       uberon_row: 0,
-      report_cols: [0, 1, 2, 3],
-      tree_cols: [0, 1, 2],
-      indent_cols: [0, 1, 2, 3],
+      report_cols: [0, 1, 3],
+      tree_cols: [0, 1],
+      indent_cols: [0, 1, 3],
       body: 'Skin',
       config: {
         width_offset: 1000,
-        bimodal_distance: 400
+        bimodal_distance: 400,
+        width: 1200
       }
     },
   ]
