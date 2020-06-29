@@ -22,3 +22,7 @@
 ::ng-deep .mat-expansion-panel {
     background-color: #fafafa;
 }
+
+::ng-deep .mat-form-field-wrapper {
+    padding: 0 !important;
+}

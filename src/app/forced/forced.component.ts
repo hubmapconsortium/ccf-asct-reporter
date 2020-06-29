@@ -11,7 +11,9 @@ export class ForcedComponent implements OnInit, OnChanges {
 
   @Output() graphCompleted = new EventEmitter();
   @Input() bimodalSelection;
+  @Input() bimodalSizeSelection;
   selectedOption;
+  selectedSizeOption;
 
   hasGraphRendered = false;
   constructor(public sheet: SheetService) {
@@ -83,7 +85,7 @@ export class ForcedComponent implements OnInit, OnChanges {
           "from": { "data": "nodes" },
           "encode": {
             "enter": {
-              "size": { value: 300 },
+              "size": { "field": "nodeSize" },
               "fill": { "field": "color" },
               "color": { "field": "Origin", "type": "nominal" },
               "x": { "field": "x" },
@@ -125,11 +127,16 @@ export class ForcedComponent implements OnInit, OnChanges {
     })
   }
 
-  getSelection(option) {
-    if (option == 'Degree')
+  getSelection(sortOption, sizeOption) {
+    if (sortOption == 'Degree')
       this.sheet.shouldSortAlphabetically = false
     else
       this.sheet.shouldSortAlphabetically = true
+
+    if (sizeOption == 'Static')
+      this.sheet.shouldSortBySize = false
+    else
+      this.sheet.shouldSortBySize = true
 
     this.sheet.makeASCTData(this.sheet.sheetData, this.sheet.updatedTreeData).then(data => {
       if (data) {

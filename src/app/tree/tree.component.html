@@ -41,8 +41,22 @@
                     </button>
                         </mat-form-field>
                     </div>
+
+                    <div style="display: flex; flex-direction: row; align-items: center;">
+                        <b style="padding-right: 10px;">Size</b>
+                        <mat-form-field style="text-align: start;">
+                            <button mat-flat-button style="width: 80%; background-color: rgb(223, 223, 223);" #tooltip="matTooltip" matTooltip="Sort Markers" matTooltipPosition="below">
+                        <mat-select (selectionChange)="getBimodalSelecion()" [(ngModel)]="bimodalSelectedSizeOption">
+                            <mat-option *ngFor="let option of bimodalSizeOptions" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-select>
+                    </button>
+                        </mat-form-field>
+                    </div>
                 </mat-expansion-panel>
             </div>
+
         </div>
         <div style="display: flex; flex-direction: row; margin-bottom: 20px;">
             <div style="z-index: 2;">

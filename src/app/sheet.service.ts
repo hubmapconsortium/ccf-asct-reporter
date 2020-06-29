@@ -107,8 +107,9 @@ export class BMNode {
   y: number;
   id: number;
   color: string;
+  nodeSize: number;
 
-  constructor(name, group, first, last, x, y, fontSize, color = "#808080") {
+  constructor(name, group, first, last, x, y, fontSize, color = "#808080", nodeSize=300) {
     this.name = name;
     this.group = group;
     this.first = first;
@@ -117,6 +118,7 @@ export class BMNode {
     this.x = x;
     this.y = y;
     this.color = color;
+    this.nodeSize = nodeSize;
   }
 }
 
@@ -151,6 +153,7 @@ export class SheetService {
 
   // BIOMODAL DATA
   shouldSortAlphabetically = true;
+  shouldSortBySize = false;
 
   constructor(private http: HttpClient, public sc: SconfigService, public report: ReportService) { }
 
@@ -248,9 +251,17 @@ export class SheetService {
         biomarkers = this.makeMarkerDegree(sheetData)
       }
 
+      if (this.shouldSortBySize) {
+        let tempBiomarkers = this.makeMarkerDegree(sheetData)
+        biomarkers.forEach(b => {
+          let idx = tempBiomarkers.findIndex(i => i.structure == b.structure)
+          b.nodeSize = tempBiomarkers[idx].count * 75
+        })
+      } 
+
       // making group 3: bio markers
       for (let i = 0; i < biomarkers.length; i++) {
-        let newNode = new BMNode(biomarkers[i].structure, 3, '', biomarkers[i].structure, treeX, treeY, 14, B_GREEN)
+        let newNode = new BMNode(biomarkers[i].structure, 3, '', biomarkers[i].structure, treeX, treeY, 14, B_GREEN, biomarkers[i].nodeSize)
         newNode.id = id;
         nodes.push(newNode)
         treeY += 40;

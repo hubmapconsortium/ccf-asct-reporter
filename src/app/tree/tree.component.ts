@@ -27,6 +27,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   ]
   bimodalSelectedOption = this.bimodalSortOptions[0]
 
+  bimodalSizeOptions = [
+    'Static',
+    'Degree'
+  ]
+  bimodalSelectedSizeOption = this.bimodalSizeOptions[0]
+
   constructor(public sheet: SheetService, public report: ReportService) {
     // this.getData();
   }
@@ -40,7 +46,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getBimodalSelecion() {
-    this.biomodal.getSelection(this.bimodalSelectedOption)
+    this.biomodal.getSelection(this.bimodalSelectedOption, this.bimodalSelectedSizeOption)
   }
 
   ngOnChanges() {
