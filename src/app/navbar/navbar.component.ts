@@ -14,13 +14,14 @@ export class NavbarComponent implements OnInit {
   selectedOption = this.options[0];
 
   sheetOptions = [
-    'Spleen_R2_EMQverify.csv',
-    'Kidney_updated_R1_EMQverify6_21_2020.csv',
-    'Liver-R1_EMQverify.csv',
-    'LymphNodes-R1_EMQverify.csv',
-    'Heart-R1_EMQverify.csv',
-    'Small intestine-R1_EMQverify06212020.csv',
-    'Large Intestine_R1_EMQVerify06212020.csv'
+    'Spleen',
+    'Kidney',
+    'Liver',
+    'Lymph Nodes',
+    'Heart',
+    'Small Intestine',
+    'Large Intestine',
+    'Skin'
   ]
 
   selectedSheetOption = this.sheetOptions[0]

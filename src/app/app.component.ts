@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   refreshIndent = false;
   refreshTable = false;
   refreshLogs = false;
-  sheetName = 'Spleen_R2_EMQverify.csv';
+  sheetName = 'Spleen';
   shouldRefreshData = false;
 
   constructor(private dialog: MatDialog, public snackBar: MatSnackBar, public sc: SconfigService, public sheet: SheetService, public report: ReportService) { 
@@ -110,7 +110,7 @@ export class AppComponent implements OnInit {
     this.sheetName = event;
     this.report.reportLog(`${this.sheetName}`, 'success', 'file')
     new Promise((res, rej) => {
-      this.sheet.sheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.name == this.sheetName)]
+      this.sheet.sheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.display == this.sheetName)]
       res(true)
     })
     .then(data => {
