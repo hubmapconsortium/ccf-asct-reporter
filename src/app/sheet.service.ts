@@ -381,9 +381,9 @@ export class SheetService {
             let m = markerDegrees[foundMarker]
             for (var c = 0; c < cells.length; c++) {
               if (cells[c] != '') {
-                if (!m.parents.includes(cells[c])) {
+                if (!m.parents.includes(cells[c].toLowerCase())) {
                   m.count += 1
-                  m.parents.push(cells[c])
+                  m.parents.push(cells[c].toLowerCase())
                 }
               }
             }
