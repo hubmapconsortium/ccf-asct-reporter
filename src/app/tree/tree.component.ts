@@ -171,7 +171,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             if (this.shouldRenderASCTBiomodal)
               this.biomodal.makeGraph();
 
-            this.report.reportLog(this.sheet.sheet.name, `Tree succesfully rendered`, 'success', 'msg')
+            this.report.reportLog(`Tree succesfully rendered`, 'success', 'msg')
             this.returnRefresh.emit({
               comp: 'Tree',
               val: true
@@ -185,7 +185,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
           comp: 'Tree',
           val: false
         });
-        this.report.reportLog(this.sheet.sheet.name,`Tree failed to render`, 'error', 'msg')
+        this.report.reportLog(`Tree failed to render`, 'error', 'msg')
       }
 
     });

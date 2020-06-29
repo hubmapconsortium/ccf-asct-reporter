@@ -108,7 +108,7 @@ export class AppComponent implements OnInit {
 
   getSelectedSheet(event) {
     this.sheetName = event;
-    this.report.reportLog(this.sheetName, `${this.sheetName}`, 'success', 'file')
+    this.report.reportLog(`${this.sheetName}`, 'success', 'file')
     new Promise((res, rej) => {
       this.sheet.sheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.name == this.sheetName)]
       res(true)

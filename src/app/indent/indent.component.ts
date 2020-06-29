@@ -86,7 +86,7 @@ export class IndentComponent implements OnInit, OnChanges {
           comp: 'Indented List',
           val: false
         });
-        this.report.reportLog(this.sheet.sheet.name,`Indented List failed to render`, 'error', 'msg')
+        this.report.reportLog(`Indented List failed to render`, 'error', 'msg')
       }
     });
   }

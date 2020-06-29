@@ -460,7 +460,7 @@ export class SheetService {
 
             if (Object.keys(searchedNode).length !== 0) {
               if(searchedNode['problem']) {
-                this.report.reportLog(this.sheet.name,`Multiple parents found for node - ${searchedNode['name']}`, 'warning', 'msg')
+                this.report.reportLog(`Multiple parents found for node - ${searchedNode['name']}`, 'warning', 'msg')
               }
               parent = searchedNode;
             } else {

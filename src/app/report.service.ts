@@ -30,10 +30,10 @@ export class ReportService {
   report = {};
   constructor() { }
 
-  reportLog(sheetName, message, icon, type) {
+  reportLog(message, icon, type) {
     let time = new Date();
-    if(!this.reportedLogs.some(i => i.message == message && moment(i.time).format('hh:mm:ss') == moment(i.time).format('hh:mm:ss')))
-      this.reportedLogs.push(new Log(message, this.icons[icon], moment(time).format('hh:mm A'), type))
+    if(!this.reportedLogs.some(i => i.message == message && i.time == moment(time).format('hh:mm:ss')))
+      this.reportedLogs.push(new Log(message, this.icons[icon], moment(time).format('hh:mm:ss'), type))
   }
 
   getAllLogs() {
