@@ -26,6 +26,7 @@ export class NavbarComponent implements OnInit {
 
   selectedSheetOption = this.sheetOptions[0]
 
+  @Output() showReport = new EventEmitter<any>();
   @Output() showLog = new EventEmitter<any>();
   @Output() showGraph = new EventEmitter<any>();
   @Output() refresh = new EventEmitter<any>();
@@ -50,6 +51,10 @@ export class NavbarComponent implements OnInit {
 
   showLogs() {
     this.showLog.emit(true);
+  }
+
+  showReports() {
+    this.showReport.emit(true);
   }
 
   refreshData() {

@@ -13,16 +13,18 @@ import { ReportService } from './report.service';
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild('logs_drawer') logs_drawer;
-  @ViewChild('log_conponent') log_conponent;
+  @ViewChild('drawer') drawer;
+  @ViewChild('report_component') report_component;
 
   displayGraph = 'Tree';
   refreshTree = false;
   refreshIndent = false;
   refreshTable = false;
+  refreshReport = false;
   refreshLogs = false;
   sheetName = 'Spleen';
   shouldRefreshData = false;
+  showCompInDrawer = 'Report'
 
   constructor(private dialog: MatDialog, public snackBar: MatSnackBar, public sc: SconfigService, public sheet: SheetService, public report: ReportService) { 
     this.getSelectedSheet(this.sheetName)
@@ -32,9 +34,16 @@ export class AppComponent implements OnInit {
     this.openLoading();
   }
 
-  toggleDrawer(val) {
+  toggleReportDrawer(val) {
+    this.refreshReport = val;
+    this.drawer.opened = val;
+    this.showCompInDrawer = 'Report'
+  }
+
+  toggleLogsDrawer(val) {
     this.refreshLogs = val;
-    this.logs_drawer.opened = val;
+    this.drawer.opened = val;
+    this.showCompInDrawer = 'Logs'
   }
 
   showGraph(val) {
@@ -117,7 +126,7 @@ export class AppComponent implements OnInit {
       if (data) {
         this.openLoading();
         this.shouldRefreshData = true;
-        this.log_conponent.getData();
+        this.report_component.getData();
       }
     })
     

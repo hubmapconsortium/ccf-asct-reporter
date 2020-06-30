@@ -9,7 +9,6 @@ import * as XLSX from 'xlsx'
   styleUrls: ['./report.component.css']
 })
 export class ReportComponent implements OnInit, OnChanges {
-  logs; any;
   sheetData;
   anatomicalStructures = []
   cellTypes = []
@@ -38,9 +37,6 @@ export class ReportComponent implements OnInit, OnChanges {
       this.anatomicalStructures = this.sheet.anatomicalStructures
       this.cellTypes = this.sheet.cellTypes
       this.bioMarkers = this.sheet.bioMarkers
-      setTimeout(() => {
-        this.logs = this.report.getAllLogs();
-      }, 100)
     })
   }
 
