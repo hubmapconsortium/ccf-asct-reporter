@@ -3,6 +3,7 @@ import { SheetService } from '../sheet.service';
 import embed from 'vega-embed';
 import { ReportService } from '../report.service';
 import { TreeService } from './tree.service';
+import { BimodalService } from '../bimodal/bimodal.service';
 
 @Component({
   selector: 'app-tree',
@@ -34,7 +35,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   ]
   bimodalSelectedSizeOption = this.bimodalSizeOptions[0]
 
-  constructor(public sheet: SheetService, public report: ReportService, public ts: TreeService) {
+  constructor(public sheet: SheetService, public report: ReportService, public ts: TreeService, public bms: BimodalService) {
     // this.getData();
   }
 
@@ -63,7 +64,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   async getData() {
     try {
       this.sheetData = await this.sheet.getSheetData();
-      this.sheet.sheetData = this.sheetData // this is needed to update the bimodal network
+      this.bms.sheetData = this.sheetData // this is needed to update the bimodal network
       this.treeData = await this.ts.makeTreeData(this.sheetData);
 
       const height = document.getElementsByTagName('body')[0].clientHeight;
@@ -180,8 +181,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
       try {
         const treeData = await embedding
-        this.sheet.updatedTreeData = treeData.spec.data[0].values; // this is needed to update the bimodal network
-        const asctData = await this.sheet.makeASCTData(this.sheetData, this.sheet.updatedTreeData)
+        this.bms.updatedTreeData = treeData.spec.data[0].values; // this is needed to update the bimodal network
+        const asctData = await this.bms.makeASCTData(this.sheetData, this.bms.updatedTreeData)
         if (asctData) {
           this.shouldRenderASCTBiomodal = true;
           if (this.shouldRenderASCTBiomodal)

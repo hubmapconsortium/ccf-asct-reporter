@@ -51,8 +51,6 @@ export class Tree {
 }
 
 const AS_RED = "#E41A1C"
-const CT_BLUE = "#377EB8"
-const B_GREEN = "#4DAF4A"
 
 @Injectable({
 	providedIn: 'root'

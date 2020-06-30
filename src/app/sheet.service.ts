@@ -133,12 +133,7 @@ export class SheetService {
   // NAVBAR SHEET SELECTION
   sheet;
 
-  anatomicalStructures = [];
-  cellTypes = [];
-  bioMarkers = [];
   ASCTGraphData = {};
-  forcedData = [];
-  bioMarkerDegree = [];
   
   // BIOMODAL DATA
   sheetData;
@@ -148,14 +143,6 @@ export class SheetService {
 
   constructor(private http: HttpClient, public sc: SconfigService, public report: ReportService) { }
 
-  public setSheet(sheet) {
-
-  }
-
-  /**
-   * Extract data from Google Sheet
-   *  @return {[Array]}      Google Sheet data parsed by PapaParse.
-   */
   public getSheetData(): Promise<any> {
     // let sheetId = this.sheet.sheetId;
     // let gid = this.sheet.gid;    
@@ -167,161 +154,6 @@ export class SheetService {
       parsedData.data.splice(0, this.sheet.header_count)
       return parsedData.data
     });
-  }
-
-  /**
-   * Generate data from the Google Sheet to be represented in the report
-   * @param  {[Array]} data Google Sheet data
-   */
-  async makeASCTData(sheetData, treeData) {
-      let links = [];
-      let nodes = [];
-      let treeX = 0;
-      let treeY = 50;
-      let distance = this.sheet.config.bimodal_distance;
-      let id = 0;
-      let biomarkers = [];
-
-      // making anatomical structures
-      treeData.forEach(td => {
-        if (td.children == 0) {
-          let leaf = td.name;
-          let newLeaf = new BMNode(leaf, 1, leaf, '', treeX, td.y, 14)
-          newLeaf.id = id;
-          nodes.push(newLeaf)
-          id += 1;
-        }
-      })
-
-      treeX += distance
-
-      // making group 2: cell types 
-      treeData.forEach(td => {
-        if (td.children == 0) {
-          let leaf = td.name;
-
-          sheetData.forEach(row => {
-            if (row[this.sheet.cell_row] != '') {
-              for (var i = 0; i < row.length; i++) {
-                if (row[i] == leaf) {
-                  let cell_r = row[this.sheet.cell_row]
-                  if (!nodes.some(r => r.name.toLowerCase() == cell_r.toLowerCase())) {
-                    let cell_r = row[this.sheet.cell_row].split(',')
-                    for (var c = 0; c < cell_r.length; c++) {
-                      if (cell_r[c] != '') {
-                        if (!nodes.some(r => r.name.toLowerCase() == cell_r[c].toLowerCase())) {
-                          let cell = row[this.sheet.cell_row];
-                          let newNode = new BMNode(cell_r[c], 2, '', cell_r[c], treeX, treeY, 14, CT_BLUE)
-                          newNode.id = id;
-                          nodes.push(newNode)
-                          treeY += 50;
-                          id += 1;
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          })
-        }
-      })
-
-      treeY = 50;
-      treeX += distance
-
-      // based on select input, sorting markers
-
-      if (this.shouldSortAlphabetically) {
-        biomarkers = await this.makeBioMarkers(sheetData)
-        biomarkers.sort((a, b) => {
-          return a.structure.toLowerCase() > b.structure.toLowerCase() ? 1 : ((b.structure.toLowerCase() > a.structure.toLowerCase()) ? -1 : 0)
-        })
-      } else {
-        biomarkers = await this.makeMarkerDegree(sheetData)
-      }
-
-      if (this.shouldSortBySize) {
-        let tempBiomarkers = await this.makeMarkerDegree(sheetData)
-        biomarkers.forEach(b => {
-          let idx = tempBiomarkers.findIndex(i => i.structure == b.structure)
-          b.nodeSize = tempBiomarkers[idx].count * 75
-        })
-      }
-
-      // making group 3: bio markers
-      for (let i = 0; i < biomarkers.length; i++) {
-        let newNode = new BMNode(biomarkers[i].structure, 3, '', biomarkers[i].structure, treeX, treeY, 14, B_GREEN, biomarkers[i].nodeSize)
-        newNode.id = id;
-        nodes.push(newNode)
-        treeY += 40;
-        id += 1
-      }
-
-
-      // AS to CT
-      let parent = 0;
-
-      for (var i = 0; i < treeData.length; i++) {
-        if (treeData[i].children == 0) {
-          parent = nodes.findIndex(r => r.name.toLowerCase() == treeData[i].name.toLowerCase())
-
-          sheetData.forEach(row => {
-            for (var j = 0; j < row.length; j++) {
-              if (row[j] == treeData[i].name) {
-                let cells = row[this.sheet.cell_row].split(',')
-                for (var c = 0; c < cells.length; c++) {
-                  if (cells[c] != '') {
-                    let found = nodes.findIndex(r => r.name.toLowerCase().trim() == cells[c].toLowerCase().trim())
-                    if (found != -1) {
-                      links.push({
-                        s: parent,
-                        t: found
-                      })
-                    }
-                  }
-                }
-              }
-            }
-          })
-        }
-      }
-
-      // CT to B
-      sheetData.forEach(row => {
-        let markers = row[this.sheet.marker_row].trim().split(',')
-        let cells = row[this.sheet.cell_row].trim().split(',')
-
-        for (var c = 0; c < cells.length; c++) {
-          if (cells[c] != '') {
-            let cell = nodes.findIndex(r => r.name.toLowerCase().trim() == cells[c].toLowerCase().trim())
-
-            if (cell != -1) {
-              for (var m = 0; m < markers.length; m++) {
-                if (markers[m] != '') {
-                  let marker = nodes.findIndex(r => r.name.toLowerCase().trim() == markers[m].toLowerCase().trim())
-                  if (!links.some(n => n.s === cell && n.t === marker))
-                    links.push({
-                      s: cell,
-                      t: marker
-                    })
-                }
-              }
-            }
-          }
-        }
-      })
-
-      this.ASCTGraphData = {
-        nodes: nodes,
-        links: links
-      }
-
-      return this.ASCTGraphData
-  }
-
-  public getASCTData() {
-    return this.ASCTGraphData
   }
 
   public async makeMarkerDegree(data) {

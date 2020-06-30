@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
 import embed, { vega } from 'vega-embed';
 import { SheetService } from '../sheet.service';
+import { BimodalService } from './bimodal.service';
 
 @Component({
   selector: 'app-bimodal',
@@ -16,7 +17,7 @@ export class BimodalComponent implements OnInit, OnChanges {
   selectedSizeOption;
 
   hasGraphRendered = false;
-  constructor(public sheet: SheetService) {
+  constructor(public sheet: SheetService, public bms: BimodalService) {
   }
 
   ngOnInit(): void {
@@ -126,16 +127,16 @@ export class BimodalComponent implements OnInit, OnChanges {
 
   getSelection(sortOption, sizeOption) {
     if (sortOption == 'Degree')
-      this.sheet.shouldSortAlphabetically = false
+      this.bms.shouldSortAlphabetically = false
     else
-      this.sheet.shouldSortAlphabetically = true
+      this.bms.shouldSortAlphabetically = true
 
     if (sizeOption == 'Static')
-      this.sheet.shouldSortBySize = false
+      this.bms.shouldSortBySize = false
     else
-      this.sheet.shouldSortBySize = true
+      this.bms.shouldSortBySize = true
 
-    this.sheet.makeASCTData(this.sheet.sheetData, this.sheet.updatedTreeData).then(data => {
+    this.bms.makeASCTData(this.bms.sheetData, this.bms.updatedTreeData).then(data => {
       if (data) {
         this.makeGraph(data);
       }
