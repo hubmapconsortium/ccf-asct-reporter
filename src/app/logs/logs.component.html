@@ -135,7 +135,7 @@
         <br>
         <br>
 
-        <div class="title1">Logs</div>
+        <!-- <div class="title1">Logs</div>
         <div class="details">
 
             <mat-list style="padding: 0; max-height: 50vh; overflow-y: auto;">
@@ -151,8 +151,11 @@
                 </mat-list-item>
             </mat-list>
 
-        </div>
+        </div> -->
     </div>
-    <br>
+    <div style="display: flex; justify-content: space-between;">
+        <button mat-flat-button color="primary" (click)="downloadData()">Download Data</button>
+        <button mat-flat-button color="warn">Report Problem</button>
+    </div>
 
 </div>

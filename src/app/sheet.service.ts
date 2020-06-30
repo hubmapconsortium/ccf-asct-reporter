@@ -170,7 +170,7 @@ export class SheetService {
     // let gid = this.sheet.gid;    
     // let constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`
 
-    let constructedURL = `assets/data/${this.sheet.name}`
+    let constructedURL = `assets/data/${this.sheet.name}.csv`
     return this.http.get(constructedURL, { responseType: 'text' }).toPromise().then(data => {
       let parsedData = parse(data);
       parsedData.data.splice(0, this.sheet.header_count)
@@ -345,11 +345,13 @@ export class SheetService {
     data.forEach(row => {
       for (let col = 0; col < cols.length; col++) {
         if (cols[col] != this.sheet.cell_row && cols[col] != this.sheet.marker_row) {
-          if (!this.doesElementExist(this.anatomicalStructures, row[cols[col]])) {
-            this.anatomicalStructures.push({
-              structure: row[cols[col]].toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
-              uberon: row[cols[col] + this.sheet.uberon_row]
-            })
+          if(row[cols[col]] != "") {
+            if (!this.doesElementExist(this.anatomicalStructures, row[cols[col]])) {
+              this.anatomicalStructures.push({
+                structure: row[cols[col]].toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
+                uberon: row[cols[col] + this.sheet.uberon_row]
+              })
+            }
           }
 
         } else if (cols[col] == this.sheet.cell_row) {

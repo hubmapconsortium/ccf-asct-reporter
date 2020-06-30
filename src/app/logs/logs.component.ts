@@ -1,6 +1,7 @@
-import { Component, OnInit, Output, EventEmitter, Input, OnChanges} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
 import { ReportService } from '../report.service';
 import { SheetService } from '../sheet.service';
+import * as XLSX from 'xlsx'
 
 @Component({
   selector: 'app-logs',
@@ -10,8 +11,8 @@ import { SheetService } from '../sheet.service';
 export class LogsComponent implements OnInit, OnChanges {
   logs; any;
   sheetData;
-  anatomicalStructures= []
-  cellTypes =[]
+  anatomicalStructures = []
+  cellTypes = []
   bioMarkers = []
   warningCount = 0;
   @Output() close = new EventEmitter();
@@ -23,7 +24,7 @@ export class LogsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    
+
   }
 
   ngOnInit(): void {
@@ -41,6 +42,41 @@ export class LogsComponent implements OnInit, OnChanges {
         this.logs = this.report.getAllLogs();
       }, 100)
     })
+  }
+
+  downloadData() {
+    let download = []
+    let total_rows = 6
+    for (var i = 0; i < Math.max(this.anatomicalStructures.length, this.cellTypes.length, this.bioMarkers.length); i++) {
+      let row = {}
+      if (i < this.anatomicalStructures.length) {
+        row['Unique Anatomical Structres'] = this.anatomicalStructures[i].structure
+        if (!(this.anatomicalStructures[i].uberon.includes('UBERON'))) {
+          row['AS with no Uberon Link'] = this.anatomicalStructures[i].structure
+        }
+
+      }
+      if (i < this.cellTypes.length) {
+        row['Unique Cell Types'] = this.cellTypes[i].structure
+        if (!(this.cellTypes[i].link.includes('CL'))) {
+          row['CL with no Link'] = this.cellTypes[i].structure
+        }
+      }
+      if (i < this.bioMarkers.length) {
+        row['Unique Biomarkers'] = this.bioMarkers[i].structure
+        row['Biomarkers with no links'] = this.bioMarkers[i].structure
+      }
+      download.push(row)
+    }
+
+    let sheetWS = XLSX.utils.json_to_sheet(download)
+    sheetWS['!cols'] = []
+    for(var i = 0 ; i < total_rows; i++) {
+      sheetWS['!cols'].push({wch: 30})
+    }
+    let wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, sheetWS, this.sheet.sheet.display)
+    XLSX.writeFile(wb, `${this.sheet.sheet.name}_Report.xlsx`)
   }
 
   getASWithNoLink() {

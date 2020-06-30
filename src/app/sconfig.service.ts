@@ -7,7 +7,7 @@ export class SconfigService {
 
   SHEET_CONFIG = [
     {
-      name: 'Spleen_R2_EMQverify.csv',
+      name: 'Spleen_R2_EMQverify',
       display: 'Spleen',
       sheetId: '1IXOyqzXEdckdDDLwZheFQzieutd8waK3',
       gid: '1909860780',
@@ -26,7 +26,7 @@ export class SconfigService {
       }
     },
     {
-      name: 'Kidney_updated_R1_EMQverify6_21_2020.csv',
+      name: 'Kidney_updated_R1_EMQverify6_21_2020',
       display: 'Kidney',
       sheetId: '1R0uLiUVBCPPbYCncZIc2t1BkBHsgjyUQ',
       gid: '1516392899',
@@ -44,7 +44,7 @@ export class SconfigService {
       }
     },
     {
-      name: 'Liver-R1_EMQverify.csv',
+      name: 'Liver-R1_EMQverify',
       display: 'Liver',
       sheetId: '182y_T_K0r0Cq8-DP9mumyxhZdqBc2orF',
       gid: '1812139231',
@@ -63,7 +63,7 @@ export class SconfigService {
       }
     },
     {
-      name: 'LymphNodes-R1_EMQverify.csv',
+      name: 'LymphNodes-R1_EMQverify',
       display: 'Lymph Nodes',
       sheetId: '1boY5g8b21_XzfM9tzKY-5b2lSQEsXbsT',
       gid: '1911325594',
@@ -82,7 +82,7 @@ export class SconfigService {
       }
     },
     {
-      name: 'Heart-R1_EMQverify.csv',
+      name: 'Heart-R1_EMQverify',
       display: 'Heart',
       sheetId: '1opLDa7TzdQ4Y2cz2C-cl42AIvPUK3Iga',
       gid: '1780473586',
@@ -101,7 +101,7 @@ export class SconfigService {
       }
     },
     {
-      name: 'Small intestine-R1_EMQverify06212020.csv',
+      name: 'Small intestine-R1_EMQverify06212020',
       display: 'Small Intestine',
       sheetId: '1_sK5-aVtI6gG1Dj3Bh3I4kVRveF_Bkgt',
       gid: '550996293',
@@ -120,7 +120,7 @@ export class SconfigService {
       }
     },
     {
-      name: 'Large Intestine_R1_EMQVerify06212020.csv',
+      name: 'Large Intestine_R1_EMQVerify06212020',
       display: 'Large Intestine',
       sheetId: '1W4JjgX71NMTngr3BMnV2RV1TakQiffnj',
       gid: '772211301',
@@ -139,7 +139,7 @@ export class SconfigService {
       }
     },
     {
-      name: 'Skin-R1_EMQverify.csv',
+      name: 'Skin-R1_EMQverify',
       display: 'Skin',
       sheetId: '1W4JjgX71NMTngr3BMnV2RV1TakQiffnj',
       gid: '772211301',

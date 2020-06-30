@@ -30,6 +30,7 @@
         "vega": "^5.13.0",
         "vega-embed": "^6.9.0",
         "vega-lite": "^4.13.1",
+        "xlsx": "^0.16.3",
         "zone.js": "~0.10.2"
     },
     "devDependencies": {
