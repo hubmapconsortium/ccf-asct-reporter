@@ -173,8 +173,7 @@ export class SheetService {
    * Generate data from the Google Sheet to be represented in the report
    * @param  {[Array]} data Google Sheet data
    */
-  public makeASCTData(sheetData, treeData) {
-    return new Promise((resolve, reject) => {
+  async makeASCTData(sheetData, treeData) {
       let links = [];
       let nodes = [];
       let treeX = 0;
@@ -232,18 +231,18 @@ export class SheetService {
       treeX += distance
 
       // based on select input, sorting markers
-      this.makeBioMarkers(sheetData)
+
       if (this.shouldSortAlphabetically) {
-        biomarkers = this.bioMarkers.sort((a, b) => {
+        biomarkers = await this.makeBioMarkers(sheetData)
+        biomarkers.sort((a, b) => {
           return a.structure.toLowerCase() > b.structure.toLowerCase() ? 1 : ((b.structure.toLowerCase() > a.structure.toLowerCase()) ? -1 : 0)
         })
       } else {
-        // biomarkers = this.bioMarkerDegree;
-        biomarkers = this.makeMarkerDegree(sheetData)
+        biomarkers = await this.makeMarkerDegree(sheetData)
       }
 
       if (this.shouldSortBySize) {
-        let tempBiomarkers = this.makeMarkerDegree(sheetData)
+        let tempBiomarkers = await this.makeMarkerDegree(sheetData)
         biomarkers.forEach(b => {
           let idx = tempBiomarkers.findIndex(i => i.structure == b.structure)
           b.nodeSize = tempBiomarkers[idx].count * 75
@@ -318,16 +317,14 @@ export class SheetService {
         links: links
       }
 
-      resolve(this.ASCTGraphData)
-
-    })
+      return this.ASCTGraphData
   }
 
   public getASCTData() {
     return this.ASCTGraphData
   }
 
-  public makeMarkerDegree(data) {
+  public async makeMarkerDegree(data) {
     let markerDegrees = []
 
     data.forEach(row => {
@@ -362,15 +359,15 @@ export class SheetService {
 
   public makeAS(data): Promise<Array<AS>> {
     return new Promise((res, rej) => {
-      this.anatomicalStructures = []
+      let anatomicalStructures = []
       const cols = this.sheet.report_cols;
       data.forEach(row => {
         for (let col = 0; col < cols.length; col++) {
           if (cols[col] != this.sheet.cell_row && cols[col] != this.sheet.marker_row) {
             let structure = row[cols[col]]
             if (structure != "") {
-              if(!this.anatomicalStructures.some(i=> i.structure.toLowerCase() == structure.toLowerCase())) {
-                this.anatomicalStructures.push({
+              if(!anatomicalStructures.some(i=> i.structure.toLowerCase() == structure.toLowerCase())) {
+                anatomicalStructures.push({
                   structure: structure.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
                   uberon: row[cols[col] + this.sheet.uberon_row]
                 })
@@ -380,20 +377,20 @@ export class SheetService {
         }
       })
 
-      if (this.anatomicalStructures.length > 0) res(this.anatomicalStructures)
+      if (anatomicalStructures.length > 0) res(anatomicalStructures)
       else rej(["Could not process anatomical structures."])
     })
   }
 
   public makeCellTypes(data): Promise<Array<CT>> {
-    this.cellTypes = []
+    let cellTypes = []
     return new Promise((res, rej) => {
       data.forEach(row => {
         let cells = row[this.sheet.cell_row].trim().split(',')
         for (let i = 0; i < cells.length; i++) {
           if (cells[i] != "") {
-            if(!this.cellTypes.some(c => c.structure.toLowerCase() == cells[i].toLowerCase())) {
-              this.cellTypes.push({
+            if(!cellTypes.some(c => c.structure.toLowerCase() == cells[i].toLowerCase())) {
+              cellTypes.push({
                 structure: cells[i].toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
                 link: row[this.sheet.cell_row + this.sheet.uberon_row]
               })
@@ -401,21 +398,21 @@ export class SheetService {
           }
         }
       })
-      if (this.cellTypes.length > 0)
-        res(this.cellTypes)
+      if (cellTypes.length > 0)
+        res(cellTypes)
       else rej(["Could not process cell types"])
     })
   }
 
   public makeBioMarkers(data): Promise<Array<B>> {
     return new Promise((res, rej) => {
-      this.bioMarkers = []
+      let bioMarkers = []
       data.forEach(row => {
         let markers = row[this.sheet.marker_row].split(',')
         for (let i = 0; i < markers.length; i++) {
           if (markers[i] !== "") {
-            if (!this.bioMarkers.some(b => b.structure.toLowerCase() == markers[i].trim().toLowerCase())) {
-              this.bioMarkers.push({
+            if (!bioMarkers.some(b => b.structure.toLowerCase() == markers[i].trim().toLowerCase())) {
+              bioMarkers.push({
                 structure: markers[i].trim().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
               })
             }
@@ -423,18 +420,13 @@ export class SheetService {
         }
       })
       
-      if (this.bioMarkers.length > 0)
-        res(this.bioMarkers)
+      if (bioMarkers.length > 0)
+        res(bioMarkers)
       else
         rej(["Could not process biomarkers"])
     })
   }
 
-  /**
-    * Generate data from the Google Sheet to be represented in the tree vis.
-    * @param  {[Array]} data Google Sheet data
-    * @returns {[Array]}     Objects to build the tree
-    */
   public makeTreeData(data) {
     const cols = this.sheet.tree_cols;
     const id = 1;
