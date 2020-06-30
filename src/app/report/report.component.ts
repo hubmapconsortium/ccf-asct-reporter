@@ -42,7 +42,7 @@ export class ReportComponent implements OnInit, OnChanges {
       this.cellTypes = await this.sheet.makeCellTypes(this.sheetData)
       this.bioMarkers = await this.sheet.makeBioMarkers(this.sheetData)
     } catch(err) {
-      console.log(err)
+      // console.log(err)
     }
   }
 

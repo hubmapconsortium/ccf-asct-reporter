@@ -367,10 +367,11 @@ export class SheetService {
       data.forEach(row => {
         for (let col = 0; col < cols.length; col++) {
           if (cols[col] != this.sheet.cell_row && cols[col] != this.sheet.marker_row) {
-            if (row[cols[col]] != "") {
-              if (!this.doesElementExist(this.anatomicalStructures, row[cols[col]])) {
+            let structure = row[cols[col]]
+            if (structure != "") {
+              if(!this.anatomicalStructures.some(i=> i.structure.toLowerCase() == structure.toLowerCase())) {
                 this.anatomicalStructures.push({
-                  structure: row[cols[col]].toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
+                  structure: structure.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
                   uberon: row[cols[col] + this.sheet.uberon_row]
                 })
               }
@@ -390,8 +391,8 @@ export class SheetService {
       data.forEach(row => {
         let cells = row[this.sheet.cell_row].trim().split(',')
         for (let i = 0; i < cells.length; i++) {
-          if (cells[i] !== "") {
-            if (!this.doesElementExist(this.cellTypes, cells[i])) {
+          if (cells[i] != "") {
+            if(!this.cellTypes.some(c => c.structure.toLowerCase() == cells[i].toLowerCase())) {
               this.cellTypes.push({
                 structure: cells[i].toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
                 link: row[this.sheet.cell_row + this.sheet.uberon_row]
@@ -411,10 +412,9 @@ export class SheetService {
       this.bioMarkers = []
       data.forEach(row => {
         let markers = row[this.sheet.marker_row].split(',')
-
         for (let i = 0; i < markers.length; i++) {
           if (markers[i] !== "") {
-            if (!this.doesElementExist(this.bioMarkers, markers[i].trim())) {
+            if (!this.bioMarkers.some(b => b.structure.toLowerCase() == markers[i].trim().toLowerCase())) {
               this.bioMarkers.push({
                 structure: markers[i].trim().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
               })
@@ -510,18 +510,4 @@ export class SheetService {
     return tableData;
   }
 
-  /**
-    * Helper function used by makeReportData() to check if element is present in the array
-    * @param  {[Array]} obj   The array in which the search should be conducted
-    * @param  {[String]} item The string to be searched for
-    * @returns {[Boolean]}    If the object is present or not
-    */
-  doesElementExist(obj, item) {
-    for (let i = 0; i < obj.length; i++) {
-      if (obj[i].structure.toUpperCase() == item.toUpperCase()) {
-        return true
-      }
-    }
-    return false
-  }
 }
