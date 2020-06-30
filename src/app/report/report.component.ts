@@ -32,7 +32,7 @@ export class ReportComponent implements OnInit, OnChanges {
 
   getData() {
     this.sheet.getSheetData().then(data => {
-      this.sheetData = data.data;
+      this.sheetData = data;
       this.sheet.makeReportData(this.sheetData);
       this.anatomicalStructures = this.sheet.anatomicalStructures
       this.cellTypes = this.sheet.cellTypes

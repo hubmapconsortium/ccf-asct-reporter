@@ -44,7 +44,7 @@ export class TableComponent implements OnInit, OnChanges {
 
   getData() {
     this.sheet.getSheetData().then(data => {
-      this.sheetData = data.data;
+      this.sheetData = data;
       this.sheetData.shift(); // removing headers
       this.dataSource = this.sheet.makeTableData(this.sheetData);
       this.returnRefresh.emit({

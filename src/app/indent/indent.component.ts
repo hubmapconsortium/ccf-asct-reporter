@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter, OnChanges} from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { SheetService } from '../sheet.service';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { ReportService } from '../report.service';
+import { IndentService } from './indent.service';
 
 interface Node {
   name: string;
@@ -24,7 +25,7 @@ interface FlatNode {
 })
 export class IndentComponent implements OnInit, OnChanges {
 
-  constructor(public sheet: SheetService, public report: ReportService) {
+  constructor(public sheet: SheetService, public report: ReportService, public indent: IndentService) {
     this.getData();
   }
 
@@ -55,13 +56,13 @@ export class IndentComponent implements OnInit, OnChanges {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngOnChanges() {
     if (this.refreshData) {
       this.getData();
     }
-    
+
     if (this.shouldReloadData && !this.refreshData) {
       this.getData();
     }
@@ -69,25 +70,25 @@ export class IndentComponent implements OnInit, OnChanges {
 
   hasChild = (_: number, node: FlatNode) => node.expandable;
 
-  getData() {
-    this.sheet.getSheetData().then(data => {
-      this.sheetData = data.data;
+  async getData() {
+    const data = await this.sheet.getSheetData()
+    try {
+      this.sheetData = data;
       this.sheetData.shift(); // removing headers
-      this.dataSource.data = [this.sheet.makeIndentData(this.sheetData)];
+      this.dataSource.data = [this.indent.makeIndentData(this.sheetData)];
       this.indentTree.treeControl.expandAll();
+
       this.returnRefresh.emit({
         comp: 'Indented List',
         val: true
       });
-    }).catch(err => {
-      if (err) {
-        console.log(err);
-        this.returnRefresh.emit({
-          comp: 'Indented List',
-          val: false
-        });
-        this.report.reportLog(`Indented List failed to render`, 'error', 'msg')
-      }
-    });
+    } catch (err) {
+      this.returnRefresh.emit({
+        comp: 'Indented List',
+        val: false
+      });
+      this.report.reportLog(`Indented List failed to render`, 'error', 'msg')
+
+    };
   }
 }

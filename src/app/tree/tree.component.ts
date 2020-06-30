@@ -61,7 +61,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
   getData() {
     this.sheet.getSheetData().then(data => {
-      this.sheetData = data.data;
+      this.sheetData = data;
       this.sheet.sheetData = this.sheetData
       this.treeData = this.sheet.makeTreeData(this.sheetData);
 
