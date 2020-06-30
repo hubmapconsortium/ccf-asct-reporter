@@ -4,11 +4,11 @@ import { SheetService } from '../sheet.service';
 import * as XLSX from 'xlsx'
 
 @Component({
-  selector: 'app-logs',
-  templateUrl: './logs.component.html',
-  styleUrls: ['./logs.component.css']
+  selector: 'app-report',
+  templateUrl: './report.component.html',
+  styleUrls: ['./report.component.css']
 })
-export class LogsComponent implements OnInit, OnChanges {
+export class ReportComponent implements OnInit, OnChanges {
   logs; any;
   sheetData;
   anatomicalStructures = []

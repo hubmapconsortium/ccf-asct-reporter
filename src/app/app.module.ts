@@ -10,7 +10,7 @@ import { OrderModule } from 'ngx-order-pipe';
 import { SheetService } from './sheet.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { TreeComponent } from './tree/tree.component';
-import { LogsComponent } from './logs/logs.component';
+import { ReportComponent } from './report/report.component';
 import { IndentComponent } from './indent/indent.component';
 import { TableComponent } from './table/table.component';
 
@@ -52,7 +52,7 @@ const MatModules = [
     AppComponent,
     NavbarComponent,
     TreeComponent,
-    LogsComponent,
+    ReportComponent,
     IndentComponent,
     LoadingComponent,
     TableComponent,
