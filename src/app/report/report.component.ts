@@ -104,4 +104,10 @@ export class ReportComponent implements OnInit, OnChanges {
     this.close.emit(false);
   }
 
+  mail() {
+    let subject = `Problem with ${this.sheet.sheet.name}.xlsx`
+    let mailText = `mailto:infoccf@indiana.edu?subject=${subject}`
+    window.location.href = mailText
+  }
+
 }
