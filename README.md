@@ -114,7 +114,10 @@ The debug logger is a tool that lists various problems (if at all) with the data
 ![Report](src/assets/snippets/report.png)
 ![Debug Logs](src/assets/snippets/logs.png)
 
-
+## Builds
+| Date | Version | Changelog |
+| :-: | :-: | :- |
+| 6/20/2020 |0.1.8 | • Added sort by degree to biomarkers.<br>• Improved sort by degree function for biomarkers.<br>• Separated logs from reports. <br>• Added support to download reports. <br>• Made graph titles to expansion panels for housing sorting functionalities.<br>• Documented the working of various functions on the readme. <br>• Report Problem button in the report can now open mail to send an email.<br>• Added fixed with to visualization to prevent stretching on bigger screens.<br>• Refactored the name of the report component.<br>|
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
