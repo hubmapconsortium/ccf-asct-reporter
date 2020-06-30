@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { parse } from 'papaparse';
 import { SconfigService } from './sconfig.service';
 import { ReportService } from './report.service';
+import { Observable } from 'rxjs';
 
 // colors for vis
 const AS_RED = "#E41A1C"
@@ -46,7 +47,7 @@ export class Tree {
     for (let i = 0; i < this.nodes.length; i++) {
       if (this.nodes[i].name == name) {
         let parent = this.nodes.findIndex(i => i.name == nodeParent.name)
-        if(this.nodes[parent].id != this.nodes[i].parent) {
+        if (this.nodes[parent].id != this.nodes[i].parent) {
           this.nodes[i].problem = true;
         }
         return this.nodes[i];
@@ -85,7 +86,7 @@ export class BMNode {
   color: string;
   nodeSize: number;
 
-  constructor(name, group, first, last, x, y, fontSize, color = "#808080", nodeSize=300) {
+  constructor(name, group, first, last, x, y, fontSize, color = "#808080", nodeSize = 300) {
     this.name = name;
     this.group = group;
     this.first = first;
@@ -108,6 +109,20 @@ export class Marker {
     this.parents = []
     this.count = count
   }
+}
+
+export interface AS {
+  structure: string;
+  uberon: string;
+}
+
+export interface CT {
+  structure: string;
+  link: string;
+}
+
+export interface B {
+  structure: string;
 }
 
 @Injectable({
@@ -141,7 +156,7 @@ export class SheetService {
    * Extract data from Google Sheet
    *  @return {[Array]}      Google Sheet data parsed by PapaParse.
    */
-  public getSheetData() {
+  public getSheetData(): Promise<any> {
     // let sheetId = this.sheet.sheetId;
     // let gid = this.sheet.gid;    
     // let constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`
@@ -233,7 +248,7 @@ export class SheetService {
           let idx = tempBiomarkers.findIndex(i => i.structure == b.structure)
           b.nodeSize = tempBiomarkers[idx].count * 75
         })
-      } 
+      }
 
       // making group 3: bio markers
       for (let i = 0; i < biomarkers.length; i++) {
@@ -251,7 +266,7 @@ export class SheetService {
       for (var i = 0; i < treeData.length; i++) {
         if (treeData[i].children == 0) {
           parent = nodes.findIndex(r => r.name.toLowerCase() == treeData[i].name.toLowerCase())
-      
+
           sheetData.forEach(row => {
             for (var j = 0; j < row.length; j++) {
               if (row[j] == treeData[i].name) {
@@ -303,50 +318,8 @@ export class SheetService {
         links: links
       }
 
-      console.log(this.ASCTGraphData)
-
       resolve(this.ASCTGraphData)
 
-    })
-  }
-
-  public makeReportData(data) {
-    this.anatomicalStructures = []
-    this.cellTypes = []
-    this.bioMarkers = []
-    this.bioMarkerDegree = []
-
-    const cols = this.sheet.report_cols;
-
-    this.makeBioMarkers(data)
-
-    data.forEach(row => {
-      for (let col = 0; col < cols.length; col++) {
-        if (cols[col] != this.sheet.cell_row && cols[col] != this.sheet.marker_row) {
-          if(row[cols[col]] != "") {
-            if (!this.doesElementExist(this.anatomicalStructures, row[cols[col]])) {
-              this.anatomicalStructures.push({
-                structure: row[cols[col]].toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
-                uberon: row[cols[col] + this.sheet.uberon_row]
-              })
-            }
-          }
-
-        } else if (cols[col] == this.sheet.cell_row) {
-          let cells = row[cols[col]].trim().split(',')
-          for (let i = 0; i < cells.length; i++) {
-            if (cells[i] !== "") {
-              if (!this.doesElementExist(this.cellTypes, cells[i])) {
-                this.cellTypes.push({
-                  structure: cells[i].toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
-                  link: row[cols[col] + this.sheet.uberon_row]
-                })
-              }
-            }
-          }
-
-        }
-      }
     })
   }
 
@@ -384,21 +357,63 @@ export class SheetService {
     })
 
     markerDegrees.sort((a, b) => (b.count - a.count));
-
     return markerDegrees
   }
 
-  public makeBioMarkers(data) {
-    let markerDegrees = {};
-    this.bioMarkers = []
-    this.bioMarkerDegree = []
+  public makeAS(data): Promise<Array<AS>> {
     return new Promise((res, rej) => {
+      this.anatomicalStructures = []
+      const cols = this.sheet.report_cols;
+      data.forEach(row => {
+        for (let col = 0; col < cols.length; col++) {
+          if (cols[col] != this.sheet.cell_row && cols[col] != this.sheet.marker_row) {
+            if (row[cols[col]] != "") {
+              if (!this.doesElementExist(this.anatomicalStructures, row[cols[col]])) {
+                this.anatomicalStructures.push({
+                  structure: row[cols[col]].toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
+                  uberon: row[cols[col] + this.sheet.uberon_row]
+                })
+              }
+            }
+          }
+        }
+      })
+
+      if (this.anatomicalStructures.length > 0) res(this.anatomicalStructures)
+      else rej(["Could not process anatomical structures."])
+    })
+  }
+
+  public makeCellTypes(data): Promise<Array<CT>> {
+    this.cellTypes = []
+    return new Promise((res, rej) => {
+      data.forEach(row => {
+        let cells = row[this.sheet.cell_row].trim().split(',')
+        for (let i = 0; i < cells.length; i++) {
+          if (cells[i] !== "") {
+            if (!this.doesElementExist(this.cellTypes, cells[i])) {
+              this.cellTypes.push({
+                structure: cells[i].toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
+                link: row[this.sheet.cell_row + this.sheet.uberon_row]
+              })
+            }
+          }
+        }
+      })
+      if (this.cellTypes.length > 0)
+        res(this.cellTypes)
+      else rej(["Could not process cell types"])
+    })
+  }
+
+  public makeBioMarkers(data): Promise<Array<B>> {
+    return new Promise((res, rej) => {
+      this.bioMarkers = []
       data.forEach(row => {
         let markers = row[this.sheet.marker_row].split(',')
 
         for (let i = 0; i < markers.length; i++) {
           if (markers[i] !== "") {
-            markerDegrees[markers[i].trim()] = (markerDegrees[markers[i].trim()] || 0) + 1;;
             if (!this.doesElementExist(this.bioMarkers, markers[i].trim())) {
               this.bioMarkers.push({
                 structure: markers[i].trim().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
@@ -407,17 +422,11 @@ export class SheetService {
           }
         }
       })
-
-
-      // calculating degree 
-      Object.keys(markerDegrees).sort((a, b) => {
-        return markerDegrees[b] - markerDegrees[a];
-      }).forEach((key) => {
-        this.bioMarkerDegree.push({ structure: key })
-      });
-
-
-      res(true)
+      
+      if (this.bioMarkers.length > 0)
+        res(this.bioMarkers)
+      else
+        rej(["Could not process biomarkers"])
     })
   }
 
@@ -450,7 +459,7 @@ export class SheetService {
             let searchedNode = tree.search(foundNodes[i], parent);
 
             if (Object.keys(searchedNode).length !== 0) {
-              if(searchedNode['problem']) {
+              if (searchedNode['problem']) {
                 this.report.reportLog(`Multiple parents found for node - ${searchedNode['name']}`, 'warning', 'msg')
               }
               parent = searchedNode;

@@ -3,6 +3,11 @@ import { ReportService } from '../report.service';
 import { SheetService } from '../sheet.service';
 import * as XLSX from 'xlsx'
 
+export class AS {
+  structure: string;
+  uberon: string;
+}
+
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
@@ -10,7 +15,7 @@ import * as XLSX from 'xlsx'
 })
 export class ReportComponent implements OnInit, OnChanges {
   sheetData;
-  anatomicalStructures = []
+  anatomicalStructures = [];
   cellTypes = []
   bioMarkers = []
   warningCount = 0;
@@ -30,14 +35,15 @@ export class ReportComponent implements OnInit, OnChanges {
     this.getData();
   }
 
-  getData() {
-    this.sheet.getSheetData().then(data => {
-      this.sheetData = data;
-      this.sheet.makeReportData(this.sheetData);
-      this.anatomicalStructures = this.sheet.anatomicalStructures
-      this.cellTypes = this.sheet.cellTypes
-      this.bioMarkers = this.sheet.bioMarkers
-    })
+  async getData() {
+    this.sheetData = await this.sheet.getSheetData()
+    try {
+      this.anatomicalStructures = await this.sheet.makeAS(this.sheetData)
+      this.cellTypes = await this.sheet.makeCellTypes(this.sheetData)
+      this.bioMarkers = await this.sheet.makeBioMarkers(this.sheetData)
+    } catch(err) {
+      console.log(err)
+    }
   }
 
   downloadData() {
@@ -67,8 +73,8 @@ export class ReportComponent implements OnInit, OnChanges {
 
     let sheetWS = XLSX.utils.json_to_sheet(download)
     sheetWS['!cols'] = []
-    for(var i = 0 ; i < total_rows; i++) {
-      sheetWS['!cols'].push({wch: 30})
+    for (var i = 0; i < total_rows; i++) {
+      sheetWS['!cols'].push({ wch: 30 })
     }
     let wb = XLSX.utils.book_new()
     XLSX.utils.book_append_sheet(wb, sheetWS, this.sheet.sheet.display)
