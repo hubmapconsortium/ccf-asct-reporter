@@ -3,11 +3,11 @@ import embed, { vega } from 'vega-embed';
 import { SheetService } from '../sheet.service';
 
 @Component({
-  selector: 'app-forced',
-  templateUrl: './forced.component.html',
-  styleUrls: ['./forced.component.css']
+  selector: 'app-bimodal',
+  templateUrl: './bimodal.component.html',
+  styleUrls: ['./bimodal.component.css']
 })
-export class ForcedComponent implements OnInit, OnChanges {
+export class BimodalComponent implements OnInit, OnChanges {
 
   @Output() graphCompleted = new EventEmitter();
   @Input() bimodalSelection;
@@ -17,7 +17,6 @@ export class ForcedComponent implements OnInit, OnChanges {
 
   hasGraphRendered = false;
   constructor(public sheet: SheetService) {
-    // this.makeGraph();
   }
 
   ngOnInit(): void {
@@ -26,23 +25,21 @@ export class ForcedComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.selectedOption = this.bimodalSelection
-    // this.getSelection()
+
   }
 
-
-
-  makeGraph() {
+  async makeGraph(data) {
     let config: any = {
       "$schema": "https://vega.github.io/schema/vega/v5.json",
       "data": [
         {
           "name": "nodes",
-          values: this.sheet.getASCTData(),
+          values: data,
           "format": { "type": "json", "property": "nodes" },
         },
         {
           "name": "edges",
-          values: this.sheet.getASCTData(),
+          values: data,
           "format": { "type": "json", "property": "links" },
           "transform": [
             {
@@ -140,7 +137,7 @@ export class ForcedComponent implements OnInit, OnChanges {
 
     this.sheet.makeASCTData(this.sheet.sheetData, this.sheet.updatedTreeData).then(data => {
       if (data) {
-        this.makeGraph();
+        this.makeGraph(data);
       }
     })
 

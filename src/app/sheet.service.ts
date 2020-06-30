@@ -139,10 +139,10 @@ export class SheetService {
   ASCTGraphData = {};
   forcedData = [];
   bioMarkerDegree = [];
+  
+  // BIOMODAL DATA
   sheetData;
   updatedTreeData;
-
-  // BIOMODAL DATA
   shouldSortAlphabetically = true;
   shouldSortBySize = false;
 
@@ -425,53 +425,6 @@ export class SheetService {
       else
         rej(["Could not process biomarkers"])
     })
-  }
-
-  public makeTreeData(data) {
-    const cols = this.sheet.tree_cols;
-    const id = 1;
-    let parent;
-    const tree = new Tree(id);
-
-    const root = new TNode(id, this.sheet.body, 0, 0, AS_RED);
-    delete root.parent; delete root.uberon_id;
-    tree.append(root);
-
-    data.forEach(row => {
-      parent = root;
-      for (let col = 0; col < cols.length; col++) {
-
-        if (row[cols[col]] == '') {
-          continue;
-        }
-
-        let foundNodes = row[cols[col]].trim().split()
-        for (var i = 0; i < foundNodes.length; i++) {
-          if (foundNodes[i] != '') {
-            let searchedNode = tree.search(foundNodes[i], parent);
-
-            if (Object.keys(searchedNode).length !== 0) {
-              if (searchedNode['problem']) {
-                this.report.reportLog(`Multiple parents found for node - ${searchedNode['name']}`, 'warning', 'msg')
-              }
-              parent = searchedNode;
-            } else {
-              tree.id += 1;
-              let newNode = new TNode(tree.id, foundNodes[i], parent.id, row[cols[col] + this.sheet.uberon_row], AS_RED);
-
-              tree.append(newNode);
-              parent = newNode;
-            }
-          }
-        }
-      }
-    });
-
-    if (tree.nodes.length < 0) {
-      return [];
-    }
-
-    return tree.nodes;
   }
 
   /**

@@ -14,6 +14,7 @@ import { ReportComponent } from './report/report.component';
 import { IndentComponent } from './indent/indent.component';
 import { TableComponent } from './table/table.component';
 import { LogsComponent } from './logs/logs.component';
+import { BimodalComponent } from './bimodal/bimodal.component';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,7 +30,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
-import { ForcedComponent } from './forced/forced.component';
+
 
 const MatModules = [
   MatToolbarModule,
@@ -56,7 +57,7 @@ const MatModules = [
     IndentComponent,
     LoadingComponent,
     TableComponent,
-    ForcedComponent,
+    BimodalComponent,
     LogsComponent
   ],
   imports: [

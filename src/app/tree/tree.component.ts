@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnChanges, Output, EventEmitter, OnDestroy, V
 import { SheetService } from '../sheet.service';
 import embed from 'vega-embed';
 import { ReportService } from '../report.service';
+import { TreeService } from './tree.service';
 
 @Component({
   selector: 'app-tree',
@@ -33,7 +34,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   ]
   bimodalSelectedSizeOption = this.bimodalSizeOptions[0]
 
-  constructor(public sheet: SheetService, public report: ReportService) {
+  constructor(public sheet: SheetService, public report: ReportService, public ts: TreeService) {
     // this.getData();
   }
 
@@ -59,14 +60,14 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  getData() {
-    this.sheet.getSheetData().then(data => {
-      this.sheetData = data;
-      this.sheet.sheetData = this.sheetData
-      this.treeData = this.sheet.makeTreeData(this.sheetData);
+  async getData() {
+    try {
+      this.sheetData = await this.sheet.getSheetData();
+      this.sheet.sheetData = this.sheetData // this is needed to update the bimodal network
+      this.treeData = await this.ts.makeTreeData(this.sheetData);
 
       const height = document.getElementsByTagName('body')[0].clientHeight;
-      const width = document.getElementsByTagName('body')[0].clientWidth;
+
       this.graphWidth = this.sheet.sheet.config.width
       this.bimodalDistance = this.sheet.sheet.config.bimodal_distance * 2.5
 
@@ -140,8 +141,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             encode: {
               enter: {
                 size: { value: 300 },
-                stroke: {signal: 'datum.problem ? "#000": "#fff"'},
-                strokeWidth: {signal: 'datum.problem ? 3: 0'}
+                stroke: { signal: 'datum.problem ? "#000": "#fff"' },
+                strokeWidth: { signal: 'datum.problem ? 3: 0' }
               },
               update: {
                 x: { field: 'x' },
@@ -162,7 +163,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                 text: { field: 'name' },
                 fontSize: { value: 14 },
                 baseline: { value: 'middle' },
-                fontWeight: {value: 400}
+                fontWeight: { value: 400 }
               },
               update: {
                 x: { field: 'x' },
@@ -177,33 +178,36 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
       let embedding = embed("#vis", config, { actions: false })
 
-      embedding.then((data) => {
-        this.sheet.updatedTreeData = data.spec.data[0].values
-        this.sheet.makeASCTData(this.sheetData, data.spec.data[0].values).then(data => {
-          if (data) {
-            this.shouldRenderASCTBiomodal = true;
-            if (this.shouldRenderASCTBiomodal)
-              this.biomodal.makeGraph();
+      try {
+        const treeData = await embedding
+        this.sheet.updatedTreeData = treeData.spec.data[0].values; // this is needed to update the bimodal network
+        const asctData = await this.sheet.makeASCTData(this.sheetData, this.sheet.updatedTreeData)
+        if (asctData) {
+          this.shouldRenderASCTBiomodal = true;
+          if (this.shouldRenderASCTBiomodal)
+            this.biomodal.makeGraph(asctData);
 
-            this.report.reportLog(`Tree succesfully rendered`, 'success', 'msg')
-            this.returnRefresh.emit({
-              comp: 'Tree',
-              val: true
-            });
-          }
-        })
-      })
-    }).catch(err => {
-      if (err) {
-        this.returnRefresh.emit({
-          comp: 'Tree',
-          val: false
-        });
-        this.report.reportLog(`Tree failed to render`, 'error', 'msg')
+          this.report.reportLog(`Tree succesfully rendered`, 'success', 'msg')
+          this.returnRefresh.emit({
+            comp: 'Tree',
+            val: true
+          });
+        } else {
+          this.returnRefresh.emit({
+            comp: 'Tree',
+            val: false
+          });
+        }
+
+      } catch (err) {
+        console.log(err)
       }
-
-    });
+    } catch (err) {
+      this.returnRefresh.emit({
+        comp: 'Tree',
+        val: false
+      });
+      this.report.reportLog(`Tree failed to render`, 'error', 'msg')
+    }
   }
-
-
 }

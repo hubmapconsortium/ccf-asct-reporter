@@ -74,7 +74,6 @@ export class IndentComponent implements OnInit, OnChanges {
     const data = await this.sheet.getSheetData()
     try {
       this.sheetData = data;
-      this.sheetData.shift(); // removing headers
       this.dataSource.data = [this.indent.makeIndentData(this.sheetData)];
       this.indentTree.treeControl.expandAll();
 
