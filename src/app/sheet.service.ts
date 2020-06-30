@@ -327,6 +327,8 @@ export class SheetService {
         links: links
       }
 
+      console.log(this.ASCTGraphData)
+
       resolve(this.ASCTGraphData)
 
     })
@@ -502,7 +504,7 @@ export class SheetService {
     */
   public makeIndentData(data) {
     const cols = this.sheet.indent_cols;
-    const root = new Node('body', [], '', AS_RED);
+    const root = new Node(this.sheet.body, [], '', AS_RED);
     delete root.uberon;
 
     let parent;
