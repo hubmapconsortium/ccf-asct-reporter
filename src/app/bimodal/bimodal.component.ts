@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
 import embed, { vega } from 'vega-embed';
-import { SheetService } from '../sheet.service';
+import { SheetService } from '../services/sheet.service';
 import { BimodalService } from './bimodal.service';
 
 @Component({

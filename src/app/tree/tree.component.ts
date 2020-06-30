@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
-import { SheetService } from '../sheet.service';
+import { SheetService } from '../services/sheet.service';
 import embed from 'vega-embed';
-import { ReportService } from '../report.service';
+import { ReportService } from '../services/report.service';
 import { TreeService } from './tree.service';
 import { BimodalService } from '../bimodal/bimodal.service';
 

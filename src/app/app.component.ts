@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingComponent } from './loading/loading.component';
-import { SconfigService } from './sconfig.service';
-import { SheetService } from './sheet.service';
-import { ReportService } from './report.service';
+import { SconfigService } from './services/sconfig.service';
+import { SheetService } from './services/sheet.service';
+import { ReportService } from './services/report.service';
 
 @Component({
   selector: 'app-root',

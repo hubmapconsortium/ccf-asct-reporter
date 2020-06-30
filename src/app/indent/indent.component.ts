@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { SheetService } from '../sheet.service';
+import { SheetService } from '../services/sheet.service';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { ReportService } from '../report.service';
+import { ReportService } from '../services/report.service';
 import { IndentService } from './indent.service';
 
 interface Node {

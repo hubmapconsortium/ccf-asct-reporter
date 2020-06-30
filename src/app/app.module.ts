@@ -7,7 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { OrderModule } from 'ngx-order-pipe';
 
-import { SheetService } from './sheet.service';
+import { SheetService } from './services/sheet.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { TreeComponent } from './tree/tree.component';
 import { ReportComponent } from './report/report.component';

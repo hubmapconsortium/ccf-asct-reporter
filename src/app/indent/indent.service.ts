@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
-import { SheetService } from '../sheet.service';
+import { SheetService } from '../services/sheet.service';
 
 // Used in the indented list vis
 export class Node {

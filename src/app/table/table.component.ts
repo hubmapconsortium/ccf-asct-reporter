@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { SheetService } from '../sheet.service';
+import { SheetService } from '../services/sheet.service';
 
 @Component({
   selector: 'app-table',

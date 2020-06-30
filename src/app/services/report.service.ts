@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
-import { SheetService } from './sheet.service';
 
 export class Log {
   message: string;

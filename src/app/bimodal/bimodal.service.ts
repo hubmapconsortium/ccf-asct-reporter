@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { SheetService } from '../sheet.service';
-import { ReportService } from '../report.service';
+import { SheetService } from '../services/sheet.service';
+import { ReportService } from '../services/report.service';
 
 const CT_BLUE = "#377EB8"
 const B_GREEN = "#4DAF4A"
@@ -35,9 +35,6 @@ export class BMNode {
 })
 export class BimodalService {
 
-  ASCTGraphData = {}
-  
-  // BIOMODAL DATA
   sheetData;
   updatedTreeData;
   shouldSortAlphabetically = true;
@@ -46,6 +43,7 @@ export class BimodalService {
   constructor(public sheet: SheetService, public report: ReportService) { }
 
   async makeASCTData(sheetData, treeData) {
+    let ASCTGraphData = {}
     let links = [];
     let nodes = [];
     let treeX = 0;
@@ -184,12 +182,12 @@ export class BimodalService {
       }
     })
 
-    this.ASCTGraphData = {
+    ASCTGraphData = {
       nodes: nodes,
       links: links
     }
 
-    return this.ASCTGraphData
+    return ASCTGraphData
   }
 
 }

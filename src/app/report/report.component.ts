@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
-import { ReportService } from '../report.service';
-import { SheetService } from '../sheet.service';
+import { ReportService } from '../services/report.service';
+import { SheetService } from '../services/sheet.service';
 import * as XLSX from 'xlsx'
 
 export class AS {
