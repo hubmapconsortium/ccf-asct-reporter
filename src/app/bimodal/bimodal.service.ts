@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SheetService } from '../services/sheet.service';
 import { ReportService } from '../services/report.service';
+import { config } from 'rxjs';
 
 const CT_BLUE = "#377EB8"
 const B_GREEN = "#4DAF4A"
@@ -37,12 +38,15 @@ export class BimodalService {
 
   sheetData;
   updatedTreeData;
-  shouldSortAlphabetically = true;
-  shouldSortBySize = false;
+  shouldSortBMAlphabetically = true;
+  shouldSortBMBySize = false;
+
+  shouldSortCTAlphabetically = true;
+  shouldSortCTBySize = false;
 
   constructor(public sheet: SheetService, public report: ReportService) { }
 
-  async makeASCTData(sheetData, treeData) {
+  async makeASCTData(sheetData, treeData, bimodalConfig) {
     let ASCTGraphData = {}
     let links = [];
     let nodes = [];
@@ -52,7 +56,7 @@ export class BimodalService {
     let id = 0;
     let biomarkers = [];
 
-    // making anatomical structures
+    // making anatomical structures (last layer of the tree)
     treeData.forEach(td => {
       if (td.children == 0) {
         let leaf = td.name;
@@ -63,38 +67,38 @@ export class BimodalService {
       }
     })
 
+    // adding x distance to build the next layer of bimodal
     treeX += distance
 
-    // making group 2: cell types 
-    treeData.forEach(td => {
-      if (td.children == 0) {
-        let leaf = td.name;
+    // making group 2: cell type
+    let cellTypes = await this.sheet.makeCellTypes(sheetData)
 
-        sheetData.forEach(row => {
-          if (row[this.sheet.sheet.cell_row] != '') {
-            for (var i = 0; i < row.length; i++) {
-              if (row[i] == leaf) {
-                let cell_r = row[this.sheet.sheet.cell_row]
-                if (!nodes.some(r => r.name.toLowerCase() == cell_r.toLowerCase())) {
-                  let cell_r = row[this.sheet.sheet.cell_row].split(',')
-                  for (var c = 0; c < cell_r.length; c++) {
-                    if (cell_r[c] != '') {
-                      if (!nodes.some(r => r.name.toLowerCase() == cell_r[c].toLowerCase())) {
-                        let cell = row[this.sheet.sheet.cell_row];
-                        let newNode = new BMNode(cell_r[c], 2, '', cell_r[c], treeX, treeY, 14, CT_BLUE)
-                        newNode.id = id;
-                        nodes.push(newNode)
-                        treeY += 50;
-                        id += 1;
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        })
-      }
+    // sorting cells based on options
+    if (bimodalConfig.CT.sort == 'Alphabetically') {
+      this.sheet.makeCellDegree(sheetData, treeData)
+      cellTypes.sort((a, b) => {
+        return a.structure.toLowerCase() > b.structure.toLowerCase() ? 1 : ((b.structure.toLowerCase() > a.structure.toLowerCase()) ? -1 : 0)
+      })
+    } else {
+      cellTypes = await this.sheet.makeCellDegree(sheetData, treeData)
+    }
+
+
+    if (bimodalConfig.CT.size == 'Degree') {
+      // put sort size by degree function here
+      let tempCellTypes = await this.sheet.makeCellDegree(sheetData, treeData)
+      cellTypes.forEach(c => {
+        let idx = tempCellTypes.findIndex(i => i.structure.toLowerCase() == c.structure.toLowerCase())
+        c.nodeSize = tempCellTypes[idx].count * 75
+      })
+    }
+
+    cellTypes.forEach(cell => {
+      let newNode = new BMNode(cell.structure, 2, '', cell.structure, treeX, treeY, 14, CT_BLUE, cell.nodeSize)
+      newNode.id = id;
+      nodes.push(newNode)
+      treeY += 50;
+      id += 1;
     })
 
     treeY = 50;
@@ -102,7 +106,7 @@ export class BimodalService {
 
     // based on select input, sorting markers
 
-    if (this.shouldSortAlphabetically) {
+    if (bimodalConfig.BM.sort == 'Alphabetically') {
       biomarkers = await this.sheet.makeBioMarkers(sheetData)
       biomarkers.sort((a, b) => {
         return a.structure.toLowerCase() > b.structure.toLowerCase() ? 1 : ((b.structure.toLowerCase() > a.structure.toLowerCase()) ? -1 : 0)
@@ -111,7 +115,7 @@ export class BimodalService {
       biomarkers = await this.sheet.makeMarkerDegree(sheetData)
     }
 
-    if (this.shouldSortBySize) {
+    if (bimodalConfig.BM.size == 'Degree') {
       let tempBiomarkers = await this.sheet.makeMarkerDegree(sheetData)
       biomarkers.forEach(b => {
         let idx = tempBiomarkers.findIndex(i => i.structure == b.structure)

@@ -101,7 +101,7 @@ export class BimodalComponent implements OnInit, OnChanges {
             "update": {
               "x": { "field": "x" },
               "y": { "field": "y", offset: 5 },
-              "dx": { value: 15 },
+              "dx": { value: 20 },
               "align": { "value": "left" },
               "baseline": { "value": "middle" },
               "text": { "field": "last" },
@@ -125,18 +125,8 @@ export class BimodalComponent implements OnInit, OnChanges {
     })
   }
 
-  getSelection(sortOption, sizeOption) {
-    if (sortOption == 'Degree')
-      this.bms.shouldSortAlphabetically = false
-    else
-      this.bms.shouldSortAlphabetically = true
-
-    if (sizeOption == 'Static')
-      this.bms.shouldSortBySize = false
-    else
-      this.bms.shouldSortBySize = true
-
-    this.bms.makeASCTData(this.bms.sheetData, this.bms.updatedTreeData).then(data => {
+  getSelection(config) {
+    this.bms.makeASCTData(this.bms.sheetData, this.bms.updatedTreeData, config).then(data => {
       if (data) {
         this.makeGraph(data);
       }

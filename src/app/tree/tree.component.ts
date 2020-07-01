@@ -22,21 +22,46 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   @Input() public shouldReloadData = false;
   @Output() returnRefresh = new EventEmitter();
   @ViewChild('bimodal') biomodal;
+  
 
   bimodalSortOptions = [
     'Alphabetically',
     'Degree'
   ]
-  bimodalSelectedOption = this.bimodalSortOptions[0]
+  // bimodalCTSortOptions = [
+  //   'Alphabetically',
+  //   'Degree'
+  // ]
+
+  // bimodalBMSelectedOption = this.bimodalBMSortOptions[0]
+  // bimodalCTSelectedOption = this.bimodalCTSortOptions[0]
 
   bimodalSizeOptions = [
     'Static',
     'Degree'
   ]
-  bimodalSelectedSizeOption = this.bimodalSizeOptions[0]
+  // bimodalCTSizeOptions = [
+  //   'Static',
+  //   'Degree'
+  // ]
+  // bimodalBMSelectedSizeOption = this.bimodalBMSizeOptions[0]
+  // bimodalCTSelectedSizeOption = this.bimodalCTSizeOptions[0]
+
+
+
+  bimodalConfig = {
+    BM: {
+      sort: this.bimodalSortOptions[0],
+      size: this.bimodalSizeOptions[0]
+    },
+    CT: {
+      sort: this.bimodalSortOptions[0],
+      size: this.bimodalSizeOptions[0]
+    }
+  }
 
   constructor(public sheet: SheetService, public report: ReportService, public ts: TreeService, public bms: BimodalService) {
-    // this.getData();
+    
   }
 
   ngOnInit(): void {
@@ -48,7 +73,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getBimodalSelecion() {
-    this.biomodal.getSelection(this.bimodalSelectedOption, this.bimodalSelectedSizeOption)
+    this.biomodal.getSelection(this.bimodalConfig)
   }
 
   ngOnChanges() {
@@ -182,7 +207,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       try {
         const treeData = await embedding
         this.bms.updatedTreeData = treeData.spec.data[0].values; // this is needed to update the bimodal network
-        const asctData = await this.bms.makeASCTData(this.sheetData, this.bms.updatedTreeData)
+        const asctData = await this.bms.makeASCTData(this.sheetData, this.bms.updatedTreeData, this.bimodalConfig)
         if (asctData) {
           this.shouldRenderASCTBiomodal = true;
           if (this.shouldRenderASCTBiomodal)

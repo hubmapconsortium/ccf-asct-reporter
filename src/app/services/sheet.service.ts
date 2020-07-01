@@ -3,60 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { parse } from 'papaparse';
 import { SconfigService } from './sconfig.service';
 import { ReportService } from './report.service';
-import { Observable } from 'rxjs';
-
-// colors for vis
-const AS_RED = "#E41A1C"
-const CT_BLUE = "#377EB8"
-const B_GREEN = "#4DAF4A"
-
-// Used in the tree visualization
-export class TNode {
-  id: any;
-  name: String;
-  parent: String;
-  uberon_id: String;
-  color: string;
-  problem: boolean;
-
-  constructor(id, name, parent, u_id, color = "#808080") {
-    this.id = id;
-    this.name = name;
-    this.parent = parent;
-    this.uberon_id = u_id;
-    this.color = color;
-    this.problem = false;
-  }
-}
-
-// Used in the tree visualization
-export class Tree {
-  nodes: Array<TNode>;
-  id: any;
-
-  constructor(id) {
-    this.nodes = [];
-    this.id = id;
-  }
-
-  public append(node) {
-    this.nodes.push(node);
-  }
-
-  public search(name, nodeParent) {
-    for (let i = 0; i < this.nodes.length; i++) {
-      if (this.nodes[i].name == name) {
-        let parent = this.nodes.findIndex(i => i.name == nodeParent.name)
-        if (this.nodes[parent].id != this.nodes[i].parent) {
-          this.nodes[i].problem = true;
-        }
-        return this.nodes[i];
-      }
-    }
-    return {};
-  }
-
-}
 
 // Used in the table vis
 export class ASCT {
@@ -74,32 +20,20 @@ export class ASCT {
   cl_id: string;
 }
 
-export class BMNode {
-  name: string;
-  group: number;
-  first: string;
-  last: string;
-  fontSize: number;
-  x: number;
-  y: number;
-  id: number;
-  color: string;
-  nodeSize: number;
 
-  constructor(name, group, first, last, x, y, fontSize, color = "#808080", nodeSize = 300) {
-    this.name = name;
-    this.group = group;
-    this.first = first;
-    this.last = last;
-    this.fontSize = fontSize;
-    this.x = x;
-    this.y = y;
-    this.color = color;
-    this.nodeSize = nodeSize;
+export class Marker {
+  structure: string;
+  parents: Array<string>;
+  count: number;
+
+  constructor(structure, count) {
+    this.structure = structure
+    this.parents = []
+    this.count = count
   }
 }
 
-export class Marker {
+export class Cell {
   structure: string;
   parents: Array<string>;
   count: number;
@@ -119,6 +53,7 @@ export interface AS {
 export interface CT {
   structure: string;
   link: string;
+  nodeSize: number;
 }
 
 export interface B {
@@ -134,12 +69,12 @@ export class SheetService {
   sheet;
 
   ASCTGraphData = {};
-  
+
   // BIOMODAL DATA
   sheetData;
   updatedTreeData;
-  shouldSortAlphabetically = true;
-  shouldSortBySize = false;
+  shouldSortBMAlphabetically = true;
+  shouldSortBMBySize = false;
 
   constructor(private http: HttpClient, public sc: SconfigService, public report: ReportService) { }
 
@@ -189,6 +124,52 @@ export class SheetService {
     return markerDegrees
   }
 
+  public async makeCellDegree(data, treeData) {
+    let cellDegrees = []
+
+    treeData.forEach(td => {
+      if (td.children == 0) {
+        let leaf = td.name;
+
+        data.forEach(row => {
+          let parent;
+          for (var p of this.sheet.tree_cols) {
+            let st = row[p].split(',')
+            parent = st.find(i => i.toLowerCase() == leaf.toLowerCase())
+            if (parent) break;
+          }
+          
+
+          if (parent) {
+            let cells = row[this.sheet.cell_row].split(',')
+            for (var i = 0; i < cells.length; i++) {
+              if (cells[i] != '') {
+                let foundCell = cellDegrees.findIndex(c => c.structure.toLowerCase().trim() == cells[i].toLowerCase().trim())
+                if (foundCell == -1) {
+                  let nc = new Cell(cells[i].trim(), 1)
+                  nc.parents.push(parent.toLowerCase())
+                  cellDegrees.push(nc)
+                } else {
+                  let c = cellDegrees[foundCell]
+                  if (!c.parents.includes(parent.toLowerCase())) {
+                    c.count += 1
+                    c.parents.push(parent.toLowerCase())
+                  }
+                }
+              }
+            }
+
+          }
+        })
+      }
+    })
+
+
+
+    cellDegrees.sort((a, b) => (b.count - a.count));
+    return cellDegrees
+  }
+
   public makeAS(data): Promise<Array<AS>> {
     return new Promise((res, rej) => {
       let anatomicalStructures = []
@@ -198,7 +179,7 @@ export class SheetService {
           if (cols[col] != this.sheet.cell_row && cols[col] != this.sheet.marker_row) {
             let structure = row[cols[col]]
             if (structure != "") {
-              if(!anatomicalStructures.some(i=> i.structure.toLowerCase() == structure.toLowerCase())) {
+              if (!anatomicalStructures.some(i => i.structure.toLowerCase() == structure.toLowerCase())) {
                 anatomicalStructures.push({
                   structure: structure.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
                   uberon: row[cols[col] + this.sheet.uberon_row]
@@ -221,7 +202,7 @@ export class SheetService {
         let cells = row[this.sheet.cell_row].trim().split(',')
         for (let i = 0; i < cells.length; i++) {
           if (cells[i] != "") {
-            if(!cellTypes.some(c => c.structure.toLowerCase() == cells[i].toLowerCase())) {
+            if (!cellTypes.some(c => c.structure.toLowerCase() == cells[i].toLowerCase())) {
               cellTypes.push({
                 structure: cells[i].toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
                 link: row[this.sheet.cell_row + this.sheet.uberon_row]
@@ -251,7 +232,7 @@ export class SheetService {
           }
         }
       })
-      
+
       if (bioMarkers.length > 0)
         res(bioMarkers)
       else
