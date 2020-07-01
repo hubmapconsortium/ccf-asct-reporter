@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SheetService } from '../services/sheet.service';
-import { ReportService } from '../services/report.service';
+import { ReportService } from '../report/report.service';
 import { config } from 'rxjs';
 
 const CT_BLUE = "#377EB8"

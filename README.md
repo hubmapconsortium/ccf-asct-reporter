@@ -25,7 +25,8 @@ $ ng serve
 For deployment,
 ```shell
 $ git clone https://github.com/hubmapconsortium/ccf-asct-reporter
-$ npm run build -- --base-href=/ccf-asct-reporter/
+$ cd ccf-asct-reporter
+$ npm run build -- --base-href=/ccf-asct-reporter --configuration=production
 $ npm run deploy
 ```
 
@@ -118,6 +119,7 @@ The debug logger is a tool that lists various problems (if at all) with the data
 | Date | Version | Changelog |
 | :-: | :-: | :- |
 | 6/20/2020 |0.1.8 | • Added sort by degree to biomarkers.<br>• Improved sort by degree function for biomarkers.<br>• Separated logs from reports. <br>• Added support to download reports. <br>• Made graph titles to expansion panels for housing sorting functionalities.<br>• Documented the working of various functions on the readme. <br>• Report Problem button in the report can now open mail to send an email.<br>• Added fixed width to visualization to prevent stretching on bigger screens.<br>• Refactored the name of the report component.<br>• Added Skin ASCT data to the visualization.|
+| 6/21/2020 |0.2.0 | • Sorting cells by degree, size and alphabetically.<br>• Color changes to the graph toolbar. <br> • Refactored `sheet.service.ts` to create services for individual components.<br> • Added `bimodal.service.ts` to the bimodal network. <br>• Added `indent.service.ts` to the indented list.<br>• Added `report.service.ts` to the report component.<br>• Added `tree.service.ts` to the tree component. <br>• Shifted all services to `app/src/services/`<br>|
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

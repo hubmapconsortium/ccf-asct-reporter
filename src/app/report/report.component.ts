@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
-import { ReportService } from '../services/report.service';
+import { ReportService } from '../report/report.service';
 import { SheetService } from '../services/sheet.service';
 import * as XLSX from 'xlsx'
 
@@ -42,7 +42,7 @@ export class ReportComponent implements OnInit, OnChanges {
       this.cellTypes = await this.sheet.makeCellTypes(this.sheetData)
       this.bioMarkers = await this.sheet.makeBioMarkers(this.sheetData)
     } catch(err) {
-      // console.log(err)
+      console.log(err)
     }
   }
 

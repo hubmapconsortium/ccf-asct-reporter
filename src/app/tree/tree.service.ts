@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SheetService } from '../services/sheet.service';
-import { ReportService } from '../services/report.service';
+import { ReportService } from '../report/report.service';
 
 // Used in the tree visualization
 export class TNode {

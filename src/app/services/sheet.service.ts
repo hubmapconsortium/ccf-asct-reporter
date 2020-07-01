@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { parse } from 'papaparse';
 import { SconfigService } from './sconfig.service';
-import { ReportService } from './report.service';
+import { ReportService } from '../report/report.service';
+import { environment } from './../../environments/environment';
 
 // Used in the table vis
 export class ASCT {
@@ -82,6 +83,7 @@ export class SheetService {
     // let sheetId = this.sheet.sheetId;
     // let gid = this.sheet.gid;    
     // let constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`
+    console.log(environment)
 
     let constructedURL = `assets/data/${this.sheet.name}.csv`
     return this.http.get(constructedURL, { responseType: 'text' }).toPromise().then(data => {

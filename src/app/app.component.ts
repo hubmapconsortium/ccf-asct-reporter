@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingComponent } from './loading/loading.component';
 import { SconfigService } from './services/sconfig.service';
 import { SheetService } from './services/sheet.service';
-import { ReportService } from './services/report.service';
+import { ReportService } from './report/report.service';
 
 @Component({
   selector: 'app-root',

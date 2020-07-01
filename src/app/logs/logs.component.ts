@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
 import { SheetService } from '../services/sheet.service';
-import { ReportService } from '../services/report.service';
+import { ReportService } from '../report/report.service';
 
 @Component({
   selector: 'app-logs',
