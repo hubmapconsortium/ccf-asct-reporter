@@ -66,18 +66,18 @@ export class BimodalService {
     treeX += distance
 
     // making group 2: cell type
-    let cellTypes = await this.sheet.makeCellTypes(sheetData)
+    let cellTypes = []
 
     // sorting cells based on options
     if (bimodalConfig.CT.sort == 'Alphabetically') {
-      this.sheet.makeCellDegree(sheetData, treeData)
+      cellTypes = await this.sheet.makeCellTypes(sheetData)
       cellTypes.sort((a, b) => {
         return a.structure.toLowerCase() > b.structure.toLowerCase() ? 1 : ((b.structure.toLowerCase() > a.structure.toLowerCase()) ? -1 : 0)
       })
     } else {
       cellTypes = await this.sheet.makeCellDegree(sheetData, treeData)
     }
-
+    
 
     if (bimodalConfig.CT.size == 'Degree') {
       // put sort size by degree function here
@@ -86,6 +86,7 @@ export class BimodalService {
         let idx = tempCellTypes.findIndex(i => i.structure.toLowerCase() == c.structure.toLowerCase())
         c.nodeSize = tempCellTypes[idx].count * 75
       })
+      
     }
 
     cellTypes.forEach(cell => {

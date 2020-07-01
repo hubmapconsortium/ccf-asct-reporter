@@ -28,26 +28,11 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     'Alphabetically',
     'Degree'
   ]
-  // bimodalCTSortOptions = [
-  //   'Alphabetically',
-  //   'Degree'
-  // ]
-
-  // bimodalBMSelectedOption = this.bimodalBMSortOptions[0]
-  // bimodalCTSelectedOption = this.bimodalCTSortOptions[0]
 
   bimodalSizeOptions = [
     'Static',
     'Degree'
   ]
-  // bimodalCTSizeOptions = [
-  //   'Static',
-  //   'Degree'
-  // ]
-  // bimodalBMSelectedSizeOption = this.bimodalBMSizeOptions[0]
-  // bimodalCTSelectedSizeOption = this.bimodalCTSizeOptions[0]
-
-
 
   bimodalConfig = {
     BM: {

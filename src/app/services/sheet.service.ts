@@ -74,7 +74,7 @@ export class SheetService {
   // BIOMODAL DATA
   sheetData;
   updatedTreeData;
-  
+
   constructor(private http: HttpClient, public sc: SconfigService, public report: ReportService) { }
 
   public getSheetData(): Promise<any> {
@@ -124,50 +124,46 @@ export class SheetService {
     return markerDegrees
   }
 
-  public async makeCellDegree(data, treeData) {
-    let cellDegrees = []
+  public async makeCellDegree(data, treeData): Promise<Array<Cell>> {
+    return new Promise((res, rej) => {
+      let cellDegrees = []
 
-    treeData.forEach(td => {
-      if (td.children == 0) {
-        let leaf = td.name;
+      treeData.forEach(td => {
+        if (td.children == 0) {
+          let leaf = td.name;
 
-        data.forEach(row => {
-          let parent;
-          for (var p of this.sheet.tree_cols) {
-            let st = row[p].split(',')
-            parent = st.find(i => i.toLowerCase() == leaf.toLowerCase())
-            if (parent) break;
-          }
-          
+          data.forEach(row => {
+            let parent;
+              parent = row.find(i => i.toLowerCase() == leaf.toLowerCase())
 
-          if (parent) {
-            let cells = row[this.sheet.cell_row].split(',')
-            for (var i = 0; i < cells.length; i++) {
-              if (cells[i] != '') {
-                let foundCell = cellDegrees.findIndex(c => c.structure.toLowerCase().trim() == cells[i].toLowerCase().trim())
-                if (foundCell == -1) {
-                  let nc = new Cell(cells[i].trim(), 1)
-                  nc.parents.push(parent.toLowerCase())
-                  cellDegrees.push(nc)
-                } else {
-                  let c = cellDegrees[foundCell]
-                  if (!c.parents.includes(parent.toLowerCase())) {
-                    c.count += 1
-                    c.parents.push(parent.toLowerCase())
+            if (parent) {
+              let cells = row[this.sheet.cell_row].split(',')
+              console.log(cells)
+              for (var i = 0; i < cells.length; i++) {
+                if (cells[i] != '') {
+                  let foundCell = cellDegrees.findIndex(c => c.structure.toLowerCase().trim() == cells[i].toLowerCase().trim())
+                  if (foundCell == -1) {
+                    let nc = new Cell(cells[i].trim(), 1)
+                    nc.parents.push(parent.toLowerCase())
+                    cellDegrees.push(nc)
+                  } else {
+                    let c = cellDegrees[foundCell]
+                    if (!c.parents.includes(parent.toLowerCase())) {
+                      c.count += 1
+                      c.parents.push(parent.toLowerCase())
+                    }
                   }
                 }
               }
+
             }
+          })
+        }
+      })
 
-          }
-        })
-      }
+      cellDegrees.sort((a, b) => (b.count - a.count));
+      res(cellDegrees)
     })
-
-
-
-    cellDegrees.sort((a, b) => (b.count - a.count));
-    return cellDegrees
   }
 
   public makeAS(data): Promise<Array<AS>> {
@@ -202,9 +198,9 @@ export class SheetService {
         let cells = row[this.sheet.cell_row].trim().split(',')
         for (let i = 0; i < cells.length; i++) {
           if (cells[i] != "") {
-            if (!cellTypes.some(c => c.structure.toLowerCase() == cells[i].toLowerCase())) {
+            if (!cellTypes.some(c => c.structure.trim().toLowerCase() == cells[i].trim().toLowerCase())) {
               cellTypes.push({
-                structure: cells[i].toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
+                structure: cells[i].toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ').trim(),
                 link: row[this.sheet.cell_row + this.sheet.uberon_row]
               })
             }
