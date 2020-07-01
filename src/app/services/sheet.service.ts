@@ -74,9 +74,7 @@ export class SheetService {
   // BIOMODAL DATA
   sheetData;
   updatedTreeData;
-  shouldSortBMAlphabetically = true;
-  shouldSortBMBySize = false;
-
+  
   constructor(private http: HttpClient, public sc: SconfigService, public report: ReportService) { }
 
   public getSheetData(): Promise<any> {
