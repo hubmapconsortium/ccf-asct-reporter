@@ -38,11 +38,6 @@ export class BimodalService {
 
   sheetData;
   updatedTreeData;
-  shouldSortBMAlphabetically = true;
-  shouldSortBMBySize = false;
-
-  shouldSortCTAlphabetically = true;
-  shouldSortCTBySize = false;
 
   constructor(public sheet: SheetService, public report: ReportService) { }
 
