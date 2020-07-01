@@ -138,7 +138,6 @@ export class SheetService {
 
             if (parent) {
               let cells = row[this.sheet.cell_row].split(',')
-              console.log(cells)
               for (var i = 0; i < cells.length; i++) {
                 if (cells[i] != '') {
                   let foundCell = cellDegrees.findIndex(c => c.structure.toLowerCase().trim() == cells[i].toLowerCase().trim())
