@@ -3,11 +3,7 @@
 }
 
 .mat-expansion-panel-header {
-    background: #fafafa !important;
-}
-
-.mat-expansion-panel-header:hover {
-    background: rgb(225, 225, 225) !important;
+    background: transparent !important;
 }
 
 .mat-form-field-infix {
@@ -20,7 +16,7 @@
 }
 
 ::ng-deep .mat-expansion-panel {
-    background-color: #fafafa;
+    background-color: transparent;
 }
 
 ::ng-deep .mat-form-field-wrapper {
