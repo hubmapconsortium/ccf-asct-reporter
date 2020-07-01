@@ -20,7 +20,7 @@
                     <div style="display: flex; flex-direction: row; align-items: center;">
                         <b style="padding-right: 10px;">Sort</b>
                         <mat-form-field style="text-align: start;">
-                            <button mat-flat-button style="width: 80%; background-color: rgb(255, 255, 255);" #tooltip="matTooltip" matTooltip="Sort Markers" matTooltipPosition="below">
+                            <button mat-flat-button style="width: 80%; background-color: rgb(255, 255, 255);" #tooltip="matTooltip" matTooltip="Sort Cell Types" matTooltipPosition="below">
                         <mat-select (selectionChange)="getBimodalSelecion()" [(ngModel)]="bimodalConfig.CT.sort">
                             <mat-option *ngFor="let option of bimodalSortOptions" [value]="option">
                                 {{option}}
@@ -33,7 +33,7 @@
                     <div style="display: flex; flex-direction: row; align-items: center;">
                         <b style="padding-right: 10px;">Size</b>
                         <mat-form-field style="text-align: start;">
-                            <button mat-flat-button style="width: 80%; background-color: rgb(255, 255, 255);" #tooltip="matTooltip" matTooltip="Sort Markers" matTooltipPosition="below">
+                            <button mat-flat-button style="width: 80%; background-color: rgb(255, 255, 255);" #tooltip="matTooltip" matTooltip="Size Cell Types" matTooltipPosition="below">
                         <mat-select (selectionChange)="getBimodalSelecion()" [(ngModel)]="bimodalConfig.CT.size">
                             <mat-option *ngFor="let option of bimodalSizeOptions" [value]="option">
                                 {{option}}
@@ -67,7 +67,7 @@
                     <div style="display: flex; flex-direction: row; align-items: center;">
                         <b style="padding-right: 10px;">Size</b>
                         <mat-form-field style="text-align: start;">
-                            <button mat-flat-button style="width: 80%; background-color: rgb(255, 255, 255);" #tooltip="matTooltip" matTooltip="Sort Markers" matTooltipPosition="below">
+                            <button mat-flat-button style="width: 80%; background-color: rgb(255, 255, 255);" #tooltip="matTooltip" matTooltip="Size Markers" matTooltipPosition="below">
                         <mat-select (selectionChange)="getBimodalSelecion()" [(ngModel)]="bimodalConfig.BM.size">
                             <mat-option *ngFor="let option of bimodalSizeOptions" [value]="option">
                                 {{option}}
