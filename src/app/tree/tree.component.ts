@@ -22,7 +22,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   @Input() public shouldReloadData = false;
   @Output() returnRefresh = new EventEmitter();
   @ViewChild('bimodal') biomodal;
-  
+  @ViewChild('mepCT') mepCT;
+  @ViewChild('mepBM') mepBM;
+
 
   bimodalSortOptions = [
     'Alphabetically',
@@ -46,7 +48,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   constructor(public sheet: SheetService, public report: ReportService, public ts: TreeService, public bms: BimodalService) {
-    
+
   }
 
   ngOnInit(): void {
@@ -69,6 +71,21 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     if (this.shouldReloadData && !this.refreshData) {
       this.getData();
     }
+
+  }
+
+  expandAll(op) {
+    if (op == 'CT')
+      this.mepBM.expanded = true
+    if (op == 'B')
+      this.mepCT.expanded = true
+  }
+
+  collapseAll(op) {
+    if (op == 'CT')
+      this.mepBM.expanded = false
+    if (op == 'B')
+      this.mepCT.expanded = false
   }
 
   async getData() {
