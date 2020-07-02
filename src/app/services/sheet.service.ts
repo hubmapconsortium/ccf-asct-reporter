@@ -96,7 +96,7 @@ export class SheetService {
 
     data.forEach(row => {
       let markers = row[this.sheet.marker_row].split(',')
-      let cells = row[this.sheet.cell_row].split(',').map(str => str.trim())
+      let cells = row[this.sheet.cell_row].split(',').map(str => str.trim()).filter(c => c!= '')
 
       for (var i = 0; i < markers.length; i++) {
         if (markers[i] != '') {

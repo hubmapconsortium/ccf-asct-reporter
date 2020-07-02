@@ -27,7 +27,7 @@ export class BMNode {
     this.x = x;
     this.y = y;
     this.color = color;
-    this.nodeSize = nodeSize;
+    this.nodeSize = nodeSize == 0 ? 50 : nodeSize;
   }
 }
 
@@ -84,7 +84,7 @@ export class BimodalService {
       let tempCellTypes = await this.sheet.makeCellDegree(sheetData, treeData)
       cellTypes.forEach(c => {
         let idx = tempCellTypes.findIndex(i => i.structure.toLowerCase() == c.structure.toLowerCase())
-        c.nodeSize = tempCellTypes[idx].count * 75
+        if (idx != -1) c.nodeSize = tempCellTypes[idx].count * 75
       })
       
     }
@@ -115,7 +115,7 @@ export class BimodalService {
       let tempBiomarkers = await this.sheet.makeMarkerDegree(sheetData)
       biomarkers.forEach(b => {
         let idx = tempBiomarkers.findIndex(i => i.structure == b.structure)
-        b.nodeSize = tempBiomarkers[idx].count * 75
+        if (idx != -1) b.nodeSize = tempBiomarkers[idx].count * 75
       })
     }
 
