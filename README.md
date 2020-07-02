@@ -26,7 +26,7 @@ For deployment,
 ```shell
 $ git clone https://github.com/hubmapconsortium/ccf-asct-reporter
 $ cd ccf-asct-reporter
-$ npm run build -- --base-href=/ccf-asct-reporter --configuration=production
+$ npm run build -- --base-href=/ccf-asct-reporter/ --configuration=production
 $ npm run deploy
 ```
 

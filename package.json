@@ -8,7 +8,7 @@
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
-        "deploy": "gh-pages -d dist/ccf-asct-reporter"
+        "deploy": "cd dist/ccf-asct-reporter && touch .nojekyll && touch 404.html && cat index.html >> 404.html && gh-pages -d dist/ccf-asct-reporter"
     },
     "private": true,
     "dependencies": {

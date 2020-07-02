@@ -79,7 +79,7 @@ export class SheetService {
 
   public getSheetData(): Promise<any> {
     // let sheetId = this.sheet.sheetId;
-    // let gid = this.sheet.gid;    
+    // let gid = this.sheet.gid;
     // let constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`
     console.log(environment)
 
