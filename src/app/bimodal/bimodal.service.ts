@@ -77,16 +77,20 @@ export class BimodalService {
     } else {
       cellTypes = await this.sheet.makeCellDegree(sheetData, treeData)
     }
-    
+
 
     if (bimodalConfig.CT.size == 'Degree') {
       // put sort size by degree function here
       let tempCellTypes = await this.sheet.makeCellDegree(sheetData, treeData)
       cellTypes.forEach(c => {
         let idx = tempCellTypes.findIndex(i => i.structure.toLowerCase() == c.structure.toLowerCase())
-        if (idx != -1) c.nodeSize = tempCellTypes[idx].count * 75
+        if (idx != -1) {
+          c.nodeSize = tempCellTypes[idx].count * 75
+        } else {
+          this.report.reportLog(`Parent not found for cell - ${c.structure}`, 'warning', 'msg')
+        }
       })
-      
+
     }
 
     cellTypes.forEach(cell => {
@@ -115,7 +119,11 @@ export class BimodalService {
       let tempBiomarkers = await this.sheet.makeMarkerDegree(sheetData)
       biomarkers.forEach(b => {
         let idx = tempBiomarkers.findIndex(i => i.structure == b.structure)
-        if (idx != -1) b.nodeSize = tempBiomarkers[idx].count * 75
+        if (idx != -1) {
+          b.nodeSize = tempBiomarkers[idx].count * 75
+        } else {
+          this.report.reportLog(`Parent not found for biomarker - ${b.structure}`, 'warning', 'msg')
+        }
       })
     }
 
