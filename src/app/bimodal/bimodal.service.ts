@@ -18,7 +18,7 @@ export class BMNode {
   color: string;
   nodeSize: number;
 
-  constructor(name, group, first, last, x, y, fontSize, color = '#808080', nodeSize = 300) {
+  constructor(name, group, first, last, x, y, fontSize, color = '#E41A1C', nodeSize = 300) {
     this.name = name;
     this.group = group;
     this.first = first;

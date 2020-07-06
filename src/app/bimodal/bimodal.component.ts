@@ -32,6 +32,15 @@ export class BimodalComponent implements OnInit, OnChanges {
   async makeGraph(data) {
     const config: any = {
       $schema: 'https://vega.github.io/schema/vega/v5.json',
+      "signals": [
+        {
+          "name": "active", "value": null,
+          "on": [
+            { "events": "*:mouseover", "update": "datum.id" },
+            { "events": "mouseover[!event.item]", "update": "null" }
+          ]
+        }
+      ],
       data: [
         {
           name: 'nodes',
@@ -56,8 +65,18 @@ export class BimodalComponent implements OnInit, OnChanges {
               sourceY: 'source.y',
               targetX: 'target.x',
               targetY: 'target.y',
-              orient: 'vertical',
-              shape: 'line'
+              orient: 'horizontal',
+              shape: 'diagonal'
+            }
+          ]
+        },
+        {
+          name: "selected",
+          source: "edges",
+          "transform": [
+            {
+              "type": "filter",
+              "expr": "datum.s === active || datum.t === active"
             }
           ]
         }
@@ -74,7 +93,12 @@ export class BimodalComponent implements OnInit, OnChanges {
               y: { value: 5 }
             },
             update: {
-              path: { field: 'path' }
+              path: { field: 'path' },
+              "stroke": [
+                {"test": "datum.source.id === active", "value": "red"},
+                {"test": "datum.target.id === active", "value": "red"},
+                {"value": "#ccc"}
+              ]
             }
           }
         },
@@ -85,10 +109,8 @@ export class BimodalComponent implements OnInit, OnChanges {
             enter: {
               size: { field: 'nodeSize' },
               fill: { field: 'color' },
-              color: { field: 'Origin', type: 'nominal' },
               x: { field: 'x' },
               y: { field: 'y', offset: 5 },
-              opacity: { signal: 'datum.group == 1 ? 0 : 1' }
             }
           }
         },
