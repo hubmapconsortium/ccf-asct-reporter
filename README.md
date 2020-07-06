@@ -30,6 +30,12 @@ $ npm run build -- --base-href=/ccf-asct-reporter/ --configuration=production
 $ npm run deploy
 ```
 
+For updating table data,
+```shell
+$ npm run data # for updating all sheets
+$ npm run data <sheet> # for updating a specific sheet
+```
+
 ## Details
 
 ### Currently supported ASCT Tables
