@@ -36,8 +36,15 @@ export class BimodalComponent implements OnInit, OnChanges {
         {
           "name": "active", "value": null,
           "on": [
-            { "events": "*:mouseover", "update": "datum.id" },
+            { "events": "symbol:mouseover", "update": "datum.id" },
             { "events": "mouseover[!event.item]", "update": "null" }
+          ]
+        },
+        {
+          "name": "click_active", "value": null,
+          "on": [
+            { "events": "symbol:click", "update": "datum.id" },
+            { "events": "click[!event.item]", "update": "null" }
           ]
         }
       ],
@@ -70,16 +77,6 @@ export class BimodalComponent implements OnInit, OnChanges {
             }
           ]
         },
-        {
-          name: "selected",
-          source: "edges",
-          "transform": [
-            {
-              "type": "filter",
-              "expr": "datum.s === active || datum.t === active"
-            }
-          ]
-        }
       ],
       marks: [
         {
@@ -99,11 +96,17 @@ export class BimodalComponent implements OnInit, OnChanges {
                 {"test": "datum.source.id === active && datum.source.group == 2", "value": "#377EB8"},
                 {"test": "datum.target.id === active && datum.target.group == 2", "value": "#E41A1C"},
                 {"test": "datum.target.id === active", "value": "#4DAF4A"},
+                {"test": "datum.source.id === click_active && datum.source.group == 1", "value": "#E41A1C"},
+                {"test": "datum.source.id === click_active && datum.source.group == 2", "value": "#377EB8"},
+                {"test": "datum.target.id === click_active && datum.target.group == 2", "value": "#E41A1C"},
+                {"test": "datum.target.id === click_active", "value": "#4DAF4A"},
                 {"value": "#ccc"}
               ],
               zindex: [
                 {"test": "datum.source.id === active", "value": 2},
                 {"test": "datum.target.id === active", "value": 2},
+                {"test": "datum.source.id === click_active", "value": 2},
+                {"test": "datum.target.id === click_active", "value": 2}
               ]
             }
           }
@@ -117,6 +120,7 @@ export class BimodalComponent implements OnInit, OnChanges {
               fill: { field: 'color' },
               x: { field: 'x' },
               y: { field: 'y', offset: 5 },
+              cursor: {"value": "pointer"}
             }
           }
         },
