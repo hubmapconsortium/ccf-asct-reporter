@@ -22,9 +22,9 @@ export class NavbarComponent implements OnInit {
     'Small Intestine',
     'Large Intestine',
     'Skin'
-  ]
+  ];
 
-  selectedSheetOption = this.sheetOptions[0]
+  selectedSheetOption = this.sheetOptions[0];
 
   @Output() showReport = new EventEmitter<any>();
   @Output() showLog = new EventEmitter<any>();
@@ -35,7 +35,7 @@ export class NavbarComponent implements OnInit {
   constructor() {
     this.getSheetSelection();
     this.getSelection();
-    
+
   }
 
   ngOnInit(): void {
@@ -46,7 +46,7 @@ export class NavbarComponent implements OnInit {
   }
 
   getSheetSelection() {
-    this.getSheet.emit(this.selectedSheetOption)
+    this.getSheet.emit(this.selectedSheetOption);
   }
 
   showLogs() {

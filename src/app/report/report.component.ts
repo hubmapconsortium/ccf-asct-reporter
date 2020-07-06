@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
 import { ReportService } from '../report/report.service';
 import { SheetService } from '../services/sheet.service';
-import * as XLSX from 'xlsx'
+import * as XLSX from 'xlsx';
 
 export class AS {
   structure: string;
@@ -16,13 +16,13 @@ export class AS {
 export class ReportComponent implements OnInit, OnChanges {
   sheetData;
   anatomicalStructures = [];
-  cellTypes = []
-  bioMarkers = []
+  cellTypes = [];
+  bioMarkers = [];
   warningCount = 0;
   @Output() close = new EventEmitter();
   @Input() refreshData;
 
-  sheetName = 'Spleen_R2'
+  sheetName = 'Spleen_R2';
 
   constructor(public report: ReportService, public sheet: SheetService) {
   }
@@ -36,72 +36,72 @@ export class ReportComponent implements OnInit, OnChanges {
   }
 
   async getData() {
-    this.sheetData = await this.sheet.getSheetData()
+    this.sheetData = await this.sheet.getSheetData();
     try {
-      this.anatomicalStructures = await this.sheet.makeAS(this.sheetData)
-      this.cellTypes = await this.sheet.makeCellTypes(this.sheetData)
-      this.bioMarkers = await this.sheet.makeBioMarkers(this.sheetData)
-    } catch(err) {
-      console.log(err)
+      this.anatomicalStructures = await this.sheet.makeAS(this.sheetData);
+      this.cellTypes = await this.sheet.makeCellTypes(this.sheetData);
+      this.bioMarkers = await this.sheet.makeBioMarkers(this.sheetData);
+    } catch (err) {
+      console.log(err);
     }
   }
 
   downloadData() {
-    let download = []
-    let total_rows = 6
-    for (var i = 0; i < Math.max(this.anatomicalStructures.length, this.cellTypes.length, this.bioMarkers.length); i++) {
-      let row = {}
+    const download = [];
+    const total_rows = 6;
+    for (let i = 0; i < Math.max(this.anatomicalStructures.length, this.cellTypes.length, this.bioMarkers.length); i++) {
+      const row = {};
       if (i < this.anatomicalStructures.length) {
-        row['Unique Anatomical Structres'] = this.anatomicalStructures[i].structure
+        row['Unique Anatomical Structres'] = this.anatomicalStructures[i].structure;
         if (!(this.anatomicalStructures[i].uberon.includes('UBERON'))) {
-          row['AS with no Uberon Link'] = this.anatomicalStructures[i].structure
+          row['AS with no Uberon Link'] = this.anatomicalStructures[i].structure;
         }
 
       }
       if (i < this.cellTypes.length) {
-        row['Unique Cell Types'] = this.cellTypes[i].structure
+        row['Unique Cell Types'] = this.cellTypes[i].structure;
         if (!(this.cellTypes[i].link.includes('CL'))) {
-          row['CL with no Link'] = this.cellTypes[i].structure
+          row['CL with no Link'] = this.cellTypes[i].structure;
         }
       }
       if (i < this.bioMarkers.length) {
-        row['Unique Biomarkers'] = this.bioMarkers[i].structure
-        row['Biomarkers with no links'] = this.bioMarkers[i].structure
+        row['Unique Biomarkers'] = this.bioMarkers[i].structure;
+        row['Biomarkers with no links'] = this.bioMarkers[i].structure;
       }
-      download.push(row)
+      download.push(row);
     }
 
-    let sheetWS = XLSX.utils.json_to_sheet(download)
-    sheetWS['!cols'] = []
-    for (var i = 0; i < total_rows; i++) {
-      sheetWS['!cols'].push({ wch: 30 })
+    const sheetWS = XLSX.utils.json_to_sheet(download);
+    sheetWS['!cols'] = [];
+    for (let i = 0; i < total_rows; i++) {
+      sheetWS['!cols'].push({ wch: 30 });
     }
-    let wb = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(wb, sheetWS, this.sheet.sheet.display)
-    XLSX.writeFile(wb, `${this.sheet.sheet.name}_Report.xlsx`)
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, sheetWS, this.sheet.sheet.display);
+    XLSX.writeFile(wb, `${this.sheet.sheet.name}_Report.xlsx`);
   }
 
   getASWithNoLink() {
-    let noLinks = []
+    const noLinks = [];
     this.anatomicalStructures.forEach(ele => {
       if (!(ele.uberon.includes('UBERON'))) {
-        noLinks.push(ele)
+        noLinks.push(ele);
       }
     });
     return noLinks;
   }
 
   getCTWithNoLink() {
-    let noLinks = [];
+    const noLinks = [];
     this.cellTypes.forEach(ele => {
       if (!(ele.link.includes('CL'))) {
-        noLinks.push(ele)
+        noLinks.push(ele);
       }
     });
     return noLinks;
   }
   getBMWithNoLink() {
-    let noLinks = [];
+    const noLinks = [];
 
     return noLinks;
   }
@@ -111,9 +111,9 @@ export class ReportComponent implements OnInit, OnChanges {
   }
 
   mail() {
-    let subject = `Problem with ${this.sheet.sheet.name}.xlsx`
-    let mailText = `mailto:infoccf@indiana.edu?subject=${subject}`
-    window.location.href = mailText
+    const subject = `Problem with ${this.sheet.sheet.name}.xlsx`;
+    const mailText = `mailto:infoccf@indiana.edu?subject=${subject}`;
+    window.location.href = mailText;
   }
 
 }

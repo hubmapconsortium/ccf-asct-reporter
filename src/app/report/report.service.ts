@@ -30,9 +30,10 @@ export class ReportService {
   constructor() { }
 
   reportLog(message, icon, type) {
-    let time = new Date();
-    if (!this.reportedLogs.some(i => i.message == message && i.time == moment(time).format('hh:mm:ss')))
-      this.reportedLogs.push(new Log(message, this.icons[icon], moment(time).format('hh:mm:ss'), type))
+    const time = new Date();
+    if (!this.reportedLogs.some(i => i.message == message && i.time == moment(time).format('hh:mm:ss'))) {
+      this.reportedLogs.push(new Log(message, this.icons[icon], moment(time).format('hh:mm:ss'), type));
+    }
   }
 
   getAllLogs() {
@@ -41,9 +42,9 @@ export class ReportService {
 
   createReport(anatomicalStructures, cellTypes) {
     this.report = {
-      anatomicalStructures: anatomicalStructures,
-      cellTypes: cellTypes
-    }
+      anatomicalStructures,
+      cellTypes
+    };
   }
 
   getAllReport() {

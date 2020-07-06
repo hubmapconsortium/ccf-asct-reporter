@@ -141,7 +141,7 @@ export class SconfigService {
         width: 1200
       }
     },
-  ]
+  ];
 
 
   constructor() { }

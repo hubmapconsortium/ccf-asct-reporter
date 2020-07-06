@@ -25,104 +25,104 @@ export class BimodalComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    this.selectedOption = this.bimodalSelection
+    this.selectedOption = this.bimodalSelection;
 
   }
 
   async makeGraph(data) {
-    let config: any = {
-      "$schema": "https://vega.github.io/schema/vega/v5.json",
-      "data": [
+    const config: any = {
+      $schema: 'https://vega.github.io/schema/vega/v5.json',
+      data: [
         {
-          "name": "nodes",
+          name: 'nodes',
           values: data,
-          "format": { "type": "json", "property": "nodes" },
+          format: { type: 'json', property: 'nodes' },
         },
         {
-          "name": "edges",
+          name: 'edges',
           values: data,
-          "format": { "type": "json", "property": "links" },
-          "transform": [
+          format: { type: 'json', property: 'links' },
+          transform: [
             {
-              "type": "lookup",
-              "from": "nodes",
-              "key": "id",
-              "fields": ["s", "t"],
-              "as": ["source", "target"]
+              type: 'lookup',
+              from: 'nodes',
+              key: 'id',
+              fields: ['s', 't'],
+              as: ['source', 'target']
             },
             {
-              "type": "linkpath",
-              "sourceX": "source.x",
-              "sourceY": "source.y",
-              "targetX": "target.x",
-              "targetY": "target.y",
-              "orient": "vertical",
-              "shape": "line"
+              type: 'linkpath',
+              sourceX: 'source.x',
+              sourceY: 'source.y',
+              targetX: 'target.x',
+              targetY: 'target.y',
+              orient: 'vertical',
+              shape: 'line'
             }
           ]
         }
       ],
-      "marks": [
+      marks: [
         {
-          "type": "path",
-          "from": { "data": "edges" },
-          "encode": {
-            "enter": {
-              "stroke": { "value": "#ccc" },
-              "strokeWidth": { "value": 1.5 },
-              "x": { "value": 0 },
-              "y": { "value": 5 }
+          type: 'path',
+          from: { data: 'edges' },
+          encode: {
+            enter: {
+              stroke: { value: '#ccc' },
+              strokeWidth: { value: 1.5 },
+              x: { value: 0 },
+              y: { value: 5 }
             },
-            "update": {
-              "path": { "field": "path" }
+            update: {
+              path: { field: 'path' }
             }
           }
         },
         {
-          "type": "symbol",
-          "from": { "data": "nodes" },
-          "encode": {
-            "enter": {
-              "size": { "field": "nodeSize" },
-              "fill": { "field": "color" },
-              "color": { "field": "Origin", "type": "nominal" },
-              "x": { "field": "x" },
-              "y": { "field": "y", "offset": 5 },
-              "opacity": { "signal": "datum.group == 1 ? 0 : 1" }
+          type: 'symbol',
+          from: { data: 'nodes' },
+          encode: {
+            enter: {
+              size: { field: 'nodeSize' },
+              fill: { field: 'color' },
+              color: { field: 'Origin', type: 'nominal' },
+              x: { field: 'x' },
+              y: { field: 'y', offset: 5 },
+              opacity: { signal: 'datum.group == 1 ? 0 : 1' }
             }
           }
         },
         {
-          "type": "text",
-          "zindex": 5,
-          "dx": 5,
-          "from": { "data": "nodes" },
-          "encode": {
-            "update": {
-              "x": { "field": "x" },
-              "y": { "field": "y", offset: 5 },
-              "dx": { value: 20 },
-              "align": { "value": "left" },
-              "baseline": { "value": "middle" },
-              "text": { "field": "last" },
-              "fontSize": { "field": "fontSize" },
-              "fontWeight": { "value": 400 },
-              "opacity": { "value": 1 }
+          type: 'text',
+          zindex: 5,
+          dx: 5,
+          from: { data: 'nodes' },
+          encode: {
+            update: {
+              x: { field: 'x' },
+              y: { field: 'y', offset: 5 },
+              dx: { value: 20 },
+              align: { value: 'left' },
+              baseline: { value: 'middle' },
+              text: { field: 'last' },
+              fontSize: { field: 'fontSize' },
+              fontWeight: { value: 400 },
+              opacity: { value: 1 }
             }
           }
         },
       ]
-    }
+    };
 
-    let embedded = embed('#ASCTVis', config, { actions: false })
+    const embedded = embed('#ASCTVis', config, { actions: false });
     embedded.then(data => {
       if (data) {
         this.graphCompleted.emit({
           val: true
-        })
+        });
         this.hasGraphRendered = true;
       }
-    })
+    });
   }
 
   getSelection(config) {
@@ -130,7 +130,7 @@ export class BimodalComponent implements OnInit, OnChanges {
       if (data) {
         this.makeGraph(data);
       }
-    })
+    });
 
   }
 

@@ -29,12 +29,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   bimodalSortOptions = [
     'Alphabetically',
     'Degree'
-  ]
+  ];
 
   bimodalSizeOptions = [
     'Static',
     'Degree'
-  ]
+  ];
 
   bimodalConfig = {
     BM: {
@@ -45,7 +45,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       sort: this.bimodalSortOptions[0],
       size: this.bimodalSizeOptions[0]
     }
-  }
+  };
 
   constructor(public sheet: SheetService, public report: ReportService, public ts: TreeService, public bms: BimodalService) {
 
@@ -60,7 +60,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getBimodalSelecion() {
-    this.biomodal.getSelection(this.bimodalConfig)
+    this.biomodal.getSelection(this.bimodalConfig);
   }
 
   ngOnChanges() {
@@ -75,29 +75,33 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   expandAll(op) {
-    if (op == 'CT')
-      this.mepBM.expanded = true
-    if (op == 'B')
-      this.mepCT.expanded = true
+    if (op == 'CT') {
+      this.mepBM.expanded = true;
+    }
+    if (op == 'B') {
+      this.mepCT.expanded = true;
+    }
   }
 
   collapseAll(op) {
-    if (op == 'CT')
-      this.mepBM.expanded = false
-    if (op == 'B')
-      this.mepCT.expanded = false
+    if (op == 'CT') {
+      this.mepBM.expanded = false;
+    }
+    if (op == 'B') {
+      this.mepCT.expanded = false;
+    }
   }
 
   async getData() {
     try {
       this.sheetData = await this.sheet.getSheetData();
-      this.bms.sheetData = this.sheetData // this is needed to update the bimodal network
+      this.bms.sheetData = this.sheetData; // this is needed to update the bimodal network
       this.treeData = await this.ts.makeTreeData(this.sheetData);
 
       const height = document.getElementsByTagName('body')[0].clientHeight;
 
-      this.graphWidth = this.sheet.sheet.config.width
-      this.bimodalDistance = this.sheet.sheet.config.bimodal_distance * 2.5
+      this.graphWidth = this.sheet.sheet.config.width;
+      this.bimodalDistance = this.sheet.sheet.config.bimodal_distance * 2.5;
 
       const config: any = {
         $schema: 'https://vega.github.io/schema/vega/v5.json',
@@ -105,7 +109,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         width: this.sheet.sheet.config.width,
         height: height + 300,
         padding: 5,
-        autosize: "pad",
+        autosize: 'pad',
         signals: [
         ],
 
@@ -205,18 +209,19 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         ]
       };
 
-      let embedding = embed("#vis", config, { actions: false })
+      const embedding = embed('#vis', config, { actions: false });
 
       try {
-        const treeData = await embedding
+        const treeData = await embedding;
         this.bms.updatedTreeData = treeData.spec.data[0].values; // this is needed to update the bimodal network
-        const asctData = await this.bms.makeASCTData(this.sheetData, this.bms.updatedTreeData, this.bimodalConfig)
+        const asctData = await this.bms.makeASCTData(this.sheetData, this.bms.updatedTreeData, this.bimodalConfig);
         if (asctData) {
           this.shouldRenderASCTBiomodal = true;
-          if (this.shouldRenderASCTBiomodal)
+          if (this.shouldRenderASCTBiomodal) {
             this.biomodal.makeGraph(asctData);
+          }
 
-          this.report.reportLog(`Tree succesfully rendered`, 'success', 'msg')
+          this.report.reportLog(`Tree succesfully rendered`, 'success', 'msg');
           this.returnRefresh.emit({
             comp: 'Tree',
             val: true
@@ -229,14 +234,14 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         }
 
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
     } catch (err) {
       this.returnRefresh.emit({
         comp: 'Tree',
         val: false
       });
-      this.report.reportLog(`Tree failed to render`, 'error', 'msg')
+      this.report.reportLog(`Tree failed to render`, 'error', 'msg');
     }
   }
 }

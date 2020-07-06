@@ -32,12 +32,17 @@ export class IndentComponent implements OnInit, OnChanges {
   sheetData;
   indentData = [];
   activateNode;
+  treeFlattener;
+  dataSource;
 
   @Input() public refreshData = false;
   @Output() returnRefresh = new EventEmitter();
   @Input() public shouldReloadData = false;
 
   @ViewChild('indentTree') indentTree;
+
+  treeControl = new FlatTreeControl<FlatNode>(
+    node => node.level, node => node.expandable);
 
   private _transformer = (node: Node, level: number) => {
     return {
@@ -48,15 +53,12 @@ export class IndentComponent implements OnInit, OnChanges {
     };
   }
 
-  treeControl = new FlatTreeControl<FlatNode>(
-    node => node.level, node => node.expandable);
+  ngOnInit(): void {
+    this.treeFlattener = new MatTreeFlattener(
+      this._transformer, node => node.level, node => node.expandable, node => node.children);
 
-  treeFlattener = new MatTreeFlattener(
-    this._transformer, node => node.level, node => node.expandable, node => node.children);
-
-  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
-  ngOnInit(): void { }
+    this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+  }
 
   ngOnChanges() {
     if (this.refreshData) {
@@ -71,7 +73,7 @@ export class IndentComponent implements OnInit, OnChanges {
   hasChild = (_: number, node: FlatNode) => node.expandable;
 
   async getData() {
-    const data = await this.sheet.getSheetData()
+    const data = await this.sheet.getSheetData();
     try {
       this.sheetData = data;
       this.dataSource.data = [this.indent.makeIndentData(this.sheetData)];
@@ -86,8 +88,8 @@ export class IndentComponent implements OnInit, OnChanges {
         comp: 'Indented List',
         val: false
       });
-      this.report.reportLog(`Indented List failed to render`, 'error', 'msg')
+      this.report.reportLog(`Indented List failed to render`, 'error', 'msg');
 
-    };
+    }
   }
 }

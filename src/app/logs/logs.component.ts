@@ -11,14 +11,14 @@ export class LogsComponent implements OnInit {
   @Output() close = new EventEmitter();
   @Input() refreshData;
 
-  logs = []
+  logs = [];
 
   constructor(public sheet: SheetService, public report: ReportService) { }
 
   ngOnInit(): void {
     setTimeout(() => {
       this.logs = this.report.getAllLogs();
-    }, 100)
+    }, 100);
   }
 
   closeDrawer() {

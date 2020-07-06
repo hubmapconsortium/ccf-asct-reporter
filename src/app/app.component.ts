@@ -24,10 +24,10 @@ export class AppComponent implements OnInit {
   refreshLogs = false;
   sheetName = 'Spleen';
   shouldRefreshData = false;
-  showCompInDrawer = 'Report'
+  showCompInDrawer = 'Report';
 
-  constructor(private dialog: MatDialog, public snackBar: MatSnackBar, public sc: SconfigService, public sheet: SheetService, public report: ReportService) { 
-    this.getSelectedSheet(this.sheetName)
+  constructor(private dialog: MatDialog, public snackBar: MatSnackBar, public sc: SconfigService, public sheet: SheetService, public report: ReportService) {
+    this.getSelectedSheet(this.sheetName);
   }
 
   ngOnInit() {
@@ -37,19 +37,19 @@ export class AppComponent implements OnInit {
   toggleReportDrawer(val) {
     this.refreshReport = val;
     this.drawer.opened = val;
-    this.showCompInDrawer = 'Report'
+    this.showCompInDrawer = 'Report';
   }
 
   toggleLogsDrawer(val) {
     this.refreshLogs = val;
     this.drawer.opened = val;
-    this.showCompInDrawer = 'Logs'
+    this.showCompInDrawer = 'Logs';
   }
 
   showGraph(val) {
     this.openLoading();
     this.displayGraph = val;
-    this.getSelectedSheet(this.sheetName)
+    this.getSelectedSheet(this.sheetName);
   }
 
   refreshData(val) {
@@ -61,7 +61,7 @@ export class AppComponent implements OnInit {
       this.openLoading();
       this.refreshIndent = true;
     } else if (val == 'Table') {
-      this.openLoading()
+      this.openLoading();
       this.refreshTable = true;
     }
   }
@@ -117,10 +117,10 @@ export class AppComponent implements OnInit {
 
   getSelectedSheet(event) {
     this.sheetName = event;
-    this.report.reportLog(`${this.sheetName}`, 'success', 'file')
+    this.report.reportLog(`${this.sheetName}`, 'success', 'file');
     new Promise((res, rej) => {
-      this.sheet.sheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.display == this.sheetName)]
-      res(true)
+      this.sheet.sheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.display == this.sheetName)];
+      res(true);
     })
     .then(data => {
       if (data) {
@@ -128,7 +128,7 @@ export class AppComponent implements OnInit {
         this.shouldRefreshData = true;
         this.report_component.getData();
       }
-    })
-    
+    });
+
   }
 }

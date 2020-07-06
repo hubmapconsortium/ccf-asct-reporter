@@ -8,14 +8,14 @@ export class Node {
     uberon: string;
     children?: Node[];
     color: string;
-  
-    constructor(name, children, uberon, color = "#808080") {
+
+    constructor(name, children, uberon, color = '#808080') {
       this.name = name;
       this.children = children;
       this.uberon = uberon;
       this.color = color;
     }
-  
+
     public search(name) {
       for (let i = 0; i < this.children.length; i++) {
         if (this.children[i].name.toLowerCase() == name.toLowerCase()) {
@@ -51,11 +51,11 @@ export class IndentService {
           continue;
         }
 
-        let foundNodes = row[cols[col]].trim().split(',')
+        const foundNodes = row[cols[col]].trim().split(',');
 
-        for (var i = 0; i < foundNodes.length; i++) {
+        for (let i = 0; i < foundNodes.length; i++) {
           if (foundNodes[i] != '') {
-            let searchedNode = parent.search(foundNodes[i]);
+            const searchedNode = parent.search(foundNodes[i]);
 
             if (Object.keys(searchedNode).length !== 0) {
               parent = searchedNode;

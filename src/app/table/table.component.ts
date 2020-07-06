@@ -33,9 +33,9 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    
+
   }
-  
+
   ngOnChanges() {
     if (this.refreshData) {
       this.getData();
