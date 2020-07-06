@@ -95,9 +95,15 @@ export class BimodalComponent implements OnInit, OnChanges {
             update: {
               path: { field: 'path' },
               "stroke": [
-                {"test": "datum.source.id === active", "value": "red"},
-                {"test": "datum.target.id === active", "value": "red"},
+                {"test": "datum.source.id === active && datum.source.group == 1", "value": "#E41A1C"},
+                {"test": "datum.source.id === active && datum.source.group == 2", "value": "#377EB8"},
+                {"test": "datum.target.id === active && datum.target.group == 2", "value": "#E41A1C"},
+                {"test": "datum.target.id === active", "value": "#4DAF4A"},
                 {"value": "#ccc"}
+              ],
+              zindex: [
+                {"test": "datum.source.id === active", "value": 2},
+                {"test": "datum.target.id === active", "value": 2},
               ]
             }
           }
