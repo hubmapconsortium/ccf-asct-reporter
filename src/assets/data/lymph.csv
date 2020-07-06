@@ -1,15 +1,15 @@
-﻿Structure,Substructure #1,Substructure #2,Substructure #3,Cell Type,Biomarker Subset
+Structure,Substructure #1,Substructure #2,Substructure #3,Cell Type,Biomarker Subset
 Capsule,Fibrous Capsule,Connective Tissue,,Myofibroblasts,"Collagen I+, Collagen III+"
 Capsule,Fibrous Capsule,Blood Vessels,,Blood Endothelial Cells,"CD31+, CD34+, CD105+"
 Capsule,Trabeculae,Connective Tissue,,Myofibroblasts,"Collagen I+, Collagen III+"
 Capsule,Trabeculae,Blood Vessels,,Blood Endothelial Cells,"CD31+, CD34+, CD105+"
 Capsule,Afferent Lymphatics,Lymphatic Vessels,,Lymphatic Endothelial Cells,"Podoplanin+, Lyve-1+, Prox-1+"
 Capsule,Afferent Lymphatics,Lymphatic Vessels,,Smooth Muscle Cells,Smooth Muscle Actin+
-Lobule,Subcapsular Sinus,,,Macrophages,"CD11c+,  CD169+,  CD11b+, CD68+"
-Lobule,Subcapsular Sinus,,,Blood Endothelial Cells,"CD31+,  CD21+"
-Lobule,Subcapsular Sinus,,,Fibroblastic Reticular Cells,"Podoplanin+,  CD90+, Desmin+"
-Lobule,Subcapsular Sinus,,,Lymphatic Endothelial Cells,"Prox-1+,  Podoplanin+,  CD9+, Lyve-1+"
-Lobule,Trabecular Sinus,,,Neutrophils ,MPO+ 
+Lobule,Subcapsular Sinus,,,Macrophages,"CD11c+, CD169+, CD11b+, CD68+"
+Lobule,Subcapsular Sinus,,,Blood Endothelial Cells,"CD31+, CD21+"
+Lobule,Subcapsular Sinus,,,Fibroblastic Reticular Cells,"Podoplanin+, CD90+, Desmin+"
+Lobule,Subcapsular Sinus,,,Lymphatic Endothelial Cells,"Prox-1+, Podoplanin+, CD9+, Lyve-1+"
+Lobule,Trabecular Sinus,,,Neutrophils,MPO+
 Lobule,Venule,Blood Vessels,,Blood Endothelial Cells,"CD31+, CD34+, CD105+"
 Lobule,Arteriole,Blood Vessels,,Blood Endothelial Cells,"CD31+, CD34+, CD105+"
 Lobule,Primary Follicle,,,Follicular Dendritic Cells,"CD21+, CD35+"
@@ -30,7 +30,7 @@ Lobule,Secondary Follicle,Germinal Center,Mantle Zone,Macrophages,"CD169+, CD11b
 Lobule,Secondary Follicle,Germinal Center,Mantle Zone,Memory B Cells,"CD45+, CD20+, CD19+"
 Lobule,Secondary Follicle,Germinal Center,Mantle Zone,T Helper Cells,"CD3+, CD4+"
 Lobule,Secondary Follicle,Germinal Center,Marginal Zone,Memory B Cells,"CD45+, CD20+, CD19+, CD27+"
-Lobule,Secondary Follicle,Germinal Center,Marginal Zone, B Cells,"IgM+, CD20+, CD19+, CD21+, CD9+, CD45RA+"
+Lobule,Secondary Follicle,Germinal Center,Marginal Zone,B Cells,"IgM+, CD20+, CD19+, CD21+, CD9+, CD45RA+"
 Lobule,Interfollicular Cortex,,,T Helper Cells,"CD3+, CD4+"
 Lobule,Interfollicular Cortex,,,T Cytotoxic Cells,"CD3+, CD8+"
 Lobule,Interfollicular Cortex,,,NK Cells,"CD56+, CD57+"
@@ -63,73 +63,4 @@ Lobule,Medulla,Venule,Blood Vessels,Blood Endothelial Cells,"CD31+, CD34+"
 Hilum,Efferent Lymphatics,Lymphatic Vessels,,Lymphatic Endothelial Cells,"Lyve-1+, Podoplanin+, Prox-1+"
 Hilum,Efferent Lymphatics,Lymphatic Vessels,,Smooth Muscle Cells,Smooth Muscle Actin+
 Hilum,Artery,Blood Vessels,,Blood Endothelial Cells,"CD31+, CD34+, CD105+"
-Hilum, Vein,Blood Vessels,,Blood Endothelial Cells,"CD31+, CD34+, CD105+"
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
+Hilum,Vein,Blood Vessels,,Blood Endothelial Cells,"CD31+, CD34+, CD105+"

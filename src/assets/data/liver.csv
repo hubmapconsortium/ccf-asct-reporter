@@ -1,4 +1,4 @@
-﻿Structure/Region,Sub structure/Sub region,,Cell Type,Subset of Marker Genes,"Cell marker (antibody) in tissue, FACS - should these be separate columns?"
+Structure/Region,Sub structure/Sub region,,Cell Type,Subset of Marker Genes,"Cell marker (antibody) in tissue, FACS - should these be separate columns?"
 hepatic Lobule,hepatic sinusoid,,liver sinusoid endothelial cell,"CD31 Low, Ulex lectin binding, CD105/ endoglin",CD34-/CD31 low/CD105+
 hepatic Lobule,hepatic sinusoid,,Kupffer cell,CD68,CD68
 hepatic Lobule,Disse's space,,quiescent hepatic stellate cell,"PDGFRB, GFAP, desmin","PDGFRb, GFAP, desmin"
@@ -16,7 +16,7 @@ hepatic Lobule,portal triad/tract,hepatic artery,endothelial cell,"CD31, CD34","
 hepatic Lobule,portal triad/tract,hepatic artery,smooth muscle cell,smooth muscle actin,smooth muscle actin
 hepatic Lobule,portal triad/tract,interstitial,portal fibroblast,CTGF,CTGF
 hepatic Lobule,Canals of Hering,,hepatic oval cell,"oval-6, CD90, CD117",
-,,,,"Lgr5, Prom1, OPN1, Sox9",EpCam(CD326)
+hepatic Lobule,Canals of Hering,,hepatic oval cell,"Lgr5, Prom1, OPN1, Sox9",EpCam(CD326)
 hepatic Lobule,lymphatic vessel,,lymphatic endothelial cell,,
 hepatic Lobule,stroma,connective tissue,,,"type I collagen, type III collagen, laminins in portal tract stroma. Collagen IV and laminin codistributed in basement membranes of portal and septal ductular and vascular structures, and in Space of Disse"
 hepatic Lobule,Liver immune resident component,,conventional Dendritic cell,,"CD11c high; MHCII+, FLT3+, F4/80 neg, Csf-1R neg, CD64 neg"
@@ -28,10 +28,10 @@ hepatic Lobule,Liver immune resident component,,CD4+T cell,,"CD4, TCRαβ"
 hepatic Lobule,Liver immune resident component,,gamma delta T cell,,"γδTCR,CD27lo, CD45RAlo subset of Vδ1+ T, CD69, CXCR3, and CXCR6"
 hepatic Lobule,Liver immune resident component,,CD8+ Liver-Resident Memory T Cells,,"CXCR3 and CXCR6, CCR7, CD62L, KLF2, and S1PR1"
 hepatic Lobule,Liver immune resident component,,iNKT,,"TCRαβ Vα24-Jα18 (Vβ11),CD1d, CXCR6"
-hepatic Lobule,Liver immune resident component,,NK,T-bethiEomeslo/,"CD49a+ CD56brightCD49a+CD69+CD103+
- CXCR6−"
+hepatic Lobule,Liver immune resident component,,NK,T-bethiEomeslo,"CD49a+ CD56brightCD49a+CD69+CD103+
+  CXCR6−"
 hepatic Lobule,Liver immune resident component,,NK,T-betloEomeshi,"Eomeshi CD56brightCD49a− CD69+
- CD103− CXCR6+"
+  CD103− CXCR6+"
 hepatic Lobule,Liver immune resident component,,NK,T-bet+Eomeshi,CD49e− CD56bright CD69+ CXCR6+
 hepatic Lobule,Liver immune resident component,,Pit cell,CD49a+ T-bet+Eomes–,
 hepatic Lobule,hepatic sinusoid,,liver sinusoid endothelial cell,"CD31 Low, Ulex lectin binding, CD105/ endoglin",CD34-/CD31 low/CD105+

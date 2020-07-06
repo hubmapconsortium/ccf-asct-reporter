@@ -189,6 +189,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             encode: {
               enter: {
                 text: { field: 'name' },
+                limit: {value: 180},
                 fontSize: { value: 14 },
                 baseline: { value: 'middle' },
                 fontWeight: { value: 400 }
