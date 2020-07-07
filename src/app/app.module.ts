@@ -12,7 +12,6 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { TreeComponent } from './tree/tree.component';
 import { ReportComponent } from './report/report.component';
 import { IndentComponent } from './indent/indent.component';
-import { TableComponent } from './table/table.component';
 import { LogsComponent } from './logs/logs.component';
 import { BimodalComponent } from './bimodal/bimodal.component';
 
@@ -56,7 +55,6 @@ const MatModules = [
     ReportComponent,
     IndentComponent,
     LoadingComponent,
-    TableComponent,
     BimodalComponent,
     LogsComponent
   ],

@@ -75,19 +75,19 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   expandAll(op) {
-    if (op == 'CT') {
+    if (op === 'CT') {
       this.mepBM.expanded = true;
     }
-    if (op == 'B') {
+    if (op === 'B') {
       this.mepCT.expanded = true;
     }
   }
 
   collapseAll(op) {
-    if (op == 'CT') {
+    if (op === 'CT') {
       this.mepBM.expanded = false;
     }
-    if (op == 'B') {
+    if (op === 'B') {
       this.mepCT.expanded = false;
     }
   }

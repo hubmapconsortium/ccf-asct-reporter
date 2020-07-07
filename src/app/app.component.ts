@@ -19,7 +19,6 @@ export class AppComponent implements OnInit {
   displayGraph = 'Tree';
   refreshTree = false;
   refreshIndent = false;
-  refreshTable = false;
   refreshReport = false;
   refreshLogs = false;
   sheetName = 'Spleen';
@@ -65,9 +64,6 @@ export class AppComponent implements OnInit {
     } else if (val === 'Indented List') {
       this.openLoading();
       this.refreshIndent = true;
-    } else if (val === 'Table') {
-      this.openLoading();
-      this.refreshTable = true;
     }
   }
 
@@ -92,15 +88,6 @@ export class AppComponent implements OnInit {
       this.refreshIndent = false;
       this.shouldRefreshData = false;
 
-    } else if (val.comp === 'Table') {
-      this.dialog.closeAll();
-      if (val.val) {
-        this.openSnackBar('Table data successfully fetched.', 'Close', 'green');
-      } else {
-        this.openSnackBar('Error while fetching data.', 'Close', 'red');
-      }
-      this.refreshTable = false;
-      this.shouldRefreshData = false;
     }
   }
 
@@ -131,7 +118,9 @@ export class AppComponent implements OnInit {
       if (data) {
         this.openLoading();
         this.shouldRefreshData = true;
-        this.reportComponent.getData();
+        setTimeout(() => {
+          this.reportComponent.getData();
+        }, 500)
       }
     });
 
