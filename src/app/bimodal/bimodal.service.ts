@@ -85,7 +85,7 @@ export class BimodalService {
       cellTypes.forEach(c => {
         const idx = tempCellTypes.findIndex(i => i.structure.toLowerCase() == c.structure.toLowerCase());
         if (idx != -1) {
-          c.nodeSize = tempCellTypes[idx].count * 75;
+          c.nodeSize = tempCellTypes[idx].parents.length * 75;
         } else {
           this.report.reportLog(`Parent not found for cell - ${c.structure}`, 'warning', 'msg');
         }
@@ -120,7 +120,7 @@ export class BimodalService {
       biomarkers.forEach(b => {
         const idx = tempBiomarkers.findIndex(i => i.structure == b.structure);
         if (idx != -1) {
-          b.nodeSize = tempBiomarkers[idx].count * 75;
+          b.nodeSize = tempBiomarkers[idx].parents.length * 75;
         } else {
           this.report.reportLog(`Parent not found for biomarker - ${b.structure}`, 'warning', 'msg');
         }

@@ -125,7 +125,7 @@ export class SconfigService {
       }
     },
     {
-      name: 'Skin-R1_EMQverify',
+      name: 'skin',
       display: 'Skin',
       header_count: 1,
       cell_row: 3,
