@@ -33,12 +33,13 @@ export class NavbarComponent implements OnInit {
   @Output() getSheet = new EventEmitter<any>();
 
   constructor() {
-    this.getSheetSelection();
-    this.getSelection();
+    
 
   }
 
   ngOnInit(): void {
+    this.getSheetSelection();
+    this.getSelection();
   }
 
   getSelection() {
