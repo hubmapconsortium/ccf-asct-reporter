@@ -32,7 +32,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   ];
 
   bimodalSizeOptions = [
-    'Static',
+    'None',
     'Degree'
   ];
 
