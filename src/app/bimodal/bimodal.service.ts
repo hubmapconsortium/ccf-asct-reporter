@@ -78,13 +78,13 @@ export class BimodalService {
         );
       });
     } else {
-      cellTypes = await this.sheet.makeCellDegree(sheetData, treeData);
+      cellTypes = await this.sheet.makeCellDegree(sheetData, treeData, 'Degree');
     }
 
 
-    if (bimodalConfig.CT.size === 'Degree') {
+    if (bimodalConfig.CT.size !== 'None') {
       // put sort size by degree function here
-      const tempCellTypes = await this.sheet.makeCellDegree(sheetData, treeData);
+      const tempCellTypes = await this.sheet.makeCellDegree(sheetData, treeData, bimodalConfig.CT.size);
       cellTypes.forEach(c => {
         const idx = tempCellTypes.findIndex(i => i.structure.toLowerCase() === c.structure.toLowerCase());
         if (idx !== -1) {

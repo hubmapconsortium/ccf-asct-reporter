@@ -20,12 +20,10 @@ export class Marker {
 export class Cell {
   structure: string;
   parents: Array<string>;
-  count: number;
 
-  constructor(structure, count) {
+  constructor(structure) {
     this.structure = structure;
     this.parents = [];
-    this.count = count;
   }
 }
 
@@ -107,61 +105,68 @@ export class SheetService {
     return markerDegrees;
   }
 
-  public async makeCellDegree(data, treeData): Promise<Array<Cell>> {
+  public async makeCellDegree(data, treeData, degree): Promise<Array<Cell>> {
     return new Promise((res, rej) => {
       const cellDegrees: Array<Cell> = [];
-
+      
       // calculating in degree (AS -> CT)
-      treeData.forEach(td => {
-        if (td.children === 0) {
-          const leaf = td.name;
+      if (degree === 'Degree' || degree === 'Indegree') {
+        treeData.forEach(td => {
+          if (td.children === 0) {
+            const leaf = td.name;
 
-          data.forEach(row => {
-            let parent;
-            parent = row.find(i => i.toLowerCase() === leaf.toLowerCase());
+            data.forEach(row => {
+              let parent;
+              parent = row.find(i => i.toLowerCase() === leaf.toLowerCase());
 
-            if (parent) {
-              const cells = row[this.sheet.cell_row].split(',');
-              for (const i in cells) {
-                if (cells[i] !== '') {
-                  const foundCell = cellDegrees.findIndex(c => c.structure.toLowerCase().trim() === cells[i].toLowerCase().trim());
-                  if (foundCell === -1) {
-                    const nc = new Cell(cells[i].trim(), 1);
-                    nc.parents.push(parent.toLowerCase());
-                    cellDegrees.push(nc);
-                  } else {
-                    const c = cellDegrees[foundCell];
-                    if (!c.parents.includes(parent.toLowerCase())) {
-                      c.count += 1;
-                      c.parents.push(parent.toLowerCase());
+              if (parent) {
+                const cells = row[this.sheet.cell_row].split(',');
+                for (const i in cells) {
+                  if (cells[i] !== '') {
+                    const foundCell = cellDegrees.findIndex(c => c.structure.toLowerCase().trim() === cells[i].toLowerCase().trim());
+                    if (foundCell === -1) {
+                      const nc = new Cell(cells[i].trim());
+                      nc.parents.push(parent.toLowerCase());
+                      cellDegrees.push(nc);
+                    } else {
+                      const c = cellDegrees[foundCell];
+                      if (!c.parents.includes(parent.toLowerCase())) {
+                        c.parents.push(parent.toLowerCase());
+                      }
                     }
                   }
                 }
-              }
 
-            }
-          });
-        }
-      });
+              }
+            });
+          }
+        });
+      }
 
       // calculating out degree (CT -> B)
-      data.forEach(row => {
-        const markers = row[this.sheet.marker_row].split(',').map(str => str.trim().toLowerCase()).filter(c => c !== '');
-        const cells = row[this.sheet.cell_row].split(',').map(str => str.trim()).filter(c => c !== '');
+      if (degree === 'Degree' || degree === 'Outdegree') {
+        data.forEach(row => {
+          const markers = row[this.sheet.marker_row].split(',').map(str => str.trim().toLowerCase()).filter(c => c !== '');
+          const cells = row[this.sheet.cell_row].split(',').map(str => str.trim()).filter(c => c !== '');
 
-        for (const c in cells) {
-          if (cells[c] !== '') {
-            const cd = cellDegrees.findIndex(i => i.structure.toLowerCase() === cells[c].toLowerCase());
-            if (cd !== -1) {
-             for (const m in markers) {
-                if (!cellDegrees[cd].parents.includes(markers[m].toLowerCase())) {
-                  cellDegrees[cd].parents.push(markers[m]);
+          for (const c in cells) {
+            if (cells[c] !== '') {
+              const cd = cellDegrees.findIndex(i => i.structure.toLowerCase() === cells[c].toLowerCase());
+              if (cd !== -1) {
+                for (const m in markers) {
+                  if (!cellDegrees[cd].parents.includes(markers[m].toLowerCase())) {
+                    cellDegrees[cd].parents.push(markers[m]);
+                  }
                 }
-             }
+              } else {
+                const nc = new Cell(cells[c].trim());
+                nc.parents.push(...markers);
+                cellDegrees.push(nc);
+              }
             }
           }
-        }
-      });
+        });
+      }
 
       cellDegrees.sort((a, b) => (b.parents.length - a.parents.length));
       res(cellDegrees);

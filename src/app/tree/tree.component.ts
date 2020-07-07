@@ -36,6 +36,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     'Degree'
   ];
 
+  bimodalCTSizeOptions = [
+    'None',
+    'Degree',
+    'Indegree',
+    'Outdegree'
+  ];
+
   bimodalConfig = {
     BM: {
       sort: this.bimodalSortOptions[0],
@@ -43,7 +50,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     },
     CT: {
       sort: this.bimodalSortOptions[0],
-      size: this.bimodalSizeOptions[0]
+      size: this.bimodalCTSizeOptions[0]
     }
   };
 
