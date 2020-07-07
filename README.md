@@ -115,7 +115,28 @@ The report generator lists different meda data of the data which are downloadabl
 2. **Details**: This section has expandable panels that list the above mentioned node names in alphabetical order.
 
 #### Debug Logs
-The debug logger is a tool that lists various problems (if at all) with the data that is to be visualized. These include nodes that have multiple parents, data not being fetched properly, changing of sheets etc. These logs are session specific. 
+The debug logger is a tool that lists various problems (if at all) with the data that is to be visualized. These include nodes that have multiple parents, data not being fetched properly, changing of sheets etc. These logs are session specific.
+
+### Scripts
+
+#### `getData.sh`
+This shell script is used to fetch data from the flattened tables. The sheetId and GID for the sheets are stored in `scriptdata.csv`. 
+
+The script encorporates 2 options,
+1. No parameters: Updates the data of all the sheets from google sheets.
+   ```shell
+   $ npm run data
+   ```
+2. <sheet_name> parameter: Updates the data of a specific sheet.
+   ```shell
+   $ npm run data <sheet_name>
+   ```
+
+For additional help,
+```shell
+$ npm run data help
+```
+
 
 ## Snippets
 ![Partonomy Tree](src/assets/snippets/tree.png)

@@ -36,20 +36,20 @@ function print_help() {
 	echo "Usage:"
     echo "./getcsv.sh - Updates all the sheets from google sheets."
     echo "./getcsv <sheet>: Download a specific sheet. Options are:"
-    echo "\t    spleen"
-    echo "\t    kidney"
-    echo "\t    liver"
-    echo "\t    lymph"
-    echo "\t    heart"
-    echo "\t    si"
-    echo "\t    li"
-    echo "\t    skin"
+    echo "\t  spleen"
+    echo "\t  kidney"
+    echo "\t  liver"
+    echo "\t  lymph"
+    echo "\t  heart"
+    echo "\t  si"
+    echo "\t  li"
+    echo "\t  skin"
 }
 
 if [ -z "$1" ]; then 
     echo "Updating all sheets\n\n"
     get_data
-elif [ "$1" == "-h" ]; then 
+elif [ "$1" == "help" ]; then 
     print_help
 else
     echo "Updating $1 sheet"
