@@ -1,7 +1,7 @@
 <div style="width: 100%;">
     <mat-drawer-container class="drawer-container" autosize hasBackdrop="true">
         <mat-drawer #drawer class="sidenav-drawer" mode="over" opened="false" position="end">
-            <app-report (close)="drawer.toggle()" [refreshData]="refreshReport" #reportComponent *ngIf="showCompInDrawer == 'Report'"></app-report>
+            <app-report (closeComponent)="drawer.toggle()" [refreshData]="refreshReport" #reportComponent *ngIf="showCompInDrawer == 'Report'"></app-report>
             <app-logs (close)="drawer.toggle()" [refreshData]="refreshLogs" #logs_component *ngIf="showCompInDrawer == 'Logs'"></app-logs>
         </mat-drawer>
         <div class=" content text-center">

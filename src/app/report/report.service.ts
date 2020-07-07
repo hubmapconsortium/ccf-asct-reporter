@@ -31,7 +31,7 @@ export class ReportService {
 
   reportLog(message, icon, type) {
     const time = new Date();
-    if (!this.reportedLogs.some(i => i.message == message && i.time == moment(time).format('hh:mm:ss'))) {
+    if (!this.reportedLogs.some(i => i.message === message && i.time === moment(time).format('hh:mm:ss'))) {
       this.reportedLogs.push(new Log(message, this.icons[icon], moment(time).format('hh:mm:ss'), type));
     }
   }

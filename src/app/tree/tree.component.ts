@@ -182,7 +182,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                 x: { field: 'x' },
                 y: { field: 'y' },
                 tooltip: [
-                  { field: 'uberon_id', type: 'quantitative' }
+                  { field: 'uberonId', type: 'quantitative' }
                 ],
                 opacity: {signal: 'datum.children ? 1 : 0'},
                 fill: { field: 'color' }

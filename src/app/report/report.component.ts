@@ -19,7 +19,7 @@ export class ReportComponent implements OnInit, OnChanges {
   cellTypes = [];
   bioMarkers = [];
   warningCount = 0;
-  @Output() close = new EventEmitter();
+  @Output() closeComponent = new EventEmitter();
   @Input() refreshData;
 
   sheetName = 'Spleen_R2';
@@ -48,7 +48,7 @@ export class ReportComponent implements OnInit, OnChanges {
 
   downloadData() {
     const download = [];
-    const total_rows = 6;
+    const totalRows = 6;
     for (let i = 0; i < Math.max(this.anatomicalStructures.length, this.cellTypes.length, this.bioMarkers.length); i++) {
       const row = {};
       if (i < this.anatomicalStructures.length) {
@@ -73,7 +73,7 @@ export class ReportComponent implements OnInit, OnChanges {
 
     const sheetWS = XLSX.utils.json_to_sheet(download);
     sheetWS['!cols'] = [];
-    for (let i = 0; i < total_rows; i++) {
+    for (let i = 0; i < totalRows; i++) {
       sheetWS['!cols'].push({ wch: 30 });
     }
     const wb = XLSX.utils.book_new();
@@ -107,7 +107,7 @@ export class ReportComponent implements OnInit, OnChanges {
   }
 
   closeDrawer() {
-    this.close.emit(false);
+    this.closeComponent.emit(false);
   }
 
   mail() {
