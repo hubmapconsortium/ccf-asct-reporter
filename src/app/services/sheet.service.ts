@@ -128,7 +128,7 @@ export class SheetService {
   public async makeCellDegree(data, treeData): Promise<Array<Cell>> {
     return new Promise((res, rej) => {
       const cellDegrees: Array<Cell> = [];
-      
+
       // calculating in degree (AS -> CT)
       treeData.forEach(td => {
         if (td.children == 0) {
@@ -161,26 +161,26 @@ export class SheetService {
           });
         }
       });
-      
+
       // calculating out degree (CT -> B)
       data.forEach(row => {
-        let markers = row[this.sheet.marker_row].split(',').map(str => str.trim().toLowerCase()).filter(c => c != '')
-        let cells = row[this.sheet.cell_row].split(',').map(str => str.trim()).filter(c => c != '')
+        const markers = row[this.sheet.marker_row].split(',').map(str => str.trim().toLowerCase()).filter(c => c != '');
+        const cells = row[this.sheet.cell_row].split(',').map(str => str.trim()).filter(c => c != '');
 
-        for(var c = 0; c < cells.length ; c++) {
+        for (let c = 0; c < cells.length ; c++) {
           if (cells[c] != '') {
-            let cd = cellDegrees.findIndex(i => i.structure.toLowerCase() == cells[c].toLowerCase()) 
-            if(cd != -1) {
-             for(var m = 0 ; m < markers.length; m ++) {
-                if(!cellDegrees[cd].parents.includes(markers[m].toLowerCase())) {
-                  cellDegrees[cd].parents.push(markers[m])
+            const cd = cellDegrees.findIndex(i => i.structure.toLowerCase() == cells[c].toLowerCase());
+            if (cd != -1) {
+             for (let m = 0 ; m < markers.length; m ++) {
+                if (!cellDegrees[cd].parents.includes(markers[m].toLowerCase())) {
+                  cellDegrees[cd].parents.push(markers[m]);
                 }
              }
             }
           }
         }
-      })
-      
+      });
+
       cellDegrees.sort((a, b) => (b.parents.length - a.parents.length));
       res(cellDegrees);
     });

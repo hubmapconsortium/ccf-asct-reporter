@@ -32,19 +32,19 @@ export class BimodalComponent implements OnInit, OnChanges {
   async makeGraph(data) {
     const config: any = {
       $schema: 'https://vega.github.io/schema/vega/v5.json',
-      "signals": [
+      signals: [
         {
-          "name": "active", "value": null,
-          "on": [
-            { "events": "symbol:mouseover", "update": "datum.id" },
-            { "events": "mouseover[!event.item]", "update": "null" }
+          name: 'active', value: null,
+          on: [
+            { events: 'symbol:mouseover', update: 'datum.id' },
+            { events: 'mouseover[!event.item]', update: 'null' }
           ]
         },
         {
-          "name": "click_active", "value": null,
-          "on": [
-            { "events": "symbol:click", "update": "datum.id" },
-            { "events": "click[!event.item]", "update": "null" }
+          name: 'click_active', value: null,
+          on: [
+            { events: 'symbol:click', update: 'datum.id' },
+            { events: 'click[!event.item]', update: 'null' }
           ]
         }
       ],
@@ -91,27 +91,27 @@ export class BimodalComponent implements OnInit, OnChanges {
             },
             update: {
               path: { field: 'path' },
-              "stroke": [
-                {"test": "datum.source.id === active && datum.source.group == 1", "value": "#E41A1C"}, // for hover
-                {"test": "datum.source.id === active && datum.source.group == 2", "value": "#377EB8"},// for hover
-                {"test": "datum.target.id === active && datum.target.group == 2", "value": "#E41A1C"},// for hover
-                {"test": "datum.target.id === active", "value": "#4DAF4A"}, // for hover
-                {"test": "datum.source.id === click_active && datum.source.group == 1", "value": "#E41A1C"}, // for click 
-                {"test": "datum.source.id === click_active && datum.source.group == 2", "value": "#377EB8"}, // for click
-                {"test": "datum.target.id === click_active && datum.target.group == 2", "value": "#E41A1C"}, // for click
-                {"test": "datum.target.id === click_active", "value": "#4DAF4A"}, // for click
-                {"value": "#ccc"}
+              stroke: [
+                {test: 'datum.source.id === active && datum.source.group == 1', value: '#E41A1C'}, // for hover
+                {test: 'datum.source.id === active && datum.source.group == 2', value: '#377EB8'}, // for hover
+                {test: 'datum.target.id === active && datum.target.group == 2', value: '#E41A1C'}, // for hover
+                {test: 'datum.target.id === active', value: '#4DAF4A'}, // for hover
+                {test: 'datum.source.id === click_active && datum.source.group == 1', value: '#E41A1C'}, // for click
+                {test: 'datum.source.id === click_active && datum.source.group == 2', value: '#377EB8'}, // for click
+                {test: 'datum.target.id === click_active && datum.target.group == 2', value: '#E41A1C'}, // for click
+                {test: 'datum.target.id === click_active', value: '#4DAF4A'}, // for click
+                {value: '#ccc'}
               ],
               opacity: [
-                {"test": "datum.target.id === click_active", "value": 1},
-                {"test": "datum.source.id === click_active", "value": 1},
+                {test: 'datum.target.id === click_active', value: 1},
+                {test: 'datum.source.id === click_active', value: 1},
                 {value: 0.5}
               ],
               zindex: [
-                {"test": "datum.source.id === active", "value": 2},
-                {"test": "datum.target.id === active", "value": 2},
-                {"test": "datum.source.id === click_active", "value": 2},
-                {"test": "datum.target.id === click_active", "value": 2}
+                {test: 'datum.source.id === active', value: 2},
+                {test: 'datum.target.id === active', value: 2},
+                {test: 'datum.source.id === click_active', value: 2},
+                {test: 'datum.target.id === click_active', value: 2}
               ]
             }
           }
@@ -125,7 +125,7 @@ export class BimodalComponent implements OnInit, OnChanges {
               fill: { field: 'color' },
               x: { field: 'x' },
               y: { field: 'y', offset: 5 },
-              cursor: {"value": "pointer"}
+              cursor: {value: 'pointer'}
             },
             update: {
             }
