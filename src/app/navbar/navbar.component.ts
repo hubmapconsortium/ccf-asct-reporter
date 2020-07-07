@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit {
   @Output() getSheet = new EventEmitter<any>();
 
   constructor() {
-    
+
 
   }
 

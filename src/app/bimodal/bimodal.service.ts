@@ -27,7 +27,7 @@ export class BMNode {
     this.x = x;
     this.y = y;
     this.color = color;
-    this.nodeSize = nodeSize == 0 ? 50 : nodeSize;
+    this.nodeSize = nodeSize === 0 ? 50 : nodeSize;
   }
 }
 
@@ -53,7 +53,7 @@ export class BimodalService {
 
     // making anatomical structures (last layer of the tree)
     treeData.forEach(td => {
-      if (td.children == 0) {
+      if (td.children === 0) {
         const leaf = td.name;
         const newLeaf = new BMNode(leaf, 1, leaf, '', treeX, td.y, 14);
         newLeaf.id = id;
@@ -69,22 +69,25 @@ export class BimodalService {
     let cellTypes = [];
 
     // sorting cells based on options
-    if (bimodalConfig.CT.sort == 'Alphabetically') {
+    if (bimodalConfig.CT.sort === 'Alphabetically') {
       cellTypes = await this.sheet.makeCellTypes(sheetData);
       cellTypes.sort((a, b) => {
-        return a.structure.toLowerCase() > b.structure.toLowerCase() ? 1 : ((b.structure.toLowerCase() > a.structure.toLowerCase()) ? -1 : 0);
+        return (
+          a.structure.toLowerCase() > b.structure.toLowerCase() ? 1 : (
+            (b.structure.toLowerCase() > a.structure.toLowerCase()) ? -1 : 0)
+          );
       });
     } else {
       cellTypes = await this.sheet.makeCellDegree(sheetData, treeData);
     }
 
 
-    if (bimodalConfig.CT.size == 'Degree') {
+    if (bimodalConfig.CT.size === 'Degree') {
       // put sort size by degree function here
       const tempCellTypes = await this.sheet.makeCellDegree(sheetData, treeData);
       cellTypes.forEach(c => {
-        const idx = tempCellTypes.findIndex(i => i.structure.toLowerCase() == c.structure.toLowerCase());
-        if (idx != -1) {
+        const idx = tempCellTypes.findIndex(i => i.structure.toLowerCase() === c.structure.toLowerCase());
+        if (idx !== -1) {
           c.nodeSize = tempCellTypes[idx].parents.length * 75;
         } else {
           this.report.reportLog(`Parent not found for cell - ${c.structure}`, 'warning', 'msg');
@@ -106,7 +109,7 @@ export class BimodalService {
 
     // based on select input, sorting markers
 
-    if (bimodalConfig.BM.sort == 'Alphabetically') {
+    if (bimodalConfig.BM.sort === 'Alphabetically') {
       biomarkers = await this.sheet.makeBioMarkers(sheetData);
       biomarkers.sort((a, b) => {
         return a.structure.toLowerCase() > b.structure.toLowerCase() ? 1 : ((b.structure.toLowerCase() > a.structure.toLowerCase()) ? -1 : 0);
@@ -115,11 +118,11 @@ export class BimodalService {
       biomarkers = await this.sheet.makeMarkerDegree(sheetData);
     }
 
-    if (bimodalConfig.BM.size == 'Degree') {
+    if (bimodalConfig.BM.size === 'Degree') {
       const tempBiomarkers = await this.sheet.makeMarkerDegree(sheetData);
       biomarkers.forEach(b => {
         const idx = tempBiomarkers.findIndex(i => i.structure == b.structure);
-        if (idx != -1) {
+        if (idx !== -1) {
           b.nodeSize = tempBiomarkers[idx].parents.length * 75;
         } else {
           this.report.reportLog(`Parent not found for biomarker - ${b.structure}`, 'warning', 'msg');
@@ -141,17 +144,17 @@ export class BimodalService {
     let parent = 0;
 
     for (let i = 0; i < treeData.length; i++) {
-      if (treeData[i].children == 0) {
+      if (treeData[i].children === 0) {
         parent = nodes.findIndex(r => r.name.toLowerCase() == treeData[i].name.toLowerCase());
 
         sheetData.forEach(row => {
           for (let j = 0; j < row.length; j++) {
-            if (row[j] == treeData[i].name) {
+            if (row[j] === treeData[i].name) {
               const cells = row[this.sheet.sheet.cell_row].split(',');
               for (let c = 0; c < cells.length; c++) {
-                if (cells[c] != '') {
-                  const found = nodes.findIndex(r => r.name.toLowerCase().trim() == cells[c].toLowerCase().trim());
-                  if (found != -1) {
+                if (cells[c] !== '') {
+                  const found = nodes.findIndex(r => r.name.toLowerCase().trim() === cells[c].toLowerCase().trim());
+                  if (found !== -1) {
                     links.push({
                       s: parent,
                       t: found
@@ -171,13 +174,13 @@ export class BimodalService {
       const cells = row[this.sheet.sheet.cell_row].trim().split(',');
 
       for (let c = 0; c < cells.length; c++) {
-        if (cells[c] != '') {
-          const cell = nodes.findIndex(r => r.name.toLowerCase().trim() == cells[c].toLowerCase().trim());
+        if (cells[c] !== '') {
+          const cell = nodes.findIndex(r => r.name.toLowerCase().trim() === cells[c].toLowerCase().trim());
 
-          if (cell != -1) {
+          if (cell !== -1) {
             for (let m = 0; m < markers.length; m++) {
-              if (markers[m] != '') {
-                const marker = nodes.findIndex(r => r.name.toLowerCase().trim() == markers[m].toLowerCase().trim());
+              if (markers[m] !== '') {
+                const marker = nodes.findIndex(r => r.name.toLowerCase().trim() === markers[m].toLowerCase().trim());
                 if (!links.some(n => n.s === cell && n.t === marker)) {
                   links.push({
                     s: cell,

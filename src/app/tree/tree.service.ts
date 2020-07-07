@@ -38,9 +38,9 @@ export class Tree {
 
 	public search(name, nodeParent) {
 		for (let i = 0; i < this.nodes.length; i++) {
-			if (this.nodes[i].name == name) {
+			if (this.nodes[i].name === name) {
 				const parent = this.nodes.findIndex(i => i.name == nodeParent.name);
-				if (this.nodes[parent].id != this.nodes[i].parent) {
+				if (this.nodes[parent].id !== this.nodes[i].parent) {
 					this.nodes[i].problem = true;
 				}
 				this.nodes[i].found = true;
@@ -78,13 +78,13 @@ export class TreeService {
 				parent = root;
 				for (let col = 0; col < cols.length; col++) {
 
-					if (row[cols[col]] == '') {
+					if (row[cols[col]] === '') {
 						continue;
 					}
 
 					const foundNodes = row[cols[col]].trim().split();
 					for (let i = 0; i < foundNodes.length; i++) {
-						if (foundNodes[i] != '') {
+						if (foundNodes[i] !== '') {
 							const searchedNode = tree.search(foundNodes[i], parent);
 
 							if (searchedNode.found) {

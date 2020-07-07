@@ -154,8 +154,8 @@ export class BimodalComponent implements OnInit, OnChanges {
     };
 
     const embedded = embed('#ASCTVis', config, { actions: false });
-    embedded.then(data => {
-      if (data) {
+    embedded.then(embeddedData => {
+      if (embeddedData) {
         this.graphCompleted.emit({
           val: true
         });

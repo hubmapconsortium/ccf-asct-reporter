@@ -14,7 +14,7 @@ import { ReportService } from './report/report.service';
 export class AppComponent implements OnInit {
 
   @ViewChild('drawer') drawer;
-  @ViewChild('report_component') report_component;
+  @ViewChild('reportComponent') reportComponent;
 
   displayGraph = 'Tree';
   refreshTree = false;
@@ -26,7 +26,12 @@ export class AppComponent implements OnInit {
   shouldRefreshData = false;
   showCompInDrawer = 'Report';
 
-  constructor(private dialog: MatDialog, public snackBar: MatSnackBar, public sc: SconfigService, public sheet: SheetService, public report: ReportService) {
+  constructor(
+    private dialog: MatDialog,
+    public snackBar: MatSnackBar,
+    public sc: SconfigService,
+    public sheet: SheetService,
+    public report: ReportService) {
     this.getSelectedSheet(this.sheetName);
   }
 
@@ -53,21 +58,21 @@ export class AppComponent implements OnInit {
   }
 
   refreshData(val) {
-    if (val == 'Tree') {
+    if (val === 'Tree') {
       this.openLoading();
       this.refreshTree = true;
       this.shouldRefreshData = true;
-    } else if (val == 'Indented List') {
+    } else if (val === 'Indented List') {
       this.openLoading();
       this.refreshIndent = true;
-    } else if (val == 'Table') {
+    } else if (val === 'Table') {
       this.openLoading();
       this.refreshTable = true;
     }
   }
 
   returnRefresh(val) {
-    if (val.comp == 'Tree') {
+    if (val.comp === 'Tree') {
       this.dialog.closeAll();
       if (val.val) {
         this.openSnackBar('Tree data successfully fetched.', 'Close', 'green');
@@ -77,7 +82,7 @@ export class AppComponent implements OnInit {
       this.refreshTree = false;
       this.shouldRefreshData = false;
 
-    } else if (val.comp == 'Indented List') {
+    } else if (val.comp === 'Indented List') {
       this.dialog.closeAll();
       if (val.val) {
         this.openSnackBar('Indented List data successfully fetched.', 'Close', 'green');
@@ -87,7 +92,7 @@ export class AppComponent implements OnInit {
       this.refreshIndent = false;
       this.shouldRefreshData = false;
 
-    } else if (val.comp == 'Table') {
+    } else if (val.comp === 'Table') {
       this.dialog.closeAll();
       if (val.val) {
         this.openSnackBar('Table data successfully fetched.', 'Close', 'green');
@@ -119,14 +124,14 @@ export class AppComponent implements OnInit {
     this.sheetName = event;
     this.report.reportLog(`${this.sheetName}`, 'success', 'file');
     new Promise((res, rej) => {
-      this.sheet.sheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.display == this.sheetName)];
+      this.sheet.sheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.display === this.sheetName)];
       res(true);
     })
     .then(data => {
       if (data) {
         this.openLoading();
         this.shouldRefreshData = true;
-        this.report_component.getData();
+        this.reportComponent.getData();
       }
     });
 
