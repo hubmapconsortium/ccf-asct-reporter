@@ -85,7 +85,7 @@ export class BimodalComponent implements OnInit, OnChanges {
           encode: {
             enter: {
               stroke: { value: '#ccc' },
-              strokeWidth: { value: 1.5 },
+              strokeWidth: { value: 1.5},
               x: { value: 0 },
               y: { value: 5 }
             },
@@ -103,9 +103,9 @@ export class BimodalComponent implements OnInit, OnChanges {
                 {"value": "#ccc"}
               ],
               opacity: [
-                {"test": "datum.source.id !== click_active && datum.source.group == 1", "value": 0.5},
-                {"test": "datum.source.id !== click_active && datum.source.group == 2", "value": 0.5},
-                {"test": "datum.target.id !== click_active && datum.target.group == 2", "value": 0.5},
+                {"test": "datum.target.id === click_active", "value": 1},
+                {"test": "datum.source.id === click_active", "value": 1},
+                {value: 0.5}
               ],
               zindex: [
                 {"test": "datum.source.id === active", "value": 2},

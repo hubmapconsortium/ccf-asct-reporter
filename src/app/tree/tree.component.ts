@@ -163,7 +163,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             encode: {
               update: {
                 path: { field: 'path' },
-                stroke: { value: '#ccc' }
+                stroke: { value: '#ccc' },
+                opacity: {value: 0.5},
+                strokeWidth: {value: 1.5}
               }
             }
           },
