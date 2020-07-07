@@ -8,7 +8,7 @@ import { ReportService } from '../report/report.service';
   styleUrls: ['./logs.component.css']
 })
 export class LogsComponent implements OnInit {
-  @Output() close = new EventEmitter();
+  @Output() closeComponent = new EventEmitter();
   @Input() refreshData;
 
   logs = [];
@@ -22,7 +22,7 @@ export class LogsComponent implements OnInit {
   }
 
   closeDrawer() {
-    this.close.emit(false);
+    this.closeComponent.emit(false);
   }
 
 }

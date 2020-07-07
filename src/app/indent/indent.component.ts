@@ -44,7 +44,7 @@ export class IndentComponent implements OnInit, OnChanges {
   treeControl = new FlatTreeControl<FlatNode>(
     node => node.level, node => node.expandable);
 
-  private _transformer = (node: Node, level: number) => {
+  private transformer = (node: Node, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
@@ -55,7 +55,7 @@ export class IndentComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.treeFlattener = new MatTreeFlattener(
-      this._transformer, node => node.level, node => node.expandable, node => node.children);
+      this.transformer, node => node.level, node => node.expandable, node => node.children);
 
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
   }
