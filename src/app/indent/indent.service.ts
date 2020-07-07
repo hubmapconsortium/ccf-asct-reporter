@@ -4,27 +4,27 @@ import { SheetService } from '../services/sheet.service';
 
 // Used in the indented list vis
 export class Node {
-    name: string;
-    uberon: string;
-    children?: Node[];
-    color: string;
+  name: string;
+  uberon: string;
+  children?: Node[];
+  color: string;
 
-    constructor(name, children, uberon, color = '#808080') {
-      this.name = name;
-      this.children = children;
-      this.uberon = uberon;
-      this.color = color;
-    }
-
-    public search(name) {
-      for (let i = 0; i < this.children.length; i++) {
-        if (this.children[i].name.toLowerCase() == name.toLowerCase()) {
-          return this.children[i];
-        }
-      }
-      return {};
-    }
+  constructor(name, children, uberon, color = '#808080') {
+    this.name = name;
+    this.children = children;
+    this.uberon = uberon;
+    this.color = color;
   }
+
+  public search(name) {
+    for (const i in this.children) {
+      if (this.children[i].name.toLowerCase() === name.toLowerCase()) {
+        return this.children[i];
+      }
+    }
+    return {};
+  }
+}
 
 @Injectable({
   providedIn: 'root'
@@ -32,12 +32,8 @@ export class Node {
 export class IndentService {
 
   constructor(public sheet: SheetService) { }
-  /**
-    * Generate data from the Google Sheet to be represented in the indented list vis.
-    * @param  {[Array]} data Google Sheet data
-    * @returns {[Array]}     Objects to build the indented list
-    */
-   public makeIndentData(data) {
+
+  public makeIndentData(data) {
     const cols = this.sheet.sheet.indent_cols;
     const root = new Node(this.sheet.sheet.body, [], '');
     delete root.uberon;
@@ -46,15 +42,15 @@ export class IndentService {
 
     data.forEach(row => {
       parent = root;
-      for (let col = 0; col < cols.length; col++) {
-        if (row[cols[col]] == '') {
+      for (const col in cols) {
+        if (row[cols[col]] === '') {
           continue;
         }
 
         const foundNodes = row[cols[col]].trim().split(',');
 
-        for (let i = 0; i < foundNodes.length; i++) {
-          if (foundNodes[i] != '') {
+        for (const i in foundNodes) {
+          if (foundNodes[i] !== '') {
             const searchedNode = parent.search(foundNodes[i]);
 
             if (Object.keys(searchedNode).length !== 0) {
