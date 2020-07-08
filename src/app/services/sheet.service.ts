@@ -181,6 +181,10 @@ export class SheetService {
         for (const col in cols) {
           if (cols[col] !== this.sheet.cell_row && cols[col] !== this.sheet.marker_row) {
             const structure = row[cols[col]];
+            if (structure.startsWith('//')) {
+              continue;
+            }
+            
             if (structure !== '') {
               if (!anatomicalStructures.some(i => i.structure.toLowerCase() === structure.toLowerCase())) {
                 anatomicalStructures.push({

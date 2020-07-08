@@ -57,7 +57,7 @@ large bowel,ceacum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),B
 large bowel,ceacum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),plasma,CD138,IGLL5
 large bowel,ceacum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),CD4+ T,"CD3, CD7, CD2, CD5, TCRab, CD4","CD3D, CD2, CD4"
 large bowel,ceacum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),regulatory CD4+ T,"CD4, FOXP3, CD25","CD4, FOXP3"
-large bowel,ceacum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),"""CD8+ T ""","CD3, CD7, CD2, CD5, TCRab, CD8","MGLL, TAGLN, CD3D, CD8A, CD2"
+large bowel,ceacum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),CD8+ T,"CD3, CD7, CD2, CD5, TCRab, CD8","MGLL, TAGLN, CD3D, CD8A, CD2"
 large bowel,ceacum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),macrophages,"HLA-DR, CD163, CD206, CD11b, CD68",CD14
 large bowel,ceacum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),eosinophils,"CD11b, CD294",
 large bowel,ceacum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),mast cells,"CD117, MCT",HDC
@@ -98,7 +98,7 @@ large bowel,Appendix,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT)
 large bowel,Appendix,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),plasma,CD138,IGLL5
 large bowel,Appendix,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),CD4+ T,"CD3, CD7, CD2, CD5, TCRab, CD4","CD3D, CD2, CD4"
 large bowel,Appendix,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),regulatory CD4+ T,"CD4, FOXP3, CD25","CD4, FOXP3"
-large bowel,Appendix,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),"""CD8+ T ""","CD3, CD7, CD2, CD5, TCRab, CD8","MGLL, TAGLN, CD3D, CD8A, CD2"
+large bowel,Appendix,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),CD8+ T,"CD3, CD7, CD2, CD5, TCRab, CD8","MGLL, TAGLN, CD3D, CD8A, CD2"
 large bowel,Appendix,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),macrophages,"HLA-DR, CD163, CD206, CD11b, CD68",CD14
 large bowel,Appendix,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),eosinophils,"CD11b, CD294",
 large bowel,Appendix,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),mast cells,"CD117, MCT",HDC
@@ -139,7 +139,7 @@ large bowel,colon ascending/right,mucosa,Lamina propria/Gut associated lymphoid 
 large bowel,colon ascending/right,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),plasma,CD138,IGLL5
 large bowel,colon ascending/right,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),CD4+ T,"CD3, CD7, CD2, CD5, TCRab, CD4","CD3D, CD2, CD4"
 large bowel,colon ascending/right,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),regulatory CD4+ T,"CD4, FOXP3, CD25","CD4, FOXP3"
-large bowel,colon ascending/right,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),"""CD8+ T ""","CD3, CD7, CD2, CD5, TCRab, CD8","MGLL, TAGLN, CD3D, CD8A, CD2"
+large bowel,colon ascending/right,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),CD8+ T,"CD3, CD7, CD2, CD5, TCRab, CD8","MGLL, TAGLN, CD3D, CD8A, CD2"
 large bowel,colon ascending/right,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),macrophages,"HLA-DR, CD163, CD206, CD11b, CD68",CD14
 large bowel,colon ascending/right,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),eosinophils,"CD11b, CD294",
 large bowel,colon ascending/right,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),mast cells,"CD117, MCT",HDC
@@ -180,7 +180,7 @@ large bowel,"colon, transverse",mucosa,Lamina propria/Gut associated lymphoid ti
 large bowel,"colon, transverse",mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),plasma,CD138,IGLL5
 large bowel,"colon, transverse",mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),CD4+ T,"CD3, CD7, CD2, CD5, TCRab, CD4","CD3D, CD2, CD4"
 large bowel,"colon, transverse",mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),regulatory CD4+ T,"CD4, FOXP3, CD25","CD4, FOXP3"
-large bowel,"colon, transverse",mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),"""CD8+ T ""","CD3, CD7, CD2, CD5, TCRab, CD8","MGLL, TAGLN, CD3D, CD8A, CD2"
+large bowel,"colon, transverse",mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),CD8+ T,"CD3, CD7, CD2, CD5, TCRab, CD8","MGLL, TAGLN, CD3D, CD8A, CD2"
 large bowel,"colon, transverse",mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),macrophages,"HLA-DR, CD163, CD206, CD11b, CD68",CD14
 large bowel,"colon, transverse",mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),eosinophils,"CD11b, CD294",
 large bowel,"colon, transverse",mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),mast cells,"CD117, MCT",HDC
@@ -221,7 +221,7 @@ large bowel,"colon descending, left",mucosa,Lamina propria/Gut associated lympho
 large bowel,"colon descending, left",mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),plasma,CD138,IGLL5
 large bowel,"colon descending, left",mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),CD4+ T,"CD3, CD7, CD2, CD5, TCRab, CD4","CD3D, CD2, CD4"
 large bowel,"colon descending, left",mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),regulatory CD4+ T,"CD4, FOXP3, CD25","CD4, FOXP3"
-large bowel,"colon descending, left",mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),"""CD8+ T ""","CD3, CD7, CD2, CD5, TCRab, CD8","MGLL, TAGLN, CD3D, CD8A, CD2"
+large bowel,"colon descending, left",mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),CD8+ T,"CD3, CD7, CD2, CD5, TCRab, CD8","MGLL, TAGLN, CD3D, CD8A, CD2"
 large bowel,"colon descending, left",mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),macrophages,"HLA-DR, CD163, CD206, CD11b, CD68",CD14
 large bowel,"colon descending, left",mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),eosinophils,"CD11b, CD294",
 large bowel,"colon descending, left",mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),mast cells,"CD117, MCT",HDC
@@ -262,7 +262,7 @@ large bowel,colon sigmoid,mucosa,Lamina propria/Gut associated lymphoid tissue (
 large bowel,colon sigmoid,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),plasma,CD138,IGLL5
 large bowel,colon sigmoid,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),CD4+ T,"CD3, CD7, CD2, CD5, TCRab, CD4","CD3D, CD2, CD4"
 large bowel,colon sigmoid,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),regulatory CD4+ T,"CD4, FOXP3, CD25","CD4, FOXP3"
-large bowel,colon sigmoid,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),"""CD8+ T ""","CD3, CD7, CD2, CD5, TCRab, CD8","MGLL, TAGLN, CD3D, CD8A, CD2"
+large bowel,colon sigmoid,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),CD8+ T,"CD3, CD7, CD2, CD5, TCRab, CD8","MGLL, TAGLN, CD3D, CD8A, CD2"
 large bowel,colon sigmoid,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),macrophages,"HLA-DR, CD163, CD206, CD11b, CD68",CD14
 large bowel,colon sigmoid,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),eosinophils,"CD11b, CD294",
 large bowel,colon sigmoid,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),mast cells,"CD117, MCT",HDC
@@ -303,7 +303,7 @@ large bowel,rectum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),B
 large bowel,rectum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),plasma,CD138,IGLL5
 large bowel,rectum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),CD4+ T,"CD3, CD7, CD2, CD5, TCRab, CD4","CD3D, CD2, CD4"
 large bowel,rectum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),regulatory CD4+ T,"CD4, FOXP3, CD25","CD4, FOXP3"
-large bowel,rectum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),"""CD8+ T ""","CD3, CD7, CD2, CD5, TCRab, CD8","MGLL, TAGLN, CD3D, CD8A, CD2"
+large bowel,rectum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),CD8+ T,"CD3, CD7, CD2, CD5, TCRab, CD8","MGLL, TAGLN, CD3D, CD8A, CD2"
 large bowel,rectum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),macrophages,"HLA-DR, CD163, CD206, CD11b, CD68",CD14
 large bowel,rectum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),eosinophils,"CD11b, CD294",
 large bowel,rectum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),mast cells,"CD117, MCT",HDC
@@ -344,7 +344,7 @@ large bowel,anal canal,mucosa,Lamina propria/Gut associated lymphoid tissue (GAL
 large bowel,anal canal,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),plasma,CD138,IGLL5
 large bowel,anal canal,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),CD4+ T,"CD3, CD7, CD2, CD5, TCRab, CD4","CD3D, CD2, CD4"
 large bowel,anal canal,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),regulatory CD4+ T,"CD4, FOXP3, CD25","CD4, FOXP3"
-large bowel,anal canal,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),"""CD8+ T ""","CD3, CD7, CD2, CD5, TCRab, CD8","MGLL, TAGLN, CD3D, CD8A, CD2"
+large bowel,anal canal,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),CD8+ T,"CD3, CD7, CD2, CD5, TCRab, CD8","MGLL, TAGLN, CD3D, CD8A, CD2"
 large bowel,anal canal,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),macrophages,"HLA-DR, CD163, CD206, CD11b, CD68",CD14
 large bowel,anal canal,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),eosinophils,"CD11b, CD294",
 large bowel,anal canal,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),mast cells,"CD117, MCT",HDC
@@ -382,7 +382,7 @@ large bowel,anus,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),B c
 large bowel,anus,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),plasma,CD138,IGLL5
 large bowel,anus,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),CD4+ T,"CD3, CD7, CD2, CD5, TCRab, CD4","CD3D, CD2, CD4"
 large bowel,anus,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),regulatory CD4+ T,"CD4, FOXP3, CD25","CD4, FOXP3"
-large bowel,anus,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),"""CD8+ T ""","CD3, CD7, CD2, CD5, TCRab, CD8","MGLL, TAGLN, CD3D, CD8A, CD2"
+large bowel,anus,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),CD8+ T,"CD3, CD7, CD2, CD5, TCRab, CD8","MGLL, TAGLN, CD3D, CD8A, CD2"
 large bowel,anus,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),macrophages,"HLA-DR, CD163, CD206, CD11b, CD68",CD14
 large bowel,anus,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),eosinophils,"CD11b, CD294",
 large bowel,anus,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),mast cells,"CD117, MCT",HDC

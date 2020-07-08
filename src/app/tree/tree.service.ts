@@ -82,6 +82,10 @@ export class TreeService {
             continue;
           }
 
+          if (row[cols[col]].startsWith('//')) {
+            continue;
+          }
+
           const foundNodes = row[cols[col]].trim().split();
           for (const i in foundNodes) {
             if (foundNodes[i] !== '') {

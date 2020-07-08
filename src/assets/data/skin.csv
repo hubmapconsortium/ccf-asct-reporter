@@ -4,28 +4,24 @@ Epidermis,Stratum granulosum (SG),,Keratinocytes,"Specific keratins (k2/k10); P6
 Epidermis,Stratum granulosum (SG),,Langerhans cells,"CD1a, Langerin"
 Epidermis,Stratum spinosum (SS),,Keratinocytes,"Specific keratins (k1/k10); P63, p40; panCK (PCK26, AE1)"
 Epidermis,Stratum spinosum (SS),,Langerhans cells,"CD1a, Langerin"
-Epidermis,Stratum spinosum (SS),,Merkel cells,"Synaptophysin, chromogranin, CK20, neuron specific enolase,Ki67"
+Epidermis,Stratum spinosum (SS),,Merkel cells,"Synaptophysin, chromogranin, CK20, neuron specific enolase"
 Epidermis,Stratum basale (SB),,Keratinocytes,"Specific keratins (k5/k14); P63, p40; panCK (PCK26, AE1)"
 Epidermis,Stratum basale (SB),,Langerhans cells,"CD1a, Langerin"
 Epidermis,Stratum basale (SB),,Merkel cells,"Synaptophysin, chromogranin, CK20, neuron specific enolase"
 Epidermis,Stratum basale (SB),,Melanocytes,"SOX-10, S100, MelanA"
-Epidermis,Basement membrane,,--,Collagen IV
 Epidermis,,Nail plate,Onychocytes,"Keratins, panCK (PCK26, AE1)"
 Epidermis,,Hair follicles,Dead and live keratinocytes,"Keratins, panCK (PCK26, AE1)"
 Epidermis,,Sebaceous glands,"Germinative (epithelial) cells, Sebocytes","EMA, adipophilin, peripilin, panCK (PCK26, AE1)"
 Epidermis,,Eccrine (sweat) glands,"Eccrine cells, myoepithelial cells","Keratins and S100, panCK (PCK26, AE1)"
 Epidermis,,Apocrine glands,"Apocrine cells, myoepithelial cells","Keratins and GCDFP, GATA3"
-Dermis,Papillary dermis,,,"Collagens, Elastin, Fibronectin, Collagen IV, Fibronectin"
-Dermis,Reticular dermis,,,"Collagens, Elastin, Fibronectin, Collagen IV, Fibronectin"
-Dermis,,,Mast cells,"CD203c, c-Kit (CD117)"
 Dermis,,,Myoepithelial cells,"SMA, calponin, S100, p63, p40"
 Dermis,,,Fibroblasts,"Factor XIIIa, Vimentin, CD34"
+Dermis,,,Mast cells,"CD203c, c-Kit (CD117)"
 Dermis,,,Dendritic cells,"CD103, CD11b"
-Dermis,,,Tissue resident macrophages (histiocytes),"CD68, CD163"
-Dermis,,,"T cells (Thelper, Tkiller, Treg)",CD3
-Dermis,,,Thelper,CD4
-Dermis,,,Tkiller,CD8
-Dermis,,,Treg,"CD4, FOXP3"
+Dermis,,,Macrophages,"CD68, CD163"
+Dermis,,,Thelper,"CD3, CD4"
+Dermis,,,Tkiller,"CD3, CD8"
+Dermis,,,Treg,"CD3, CD4, FOXP3"
 Dermis,,,B cells,"CD19, CD20, CD79a"
 Dermis,,,Neutrophils,"MPO, CD43"
 Dermis,,,Eosinophils,"CD9, MPO"
@@ -40,7 +36,13 @@ Dermis,,,Lymphatic,"D2-40 (podoplanin), LYVE1"
 Subcutaneous,,,Adipocytes,"S100, calretinin"
 Subcutaneous,,,Fibroblasts,"Factor XIIIa, Vimentin, CD34"
 Subcutaneous,,,Macrophages,"CD68, CD163"
-Subcutaneous,,Immune cells,as above,
+Subcutaneous,,,Mast cells,"CD203c, c-Kit (CD117)"
+Subcutaneous,,,Thelper,"CD3, CD4"
+Subcutaneous,,,Tkiller,"CD3, CD8"
+Subcutaneous,,,Treg,"CD3, CD4, FOXP3"
+Subcutaneous,,,B cells,"CD19, CD20, CD79a"
+Subcutaneous,,,Neutrophils,"MPO, CD43"
+Subcutaneous,,,Eosinophils,"CD9, MPO"
 Subcutaneous,,Nerves,Axons,"NFP1, PGP9.5"
 Subcutaneous,,,Schwann cells,S100
 Subcutaneous,,,Perineurial cells,"EMA, CD34"
@@ -49,5 +51,5 @@ Subcutaneous,,,Perivascular smooth muscle cells,"SMA, calponin, h-caldesmon"
 Subcutaneous,,,Glomus cells,"SMA, calponin, h-caldesmon"
 Subcutaneous,,,Pericytes,SMA
 ,,,,
-"Contributors: Joel Sunshine, Anup Sood, Thomas Brenn, and Jonhan Ho",,,,
-"Note: Skin structure varies by body site and certain structures may be more abundant, larger than other sites or may be absent",,,,
+"// Contributors: Joel Sunshine, Anup Sood, Thomas Brenn, and Jonhan Ho",,,,
+"// Note: Skin structure varies by body site and certain structures may be more abundant, larger than other sites or may be absent",,,,

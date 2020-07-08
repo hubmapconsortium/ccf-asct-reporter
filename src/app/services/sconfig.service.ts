@@ -131,9 +131,9 @@ export class SconfigService {
       cell_row: 3,
       marker_row: 4,
       uberon_row: 0,
-      report_cols: [0, 1, 3],
-      tree_cols: [0, 1],
-      indent_cols: [0, 1, 3],
+      report_cols: [0, 1, 2, 3],
+      tree_cols: [0, 1, 2],
+      indent_cols: [0, 1, 2, 3],
       body: 'Skin',
       config: {
         width_offset: 1000,
