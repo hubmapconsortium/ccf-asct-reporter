@@ -78,7 +78,7 @@ export class BimodalService {
         );
       });
     } else {
-      cellTypes = await this.sheet.makeCellDegree(sheetData, treeData, 'Degree');
+      cellTypes = await this.sheet.makeCellDegree(sheetData, treeData,  bimodalConfig.CT.size);
     }
 
 
