@@ -216,11 +216,11 @@ export class BimodalComponent implements OnInit, OnChanges {
   }
 
   getSelection(config) {
-    this.bms.makeASCTData(this.bms.sheetData, this.bms.updatedTreeData, config).then(data => {
-      if (data) {
-        this.makeGraph(data);
-      }
-    });
+    // this.bms.makeASCTData(this.bms.sheetData, this.bms.updatedTreeData, config).then(data => {
+    //   if (data) {
+    //     this.makeGraph(data);
+    //   }
+    // });
 
   }
 

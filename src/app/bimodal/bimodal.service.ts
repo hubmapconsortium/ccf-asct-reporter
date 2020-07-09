@@ -19,6 +19,7 @@ export class BMNode {
   nodeSize: number;
   targets: Array<number>;
   sources: Array<number>;
+  className: string;
 
   constructor(name, group, first, last, x, y, fontSize, color = '#E41A1C', nodeSize = 300) {
     this.name = name;
@@ -32,6 +33,7 @@ export class BMNode {
     this.nodeSize = nodeSize === 0 ? 50 : nodeSize;
     this.targets = [];
     this.sources = [];
+    this.className = 'bmnode'
   }
 }
 
@@ -39,9 +41,6 @@ export class BMNode {
   providedIn: 'root'
 })
 export class BimodalService {
-
-  sheetData;
-  updatedTreeData;
 
   constructor(public sheet: SheetService, public report: ReportService) { }
 
