@@ -11,7 +11,7 @@
                 </mat-expansion-panel>
             </div>
             <div style="display: flex; justify-content: center;" [ngStyle]="{'width': bimodalDistance/2.85+'px' }">
-                <mat-expansion-panel style="width: 70%;" #mepCT="matExpansionPanel" (afterExpand)="expandAll('CT')" (afterCollapse)="collapseAll('CT')">
+                <mat-expansion-panel style="width: 70%;" #mepCT="matExpansionPanel" [(expanded)]="settingsExpanded">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <div style="font-weight: 500; font-size: 13pt;">Cell Types</div>
@@ -45,7 +45,7 @@
                 </mat-expansion-panel>
             </div>
             <div style="display: flex; justify-content: center;" [ngStyle]="{'width': bimodalDistance/2.8 +'px' }">
-                <mat-expansion-panel style="width: 70%;" #mepBM="matExpansionPanel" (afterExpand)="expandAll('B')" (afterCollapse)="collapseAll('B')">
+                <mat-expansion-panel style="width: 70%;" #mepBM="matExpansionPanel" [(expanded)]="settingsExpanded">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <div style="font-weight: 500; font-size: 13pt;">Bio Markers</div>
