@@ -108,7 +108,7 @@ export class SheetService {
   public async makeCellDegree(data, treeData, degree): Promise<Array<Cell>> {
     return new Promise((res, rej) => {
       const cellDegrees: Array<Cell> = [];
-      
+
       // calculating in degree (AS -> CT)
       if (degree === 'Degree' || degree === 'Indegree') {
         treeData.forEach(td => {
@@ -184,7 +184,7 @@ export class SheetService {
             if (structure.startsWith('//')) {
               continue;
             }
-            
+
             if (structure !== '') {
               if (!anatomicalStructures.some(i => i.structure.toLowerCase() === structure.toLowerCase())) {
                 anatomicalStructures.push({

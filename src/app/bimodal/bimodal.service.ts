@@ -17,6 +17,8 @@ export class BMNode {
   id: number;
   color: string;
   nodeSize: number;
+  targets: Array<number>;
+  sources: Array<number>;
 
   constructor(name, group, first, last, x, y, fontSize, color = '#E41A1C', nodeSize = 300) {
     this.name = name;
@@ -28,6 +30,8 @@ export class BMNode {
     this.y = y;
     this.color = color;
     this.nodeSize = nodeSize === 0 ? 50 : nodeSize;
+    this.targets = [];
+    this.sources = [];
   }
 }
 
@@ -172,6 +176,8 @@ export class BimodalService {
                 if (cells[c] !== '') {
                   const found = nodes.findIndex(r => r.name.toLowerCase().trim() === cells[c].toLowerCase().trim());
                   if (found !== -1) {
+                    nodes[parent].targets.push(found);
+                    nodes[found].sources.push(parent);
                     links.push({
                       s: parent,
                       t: found
@@ -199,6 +205,8 @@ export class BimodalService {
               if (markers[m] !== '') {
                 const marker = nodes.findIndex(r => r.name.toLowerCase().trim() === markers[m].toLowerCase().trim());
                 if (!links.some(n => n.s === cell && n.t === marker)) {
+                  nodes[cell].targets.push(marker);
+                  nodes[marker].sources.push(cell);
                   links.push({
                     s: cell,
                     t: marker
@@ -215,6 +223,8 @@ export class BimodalService {
       nodes,
       links
     };
+
+    console.log(JSON.stringify(ASCTGraphData))
 
     return ASCTGraphData;
   }

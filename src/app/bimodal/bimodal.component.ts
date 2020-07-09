@@ -34,10 +34,18 @@ export class BimodalComponent implements OnInit, OnChanges {
       $schema: 'https://vega.github.io/schema/vega/v5.json',
       signals: [
         {
-          name: 'active', value: null,
+          name: 'hover', value: null,
           on: [
             { events: 'symbol:mouseover', update: 'datum.id' },
             { events: 'mouseover[!event.item]', update: 'null' }
+          ]
+        },
+        {
+          name: 'targets_hover',
+          value: [],
+          on: [
+            {events: 'symbol:mouseover', update: 'datum.targets'},
+            {events: 'mouseover[!event.item]', update: '[]'}
           ]
         },
         {
@@ -45,6 +53,13 @@ export class BimodalComponent implements OnInit, OnChanges {
           on: [
             { events: 'symbol:click', update: 'datum.id' },
             { events: 'click[!event.item]', update: 'null' }
+          ]
+        },
+        {
+          name: 'targets_click_active', value: [],
+          on: [
+            { events: 'symbol:click', update: 'datum.targets' },
+            { events: 'click[!event.item]', update: '[]' }
           ]
         }
       ],
@@ -77,6 +92,26 @@ export class BimodalComponent implements OnInit, OnChanges {
             }
           ]
         },
+        {
+          name: 'targets_selected',
+          source: 'nodes',
+          transform: [
+            {
+              type: 'filter',
+              expr: 'indexof(targets_hover, datum.id) !== -1'
+            }
+          ]
+        },
+        {
+          name: 'click_targets_selected',
+          source: 'nodes',
+          transform: [
+            {
+              type: 'filter',
+              expr: 'indexof(targets_click_active, datum.id) !== -1'
+            }
+          ]
+        }
       ],
       marks: [
         {
@@ -92,26 +127,42 @@ export class BimodalComponent implements OnInit, OnChanges {
             update: {
               path: { field: 'path' },
               stroke: [
-                {test: 'datum.source.id === active && datum.source.group == 1', value: '#E41A1C'}, // for hover
-                {test: 'datum.source.id === active && datum.source.group == 2', value: '#377EB8'}, // for hover
-                {test: 'datum.target.id === active && datum.target.group == 2', value: '#E41A1C'}, // for hover
-                {test: 'datum.target.id === active', value: '#4DAF4A'}, // for hover
+                {test: 'datum.source.id === hover && datum.source.group == 1', value: '#E41A1C'}, // for hover
+                {test: 'datum.source.id === hover && datum.source.group == 2', value: '#377EB8'}, // for hover
+                {test: 'datum.target.id === hover && datum.target.group == 2', value: '#E41A1C'}, // for hover
+                {test: 'datum.target.id === hover', value: '#4DAF4A'}, // for hover
                 {test: 'datum.source.id === click_active && datum.source.group == 1', value: '#E41A1C'}, // for click
                 {test: 'datum.source.id === click_active && datum.source.group == 2', value: '#377EB8'}, // for click
                 {test: 'datum.target.id === click_active && datum.target.group == 2', value: '#E41A1C'}, // for click
                 {test: 'datum.target.id === click_active', value: '#4DAF4A'}, // for click
+                {
+                  test: 'indata(\'targets_selected\', \'id\', datum.source.id)', // for highlighting children
+                  value: '#377EB8'
+                },
+                {
+                  test: 'indata(\'click_targets_selected\', \'id\', datum.source.id)',
+                  value: '#377EB8'
+                },
                 {value: '#ccc'}
               ],
               opacity: [
                 {test: 'datum.target.id === click_active', value: 1},
                 {test: 'datum.source.id === click_active', value: 1},
+                {
+                  test: 'indata(\'click_targets_selected\', \'id\', datum.source.id)',
+                  value: 1
+                },
                 {value: 0.5}
               ],
               zindex: [
-                {test: 'datum.source.id === active', value: 2},
-                {test: 'datum.target.id === active', value: 2},
+                {test: 'datum.source.id === hover', value: 2},
+                {test: 'datum.target.id === hover', value: 2},
                 {test: 'datum.source.id === click_active', value: 2},
-                {test: 'datum.target.id === click_active', value: 2}
+                {test: 'datum.target.id === click_active', value: 2},
+                {
+                  test: 'indata(\'click_targets_selected\', \'id\', datum.source.id)',
+                  value: 2
+                },
               ]
             }
           }
