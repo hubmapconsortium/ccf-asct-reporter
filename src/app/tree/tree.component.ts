@@ -18,13 +18,11 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   bimodalDistance;
   shouldRenderASCTBiomodal = false;
 
+  @Input() settingsExpanded: boolean;
   @Input() public refreshData = false;
   @Input() public shouldReloadData = false;
   @Output() returnRefresh = new EventEmitter();
   @ViewChild('bimodal') biomodal;
-  @ViewChild('mepCT') mepCT;
-  @ViewChild('mepBM') mepBM;
-
 
   bimodalSortOptions = [
     'Alphabetically',
@@ -79,24 +77,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       this.getData();
     }
 
-  }
-
-  expandAll(op) {
-    if (op === 'CT') {
-      this.mepBM.expanded = true;
-    }
-    if (op === 'B') {
-      this.mepCT.expanded = true;
-    }
-  }
-
-  collapseAll(op) {
-    if (op === 'CT') {
-      this.mepBM.expanded = false;
-    }
-    if (op === 'B') {
-      this.mepCT.expanded = false;
-    }
   }
 
   async getData() {
