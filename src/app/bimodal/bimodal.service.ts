@@ -59,12 +59,15 @@ export class BimodalService {
     treeData.forEach(td => {
       if (td.children === 0) {
         const leaf = td.name;
-        const newLeaf = new BMNode(leaf, 1, leaf, '', treeX, td.y, 14);
+        const newLeaf = new BMNode(leaf, 1, leaf, '', td.x, td.y, 14);
         newLeaf.id = id;
         nodes.push(newLeaf);
         id += 1;
+        treeX = td.x
       }
     });
+
+    console.log(treeX)
 
     // adding x distance to build the next layer of bimodal
     treeX += distance;
