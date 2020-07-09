@@ -1,16 +1,16 @@
 <div style="max-width: 100%; overflow: scroll;">
     <div>
         <div [ngStyle]="{'width': graphWidth + bimodalDistance+'px' }" style="display: flex; flex-direction: row; background-color: #eeeeee; padding: 10px;" *ngIf="shouldRenderASCTBiomodal">
-            <div [ngStyle]="{'width': graphWidth*1.2+'px' }">
+            <div [ngStyle]="{'width': graphWidth*1.5+'px' }">
                 <mat-expansion-panel style="width: 50%;" hideToggle="true">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            <div style="font-weight: 500; font-size: 13pt;">Anatomical Strucutres</div>
+                            <div style="font-weight: 500; font-size: 13pt;">Anatomical Structures</div>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                 </mat-expansion-panel>
             </div>
-            <div style="display: flex; justify-content: center;" [ngStyle]="{'width': bimodalDistance/2.85+'px' }">
+            <div style="display: flex; justify-content: center;" [ngStyle]="{'width': bimodalDistance/2+'px' }">
                 <mat-expansion-panel style="width: 70%;" #mepCT="matExpansionPanel" (afterExpand)="expandAll('CT')" (afterCollapse)="collapseAll('CT')">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
