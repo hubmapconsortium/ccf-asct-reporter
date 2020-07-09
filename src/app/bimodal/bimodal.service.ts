@@ -224,8 +224,6 @@ export class BimodalService {
       links
     };
 
-    console.log(JSON.stringify(ASCTGraphData))
-
     return ASCTGraphData;
   }
 
