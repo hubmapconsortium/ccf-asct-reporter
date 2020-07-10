@@ -99,6 +99,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         $schema: 'https://vega.github.io/schema/vega/v5.json',
         description: 'An example of Cartesian layouts for a node-link diagram of hierarchical data.',
         autosize: "pad",
+        padding: {
+          right: 20
+        },
         signals: [
           {
             name: 'hover', value: null,
