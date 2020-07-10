@@ -42,6 +42,14 @@ export interface B {
   structure: string;
 }
 
+export class Organ {
+  body: string;
+  organ: string;
+  cellType: string;
+  markers: string;
+  organRow: Array<Organ>;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -49,12 +57,16 @@ export class SheetService {
 
   // NAVBAR SHEET SELECTION
   sheet;
-
-  ASCTGraphData = {};
-
-  // BIOMODAL DATA
-  sheetData;
-  updatedTreeData;
+  organs = [
+    'Spleen',
+    'Kidney',
+    'Liver',
+    'Lymph Nodes',
+    'Heart',
+    'Small Intestine',
+    'Large Intestine',
+    'Skin'
+  ]
 
   constructor(private http: HttpClient, public sc: SconfigService, public report: ReportService) { }
 
@@ -64,12 +76,36 @@ export class SheetService {
     // let constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`
     // console.log(environment);
 
-    const constructedURL = `assets/data/${this.sheet.name}.csv`;
+    if (this.sheet.display === 'All Organs') {
+      return this.makeAOData()
+    } else {
+      const constructedURL = `assets/data/${this.sheet.name}.csv`;
     return this.http.get(constructedURL, { responseType: 'text' }).toPromise().then(data => {
       const parsedData = parse(data);
       parsedData.data.splice(0, this.sheet.header_count);
       return parsedData.data;
     });
+    }
+  }
+
+
+  public async makeAOData() {
+    let allOrganData = [];
+    for (const organ of this.organs) {
+      const organSheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.display === organ)];
+      const constructedURL = `assets/data/${organSheet.name}.csv`;
+      const csvData = await this.http.get(constructedURL, { responseType: 'text' }).toPromise()
+      const parsedData = parse(csvData);
+      parsedData.data.splice(0, organSheet.header_count);
+      const organData = parsedData.data
+      
+      organData.forEach(row => {
+        let od = ['Body', organ, row[organSheet.cell_row], row[organSheet.marker_row]]
+        allOrganData.push(od)
+      })
+    }
+
+    return allOrganData;
   }
 
   public async makeMarkerDegree(data) {

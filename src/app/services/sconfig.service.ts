@@ -7,6 +7,23 @@ export class SconfigService {
 
   SHEET_CONFIG = [
     {
+      name: 'ao',
+      display: 'All Organs',
+      header_count: 1,
+      cell_row: 2,
+      marker_row: 3,
+      uberon_row: 0,
+      report_cols: [1, 2],
+      tree_cols: [1],
+      indent_cols: [1,2],
+      body: 'Body',
+      config: {
+        bimodal_distance: 450,
+        width: 400
+      },
+      title: 'Organs'
+    },
+    {
       name: 'spleen',
       display: 'Spleen',
       header_count: 1,
@@ -20,7 +37,8 @@ export class SconfigService {
       config: {
         bimodal_distance: 350,
         width: 1200
-      }
+      },
+      title: 'Anatomical Structures'
     },
     {
       name: 'kidney',
@@ -36,7 +54,8 @@ export class SconfigService {
       config: {
         bimodal_distance: 350,
         width: 700
-      }
+      },
+      title: 'Anatomical Structures'
     },
     {
       name: 'liver',
@@ -52,7 +71,8 @@ export class SconfigService {
       config: {
         bimodal_distance: 360,
         width: 800
-      }
+      },
+      title: 'Anatomical Structures'
     },
     {
       name: 'lymph',
@@ -68,7 +88,8 @@ export class SconfigService {
       config: {
         bimodal_distance: 350,
         width: 1200
-      }
+      },
+      title: 'Anatomical Structures'
     },
     {
       name: 'heart',
@@ -84,7 +105,8 @@ export class SconfigService {
       config: {
         bimodal_distance: 360,
         width: 800
-      }
+      },
+      title: 'Anatomical Structures'
     },
     {
       name: 'si',
@@ -100,7 +122,8 @@ export class SconfigService {
       config: {
         bimodal_distance: 360,
         width: 1200
-      }
+      },
+      title: 'Anatomical Structures'
     },
     {
       name: 'li',
@@ -116,7 +139,8 @@ export class SconfigService {
       config: {
         bimodal_distance: 360,
         width: 1200
-      }
+      },
+      title: 'Anatomical Structures'
     },
     {
       name: 'skin',
@@ -132,7 +156,8 @@ export class SconfigService {
       config: {
         bimodal_distance: 350,
         width: 800
-      }
+      },
+      title: 'Anatomical Structures'
     },
   ];
 

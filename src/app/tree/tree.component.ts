@@ -428,10 +428,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         if (isBimodalComplete) {
           this.shouldRenderASCTBiomodal = true;
           this.report.reportLog(`Tree succesfully rendered`, 'success', 'msg');
-          this.returnRefresh.emit({
-            comp: 'Tree',
-            val: true
-          });
+          
+          setTimeout(()=> {
+            this.returnRefresh.emit({
+              comp: 'Tree',
+              val: true
+            });
+          }, 500)
         } else {
           this.returnRefresh.emit({
             comp: 'Tree',
