@@ -84,7 +84,7 @@ export class SheetService {
           const foundMarker = markerDegrees.findIndex(r => r.structure.toLowerCase().trim() === markers[i].toLowerCase().trim());
           if (foundMarker === -1) {
             const nm = new Marker(markers[i].trim(), cells.length);
-            nm.parents.push(...cells);
+            nm.parents.push(...cells.map(cell => cell.toLowerCase()));
             markerDegrees.push(nm);
           } else {
             const m = markerDegrees[foundMarker];
@@ -101,7 +101,7 @@ export class SheetService {
       }
     });
 
-    markerDegrees.sort((a, b) => (b.count - a.count));
+    markerDegrees.sort((a, b) => (b.parents.length - a.parents.length));
     return markerDegrees;
   }
 

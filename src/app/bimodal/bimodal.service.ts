@@ -225,7 +225,7 @@ export class BimodalService {
       nodes,
       links
     };
-
+    
     return ASCTGraphData;
   }
 
