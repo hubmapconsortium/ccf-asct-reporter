@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   refreshIndent = false;
   refreshReport = false;
   refreshLogs = false;
-  sheetName = 'Spleen';
+  sheetName = 'All Organs';
   shouldRefreshData = false;
   showCompInDrawer = 'Report';
 
