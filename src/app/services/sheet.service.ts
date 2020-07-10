@@ -125,7 +125,7 @@ export class SheetService {
                   if (cells[i] !== '') {
                     const foundCell = cellDegrees.findIndex(c => c.structure.toLowerCase().trim() === cells[i].toLowerCase().trim());
                     if (foundCell === -1) {
-                      const nc = new Cell(cells[i].trim());
+                      const nc = new Cell(cells[i].trim().toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '));
                       nc.parents.push(parent.toLowerCase());
                       cellDegrees.push(nc);
                     } else {
@@ -159,7 +159,7 @@ export class SheetService {
                   }
                 }
               } else {
-                const nc = new Cell(cells[c].trim());
+                const nc = new Cell(cells[c].trim().toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '));
                 nc.parents.push(...markers);
                 cellDegrees.push(nc);
               }
