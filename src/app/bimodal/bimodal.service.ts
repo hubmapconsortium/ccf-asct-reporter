@@ -178,10 +178,12 @@ export class BimodalService {
                   if (found !== -1) {
                     nodes[parent].targets.push(found);
                     nodes[found].sources.push(parent);
-                    links.push({
-                      s: parent,
-                      t: found
-                    });
+                    if (!links.some(n => n.s === parent && n.t === found)) {
+                      links.push({
+                        s: parent,
+                        t: found
+                      });
+                    } 
                   }
                 }
               }
