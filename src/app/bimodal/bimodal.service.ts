@@ -66,8 +66,6 @@ export class BimodalService {
       }
     });
 
-    console.log(treeX)
-
     // adding x distance to build the next layer of bimodal
     treeX += distance;
 

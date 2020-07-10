@@ -409,7 +409,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
   public async makeBimodalGraph() {
     const asctData = await this.bms.makeASCTData(this.sheetData, this.updatedTreeData.spec.data[0].values, this.bimodalConfig);
-    
+    this.updatedTreeData.view._runtime.signals.click_active.value = null; // removing clicked highlighted nodes if at all
+
     await this.updatedTreeData.view.change('nodes', vega.changeset().remove(this.prevData['nodes']).insert(asctData['nodes'])).runAsync()
     await this.updatedTreeData.view.change('edges', vega.changeset().remove(this.prevData['links']).insert(asctData['links'])).runAsync()
 

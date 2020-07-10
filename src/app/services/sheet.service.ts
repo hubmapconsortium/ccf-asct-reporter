@@ -62,7 +62,7 @@ export class SheetService {
     // let sheetId = this.sheet.sheetId;
     // let gid = this.sheet.gid;
     // let constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`
-    console.log(environment);
+    // console.log(environment);
 
     const constructedURL = `assets/data/${this.sheet.name}.csv`;
     return this.http.get(constructedURL, { responseType: 'text' }).toPromise().then(data => {
