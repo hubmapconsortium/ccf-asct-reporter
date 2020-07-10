@@ -58,7 +58,7 @@ export class BimodalService {
     treeData.forEach(td => {
       if (td.children === 0) {
         const leaf = td.name;
-        const newLeaf = new BMNode(leaf, 1, leaf, '', td.x, td.y, 14);
+        const newLeaf = new BMNode(leaf, 1, leaf, '', td.x, td.y - 5, 14);
         newLeaf.id = id;
         nodes.push(newLeaf);
         id += 1;
