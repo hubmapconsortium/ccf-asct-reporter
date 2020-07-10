@@ -18,7 +18,6 @@ export class SconfigService {
       indent_cols: [0, 3, 6, 9, 12, 15],
       body: 'Spleen',
       config: {
-        width_offset: 900,
         bimodal_distance: 350,
         width: 1200
       }
@@ -35,8 +34,8 @@ export class SconfigService {
       indent_cols: [0, 1, 2],
       body: 'Kidney',
       config: {
-        width_offset: 1100,
-        bimodal_distance: 420, width: 1200
+        bimodal_distance: 350, 
+        width: 700
       }
     },
     {
@@ -51,9 +50,8 @@ export class SconfigService {
       indent_cols: [0, 1, 2, 3],
       body: 'Liver',
       config: {
-        width_offset: 1300,
         bimodal_distance: 360,
-        width: 1200
+        width: 800
       }
     },
     {
@@ -68,8 +66,7 @@ export class SconfigService {
       indent_cols: [0, 1, 2, 3, 4],
       body: 'Lymph Nodes',
       config: {
-        width_offset: 1600,
-        bimodal_distance: 400,
+        bimodal_distance: 350,
         width: 1200
       }
     },
@@ -85,9 +82,8 @@ export class SconfigService {
       indent_cols: [0, 3, 6],
       body: 'Heart',
       config: {
-        width_offset: 1600,
         bimodal_distance: 360,
-        width: 1200
+        width: 800
       }
     },
     {
@@ -102,7 +98,6 @@ export class SconfigService {
       indent_cols: [0, 1, 2, 3, 4],
       body: 'Small Intestine',
       config: {
-        width_offset: 600,
         bimodal_distance: 360,
         width: 1200
       }
@@ -119,7 +114,6 @@ export class SconfigService {
       indent_cols: [0, 1, 2, 3, 4],
       body: 'Large Intestine',
       config: {
-        width_offset: 800,
         bimodal_distance: 360,
         width: 1200
       }
@@ -136,9 +130,8 @@ export class SconfigService {
       indent_cols: [0, 1, 2, 3],
       body: 'Skin',
       config: {
-        width_offset: 1000,
-        bimodal_distance: 400,
-        width: 1200
+        bimodal_distance: 350,
+        width: 800
       }
     },
   ];

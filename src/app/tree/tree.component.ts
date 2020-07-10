@@ -19,7 +19,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   graphWidth;
   bimodalDistance;
   shouldRenderASCTBiomodal = false;
-  prevData = {}
+  prevData = {};
+  treeWidth = 0;
 
   @Input() settingsExpanded: boolean;
   @Input() public refreshData = false;
@@ -92,12 +93,11 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       const height = document.getElementsByTagName('body')[0].clientHeight;
       const width = document.getElementsByTagName('body')[0].clientWidth;
 
-      this.bimodalDistance = this.sheet.sheet.config.bimodal_distance * 2.5;
+      this.bimodalDistance = this.sheet.sheet.config.bimodal_distance;
 
       const config: any = {
         $schema: 'https://vega.github.io/schema/vega/v5.json',
         description: 'An example of Cartesian layouts for a node-link diagram of hierarchical data.',
-        width: width,
         autosize: "pad",
         signals: [
           {
@@ -143,7 +143,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               {
                 type: 'tree',
                 method: 'cluster',
-                size: [{ signal: height + 200 }, { signal: width/2 }],
+                size: [{ signal: height + 200 }, { signal: this.sheet.sheet.config.width }],
                 separation: { value: false },
                 as: ['y', 'x', 'depth', 'children']
               }
@@ -243,7 +243,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                     ],
                     opacity: { signal: 'datum.children ? 1 : 0' },
                     fill: { field: 'color' }
-                    // fill: { scale: 'color', field: 'depth' }
                   }
                 }
               },
@@ -336,9 +335,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                     x: { field: 'x' },
                     y: { field: 'y', offset: 5 },
                     cursor: { value: 'pointer' },
-                    sort: {
-                      encoding: {field: 'nodeSize'}
-                    }
+                    tooltip:{field: 'name'}
                   },
                   update: {
                   }
@@ -359,7 +356,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                     text: { field: 'last' },
                     fontSize: { field: 'fontSize' },
                     fontWeight: { value: 400 },
-                    opacity: { value: 1 }
+                    opacity: { value: 1 },
+                    limit: { value: 180 }
                   }
                 }
               },
@@ -369,13 +367,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         ]
       };
 
-      const embedding = embed('#vis', config, { actions: false });
+      const embedding = embed('#vis', config, {actions: false});
       
 
 
       try {
         this.updatedTreeData = await embedding;
-        this.graphWidth = this.updatedTreeData.view._viewWidth/2
+        this.treeWidth = this.updatedTreeData.view._viewWidth
         
         // this.bms.updatedTreeData = treeData.spec.data[0].values; // this is needed to update the bimodal network
         
@@ -418,6 +416,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     await this.updatedTreeData.view.runAsync()
     if (didViewRender) {
       this.prevData = asctData
+      this.graphWidth = this.updatedTreeData.view._viewWidth
       return true
     }
     return false
