@@ -421,15 +421,17 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
       try {
         this.updatedTreeData = await embedding;
-        this.treeWidth = this.updatedTreeData.view._viewWidth;
-        
-        const isBimodalComplete = await this.makeBimodalGraph();
+        this.treeWidth = this.updatedTreeData.view._viewWidth
 
+        // this.bms.updatedTreeData = treeData.spec.data[0].values; // this is needed to update the bimodal network
+        let isBimodalComplete;
+
+        isBimodalComplete = this.makeBimodalGraph()
         if (isBimodalComplete) {
           this.shouldRenderASCTBiomodal = true;
           this.report.reportLog(`Tree succesfully rendered`, 'success', 'msg');
-          
-          setTimeout(()=> {
+
+          setTimeout(() => {
             this.returnRefresh.emit({
               comp: 'Tree',
               val: true
@@ -441,7 +443,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             val: false
           });
         }
-
       } catch (err) {
         console.log(err);
       }

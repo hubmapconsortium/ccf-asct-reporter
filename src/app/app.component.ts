@@ -52,7 +52,7 @@ export class AppComponent implements OnInit {
   }
 
   showGraph(val) {
-    this.openLoading();
+    // this.openLoading();
     this.displayGraph = val;
     this.getSelectedSheet(this.sheetName);
   }
@@ -70,15 +70,16 @@ export class AppComponent implements OnInit {
 
   returnRefresh(val) {
     if (val.comp === 'Tree') {
-      this.dialog.closeAll();
-      if (val.val) {
-        this.openSnackBar('Tree data successfully fetched.', 'Close', 'green');
-      } else {
-        this.openSnackBar('Error while fetching data.', 'Close', 'red');
-      }
-      this.refreshTree = false;
-      this.shouldRefreshData = false;
-
+      setTimeout(() => {
+        this.dialog.closeAll();
+        if (val.val) {
+          this.openSnackBar('Tree data successfully fetched.', 'Close', 'green');
+        } else {
+          this.openSnackBar('Error while fetching data.', 'Close', 'red');
+        }
+        this.refreshTree = false;
+        this.shouldRefreshData = false;
+      }, 1000)
     } else if (val.comp === 'Indented List') {
       this.dialog.closeAll();
       if (val.val) {
