@@ -31,6 +31,7 @@ export class NavbarComponent implements OnInit {
   @Output() showGraph = new EventEmitter<any>();
   @Output() refresh = new EventEmitter<any>();
   @Output() getSheet = new EventEmitter<any>();
+  @Output() downloadVis = new EventEmitter<any>();
 
   constructor() {
 
@@ -60,6 +61,10 @@ export class NavbarComponent implements OnInit {
 
   refreshData() {
     this.refresh.emit(this.selectedOption);
+  }
+
+  downloadVisFunction() {
+    this.downloadVis.emit(true);
   }
 
   openGithub() {

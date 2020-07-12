@@ -100,7 +100,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         description: 'An example of Cartesian layouts for a node-link diagram of hierarchical data.',
         autosize: "pad",
         padding: {
-          right: 20
+          right: 20,
+          top: 20,
+          bottom: 20
         },
         signals: [
           {
@@ -423,5 +425,18 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       return true
     }
     return false
+  }
+
+  downloadVis() {
+    this.updatedTreeData.view.background('white');
+    this.updatedTreeData.view.toImageURL('png').then(function(url) {
+      var link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('target', '_blank');
+      link.setAttribute('download', 'asct+b vis.png');
+      link.dispatchEvent(new MouseEvent('click'));
+    }).catch(function(error) { 
+      console.log(error)
+     });
   }
 }

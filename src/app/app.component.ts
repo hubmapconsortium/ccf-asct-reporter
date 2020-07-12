@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
 
   @ViewChild('drawer') drawer;
   @ViewChild('reportComponent') reportComponent;
+  @ViewChild('tree') treeComponent;
 
   displayGraph = 'Tree';
   refreshTree = false;
@@ -105,6 +106,10 @@ export class AppComponent implements OnInit {
       horizontalPosition: 'end',
       panelClass: [`${style}-snackbar`]
     });
+  }
+
+  downloadVis() {
+    this.treeComponent.downloadVis();
   }
 
   getSelectedSheet(event) {
