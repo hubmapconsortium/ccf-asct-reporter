@@ -18,7 +18,7 @@ export class SconfigService {
       indent_cols: [1,2],
       body: 'Body',
       config: {
-        bimodal_distance: 550,
+        bimodal_distance: 600,
         width: 400,
         height_offset: 4500
       },
