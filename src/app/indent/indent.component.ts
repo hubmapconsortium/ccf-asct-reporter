@@ -76,16 +76,20 @@ export class IndentComponent implements OnInit, OnChanges {
     const data = await this.sheet.getSheetData();
     try {
       this.sheetData = data;
-      this.dataSource.data = [this.indent.makeIndentData(this.sheetData)];
+      this.dataSource.data = [this.indent.makeIndentData(this.sheetData.data)];
       this.indentTree.treeControl.expandAll();
 
       this.returnRefresh.emit({
         comp: 'Indented List',
+        msg: this.sheetData.msg,
+        status: this.sheetData.status,
         val: true
       });
     } catch (err) {
       this.returnRefresh.emit({
         comp: 'Indented List',
+        msg: this.sheetData.msg,
+        status: this.sheetData.status,
         val: false
       });
       this.report.reportLog(`Indented List failed to render`, 'error', 'msg');

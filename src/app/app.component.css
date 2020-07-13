@@ -30,6 +30,10 @@
     background: rgb(194, 87, 87);
 }
 
+::ng-deep .warn-snackbar {
+    background: #ffa500;
+}
+
 ::ng-deep .mat-dialog-container {
     box-shadow: none !important;
 }

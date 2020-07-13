@@ -89,7 +89,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   async getData() {
     try {
       this.sheetData = await this.sheet.getSheetData();
-      this.treeData = await this.ts.makeTreeData(this.sheetData);
+      this.treeData = await this.ts.makeTreeData(this.sheetData.data);
 
       const height = document.getElementsByTagName('body')[0].clientHeight;
 
@@ -431,6 +431,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
           setTimeout(() => {
             this.returnRefresh.emit({
+              msg: this.sheetData.msg,
+              status: this.sheetData.status,
               comp: 'Tree',
               val: true
             });
@@ -438,6 +440,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         } else {
           this.returnRefresh.emit({
             comp: 'Tree',
+            msg: this.sheetData.msg,
+            status: this.sheetData.status,
             val: false
           });
         }
@@ -447,6 +451,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     } catch (err) {
       this.returnRefresh.emit({
         comp: 'Tree',
+        msg: this.sheetData.msg,
+        status: this.sheetData.status,
         val: false
       });
       this.report.reportLog(`Tree failed to render`, 'error', 'msg');
@@ -454,7 +460,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public async makeBimodalGraph() {
-    const asctData: ASCTD = await this.bms.makeASCTData(this.sheetData, this.updatedTreeData, this.bimodalConfig);
+    const asctData: ASCTD = await this.bms.makeASCTData(this.sheetData.data, this.updatedTreeData, this.bimodalConfig);
     this.treeView._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
     this.treeView._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
     this.treeView._runtime.signals.targets__click.value = []; // removing clicked bold target nodes if at all

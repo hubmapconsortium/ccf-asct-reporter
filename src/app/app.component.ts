@@ -51,8 +51,10 @@ export class AppComponent implements OnInit {
   }
 
   showGraph(val) {
+    this.openLoading();
     this.displayGraph = val;
-    this.getSelectedSheet(this.sheetName);
+    if (val == 'Tree')
+      this.getSelectedSheet(this.sheetName);
   }
 
   refreshData(val) {
@@ -70,7 +72,10 @@ export class AppComponent implements OnInit {
     if (val.comp === 'Tree') {
       this.dialog.closeAll();
       if (val.val) {
-        this.openSnackBar('Tree data successfully fetched.', 'Close', 'green');
+        val.status === 200 ?
+          this.openSnackBar('Tree data successfully fetched.', 'Close', 'green') :
+          this.openSnackBar('Tree data successfully fetched from system cache.', 'Close', 'warn');
+
       } else {
         this.openSnackBar('Error while fetching data.', 'Close', 'red');
       }
@@ -81,7 +86,9 @@ export class AppComponent implements OnInit {
     } else if (val.comp === 'Indented List') {
       this.dialog.closeAll();
       if (val.val) {
-        this.openSnackBar('Indented List data successfully fetched.', 'Close', 'green');
+        val.status === 200 ?
+          this.openSnackBar('ndented List data successfully fetched.', 'Close', 'green') :
+          this.openSnackBar('Indented List successfully fetched from system cache.', 'Close', 'warn');
       } else {
         this.openSnackBar('Error while fetching data.', 'Close', 'red');
       }
@@ -100,7 +107,7 @@ export class AppComponent implements OnInit {
 
   openSnackBar(message, action, style) {
     this.snackBar.open(message, action, {
-      duration: style === 'green' ? 2500 : undefined,
+      duration: style === 'green' || style === 'warn' ? 3000 : undefined,
       verticalPosition: 'bottom',
       horizontalPosition: 'end',
       panelClass: [`${style}-snackbar`]

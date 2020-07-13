@@ -70,21 +70,41 @@ export class SheetService {
 
   constructor(private http: HttpClient, public sc: SconfigService, public report: ReportService) { }
 
-  public getSheetData(): Promise<any> {
-    // let sheetId = this.sheet.sheetId;
-    // let gid = this.sheet.gid;
-    // let constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`
+  public async getSheetData(): Promise<any> {
+
     // console.log(environment);
 
     if (this.sheet.display === 'All Organs') {
       return this.makeAOData();
     } else {
-      const constructedURL = `assets/data/${this.sheet.name}.csv`;
-      return this.http.get(constructedURL, { responseType: 'text' }).toPromise().then(data => {
-      const parsedData = parse(data);
-      parsedData.data.splice(0, this.sheet.header_count);
-      return parsedData.data;
-    });
+      let sheetId = this.sheet.sheetId;
+      let gid = this.sheet.gid;
+      let constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`
+      // const constructedURL = `assets/data/${this.sheet.name}.csv`;
+
+      return this.http.get(constructedURL, { responseType: 'text' }).toPromise()
+        .then(async (data) => {
+          let parsedData = parse(data);
+          parsedData.data.splice(0, this.sheet.header_count);
+          return {
+            data: parsedData.data,
+            status: 200,
+            msg: 'Ok'
+          }
+        })
+        .catch(async (err) => {
+          const constructedURL = `assets/data/${this.sheet.name}.csv`;
+          let data = await this.http.get(constructedURL, { responseType: 'text' }).toPromise();
+          let parsedData = parse(data);
+          parsedData.data.splice(0, this.sheet.header_count);
+          this.report.reportLog(`${this.sheet.display} data fetched from system cache`, 'warning', 'msg');
+          return {
+            data: parsedData.data,
+            status: err.status,
+            msg: err.message
+          };
+        })
+
     }
   }
 
@@ -105,7 +125,11 @@ export class SheetService {
       });
     }
 
-    return allOrganData;
+    return {
+      data: allOrganData,
+      status: 200,
+      msg: "Ok"
+    };;
   }
 
   public async makeMarkerDegree(data) {
