@@ -107,14 +107,14 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         },
         signals: [
           {
-            name: 'hover', value: null,
+            name: 'node__hover', value: null,
             on: [
               { events: '@bimodal-symbol:mouseover', update: 'datum.id' },
               { events: 'mouseover[!event.item]', update: 'null' }
             ]
           },
           {
-            name: 'targets_hover',
+            name: 'node_targets__hover',
             value: [],
             on: [
               { events: '@bimodal-symbol:mouseover', update: 'datum.targets' },
@@ -122,21 +122,21 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             ]
           },
           {
-            name: 'click_active', value: null,
+            name: 'node__click', value: null,
             on: [
               { events: '@bimodal-symbol:click', update: 'datum.id' },
               { events: 'click[!event.item]', update: 'null' }
             ]
           },
           {
-            name: 'targets_click_active', value: [],
+            name: 'targets__click', value: [],
             on: [
               { events: '@bimodal-symbol:click', update: 'datum.targets' },
               { events: 'click[!event.item]', update: '[]' }
             ]
           },
           {
-            name: 'parents_click_active',
+            name: 'sources__click',
             value: [],
             on: [
               { events: '@bimodal-symbol:click', update: 'datum.sources' },
@@ -202,39 +202,39 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             ]
           },
           {
-            name: 'targets_selected',
+            name: 'targets_hovered_array',
             source: 'nodes',
             transform: [
-              { type: 'filter', expr: 'indexof(targets_hover, datum.id) !== -1' }
+              { type: 'filter', expr: 'indexof(node_targets__hover, datum.id) !== -1' }
             ]
           },
           {
-            name: 'click_targets_selected',
+            name: 'targets_clicked_array',
             source: 'nodes',
             transform: [
               {
                 type: 'filter',
-                expr: 'indexof(targets_click_active, datum.id) !== -1'
+                expr: 'indexof(targets__click, datum.id) !== -1'
               }
             ]
           },
           {
-            name: 'click_parents_selected',
+            name: 'sources_clicked_array',
             source: 'nodes',
             transform: [
               {
                 type: 'filter',
-                expr: 'indexof(parents_click_active, datum.id) !== -1'
+                expr: 'indexof(sources__click, datum.id) !== -1'
               }
             ]
           },
           {
-            name: 'bold_clicked_targets',
+            name: 'targets_clicked_array__bold',
             source: 'nodes',
             transform: [
               {
                 type: 'filter',
-                expr: 'indexof(targets_click_active, datum.id) !== -1'
+                expr: 'indexof(targets__click, datum.id) !== -1'
               },
               {
                 type: 'flatten',
@@ -317,40 +317,40 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                   update: {
                     path: { field: 'path' },
                     stroke: [
-                      { test: 'datum.source.id === hover && datum.source.group == 1', value: '#E41A1C' }, // for hover
-                      { test: 'datum.source.id === hover && datum.source.group == 2', value: '#377EB8' }, // for hover
-                      { test: 'datum.target.id === hover && datum.target.group == 2', value: '#E41A1C' }, // for hover
-                      { test: 'datum.target.id === hover', value: '#4DAF4A' }, // for hover
-                      { test: 'datum.source.id === click_active && datum.source.group == 1', value: '#E41A1C' }, // for click
-                      { test: 'datum.source.id === click_active && datum.source.group == 2', value: '#377EB8' }, // for click
-                      { test: 'datum.target.id === click_active && datum.target.group == 2', value: '#E41A1C' }, // for click
-                      { test: 'datum.target.id === click_active', value: '#4DAF4A' }, // for click
+                      { test: 'datum.source.id === node__hover && datum.source.group == 1', value: '#E41A1C' }, // for hover
+                      { test: 'datum.source.id === node__hover && datum.source.group == 2', value: '#377EB8' }, // for hover
+                      { test: 'datum.target.id === node__hover && datum.target.group == 2', value: '#E41A1C' }, // for hover
+                      { test: 'datum.target.id === node__hover', value: '#4DAF4A' }, // for hover
+                      { test: 'datum.source.id === node__click && datum.source.group == 1', value: '#E41A1C' }, // for click
+                      { test: 'datum.source.id === node__click && datum.source.group == 2', value: '#377EB8' }, // for click
+                      { test: 'datum.target.id === node__click && datum.target.group == 2', value: '#E41A1C' }, // for click
+                      { test: 'datum.target.id === node__click', value: '#4DAF4A' }, // for click
                       {
-                        test: 'indata(\'targets_selected\', \'id\', datum.source.id)', // for highlighting children
+                        test: 'indata(\'targets_hovered_array\', \'id\', datum.source.id)', // for highlighting children
                         value: '#377EB8'
                       },
                       {
-                        test: 'indata(\'click_targets_selected\', \'id\', datum.source.id)',
+                        test: 'indata(\'targets_clicked_array\', \'id\', datum.source.id)',
                         value: '#377EB8'
                       },
                       { value: '#ccc' }
                     ],
                     opacity: [
-                      { test: 'datum.target.id === click_active', value: 0.8 },
-                      { test: 'datum.source.id === click_active', value: 0.8 },
+                      { test: 'datum.target.id === node__click', value: 0.8 },
+                      { test: 'datum.source.id === node__click', value: 0.8 },
                       {
-                        test: 'indata(\'click_targets_selected\', \'id\', datum.source.id)',
+                        test: 'indata(\'targets_clicked_array\', \'id\', datum.source.id)',
                         value: 0.8
                       },
                       { value: 0.4 }
                     ],
                     zindex: [
-                      { test: 'datum.source.id === hover', value: 2 },
-                      { test: 'datum.target.id === hover', value: 2 },
-                      { test: 'datum.source.id === click_active', value: 2 },
-                      { test: 'datum.target.id === click_active', value: 2 },
+                      { test: 'datum.source.id === node__hover', value: 2 },
+                      { test: 'datum.target.id === node__hover', value: 2 },
+                      { test: 'datum.source.id === node__click', value: 2 },
+                      { test: 'datum.target.id === node__click', value: 2 },
                       {
-                        test: 'indata(\'click_targets_selected\', \'id\', datum.source.id)',
+                        test: 'indata(\'targets_clicked_array\', \'id\', datum.source.id)',
                         value: 2
                       },
                     ]
@@ -390,23 +390,18 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                     fontSize: { field: 'fontSize' },
                     fontWeight: [
                       {
-                        test: 'indata(\'click_targets_selected\', \'id\', datum.id)',
+                        test: 'indata(\'targets_clicked_array\', \'id\', datum.id)',
                         value: 'bold'
                       },
                       {
-                        test: 'datum.id === click_active', value: 'bold'
+                        test: 'datum.id === node__click', value: 'bold'
                       },
                       {
-                        test: 'indata(\'click_parents_selected\', \'id\', datum.id)',
+                        test: 'indata(\'sources_clicked_array\', \'id\', datum.id)',
                         value: 'bold'
                       },
                       {
-                        test: 'indata(\'click_targets_selected\', \'targets\', datum.id)',
-                        value: 'bold'
-                      },
-
-                      {
-                        test: 'indata(\'bold_clicked_targets\', \'targets\', datum.id)',
+                        test: 'indata(\'targets_clicked_array__bold\', \'targets\', datum.id)',
                         value: 'bold'
                       }
                     ],
@@ -462,7 +457,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   public async makeBimodalGraph() {
     let asctData: ASCTD;
     asctData = await this.bms.makeASCTData(this.sheetData, this.updatedTreeData.spec.data[0].values, this.bimodalConfig);
-    this.updatedTreeData.view._runtime.signals.click_active.value = null; // removing clicked highlighted nodes if at all
+    this.updatedTreeData.view._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
 
     await this.updatedTreeData.view.change('nodes', vega.changeset().remove(this.prevData.nodes).insert(asctData.nodes)).runAsync();
     await this.updatedTreeData.view.change('edges', vega.changeset().remove(this.prevData.links).insert(asctData.links)).runAsync();

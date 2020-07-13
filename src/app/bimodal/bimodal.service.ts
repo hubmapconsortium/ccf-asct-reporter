@@ -16,7 +16,6 @@ export class BMNode {
   nodeSize: number;
   targets: Array<number>;
   sources: Array<number>;
-  className: string;
 
   constructor(name, group, x, y, fontSize, color = '#E41A1C', nodeSize = 300) {
     this.name = name;
@@ -115,7 +114,6 @@ export class BimodalService {
     treeX += distance;
 
     // based on select input, sorting markers
-
     if (bimodalConfig.BM.sort === 'Alphabetically') {
       biomarkers = await this.sheet.makeBioMarkers(sheetData);
       biomarkers.sort((a, b) => {
