@@ -12,11 +12,11 @@ import { BimodalService, ASCTD } from '../services/bimodal.service';
   styleUrls: ['./tree.component.css']
 })
 export class TreeComponent implements OnInit, OnChanges, OnDestroy {
-  sheetData;
-  treeData;
-  updatedTreeData;
-  graphWidth;
-  bimodalDistance;
+  sheetData: any;
+  treeData: any;
+  updatedTreeData: any;
+  graphWidth: number;
+  bimodalDistance: number;
   shouldRenderASCTBiomodal = false;
   prevData: ASCTD = {
     nodes: [],
@@ -92,7 +92,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       this.treeData = await this.ts.makeTreeData(this.sheetData);
 
       const height = document.getElementsByTagName('body')[0].clientHeight;
-      const width = document.getElementsByTagName('body')[0].clientWidth;
 
       this.bimodalDistance = this.sheet.sheet.config.bimodal_distance;
 
@@ -254,7 +253,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                   update: {
                     path: { field: 'path' },
                     stroke: { value: '#ccc' },
-                    opacity: { value: 0.5 },
+                    opacity: { value: 0.4 },
                     strokeWidth: { value: 1.5 }
                   }
                 }
@@ -336,11 +335,11 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                       { value: '#ccc' }
                     ],
                     opacity: [
-                      { test: 'datum.target.id === node__click', value: 0.8 },
-                      { test: 'datum.source.id === node__click', value: 0.8 },
+                      { test: 'datum.target.id === node__click', value: 0.65 },
+                      { test: 'datum.source.id === node__click', value: 0.65 },
                       {
                         test: 'indata(\'targets_clicked_array\', \'id\', datum.source.id)',
-                        value: 0.8
+                        value: 0.65
                       },
                       { value: 0.4 }
                     ],
@@ -423,9 +422,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       try {
         this.updatedTreeData = await embedding;
         this.treeWidth = this.updatedTreeData.view._viewWidth;
-
-        // this.bms.updatedTreeData = treeData.spec.data[0].values; // this is needed to update the bimodal network
-
+        
         const isBimodalComplete = await this.makeBimodalGraph();
 
         if (isBimodalComplete) {
@@ -458,6 +455,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     let asctData: ASCTD;
     asctData = await this.bms.makeASCTData(this.sheetData, this.updatedTreeData.spec.data[0].values, this.bimodalConfig);
     this.updatedTreeData.view._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
+    this.updatedTreeData.view._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
+    this.updatedTreeData.view._runtime.signals.targets__click.value = []; // removing clicked bold target nodes if at all
 
     await this.updatedTreeData.view.change('nodes', vega.changeset().remove(this.prevData.nodes).insert(asctData.nodes)).runAsync();
     await this.updatedTreeData.view.change('edges', vega.changeset().remove(this.prevData.links).insert(asctData.links)).runAsync();
