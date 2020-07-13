@@ -66,7 +66,7 @@ export class SheetService {
     'Small Intestine',
     'Large Intestine',
     'Skin'
-  ]
+  ];
 
   constructor(private http: HttpClient, public sc: SconfigService, public report: ReportService) { }
 
@@ -77,10 +77,10 @@ export class SheetService {
     // console.log(environment);
 
     if (this.sheet.display === 'All Organs') {
-      return this.makeAOData()
+      return this.makeAOData();
     } else {
       const constructedURL = `assets/data/${this.sheet.name}.csv`;
-    return this.http.get(constructedURL, { responseType: 'text' }).toPromise().then(data => {
+      return this.http.get(constructedURL, { responseType: 'text' }).toPromise().then(data => {
       const parsedData = parse(data);
       parsedData.data.splice(0, this.sheet.header_count);
       return parsedData.data;
@@ -90,19 +90,19 @@ export class SheetService {
 
 
   public async makeAOData() {
-    let allOrganData = [];
+    const allOrganData = [];
     for (const organ of this.organs) {
       const organSheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.display === organ)];
       const constructedURL = `assets/data/${organSheet.name}.csv`;
-      const csvData = await this.http.get(constructedURL, { responseType: 'text' }).toPromise()
+      const csvData = await this.http.get(constructedURL, { responseType: 'text' }).toPromise();
       const parsedData = parse(csvData);
       parsedData.data.splice(0, organSheet.header_count);
-      const organData = parsedData.data
-      
+      const organData = parsedData.data;
+
       organData.forEach(row => {
-        let od = ['Body', organ, row[organSheet.cell_row], row[organSheet.marker_row]]
-        allOrganData.push(od)
-      })
+        const od = ['Body', organ, row[organSheet.cell_row], row[organSheet.marker_row]];
+        allOrganData.push(od);
+      });
     }
 
     return allOrganData;

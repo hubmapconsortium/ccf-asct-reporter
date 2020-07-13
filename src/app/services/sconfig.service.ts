@@ -15,7 +15,7 @@ export class SconfigService {
       uberon_row: 0,
       report_cols: [1, 2],
       tree_cols: [1],
-      indent_cols: [1,2],
+      indent_cols: [1, 2],
       body: 'Body',
       config: {
         bimodal_distance: 600,

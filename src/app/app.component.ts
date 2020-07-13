@@ -124,7 +124,7 @@ export class AppComponent implements OnInit {
           setTimeout(() => {
             this.shouldRefreshData = true;
             this.reportComponent.getData();
-          }, 500)
+          }, 500);
         }
       });
 

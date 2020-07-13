@@ -414,8 +414,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         ]
       };
 
-      let runtime: vega.Runtime = vega.parse(config, {})
-      this.treeView = new vega.View(runtime).renderer('svg').initialize('#vis')
+      const runtime: vega.Runtime = vega.parse(config, {});
+      this.treeView = new vega.View(runtime).renderer('svg').initialize('#vis');
       this.treeView.runAsync();
 
       try {
@@ -424,7 +424,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
         let isBimodalComplete;
 
-        isBimodalComplete = this.makeBimodalGraph()
+        isBimodalComplete = this.makeBimodalGraph();
         if (isBimodalComplete) {
           this.shouldRenderASCTBiomodal = true;
           this.report.reportLog(`Tree succesfully rendered`, 'success', 'msg');
@@ -434,7 +434,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               comp: 'Tree',
               val: true
             });
-          }, 500)
+          }, 500);
         } else {
           this.returnRefresh.emit({
             comp: 'Tree',
@@ -454,7 +454,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public async makeBimodalGraph() {
-    let asctData: ASCTD = await this.bms.makeASCTData(this.sheetData, this.updatedTreeData, this.bimodalConfig);
+    const asctData: ASCTD = await this.bms.makeASCTData(this.sheetData, this.updatedTreeData, this.bimodalConfig);
     this.treeView._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
     this.treeView._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
     this.treeView._runtime.signals.targets__click.value = []; // removing clicked bold target nodes if at all
