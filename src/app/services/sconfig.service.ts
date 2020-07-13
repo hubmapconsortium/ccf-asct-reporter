@@ -18,8 +18,9 @@ export class SconfigService {
       indent_cols: [1,2],
       body: 'Body',
       config: {
-        bimodal_distance: 450,
-        width: 400
+        bimodal_distance: 550,
+        width: 400,
+        height_offset: 4500
       },
       title: 'Organs'
     },
@@ -36,7 +37,8 @@ export class SconfigService {
       body: 'Spleen',
       config: {
         bimodal_distance: 350,
-        width: 1200
+        width: 1200,
+        height_offset: 200
       },
       title: 'Anatomical Structures'
     },
@@ -53,7 +55,8 @@ export class SconfigService {
       body: 'Kidney',
       config: {
         bimodal_distance: 350,
-        width: 700
+        width: 700,
+        height_offset: 200
       },
       title: 'Anatomical Structures'
     },
@@ -70,7 +73,8 @@ export class SconfigService {
       body: 'Liver',
       config: {
         bimodal_distance: 360,
-        width: 800
+        width: 800,
+        height_offset: 200
       },
       title: 'Anatomical Structures'
     },
@@ -87,7 +91,8 @@ export class SconfigService {
       body: 'Lymph Nodes',
       config: {
         bimodal_distance: 350,
-        width: 1200
+        width: 1200,
+        height_offset: 200
       },
       title: 'Anatomical Structures'
     },
@@ -103,8 +108,9 @@ export class SconfigService {
       indent_cols: [0, 3, 6],
       body: 'Heart',
       config: {
-        bimodal_distance: 360,
-        width: 800
+        bimodal_distance: 400,
+        width: 800,
+        height_offset: 200
       },
       title: 'Anatomical Structures'
     },
@@ -121,7 +127,8 @@ export class SconfigService {
       body: 'Small Intestine',
       config: {
         bimodal_distance: 360,
-        width: 1200
+        width: 1200,
+        height_offset: 200
       },
       title: 'Anatomical Structures'
     },
@@ -138,7 +145,8 @@ export class SconfigService {
       body: 'Large Intestine',
       config: {
         bimodal_distance: 360,
-        width: 1200
+        width: 1200,
+        height_offset: 200
       },
       title: 'Anatomical Structures'
     },
@@ -155,7 +163,8 @@ export class SconfigService {
       body: 'Skin',
       config: {
         bimodal_distance: 350,
-        width: 800
+        width: 800,
+        height_offset: 200
       },
       title: 'Anatomical Structures'
     },

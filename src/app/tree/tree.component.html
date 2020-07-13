@@ -1,7 +1,7 @@
 <div style="width: inherit;">
     <div style="overflow-x: auto; position: sticky; max-height: calc(100vh - 64px);">
         <div [ngStyle]="{'width': graphWidth + 'px' }" style="display: flex; flex-direction: row; background-color: #f7f7f7; padding: 10px;" *ngIf="shouldRenderASCTBiomodal">
-            <div [ngStyle]="{'width': treeWidth + bimodalDistance + 'px' }">
+            <div [ngStyle]="{'width': treeWidth + bimodalDistance * 1.4 + 'px' }">
                 <mat-expansion-panel style="width: 50%;" hideToggle="true" #mepAS="matExpansionPanel" [(expanded)]="settingsExpanded">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
@@ -13,7 +13,7 @@
             <div style="display: flex; justify-content: center;" [ngStyle]="{'width': bimodalDistance+'px' }">
                 <mat-expansion-panel style="width: 80%;" #mepCT="matExpansionPanel" [(expanded)]="settingsExpanded">
                     <mat-expansion-panel-header>
-                        <mat-panel-title style="display: flex; justify-content: center;">
+                        <mat-panel-title style="display: flex; justify-content: start;">
                             <div style="font-weight: 500; font-size: 13pt;">Cell Types</div>
                         </mat-panel-title>
                     </mat-expansion-panel-header>

@@ -15,6 +15,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   sheetData: any;
   treeData: any;
   updatedTreeData: any;
+  treeView;
   graphWidth: number;
   bimodalDistance: number;
   shouldRenderASCTBiomodal = false;
@@ -72,7 +73,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
   getBimodalSelecion() {
     this.makeBimodalGraph();
-    // this.biomodal.getSelection(this.bimodalConfig);
   }
 
   ngOnChanges() {
@@ -97,7 +97,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
       const config: any = {
         $schema: 'https://vega.github.io/schema/vega/v5.json',
-        description: 'An example of Cartesian layouts for a node-link diagram of hierarchical data.',
         autosize: 'pad',
         padding: {
           right: 20,
@@ -156,7 +155,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               {
                 type: 'tree',
                 method: 'cluster',
-                size: [{ signal: height + 200 }, { signal: this.sheet.sheet.config.width }],
+                size: [{ signal: height + this.sheet.sheet.config.height_offset }, { signal: this.sheet.sheet.config.width }],
                 separation: { value: false },
                 as: ['y', 'x', 'depth', 'children']
               }
@@ -415,15 +414,14 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         ]
       };
 
-      const embedding = embed('#vis', config, { actions: false });
-
-
+      let runtime: vega.Runtime = vega.parse(config, {})
+      this.treeView = new vega.View(runtime).renderer('svg').initialize('#vis')
+      this.treeView.runAsync();
 
       try {
-        this.updatedTreeData = await embedding;
-        this.treeWidth = this.updatedTreeData.view._viewWidth
+        this.updatedTreeData = this.treeView.data('tree');
+        this.treeWidth = await this.treeView._viewWidth;
 
-        // this.bms.updatedTreeData = treeData.spec.data[0].values; // this is needed to update the bimodal network
         let isBimodalComplete;
 
         isBimodalComplete = this.makeBimodalGraph()
@@ -456,28 +454,27 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public async makeBimodalGraph() {
-    let asctData: ASCTD;
-    asctData = await this.bms.makeASCTData(this.sheetData, this.updatedTreeData.spec.data[0].values, this.bimodalConfig);
-    this.updatedTreeData.view._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
-    this.updatedTreeData.view._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
-    this.updatedTreeData.view._runtime.signals.targets__click.value = []; // removing clicked bold target nodes if at all
+    let asctData: ASCTD = await this.bms.makeASCTData(this.sheetData, this.updatedTreeData, this.bimodalConfig);
+    this.treeView._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
+    this.treeView._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
+    this.treeView._runtime.signals.targets__click.value = []; // removing clicked bold target nodes if at all
 
-    await this.updatedTreeData.view.change('nodes', vega.changeset().remove(this.prevData.nodes).insert(asctData.nodes)).runAsync();
-    await this.updatedTreeData.view.change('edges', vega.changeset().remove(this.prevData.links).insert(asctData.links)).runAsync();
+    this.treeView.change('nodes', vega.changeset().remove(this.prevData.nodes).insert(asctData.nodes)).runAsync();
+    this.treeView.change('edges', vega.changeset().remove(this.prevData.links).insert(asctData.links)).runAsync();
 
-    const didViewRender = await this.updatedTreeData.view.resize().runAsync();
-    await this.updatedTreeData.view.runAsync();
+    const didViewRender = await this.treeView.resize().runAsync();
+    await this.treeView.runAsync();
     if (didViewRender) {
       this.prevData = asctData;
-      this.graphWidth = this.updatedTreeData.view._viewWidth;
+      this.graphWidth = didViewRender._viewWidth;
       return true;
     }
     return false;
   }
 
   downloadVis() {
-    this.updatedTreeData.view.background('white');
-    this.updatedTreeData.view.toImageURL('png').then((url) => {
+    this.treeView.background('white');
+    this.treeView.toImageURL('png').then((url) => {
       const link = document.createElement('a');
       link.setAttribute('href', url);
       link.setAttribute('target', '_blank');

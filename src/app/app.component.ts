@@ -36,7 +36,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.openLoading();
   }
 
   toggleReportDrawer(val) {
@@ -52,7 +51,6 @@ export class AppComponent implements OnInit {
   }
 
   showGraph(val) {
-    // this.openLoading();
     this.displayGraph = val;
     this.getSelectedSheet(this.sheetName);
   }
@@ -70,16 +68,16 @@ export class AppComponent implements OnInit {
 
   returnRefresh(val) {
     if (val.comp === 'Tree') {
-      setTimeout(() => {
-        this.dialog.closeAll();
-        if (val.val) {
-          this.openSnackBar('Tree data successfully fetched.', 'Close', 'green');
-        } else {
-          this.openSnackBar('Error while fetching data.', 'Close', 'red');
-        }
-        this.refreshTree = false;
-        this.shouldRefreshData = false;
-      }, 1000)
+      this.dialog.closeAll();
+      if (val.val) {
+        this.openSnackBar('Tree data successfully fetched.', 'Close', 'green');
+      } else {
+        this.openSnackBar('Error while fetching data.', 'Close', 'red');
+      }
+      this.refreshTree = false;
+      this.shouldRefreshData = false;
+
+
     } else if (val.comp === 'Indented List') {
       this.dialog.closeAll();
       if (val.val) {
@@ -120,15 +118,15 @@ export class AppComponent implements OnInit {
       this.sheet.sheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.display === this.sheetName)];
       res(true);
     })
-    .then(data => {
-      if (data) {
-        this.openLoading();
-        this.shouldRefreshData = true;
-        setTimeout(() => {
-          this.reportComponent.getData();
-        }, 500);
-      }
-    });
+      .then(data => {
+        if (data) {
+          this.openLoading();
+          setTimeout(() => {
+            this.shouldRefreshData = true;
+            this.reportComponent.getData();
+          }, 500)
+        }
+      });
 
   }
 }
