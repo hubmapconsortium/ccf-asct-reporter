@@ -33,7 +33,7 @@ export class BMNode {
     this.nodeSize = nodeSize === 0 ? 50 : nodeSize;
     this.targets = [];
     this.sources = [];
-    this.className = 'bmnode'
+    this.className = 'bmnode';
   }
 }
 
@@ -62,7 +62,7 @@ export class BimodalService {
         newLeaf.id = id;
         nodes.push(newLeaf);
         id += 1;
-        treeX = td.x
+        treeX = td.x;
       }
     });
 
@@ -183,7 +183,7 @@ export class BimodalService {
                         s: parent,
                         t: found
                       });
-                    } 
+                    }
                   }
                 }
               }
@@ -225,7 +225,7 @@ export class BimodalService {
       nodes,
       links
     };
-    
+
     return ASCTGraphData;
   }
 

@@ -69,7 +69,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getBimodalSelecion() {
-    this.makeBimodalGraph()
+    this.makeBimodalGraph();
     // this.biomodal.getSelection(this.bimodalConfig);
   }
 
@@ -87,7 +87,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   async getData() {
     try {
       this.sheetData = await this.sheet.getSheetData();
-      // this.bms.sheetData = this.sheetData; // this is needed to update the bimodal network
       this.treeData = await this.ts.makeTreeData(this.sheetData);
 
       const height = document.getElementsByTagName('body')[0].clientHeight;
@@ -98,7 +97,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       const config: any = {
         $schema: 'https://vega.github.io/schema/vega/v5.json',
         description: 'An example of Cartesian layouts for a node-link diagram of hierarchical data.',
-        autosize: "pad",
+        autosize: 'pad',
         padding: {
           right: 20,
           top: 20,
@@ -131,6 +130,14 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             name: 'targets_click_active', value: [],
             on: [
               { events: '@bimodal-symbol:click', update: 'datum.targets' },
+              { events: 'click[!event.item]', update: '[]' }
+            ]
+          },
+          {
+            name: 'parents_click_active',
+            value: [],
+            on: [
+              { events: '@bimodal-symbol:click', update: 'datum.sources' },
               { events: 'click[!event.item]', update: '[]' }
             ]
           }
@@ -169,12 +176,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
           {
             name: 'nodes',
             values: [],
-            // format: { type: 'json', property: 'nodes' },
           },
           {
             name: 'edges',
             values: [],
-            // format: { type: 'json', property: 'links' },
             transform: [
               {
                 type: 'lookup',
@@ -198,10 +203,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             name: 'targets_selected',
             source: 'nodes',
             transform: [
-              {
-                type: 'filter',
-                expr: 'indexof(targets_hover, datum.id) !== -1'
-              }
+              { type: 'filter', expr: 'indexof(targets_hover, datum.id) !== -1' }
             ]
           },
           {
@@ -213,11 +215,35 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                 expr: 'indexof(targets_click_active, datum.id) !== -1'
               }
             ]
+          },
+          {
+            name: 'click_parents_selected',
+            source: 'nodes',
+            transform: [
+              {
+                type: 'filter',
+                expr: 'indexof(parents_click_active, datum.id) !== -1'
+              }
+            ]
+          },
+          {
+            name: 'bold_clicked_targets',
+            source: 'nodes',
+            transform: [
+              {
+                type: 'filter',
+                expr: 'indexof(targets_click_active, datum.id) !== -1'
+              },
+              {
+                type: 'flatten',
+                fields: ['targets']
+              }
+            ]
           }
         ],
         marks: [
           {
-            type: "group",
+            type: 'group',
             marks: [
               {
                 type: 'path',
@@ -266,6 +292,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                     x: { field: 'x' },
                     y: { field: 'y' },
                     dx: { signal: 'datum.children ? 15: -15' },
+                    opacity: { signal: 'datum.children ? 1 : 0' },
                     align: { signal: 'datum.children ? \'left\' : \'right\'' },
                   }
                 }
@@ -273,7 +300,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             ]
           },
           {
-            type: "group",
+            type: 'group',
             marks: [
               {
                 type: 'path',
@@ -334,13 +361,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                 from: { data: 'nodes' },
                 encode: {
                   enter: {
-                    // size: { signal: 'length(datum.sources) === 0 ? 300 : length(datum.sources) * 75' },
-                    size: {field: "nodeSize"},
+                    size: { field: 'nodeSize' },
                     fill: { field: 'color' },
                     x: { field: 'x' },
                     y: { field: 'y', offset: 5 },
                     cursor: { value: 'pointer' },
-                    tooltip:{field: 'name'}
+                    tooltip: { field: 'name' }
                   },
                   update: {
                   }
@@ -358,9 +384,30 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                     dx: { value: 20 },
                     align: { value: 'left' },
                     baseline: { value: 'middle' },
-                    text: { field: 'last' },
+                    text: { field: 'name' },
                     fontSize: { field: 'fontSize' },
-                    fontWeight: { value: 400 },
+                    fontWeight: [
+                      {
+                        test: 'indata(\'click_targets_selected\', \'id\', datum.id)',
+                        value: 'bold'
+                      },
+                      {
+                        test: 'datum.id === click_active', value: 'bold'
+                      },
+                      {
+                        test: 'indata(\'click_parents_selected\', \'id\', datum.id)',
+                        value: 'bold'
+                      },
+                      {
+                        test: 'indata(\'click_targets_selected\', \'targets\', datum.id)',
+                        value: 'bold'
+                      },
+
+                      {
+                        test: 'indata(\'bold_clicked_targets\', \'targets\', datum.id)',
+                        value: 'bold'
+                      }
+                    ],
                     opacity: { value: 1 },
                     limit: { value: 180 }
                   }
@@ -372,20 +419,20 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         ]
       };
 
-      const embedding = embed('#vis', config, {actions: false});
-      
+      const embedding = embed('#vis', config, { actions: false });
+
 
 
       try {
         this.updatedTreeData = await embedding;
-        this.treeWidth = this.updatedTreeData.view._viewWidth
-        
+        this.treeWidth = this.updatedTreeData.view._viewWidth;
+
         // this.bms.updatedTreeData = treeData.spec.data[0].values; // this is needed to update the bimodal network
-        
-        const isBimodalComplete = await this.makeBimodalGraph()
-        
+
+        const isBimodalComplete = await this.makeBimodalGraph();
+
         if (isBimodalComplete) {
-          this.shouldRenderASCTBiomodal = true
+          this.shouldRenderASCTBiomodal = true;
           this.report.reportLog(`Tree succesfully rendered`, 'success', 'msg');
           this.returnRefresh.emit({
             comp: 'Tree',
@@ -414,29 +461,29 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     const asctData = await this.bms.makeASCTData(this.sheetData, this.updatedTreeData.spec.data[0].values, this.bimodalConfig);
     this.updatedTreeData.view._runtime.signals.click_active.value = null; // removing clicked highlighted nodes if at all
 
-    await this.updatedTreeData.view.change('nodes', vega.changeset().remove(this.prevData['nodes']).insert(asctData['nodes'])).runAsync()
-    await this.updatedTreeData.view.change('edges', vega.changeset().remove(this.prevData['links']).insert(asctData['links'])).runAsync()
+    await this.updatedTreeData.view.change('nodes', vega.changeset().remove(this.prevData.nodes).insert(asctData.nodes)).runAsync();
+    await this.updatedTreeData.view.change('edges', vega.changeset().remove(this.prevData.links).insert(asctData.links)).runAsync();
 
-    const didViewRender = await this.updatedTreeData.view.resize().runAsync()
-    await this.updatedTreeData.view.runAsync()
+    const didViewRender = await this.updatedTreeData.view.resize().runAsync();
+    await this.updatedTreeData.view.runAsync();
     if (didViewRender) {
-      this.prevData = asctData
-      this.graphWidth = this.updatedTreeData.view._viewWidth
-      return true
+      this.prevData = asctData;
+      this.graphWidth = this.updatedTreeData.view._viewWidth;
+      return true;
     }
-    return false
+    return false;
   }
 
   downloadVis() {
     this.updatedTreeData.view.background('white');
-    this.updatedTreeData.view.toImageURL('png').then(function(url) {
-      var link = document.createElement('a');
+    this.updatedTreeData.view.toImageURL('png').then((url) => {
+      const link = document.createElement('a');
       link.setAttribute('href', url);
       link.setAttribute('target', '_blank');
       link.setAttribute('download', 'asct+b vis.png');
       link.dispatchEvent(new MouseEvent('click'));
-    }).catch(function(error) { 
-      console.log(error)
-     });
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 }

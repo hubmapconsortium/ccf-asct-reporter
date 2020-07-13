@@ -34,7 +34,7 @@ export class SconfigService {
       indent_cols: [0, 1, 2],
       body: 'Kidney',
       config: {
-        bimodal_distance: 350, 
+        bimodal_distance: 350,
         width: 700
       }
     },
