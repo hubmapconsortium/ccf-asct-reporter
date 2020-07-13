@@ -4,7 +4,7 @@ import embed from 'vega-embed';
 import * as vega from 'vega';
 import { ReportService } from '../report/report.service';
 import { TreeService } from './tree.service';
-import { BimodalService, ASCTD } from '../bimodal/bimodal.service';
+import { BimodalService, ASCTD } from '../services/bimodal.service';
 
 @Component({
   selector: 'app-tree',

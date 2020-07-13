@@ -13,7 +13,6 @@ import { TreeComponent } from './tree/tree.component';
 import { ReportComponent } from './report/report.component';
 import { IndentComponent } from './indent/indent.component';
 import { LogsComponent } from './logs/logs.component';
-import { BimodalComponent } from './bimodal/bimodal.component';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -55,7 +54,6 @@ const MatModules = [
     ReportComponent,
     IndentComponent,
     LoadingComponent,
-    BimodalComponent,
     LogsComponent
   ],
   imports: [
