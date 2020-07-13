@@ -415,7 +415,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       };
 
       const runtime: vega.Runtime = vega.parse(config, {});
-      this.treeView = new vega.View(runtime).renderer('svg').initialize('#vis');
+      this.treeView = new vega.View(runtime)
+        .renderer('svg')
+        .initialize('#vis')
+        .hover()
       this.treeView.runAsync();
 
       try {

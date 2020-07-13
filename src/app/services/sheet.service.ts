@@ -80,7 +80,6 @@ export class SheetService {
       let sheetId = this.sheet.sheetId;
       let gid = this.sheet.gid;
       let constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`
-      // const constructedURL = `assets/data/${this.sheet.name}.csv`;
 
       return this.http.get(constructedURL, { responseType: 'text' }).toPromise()
         .then(async (data) => {
@@ -98,6 +97,7 @@ export class SheetService {
           let parsedData = parse(data);
           parsedData.data.splice(0, this.sheet.header_count);
           this.report.reportLog(`${this.sheet.display} data fetched from system cache`, 'warning', 'msg');
+
           return {
             data: parsedData.data,
             status: err.status,
