@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SheetService } from '../services/sheet.service';
 import { ReportService } from '../report/report.service';
-import { config } from 'rxjs';
 
 const CT_BLUE = '#377EB8';
 const B_GREEN = '#4DAF4A';
@@ -9,8 +8,6 @@ const B_GREEN = '#4DAF4A';
 export class BMNode {
   name: string;
   group: number;
-  first: string;
-  last: string;
   fontSize: number;
   x: number;
   y: number;
@@ -21,11 +18,9 @@ export class BMNode {
   sources: Array<number>;
   className: string;
 
-  constructor(name, group, first, last, x, y, fontSize, color = '#E41A1C', nodeSize = 300) {
+  constructor(name, group, x, y, fontSize, color = '#E41A1C', nodeSize = 300) {
     this.name = name;
     this.group = group;
-    this.first = first;
-    this.last = last;
     this.fontSize = fontSize;
     this.x = x;
     this.y = y;
@@ -33,8 +28,12 @@ export class BMNode {
     this.nodeSize = nodeSize === 0 ? 50 : nodeSize;
     this.targets = [];
     this.sources = [];
-    this.className = 'bmnode';
   }
+}
+
+export interface ASCTD {
+  nodes: Array<BMNode>
+  links: Array<Object>
 }
 
 @Injectable({
@@ -45,7 +44,7 @@ export class BimodalService {
   constructor(public sheet: SheetService, public report: ReportService) { }
 
   async makeASCTData(sheetData, treeData, bimodalConfig) {
-    let ASCTGraphData = {};
+    let ASCTGraphData: ASCTD;
     const links = [];
     const nodes = [];
     let treeX = 0;
@@ -58,7 +57,7 @@ export class BimodalService {
     treeData.forEach(td => {
       if (td.children === 0) {
         const leaf = td.name;
-        const newLeaf = new BMNode(leaf, 1, leaf, '', td.x, td.y - 5, 14);
+        const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14);
         newLeaf.id = id;
         nodes.push(newLeaf);
         id += 1;
@@ -105,7 +104,7 @@ export class BimodalService {
     }
 
     cellTypes.forEach(cell => {
-      const newNode = new BMNode(cell.structure, 2, '', cell.structure, treeX, treeY, 14, CT_BLUE, cell.nodeSize);
+      const newNode = new BMNode(cell.structure, 2, treeX, treeY, 14, CT_BLUE, cell.nodeSize);
       newNode.id = id;
       nodes.push(newNode);
       treeY += 50;
@@ -145,8 +144,6 @@ export class BimodalService {
     biomarkers.forEach((item, i) => {
       const newNode = new BMNode(biomarkers[i].structure,
         3,
-        '',
-        biomarkers[i].structure,
         treeX,
         treeY,
         14,

@@ -4,8 +4,7 @@ import embed from 'vega-embed';
 import * as vega from 'vega';
 import { ReportService } from '../report/report.service';
 import { TreeService } from './tree.service';
-import { BimodalService } from '../bimodal/bimodal.service';
-import { group } from '@angular/animations';
+import { BimodalService, ASCTD } from '../bimodal/bimodal.service';
 
 @Component({
   selector: 'app-tree',
@@ -19,7 +18,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   graphWidth;
   bimodalDistance;
   shouldRenderASCTBiomodal = false;
-  prevData = {};
+  prevData: ASCTD = {
+    nodes: [],
+    links: []
+  };
   treeWidth = 0;
 
   @Input() settingsExpanded: boolean;
@@ -334,13 +336,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                       { value: '#ccc' }
                     ],
                     opacity: [
-                      { test: 'datum.target.id === click_active', value: 1 },
-                      { test: 'datum.source.id === click_active', value: 1 },
+                      { test: 'datum.target.id === click_active', value: 0.8 },
+                      { test: 'datum.source.id === click_active', value: 0.8 },
                       {
                         test: 'indata(\'click_targets_selected\', \'id\', datum.source.id)',
-                        value: 1
+                        value: 0.8
                       },
-                      { value: 0.5 }
+                      { value: 0.4 }
                     ],
                     zindex: [
                       { test: 'datum.source.id === hover', value: 2 },
@@ -458,7 +460,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public async makeBimodalGraph() {
-    const asctData = await this.bms.makeASCTData(this.sheetData, this.updatedTreeData.spec.data[0].values, this.bimodalConfig);
+    let asctData: ASCTD;
+    asctData = await this.bms.makeASCTData(this.sheetData, this.updatedTreeData.spec.data[0].values, this.bimodalConfig);
     this.updatedTreeData.view._runtime.signals.click_active.value = null; // removing clicked highlighted nodes if at all
 
     await this.updatedTreeData.view.change('nodes', vega.changeset().remove(this.prevData.nodes).insert(asctData.nodes)).runAsync();
