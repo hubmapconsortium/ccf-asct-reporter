@@ -70,13 +70,29 @@ export class SheetService {
 
   constructor(private http: HttpClient, public sc: SconfigService, public report: ReportService) { }
 
+  public async getDataPROD(): Promise<any> {
+    return new Promise(async (res, rej) => {
+      const constructedURL = `assets/data/${this.sheet.name}.csv`;
+      let data = await this.http.get(constructedURL, { responseType: 'text' }).toPromise();
+      let parsedData = parse(data);
+      parsedData.data.splice(0, this.sheet.header_count);
+      this.report.reportLog(`${this.sheet.display} data fetched from system cache`, 'warning', 'msg');
+
+      res({
+        data: parsedData.data,
+        status: 200,
+        msg: 'DEVELOPMENT'
+      });
+    })
+  }
+
   public async getSheetData(): Promise<any> {
-
-    // console.log(environment);
-
     if (this.sheet.display === 'All Organs') {
       return this.makeAOData();
     } else {
+      if (!environment.production)
+        return this.getDataPROD()
+
       let sheetId = this.sheet.sheetId;
       let gid = this.sheet.gid;
       let constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`
