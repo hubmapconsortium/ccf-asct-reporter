@@ -5,6 +5,7 @@ import { LoadingComponent } from './loading/loading.component';
 import { SconfigService } from './services/sconfig.service';
 import { SheetService } from './services/sheet.service';
 import { ReportService } from './report/report.service';
+import { environment } from "../environments/environment";
 
 @Component({
   selector: 'app-root',
@@ -36,6 +37,16 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('%cWelcome to the ASCT+B Reporter!', 'font-weight: bold; font-size: 14pt;')
+    if (!environment.production) {
+      console.log(
+        '%cIn Development Mode\n\n%cData will be fetched from local assets file.\n\nPlease use %cnpm run data %cto update the data.', 
+        'font-size: 12pt; color: red;', 
+        'font-size: 11pt; color: yellow', 
+        'font-size: 11pt; color: orange', 
+        'font-size: 11pt; color: yellow')
+    }
+      
   }
 
   toggleReportDrawer(val) {
@@ -87,7 +98,7 @@ export class AppComponent implements OnInit {
       this.dialog.closeAll();
       if (val.val) {
         val.status === 200 ?
-          this.openSnackBar('ndented List data successfully fetched.', 'Close', 'green') :
+          this.openSnackBar('Indented List data successfully fetched.', 'Close', 'green') :
           this.openSnackBar('Indented List successfully fetched from system cache.', 'Close', 'warn');
       } else {
         this.openSnackBar('Error while fetching data.', 'Close', 'red');
