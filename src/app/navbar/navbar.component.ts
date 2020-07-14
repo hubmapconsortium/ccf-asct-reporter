@@ -6,6 +6,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  window = window;
   options = [
     'Tree',
     'Indented List',
@@ -24,6 +25,22 @@ export class NavbarComponent implements OnInit {
     'Large Intestine',
     'Skin'
   ];
+
+  moreOptions = [
+    {
+      name: 'Data Tables',
+      url: 'https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1268820100'
+    },
+    {
+      name: 'Github',
+      url: 'https://github.com/hubmapconsortium/ccf-asct-reporter'
+    },
+    {
+      name: 'Documentation',
+      url: 'https://drive.google.com/file/d/1r8Br4t6zftyrRXbb-DnidzwS3t8FSCu4/view?usp=sharing'
+    },
+
+  ]
 
   selectedSheetOption = this.sheetOptions[0];
 

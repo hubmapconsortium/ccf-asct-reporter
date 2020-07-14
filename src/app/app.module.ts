@@ -28,6 +28,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
+import { MatMenuModule } from "@angular/material/menu";
 
 
 const MatModules = [
@@ -43,7 +44,8 @@ const MatModules = [
   MatSnackBarModule,
   MatTooltipModule,
   MatExpansionModule,
-  MatTableModule
+  MatTableModule,
+  MatMenuModule
 ];
 
 @NgModule({
