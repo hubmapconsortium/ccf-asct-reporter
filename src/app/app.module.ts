@@ -30,6 +30,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from "@angular/material/menu";
 
+import { AppRoutingModule } from "./app-routing.module";
+import { HomeComponent } from './home/home.component';
+import { VisComponent } from './vis/vis.component';
+
 
 const MatModules = [
   MatToolbarModule,
@@ -56,7 +60,9 @@ const MatModules = [
     ReportComponent,
     IndentComponent,
     LoadingComponent,
-    LogsComponent
+    LogsComponent,
+    HomeComponent,
+    VisComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,7 +70,8 @@ const MatModules = [
     HttpClientModule,
     FormsModule,
     MatModules,
-    OrderModule
+    OrderModule,
+    AppRoutingModule
   ],
   providers: [
     SheetService

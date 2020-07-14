@@ -1,0 +1,72 @@
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+#myVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+    backdrop-filter: blur(20px);
+}
+
+a {
+    color: white;
+    margin-left: 30px;
+    cursor: pointer;
+    font-weight: 300;
+    transition: all 0.5s;
+}
+
+a:hover {
+    transition: all 0.5s;
+    text-decoration: underline;
+}
+
+.title {
+    backdrop-filter: blur(20px);
+    font-size: 85px;
+    line-height: 100px;
+    color: #444a65;
+}
+
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media (min-width: 768px) {
+    .container {
+        width: 750px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        width: 970px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
+
+.logo1 {
+    margin-right: 10px;
+    width: 90px;
+    cursor: pointer;
+    color: white;
+}
+
+.logo2 {
+    margin-right: 10px;
+    width: 100px;
+    cursor: pointer;
+    color: white;
+}
