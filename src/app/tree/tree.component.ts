@@ -2,6 +2,8 @@ import { Component, OnInit, Input, OnChanges, Output, EventEmitter, OnDestroy, V
 import { SheetService } from '../services/sheet.service';
 import embed from 'vega-embed';
 import * as vega from 'vega';
+import vegaTooltip from 'vega-tooltip';
+
 import { ReportService } from '../report/report.service';
 import { TreeService } from './tree.service';
 import { BimodalService, ASCTD } from '../services/bimodal.service';
@@ -367,7 +369,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                     x: { field: 'x' },
                     y: { field: 'y', offset: 5 },
                     cursor: { value: 'pointer' },
-                    tooltip: { field: 'name' }
+                    tooltip: { signal: "{'Name': datum.name, 'Degree': length(datum.sources) + length(datum.targets)}" }
                   },
                   update: {
                   }
@@ -420,6 +422,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         .renderer('svg')
         .initialize('#vis')
         .hover();
+        
+      vegaTooltip(this.treeView);
       this.treeView.runAsync();
 
       try {
@@ -428,7 +432,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
         let isBimodalComplete;
 
-        isBimodalComplete = this.makeBimodalGraph();
+        isBimodalComplete = await this.makeBimodalGraph();
         if (isBimodalComplete) {
           this.shouldRenderASCTBiomodal = true;
           this.report.reportLog(`Tree succesfully rendered`, 'success', 'msg');

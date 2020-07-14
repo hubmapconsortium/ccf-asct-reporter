@@ -176,8 +176,9 @@ export class BimodalService {
                 if (cells[c] !== '') {
                   const found = nodes.findIndex(r => r.name.toLowerCase().trim() === cells[c].toLowerCase().trim());
                   if (found !== -1) {
-                    nodes[parent].targets.push(found);
-                    nodes[found].sources.push(parent);
+                    nodes[parent].targets.indexOf(found) === -1 && nodes[parent].targets.push(found);
+                    nodes[found].sources.indexOf(parent) === -1 &&nodes[found].sources.push(parent)
+
                     if (!links.some(n => n.s === parent && n.t === found)) {
                       links.push({
                         s: parent,
@@ -207,8 +208,10 @@ export class BimodalService {
               if (markers[m] !== '') {
                 const marker = nodes.findIndex(r => r.name.toLowerCase().trim() === markers[m].toLowerCase().trim());
                 if (!links.some(n => n.s === cell && n.t === marker)) {
-                  nodes[cell].targets.push(marker);
-                  nodes[marker].sources.push(cell);
+                  nodes[cell].targets.indexOf(marker) === -1 && nodes[cell].targets.push(marker);
+                  nodes[cell].sources.indexOf(marker) === -1 && nodes[cell].sources.push(marker);
+                  
+                  nodes[marker].sources.indexOf(cell) === -1 && nodes[marker].sources.push(cell);
                   links.push({
                     s: cell,
                     t: marker
