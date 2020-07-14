@@ -97,22 +97,45 @@ export class SheetService {
       if (!environment.production) {
         // in development mode
         constructedURL = `assets/data/${this.sheet.name}.csv`;
-        return this.getDataFromURL(constructedURL);
+        const csvData = await this.getDataFromURL(constructedURL);
+        this.organSheetData = new Promise( async (res, rej) => {
+          res({
+            data: csvData.data,
+            status: 200,
+            msg: 'Ok'
+          });
+        });
+
+        return await this.getOrganSheetData();
       }
 
       const sheetId = this.sheet.sheetId;
       const gid = this.sheet.gid;
       constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
 
-      return this.getDataFromURL(constructedURL)
-        .then(data => {
-          return data;
-        })
-        .catch(err => {
-          constructedURL = `assets/data/${this.sheet.name}.csv`;
-          this.report.reportLog(`${this.sheet.display} data fetched from system cache`, 'warning', 'msg');
-          return this.getDataFromURL(constructedURL, err.status, err.msg).then(data => data);
+      try {
+        const csvData = await this.getDataFromURL(constructedURL);
+        this.organSheetData = new Promise((res, rej) => {
+          res({
+            data: csvData.data,
+            msg: 'Ok',
+            status: 200
+          });
         });
+
+      } catch (err) {
+        constructedURL = `assets/data/${this.sheet.name}.csv`;
+        this.report.reportLog(`${this.sheet.display} data fetched from system cache`, 'warning', 'msg');
+        const csvData = await this.getDataFromURL(constructedURL, err.status, err.msg);
+        this.organSheetData = new Promise((res, rej) => {
+          res({
+            data: csvData.data,
+            msg: 'Ok',
+            status: 200
+          });
+        });
+      }
+      return await this.getOrganSheetData();
     }
   }
 

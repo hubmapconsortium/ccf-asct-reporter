@@ -131,6 +131,7 @@ export class AppComponent implements OnInit {
   }
 
   getSelectedSheet(event) {
+    this.showCompInDrawer = '';
     this.sheetName = event;
     this.report.reportLog(`${this.sheetName}`, 'success', 'file');
     new Promise((res, rej) => {
@@ -140,10 +141,7 @@ export class AppComponent implements OnInit {
       .then(data => {
         if (data) {
           this.openLoading();
-          setTimeout(() => {
-            this.shouldRefreshData = true;
-            // this.reportComponent.getData();
-          }, 500);
+          this.shouldRefreshData = true;
         }
       });
 

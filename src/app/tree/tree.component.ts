@@ -369,7 +369,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                     x: { field: 'x' },
                     y: { field: 'y', offset: 5 },
                     cursor: { value: 'pointer' },
-                    tooltip: { signal: "{'Name': datum.name, 'Degree': length(datum.sources) + length(datum.targets)}" }
+                    tooltip: { signal: '{\'Name\': datum.name, \'Degree\': length(datum.sources) + length(datum.targets)}' }
                   },
                   update: {
                   }
@@ -422,7 +422,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         .renderer('svg')
         .initialize('#vis')
         .hover();
-        
+
       vegaTooltip(this.treeView);
       this.treeView.runAsync();
 
@@ -437,14 +437,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
           this.shouldRenderASCTBiomodal = true;
           this.report.reportLog(`Tree succesfully rendered`, 'success', 'msg');
 
-          setTimeout(() => {
-            this.returnRefresh.emit({
-              msg: this.sheetData.msg,
-              status: this.sheetData.status,
-              comp: 'Tree',
-              val: true
-            });
-          }, 500);
+          this.returnRefresh.emit({
+            msg: this.sheetData.msg,
+            status: this.sheetData.status,
+            comp: 'Tree',
+            val: true
+          });
+
         } else {
           this.returnRefresh.emit({
             comp: 'Tree',
