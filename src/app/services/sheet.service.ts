@@ -56,7 +56,7 @@ export class Organ {
 export class SheetService {
 
   // NAVBAR SHEET SELECTION
-  sheet;
+  sheet: any;
   organs = [
     'Spleen',
     'Kidney',
@@ -67,73 +67,81 @@ export class SheetService {
     'Large Intestine',
     'Skin'
   ];
+  organSheetData: any;
 
   constructor(private http: HttpClient, public sc: SconfigService, public report: ReportService) { }
 
-  public async getDataPROD(): Promise<any> {
+  public async getDataFromURL(url, status = 200, msg = 'Ok'): Promise<any> {
     return new Promise(async (res, rej) => {
-      const constructedURL = `assets/data/${this.sheet.name}.csv`;
-      let data = await this.http.get(constructedURL, { responseType: 'text' }).toPromise();
-      let parsedData = parse(data);
-      parsedData.data.splice(0, this.sheet.header_count);
-      this.report.reportLog(`${this.sheet.display} data fetched from system cache`, 'warning', 'msg');
+      try {
+        const data = await this.http.get(url, { responseType: 'text' }).toPromise();
+        const parsedData = parse(data);
+        parsedData.data.splice(0, this.sheet.header_count);
 
-      res({
-        data: parsedData.data,
-        status: 200,
-        msg: 'DEVELOPMENT'
-      });
-    })
+        res({
+          data: parsedData.data,
+          status,
+          msg
+        });
+      } catch (e) {
+        rej(e);
+      }
+    });
   }
 
   public async getSheetData(): Promise<any> {
+    let constructedURL = '';
     if (this.sheet.display === 'All Organs') {
       return this.makeAOData();
     } else {
-      if (!environment.production)
-        return this.getDataPROD()
+      if (!environment.production) {
+        // in development mode
+        constructedURL = `assets/data/${this.sheet.name}.csv`;
+        return this.getDataFromURL(constructedURL);
+      }
 
-      let sheetId = this.sheet.sheetId;
-      let gid = this.sheet.gid;
-      let constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`
+      const sheetId = this.sheet.sheetId;
+      const gid = this.sheet.gid;
+      constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
 
-      return this.http.get(constructedURL, { responseType: 'text' }).toPromise()
-        .then(async (data) => {
-          let parsedData = parse(data);
-          parsedData.data.splice(0, this.sheet.header_count);
-          return {
-            data: parsedData.data,
-            status: 200,
-            msg: 'Ok'
-          }
+      return this.getDataFromURL(constructedURL)
+        .then(data => {
+          return data;
         })
-        .catch(async (err) => {
-          const constructedURL = `assets/data/${this.sheet.name}.csv`;
-          let data = await this.http.get(constructedURL, { responseType: 'text' }).toPromise();
-          let parsedData = parse(data);
-          parsedData.data.splice(0, this.sheet.header_count);
+        .catch(err => {
+          constructedURL = `assets/data/${this.sheet.name}.csv`;
           this.report.reportLog(`${this.sheet.display} data fetched from system cache`, 'warning', 'msg');
-
-          return {
-            data: parsedData.data,
-            status: err.status,
-            msg: err.message
-          };
-        })
-
+          return this.getDataFromURL(constructedURL, err.status, err.msg).then(data => data);
+        });
     }
   }
 
-
   public async makeAOData() {
     const allOrganData = [];
+    let csvData;
+    let organData;
+    let constructedURL: string;
+
     for (const organ of this.organs) {
       const organSheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.display === organ)];
-      const constructedURL = `assets/data/${organSheet.name}.csv`;
-      const csvData = await this.http.get(constructedURL, { responseType: 'text' }).toPromise();
-      const parsedData = parse(csvData);
-      parsedData.data.splice(0, organSheet.header_count);
-      const organData = parsedData.data;
+      if (!environment.production) {
+        constructedURL = `assets/data/${organSheet.name}.csv`;
+      } else {
+        const sheetId = organSheet.sheetId;
+        const gid = organSheet.gid;
+        constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
+      }
+
+      try {
+        csvData = await this.getDataFromURL(constructedURL);
+        organData = csvData.data;
+      } catch (err) {
+        console.log(err);
+        constructedURL = `assets/data/${organSheet.name}.csv`;
+        this.report.reportLog(`${organSheet.display} data fetched from system cache`, 'warning', 'msg');
+        csvData = await this.getDataFromURL(constructedURL);
+        organData = csvData.data;
+      }
 
       organData.forEach(row => {
         const od = ['Body', organ, row[organSheet.cell_row], row[organSheet.marker_row]];
@@ -141,11 +149,18 @@ export class SheetService {
       });
     }
 
-    return {
-      data: allOrganData,
-      status: 200,
-      msg: "Ok"
-    };;
+    this.organSheetData = new Promise((res, rej) => {
+      res({
+        data: allOrganData,
+        status: 200,
+        msg: 'Ok'
+      });
+    });
+    return await this.getOrganSheetData();
+  }
+
+  public async getOrganSheetData() {
+    return await this.organSheetData;
   }
 
   public async makeMarkerDegree(data) {
@@ -201,7 +216,8 @@ export class SheetService {
                   if (cells[i] !== '') {
                     const foundCell = cellDegrees.findIndex(c => c.structure.toLowerCase().trim() === cells[i].toLowerCase().trim());
                     if (foundCell === -1) {
-                      const nc = new Cell(cells[i].trim().toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '));
+                      const nc = new Cell(cells[i].trim().toLowerCase()
+                        .split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '));
                       nc.parents.push(parent.toLowerCase());
                       cellDegrees.push(nc);
                     } else {

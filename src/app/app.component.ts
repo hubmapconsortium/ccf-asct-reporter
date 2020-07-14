@@ -5,7 +5,7 @@ import { LoadingComponent } from './loading/loading.component';
 import { SconfigService } from './services/sconfig.service';
 import { SheetService } from './services/sheet.service';
 import { ReportService } from './report/report.service';
-import { environment } from "../environments/environment";
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
   refreshLogs = false;
   sheetName = 'All Organs';
   shouldRefreshData = false;
-  showCompInDrawer = 'Report';
+  showCompInDrawer = '';
 
   constructor(
     private dialog: MatDialog,
@@ -37,16 +37,16 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('%cWelcome to the ASCT+B Reporter!', 'font-weight: bold; font-size: 14pt;')
+    console.log('%cWelcome to the ASCT+B Reporter!', 'font-weight: bold; font-size: 14pt;');
     if (!environment.production) {
       console.log(
-        '%cIn Development Mode\n\n%cData will be fetched from local assets file.\n\nPlease use %cnpm run data %cto update the data.', 
-        'font-size: 12pt; color: red;', 
-        'font-size: 11pt; color: yellow', 
-        'font-size: 11pt; color: orange', 
-        'font-size: 11pt; color: yellow')
+        '%cIn Development Mode\n\n%cData will be fetched from local assets file.\n\nPlease use %cnpm run data %cto update the data.',
+        'font-size: 12pt; color: red;',
+        'font-size: 11pt; color: yellow',
+        'font-size: 11pt; color: orange',
+        'font-size: 11pt; color: yellow');
     }
-      
+
   }
 
   toggleReportDrawer(val) {
@@ -64,8 +64,9 @@ export class AppComponent implements OnInit {
   showGraph(val) {
     this.openLoading();
     this.displayGraph = val;
-    if (val == 'Tree')
+    if (val === 'Tree') {
       this.getSelectedSheet(this.sheetName);
+    }
   }
 
   refreshData(val) {
@@ -141,7 +142,7 @@ export class AppComponent implements OnInit {
           this.openLoading();
           setTimeout(() => {
             this.shouldRefreshData = true;
-            this.reportComponent.getData();
+            // this.reportComponent.getData();
           }, 500);
         }
       });

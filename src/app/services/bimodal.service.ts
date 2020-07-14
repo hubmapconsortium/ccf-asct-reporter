@@ -30,14 +30,14 @@ export class BMNode {
   }
 }
 
-export interface link {
+export interface Link {
   s: number;
   t: number;
 }
 
 export interface ASCTD {
   nodes: Array<BMNode>;
-  links: Array<link>;
+  links: Array<Link>;
 }
 
 @Injectable({

@@ -91,6 +91,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       this.sheetData = await this.sheet.getSheetData();
       this.treeData = await this.ts.makeTreeData(this.sheetData.data);
 
+
       const height = document.getElementsByTagName('body')[0].clientHeight;
 
       this.bimodalDistance = this.sheet.sheet.config.bimodal_distance;
@@ -418,7 +419,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       this.treeView = new vega.View(runtime)
         .renderer('svg')
         .initialize('#vis')
-        .hover()
+        .hover();
       this.treeView.runAsync();
 
       try {

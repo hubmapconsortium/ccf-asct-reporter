@@ -27,7 +27,7 @@ export class SconfigService {
     {
       name: 'spleen',
       display: 'Spleen',
-      sheetId:'158lQftWOn7QmjiYXhJ_GMkvpmoZus4HA',
+      sheetId: '158lQftWOn7QmjiYXhJ_GMkvpmoZus4HA',
       gid: '2113964255',
       header_count: 1,
       cell_row: 15,
@@ -47,7 +47,7 @@ export class SconfigService {
     {
       name: 'kidney',
       display: 'Kidney',
-      sheetId:'158lQftWOn7QmjiYXhJ_GMkvpmoZus4HA',
+      sheetId: '158lQftWOn7QmjiYXhJ_GMkvpmoZus4HA',
       gid: '391854815',
       header_count: 1,
       cell_row: 4,
@@ -67,7 +67,7 @@ export class SconfigService {
     {
       name: 'liver',
       display: 'Liver',
-      sheetId:'158lQftWOn7QmjiYXhJ_GMkvpmoZus4HA',
+      sheetId: '158lQftWOn7QmjiYXhJ_GMkvpmoZus4HA',
       gid: '978191084',
       header_count: 1,
       cell_row: 3,
@@ -87,7 +87,7 @@ export class SconfigService {
     {
       name: 'lymph',
       display: 'Lymph Nodes',
-      sheetId:'158lQftWOn7QmjiYXhJ_GMkvpmoZus4HA',
+      sheetId: '158lQftWOn7QmjiYXhJ_GMkvpmoZus4HA',
       gid: '1118039538',
       header_count: 1,
       cell_row: 4,
@@ -107,7 +107,7 @@ export class SconfigService {
     {
       name: 'heart',
       display: 'Heart',
-      sheetId:'158lQftWOn7QmjiYXhJ_GMkvpmoZus4HA',
+      sheetId: '158lQftWOn7QmjiYXhJ_GMkvpmoZus4HA',
       gid: '1821578486',
       header_count: 2,
       cell_row: 6,
@@ -127,7 +127,7 @@ export class SconfigService {
     {
       name: 'si',
       display: 'Small Intestine',
-      sheetId:'158lQftWOn7QmjiYXhJ_GMkvpmoZus4HA',
+      sheetId: '158lQftWOn7QmjiYXhJ_GMkvpmoZus4HA',
       gid: '2042292356',
       header_count: 1,
       cell_row: 4,
@@ -147,7 +147,7 @@ export class SconfigService {
     {
       name: 'li',
       display: 'Large Intestine',
-      sheetId:'158lQftWOn7QmjiYXhJ_GMkvpmoZus4HA',
+      sheetId: '158lQftWOn7QmjiYXhJ_GMkvpmoZus4HA',
       gid: '1273403700',
       header_count: 1,
       cell_row: 4,
@@ -167,7 +167,7 @@ export class SconfigService {
     {
       name: 'skin',
       display: 'Skin',
-      sheetId:'158lQftWOn7QmjiYXhJ_GMkvpmoZus4HA',
+      sheetId: '158lQftWOn7QmjiYXhJ_GMkvpmoZus4HA',
       gid: '1372528345',
       header_count: 1,
       cell_row: 3,
