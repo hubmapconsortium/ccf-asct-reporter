@@ -34,6 +34,13 @@ a:hover {
     font-weight: 300;
 }
 
+.title3 {
+    font-size: 30px;
+    line-height: 30px;
+    color: #4e5366;
+    font-weight: 300;
+}
+
 .desc {
     font-size: 14pt;
     font-weight: 200;
