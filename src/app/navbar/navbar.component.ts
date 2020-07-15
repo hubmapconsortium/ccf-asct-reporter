@@ -14,17 +14,7 @@ export class NavbarComponent implements OnInit {
   ];
   selectedOption = this.options[0];
 
-  sheetOptions = [
-    'All Organs',
-    'Spleen',
-    'Kidney',
-    'Liver',
-    'Lymph Nodes',
-    'Heart',
-    'Small Intestine',
-    'Large Intestine',
-    'Skin'
-  ];
+  sheetOptions = ['All Organs', 'Heart', 'Kidney', 'Large Intestine', 'Liver', 'Lymph Nodes', 'Skin', 'Small Intestine', 'Spleen']
 
   moreOptions = [
     {
