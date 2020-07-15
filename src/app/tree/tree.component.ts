@@ -481,7 +481,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         let isBimodalComplete = await this.makeBimodalGraph();
         if (isBimodalComplete) {
           this.shouldRenderASCTBiomodal = true;
-          this.report.reportLog(`Tree succesfully rendered`, 'success', 'msg');
+          this.report.reportLog(`${this.sheet.sheet.display} tree succesfully rendered`, 'success', 'msg');
 
           this.returnRefresh.emit({
             msg: this.sheetData.msg,

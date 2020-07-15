@@ -6,7 +6,7 @@
     <span class="filler"></span>
     <div>
         <mat-form-field style="margin-right: 60px; margin-bottom: 0;">
-            <button mat-flat-button style="width: 120%; background-color: rgb(247, 247, 247);" #tooltip="matTooltip" matTooltip="Select Sheet" matTooltipPosition="below">
+            <button mat-flat-button style="width: 120%; background-color: rgb(247, 247, 247);" #tooltip="matTooltip" matTooltip="Select Organ Set" matTooltipPosition="below">
                 <mat-select (selectionChange)="getSheetSelection()" [(ngModel)]="selectedSheetOption">
                     <mat-option *ngFor="let option of sheetOptions" [value]="option">
                         {{option}}
