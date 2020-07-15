@@ -124,6 +124,14 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             ]
           },
           {
+            name: 'node_sources__hover',
+            value: [],
+            on: [
+              { events: '@bimodal-symbol:mouseover', update: 'datum.sources' },
+              { events: 'mouseover[!event.item]', update: '[]' }
+            ]
+          },
+          {
             name: 'node__click', value: null,
             on: [
               { events: '@bimodal-symbol:click', update: 'datum.id' },
@@ -211,6 +219,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             ]
           },
           {
+            name: 'sources_hovered_array',
+            source: 'nodes',
+            transform: [
+              { type: 'filter', expr: 'indexof(node_sources__hover, datum.id) !== -1' }
+            ]
+          },
+          {
             name: 'targets_clicked_array',
             source: 'nodes',
             transform: [
@@ -241,6 +256,20 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               {
                 type: 'flatten',
                 fields: ['targets']
+              }
+            ]
+          },
+          {
+            name: 'sources_clicked_array__bold',
+            source: 'nodes',
+            transform: [
+              {
+                type: 'filter',
+                expr: 'indexof(sources__click, datum.id) !== -1'
+              },
+              {
+                type: 'flatten',
+                fields: ['sources']
               }
             ]
           }
@@ -366,22 +395,36 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                   update: {
                     path: { field: 'path' },
                     stroke: [
+                      // red: E41A1C, green: 4DAF4A, blue: 377EB8
                       { test: 'datum.source.id === node__hover && datum.source.group == 1', value: '#E41A1C' }, // for hover
                       { test: 'datum.source.id === node__hover && datum.source.group == 2', value: '#377EB8' }, // for hover
                       { test: 'datum.target.id === node__hover && datum.target.group == 2', value: '#E41A1C' }, // for hover
-                      { test: 'datum.target.id === node__hover', value: '#4DAF4A' }, // for hover
+                      { test: 'datum.target.id === node__hover && datum.target.group == 3', value: '#4DAF4A' }, // for hover
+                      
                       { test: 'datum.source.id === node__click && datum.source.group == 1', value: '#E41A1C' }, // for click
                       { test: 'datum.source.id === node__click && datum.source.group == 2', value: '#377EB8' }, // for click
                       { test: 'datum.target.id === node__click && datum.target.group == 2', value: '#E41A1C' }, // for click
-                      { test: 'datum.target.id === node__click', value: '#4DAF4A' }, // for click
+                      { test: 'datum.target.id === node__click && datum.target.group == 3', value: '#4DAF4A' }, // for click
+                      // for getting AS -> CT -> B
                       {
-                        test: 'indata(\'targets_hovered_array\', \'id\', datum.source.id)', // for highlighting children
+                        test: 'indata(\'targets_hovered_array\', \'id\', datum.source.id)',
                         value: '#377EB8'
                       },
+                      
                       {
                         test: 'indata(\'targets_clicked_array\', \'id\', datum.source.id)',
                         value: '#377EB8'
                       },
+                      // for getting B -> CT -> AS
+                      {
+                        test: 'indata(\'sources_hovered_array\', \'id\', datum.target.id) && datum.source.group !== 2',
+                        value: '#377EB8'
+                      },
+                      {
+                        test: 'indata(\'sources_clicked_array\', \'id\', datum.target.id) && datum.source.group !== 2',
+                        value: '#377EB8'
+                      },
+                      
                       { value: '#ccc' }
                     ],
                     opacity: [
@@ -389,6 +432,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                       { test: 'datum.source.id === node__click', value: 0.65 },
                       {
                         test: 'indata(\'targets_clicked_array\', \'id\', datum.source.id)',
+                        value: 0.65
+                      },
+                      {
+                        test: 'indata(\'sources_clicked_array\', \'id\', datum.target.id) && datum.source.group !== 2',
                         value: 0.65
                       },
                       { value: 0.4 }
@@ -451,6 +498,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                       },
                       {
                         test: 'indata(\'targets_clicked_array__bold\', \'targets\', datum.id)',
+                        value: 'bold'
+                      },
+                      {
+                        test: 'indata(\'sources_clicked_array__bold\', \'sources\', datum.id)  && datum.group !== 2 && datum.group !== 3',
                         value: 'bold'
                       }
                     ],
