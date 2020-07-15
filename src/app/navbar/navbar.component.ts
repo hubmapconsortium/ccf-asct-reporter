@@ -34,12 +34,12 @@ export class NavbarComponent implements OnInit {
     {
       name: 'Github',
       url: 'https://github.com/hubmapconsortium/ccf-asct-reporter'
-    },
-    {
-      name: 'Documentation',
-      url: 'https://drive.google.com/file/d/1r8Br4t6zftyrRXbb-DnidzwS3t8FSCu4/view?usp=sharing'
-    },
+    }
+  ]
 
+  imageOptions = [
+    'PNG',
+    'SVG'
   ]
 
   selectedSheetOption = this.sheetOptions[0];
@@ -81,8 +81,8 @@ export class NavbarComponent implements OnInit {
     this.refresh.emit(this.selectedOption);
   }
 
-  downloadVisFunction() {
-    this.downloadVis.emit(true);
+  downloadVisFunction(img) {
+    this.downloadVis.emit(img);
   }
 
   openGithub() {

@@ -116,8 +116,8 @@ export class VisComponent implements OnInit {
     });
   }
 
-  downloadVis() {
-    this.treeComponent.downloadVis();
+  downloadVis(img) {
+    this.treeComponent.downloadVis(img);
   }
 
   getSelectedSheet(event) {

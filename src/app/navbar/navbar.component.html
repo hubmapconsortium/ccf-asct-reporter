@@ -26,8 +26,11 @@
         <button mat-icon-button style="margin-right: 20px;" (click)="refreshData()" #tooltip="matTooltip" matTooltip="Refresh Data" matTooltipPosition="below">
             <mat-icon style=" color: white; font-weight: bold; ">refresh</mat-icon>
         </button>
-        <button mat-icon-button *ngIf="selectedOption === 'Tree'" style="margin-right: 20px;" (click)="downloadVisFunction()" #tooltip="matTooltip" matTooltip="Download Vis" matTooltipPosition="below">
+        <button mat-icon-button *ngIf="selectedOption === 'Tree'" style="margin-right: 20px;" #tooltip="matTooltip" matTooltip="Download Vis" matTooltipPosition="below" [matMenuTriggerFor]="imgMenu">
             <mat-icon style=" color: white; font-weight: bold; ">get_app</mat-icon>
+            <mat-menu #imgMenu="matMenu">
+                <button mat-menu-item *ngFor="let option of imageOptions" (click)="downloadVisFunction(option)">{{option}}</button>
+        </mat-menu>
         </button>
         <button mat-icon-button style="margin-right: 20px; " (click)="showReports()" #tooltip="matTooltip" matTooltip="Report" matTooltipPosition="below">
             <mat-icon style="color: white; ">analytics</mat-icon>

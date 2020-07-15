@@ -532,13 +532,14 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     return false;
   }
 
-  downloadVis() {
+  downloadVis(img) {
+    const imgType = img.toLowerCase();
     this.treeView.background('white');
-    this.treeView.toImageURL('png').then((url) => {
+    this.treeView.toImageURL(imgType).then((url) => {
       const link = document.createElement('a');
       link.setAttribute('href', url);
       link.setAttribute('target', '_blank');
-      link.setAttribute('download', 'asct+b vis.png');
+      link.setAttribute('download', `asct+b vis.${imgType}`);
       link.dispatchEvent(new MouseEvent('click'));
     }).catch((error) => {
       console.log(error);
