@@ -93,7 +93,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     try {
       this.sheetData = await this.sheet.getSheetData();
       this.treeData = await this.ts.makeTreeData(this.sheetData.data);
-    
+
       const height = document.getElementsByTagName('body')[0].clientHeight;
 
       this.bimodalDistance = this.sheet.sheet.config.bimodal_distance;
@@ -245,53 +245,53 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             ]
           }
         ],
-        "scales": [
+        scales: [
           {
-            "name": "bimodal",
-            "type": "ordinal",
-            "domain": {"data": "nodes", "field": "groupName"},
-            "range": ["#E41A1C", "#377EB8", "#4DAF4A"]
+            name: 'bimodal',
+            type: 'ordinal',
+            domain: {data: 'nodes', field: 'groupName'},
+            range: ['#E41A1C', '#377EB8', '#4DAF4A']
           },
           {
-            "name": "treeLegend",
-            "type": "ordinal",
-            "domain": {"data": "tree", "field": "groupName"},
-            "range": ["#E41A1C"]
+            name: 'treeLegend',
+            type: 'ordinal',
+            domain: {data: 'tree', field: 'groupName'},
+            range: ['#E41A1C']
           }
         ],
-        "legends": [
+        legends: [
           {
-            "type": "symbol",
-            "orient": "left",
-            "fill": "bimodal",
-            "title": 'Legend',
-            "titlePadding": 20,
-            "titleFontSize": 16,
+            type: 'symbol',
+            orient: 'left',
+            fill: 'bimodal',
+            title: 'Legend',
+            titlePadding: 20,
+            titleFontSize: 16,
             labelFontSize: 14,
             labelOffset: 10,
             symbolSize: 200,
             rowPadding: 10,
           },
           {
-            "type": "symbol",
-            "orient": "left",
-            "fill": "treeLegend",
+            type: 'symbol',
+            orient: 'left',
+            fill: 'treeLegend',
             labelFontSize: 14,
             labelOffset: 10,
             symbolSize: 200,
             rowPadding: 10,
-            "encode": {
+            encode: {
               symbols: {
                 update: {
-                  stroke: {value: "black"},
+                  stroke: {value: 'black'},
                   strokeWidth: {value: 2}
                 }
               }
             }
           }
-          
+
         ],
-        
+
         marks: [
           {
             type: 'group',
@@ -462,7 +462,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             ]
           }
         ],
-        
+
       };
 
       const runtime: vega.Runtime = vega.parse(config, {});
@@ -478,7 +478,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         this.updatedTreeData = this.treeView.data('tree');
         this.treeWidth = this.treeView._viewWidth;
 
-        let isBimodalComplete = await this.makeBimodalGraph();
+        const isBimodalComplete = await this.makeBimodalGraph();
         if (isBimodalComplete) {
           this.shouldRenderASCTBiomodal = true;
           this.report.reportLog(`${this.sheet.sheet.display} tree succesfully rendered`, 'success', 'msg');

@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core'; 
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from "./home/home.component";
-import { VisComponent } from "./vis/vis.component";
+import { HomeComponent } from './home/home.component';
+import { VisComponent } from './vis/vis.component';
 const routes: Routes = [
     {
         path: '', component: HomeComponent
@@ -10,10 +10,10 @@ const routes: Routes = [
         path: 'vis', component: VisComponent
     }
 ];
-@NgModule({ 
+@NgModule({
    imports: [
       RouterModule.forRoot(routes)
    ],
-   exports: [RouterModule] 
-}) 
+   exports: [RouterModule]
+})
 export class AppRoutingModule { }

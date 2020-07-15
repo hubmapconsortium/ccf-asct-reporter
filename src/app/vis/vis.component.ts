@@ -130,8 +130,8 @@ export class VisComponent implements OnInit {
       .then(data => {
         if (data) {
           this.openLoading();
-            this.shouldRefreshData = true;
-   
+          this.shouldRefreshData = true;
+
         }
       });
 

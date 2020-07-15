@@ -14,7 +14,7 @@ export class NavbarComponent implements OnInit {
   ];
   selectedOption = this.options[0];
 
-  sheetOptions = ['All Organs', 'Heart', 'Kidney', 'Large Intestine', 'Liver', 'Lymph Nodes', 'Skin', 'Small Intestine', 'Spleen']
+  sheetOptions = ['All Organs', 'Heart', 'Kidney', 'Large Intestine', 'Liver', 'Lymph Nodes', 'Skin', 'Small Intestine', 'Spleen'];
 
   moreOptions = [
     {
@@ -25,12 +25,12 @@ export class NavbarComponent implements OnInit {
       name: 'Github',
       url: 'https://github.com/hubmapconsortium/ccf-asct-reporter'
     }
-  ]
+  ];
 
   imageOptions = [
     'PNG',
     'SVG'
-  ]
+  ];
 
   selectedSheetOption = this.sheetOptions[0];
 

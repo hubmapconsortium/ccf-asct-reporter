@@ -20,7 +20,7 @@ export class TNode {
     this.uberonId = uId;
     this.color = color;
     this.problem = false;
-    this.groupName = 'See Debug Log'
+    this.groupName = 'See Debug Log';
   }
 }
 
