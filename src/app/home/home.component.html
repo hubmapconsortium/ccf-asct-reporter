@@ -1,4 +1,5 @@
 <div style="width: 100%; height: 100%;">
+    <!-- NAVBAR -->
     <div style="width: 100%; background-color: #444A65; z-index: 2;">
         <mat-toolbar style="background-color: #444A65; " class="container" no-shadow>
             <div class="navbar-logo">
@@ -18,7 +19,9 @@
 
         </mat-toolbar>
     </div>
-    <div style="height: 89.5%; display: flex; justify-content: center; align-items: center; flex-direction: column; backdrop-filter: blur(20px);">
+    <!-- INTRO 1 -->
+
+    <div style="height: 70%; display: flex; justify-content: center; align-items: center; flex-direction: column;">
         <div class="title">ASCT+B REPORTER</div>
         <br>
         <div style="width: 75%; text-align: center; text-justify: inter-word; color: rgb(164, 164, 164); font-size: 12pt;">
@@ -34,7 +37,73 @@
             <button mat-flat-button style="padding: 20px; font-size: 20pt; background-color: rgb(77, 155, 103); color: white;" routerLink="/vis">Go to Visualization</button>
         </div>
     </div>
-    <div style="background-color: #444A65; padding: 20px; z-index: 3;">
+
+    <!-- FEATURES -->
+    <div style="background-color: #444a5612;">
+        <br>
+        <div class="title1" style="width: 100%; display: flex; justify-content: center;">Features</div>
+        <hr width="5%" color="#ededed" class="mt-1">
+        <br>
+        <br>
+        <div style="width: 100%; text-align: center;" class="pl-5 pr-5 pb-5">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 mt-5">
+                    <div class="title2">Visualizations</div>
+                    <hr width="50%" color="#ededed">
+                    <div class="px-5" style="text-align: justify;">
+                        <span class="desc">
+                            The ASCT+B Reporter houses two different types of visualizations. One being the partonomy tree (Anatomical Structures) combined with a bimidal network (Cell Types and Biomarkers). The other one being an Indented List for a more traditional, hierachical look.
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 mt-5">
+                    <div class="title2">Report Generator</div>
+                    <hr width="50%" color="#ededed">
+                    <div class="px-5" style="text-align: justify;">
+                        <span class="desc">
+                            The ASCT+B Reporter containes a download-able report generator that lists various statistics of the visualization, conputed from the flattened organ sheet.
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 mt-5">
+                    <div class="title2">Debug Log</div>
+                    <hr width="50%" color="#ededed">
+                    <div class="px-5" style="text-align: justify;">
+                        <span class="desc">
+                            Often the data from the sheets isn't in the format that is required by the vis, or something may be incorrect. This is where teh Debug Log comes into play, which lists any warnings or errors that could've occurred during the creation of the visualization.
+                        </span>
+                    </div>
+                </div>
+                <br><br>
+                <div class="col-lg-2 col-md-6 mt-5 mt-5">
+                </div>
+                <div class="col-lg-4 col-md-6 mt-5">
+                    <div class="title2">Functions</div>
+                    <hr width="50%" color="#ededed">
+                    <div class="px-5" style="text-align: justify;">
+                        <span class="desc">
+                            The nodes in the bimodal network can be sorted by their relative sizes and alphabetically. The size represents the degree of node. The nodes can further sized by their indegrees and outdegrees.
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mt-5">
+                    <div class="title2">Exports</div>
+                    <hr width="50%" color="#ededed">
+                    <div class="px-5" style="text-align: justify;">
+                        <span class="desc">
+                            The tree visualization can be exported to an image in either PNG or vector (SVG) format.
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 mt-5">
+                </div>
+            </div>
+        </div>
+        <br>
+    </div>
+
+    <!-- FOOTER -->
+    <div style="background-color: #444A65; padding: 20px;">
         <div class="container">
             <div style="display: flex; justify-content: space-between; width: 100%;">
                 <a style="font-size: 14pt; text-decoration: none;" (click)="window.open('https://www.indiana.edu', '_blank')">Indiana University</a>

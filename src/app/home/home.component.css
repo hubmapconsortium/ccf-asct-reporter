@@ -2,16 +2,6 @@
     flex: 1 1 auto;
 }
 
-#myVideo {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    min-width: 100%;
-    min-height: 100%;
-    z-index: -1;
-    backdrop-filter: blur(20px);
-}
-
 a {
     color: white;
     margin-left: 30px;
@@ -26,35 +16,28 @@ a:hover {
 }
 
 .title {
-    backdrop-filter: blur(20px);
     font-size: 85px;
     line-height: 100px;
     color: #444a65;
 }
 
-.container {
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
+.title1 {
+    font-size: 50px;
+    line-height: 80px;
+    color: #444a65;
 }
 
-@media (min-width: 768px) {
-    .container {
-        width: 750px;
-    }
+.title2 {
+    font-size: 40px;
+    line-height: 30px;
+    color: #4e5366;
+    font-weight: 300;
 }
 
-@media (min-width: 992px) {
-    .container {
-        width: 970px;
-    }
-}
-
-@media (min-width: 1200px) {
-    .container {
-        width: 1170px;
-    }
+.desc {
+    font-size: 14pt;
+    font-weight: 200;
+    color: rgb(52, 52, 52);
 }
 
 .logo1 {
