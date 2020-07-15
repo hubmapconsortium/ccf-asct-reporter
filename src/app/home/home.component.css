@@ -41,6 +41,21 @@ a:hover {
     font-weight: 300;
 }
 
+.subtitle {
+    font-size: 16px;
+    line-height: 30px;
+    color: #e3e3e3;
+    font-weight: 300;
+}
+
+.pro {
+    border-radius: 50%;
+    height: 120px;
+    width: 120px;
+    object-fit: cover;
+    border: 2px solid rgb(218, 218, 218);
+}
+
 .desc {
     font-size: 14pt;
     font-weight: 200;

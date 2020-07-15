@@ -102,27 +102,33 @@
         <br>
     </div>
 
-    <!-- AFFILIATIONS -->
-    <div style="background-color: #fcfcfc;">
+    <!-- CONTRIBUTORS -->
+    <div style="background-color: #444a65;">
         <br>
-        <div class="title1" style="width: 100%; display: flex; justify-content: center;">Affiliations</div>
+        <div class="title1" style="width: 100%; display: flex; justify-content: center; color: white;">Contributors</div>
         <hr width="5%" color="#ededed" class="mt-1">
-        <br>
-        <br>
         <div style="width: 100%; text-align: center;" class="pl-5 pr-5 pb-5">
             <div class="row">
                 <div class="col-lg-4 col-md-4 mt-5">
-                    <img src="assets/affiliations/iu.jpg" height="100">
-                    <div class="title3 mt-4">Indiana University</div>
+                    <img src="assets/contributors/paul.jpg" height="100" class="pro">
+                    <div class="title3 mt-4" (click)="window.open('https://hrishikeshpaul.github.io', '_blank')" style="color: white; cursor: pointer;">Hrishikesh Paul</div>
+                    <div>
+                        <span class="subtitle">IData Visualization Implementation and Testing</span>
+                    </div>
                 </div>
                 <div class="col-lg-4 col-md-4 mt-5">
-                    <img src="assets/affiliations/cns.png" height="100">
-                    <div class="title3 mt-4">Cyberinfrastrucutre for Network Science Center</div>
-
+                    <img src="assets/contributors/katy.png" height="100" class="pro">
+                    <div class="title3 mt-4" (click)="window.open('https://info.sice.indiana.edu/~katy/', '_blank')" style="color: white; cursor: pointer;">Katy Börner</div>
+                    <div>
+                        <span class="subtitle">System Architecture and Design</span>
+                    </div>
                 </div>
                 <div class="col-lg-4 col-md-4 mt-5">
-                    <img src="assets/affiliations/hubmap.png" height="100">
-                    <div class="title3 mt-4">HuBMAP Consortium</div>
+                    <img src="assets/contributors/bruce.jpg" height="100" class="pro">
+                    <div class="title3 mt-4" style="color: white;">Bruce W Herr II</div>
+                    <div>
+                        <span class="subtitle">Initial Visualization, Design Mockup and Biomedical Usecase</span>
+                    </div>
                 </div>
                 <br>
             </div>
@@ -130,13 +136,41 @@
         <br>
     </div>
 
+    <!-- AFFILIATIONS -->
+    <div style="background-color: #fcfcfc;">
+        <br>
+        <div class="title1" style="width: 100%; display: flex; justify-content: center;">Affiliations</div>
+        <hr width="5%" color="#ededed" class="mt-1">
+        <div style="width: 100%; text-align: center;" class="pl-5 pr-5 pb-5">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 mt-5">
+                    <img src="assets/affiliations/iu.jpg" height="100" style="cursor: pointer;" (click)="window.open('https://www.indiana.edu', '_blank')">
+                    <div class="title3 mt-4" (click)="window.open('https://www.indiana.edu', '_blank')" style="cursor: pointer;">Indiana University</div>
+                </div>
+                <div class="col-lg-4 col-md-4 mt-5">
+                    <img src="assets/affiliations/cns.png" height="100" style="cursor: pointer;" (click)="window.open('https://cns.iu.edu', '_blank')">
+                    <div class="title3 mt-4" style="cursor: pointer;" (click)="window.open('https://cns.iu.edu', '_blank')">Cyberinfrastrucutre for Network Science Center</div>
+
+                </div>
+                <div class="col-lg-4 col-md-4 mt-5">
+                    <img src="assets/affiliations/hubmap.png" height="100" style="cursor: pointer;" (click)="window.open('https://github.com/hubmapconsortium', '_blank')">
+                    <div class="title3 mt-4" style="cursor: pointer;" (click)="window.open('https://github.com/hubmapconsortium', '_blank')">HuBMAP Consortium</div>
+                </div>
+                <br>
+            </div>
+        </div>
+        <br>
+    </div>
+
+
+
     <!-- FOOTER -->
-    <div style="background-color: #444A65; padding: 20px;">
+    <div style="background-color: #444a5612; padding: 20px;">
         <div class="container">
+
             <div style="display: flex; justify-content: space-between; width: 100%;">
-                <a style="font-size: 14pt; text-decoration: none;" (click)="window.open('https://www.indiana.edu', '_blank')">Indiana University</a>
-                <a style="font-size: 14pt; text-decoration: none;" (click)="window.open('https://cns.iu.edu', '_blank')">Cyberinfrastrucutre for Network Science Center</a>
-                <a style="font-size: 14pt; text-decoration: none;" (click)="window.open('https://github.com/hubmapconsortium', '_blank')">HuBMAP Consortium</a>
+                <span style="color: #444a65;">Copyright &copy; 2020, Cyberinfrastructure for Network Science Center, Indiana University</span>
+                <span style="color: #444a65;" (click)="window.open('https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/LICENSE', '_blank')">MIT Licence</span>
             </div>
         </div>
     </div>
