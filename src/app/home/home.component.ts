@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
+  
+  window = window;
   constructor() { }
 
   ngOnInit(): void {
@@ -21,7 +22,7 @@ export class HomeComponent implements OnInit {
   }
 
   openData() {
-    window.open('https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1199090884', '_blank');
+    window.open('https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/README.md', '_blank');
   }
 
 }
