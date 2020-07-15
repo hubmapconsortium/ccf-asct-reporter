@@ -11,6 +11,7 @@ export class TNode {
   color: string;
   problem: boolean;
   found: boolean;
+  groupName: string;
 
   constructor(id, name, parent, uId, color = '#808080') {
     this.id = id;
@@ -19,6 +20,7 @@ export class TNode {
     this.uberonId = uId;
     this.color = color;
     this.problem = false;
+    this.groupName = 'See Debug Log'
   }
 }
 

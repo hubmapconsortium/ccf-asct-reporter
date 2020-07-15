@@ -4,10 +4,16 @@ import { ReportService } from '../report/report.service';
 
 const CT_BLUE = '#377EB8';
 const B_GREEN = '#4DAF4A';
+const groupNameMapper = {
+  1: 'Anatomical Structures',
+  2: 'Cell Types',
+  3: 'Biomarkers'
+}
 
 export class BMNode {
   name: string;
   group: number;
+  groupName: string;
   fontSize: number;
   x: number;
   y: number;
@@ -27,6 +33,7 @@ export class BMNode {
     this.nodeSize = nodeSize === 0 ? 50 : nodeSize;
     this.targets = [];
     this.sources = [];
+    this.groupName = groupNameMapper[group];
   }
 }
 

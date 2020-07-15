@@ -26,6 +26,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     links: []
   };
   treeWidth = 0;
+  treeWidthOffset = 0;
 
   @Input() settingsExpanded: boolean;
   @Input() public refreshData = false;
@@ -92,11 +93,11 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     try {
       this.sheetData = await this.sheet.getSheetData();
       this.treeData = await this.ts.makeTreeData(this.sheetData.data);
-
-
+    
       const height = document.getElementsByTagName('body')[0].clientHeight;
 
       this.bimodalDistance = this.sheet.sheet.config.bimodal_distance;
+      this.treeWidthOffset = this.sheet.sheet.config.width_offset;
 
       const config: any = {
         $schema: 'https://vega.github.io/schema/vega/v5.json',
@@ -244,6 +245,53 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             ]
           }
         ],
+        "scales": [
+          {
+            "name": "bimodal",
+            "type": "ordinal",
+            "domain": {"data": "nodes", "field": "groupName"},
+            "range": ["#E41A1C", "#377EB8", "#4DAF4A"]
+          },
+          {
+            "name": "treeLegend",
+            "type": "ordinal",
+            "domain": {"data": "tree", "field": "groupName"},
+            "range": ["#E41A1C"]
+          }
+        ],
+        "legends": [
+          {
+            "type": "symbol",
+            "orient": "left",
+            "fill": "bimodal",
+            "title": 'Legend',
+            "titlePadding": 20,
+            "titleFontSize": 16,
+            labelFontSize: 14,
+            labelOffset: 10,
+            symbolSize: 200,
+            rowPadding: 10,
+          },
+          {
+            "type": "symbol",
+            "orient": "left",
+            "fill": "treeLegend",
+            labelFontSize: 14,
+            labelOffset: 10,
+            symbolSize: 200,
+            rowPadding: 10,
+            "encode": {
+              symbols: {
+                update: {
+                  stroke: {value: "black"},
+                  strokeWidth: {value: 2}
+                }
+              }
+            }
+          }
+          
+        ],
+        
         marks: [
           {
             type: 'group',
@@ -413,8 +461,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               },
             ]
           }
-
-        ]
+        ],
+        
       };
 
       const runtime: vega.Runtime = vega.parse(config, {});
@@ -428,11 +476,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
       try {
         this.updatedTreeData = this.treeView.data('tree');
-        this.treeWidth = await this.treeView._viewWidth;
+        this.treeWidth = this.treeView._viewWidth;
 
-        let isBimodalComplete;
-
-        isBimodalComplete = await this.makeBimodalGraph();
+        let isBimodalComplete = await this.makeBimodalGraph();
         if (isBimodalComplete) {
           this.shouldRenderASCTBiomodal = true;
           this.report.reportLog(`Tree succesfully rendered`, 'success', 'msg');
@@ -480,6 +526,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     if (didViewRender) {
       this.prevData = asctData;
       this.graphWidth = didViewRender._viewWidth;
+      this.treeWidth = this.treeView._viewWidth;
       return true;
     }
     return false;

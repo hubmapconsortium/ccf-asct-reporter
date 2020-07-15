@@ -18,8 +18,9 @@ export class SconfigService {
       indent_cols: [1, 2],
       body: 'Body',
       config: {
-        bimodal_distance: 600,
-        width: 400,
+        bimodal_distance: 450,
+        width: 700,
+        width_offset: 500,
         height_offset: 4500
       },
       title: 'Organs'
@@ -39,7 +40,8 @@ export class SconfigService {
       body: 'Spleen',
       config: {
         bimodal_distance: 350,
-        width: 1200,
+        width: 1000,
+        width_offset: 0,
         height_offset: 200
       },
       title: 'Anatomical Structures'
@@ -60,6 +62,7 @@ export class SconfigService {
       config: {
         bimodal_distance: 350,
         width: 700,
+        width_offset: 0,
         height_offset: 200
       },
       title: 'Anatomical Structures'
@@ -80,6 +83,7 @@ export class SconfigService {
       config: {
         bimodal_distance: 360,
         width: 800,
+        width_offset: 0,
         height_offset: 200
       },
       title: 'Anatomical Structures'
@@ -100,6 +104,7 @@ export class SconfigService {
       config: {
         bimodal_distance: 350,
         width: 1200,
+        width_offset: 0,
         height_offset: 200
       },
       title: 'Anatomical Structures'
@@ -120,6 +125,7 @@ export class SconfigService {
       config: {
         bimodal_distance: 400,
         width: 800,
+        width_offset: 0,
         height_offset: 200
       },
       title: 'Anatomical Structures'
@@ -140,6 +146,7 @@ export class SconfigService {
       config: {
         bimodal_distance: 360,
         width: 1200,
+        width_offset: 0,
         height_offset: 200
       },
       title: 'Anatomical Structures'
@@ -160,6 +167,7 @@ export class SconfigService {
       config: {
         bimodal_distance: 360,
         width: 1200,
+        width_offset: 0,
         height_offset: 200
       },
       title: 'Anatomical Structures'
@@ -180,6 +188,7 @@ export class SconfigService {
       config: {
         bimodal_distance: 350,
         width: 800,
+        width_offset: 0,
         height_offset: 200
       },
       title: 'Anatomical Structures'
