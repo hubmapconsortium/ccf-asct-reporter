@@ -1,8 +1,8 @@
 .header {
     display: flex;
     width: inherit;
-    justify-content: space-between;
-    align-items: center;
+    /* justify-content: space-between; */
+    /* align-items: center; */
     flex-direction: row;
     z-index: 2;
     top: 0;
@@ -36,4 +36,8 @@
 ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
 .mat-tab-nav-bar.mat-primary .mat-ink-bar {
     background-color: #444a65 !important;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
 }

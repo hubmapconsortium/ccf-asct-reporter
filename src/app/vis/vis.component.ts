@@ -101,7 +101,7 @@ export class VisComponent implements OnInit {
   }
 
   closeComponent() {
-    this.drawer.toggle();
+    // this.drawer.toggle();
     this.showCompInDrawer = '';
   }
 
