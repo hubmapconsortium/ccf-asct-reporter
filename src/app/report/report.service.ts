@@ -27,17 +27,25 @@ export class ReportService {
   };
   reportedLogs = [];
   report = {};
+  reportedLogsForSheet = [];
   constructor() { }
 
-  reportLog(message, icon, type) {
+  async reportLog(message, icon, type) {
+    if (type === 'file') {
+      this.reportedLogsForSheet = []
+    }
     const time = new Date();
     if (!this.reportedLogs.some(i => i.message === message && i.time === moment(time).format('hh:mm:ss'))) {
       this.reportedLogs.push(new Log(message, this.icons[icon], moment(time).format('hh:mm:ss'), type));
+      this.reportedLogsForSheet.push(new Log(message, this.icons[icon], moment(time).format('hh:mm:ss'), type));
     }
   }
 
-  getAllLogs() {
-    return this.reportedLogs;
+   getAllLogs() {
+    return {
+      allLogs:  this.reportedLogs,
+      sheetLogs:  this.reportedLogsForSheet
+    }
   }
 
   createReport(anatomicalStructures, cellTypes) {

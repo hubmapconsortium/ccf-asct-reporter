@@ -12,13 +12,15 @@ export class LogsComponent implements OnInit {
   @Input() refreshData;
 
   logs = [];
+  sheetLogs = [];
 
-  constructor(public sheet: SheetService, public report: ReportService) { }
+  constructor(public sheet: SheetService, public report: ReportService) {
+    }
 
-  ngOnInit(): void {
-    setTimeout(() => {
-      this.logs = this.report.getAllLogs();
-    }, 100);
+  async ngOnInit() {
+    let logData = await this.report.getAllLogs();
+    this.logs = logData.allLogs;
+    this.sheetLogs = logData.sheetLogs;
   }
 
   closeDrawer() {

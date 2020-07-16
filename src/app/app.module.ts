@@ -29,6 +29,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTabsModule } from "@angular/material/tabs";
 
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
@@ -49,7 +50,8 @@ const MatModules = [
   MatTooltipModule,
   MatExpansionModule,
   MatTableModule,
-  MatMenuModule
+  MatMenuModule,
+  MatTabsModule
 ];
 
 @NgModule({

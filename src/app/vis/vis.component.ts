@@ -100,6 +100,11 @@ export class VisComponent implements OnInit {
     }
   }
 
+  closeComponent() {
+    this.drawer.toggle();
+    this.showCompInDrawer = '';
+  }
+
   openLoading() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
