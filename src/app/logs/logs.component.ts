@@ -27,4 +27,10 @@ export class LogsComponent implements OnInit {
     this.closeComponent.emit(false);
   }
 
+  mail() {
+    const subject = `Problem with ${this.sheet.sheet.name}.xlsx`;
+    const mailText = `mailto:infoccf@indiana.edu?subject=${subject}`;
+    window.location.href = mailText;
+  }
+
 }

@@ -29,6 +29,10 @@
     font-weight: 300;
 }
 
+.content {
+    max-height: 80vh;
+}
+
 ::ng-deep mat-tab-body {
     text-align: center;
 }
