@@ -1,14 +1,17 @@
 .header {
     display: flex;
-    width: inherit;
     /* justify-content: space-between; */
     /* align-items: center; */
-    flex-direction: row;
     z-index: 2;
-    top: 0;
     background-color: white;
-    margin-bottom: 10px;
     word-break: break-all;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 80px;
+    right: 0px;
+    overflow: hidden;
+    padding: 25px 25px 25px;
 }
 
 .title {
@@ -22,6 +25,17 @@
     margin-bottom: 20px;
 }
 
+.tabs {
+    position: absolute;
+    top: 80px;
+    bottom: 80px;
+    overflow: auto;
+    right: 0px;
+    left: 0px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
 .i2 {
     font-size: 12pt;
     margin-top: 5px;
@@ -30,7 +44,17 @@
 }
 
 .content {
-    max-height: 80vh;
+    max-height: 40%;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0px;
+    height: 80px;
+    left: 0px;
+    right: 0px;
+    padding-left: 25px;
+    padding-right: 25px;
 }
 
 ::ng-deep mat-tab-body {

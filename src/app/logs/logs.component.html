@@ -1,4 +1,4 @@
-<div style="height: 100%; width: 100%; position: relative; overflow: hidden;">
+<div style="height: 100%; width: 100%; overflow: hidden;">
     <div class="header">
         <span style="margin: 0; font-weight: 300;" class="title">Debug Log</span>
         <span class="example-spacer"></span>
@@ -9,9 +9,7 @@
             <mat-icon style="color: grey;">close</mat-icon>
         </button>
     </div>
-    <hr style="opacity: 0.5;">
-
-    <mat-tab-group mat-stretch-tabs>
+    <mat-tab-group mat-stretch-tabs class="tabs">
         <mat-tab [label]="sheet.sheet.display">
             <div class="content">
                 <div class="details">
@@ -50,6 +48,8 @@
         </mat-tab>
     </mat-tab-group>
 
-    <button mat-flat-button color="warn" (click)="mail()" class="mt-4">Report Problem</button>
+    <div class="footer">
+        <button mat-flat-button color="warn" (click)="mail()" class="mt-4">Report Problem</button>
 
+    </div>
 </div>

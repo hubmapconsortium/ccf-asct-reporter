@@ -25,6 +25,11 @@
     word-break: break-all;
 }
 
+.content {
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
 .title {
     font-size: 20pt;
     line-height: 1.6;
