@@ -30,10 +30,10 @@ a:hover {
 }
 
 .title2 {
-    font-size: 40px;
+    font-size: 30px;
     line-height: 30px;
     color: #4e5366;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 .title3 {
@@ -59,7 +59,7 @@ a:hover {
 }
 
 .desc {
-    font-size: 14pt;
+    font-size: 12pt;
     font-weight: 200;
     color: rgb(52, 52, 52);
 }
@@ -130,4 +130,19 @@ a:hover {
     bottom: 40px;
     left: 180px;
     box-shadow: 5px 28px 25px 7px rgba(201, 201, 201, 0.468);
+}
+
+
+/* CARDS */
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 5px 28px 25px rgba(128, 128, 128, 0.057);
+    transition: all 0.5s ease;
+}
+
+.card:hover {
+    transition: all 0.5s ease;
+    box-shadow: 5px 28px 35px rgba(128, 128, 128, 0.226);
 }
