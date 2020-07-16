@@ -16,9 +16,11 @@ a:hover {
 }
 
 .title {
-    font-size: 85px;
-    line-height: 100px;
+    font-size: 90px;
+    line-height: 80px;
+    font-weight: 400;
     color: #444a65;
+    text-align: justify;
 }
 
 .title1 {
@@ -74,4 +76,58 @@ a:hover {
     width: 100px;
     cursor: pointer;
     color: white;
+}
+
+
+/* SVG STYLES */
+
+.svg-wrapper {
+    position: relative;
+}
+
+.svg-wrapper:hover .lsvg1 {
+    bottom: -60px;
+}
+
+.svg-wrapper:hover .lsvg2 {
+    bottom: 20px;
+    left: 150px;
+}
+
+.svg-wrapper:hover .lsvg3 {
+    bottom: 80px;
+    left: 240px
+}
+
+.lsvg1 {
+    position: absolute;
+    bottom: -40px;
+    width: 60%;
+    border-radius: 10px;
+    box-shadow: -5px 28px 25px 7px rgba(201, 201, 201, 0.468);
+    z-index: 3;
+    left: 60px;
+    transition: all 1s ease;
+}
+
+.lsvg2 {
+    position: absolute;
+    width: 60%;
+    z-index: 2;
+    border-radius: 10px;
+    bottom: 0px;
+    left: 120px;
+    box-shadow: -5px 28px 25px 7px rgba(201, 201, 201, 0.468);
+    transition: all 1s ease;
+}
+
+.lsvg3 {
+    transition: all 1s ease;
+    position: absolute;
+    width: 60%;
+    z-index: 1;
+    border-radius: 10px;
+    bottom: 40px;
+    left: 180px;
+    box-shadow: 5px 28px 25px 7px rgba(201, 201, 201, 0.468);
 }
