@@ -236,6 +236,8 @@ export class BimodalService {
       links
     };
 
+    this.report.checkLinks(ASCTGraphData.nodes); // check for missing links to submit to the Log
+
     return ASCTGraphData;
   }
 
