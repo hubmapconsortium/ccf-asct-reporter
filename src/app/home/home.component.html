@@ -7,13 +7,13 @@
                 <img src="assets/ccf.svg" alt="" class="logo2" (click)="openGithub()">
             </div>
             <span class="example-spacer"></span>
-            <a (click)='openData()'>
+            <a (click)='openData()' class="a-nav">
                 Tables
             </a>
-            <a class="" (click)="openGithub()">
+            <a class="" (click)="openGithub()" class="a-nav">
                 Github
             </a>
-            <a class="" (click)="openDocs()">
+            <a class="" (click)="openDocs()" class="a-nav">
                 Documentation
             </a>
 
@@ -179,8 +179,25 @@
         <div class="container">
 
             <div style="display: flex; justify-content: space-between; width: 100%;">
-                <span style="color: #444a65;">Copyright &copy; 2020, Cyberinfrastructure for Network Science Center, Indiana University</span>
-                <span style="color: #444a65;" (click)="window.open('https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/LICENSE', '_blank')">MIT Licence</span>
+                <div>
+                    <p style="color: #444a65;">Copyright &copy; 2020, Cyberinfrastructure for Network Science Center, Indiana University</p>
+
+                    <ul style="color: #444a65;">
+                        <li>
+                            <a (click)="window.open('https://www.indiana.edu', '_blank')">Indiana University</a>
+                        </li>
+                        <li>
+                            <a (click)="window.open('https://cns.iu.edu', '_blank')">Cyberinfrastructure for Network Science Center</a>
+                        </li>
+                        <li>
+                            <a (click)="window.open('https://github.com/hubmapconsortium', '_blank')">HuBMAP Consortium</a>
+                        </li>
+                    </ul>
+
+                </div>
+                <div>
+                    <span style="color: #444a65;" (click)="window.open('https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/LICENSE', '_blank')">MIT Licence</span>
+                </div>
             </div>
         </div>
     </div>
