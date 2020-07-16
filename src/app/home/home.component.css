@@ -45,7 +45,7 @@
         font-size: 30px;
         line-height: 30px;
         color: #4e5366;
-        font-weight: 300;
+        font-weight: 400;
     }
     
     .title4 {
@@ -57,9 +57,9 @@
     
     .subtitle {
         font-size: 16px;
-        line-height: 30px;
+        line-height: 15px;
         color: #e3e3e3;
-        font-weight: 300;
+        font-weight: 400;
     }
     
     .pro {
@@ -72,8 +72,8 @@
     
     .desc {
         font-size: 12pt;
-        font-weight: 200;
-        color: rgb(52, 52, 52);
+        font-weight: 400;
+        color: rgba(52, 52, 52, 0.591);
     }
     
     .logo1 {
