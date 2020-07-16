@@ -14,20 +14,29 @@
 
 .header {
     display: flex;
-    width: inherit;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: row;
     z-index: 2;
-    top: 0;
     background-color: white;
-    margin-bottom: 10px;
     word-break: break-all;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 55px;
+    right: 0px;
+    overflow: hidden;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-bottom: 1px solid rgb(203, 203, 203);
 }
 
 .content {
-    max-height: 85vh;
-    overflow-y: auto;
+    position: absolute;
+    top: 60px;
+    bottom: 65px;
+    overflow: auto;
+    right: 0px;
+    left: 0px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .title {
@@ -60,7 +69,17 @@
 
 .footer {
     position: absolute;
-    bottom: 0;
+    bottom: 0px;
+    height: 60px;
+    left: 0px;
+    right: 0px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgb(203, 203, 203);
 }
 
 .overview {
@@ -85,4 +104,8 @@
 
 .mat-expansion-panel-header:hover {
     background: rgb(225, 225, 225) !important;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
 }
