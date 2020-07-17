@@ -134,14 +134,14 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
           {
             name: 'node__click', value: null,
             on: [
-              { events: '@bimodal-symbol:click', update: 'datum.id' },
+              { events: '@bimodal-symbol:click', update: 'datum.id === node__click ? null : datum.id' },
               { events: 'click[!event.item]', update: 'null' }
             ]
           },
           {
             name: 'targets__click', value: [],
             on: [
-              { events: '@bimodal-symbol:click', update: 'datum.targets' },
+              { events: '@bimodal-symbol:click', update: 'datum.targets === targets__click ? [] : datum.targets' },
               { events: 'click[!event.item]', update: '[]' }
             ]
           },
@@ -149,7 +149,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             name: 'sources__click',
             value: [],
             on: [
-              { events: '@bimodal-symbol:click', update: 'datum.sources' },
+              { events: '@bimodal-symbol:click', update: 'datum.sources === sources__click ? [] : datum.sources' },
               { events: 'click[!event.item]', update: '[]' }
             ]
           }
