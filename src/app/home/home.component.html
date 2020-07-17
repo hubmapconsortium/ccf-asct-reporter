@@ -11,7 +11,7 @@
                 Tables
             </a>
             <a class="" (click)="openGithub()" class="a-nav">
-                Github
+                GitHub
             </a>
             <a class="" (click)="openDocs()" class="a-nav">
                 Documentation
@@ -27,83 +27,89 @@
                 <div class="title">ASCT+B REPORTER</div>
                 <br>
                 <div style="text-align: justify; text-justify: inter-word; color: rgb(164, 164, 164); font-size: 12pt;">
-                    The CCF ASCT+B Reporter is a basic visualization tool for displaying the flattened ASCT+B tables built using Angular.
+                    The CCF ASCT+B Reporter is a visualization tool for displaying anatomical structures, cell types, and biomarker (ASCT+B) tables for different human organs developed by domain experts. The tables are used to develop a common coordinate framework (CCF)
+                    of the healthy human body, see also
+                    <a style="color: rgb(96, 116, 167)" (click)=" window.open( 'https://hubmapconsortium.github.io/ccf', '_blank') ">Hubmap Consortium</a>.
                 </div>
                 <br>
                 <br>
                 <div>
-                    <button mat-flat-button style="padding: 20px; font-size: 20pt; background-color: rgb(77, 155, 103); color:  rgb(249, 249, 249);" routerLink="/vis">Go to Visualization</button>
+                    <button mat-flat-button style="padding: 20px; font-size: 20pt; background-color: rgb(77, 155, 103); color: rgb(249, 249, 249); " routerLink="/vis ">Go to Visualization</button>
                 </div>
             </div>
-            <div class="col-lg-6 text-center pl-5">
-                <div class="svg-wrapper">
-                    <embed src="assets/landing/1.svg" type="" class="lsvg1">
-                    <embed src="assets/landing/3.svg" type="" class="lsvg2">
-                    <embed src="assets/landing/2.svg" type="" class="lsvg3">
+            <div class="col-lg-6 text-center pl-5 ">
+                <div class="svg-wrapper ">
+                    <embed src="assets/landing/1.svg " type=" " class="lsvg1 ">
+                    <embed src="assets/landing/3.svg " type=" " class="lsvg2 ">
+                    <embed src="assets/landing/2.svg " type=" " class="lsvg3 ">
                 </div>
             </div>
         </div>
     </div>
 
     <!-- FEATURES -->
-    <div style="background-color: #444a5612;">
-        <div class="container">
+    <div style="background-color: #444a5612; ">
+        <div class="container ">
             <br>
-            <div class="title1" style="width: 100%; display: flex; justify-content: center;">Features</div>
-            <hr width="5%" color="#ededed" class="mt-1">
-            <div style="width: 100%; text-align: center;" class="pl-5 pr-5 pb-5">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 mt-5">
-                        <div class="card px-4 py-3" style="width: 100%; height: 335px;">
-                            <div class="card-body">
-                                <h5 class="title2">Visualizations</h5>
-                                <hr width="50%" color="#ededed">
-                                <p class="card-text desc" style="text-align: justify;">The ASCT+B Reporter houses two different types of visualizations. One being the partonomy tree (Anatomical Structures) combined with a bimidal network (Cell Types and Biomarkers). The other one being an Indented List for
-                                    a more traditional, hierachical look.</p>
+            <div class="title1 " style="width: 100%; display: flex; justify-content: center; ">Features</div>
+            <hr width="5% " color="#ededed " class="mt-1 ">
+            <div style="width: 100%; text-align: center; " class="pl-5 pr-5 pb-5 ">
+                <div class="row ">
+                    <div class="col-lg-4 col-md-4 mt-5 ">
+                        <div class="card px-4 py-3 " style="width: 100%; height: 335px; ">
+                            <div class="card-body ">
+                                <h5 class="title2 ">Visualizations</h5>
+                                <hr width="50% " color="#ededed ">
+                                <p class="card-text desc " style="text-align: left; ">The ASCT+B Reporter combines two different types of Angular visualizations: A partonomy tree of anatomical structures interlinked via a bimodal network to cell types and biomarkers. An indented list of the anatomical partonomy
+                                    is also provided.</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 mt-5">
-                        <div class="card px-4 py-3" style="width: 100%; height: 335px;">
-                            <div class="card-body">
-                                <h5 class="title2">Report Generator</h5>
-                                <hr width="50%" color="#ededed">
-                                <p class="card-text desc" style="text-align: justify;">The ASCT+B Reporter containes a download-able report generator that lists various statistics of the visualization, conputed from the flattened organ sheet.</p>
+                    <div class="col-lg-4 col-md-4 mt-5 ">
+                        <div class="card px-4 py-3 " style="width: 100%; height: 335px; ">
+                            <div class="card-body ">
+                                <h5 class="title2 ">Report Generator</h5>
+                                <hr width="50% " color="#ededed ">
+                                <p class="card-text desc " style="text-align: left; ">The ASCT+B Reporter computes various statistics of anatomical structures, cell types, and biomarker sets. Reports can be downloaded.
+                                </p>
                             </div>
                         </div>
 
                     </div>
-                    <div class="col-lg-4 col-md-4 mt-5">
-                        <div class="card px-4 py-3" style="width: 100%; height: 335px;">
-                            <div class="card-body">
-                                <h5 class="title2">Debug Log</h5>
-                                <hr width="50%" color="#ededed">
-                                <p class="card-text desc" style="text-align: justify;">The Debug Log enlists any warnings or errors that could've occurred during the creation of the visualization.</p>
+                    <div class="col-lg-4 col-md-4 mt-5 ">
+                        <div class="card px-4 py-3 " style="width: 100%; height: 335px; ">
+                            <div class="card-body ">
+                                <h5 class="title2 ">Debug Log</h5>
+                                <hr width="50% " color="#ededed ">
+                                <p class="card-text desc " style="text-align: left; ">The Debug Log lists warnings and errors that occurred during data parsing and visualization creation—for individual organs and for all organs.
+                                </p>
                             </div>
                         </div>
                     </div>
                     <br><br>
-                    <div class="col-lg-2 col-md-6 mt-5 mt-5">
+                    <div class="col-lg-2 col-md-6 mt-5 mt-5 ">
                     </div>
-                    <div class="col-lg-4 col-md-6 mt-5">
-                        <div class="card px-4 py-3" style="width: 100%; height: 335px;">
-                            <div class="card-body">
-                                <h5 class="title2">Functions</h5>
-                                <hr width="50%" color="#ededed">
-                                <p class="card-text desc" style="text-align: justify;">The nodes in the bimodal network can be sorted by their relative sizes and alphabetically. The size represents the degree of node. The nodes can further sized by their indegrees and outdegrees.</p>
+                    <div class="col-lg-4 col-md-6 mt-5 ">
+                        <div class="card px-4 py-3 " style="width: 100%; height: 335px; ">
+                            <div class="card-body ">
+                                <h5 class="title2 ">Functions</h5>
+                                <hr width="50% " color="#ededed ">
+                                <p class="card-text desc " style="text-align: left; ">The nodes in the bimodal networks can be size-coded by their number of links (in degree, out degree, and total degree). They can be sorted by node degree and alphabetically by node label.
+                                </p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 mt-5">
-                        <div class="card px-4 py-3" style="width: 100%; height: 335px;">
-                            <div class="card-body">
-                                <h5 class="title2">Exports</h5>
-                                <hr width="50%" color="#ededed">
-                                <p class="card-text desc" style="text-align: justify;">The tree visualization can be exported to an image in either PNG or vector (SVG) format.</p>
+                    <div class="col-lg-4 col-md-6 mt-5 ">
+                        <div class="card px-4 py-3 " style="width: 100%; height: 335px; ">
+                            <div class="card-body ">
+                                <h5 class="title2 ">Exports</h5>
+                                <hr width="50% " color="#ededed ">
+                                <p class="card-text desc " style="text-align: left; ">The ASCT+B Reporter visualization can be saved out in PNG (Portable Network Graphics) and SVG (Scalable Vector Graphics File) format.
+                                </p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-2 mt-5">
+                    <div class="col-lg-2 col-md-2 mt-5 ">
                     </div>
                 </div>
             </div>
@@ -112,32 +118,32 @@
     </div>
 
     <!-- CONTRIBUTORS -->
-    <div style="background-color: #444a65;">
-        <div class="container">
+    <div style="background-color: #444a65; ">
+        <div class="container ">
             <br>
-            <div class="title1" style="width: 100%; display: flex; justify-content: center; color:  rgb(249, 249, 249);">Contributors</div>
-            <hr width="5%" color="#ededed" class="mt-1">
-            <div style="width: 100%; text-align: center;" class="pl-5 pr-5 pb-5">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 mt-5">
-                        <img src="assets/contributors/paul.jpg" height="100" class="pro">
-                        <div class="title3 mt-4" (click)="window.open('https://hrishikeshpaul.github.io', '_blank')" style="color: rgb(249, 249, 249); cursor: pointer;">Hrishikesh Paul</div>
-                        <div class="pt-2">
-                            <span class="subtitle">Data Visualization Implementation and Testing</span>
+            <div class="title1 " style="width: 100%; display: flex; justify-content: center; color: rgb(249, 249, 249); ">Contributors</div>
+            <hr width="5% " color="#ededed " class="mt-1 ">
+            <div style="width: 100%; text-align: center; " class="pl-5 pr-5 pb-5 ">
+                <div class="row ">
+                    <div class="col-lg-4 col-md-4 mt-5 ">
+                        <img src="assets/contributors/paul.jpg " height="100 " class="pro ">
+                        <div class="title3 mt-4 " (click)="window.open( 'https://hrishikeshpaul.github.io', '_blank') " style="color: rgb(249, 249, 249); cursor: pointer; ">Hrishikesh Paul</div>
+                        <div class="pt-2 ">
+                            <span class="subtitle ">Data Visualization Implementation and Testing</span>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 mt-5">
-                        <img src="assets/contributors/katy.png" height="100" class="pro">
-                        <div class="title3 mt-4" (click)="window.open('https://info.sice.indiana.edu/~katy/', '_blank')" style="color:  rgb(249, 249, 249); cursor: pointer;">Katy Börner</div>
-                        <div class="pt-2">
-                            <span class="subtitle">Initial Visualization, Design Mockup and Biomedical Use cases</span>
+                    <div class="col-lg-4 col-md-4 mt-5 ">
+                        <img src="assets/contributors/katy.png " height="100 " class="pro ">
+                        <div class="title3 mt-4 " (click)="window.open( 'https://info.sice.indiana.edu/~katy/', '_blank') " style="color: rgb(249, 249, 249); cursor: pointer; ">Katy Börner</div>
+                        <div class="pt-2 ">
+                            <span class="subtitle ">Initial Visualization, Design Mockup and Biomedical Use Cases</span>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 mt-5">
-                        <img src="assets/contributors/bruce.jpg" height="100" class="pro">
-                        <div class="title3 mt-4" style="color:  rgb(249, 249, 249);">Bruce W Herr II</div>
-                        <div class="pt-2">
-                            <span class="subtitle">System Architecture and Design Advice</span>
+                    <div class="col-lg-4 col-md-4 mt-5 ">
+                        <img src="assets/contributors/bruce.jpg " height="100 " class="pro ">
+                        <div class="title3 mt-4 " style="color: rgb(249, 249, 249); ">Bruce W Herr II</div>
+                        <div class="pt-2 ">
+                            <span class="subtitle ">System Architecture and Design Advice</span>
                         </div>
                     </div>
                     <br>
@@ -148,22 +154,22 @@
     </div>
 
     <!-- AFFILIATIONS -->
-    <div style="background-color: #fcfcfc;">
-        <div class="container">
+    <div style="background-color: #fcfcfc; ">
+        <div class="container ">
             <br>
-            <div class="title1" style="width: 100%; display: flex; justify-content: center;">Affiliations</div>
-            <hr width="5%" color="#ededed" class="mt-1">
-            <div style="width: 100%; text-align: center;" class="pl-5 pr-5 pb-5">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 mt-5">
-                        <img src="assets/affiliations/iu.jpg" height="100" style="cursor: pointer;" (click)="window.open('https://www.indiana.edu', '_blank')">
+            <div class="title1 " style="width: 100%; display: flex; justify-content: center; ">Affiliations</div>
+            <hr width="5% " color="#ededed " class="mt-1 ">
+            <div style="width: 100%; text-align: center; " class="pl-5 pr-5 pb-5 ">
+                <div class="row ">
+                    <div class="col-lg-4 col-md-4 mt-5 ">
+                        <img src="assets/affiliations/iu.jpg " height="100 " style="cursor: pointer; " (click)="window.open( 'https://www.indiana.edu', '_blank') ">
                     </div>
-                    <div class="col-lg-4 col-md-4 mt-5">
-                        <img src="assets/affiliations/cns.png" height="100" style="cursor: pointer;" (click)="window.open('https://cns.iu.edu', '_blank')">
+                    <div class="col-lg-4 col-md-4 mt-5 ">
+                        <img src="assets/affiliations/cns.png " height="100 " style="cursor: pointer; " (click)="window.open( 'https://cns.iu.edu', '_blank') ">
 
                     </div>
-                    <div class="col-lg-4 col-md-4 mt-5">
-                        <img src="assets/affiliations/hubmap.png" height="100" style="cursor: pointer;" (click)="window.open('https://github.com/hubmapconsortium', '_blank')">
+                    <div class="col-lg-4 col-md-4 mt-5 ">
+                        <img src="assets/affiliations/hubmap.png " height="100 " style="cursor: pointer; " (click)="window.open( 'https://github.com/hubmapconsortium', '_blank') ">
 
                     </div>
                     <br>
@@ -174,28 +180,28 @@
     </div>
 
     <!-- FOOTER -->
-    <div style="background-color: #444a5612; padding: 20px;">
-        <div class="container">
+    <div style="background-color: #444a5612; padding: 20px; ">
+        <div class="container ">
 
-            <div style="display: flex; justify-content: space-between; width: 100%;">
+            <div style="display: flex; justify-content: space-between; width: 100%; ">
                 <div>
-                    <p style="color: #444a65;">Copyright &copy; 2020, Cyberinfrastructure for Network Science Center, Indiana University</p>
+                    <p style="color: #444a65; ">Copyright &copy; 2020, Cyberinfrastructure for Network Science Center, Indiana University</p>
 
-                    <ul style="color: #444a65;">
+                    <ul style="color: #444a65; ">
                         <li>
-                            <a (click)="window.open('https://www.indiana.edu', '_blank')">Indiana University</a>
+                            <a (click)="window.open( 'https://www.indiana.edu', '_blank') ">Indiana University</a>
                         </li>
                         <li>
-                            <a (click)="window.open('https://cns.iu.edu', '_blank')">Cyberinfrastructure for Network Science Center</a>
+                            <a (click)="window.open( 'https://cns.iu.edu', '_blank') ">Cyberinfrastructure for Network Science Center</a>
                         </li>
                         <li>
-                            <a (click)="window.open('https://github.com/hubmapconsortium', '_blank')">HuBMAP Consortium</a>
+                            <a (click)="window.open( 'https://github.com/hubmapconsortium', '_blank') ">HuBMAP Consortium</a>
                         </li>
                     </ul>
 
                 </div>
                 <div>
-                    <a style="color: #444a65; cursor: pointer" (click)="window.open('https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/LICENSE', '_blank')">MIT Licence</a>
+                    <a style="color: #444a65; cursor: pointer " (click)="window.open( 'https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/LICENSE', '_blank') ">MIT Licence</a>
                 </div>
             </div>
         </div>
