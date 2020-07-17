@@ -27,6 +27,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   };
   treeWidth = 0;
   treeWidthOffset = 0;
+  screenWidth = 0;
 
   @Input() settingsExpanded: boolean;
   @Input() public refreshData = false;
@@ -95,6 +96,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       this.treeData = await this.ts.makeTreeData(this.sheetData.data);
 
       const height = document.getElementsByTagName('body')[0].clientHeight;
+      this.screenWidth = document.getElementsByTagName('body')[0].clientWidth;
 
       this.bimodalDistance = this.sheet.sheet.config.bimodal_distance;
       this.treeWidthOffset = this.sheet.sheet.config.width_offset;
@@ -105,7 +107,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         padding: {
           right: 20,
           top: 20,
-          bottom: 20
+          bottom: 20,
+          left: 30
         },
         signals: [
           {
@@ -291,9 +294,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         legends: [
           {
             type: 'symbol',
-            orient: 'left',
+            orient: 'top-left',
             fill: 'bimodal',
             title: 'Legend',
+            offset: -15,
             titlePadding: 20,
             titleFontSize: 16,
             labelFontSize: 14,
@@ -303,7 +307,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
           },
           {
             type: 'symbol',
-            orient: 'left',
+            orient: 'none',
+            legendX: -15,
+            legendY: 98,
             fill: 'treeLegend',
             labelFontSize: 14,
             labelOffset: 10,
@@ -576,6 +582,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     await this.treeView.runAsync();
     if (didViewRender) {
       this.prevData = asctData;
+      this.screenWidth = Math.max(didViewRender._viewWidth, this.screenWidth)
       this.graphWidth = didViewRender._viewWidth;
       this.treeWidth = this.treeView._viewWidth;
       return true;

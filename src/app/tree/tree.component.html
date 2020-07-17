@@ -1,11 +1,11 @@
 <div style="width: inherit;">
-    <div style="overflow-x: auto; position: sticky; max-height: calc(100vh - 64px);">
-        <div [ngStyle]="{'width': graphWidth  + 'px' }" style="display: flex; flex-direction: row; background-color: #f7f7f7; padding: 10px;" *ngIf="shouldRenderASCTBiomodal">
+    <div style="overflow-x: auto; position: sticky; max-height: calc(100vh - 64px);" class="text-center">
+        <div [ngStyle]="{'width': screenWidth + 'px' }" style="display: flex; flex-direction: row; background-color: #f7f7f7; padding: 10px;" *ngIf="shouldRenderASCTBiomodal">
             <div [ngStyle]="{'width': treeWidth - treeWidthOffset + 'px' }">
                 <mat-expansion-panel style="width: 50%;" hideToggle="true" #mepAS="matExpansionPanel" [(expanded)]="settingsExpanded">
-                    <mat-expansion-panel-header>
+                    <mat-expansion-panel-header style="margin-left: -5px;">
                         <mat-panel-title>
-                            <div style="font-weight: 500; font-size: 13pt;">{{this.sheet.sheet.title}}</div>
+                            <div style="font-weight: 500; font-size: 13pt; ">{{this.sheet.sheet.title}} {{graphWidth}}</div>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                 </mat-expansion-panel>
@@ -45,9 +45,9 @@
                 </mat-expansion-panel>
             </div>
             <div style="display: flex; justify-content: center;" [ngStyle]="{'width': bimodalDistance +'px' }">
-                <mat-expansion-panel style="width: 70%;" #mepBM="matExpansionPanel" [(expanded)]="settingsExpanded">
+                <mat-expansion-panel style="width: 80%;" #mepBM="matExpansionPanel" [(expanded)]="settingsExpanded">
                     <mat-expansion-panel-header>
-                        <mat-panel-title style="display: flex; justify-content: center;">
+                        <mat-panel-title>
                             <div style="font-weight: 500; font-size: 13pt;">Bio Markers</div>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
@@ -80,8 +80,8 @@
             </div>
 
         </div>
-        <div style="padding-left: 20px;">
-            <div id="vis" #graph></div>
+        <div>
+            <div id="vis" #graph [ngStyle]="{'width': graphWidth  + 'px' }"> </div>
         </div>
     </div>
 

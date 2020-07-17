@@ -20,7 +20,7 @@ export class SconfigService {
       config: {
         bimodal_distance: 450,
         width: 700,
-        width_offset: 450,
+        width_offset: 750,
         height_offset: 4500
       },
       title: 'Organs'
@@ -41,7 +41,7 @@ export class SconfigService {
       config: {
         bimodal_distance: 350,
         width: 1000,
-        width_offset: 0,
+        width_offset: 550,
         height_offset: 200
       },
       title: 'Anatomical Structures'
@@ -62,7 +62,7 @@ export class SconfigService {
       config: {
         bimodal_distance: 350,
         width: 700,
-        width_offset: 300,
+        width_offset: 600,
         height_offset: 200
       },
       title: 'Anatomical Structures'
@@ -83,7 +83,7 @@ export class SconfigService {
       config: {
         bimodal_distance: 360,
         width: 800,
-        width_offset: 400,
+        width_offset: 600,
         height_offset: 200
       },
       title: 'Anatomical Structures'
@@ -125,7 +125,7 @@ export class SconfigService {
       config: {
         bimodal_distance: 400,
         width: 800,
-        width_offset: 0,
+        width_offset: 550,
         height_offset: 200
       },
       title: 'Anatomical Structures'
@@ -167,7 +167,7 @@ export class SconfigService {
       config: {
         bimodal_distance: 360,
         width: 1200,
-        width_offset: 200,
+        width_offset: 0,
         height_offset: 200
       },
       title: 'Anatomical Structures'
@@ -188,7 +188,7 @@ export class SconfigService {
       config: {
         bimodal_distance: 350,
         width: 800,
-        width_offset: 0,
+        width_offset: 650,
         height_offset: 200
       },
       title: 'Anatomical Structures'
