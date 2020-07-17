@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
 import { SheetService } from '../services/sheet.service';
-import embed from 'vega-embed';
 import * as vega from 'vega';
+import * as moment from 'moment';
 import vegaTooltip from 'vega-tooltip';
 
 import { ReportService } from '../report/report.service';
@@ -591,13 +591,17 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   downloadVis(img) {
+    const dt = moment(new Date).format("YYYY.MM.DD_hh.mm");
+    const sn = this.sheet.sheet.display.toLowerCase().replace(' ', '_');
     const imgType = img.toLowerCase();
+    const fileName = `asct+b_${sn}_${dt}.${imgType}`
+    
     this.treeView.background('white');
     this.treeView.toImageURL(imgType).then((url) => {
       const link = document.createElement('a');
       link.setAttribute('href', url);
       link.setAttribute('target', '_blank');
-      link.setAttribute('download', `asct+b vis.${imgType}`);
+      link.setAttribute('download', fileName);
       link.dispatchEvent(new MouseEvent('click'));
     }).catch((error) => {
       console.log(error);
