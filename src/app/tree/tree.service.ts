@@ -95,7 +95,8 @@ export class TreeService {
 
               if (searchedNode.found) {
                 if (searchedNode.problem) {
-                  this.report.reportLog(`Multiple parents found for node - ${searchedNode.name}`, 'warning', 'msg');
+                  if (this.sheet.sheet.name !== 'ao')
+                    this.report.reportLog(`Nodes with multiple in-links`, 'warning', 'multi', searchedNode.name);
                 }
                 parent = searchedNode;
               } else {

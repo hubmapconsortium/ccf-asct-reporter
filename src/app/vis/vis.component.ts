@@ -33,7 +33,7 @@ export class VisComponent implements OnInit {
     public sc: SconfigService,
     public sheet: SheetService,
     public report: ReportService) {
-    this.getSelectedSheet(this.sheetName);
+    // this.getSelectedSheet(this.sheetName);
   }
 
   ngOnInit() {
@@ -54,9 +54,8 @@ export class VisComponent implements OnInit {
   showGraph(val) {
     this.openLoading();
     this.displayGraph = val;
-    if (val === 'Tree') {
-      this.getSelectedSheet(this.sheetName);
-    }
+    console.log(val)
+    this.shouldRefreshData = true;
   }
 
   refreshData(val) {

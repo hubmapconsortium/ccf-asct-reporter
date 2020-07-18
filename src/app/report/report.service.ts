@@ -6,12 +6,14 @@ export class Log {
   icon: string;
   time: string;
   type: string;
+  multi: Array<string>;
 
   constructor(message, icon, time, type) {
     this.message = message;
     this.icon = icon;
     this.time = time;
     this.type = type;
+    this.multi = [];
   }
 }
 
@@ -30,22 +32,34 @@ export class ReportService {
   reportedLogsForSheet = [];
   constructor() { }
 
-  async reportLog(message, icon, type) {
+  async reportLog(message, icon, type, multiMessage = '') {
     if (type === 'file') {
       this.reportedLogsForSheet = []
     }
-    
+
     const time = new Date();
-    if (!this.reportedLogs.some(i => i.message === message && i.time === moment(time).format('hh:mm:ss'))) {
-      this.reportedLogs.push(new Log(message, this.icons[icon], moment(time).format('hh:mm:ss'), type));
+    if (!this.reportedLogs.some(i => i.message === message && i.time === moment(time).format('hh:mm:ss')) && type !== 'multi') {
       this.reportedLogsForSheet.push(new Log(message, this.icons[icon], moment(time).format('hh:mm:ss'), type));
+    }
+    if (type === 'multi') {
+      let foundSheetLog = this.reportedLogsForSheet.findIndex(i => i.message === message);
+      if (foundSheetLog !== -1) {
+        if (this.reportedLogsForSheet[foundSheetLog].multi.findIndex(r => r === multiMessage) == -1)
+          this.reportedLogsForSheet[foundSheetLog].multi.push(multiMessage)
+      } else {
+        
+        let nl = new Log(message, this.icons[icon], moment(time).format('hh:mm:ss'), type);
+        nl.multi.push(multiMessage);
+        this.reportedLogsForSheet.push(nl);
+      }
     }
   }
 
-   getAllLogs() {
+  getAllLogs() {
+    this.reportedLogs.push(...this.reportedLogsForSheet)
     return {
-      allLogs:  this.reportedLogs,
-      sheetLogs:  this.reportedLogsForSheet
+      allLogs: this.reportedLogs,
+      sheetLogs: this.reportedLogsForSheet
     }
   }
 
@@ -59,15 +73,15 @@ export class ReportService {
   checkLinks(data) {
     data.forEach(node => {
       if (node.targets.length === 0 && node.group === 2) {
-        this.reportLog(`${node.name} has no target node links.`, 'warning', 'msg');
+        this.reportLog(`Nodes with no out-links`, 'warning', 'multi', node.name);
       }
 
       if (node.sources.length === 0 && node.group === 2) {
-        this.reportLog(`${node.name} has no source node links.`, 'warning', 'msg');
+        this.reportLog(`Nodes with no in-links`, 'warning', 'multi', node.name);
       }
 
       if (node.sources.length === 0 && node.group === 3) {
-        this.reportLog(`${node.name} has no source node links.`, 'warning', 'msg');
+        this.reportLog(`Nodes with no in-links`, 'warning', 'multi', node.name);
       }
     });
   }

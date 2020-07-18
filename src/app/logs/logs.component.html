@@ -13,16 +13,30 @@
         <mat-tab [label]="sheet.sheet.display">
             <div class="content">
                 <div class="details">
-                    <mat-list style="padding: 0;">
-                        <mat-list-item style="padding-left: 0;" *ngFor="let l of sheetLogs">
+                    <mat-list style="padding: 0;" class="logsList">
+                        <mat-list-item style="padding-left: 0;" *ngFor="let l of sheetLogs" class="py-2">
                             <mat-icon mat-list-icon style="color: grey;" *ngIf="l.type == 'file'">next_plan</mat-icon>
                             <div mat-line style="width: 100%; display: flex; justify-content: space-between;" *ngIf="l.type == 'file'">
                                 <span class="i2">{{l.message}}</span>
                             </div>
                             <mat-icon mat-list-icon [ngStyle]="{'color': l.icon === 'check_circle' ? '#66BB6A' : l.icon === 'error' ? '#FFCA28' : '#FF5722'}" *ngIf="l.type !== 'file'">{{l.icon}}</mat-icon>
-                            <div mat-line style="width: 100%; display: flex; justify-content: space-between;" *ngIf="l.type != 'file'">
+                            <div mat-line style="width: 100%; display: flex; justify-content: space-between;" *ngIf="l.type  === 'msg';else multu">
                                 <span class="i2">{{l.message}}</span>
                             </div>
+                            <ng-template #multu style="width: 100%;">
+                                <mat-expansion-panel style="box-shadow: none;" *ngIf="l.type === 'multi'" class="mepNoPadding">
+                                    <mat-expansion-panel-header class="p-0" style="width: 95%;" [collapsedHeight]="'35px'" [expandedHeight]="'35px'">
+                                        <mat-panel-title>
+                                            <div>
+                                                <p class="i2">{{l.message}}</p>
+                                            </div>
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <div style="text-align: start;">
+                                        <p class="i2" *ngFor="let i of l.multi">{{i}}</p>
+                                    </div>
+                                </mat-expansion-panel>
+                            </ng-template>
                         </mat-list-item>
                     </mat-list>
                 </div>
@@ -31,24 +45,36 @@
         <mat-tab label="All">
             <div class="content">
                 <div class="details">
-                    <mat-list style="padding: 0;">
-                        <mat-list-item style="padding-left: 0;" *ngFor="let l of logs">
+                    <mat-list style="padding: 0;" class="logsList">
+                        <mat-list-item style="padding-left: 0;" *ngFor="let l of logs" class="py-2">
                             <mat-icon mat-list-icon style="color: grey;" *ngIf="l.type == 'file'">next_plan</mat-icon>
                             <div mat-line style="width: 100%; display: flex; justify-content: space-between;" *ngIf="l.type == 'file'">
                                 <span class="i2">{{l.message}}</span>
                             </div>
                             <mat-icon mat-list-icon [ngStyle]="{'color': l.icon === 'check_circle' ? '#66BB6A' : l.icon === 'error' ? '#FFCA28' : '#FF5722'}" *ngIf="l.type !== 'file'">{{l.icon}}</mat-icon>
-                            <div mat-line style="width: 100%; display: flex; justify-content: space-between;" *ngIf="l.type != 'file'">
+                            <div mat-line style="width: 100%; display: flex; justify-content: space-between;" *ngIf="l.type  === 'msg';else multu">
                                 <span class="i2">{{l.message}}</span>
                             </div>
+                            <ng-template #multu style="width: 100%;">
+                                <mat-expansion-panel style="box-shadow: none;" *ngIf="l.type === 'multi'" class="mepNoPadding">
+                                    <mat-expansion-panel-header class="p-0" style="width: 95%;" [collapsedHeight]="'35px'" [expandedHeight]="'35px'">
+                                        <mat-panel-title>
+                                            <div>
+                                                <p class="i2">{{l.message}}</p>
+                                            </div>
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <div style="text-align: start;">
+                                        <p class="i2" *ngFor="let i of l.multi">{{i}}</p>
+                                    </div>
+                                </mat-expansion-panel>
+                            </ng-template>
                         </mat-list-item>
                     </mat-list>
                 </div>
             </div>
         </mat-tab>
     </mat-tab-group>
-
-    <!-- <div class="footer">
-        <button mat-flat-button color="warn" (click)="mail()" class="mt-4">Report Problem</button>
-    </div> -->
+    <div class="footer">
+    </div>
 </div>

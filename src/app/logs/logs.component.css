@@ -37,14 +37,14 @@
 .tabs {
     position: absolute;
     top: 65px;
-    bottom: 65px;
+    bottom: 20px;
     overflow: auto;
     right: 0px;
     left: 0px;
     padding-left: 5px;
     padding-right: 5px;
-    height: 100%;
-    flex: 1 1 auto;
+    /* height: 100%; */
+    /* flex: 1 1 auto; */
 }
 
 .i2 {
@@ -57,13 +57,13 @@
 .footer {
     position: absolute;
     bottom: 0px;
-    height: 50px;
+    height: 20px;
     left: 0px;
     right: 0px;
     padding-left: 5px;
     padding-right: 5px;
     padding-top: 5px;
-    border-top: 1px solid rgb(203, 203, 203);
+    /* border-top: 1px solid rgb(203, 203, 203); */
 }
 
 ::ng-deep mat-tab-body {
@@ -77,4 +77,13 @@
 
 .example-spacer {
     flex: 1 1 auto;
+}
+
+.logsList .mat-list-item {
+    height: auto;
+    width: 100%;
+}
+
+:host ::ng-deep .mat-list-base .mat-list-item .mat-list-item-content {
+    align-items: flex-start;
 }
