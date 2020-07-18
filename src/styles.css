@@ -30,3 +30,7 @@ body {
     background-color: #444a56a8;
     border-radius: 10px;
 }
+
+.mepNoPadding .mat-expansion-panel-body {
+    padding: 0 !important;
+}

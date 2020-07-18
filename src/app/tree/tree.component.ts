@@ -17,7 +17,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   sheetData: any;
   treeData: any;
   updatedTreeData: any;
-  treeView;
+  treeView: any;
   graphWidth: number;
   bimodalDistance: number;
   shouldRenderASCTBiomodal = false;
@@ -27,7 +27,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   };
   treeWidth = 0;
   treeWidthOffset = 0;
-  screenWidth = 0;
 
   @Input() settingsExpanded: boolean;
   @Input() public refreshData = false;
@@ -96,7 +95,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       this.treeData = await this.ts.makeTreeData(this.sheetData.data);
 
       const height = document.getElementsByTagName('body')[0].clientHeight;
-      this.screenWidth = document.getElementsByTagName('body')[0].clientWidth;
 
       this.bimodalDistance = this.sheet.sheet.config.bimodal_distance;
       this.treeWidthOffset = this.sheet.sheet.config.width_offset;
@@ -330,6 +328,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         marks: [
           {
             type: 'group',
+            name: 'asTree',
             marks: [
               {
                 type: 'path',
@@ -533,7 +532,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
       try {
         this.updatedTreeData = this.treeView.data('tree');
-        this.treeWidth = this.treeView._viewWidth;
+        this.treeWidth = this.treeView._runtime.group.context.data.asTree.values.value[0].bounds.x2;
 
         const isBimodalComplete = await this.makeBimodalGraph();
         if (isBimodalComplete) {
@@ -582,9 +581,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     await this.treeView.runAsync();
     if (didViewRender) {
       this.prevData = asctData;
-      this.screenWidth = Math.max(didViewRender._viewWidth, this.screenWidth)
       this.graphWidth = didViewRender._viewWidth;
-      this.treeWidth = this.treeView._viewWidth;
       return true;
     }
     return false;

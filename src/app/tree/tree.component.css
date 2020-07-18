@@ -1,24 +1,19 @@
-.mat-expansion-panel:not([class*='mat-elevation-z']) {
-    box-shadow: none;
-}
-
-.mat-expansion-panel-header {
-    background: transparent !important;
-}
-
-.mat-form-field-infix {
-    border: 0 !important;
-}
-
-:ng-deep .mat-expansion-panel-body {
-    background: white !important;
-    padding: 0 !important;
-}
-
-::ng-deep .mat-expansion-panel {
-    background-color: transparent;
-}
-
-::ng-deep .mat-form-field-wrapper {
-    padding: 0 !important;
-}
+    .mat-expansion-panel:not([class*='mat-elevation-z']) {
+        box-shadow: none;
+    }
+    
+    .mat-expansion-panel-header {
+        background: transparent !important;
+    }
+    
+    .mat-form-field-infix {
+        border: 0 !important;
+    }
+    
+     ::ng-deep .mat-expansion-panel {
+        background-color: transparent;
+    }
+    
+    .mat-form-field-wrapper {
+        padding: 0 !important;
+    }
