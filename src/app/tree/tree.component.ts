@@ -28,6 +28,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   treeWidth = 0;
   treeWidthOffset = 0;
   screenWidth = 0;
+  asctData: ASCTD;
 
   @Input() settingsExpanded: boolean;
   @Input() public refreshData = false;
@@ -91,8 +92,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   async onResize(e) {
+    const width = e.target.innerWidth;
+    this.screenWidth = width;
     const height = document.getElementsByTagName('body')[0].clientHeight;
-    const config: any = await this.makeVegaSpec(e.target.innerWidth, height);
+    const config: any = await this.makeVegaSpec(width, height);
     await this.renderGraph(config);
   }
 
@@ -571,39 +574,54 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public async makeBimodalGraph() {
-    const asctData: ASCTD = await this.bms.makeASCTData(this.sheetData.data, this.updatedTreeData, this.bimodalConfig);
+    this.asctData = await this.bms.makeASCTData(this.sheetData.data, this.updatedTreeData, this.bimodalConfig);
     this.treeView._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
     this.treeView._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
     this.treeView._runtime.signals.targets__click.value = []; // removing clicked bold target nodes if at all
 
-    this.treeView.change('nodes', vega.changeset().remove(this.prevData.nodes).insert(asctData.nodes)).runAsync();
-    this.treeView.change('edges', vega.changeset().remove(this.prevData.links).insert(asctData.links)).runAsync();
+    this.treeView.change('nodes', vega.changeset().remove(this.prevData.nodes).insert(this.asctData.nodes)).runAsync();
+    this.treeView.change('edges', vega.changeset().remove(this.prevData.links).insert(this.asctData.links)).runAsync();
 
     const didViewRender = await this.treeView.resize().runAsync();
     await this.treeView.runAsync();
     if (didViewRender) {
-      this.prevData = asctData;
+      this.prevData = this.asctData;
       this.graphWidth = didViewRender._viewWidth;
       return true;
     }
     return false;
   }
 
-  downloadVis(img) {
+  async downloadVis(format) {
     const dt = moment(new Date).format("YYYY.MM.DD_hh.mm");
     const sn = this.sheet.sheet.display.toLowerCase().replace(' ', '_');
-    const imgType = img.toLowerCase();
-    const fileName = `asct+b_${sn}_${dt}.${imgType}`
+    const formatType = format.toLowerCase();
+    
+    if (format === 'Vega Spec') {
+      const height = document.getElementsByTagName('body')[0].clientHeight;
+      const config: any = await this.makeVegaSpec(this.screenWidth, height);
+      config.data[config.data.findIndex(i => i.name === 'nodes')].values = this.asctData.nodes;
+      config.data[config.data.findIndex(i => i.name === 'edges')].values = this.asctData.links;
 
-    this.treeView.background('white');
-    this.treeView.toImageURL(imgType).then((url) => {
-      const link = document.createElement('a');
-      link.setAttribute('href', url);
-      link.setAttribute('target', '_blank');
-      link.setAttribute('download', fileName);
-      link.dispatchEvent(new MouseEvent('click'));
-    }).catch((error) => {
-      console.log(error);
-    });
+      var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(config, null, 4));
+      var downloadAnchorNode = document.createElement('a');
+      downloadAnchorNode.setAttribute("href", dataStr);
+      downloadAnchorNode.setAttribute("download", `asct+b_${sn}_${dt}` + ".json");
+      document.body.appendChild(downloadAnchorNode);
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+    } else {
+      const fileName = `asct+b_${sn}_${dt}.${formatType}`
+      this.treeView.background('white');
+      this.treeView.toImageURL(formatType).then((url) => {
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('target', '_blank');
+        link.setAttribute('download', fileName);
+        link.dispatchEvent(new MouseEvent('click'));
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
   }
 }

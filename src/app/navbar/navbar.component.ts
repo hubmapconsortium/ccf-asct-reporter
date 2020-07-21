@@ -29,7 +29,8 @@ export class NavbarComponent implements OnInit {
 
   imageOptions = [
     'PNG',
-    'SVG'
+    'SVG',
+    'Vega Spec'
   ];
 
   selectedSheetOption = this.sheetOptions[0];
