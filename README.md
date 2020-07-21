@@ -49,12 +49,14 @@ $ npm run data <sheet> # for updating a specific sheet
 8. [Skin](https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1268820100)
 
 ### How it works
-This section describes the constuctution of the various visualizations that the reporter displays. 
+This section describes the constuctution of the various visualizations and features that the reporter houses. 
 
 #### Partonomy Tree
 The partonomy tree visualizes anatomical structures and substructures. They are color coded in red. It makes use of [Vega's Tree Layout](https://vega.github.io/vega/examples/tree-layout/) to visualize relationships between anatomical structures and substructures. This is housed in the [Tree Component](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/src/app/tree/tree.component.ts). 
 
 The data is fetched through the [`getSheetData()`](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/d6b98bff6fc8d88c14ee8c38809a063db39d31bc/src/app/services/sheet.service.ts#L80) function that returns a JSON of the ASCT+B table data parsed by [PapaParse](https://www.papaparse.com/). The function [`makeTreeData()`](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/d6b98bff6fc8d88c14ee8c38809a063db39d31bc/src/app/tree/tree.service.ts#L66) builds the tree shown in the partonomy. Using the classes [`TNode`](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/3e7837c5af98945c61b9de6b7edb7e408ed77297/src/app/sheet.service.ts#L13) and [`Tree`](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/3e7837c5af98945c61b9de6b7edb7e408ed77297/src/app/sheet.service.ts#L32), systematically builds a tree where each node has a parent, id and name. Multiple occurances of nodes in the ASCT+B tables are automatically skipped by the function. The width of the tree is set to a precomputed value present in the [config service](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/src/app/services/sconfig.service.ts). On having the constructed data, the [tree spec](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/d6b98bff6fc8d88c14ee8c38809a063db39d31bc/src/app/tree/tree.component.ts#L106) is formed that builds the tree using `embed()`.
+
+Some nodes in the partnomy tree may have a black stoke around them. This indicates that the node does not follow a "tree" structure as it has multiple parent nodes. 
 
 #### Bimodal Network
 The bimodal network links the anatomical structures to the cell types, and then the cell types to the biomarkers. The cell types are color coded in blue and the biomarkers in green. This is housed in the [bimodal component](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/src/app/bimodal/bimodal.component.ts).
@@ -70,7 +72,6 @@ nodes:[
     ...,
     {
         color: "#808080",
-        first: "Penincillar Arterioles",
         fontSize: 14,
         group: 1,
         id: 1,
@@ -84,7 +85,6 @@ nodes:[
 links: [
     ...,
     {
-        path: "M0,52.4375L350,50"
         s: 0 // source node
         t: 24 // target node
     }
@@ -96,7 +96,7 @@ The bimodal network contans a few functions that is used to sort the nodes,
 2. Sort by degree: Sorts the nodes based on the number of connections to a particular node. Makes use of the [`makeMarkerDegree()`](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/src/app/services/sheet.service.ts#L94) and [`makeCellDegree()`](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/src/app/services/sheet.service.ts#L127) functions for calculating the degree of markers and cells respectively.
 3. Sort by size: Nodes can be sorted by their relative sizes that depends on their degree. 
 
-Each node in the network can be hovered over to highlight its path links. Additionally, for better visual purposes, a node can be clicked to persist the highlight of the links.
+Each node in the network can be hovered over to highlight its path links. Additionally, for better visual purposes, a node can be clicked to bold its name and persist the color of the path connecting the nodes. Clicking on an AS node colors the AS to CT paths, as well as CT to B paths. Clicking on a B node highlights the B to CT paths and CT to AS paths. Any clicked node can be clicked again to unbold and dehighlight.
 
 #### Indent List
 This visualization is a traditional, hierarchical structure. This displays anatomical structures, sub-structures and cell types. This is housed in the [Indent component](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/src/app/indent/indent.component.ts). This makes use the of [Angular Material Tree](https://material.angular.io/components/tree/overview).
@@ -114,8 +114,19 @@ The report generator lists different meda data of the data which are downloadabl
    - Biomarkers with no Go/UniPot link (as the moment none of the markers have this link)
 2. **Details**: This section has expandable panels that list the above mentioned node names in alphabetical order.
 
-#### Debug Logs
-The debug logger is a tool that lists various problems (if at all) with the data that is to be visualized. These include nodes that have multiple parents, data not being fetched properly, changing of sheets etc. These logs are session specific.
+#### Debug Log
+The Debug Log lists warnings and errors that occurred during data parsing and visualization creation—for individual organs and for all organs. It is separated into two tabs,
+- **Organ Tab**: This tab shows all the debug messages for the selected organ sheet.
+- **All Tab**: This tab displays messages for the entire user session.
+
+Similar messages are clubbed together, and displayed via an expansion panel that can be clicked to reveal the messages. The logs that are currently supported are given below,
+- Nodes with multiple in-links
+- Nodes with no out-links
+- Sheet changes
+- Tree successfully/unsuccessfully rendering
+
+#### Export
+The ASCT+B Reporter visualization can be saved out in PNG (Portable Network Graphics) and SVG (Scalable Vector Graphics File) format. This can be done by clicking on the download button on the navigation toolbar on the top (beside the refresh icon) and selecting the suitable image format.
 
 ### Scripts
 
@@ -140,11 +151,11 @@ $ npm run data help
 
 ## Snippets
 ![Partonomy Tree](src/assets/snippets/tree.png)
-![Hover](src/assets/snippets/hover.png)
+![Hover/Click](src/assets/snippets/hover.png)
 ![Sorting and Sizing](src/assets/snippets/sort.png)
 ![Indent List](src/assets/snippets/indent.png)
 ![Report](src/assets/snippets/report.png)
-![Debug Logs](src/assets/snippets/logs.png)
+![Debug Logs](src/assets/snippets/log.png)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
