@@ -64,7 +64,11 @@ const AS_RED = '#E41A1C';
 export class TreeService {
 
   constructor(public sheet: SheetService, public report: ReportService) { }
-
+  /**
+   * Creates the structure from the sheet data that is accepted by the vis.
+   * 
+   * @param data - Sheet data
+   */
   public makeTreeData(data): Promise<Array<TNode>> {
     return new Promise((res, rej) => {
       const cols = this.sheet.sheet.tree_cols;
