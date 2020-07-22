@@ -178,7 +178,7 @@ export class BimodalService {
         sheetData.forEach(row => {
           for (const j in row) {
             if (row[j] === treeData[i].name) {
-              const cells = row[this.sheet.sheet.cell_row].split(',');
+              const cells = row[this.sheet.sheet.cell_col].split(',');
               for (const c in cells) {
                 if (cells[c] !== '') {
                   const found = nodes.findIndex(r => r.name.toLowerCase().trim() === cells[c].toLowerCase().trim());
@@ -203,8 +203,8 @@ export class BimodalService {
 
     // CT to B
     sheetData.forEach(row => {
-      const markers = row[this.sheet.sheet.marker_row].trim().split(',');
-      const cells = row[this.sheet.sheet.cell_row].trim().split(',');
+      const markers = row[this.sheet.sheet.marker_col].trim().split(',');
+      const cells = row[this.sheet.sheet.cell_col].trim().split(',');
 
       for (const c in cells) {
         if (cells[c] !== '') {

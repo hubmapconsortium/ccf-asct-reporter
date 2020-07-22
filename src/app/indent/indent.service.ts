@@ -56,7 +56,7 @@ export class IndentService {
             if (Object.keys(searchedNode).length !== 0) {
               parent = searchedNode;
             } else {
-              const newNode = new Node(foundNodes[i], [], row[cols[col] + this.sheet.sheet.uberon_row]);
+              const newNode = new Node(foundNodes[i], [], row[cols[col] + this.sheet.sheet.uberon_col]);
               parent.children.push(newNode);
               parent = newNode;
             }

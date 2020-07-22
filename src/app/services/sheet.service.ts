@@ -167,7 +167,7 @@ export class SheetService {
       }
 
       organData.forEach(row => {
-        const od = ['Body', organ, row[organSheet.cell_row], row[organSheet.marker_row]];
+        const od = ['Body', organ, row[organSheet.cell_col], row[organSheet.marker_col]];
         allOrganData.push(od);
       });
     }
@@ -190,8 +190,8 @@ export class SheetService {
     const markerDegrees = [];
 
     data.forEach(row => {
-      const markers = row[this.sheet.marker_row].split(',');
-      const cells = row[this.sheet.cell_row].split(',').map(str => str.trim()).filter(c => c !== '');
+      const markers = row[this.sheet.marker_col].split(',');
+      const cells = row[this.sheet.cell_col].split(',').map(str => str.trim()).filter(c => c !== '');
 
       for (const i in markers) {
         if (markers[i] !== '') {
@@ -234,7 +234,7 @@ export class SheetService {
               parent = row.find(i => i.toLowerCase() === leaf.toLowerCase());
 
               if (parent) {
-                const cells = row[this.sheet.cell_row].split(',');
+                const cells = row[this.sheet.cell_col].split(',');
                 for (const i in cells) {
                   if (cells[i] !== '') {
                     const foundCell = cellDegrees.findIndex(c => c.structure.toLowerCase().trim() === cells[i].toLowerCase().trim());
@@ -261,8 +261,8 @@ export class SheetService {
       // calculating out degree (CT -> B)
       if (degree === 'Degree' || degree === 'Outdegree') {
         data.forEach(row => {
-          const markers = row[this.sheet.marker_row].split(',').map(str => str.trim().toLowerCase()).filter(c => c !== '');
-          const cells = row[this.sheet.cell_row].split(',').map(str => str.trim()).filter(c => c !== '');
+          const markers = row[this.sheet.marker_col].split(',').map(str => str.trim().toLowerCase()).filter(c => c !== '');
+          const cells = row[this.sheet.cell_col].split(',').map(str => str.trim()).filter(c => c !== '');
 
           for (const c in cells) {
             if (cells[c] !== '') {
@@ -292,16 +292,16 @@ export class SheetService {
   public makeAS(
     data, 
     report_cols=this.sheet.report_cols, 
-    cell_row=this.sheet.cell_row, 
-    marker_row=this.sheet.marker_row, 
-    uberon_row=this.sheet.uberon_row
+    cell_col=this.sheet.cell_col, 
+    marker_col=this.sheet.marker_col, 
+    uberon_col=this.sheet.uberon_col
   ): Promise<Array<AS>> {
     return new Promise((res, rej) => {
       const anatomicalStructures = [];
       const cols = report_cols;
       data.forEach(row => {
         for (const col in cols) {
-          if (cols[col] !== cell_row && cols[col] !== marker_row) {
+          if (cols[col] !== cell_col && cols[col] !== marker_col) {
             const structure = row[cols[col]];
             if (structure.startsWith('//')) {
               continue;
@@ -311,7 +311,7 @@ export class SheetService {
               if (!anatomicalStructures.some(i => i.structure.toLowerCase() === structure.toLowerCase())) {
                 anatomicalStructures.push({
                   structure: structure.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
-                  uberon: row[cols[col] + uberon_row]
+                  uberon: row[cols[col] + uberon_col]
                 });
               }
             }
@@ -326,18 +326,18 @@ export class SheetService {
 
   public makeCellTypes(
     data, 
-    cell_row=this.sheet.cell_row, 
-    uberon_row=this.sheet.uberon_row): Promise<Array<CT>> {
+    cell_col=this.sheet.cell_col, 
+    uberon_col=this.sheet.uberon_col): Promise<Array<CT>> {
     const cellTypes = [];
     return new Promise((res, rej) => {
       data.forEach(row => {
-        const cells = row[cell_row].trim().split(',');
+        const cells = row[cell_col].trim().split(',');
         for (const i in cells) {
           if (cells[i] !== '') {
             if (!cellTypes.some(c => c.structure.trim().toLowerCase() === cells[i].trim().toLowerCase())) {
               cellTypes.push({
                 structure: cells[i].toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ').trim(),
-                link: row[cell_row + uberon_row]
+                link: row[cell_col + uberon_col]
               });
             }
           }
@@ -350,11 +350,11 @@ export class SheetService {
     });
   }
 
-  public makeBioMarkers(data, marker_row=this.sheet.marker_row, ): Promise<Array<B>> {
+  public makeBioMarkers(data, marker_col=this.sheet.marker_col, ): Promise<Array<B>> {
     return new Promise((res, rej) => {
       const bioMarkers = [];
       data.forEach(row => {
-        const markers = row[marker_row].split(',');
+        const markers = row[marker_col].split(',');
         for (const i in markers) {
           if (markers[i] !== '') {
             if (!bioMarkers.some(b => b.structure.toLowerCase() === markers[i].trim().toLowerCase())) {

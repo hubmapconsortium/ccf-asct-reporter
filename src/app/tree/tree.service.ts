@@ -101,7 +101,7 @@ export class TreeService {
                 parent = searchedNode;
               } else {
                 tree.id += 1;
-                const newNode = new TNode(tree.id, foundNodes[i], parent.id, row[cols[col] + this.sheet.sheet.uberon_row], AS_RED);
+                const newNode = new TNode(tree.id, foundNodes[i], parent.id, row[cols[col] + this.sheet.sheet.uberon_col], AS_RED);
                 tree.append(newNode);
                 parent = newNode;
               }
