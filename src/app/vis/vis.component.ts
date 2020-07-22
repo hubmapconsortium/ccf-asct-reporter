@@ -54,7 +54,6 @@ export class VisComponent implements OnInit {
   showGraph(val) {
     this.openLoading();
     this.displayGraph = val;
-    console.log(val)
     this.shouldRefreshData = true;
   }
 
@@ -100,7 +99,6 @@ export class VisComponent implements OnInit {
   }
 
   closeComponent() {
-    // this.drawer.toggle();
     this.showCompInDrawer = '';
   }
 

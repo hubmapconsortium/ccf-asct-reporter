@@ -1,6 +1,6 @@
 <div style="width: inherit;" (window:resize)="onResize($event)">
     <div style="overflow-x: auto; position: sticky; max-height: calc(100vh - 64px);" class="text-center">
-        <div [ngStyle]="{'width': screenWidth - 10 + 'px' }" style="display: flex; flex-direction: row; background-color: #f7f7f7; padding: 10px;" *ngIf="shouldRenderASCTBiomodal">
+        <div [ngStyle]="{'width': screenWidth + 'px' }" style="display: flex; flex-direction: row; background-color: #f7f7f7; padding: 10px;" *ngIf="shouldRenderASCTBiomodal">
             <div [ngStyle]="{'width': treeWidth + bimodalDistance + 'px' }">
                 <mat-expansion-panel style="width: 50%;" hideToggle="true" #mepAS="matExpansionPanel" [(expanded)]="settingsExpanded">
                     <mat-expansion-panel-header style="margin-left: -5px;">

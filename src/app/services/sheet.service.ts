@@ -359,7 +359,7 @@ export class SheetService {
             if (structure !== '') {
               if (!anatomicalStructures.some(i => i.structure.toLowerCase() === structure.toLowerCase())) {
                 anatomicalStructures.push({
-                  structure: structure.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
+                  structure: structure,
                   uberon: row[cols[col] + uberon_col]
                 });
               }
@@ -394,7 +394,7 @@ export class SheetService {
           if (cells[i] !== '') {
             if (!cellTypes.some(c => c.structure.trim().toLowerCase() === cells[i].trim().toLowerCase())) {
               cellTypes.push({
-                structure: cells[i].toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ').trim(),
+                structure: cells[i].trim(),
                 link: row[cell_col + uberon_col]
               });
             }
@@ -425,7 +425,7 @@ export class SheetService {
           if (markers[i] !== '') {
             if (!bioMarkers.some(b => b.structure.toLowerCase() === markers[i].trim().toLowerCase())) {
               bioMarkers.push({
-                structure: markers[i].trim().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
+                structure: markers[i].trim(),
               });
             }
           }

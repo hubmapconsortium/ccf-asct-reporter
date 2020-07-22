@@ -105,9 +105,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   async onResize(e) {
     const width = e.target.innerWidth;
     this.screenWidth = width;
-    const height = document.getElementsByTagName('body')[0].clientHeight;
-    const config: any = await this.makeVegaSpec(width, height);
-    await this.renderGraph(config);
+
+    if (width >= 1500) {
+      const height = document.getElementsByTagName('body')[0].clientHeight;
+      const config: any = await this.makeVegaSpec(width, height);
+      await this.renderGraph(config);
+    }
   }
 
   /**
@@ -540,7 +543,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
     return config;
   }
-  
+
   /**
    * Renderes the vega visualization
    * 
@@ -638,7 +641,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     const dt = moment(new Date).format("YYYY.MM.DD_hh.mm");
     const sn = this.sheet.sheet.display.toLowerCase().replace(' ', '_');
     const formatType = format.toLowerCase();
-    
+
     if (format === 'Vega Spec') {
       const height = document.getElementsByTagName('body')[0].clientHeight;
       const config: any = await this.makeVegaSpec(this.screenWidth, height);
