@@ -70,7 +70,15 @@ export class SheetService {
   organSheetData: any;
 
   constructor(private http: HttpClient, public sc: SconfigService, public report: ReportService) { }
-
+  /**
+   * Retruns the parsed data from the google sheet.
+   *
+   * @param url - The constructed Google Sheet URL
+   * @param status - Status to show whether it is getting data from the cache or the google sheets.
+   * @param msg - Error message if present.
+   * @param header_count - Count of headers to discard while parsing the data. 
+   *
+   */
   public async getDataFromURL(url, status = 200, msg = 'Ok', header_count=this.sheet.header_count): Promise<any> {
     return new Promise(async (res, rej) => {
       try {
@@ -88,6 +96,14 @@ export class SheetService {
       }
     });
   }
+
+  /**
+   * Returns the sheet data. Runs in 2 modes:
+   * 1. Development: During development only the cached data is used to prevent the rate limit of google sheets.
+   * 2. Production: During production, it extracts sheets from google docs. Incase that fails
+   * the data is extracted from the cache.
+   *
+   */
 
   public async getSheetData(): Promise<any> {
     let constructedURL = '';
@@ -139,6 +155,11 @@ export class SheetService {
     }
   }
 
+  /**
+   * Function to create the All Organs data. 
+   *
+   */
+
   public async makeAOData() {
     const allOrganData = [];
     let csvData;
@@ -181,10 +202,20 @@ export class SheetService {
     });
     return await this.getOrganSheetData();
   }
+  
+  /**
+   * Helper function to return the organ data once it has been computed.
+   *
+   */
 
   public async getOrganSheetData() {
     return await this.organSheetData;
   }
+
+  /**
+   * Returns the array of biomarkers that are sorted have their degrees calculated. 
+   * @param data - Sheet data
+   */
 
   public async makeMarkerDegree(data) {
     const markerDegrees = [];
@@ -218,6 +249,13 @@ export class SheetService {
     markerDegrees.sort((a, b) => (b.parents.length - a.parents.length));
     return markerDegrees;
   }
+  
+  /**
+   * Returns the array of cell types that are sorted have their degrees calculated. 
+   * @param data - Sheet data
+   * @param treeData - Data from the tree visualization.
+   * @param degree - Degree configuration. Can be Degree, Indegree and Outdegree
+   */
 
   public async makeCellDegree(data, treeData, degree): Promise<Array<Cell>> {
     return new Promise((res, rej) => {
@@ -289,6 +327,17 @@ export class SheetService {
     });
   }
 
+  /**
+   * Returns an array of objects of anatomical structures.
+   *
+   * @param data - Sheet data
+   * @param report_cols - The cols that are to be considered to form the data. This includes AS, and CT col numbers.
+   * @param cell_col - The column number in which the cell types are present.
+   * @param marker_col - The column number in which the biomarkers are present.
+   * @param uberon_col - The number of columns after which the uberon column can be found. 
+   *
+   */
+  
   public makeAS(
     data, 
     report_cols=this.sheet.report_cols, 
@@ -324,6 +373,15 @@ export class SheetService {
     });
   }
 
+  /**
+   * Returns an array of objects of cell types.
+   *
+   * @param data - Sheet data
+   * @param cell_col - The column number in which the cell types are present.
+   * @param uberon_col - The number of columns after which the uberon column can be found. 
+   *
+   */
+
   public makeCellTypes(
     data, 
     cell_col=this.sheet.cell_col, 
@@ -350,6 +408,14 @@ export class SheetService {
     });
   }
 
+  /**
+   * Returns an array of objects of cell types.
+   *
+   * @param data - Sheet data
+   * @param marker_col - The column number in which the biomarkers are present.
+   *
+   */
+  
   public makeBioMarkers(data, marker_col=this.sheet.marker_col, ): Promise<Array<B>> {
     return new Promise((res, rej) => {
       const bioMarkers = [];
