@@ -48,13 +48,13 @@
                 <mat-expansion-panel style="width: 50%" #mepBM="matExpansionPanel" [(expanded)]="settingsExpanded" class="mepNoPadding">
                     <mat-expansion-panel-header class="p-0">
                         <mat-panel-title>
-                            <div style="font-weight: 500; font-size: 13pt;">Bio Markers</div>
+                            <div style="font-weight: 500; font-size: 13pt;">Biomarkers</div>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <div style="display: flex; flex-direction: row; align-items: center;">
                         <b style="padding-right: 10px;">Sort</b>
                         <mat-form-field style="text-align: start;">
-                            <button mat-flat-button style="width: 80%; background-color: rgb(255, 255, 255);" #tooltip="matTooltip" matTooltip="Sort Markers" matTooltipPosition="below">
+                            <button mat-flat-button style="width: 80%; background-color: rgb(255, 255, 255);" #tooltip="matTooltip" matTooltip="Sort Biomarkers" matTooltipPosition="below">
                             <mat-select (selectionChange)="getBimodalSelecion()" [(ngModel)]="bimodalConfig.BM.sort">
                                 <mat-option *ngFor="let option of bimodalSortOptions" [value]="option">
                                     {{option}}
@@ -67,7 +67,7 @@
                     <div style="display: flex; flex-direction: row; align-items: center;">
                         <b style="padding-right: 10px;">Size</b>
                         <mat-form-field style="text-align: start;">
-                            <button mat-flat-button style="width: 80%; background-color: rgb(255, 255, 255);" #tooltip="matTooltip" matTooltip="Size Markers" matTooltipPosition="below">
+                            <button mat-flat-button style="width: 80%; background-color: rgb(255, 255, 255);" #tooltip="matTooltip" matTooltip="Size Biomarkers" matTooltipPosition="below">
                             <mat-select (selectionChange)="getBimodalSelecion()" [(ngModel)]="bimodalConfig.BM.size">
                                 <mat-option *ngFor="let option of bimodalSizeOptions" [value]="option">
                                     {{option}}

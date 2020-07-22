@@ -71,12 +71,12 @@ export class SheetService {
 
   constructor(private http: HttpClient, public sc: SconfigService, public report: ReportService) { }
 
-  public async getDataFromURL(url, status = 200, msg = 'Ok'): Promise<any> {
+  public async getDataFromURL(url, status = 200, msg = 'Ok', header_count=this.sheet.header_count): Promise<any> {
     return new Promise(async (res, rej) => {
       try {
         const data = await this.http.get(url, { responseType: 'text' }).toPromise();
         const parsedData = parse(data);
-        parsedData.data.splice(0, this.sheet.header_count);
+        parsedData.data.splice(0, header_count);
 
         res({
           data: parsedData.data,
