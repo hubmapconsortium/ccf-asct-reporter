@@ -76,6 +76,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     this.shouldReloadData = false;
   }
 
+  /**
+   * Re-renders the bimodal graph on getting function (sorting and sizing) selections.
+   */
+
   getBimodalSelecion() {
     this.makeBimodalGraph();
   }
@@ -91,6 +95,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
   }
 
+  /**
+   * Re-renders the graph on window size reset.
+   * 
+   * @param e - Resize event
+   * 
+   */
+
   async onResize(e) {
     const width = e.target.innerWidth;
     this.screenWidth = width;
@@ -98,6 +109,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     const config: any = await this.makeVegaSpec(width, height);
     await this.renderGraph(config);
   }
+
+  /**
+   * Creates teh vega specification
+   * 
+   * @param width - Width the tree 
+   * @param height - Height of the tree branches
+   */
 
   async makeVegaSpec(width, height) {
     const config: any = {
@@ -522,7 +540,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
     return config;
   }
-
+  
+  /**
+   * Renderes the vega visualization
+   * 
+   * @param config - The vega specification
+   */
   async renderGraph(config) {
     const runtime: vega.Runtime = vega.parse(config, {});
     this.treeView = new vega.View(runtime)
@@ -538,6 +561,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
     await this.makeBimodalGraph();
   }
+
+  /**
+   * Fetched the data to form the visualization on load.
+   */
   async getData() {
 
     this.sheetData = await this.sheet.getSheetData();
@@ -573,6 +600,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  /**
+   * Creates the bimodal graph after the tree has been rendered.
+   * Inputs the nodes and edges data into the vega spec
+   * 
+   */
+
   public async makeBimodalGraph() {
     this.asctData = await this.bms.makeASCTData(this.sheetData.data, this.updatedTreeData, this.bimodalConfig);
     this.treeView._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
@@ -591,6 +624,15 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     }
     return false;
   }
+
+  /**
+   * Creates a download link for the current vis.
+   * 
+   * @param format - Download format can be of the following types:
+   * 1. PNG
+   * 2. SVG
+   * 3. Vega Spec
+   */
 
   async downloadVis(format) {
     const dt = moment(new Date).format("YYYY.MM.DD_hh.mm");
