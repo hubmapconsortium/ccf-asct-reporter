@@ -34,7 +34,7 @@ export class ReportService {
 
   async reportLog(message, icon, type, multiMessage = '') {
     if (type === 'file') {
-      this.reportedLogsForSheet = []
+      this.reportedLogsForSheet = [];
     }
 
     const time = new Date();
@@ -42,13 +42,14 @@ export class ReportService {
       this.reportedLogsForSheet.push(new Log(message, this.icons[icon], moment(time).format('hh:mm:ss'), type));
     }
     if (type === 'multi') {
-      let foundSheetLog = this.reportedLogsForSheet.findIndex(i => i.message === message);
+      const foundSheetLog = this.reportedLogsForSheet.findIndex(i => i.message === message);
       if (foundSheetLog !== -1) {
-        if (this.reportedLogsForSheet[foundSheetLog].multi.findIndex(r => r === multiMessage) == -1)
-          this.reportedLogsForSheet[foundSheetLog].multi.push(multiMessage)
+        if (this.reportedLogsForSheet[foundSheetLog].multi.findIndex(r => r === multiMessage) === -1) {
+          this.reportedLogsForSheet[foundSheetLog].multi.push(multiMessage);
+        }
       } else {
-        
-        let nl = new Log(message, this.icons[icon], moment(time).format('hh:mm:ss'), type);
+
+        const nl = new Log(message, this.icons[icon], moment(time).format('hh:mm:ss'), type);
         nl.multi.push(multiMessage);
         this.reportedLogsForSheet.push(nl);
       }
@@ -56,11 +57,11 @@ export class ReportService {
   }
 
   getAllLogs() {
-    this.reportedLogs.push(...this.reportedLogsForSheet)
+    this.reportedLogs.push(...this.reportedLogsForSheet);
     return {
       allLogs: this.reportedLogs,
       sheetLogs: this.reportedLogsForSheet
-    }
+    };
   }
 
   createReport(anatomicalStructures, cellTypes) {

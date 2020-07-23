@@ -76,10 +76,10 @@ export class SheetService {
    * @param url - The constructed Google Sheet URL
    * @param status - Status to show whether it is getting data from the cache or the google sheets.
    * @param msg - Error message if present.
-   * @param header_count - Count of headers to discard while parsing the data. 
+   * @param header_count - Count of headers to discard while parsing the data.
    *
    */
-  public async getDataFromURL(url, status = 200, msg = 'Ok', header_count=this.sheet.header_count): Promise<any> {
+  public async getDataFromURL(url, status = 200, msg = 'Ok', header_count= this.sheet.header_count): Promise<any> {
     return new Promise(async (res, rej) => {
       try {
         const data = await this.http.get(url, { responseType: 'text' }).toPromise();
@@ -156,7 +156,7 @@ export class SheetService {
   }
 
   /**
-   * Function to create the All Organs data. 
+   * Function to create the All Organs data.
    *
    */
 
@@ -202,7 +202,7 @@ export class SheetService {
     });
     return await this.getOrganSheetData();
   }
-  
+
   /**
    * Helper function to return the organ data once it has been computed.
    *
@@ -213,7 +213,7 @@ export class SheetService {
   }
 
   /**
-   * Returns the array of biomarkers that are sorted have their degrees calculated. 
+   * Returns the array of biomarkers that are sorted have their degrees calculated.
    * @param data - Sheet data
    */
 
@@ -249,9 +249,9 @@ export class SheetService {
     markerDegrees.sort((a, b) => (b.parents.length - a.parents.length));
     return markerDegrees;
   }
-  
+
   /**
-   * Returns the array of cell types that are sorted have their degrees calculated. 
+   * Returns the array of cell types that are sorted have their degrees calculated.
    * @param data - Sheet data
    * @param treeData - Data from the tree visualization.
    * @param degree - Degree configuration. Can be Degree, Indegree and Outdegree
@@ -334,16 +334,16 @@ export class SheetService {
    * @param report_cols - The cols that are to be considered to form the data. This includes AS, and CT col numbers.
    * @param cell_col - The column number in which the cell types are present.
    * @param marker_col - The column number in which the biomarkers are present.
-   * @param uberon_col - The number of columns after which the uberon column can be found. 
+   * @param uberon_col - The number of columns after which the uberon column can be found.
    *
    */
-  
+
   public makeAS(
-    data, 
-    report_cols=this.sheet.report_cols, 
-    cell_col=this.sheet.cell_col, 
-    marker_col=this.sheet.marker_col, 
-    uberon_col=this.sheet.uberon_col
+    data,
+    report_cols= this.sheet.report_cols,
+    cell_col= this.sheet.cell_col,
+    marker_col= this.sheet.marker_col,
+    uberon_col= this.sheet.uberon_col
   ): Promise<Array<AS>> {
     return new Promise((res, rej) => {
       const anatomicalStructures = [];
@@ -359,7 +359,7 @@ export class SheetService {
             if (structure !== '') {
               if (!anatomicalStructures.some(i => i.structure.toLowerCase() === structure.toLowerCase())) {
                 anatomicalStructures.push({
-                  structure: structure,
+                  structure,
                   uberon: row[cols[col] + uberon_col]
                 });
               }
@@ -378,14 +378,14 @@ export class SheetService {
    *
    * @param data - Sheet data
    * @param cell_col - The column number in which the cell types are present.
-   * @param uberon_col - The number of columns after which the uberon column can be found. 
+   * @param uberon_col - The number of columns after which the uberon column can be found.
    *
    */
 
   public makeCellTypes(
-    data, 
-    cell_col=this.sheet.cell_col, 
-    uberon_col=this.sheet.uberon_col): Promise<Array<CT>> {
+    data,
+    cell_col= this.sheet.cell_col,
+    uberon_col= this.sheet.uberon_col): Promise<Array<CT>> {
     const cellTypes = [];
     return new Promise((res, rej) => {
       data.forEach(row => {
@@ -415,8 +415,8 @@ export class SheetService {
    * @param marker_col - The column number in which the biomarkers are present.
    *
    */
-  
-  public makeBioMarkers(data, marker_col=this.sheet.marker_col, ): Promise<Array<B>> {
+
+  public makeBioMarkers(data, marker_col= this.sheet.marker_col, ): Promise<Array<B>> {
     return new Promise((res, rej) => {
       const bioMarkers = [];
       data.forEach(row => {

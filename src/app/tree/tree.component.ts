@@ -97,16 +97,16 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
   /**
    * Re-renders the graph on window size reset.
-   * 
+   *
    * @param e - Resize event
-   * 
+   *
    */
 
   async onResize(e) {
     const width = e.target.innerWidth;
     this.screenWidth = width;
     if (width < 1450) {
-      this.screenWidth = 1450
+      this.screenWidth = 1450;
     }
 
 
@@ -118,8 +118,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
   /**
    * Creates teh vega specification
-   * 
-   * @param width - Width the tree 
+   *
+   * @param width - Width the tree
    * @param height - Height of the tree branches
    */
 
@@ -549,7 +549,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
   /**
    * Renderes the vega visualization
-   * 
+   *
    * @param config - The vega specification
    */
   async renderGraph(config) {
@@ -580,7 +580,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     this.screenWidth = document.getElementsByTagName('body')[0].clientWidth;
 
     if (this.screenWidth < 1450) {
-      this.screenWidth = 1450
+      this.screenWidth = 1450;
     }
 
     this.bimodalDistance = this.sheet.sheet.config.bimodal_distance;
@@ -613,7 +613,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * Creates the bimodal graph after the tree has been rendered.
    * Inputs the nodes and edges data into the vega spec
-   * 
+   *
    */
 
   public async makeBimodalGraph() {
@@ -637,7 +637,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
   /**
    * Creates a download link for the current vis.
-   * 
+   *
    * @param format - Download format can be of the following types:
    * 1. PNG
    * 2. SVG
@@ -645,7 +645,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
    */
 
   async downloadVis(format) {
-    const dt = moment(new Date).format("YYYY.MM.DD_hh.mm");
+    const dt = moment(new Date).format('YYYY.MM.DD_hh.mm');
     const sn = this.sheet.sheet.display.toLowerCase().replace(' ', '_');
     const formatType = format.toLowerCase();
 
@@ -655,15 +655,15 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       config.data[config.data.findIndex(i => i.name === 'nodes')].values = this.asctData.nodes;
       config.data[config.data.findIndex(i => i.name === 'edges')].values = this.asctData.links;
 
-      var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(config, null, 4));
-      var downloadAnchorNode = document.createElement('a');
-      downloadAnchorNode.setAttribute("href", dataStr);
-      downloadAnchorNode.setAttribute("download", `asct+b_${sn}_${dt}` + ".json");
+      const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(config, null, 4));
+      const downloadAnchorNode = document.createElement('a');
+      downloadAnchorNode.setAttribute('href', dataStr);
+      downloadAnchorNode.setAttribute('download', `asct+b_${sn}_${dt}` + '.json');
       document.body.appendChild(downloadAnchorNode);
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
     } else {
-      const fileName = `asct+b_${sn}_${dt}.${formatType}`
+      const fileName = `asct+b_${sn}_${dt}.${formatType}`;
       this.treeView.background('white');
       this.treeView.toImageURL(formatType).then((url) => {
         const link = document.createElement('a');

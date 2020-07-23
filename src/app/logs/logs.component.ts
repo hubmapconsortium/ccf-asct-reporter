@@ -18,7 +18,7 @@ export class LogsComponent implements OnInit {
     }
 
   async ngOnInit() {
-    let logData = await this.report.getAllLogs();
+    const logData = await this.report.getAllLogs();
     this.logs = logData.allLogs;
     this.sheetLogs = logData.sheetLogs;
   }

@@ -66,7 +66,7 @@ export class TreeService {
   constructor(public sheet: SheetService, public report: ReportService) { }
   /**
    * Creates the structure from the sheet data that is accepted by the vis.
-   * 
+   *
    * @param data - Sheet data
    */
   public makeTreeData(data): Promise<Array<TNode>> {
@@ -99,8 +99,9 @@ export class TreeService {
 
               if (searchedNode.found) {
                 if (searchedNode.problem) {
-                  if (this.sheet.sheet.name !== 'ao')
+                  if (this.sheet.sheet.name !== 'ao') {
                     this.report.reportLog(`Nodes with multiple in-links`, 'warning', 'multi', searchedNode.name);
+                  }
                 }
                 parent = searchedNode;
               } else {
