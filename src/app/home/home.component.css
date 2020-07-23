@@ -35,10 +35,11 @@ a {
 }
 
 .title2 {
-    font-size: 30px;
+    font-size: 1.4rem;
     line-height: 30px;
     color: #4e5366;
     font-weight: 400;
+    hyphens: auto;
 }
 
 .title3 {
@@ -71,9 +72,13 @@ a {
 }
 
 .desc {
-    font-size: 12pt;
+    font-size: 1rem;
     font-weight: 400;
+    text-align: justify;
+    hyphens: auto;
+    overflow: auto;
     color: rgba(52, 52, 52, 0.591);
+    max-height: 300px;
 }
 
 .logo1 {
@@ -114,7 +119,7 @@ a {
 .lsvg1 {
     position: absolute;
     bottom: -140px;
-    width: 70%;
+    width: 50%;
     border-radius: 10px;
     box-shadow: -5px 28px 25px 7px rgba(201, 201, 201, 0.468);
     z-index: 3;
@@ -124,7 +129,7 @@ a {
 
 .lsvg2 {
     position: absolute;
-    width: 70%;
+    width: 50%;
     z-index: 2;
     border-radius: 10px;
     bottom: -80px;
@@ -136,7 +141,7 @@ a {
 .lsvg3 {
     transition: all 1s ease;
     position: absolute;
-    width: 70%;
+    width: 50%;
     z-index: 1;
     border-radius: 10px;
     bottom: -30px;
