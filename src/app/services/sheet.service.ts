@@ -68,6 +68,7 @@ export class SheetService {
     'Skin'
   ];
   organSheetData: any;
+  rowsToSkip: Array<number> = [];
 
   constructor(private http: HttpClient, public sc: SconfigService, public report: ReportService) { }
   /**
@@ -225,7 +226,7 @@ export class SheetService {
       const cells = row[this.sheet.cell_col].split(',').map(str => str.trim()).filter(c => c !== '');
 
       for (const i in markers) {
-        if (markers[i] !== '') {
+        if (markers[i] !== '' && !markers[i].startsWith('//')) {
           const foundMarker = markerDegrees.findIndex(r => r.structure.toLowerCase().trim() === markers[i].toLowerCase().trim());
           if (foundMarker === -1) {
             const nm = new Marker(markers[i].trim(), cells.length);
@@ -234,7 +235,7 @@ export class SheetService {
           } else {
             const m = markerDegrees[foundMarker];
             for (const c in cells) {
-              if (cells[c] !== '') {
+              if (cells[c] !== '' && !cells[c].startsWith('//')) {
                 if (!m.parents.includes(cells[c].toLowerCase())) {
                   m.count += 1;
                   m.parents.push(cells[c].toLowerCase());
@@ -274,7 +275,7 @@ export class SheetService {
               if (parent) {
                 const cells = row[this.sheet.cell_col].split(',');
                 for (const i in cells) {
-                  if (cells[i] !== '') {
+                  if (cells[i] !== '' && !cells[i].startsWith('//')) {
                     const foundCell = cellDegrees.findIndex(c => c.structure.toLowerCase().trim() === cells[i].toLowerCase().trim());
                     if (foundCell === -1) {
                       const nc = new Cell(cells[i].trim().toLowerCase()
@@ -303,7 +304,7 @@ export class SheetService {
           const cells = row[this.sheet.cell_col].split(',').map(str => str.trim()).filter(c => c !== '');
 
           for (const c in cells) {
-            if (cells[c] !== '') {
+            if (cells[c] !== '' && !cells[c].startsWith('//')) {
               const cd = cellDegrees.findIndex(i => i.structure.toLowerCase() === cells[c].toLowerCase());
               if (cd !== -1) {
                 for (const m in markers) {
@@ -391,7 +392,7 @@ export class SheetService {
       data.forEach(row => {
         const cells = row[cell_col].trim().split(',');
         for (const i in cells) {
-          if (cells[i] !== '') {
+          if (cells[i] !== '' && !cells[i].startsWith('//')) {
             if (!cellTypes.some(c => c.structure.trim().toLowerCase() === cells[i].trim().toLowerCase())) {
               cellTypes.push({
                 structure: cells[i].trim(),
@@ -422,7 +423,7 @@ export class SheetService {
       data.forEach(row => {
         const markers = row[marker_col].split(',');
         for (const i in markers) {
-          if (markers[i] !== '') {
+          if (markers[i] !== '' && !markers[i].startsWith('//')) {
             if (!bioMarkers.some(b => b.structure.toLowerCase() === markers[i].trim().toLowerCase())) {
               bioMarkers.push({
                 structure: markers[i].trim(),

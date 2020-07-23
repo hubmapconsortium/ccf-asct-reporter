@@ -26,7 +26,7 @@ hepatic Lobule,Liver immune resident component,,plasmacytoid Dendritic cell,,CD1
 hepatic Lobule,Liver immune resident component,,CD8 TRm(residence memory),"HOBIT and BLIMP1,","CD8, TCRαβ, CD69 and CD103"
 hepatic Lobule,Liver immune resident component,,CD4+T cell,,"CD4, TCRαβ"
 hepatic Lobule,Liver immune resident component,,gamma delta T cell,,"γδTCR,CD27lo, CD45RAlo subset of Vδ1+ T, CD69, CXCR3, and CXCR6"
-hepatic Lobule,Liver immune resident component,,CD8+ Liver-Resident Memory T Cells,,"CXCR3 and CXCR6, CCR7, CD62L, KLF2, and S1PR1"
+hepatic Lobule,Liver immune resident component,,CD8+ Liver-Resident Memory T cell,,"CXCR3 and CXCR6, CCR7, CD62L, KLF2, and S1PR1"
 hepatic Lobule,Liver immune resident component,,iNKT,,"TCRαβ Vα24-Jα18 (Vβ11),CD1d, CXCR6"
 hepatic Lobule,Liver immune resident component,,NK,T-bethiEomeslo,"CD49a+ CD56brightCD49a+CD69+CD103+
   CXCR6−"
