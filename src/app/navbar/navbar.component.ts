@@ -87,12 +87,6 @@ export class NavbarComponent implements OnInit {
   onResize(e) {
     this.screenWidth = e.target.innerWidth;
   }
-  
-  showFunctions() {
-    console.log('hi')
-
-  }
-
 
   refreshData() {
     this.refresh.emit(this.selectedOption);

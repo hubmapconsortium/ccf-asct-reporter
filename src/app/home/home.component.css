@@ -20,12 +20,40 @@ a {
     color: rgb(147, 147, 147);
 }
 
+.title-desc {
+    text-align: justify;
+    text-justify: inter-word;
+    color: rgb(164, 164, 164);
+    font-size: 12pt;
+    hyphens: auto;
+}
+
 .title {
-    font-size: 90px;
-    line-height: 80px;
+    font-size: 70px;
+    line-height: 75px;
     font-weight: 400;
     color: #444a65;
     text-align: justify;
+    margin: 0 auto;
+}
+
+@media only screen and (max-width: 1000px) {
+    .title {
+        text-align: center;
+    }
+    .title-desc {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .title-btn {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
 }
 
 .title1 {

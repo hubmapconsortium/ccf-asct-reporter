@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
   window = window;
+  screenWidth = document.getElementsByTagName('body')[0].clientWidth;;
   constructor() { }
 
   ngOnInit(): void {
@@ -24,5 +25,10 @@ export class HomeComponent implements OnInit {
   openData() {
     window.open('https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1199090884', '_blank');
   }
+
+  onResize(e) {
+    this.screenWidth = e.target.innerWidth;
+  }
+
 
 }
