@@ -105,12 +105,15 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   async onResize(e) {
     const width = e.target.innerWidth;
     this.screenWidth = width;
-
-    if (width >= 1500) {
-      const height = document.getElementsByTagName('body')[0].clientHeight;
-      const config: any = await this.makeVegaSpec(width, height);
-      await this.renderGraph(config);
+    if (width < 1450) {
+      this.screenWidth = 1450
     }
+
+
+    const height = document.getElementsByTagName('body')[0].clientHeight;
+    const config: any = await this.makeVegaSpec(this.screenWidth, height);
+    await this.renderGraph(config);
+
   }
 
   /**
@@ -575,6 +578,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
     const height = document.getElementsByTagName('body')[0].clientHeight;
     this.screenWidth = document.getElementsByTagName('body')[0].clientWidth;
+
+    if (this.screenWidth < 1450) {
+      this.screenWidth = 1450
+    }
 
     this.bimodalDistance = this.sheet.sheet.config.bimodal_distance;
     this.treeWidthOffset = this.sheet.sheet.config.width_offset;
