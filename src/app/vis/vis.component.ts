@@ -33,7 +33,6 @@ export class VisComponent implements OnInit {
     public sc: SconfigService,
     public sheet: SheetService,
     public report: ReportService) {
-    // this.getSelectedSheet(this.sheetName);
   }
 
   ngOnInit() {
@@ -44,7 +43,7 @@ export class VisComponent implements OnInit {
     this.drawer.opened = val;
     this.showCompInDrawer = 'Report';
   }
-
+  
   toggleLogsDrawer(val) {
     this.refreshLogs = val;
     this.drawer.opened = val;

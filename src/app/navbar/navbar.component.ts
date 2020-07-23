@@ -1,5 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
+
+interface StyleObj {
+  [key: string]: any
+}
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -33,18 +38,27 @@ export class NavbarComponent implements OnInit {
     'Vega Spec'
   ];
 
+  hamMenuOptions = [
+    {
+      name: 'Select Organ',
+      options: this.sheetOptions
+    }
+  ]
+
   selectedSheetOption = this.sheetOptions[0];
+
+  screenWidth = document.getElementsByTagName('body')[0].clientWidth;
+
 
   @Output() showReport = new EventEmitter<any>();
   @Output() showLog = new EventEmitter<any>();
+  @Output() showFunction = new EventEmitter<any>();
   @Output() showGraph = new EventEmitter<any>();
   @Output() refresh = new EventEmitter<any>();
   @Output() getSheet = new EventEmitter<any>();
   @Output() downloadVis = new EventEmitter<any>();
 
   constructor() {
-
-
   }
 
   ngOnInit(): void {
@@ -52,12 +66,14 @@ export class NavbarComponent implements OnInit {
     this.getSelection();
   }
 
-  getSelection() {
-    this.showGraph.emit(this.selectedOption);
+  getSelection(option=this.selectedOption) {
+    this.selectedOption = option;
+    this.showGraph.emit(option);
   }
 
-  getSheetSelection() {
-    this.getSheet.emit(this.selectedSheetOption);
+  getSheetSelection(sheet=this.selectedSheetOption) {
+    this.selectedSheetOption = sheet;
+    this.getSheet.emit(sheet);
   }
 
   showLogs() {
@@ -67,6 +83,16 @@ export class NavbarComponent implements OnInit {
   showReports() {
     this.showReport.emit(true);
   }
+
+  onResize(e) {
+    this.screenWidth = e.target.innerWidth;
+  }
+  
+  showFunctions() {
+    console.log('hi')
+
+  }
+
 
   refreshData() {
     this.refresh.emit(this.selectedOption);

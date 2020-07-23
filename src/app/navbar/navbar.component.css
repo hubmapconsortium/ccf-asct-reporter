@@ -16,6 +16,11 @@
     color: white;
 }
 
+.navbar-logo {
+    display: flex;
+    align-items: center;
+}
+
 ::ng-deep .mat-form-field-underline {
     display: none;
 }
