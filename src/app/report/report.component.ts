@@ -32,7 +32,9 @@ export class ReportComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.getData();
+    setTimeout(() => {
+      this.getData();
+    }, 500);
   }
 
   public async getData() {
