@@ -32,12 +32,13 @@ export interface AS {
   uberon: string;
 }
 
-export interface ASConfig {
-  report_cols: Array<number>,
-  cell_col: number,
-  marker_col: number,
-  uberon_col: number
+export interface ASCTBConfig {
+  report_cols?: Array<number>;
+  cell_col?: number;
+  marker_col?: number;
+  uberon_col?: number;
 }
+
 export interface CT {
   structure: string;
   link: string;
@@ -58,10 +59,9 @@ export class Organ {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SheetService {
-
   // NAVBAR SHEET SELECTION
   sheet: any;
   organs = [
@@ -72,32 +72,45 @@ export class SheetService {
     'Heart',
     'Small Intestine',
     'Large Intestine',
-    'Skin'
+    'Skin',
   ];
   organSheetData: any;
   rowsToSkip: Array<number> = [];
 
-  constructor(private http: HttpClient, public sc: SconfigService, public report: ReportService) { }
+  constructor(
+    private http: HttpClient,
+    public sc: SconfigService,
+    public report: ReportService
+  ) {}
+
   /**
-   * Retruns the parsed data from the google sheet.
+   * Returns the parsed data  by extracting it from google sheets.
    *
-   * @param url - The constructed Google Sheet URL
-   * @param status - Status to show whether it is getting data from the cache or the google sheets.
-   * @param msg - Error message if present.
-   * @param header_count - Count of headers to discard while parsing the data.
+   * @param {string} url - The constructed Google Sheet URL
+   * @param {string} status - Status to show whether it is getting data from the cache or the google sheets.
+   * @param {number} msg - Error message if present.
+   * @param {number} header_count - Count of headers to discard while parsing the data.
    *
+   * @returns {Promise} - An object that has the data, status and return message
    */
-  public async getDataFromURL(url, status = 200, msg = 'Ok', header_count = this.sheet.header_count): Promise<any> {
+  public async getDataFromURL(
+    url: string,
+    status = 200,
+    msg = 'Ok',
+    header_count = this.sheet.header_count
+  ): Promise<any> {
     return new Promise(async (res, rej) => {
       try {
-        const data = await this.http.get(url, { responseType: 'text' }).toPromise();
+        const data = await this.http
+          .get(url, { responseType: 'text' })
+          .toPromise();
         const parsedData = parse(data);
         parsedData.data.splice(0, header_count);
 
         res({
           data: parsedData.data,
           status,
-          msg
+          msg,
         });
       } catch (e) {
         rej(e);
@@ -111,6 +124,7 @@ export class SheetService {
    * 2. Production: During production, it extracts sheets from google docs. Incase that fails
    * the data is extracted from the cache.
    *
+   * @returns {Promise} - An object that has - CSV data, status and return message
    */
 
   public async getSheetData(): Promise<any> {
@@ -126,7 +140,7 @@ export class SheetService {
           res({
             data: csvData.data,
             status: 200,
-            msg: 'Ok'
+            msg: 'Ok',
           });
         });
 
@@ -143,19 +157,26 @@ export class SheetService {
           res({
             data: csvData.data,
             msg: 'Ok',
-            status: 200
+            status: 200,
           });
         });
-
       } catch (err) {
         constructedURL = `assets/data/${this.sheet.name}.csv`;
-        this.report.reportLog(`${this.sheet.display} data fetched from system cache`, 'warning', 'msg');
-        const csvData = await this.getDataFromURL(constructedURL, err.status, err.msg);
+        this.report.reportLog(
+          `${this.sheet.display} data fetched from system cache`,
+          'warning',
+          'msg'
+        );
+        const csvData = await this.getDataFromURL(
+          constructedURL,
+          err.status,
+          err.msg
+        );
         this.organSheetData = new Promise((res, rej) => {
           res({
             data: csvData.data,
             msg: 'Ok',
-            status: 200
+            status: 200,
           });
         });
       }
@@ -166,6 +187,7 @@ export class SheetService {
   /**
    * Function to create the All Organs data.
    *
+   * @returns {Promise} - An object that has - CSV data, status and return message
    */
 
   public async makeAOData() {
@@ -175,7 +197,9 @@ export class SheetService {
     let constructedURL: string;
 
     for (const organ of this.organs) {
-      const organSheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.display === organ)];
+      const organSheet = this.sc.SHEET_CONFIG[
+        this.sc.SHEET_CONFIG.findIndex((i) => i.display === organ)
+      ];
       if (!environment.production) {
         constructedURL = `assets/data/${organSheet.name}.csv`;
       } else {
@@ -190,13 +214,24 @@ export class SheetService {
       } catch (err) {
         console.log(err);
         constructedURL = `assets/data/${organSheet.name}.csv`;
-        this.report.reportLog(`${organSheet.display} data fetched from system cache`, 'warning', 'msg');
+        this.report.reportLog(
+          `${organSheet.display} data fetched from system cache`,
+          'warning',
+          'msg'
+        );
         csvData = await this.getDataFromURL(constructedURL);
         organData = csvData.data;
       }
 
-      organData.forEach(row => {
-        const od = ['Body', organ, organ, row[organSheet.cell_col], row[organSheet.cell_col + organSheet.uberon_col], row[organSheet.marker_col]];
+      organData.forEach((row) => {
+        const od = [
+          'Body',
+          organ,
+          organ,
+          row[organSheet.cell_col],
+          row[organSheet.cell_col + organSheet.uberon_col],
+          row[organSheet.marker_col],
+        ];
         allOrganData.push(od);
       });
     }
@@ -205,7 +240,7 @@ export class SheetService {
       res({
         data: allOrganData,
         status: 200,
-        msg: 'Ok'
+        msg: 'Ok',
       });
     });
     return await this.getOrganSheetData();
@@ -215,7 +250,6 @@ export class SheetService {
    * Helper function to return the organ data once it has been computed.
    *
    */
-
   public async getOrganSheetData() {
     return await this.organSheetData;
   }
@@ -228,16 +262,23 @@ export class SheetService {
   public async makeMarkerDegree(data) {
     const markerDegrees = [];
 
-    data.forEach(row => {
+    data.forEach((row) => {
       const markers = row[this.sheet.marker_col].split(',');
-      const cells = row[this.sheet.cell_col].split(',').map(str => str.trim()).filter(c => c !== '');
+      const cells = row[this.sheet.cell_col]
+        .split(',')
+        .map((str) => str.trim())
+        .filter((c) => c !== '');
 
       for (const i in markers) {
         if (markers[i] !== '' && !markers[i].startsWith('//')) {
-          const foundMarker = markerDegrees.findIndex(r => r.structure.toLowerCase().trim() === markers[i].toLowerCase().trim());
+          const foundMarker = markerDegrees.findIndex(
+            (r) =>
+              r.structure.toLowerCase().trim() ===
+              markers[i].toLowerCase().trim()
+          );
           if (foundMarker === -1) {
             const nm = new Marker(markers[i].trim(), cells.length);
-            nm.parents.push(...cells.map(cell => cell.toLowerCase()));
+            nm.parents.push(...cells.map((cell) => cell.toLowerCase()));
             markerDegrees.push(nm);
           } else {
             const m = markerDegrees[foundMarker];
@@ -254,7 +295,7 @@ export class SheetService {
       }
     });
 
-    markerDegrees.sort((a, b) => (b.parents.length - a.parents.length));
+    markerDegrees.sort((a, b) => b.parents.length - a.parents.length);
     return markerDegrees;
   }
 
@@ -271,22 +312,34 @@ export class SheetService {
 
       // calculating in degree (AS -> CT)
       if (degree === 'Degree' || degree === 'Indegree') {
-        treeData.forEach(td => {
+        treeData.forEach((td) => {
           if (td.children === 0) {
             const leaf = td.name;
 
-            data.forEach(row => {
+            data.forEach((row) => {
               let parent;
-              parent = row.find(i => i.toLowerCase() === leaf.toLowerCase());
+              parent = row.find((i) => i.toLowerCase() === leaf.toLowerCase());
 
               if (parent) {
                 const cells = row[this.sheet.cell_col].split(',');
                 for (const i in cells) {
                   if (cells[i] !== '' && !cells[i].startsWith('//')) {
-                    const foundCell = cellDegrees.findIndex(c => c.structure.toLowerCase().trim() === cells[i].toLowerCase().trim());
+                    const foundCell = cellDegrees.findIndex(
+                      (c) =>
+                        c.structure.toLowerCase().trim() ===
+                        cells[i].toLowerCase().trim()
+                    );
                     if (foundCell === -1) {
-                      const nc = new Cell(cells[i].trim().toLowerCase()
-                        .split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '));
+                      const nc = new Cell(
+                        cells[i]
+                          .trim()
+                          .toLowerCase()
+                          .split(' ')
+                          .map(
+                            (s) => s.charAt(0).toUpperCase() + s.substring(1)
+                          )
+                          .join(' ')
+                      );
                       nc.parents.push(parent.toLowerCase());
                       cellDegrees.push(nc);
                     } else {
@@ -297,7 +350,6 @@ export class SheetService {
                     }
                   }
                 }
-
               }
             });
           }
@@ -306,22 +358,38 @@ export class SheetService {
 
       // calculating out degree (CT -> B)
       if (degree === 'Degree' || degree === 'Outdegree') {
-        data.forEach(row => {
-          const markers = row[this.sheet.marker_col].split(',').map(str => str.trim().toLowerCase()).filter(c => c !== '');
-          const cells = row[this.sheet.cell_col].split(',').map(str => str.trim()).filter(c => c !== '');
+        data.forEach((row) => {
+          const markers = row[this.sheet.marker_col]
+            .split(',')
+            .map((str) => str.trim().toLowerCase())
+            .filter((c) => c !== '');
+          const cells = row[this.sheet.cell_col]
+            .split(',')
+            .map((str) => str.trim())
+            .filter((c) => c !== '');
 
           for (const c in cells) {
             if (cells[c] !== '' && !cells[c].startsWith('//')) {
-              const cd = cellDegrees.findIndex(i => i.structure.toLowerCase() === cells[c].toLowerCase());
+              const cd = cellDegrees.findIndex(
+                (i) => i.structure.toLowerCase() === cells[c].toLowerCase()
+              );
               if (cd !== -1) {
                 for (const m in markers) {
-                  if (!cellDegrees[cd].parents.includes(markers[m].toLowerCase())) {
+                  if (
+                    !cellDegrees[cd].parents.includes(markers[m].toLowerCase())
+                  ) {
                     cellDegrees[cd].parents.push(markers[m]);
                   }
                 }
               } else {
-                const nc = new Cell(cells[c].trim().toLowerCase().split(' ')
-                  .map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' '));
+                const nc = new Cell(
+                  cells[c]
+                    .trim()
+                    .toLowerCase()
+                    .split(' ')
+                    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+                    .join(' ')
+                );
                 nc.parents.push(...markers);
                 cellDegrees.push(nc);
               }
@@ -329,49 +397,61 @@ export class SheetService {
           }
         });
       }
-      cellDegrees.sort((a, b) => (b.parents.length - a.parents.length));
+      cellDegrees.sort((a, b) => b.parents.length - a.parents.length);
       res(cellDegrees);
-      
     });
   }
 
   /**
-   * Returns an array of objects of anatomical structures.
+   * Function to compute the Anatomical Structures from the given Data Table.
    *
    * @param {Array<Array<string>>} data - Sheet data
-   * @param {ASConfig} config - Configurations that consist of the following params,
+   * @param {ASCTBConfig} config - Configurations that consist of the following params,
    *   1. report_cols - The cols that are to be considered to form the data. This includes AS, and CT col numbers.
    *   2. cell_col - The column number in which the cell types are present.
    *   3. marker_col - The column number in which the biomarkers are present.
    *   4. uberon_col - The number of columns after which the uberon column can be found.
    *
+   * @returns {Promise} - Array of anatomical structures
+   *
    */
 
   public makeAS(
     data: Array<Array<string>>,
-    config:ASConfig = {
+    config: ASCTBConfig = {
       report_cols: this.sheet.report_cols,
       cell_col: this.sheet.cell_col,
       marker_col: this.sheet.marker_col,
-      uberon_col: this.sheet.uberon_col
+      uberon_col: this.sheet.uberon_col,
     }
   ): Promise<Array<AS>> {
     return new Promise((res, rej) => {
       const anatomicalStructures = [];
       const cols = config.report_cols;
-      data.forEach(row => {
+      data.forEach((row) => {
         for (const col in cols) {
-          if (cols[col] !== config.cell_col && cols[col] !== config.marker_col) {
+          if (
+            cols[col] !== config.cell_col &&
+            cols[col] !== config.marker_col
+          ) {
             const structure = row[cols[col]];
             if (structure.startsWith('//')) {
               continue;
             }
 
             if (structure !== '') {
-              if (!anatomicalStructures.some(i => i.structure.toLowerCase() === structure.toLowerCase())) {
+              if (
+                !anatomicalStructures.some(
+                  (i) => i.structure.toLowerCase() === structure.toLowerCase()
+                )
+              ) {
                 anatomicalStructures.push({
                   structure,
-                  uberon: row[cols[col] + config.uberon_col].toLowerCase() !== structure.toLowerCase() ? row[cols[col] + config.uberon_col] : ''
+                  uberon:
+                    row[cols[col] + config.uberon_col].toLowerCase() !==
+                    structure.toLowerCase()
+                      ? row[cols[col] + config.uberon_col]
+                      : '',
                 });
               }
             }
@@ -379,34 +459,51 @@ export class SheetService {
         }
       });
 
-      if (anatomicalStructures.length > 0) { res(anatomicalStructures); }
-      else { rej(['Could not process anatomical structures.']); }
+      if (anatomicalStructures.length > 0) {
+        res(anatomicalStructures);
+      } else {
+        rej(['Could not process anatomical structures.']);
+      }
     });
   }
 
   /**
-   * Returns an array of objects of cell types.
+   * Function to compute the Cell Types from the given Data Table.
    *
-   * @param data - Sheet data
-   * @param cell_col - The column number in which the cell types are present.
-   * @param uberon_col - The number of columns after which the uberon column can be found.
+   * @param {Array<Array<string>>} data - Sheet data
+   * @param {ASCTBConfig} - Configurations that consist of the following params,
+   *   1. cell_col - The column number in which the cell types are present.
+   *   2. uberon_col - The number of columns after which the uberon column can be found.
    *
+   * @returns {Promise} - Array of cell types
    */
 
   public makeCellTypes(
-    data,
-    cell_col: number = this.sheet.cell_col,
-    uberon_col = this.sheet.uberon_col): Promise<Array<CT>> {
+    data: Array<Array<string>>,
+    config: ASCTBConfig = {
+      cell_col: this.sheet.cell_col,
+      uberon_col: this.sheet.uberon_col,
+    }
+  ): Promise<Array<CT>> {
     const cellTypes = [];
     return new Promise((res, rej) => {
-      data.forEach(row => {
-        const cells = row[cell_col].trim().split(',');
+      data.forEach((row) => {
+        const cells = row[config.cell_col].trim().split(',');
         for (const i in cells) {
           if (cells[i] !== '' && !cells[i].startsWith('//')) {
-            if (!cellTypes.some(c => c.structure.trim().toLowerCase() === cells[i].trim().toLowerCase())) {
+            if (
+              !cellTypes.some(
+                (c) =>
+                  c.structure.trim().toLowerCase() ===
+                  cells[i].trim().toLowerCase()
+              )
+            ) {
               cellTypes.push({
                 structure: cells[i].trim(),
-                link: row[cell_col + uberon_col] !== cells[i].trim() ? row[cell_col + uberon_col] : 'NONE'
+                link:
+                  row[config.cell_col + config.uberon_col] !== cells[i].trim()
+                    ? row[config.cell_col + config.uberon_col]
+                    : 'NONE',
               });
             }
           }
@@ -414,30 +511,40 @@ export class SheetService {
       });
       if (cellTypes.length > 0) {
         res(cellTypes);
+      } else {
+        rej(['Could not process cell types']);
       }
-      else { rej(['Could not process cell types']); }
     });
   }
 
   /**
-   * Returns an array of objects of cell types.
+   * Function to compute the Cell Types from the given Data Table.
    *
-   * @param data - Sheet data
-   * @param marker_col - The column number in which the biomarkers are present.
+   * @param {Array<Array<string>>} data - Sheet data
+   * @param {ASCTBConfig} - Configurations that consist of the following params,
+   *   1. marker_col - The column number in which the biomarkers are present.
    *
    */
 
-  public makeBioMarkers(data, marker_col = this.sheet.marker_col, ): Promise<Array<B>> {
+  public makeBioMarkers(
+    data: Array<Array<string>>,
+    config: ASCTBConfig = { marker_col: this.sheet.marker_col }
+  ): Promise<Array<B>> {
     return new Promise((res, rej) => {
       const bioMarkers = [];
-      data.forEach(row => {
-        const markers = row[marker_col].split(',');
+      data.forEach((row) => {
+        const markers = row[config.marker_col].split(',');
         for (const i in markers) {
           if (markers[i] !== '' && !markers[i].startsWith('//')) {
-            if (!bioMarkers.some(b => b.structure.toLowerCase() === markers[i].trim().toLowerCase())) {
+            if (
+              !bioMarkers.some(
+                (b) =>
+                  b.structure.toLowerCase() === markers[i].trim().toLowerCase()
+              )
+            ) {
               bioMarkers.push({
                 structure: markers[i].trim(),
-                link: 'NONE'
+                link: 'NONE',
               });
             }
           }
@@ -446,8 +553,7 @@ export class SheetService {
 
       if (bioMarkers.length > 0) {
         res(bioMarkers);
-      }
-      else {
+      } else {
         rej(['Could not process biomarkers']);
       }
     });
