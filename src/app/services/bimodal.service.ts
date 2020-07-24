@@ -22,8 +22,9 @@ export class BMNode {
   nodeSize: number;
   targets: Array<number>;
   sources: Array<number>;
+  uberonId: string;
 
-  constructor(name, group, x, y, fontSize, color = '#E41A1C', nodeSize = 300) {
+  constructor(name, group, x, y, fontSize, uberonId='', color = '#E41A1C', nodeSize = 300, ) {
     this.name = name;
     this.group = group;
     this.fontSize = fontSize;
@@ -34,6 +35,7 @@ export class BMNode {
     this.targets = [];
     this.sources = [];
     this.groupName = groupNameMapper[group];
+    this.uberonId = uberonId;
   }
 }
 
@@ -68,7 +70,7 @@ export class BimodalService {
     treeData.forEach(td => {
       if (td.children === 0) {
         const leaf = td.name;
-        const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14);
+        const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.uberonId);
         newLeaf.id = id;
         nodes.push(newLeaf);
         id += 1;
@@ -115,7 +117,7 @@ export class BimodalService {
     }
 
     cellTypes.forEach(cell => {
-      const newNode = new BMNode(cell.structure, 2, treeX, treeY, 14, CT_BLUE, cell.nodeSize);
+      const newNode = new BMNode(cell.structure, 2, treeX, treeY, 14, cell.link, CT_BLUE, cell.nodeSize);
       newNode.id = id;
       nodes.push(newNode);
       treeY += 50;
@@ -157,6 +159,7 @@ export class BimodalService {
         treeX,
         treeY,
         14,
+        biomarkers[i].link,
         B_GREEN,
         biomarkers[i].nodeSize
       );

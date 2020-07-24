@@ -493,7 +493,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                   x: { field: 'x' },
                   y: { field: 'y', offset: 5 },
                   cursor: { value: 'pointer' },
-                  tooltip: { signal: '{\'Name\': datum.name, \'Degree\': length(datum.sources) + length(datum.targets)}' }
+                  tooltip: { signal: '{\'Name\': datum.name, \'Degree\': datum.group === 1 ? length(datum.sources) + length(datum.targets) + 1 : length(datum.sources) + length(datum.targets), "Indegree": datum.group == 1 ? 1 : length(datum.sources), "Outdegree": length(datum.targets), "Uberon/Link": datum.uberonId}'}
                 },
                 update: {
                 }
@@ -558,8 +558,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       .renderer('svg')
       .initialize('#vis')
       .hover();
-
-    vegaTooltip(this.treeView);
+    
+    vegaTooltip(this.treeView,{theme: "custom"});
     this.treeView.runAsync();
 
     this.updatedTreeData = this.treeView.data('tree');

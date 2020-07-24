@@ -75,6 +75,7 @@ export class TreeService {
       const id = 1;
       let parent;
       const tree = new Tree(id);
+      const uberon_col = this.sheet.sheet.uberon_col;
 
       const root = new TNode(id, this.sheet.sheet.body, 0, 0, AS_RED);
       delete root.parent; delete root.uberonId;
@@ -106,7 +107,8 @@ export class TreeService {
                 parent = searchedNode;
               } else {
                 tree.id += 1;
-                const newNode = new TNode(tree.id, foundNodes[i], parent.id, row[cols[col] + this.sheet.sheet.uberon_col], AS_RED);
+                let uberon =  row[cols[col] + uberon_col] !== foundNodes[i] ? row[cols[col] + uberon_col] : 'NONE';
+                const newNode = new TNode(tree.id, foundNodes[i], parent.id, uberon, AS_RED);
                 tree.append(newNode);
                 parent = newNode;
               }

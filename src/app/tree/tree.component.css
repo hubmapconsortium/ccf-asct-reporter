@@ -17,3 +17,9 @@
     .mat-form-field-wrapper {
         padding: 0 !important;
     }
+    
+     ::ng-deep #vg-tooltip-element>table>tbody>tr>td.key {
+        text-align: left;
+    }
+    
+     ::ng-deep #vg-tooltip-element>table>tbody>tr>td.value {}

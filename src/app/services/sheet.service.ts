@@ -40,6 +40,7 @@ export interface CT {
 
 export interface B {
   structure: string;
+  link: string;
 }
 
 export class Organ {
@@ -189,7 +190,7 @@ export class SheetService {
       }
 
       organData.forEach(row => {
-        const od = ['Body', organ, row[organSheet.cell_col], row[organSheet.marker_col]];
+        const od = ['Body', organ, organ, row[organSheet.cell_col], row[organSheet.cell_col + organSheet.uberon_col], row[organSheet.marker_col]];
         allOrganData.push(od);
       });
     }
@@ -361,7 +362,7 @@ export class SheetService {
               if (!anatomicalStructures.some(i => i.structure.toLowerCase() === structure.toLowerCase())) {
                 anatomicalStructures.push({
                   structure,
-                  uberon: row[cols[col] + uberon_col]
+                  uberon:  row[cols[col] + uberon_col].toLowerCase() !== structure.toLowerCase() ? row[cols[col] + uberon_col] : ''
                 });
               }
             }
@@ -396,7 +397,7 @@ export class SheetService {
             if (!cellTypes.some(c => c.structure.trim().toLowerCase() === cells[i].trim().toLowerCase())) {
               cellTypes.push({
                 structure: cells[i].trim(),
-                link: row[cell_col + uberon_col]
+                link: row[cell_col + uberon_col] !== cells[i].trim() ? row[cell_col + uberon_col] : 'NONE'
               });
             }
           }
@@ -427,6 +428,7 @@ export class SheetService {
             if (!bioMarkers.some(b => b.structure.toLowerCase() === markers[i].trim().toLowerCase())) {
               bioMarkers.push({
                 structure: markers[i].trim(),
+                link: 'NONE'
               });
             }
           }
