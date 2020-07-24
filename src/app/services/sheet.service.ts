@@ -21,7 +21,7 @@ export class Cell {
   structure: string;
   parents: Array<string>;
 
-  constructor(structure) {
+  constructor(structure: string) {
     this.structure = structure;
     this.parents = [];
   }
@@ -126,7 +126,6 @@ export class SheetService {
    *
    * @returns {Promise} - An object that has - CSV data, status and return message
    */
-
   public async getSheetData(): Promise<any> {
     let constructedURL = '';
     if (this.sheet.display === 'All Organs') {
@@ -189,7 +188,6 @@ export class SheetService {
    *
    * @returns {Promise} - An object that has - CSV data, status and return message
    */
-
   public async makeAOData() {
     const allOrganData = [];
     let csvData;
@@ -256,10 +254,9 @@ export class SheetService {
 
   /**
    * Returns the array of biomarkers that are sorted have their degrees calculated.
-   * @param data - Sheet data
+   * @param {Array<Array<string>>} data - Sheet data
    */
-
-  public async makeMarkerDegree(data) {
+  public async makeMarkerDegree(data: Array<Array<string>>) {
     const markerDegrees = [];
 
     data.forEach((row) => {
@@ -305,7 +302,6 @@ export class SheetService {
    * @param treeData - Data from the tree visualization.
    * @param degree - Degree configuration. Can be Degree, Indegree and Outdegree
    */
-
   public async makeCellDegree(data, treeData, degree): Promise<Array<Cell>> {
     return new Promise((res, rej) => {
       const cellDegrees: Array<Cell> = [];
@@ -330,16 +326,7 @@ export class SheetService {
                         cells[i].toLowerCase().trim()
                     );
                     if (foundCell === -1) {
-                      const nc = new Cell(
-                        cells[i]
-                          .trim()
-                          .toLowerCase()
-                          .split(' ')
-                          .map(
-                            (s) => s.charAt(0).toUpperCase() + s.substring(1)
-                          )
-                          .join(' ')
-                      );
+                      const nc = new Cell(cells[i]);
                       nc.parents.push(parent.toLowerCase());
                       cellDegrees.push(nc);
                     } else {
@@ -382,14 +369,7 @@ export class SheetService {
                   }
                 }
               } else {
-                const nc = new Cell(
-                  cells[c]
-                    .trim()
-                    .toLowerCase()
-                    .split(' ')
-                    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-                    .join(' ')
-                );
+                const nc = new Cell(cells[c]);
                 nc.parents.push(...markers);
                 cellDegrees.push(nc);
               }
@@ -415,7 +395,6 @@ export class SheetService {
    * @returns {Promise} - Array of anatomical structures
    *
    */
-
   public makeAS(
     data: Array<Array<string>>,
     config: ASCTBConfig = {
@@ -477,7 +456,6 @@ export class SheetService {
    *
    * @returns {Promise} - Array of cell types
    */
-
   public makeCellTypes(
     data: Array<Array<string>>,
     config: ASCTBConfig = {
@@ -524,8 +502,8 @@ export class SheetService {
    * @param {ASCTBConfig} - Configurations that consist of the following params,
    *   1. marker_col - The column number in which the biomarkers are present.
    *
+   * @returns {Promise} - Array of biomarkers
    */
-
   public makeBioMarkers(
     data: Array<Array<string>>,
     config: ASCTBConfig = { marker_col: this.sheet.marker_col }
