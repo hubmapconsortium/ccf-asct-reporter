@@ -32,6 +32,12 @@ export interface AS {
   uberon: string;
 }
 
+export interface ASConfig {
+  report_cols: Array<number>,
+  cell_col: number,
+  marker_col: number,
+  uberon_col: number
+}
 export interface CT {
   structure: string;
   link: string;
@@ -81,7 +87,7 @@ export class SheetService {
    * @param header_count - Count of headers to discard while parsing the data.
    *
    */
-  public async getDataFromURL(url, status = 200, msg = 'Ok', header_count= this.sheet.header_count): Promise<any> {
+  public async getDataFromURL(url, status = 200, msg = 'Ok', header_count = this.sheet.header_count): Promise<any> {
     return new Promise(async (res, rej) => {
       try {
         const data = await this.http.get(url, { responseType: 'text' }).toPromise();
@@ -116,7 +122,7 @@ export class SheetService {
         // in development mode
         constructedURL = `assets/data/${this.sheet.name}.csv`;
         const csvData = await this.getDataFromURL(constructedURL);
-        this.organSheetData = new Promise( async (res, rej) => {
+        this.organSheetData = new Promise(async (res, rej) => {
           res({
             data: csvData.data,
             status: 200,
@@ -323,36 +329,39 @@ export class SheetService {
           }
         });
       }
-
       cellDegrees.sort((a, b) => (b.parents.length - a.parents.length));
       res(cellDegrees);
+      
     });
   }
 
   /**
    * Returns an array of objects of anatomical structures.
    *
-   * @param data - Sheet data
-   * @param report_cols - The cols that are to be considered to form the data. This includes AS, and CT col numbers.
-   * @param cell_col - The column number in which the cell types are present.
-   * @param marker_col - The column number in which the biomarkers are present.
-   * @param uberon_col - The number of columns after which the uberon column can be found.
+   * @param {Array<Array<string>>} data - Sheet data
+   * @param {ASConfig} config - Configurations that consist of the following params,
+   *   1. report_cols - The cols that are to be considered to form the data. This includes AS, and CT col numbers.
+   *   2. cell_col - The column number in which the cell types are present.
+   *   3. marker_col - The column number in which the biomarkers are present.
+   *   4. uberon_col - The number of columns after which the uberon column can be found.
    *
    */
 
   public makeAS(
-    data,
-    report_cols= this.sheet.report_cols,
-    cell_col= this.sheet.cell_col,
-    marker_col= this.sheet.marker_col,
-    uberon_col= this.sheet.uberon_col
+    data: Array<Array<string>>,
+    config:ASConfig = {
+      report_cols: this.sheet.report_cols,
+      cell_col: this.sheet.cell_col,
+      marker_col: this.sheet.marker_col,
+      uberon_col: this.sheet.uberon_col
+    }
   ): Promise<Array<AS>> {
     return new Promise((res, rej) => {
       const anatomicalStructures = [];
-      const cols = report_cols;
+      const cols = config.report_cols;
       data.forEach(row => {
         for (const col in cols) {
-          if (cols[col] !== cell_col && cols[col] !== marker_col) {
+          if (cols[col] !== config.cell_col && cols[col] !== config.marker_col) {
             const structure = row[cols[col]];
             if (structure.startsWith('//')) {
               continue;
@@ -362,7 +371,7 @@ export class SheetService {
               if (!anatomicalStructures.some(i => i.structure.toLowerCase() === structure.toLowerCase())) {
                 anatomicalStructures.push({
                   structure,
-                  uberon:  row[cols[col] + uberon_col].toLowerCase() !== structure.toLowerCase() ? row[cols[col] + uberon_col] : ''
+                  uberon: row[cols[col] + config.uberon_col].toLowerCase() !== structure.toLowerCase() ? row[cols[col] + config.uberon_col] : ''
                 });
               }
             }
@@ -386,8 +395,8 @@ export class SheetService {
 
   public makeCellTypes(
     data,
-    cell_col= this.sheet.cell_col,
-    uberon_col= this.sheet.uberon_col): Promise<Array<CT>> {
+    cell_col: number = this.sheet.cell_col,
+    uberon_col = this.sheet.uberon_col): Promise<Array<CT>> {
     const cellTypes = [];
     return new Promise((res, rej) => {
       data.forEach(row => {
@@ -418,7 +427,7 @@ export class SheetService {
    *
    */
 
-  public makeBioMarkers(data, marker_col= this.sheet.marker_col, ): Promise<Array<B>> {
+  public makeBioMarkers(data, marker_col = this.sheet.marker_col, ): Promise<Array<B>> {
     return new Promise((res, rej) => {
       const bioMarkers = [];
       data.forEach(row => {
