@@ -1,10 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
-
-interface StyleObj {
-  [key: string]: any;
-}
-
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -56,6 +51,7 @@ export class NavbarComponent implements OnInit {
   @Output() refresh = new EventEmitter<any>();
   @Output() getSheet = new EventEmitter<any>();
   @Output() downloadVis = new EventEmitter<any>();
+  @Output() compare = new EventEmitter<any>();
 
   constructor() {
   }
@@ -93,6 +89,10 @@ export class NavbarComponent implements OnInit {
 
   downloadVisFunction(img) {
     this.downloadVis.emit(img);
+  }
+
+  compareDD() {
+    this.compare.emit(true);
   }
 
   openGithub() {

@@ -1,0 +1,25 @@
+<div style="width: 100%;">
+    <div class="wrapper">
+        <div class="header">
+            <span style="margin: 0; font-weight: 300;" class="title">Input Derived Data Table</span>
+            <button mat-icon-button (click)="close()" #tooltip="matTooltip" matTooltip="Close">
+                <mat-icon style="color: grey;">close</mat-icon>
+            </button>
+        </div>
+        <div class="content mt-5">
+         <form [formGroup]="fromGroupOptions">
+            <mat-form-field class="link-input-field">
+                <mat-label>Google Sheet Link</mat-label>
+                <input matInput type="text" [(ngModel)]="link">
+                <mat-hint>Errors appear instantly!</mat-hint>
+                <button mat-button *ngIf="link" matSuffix mat-icon-button aria-label="Clear" (click)="link=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+         </form>
+        </div>
+        <div class="footer">
+    
+        </div>
+    </div>
+</div>
