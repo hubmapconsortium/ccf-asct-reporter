@@ -57,6 +57,7 @@ export class NavbarComponent implements OnInit {
   @Output() getSheet = new EventEmitter<any>();
   @Output() downloadVis = new EventEmitter<any>();
   @Output() dataVersion = new EventEmitter<any>();
+  @Output() compare = new EventEmitter<any>();
 
   constructor(public sc: SconfigService, public sheet: SheetService) {
   }
@@ -100,6 +101,10 @@ export class NavbarComponent implements OnInit {
 
   downloadVisFunction(img) {
     this.downloadVis.emit(img);
+  }
+
+  compareDD() {
+    this.compare.emit(true);
   }
 
   openGithub() {
