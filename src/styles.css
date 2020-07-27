@@ -34,3 +34,11 @@ body {
 .mepNoPadding .mat-expansion-panel-body {
     padding: 0 !important;
 }
+
+button {
+    outline: none !important;
+}
+
+.mat-button-focus-overlay {
+    background-color: transparent!important;
+}
