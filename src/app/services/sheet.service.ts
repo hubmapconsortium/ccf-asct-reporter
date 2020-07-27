@@ -81,7 +81,7 @@ export class SheetService {
     private http: HttpClient,
     public sc: SconfigService,
     public report: ReportService
-  ) {}
+  ) { }
 
   /**
    * Returns the parsed data  by extracting it from google sheets.
@@ -428,7 +428,7 @@ export class SheetService {
                   structure,
                   uberon:
                     row[cols[col] + config.uberon_col].toLowerCase() !==
-                    structure.toLowerCase()
+                      structure.toLowerCase()
                       ? row[cols[col] + config.uberon_col]
                       : '',
                 });

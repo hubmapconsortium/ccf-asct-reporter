@@ -558,8 +558,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       .renderer('svg')
       .initialize('#vis')
       .hover();
-    
-    vegaTooltip(this.treeView,{theme: "custom"});
+
+    vegaTooltip(this.treeView, {theme: 'custom'});
     this.treeView.runAsync();
 
     this.updatedTreeData = this.treeView.data('tree');

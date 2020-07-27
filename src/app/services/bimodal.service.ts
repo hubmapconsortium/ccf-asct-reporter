@@ -24,7 +24,7 @@ export class BMNode {
   sources: Array<number>;
   uberonId: string;
 
-  constructor(name, group, x, y, fontSize, uberonId='', color = '#E41A1C', nodeSize = 300, ) {
+  constructor(name, group, x, y, fontSize, uberonId= '', color = '#E41A1C', nodeSize = 300, ) {
     this.name = name;
     this.group = group;
     this.fontSize = fontSize;

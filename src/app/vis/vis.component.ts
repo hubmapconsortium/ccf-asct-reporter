@@ -43,7 +43,7 @@ export class VisComponent implements OnInit {
     this.drawer.opened = val;
     this.showCompInDrawer = 'Report';
   }
-  
+
   toggleLogsDrawer(val) {
     this.refreshLogs = val;
     this.drawer.opened = val;

@@ -107,7 +107,7 @@ export class TreeService {
                 parent = searchedNode;
               } else {
                 tree.id += 1;
-                let uberon =  row[cols[col] + uberon_col] !== foundNodes[i] ? row[cols[col] + uberon_col] : 'NONE';
+                const uberon =  row[cols[col] + uberon_col] !== foundNodes[i] ? row[cols[col] + uberon_col] : 'NONE';
                 const newNode = new TNode(tree.id, foundNodes[i], parent.id, uberon, AS_RED);
                 tree.append(newNode);
                 parent = newNode;

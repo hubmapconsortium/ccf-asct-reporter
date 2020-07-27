@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 
 interface StyleObj {
-  [key: string]: any
+  [key: string]: any;
 }
 
 @Component({
@@ -43,12 +43,11 @@ export class NavbarComponent implements OnInit {
       name: 'Select Organ',
       options: this.sheetOptions
     }
-  ]
+  ];
 
   selectedSheetOption = this.sheetOptions[0];
 
   screenWidth = document.getElementsByTagName('body')[0].clientWidth;
-
 
   @Output() showReport = new EventEmitter<any>();
   @Output() showLog = new EventEmitter<any>();
@@ -66,12 +65,12 @@ export class NavbarComponent implements OnInit {
     this.getSelection();
   }
 
-  getSelection(option=this.selectedOption) {
+  getSelection(option= this.selectedOption) {
     this.selectedOption = option;
     this.showGraph.emit(option);
   }
 
-  getSheetSelection(sheet=this.selectedSheetOption) {
+  getSheetSelection(sheet= this.selectedSheetOption) {
     this.selectedSheetOption = sheet;
     this.getSheet.emit(sheet);
   }
