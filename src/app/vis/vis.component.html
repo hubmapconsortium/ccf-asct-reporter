@@ -25,6 +25,7 @@
     </mat-drawer>
     <div class="content text-center">
       <app-navbar
+        (compare)="uploadDDSheet()"
         (showReport)="toggleReportDrawer($event)"
         (showLog)="toggleLogsDrawer($event)"
         (showGraph)="showGraph($event)"
@@ -38,9 +39,10 @@
         *ngIf="displayGraph === 'Tree'"
         [refreshData]="refreshTree"
         [currentSheet]="currentSheet"
+        [dataVersion]="dataVersion"
         (returnRefresh)="returnRefresh($event)"
         [shouldReloadData]="shouldRefreshData"
-        [dataVersion]="dataVersion"
+        [compareData]="compareData"
       ></app-tree>
       <app-indent
         *ngIf="displayGraph === 'Indented List'"

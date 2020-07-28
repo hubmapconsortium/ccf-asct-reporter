@@ -6,17 +6,25 @@
                 <mat-icon style="color: grey;">close</mat-icon>
             </button>
         </div>
-        <div class="content mt-5">
-         <form [formGroup]="fromGroupOptions">
-            <mat-form-field class="link-input-field">
-                <mat-label>Google Sheet Link</mat-label>
-                <input matInput type="text" [(ngModel)]="link">
-                <mat-hint>Errors appear instantly!</mat-hint>
-                <button mat-button *ngIf="link" matSuffix mat-icon-button aria-label="Clear" (click)="link=''">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </mat-form-field>
-         </form>
+        <div class="content mt-1">
+            <mat-form-field [floatLabel]="'always'" class="link-input-field">
+                <mat-label>Google Sheets Link</mat-label>
+                <input matInput placeholder="Enter link..." [formControl]="linkValidator" required [(ngModel)]="link">
+                <mat-icon small matSuffix style="color: #d7d7d7; cursor: pointer" #tooltip="matTooltip" matTooltip="Ex: https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1268820100" matTooltipPosition="below" >info</mat-icon>
+                <mat-hint>Please enter your Google Sheet Link</mat-hint>
+                <mat-error *ngIf="linkValidator.hasError('required') || linkValidator.hasError('pattern')">Invalid link</mat-error>
+            </mat-form-field>
+            <mat-form-field [floatLabel]="'always'" class="link-input-field mt-4">
+                <mat-label>Tree Column Numbers</mat-label>
+                <input matInput placeholder="Enter comma separated column numbers..." [formControl]="treeColumnsValidator" required [(ngModel)]="columnNumbers">
+                <mat-icon small matSuffix style="color: #d7d7d7; cursor: pointer" #tooltip="matTooltip" matTooltip="Should contain all AS columns, followed by CT and M column numbers" matTooltipPosition="below" >info</mat-icon>
+                <mat-hint>Ex: 1,2,3</mat-hint>
+                <mat-error *ngIf="treeColumnsValidator.hasError('required') || treeColumnsValidator.hasError('pattern')">Invalid column number format</mat-error>
+            </mat-form-field>
+
+            <div class="mt-4">
+                <button mat-flat-button color="primary" (click)="getData(link, columnNumbers)" [disabled]="doesFormHaveError()">Compare</button>
+            </div>
         </div>
         <div class="footer">
     
