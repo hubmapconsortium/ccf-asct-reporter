@@ -44,9 +44,13 @@ export interface Link {
   t: number;
 }
 
+export interface DD {
+  name: string;
+}
 export interface ASCTD {
   nodes: Array<BMNode>;
   links: Array<Link>;
+  compareDD?: Array<DD>;
 }
 
 @Injectable({

@@ -26,6 +26,7 @@ export class VisComponent implements OnInit {
   sheetName = 'All Organs';
   shouldRefreshData = false;
   showCompInDrawer = '';
+  compareData = [];
 
   constructor(
     private dialog: MatDialog,
@@ -61,8 +62,12 @@ export class VisComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "100%";
-    dialogConfig.maxWidth = "500px";
-    this.dialog.open(CompareComponent, dialogConfig);
+    dialogConfig.maxWidth = "700px";
+    let dialogRef = this.dialog.open(CompareComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(r => {
+      this.compareData = r.data;
+    })
   }
 
   refreshData(val) {
