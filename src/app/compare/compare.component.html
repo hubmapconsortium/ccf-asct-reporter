@@ -15,7 +15,7 @@
                 <mat-error *ngIf="linkValidator.hasError('required') || linkValidator.hasError('pattern')">Invalid link</mat-error>
             </mat-form-field>
             <mat-form-field [floatLabel]="'always'" class="link-input-field mt-4">
-                <mat-label>Tree Column Numbers</mat-label>
+                <mat-label>Column Numbers</mat-label>
                 <input matInput placeholder="Enter comma separated column numbers..." [formControl]="treeColumnsValidator" required [(ngModel)]="columnNumbers">
                 <mat-icon small matSuffix style="color: #d7d7d7; cursor: pointer" #tooltip="matTooltip" matTooltip="Should contain all AS columns, followed by CT and M column numbers" matTooltipPosition="below" >info</mat-icon>
                 <mat-hint>Ex: 1,2,3</mat-hint>
