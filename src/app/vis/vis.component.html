@@ -12,6 +12,8 @@
         (closeComponent)="drawer.toggle()"
         [refreshData]="refreshReport"
         #reportComponent
+        [shouldReloadData]="shouldRefreshData"
+        [compareData]="compareData"
         *ngIf="showCompInDrawer == 'Report'"
       ></app-report>
       <app-logs

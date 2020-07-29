@@ -21,6 +21,8 @@ export class ReportComponent implements OnInit, OnChanges {
   warningCount = 0;
   @Output() closeComponent = new EventEmitter();
   @Input() refreshData;
+  @Input() public compareData = [];
+  @Input() public shouldReloadData;
 
   sheetName = 'Spleen_R2';
 
@@ -28,7 +30,13 @@ export class ReportComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
+    if (this.refreshData) {
+      this.compareData = [];
+    }
 
+    if (this.shouldReloadData && !this.refreshData) {
+      this.compareData = []; // remove compare remove compare data on refresh
+    }
   }
 
   ngOnInit(): void {
@@ -107,6 +115,38 @@ export class ReportComponent implements OnInit, OnChanges {
 
     return noLinks;
   }
+
+  getSimilarASFromDD() {
+   let count = 0;
+   this.anatomicalStructures.forEach(a => {
+     if (this.compareData.some(i => i.name === a.structure)) {
+       count ++;
+     }
+   })
+   return count;
+  }
+
+  getSimilarCTFromDD() {
+    let count = 0;
+    this.cellTypes.forEach(a => {
+      if (this.compareData.some(i => i.name === a.structure)) {
+        count ++;
+      }
+    })
+    return count;
+   }
+
+   
+   getSimilarBFromDD() {
+    let count = 0;
+    this.bioMarkers.forEach(a => {
+      if (this.compareData.some(i => i.name === a.structure)) {
+        count ++;
+      }
+    })
+    return count;
+   }
+ 
 
   closeDrawer() {
     this.closeComponent.emit(false);
