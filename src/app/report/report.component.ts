@@ -28,14 +28,25 @@ export class ReportComponent implements OnInit, OnChanges {
   bioMarkers = [];
   warningCount = 0;
   @Output() closeComponent = new EventEmitter();
-  @Input() refreshData: any;
+  @Input() refreshData;
+  @Input() public compareData = [];
+  @Input() public shouldReloadData;
   @Input() currentSheet: any;
 
   sheetName = 'Spleen_R2';
 
-  constructor(public report: ReportService, public sheet: SheetService) {}
+  constructor(public report: ReportService, public sheet: SheetService) {
+  }
 
-  ngOnChanges() {}
+  ngOnChanges() {
+    if (this.refreshData) {
+      this.compareData = [];
+    }
+
+    if (this.shouldReloadData && !this.refreshData) {
+      this.compareData = []; // remove compare remove compare data on refresh
+    }
+  }
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -138,6 +149,38 @@ export class ReportComponent implements OnInit, OnChanges {
 
     return noLinks;
   }
+
+  getSimilarASFromDD() {
+   let count = 0;
+   this.anatomicalStructures.forEach(a => {
+     if (this.compareData.some(i => i.name === a.structure)) {
+       count ++;
+     }
+   })
+   return count;
+  }
+
+  getSimilarCTFromDD() {
+    let count = 0;
+    this.cellTypes.forEach(a => {
+      if (this.compareData.some(i => i.name === a.structure)) {
+        count ++;
+      }
+    })
+    return count;
+   }
+
+   
+   getSimilarBFromDD() {
+    let count = 0;
+    this.bioMarkers.forEach(a => {
+      if (this.compareData.some(i => i.name === a.structure)) {
+        count ++;
+      }
+    })
+    return count;
+   }
+ 
 
   closeDrawer() {
     this.closeComponent.emit(false);

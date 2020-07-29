@@ -13,6 +13,8 @@
         [refreshData]="refreshReport"
         #reportComponent
         [currentSheet]="currentSheet"
+        [shouldReloadData]="shouldRefreshData"
+        [compareData]="compareData"
         *ngIf="showCompInDrawer == 'Report'"
       ></app-report>
       <app-logs
