@@ -135,6 +135,6 @@ export class CompareComponent implements OnInit {
   }
 
   close() {
-    this.dialogRef.close();
+    this.dialogRef.close({data: []});
   }
 }

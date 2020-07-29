@@ -66,6 +66,7 @@ export class VisComponent implements OnInit {
     let dialogRef = this.dialog.open(CompareComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(r => {
+      if (r.data.length > 0)
       this.compareData = r.data;
     })
   }

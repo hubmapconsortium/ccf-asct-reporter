@@ -1,4 +1,11 @@
-import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  Input,
+  OnChanges,
+} from '@angular/core';
 import { ReportService } from '../report/report.service';
 import { SheetService } from '../services/sheet.service';
 import * as XLSX from 'xlsx';
@@ -59,18 +66,30 @@ export class ReportComponent implements OnInit, OnChanges {
   downloadData() {
     const download = [];
     const totalRows = 6;
-    for (let i = 0; i < Math.max(this.anatomicalStructures.length, this.cellTypes.length, this.bioMarkers.length); i++) {
+    for (
+      let i = 0;
+      i <
+      Math.max(
+        this.anatomicalStructures.length,
+        this.cellTypes.length,
+        this.bioMarkers.length
+      );
+      i++
+    ) {
       const row = {};
       if (i < this.anatomicalStructures.length) {
-        row['Unique Anatomical Structres'] = this.anatomicalStructures[i].structure;
-        if (!(this.anatomicalStructures[i].uberon.includes('UBERON'))) {
-          row['AS with no Uberon Link'] = this.anatomicalStructures[i].structure;
+        row['Unique Anatomical Structres'] = this.anatomicalStructures[
+          i
+        ].structure;
+        if (!this.anatomicalStructures[i].uberon.includes('UBERON')) {
+          row['AS with no Uberon Link'] = this.anatomicalStructures[
+            i
+          ].structure;
         }
-
       }
       if (i < this.cellTypes.length) {
         row['Unique Cell Types'] = this.cellTypes[i].structure;
-        if (!(this.cellTypes[i].link.includes('CL'))) {
+        if (!this.cellTypes[i].link.includes('CL')) {
           row['CL with no Link'] = this.cellTypes[i].structure;
         }
       }
@@ -93,8 +112,8 @@ export class ReportComponent implements OnInit, OnChanges {
 
   getASWithNoLink() {
     const noLinks = [];
-    this.anatomicalStructures.forEach(ele => {
-      if (!(ele.uberon.includes('UBERON'))) {
+    this.anatomicalStructures.forEach((ele) => {
+      if (!ele.uberon.includes('UBERON')) {
         noLinks.push(ele);
       }
     });
@@ -103,8 +122,8 @@ export class ReportComponent implements OnInit, OnChanges {
 
   getCTWithNoLink() {
     const noLinks = [];
-    this.cellTypes.forEach(ele => {
-      if (!(ele.link.includes('CL'))) {
+    this.cellTypes.forEach((ele) => {
+      if (!ele.link.includes('CL')) {
         noLinks.push(ele);
       }
     });
@@ -117,36 +136,34 @@ export class ReportComponent implements OnInit, OnChanges {
   }
 
   getSimilarASFromDD() {
-   let count = 0;
-   this.anatomicalStructures.forEach(a => {
-     if (this.compareData.some(i => i.name === a.structure)) {
-       count ++;
-     }
-   })
-   return count;
+    let count = 0;
+    this.anatomicalStructures.forEach((a) => {
+      if (this.compareData.some((i) => i.name.toLowerCase() === a.structure.toLowerCase())) {
+        count++;
+      }
+    });
+    return count;
   }
 
   getSimilarCTFromDD() {
     let count = 0;
-    this.cellTypes.forEach(a => {
-      if (this.compareData.some(i => i.name === a.structure)) {
-        count ++;
+    this.cellTypes.forEach((a) => {
+      if (this.compareData.some((i) => i.name.toLowerCase() === a.structure.toLowerCase())) {
+        count++;
       }
-    })
+    });
     return count;
-   }
+  }
 
-   
-   getSimilarBFromDD() {
+  getSimilarBFromDD() {
     let count = 0;
-    this.bioMarkers.forEach(a => {
-      if (this.compareData.some(i => i.name === a.structure)) {
-        count ++;
+    this.bioMarkers.forEach((a) => {
+      if (this.compareData.some((i) => i.name.toLowerCase() === a.structure.toLowerCase().replace('*',''))) {
+        count++;
       }
-    })
+    });
     return count;
-   }
- 
+  }
 
   closeDrawer() {
     this.closeComponent.emit(false);
@@ -157,5 +174,4 @@ export class ReportComponent implements OnInit, OnChanges {
     const mailText = `mailto:infoccf@indiana.edu?subject=${subject}`;
     window.location.href = mailText;
   }
-
 }
