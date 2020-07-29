@@ -12,6 +12,7 @@
                     <button mat-menu-item [matMenuTriggerFor]="sheetOptionsMenu">Select Sheet</button>
             <button mat-menu-item [matMenuTriggerFor]="graphOptionsMenu">Select Visualization</button>
             <button mat-menu-item (click)="refreshData()">Refresh Data</button>
+            <button mat-menu-item (click)="compareDD()">Compare Derived Data</button>
             <button mat-menu-item [matMenuTriggerFor]="downloadOptions" *ngIf="selectedOption === 'Tree'">Download</button>
             <button mat-menu-item (click)="showReports()">Show Report</button>
             <button mat-menu-item (click)="showLogs()">Show Logs</button>
