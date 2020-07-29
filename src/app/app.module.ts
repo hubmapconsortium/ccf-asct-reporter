@@ -84,7 +84,7 @@ const MatModules = [
     ReactiveFormsModule
   ],
   providers: [
-    SheetService
+    SheetService,
   ],
   exports: [
     MatModules

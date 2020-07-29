@@ -91,11 +91,11 @@ export class ReportComponent implements OnInit, OnChanges {
     ) {
       const row = {};
       if (i < this.anatomicalStructures.length) {
-        row['Unique Anatomical Structures'] = this.anatomicalStructures[
+        row['Unique Anatomical Structres'] = this.anatomicalStructures[
           i
         ].structure;
         if (!this.anatomicalStructures[i].uberon.includes('UBERON')) {
-          row['AS with no Uberon link'] = this.anatomicalStructures[
+          row['AS with no Uberon Link'] = this.anatomicalStructures[
             i
           ].structure;
         }
@@ -103,7 +103,7 @@ export class ReportComponent implements OnInit, OnChanges {
       if (i < this.cellTypes.length) {
         row['Unique Cell Types'] = this.cellTypes[i].structure;
         if (!this.cellTypes[i].link.includes('CL')) {
-          row['CL with no link'] = this.cellTypes[i].structure;
+          row['CL with no Link'] = this.cellTypes[i].structure;
         }
       }
       if (i < this.bioMarkers.length) {
@@ -151,36 +151,34 @@ export class ReportComponent implements OnInit, OnChanges {
   }
 
   getSimilarASFromDD() {
-   let count = 0;
-   this.anatomicalStructures.forEach(a => {
-     if (this.compareData.some(i => i.name === a.structure)) {
-       count ++;
-     }
-   })
-   return count;
+    let count = 0;
+    this.anatomicalStructures.forEach((a) => {
+      if (this.compareData.some((i) => i.name.toLowerCase() === a.structure.toLowerCase())) {
+        count++;
+      }
+    });
+    return count;
   }
 
   getSimilarCTFromDD() {
     let count = 0;
-    this.cellTypes.forEach(a => {
-      if (this.compareData.some(i => i.name === a.structure)) {
-        count ++;
+    this.cellTypes.forEach((a) => {
+      if (this.compareData.some((i) => i.name.toLowerCase() === a.structure.toLowerCase())) {
+        count++;
       }
-    })
+    });
     return count;
-   }
+  }
 
-   
-   getSimilarBFromDD() {
+  getSimilarBFromDD() {
     let count = 0;
-    this.bioMarkers.forEach(a => {
-      if (this.compareData.some(i => i.name === a.structure)) {
-        count ++;
+    this.bioMarkers.forEach((a) => {
+      if (this.compareData.some((i) => i.name.toLowerCase() === a.structure.toLowerCase().replace('*',''))) {
+        count++;
       }
-    })
+    });
     return count;
-   }
- 
+  }
 
   closeDrawer() {
     this.closeComponent.emit(false);
