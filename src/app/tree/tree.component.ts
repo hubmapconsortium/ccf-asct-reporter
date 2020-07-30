@@ -453,7 +453,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                       test: 'indata(\'sources_clicked_array\', \'id\', datum.target.id) && datum.source.group !== 2',
                       value: '#377EB8'
                     },
-
                     { value: '#ccc' }
                   ],
                   opacity: [
@@ -496,6 +495,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                   tooltip: { signal: '{\'Name\': datum.name, \'Degree\': datum.group === 1 ? length(datum.sources) + length(datum.targets) + 1 : length(datum.sources) + length(datum.targets), "Indegree": datum.group == 1 ? 1 : length(datum.sources), "Outdegree": length(datum.targets), "Uberon/Link": datum.uberonId}'}
                 },
                 update: {
+                  stroke: { signal: 'datum.problem ? "#000": "#fff"' },
+                  strokeWidth: { signal: 'datum.problem ? 3: 0' }
                 }
               }
             },

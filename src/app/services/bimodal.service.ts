@@ -23,6 +23,7 @@ export class BMNode {
   targets: Array<number>;
   sources: Array<number>;
   uberonId: string;
+  problem: boolean;
 
   constructor(name, group, x, y, fontSize, uberonId= '', color = '#E41A1C', nodeSize = 300, ) {
     this.name = name;
@@ -72,6 +73,7 @@ export class BimodalService {
         const leaf = td.name;
         const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.uberonId);
         newLeaf.id = id;
+        newLeaf.problem = td.problem;
         nodes.push(newLeaf);
         id += 1;
         treeX = td.x;

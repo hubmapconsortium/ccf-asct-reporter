@@ -22,7 +22,7 @@ SMG,Epithelial,Serous Cell,"PRR4, LPO, LTF"
 Airway,Epithelial,lonocyte,"CFTR , FOXI1, ASCL3"
 SMG,Epithelial,lonocyte,"CFTR , FOXI1, ASCL3"
 Airway,Epithelial,Neuroendocrine Cell,"CALCA , CHGA , ASCL1"
-,Epithelial,Tuft cell,DCLK1. ASCL2
+,Epithelial,Tuft cell,"DCLK1, ASCL2"
 Alveoli,Epithelial,Alveolar Epithelial Type 1 Cell,"AGER , PDPN , CLIC5"
 Alveoli,Epithelial,Alveolar Epithelial Type 2 Cell,"SFTPB, SFTPC, SFTPD, MUC1 , ETV5"
 Alveoli,Epithelial,Signalling Alveolar Epithelial Type 2 Cell,
@@ -35,7 +35,7 @@ Alveoli,Endothelial,Capillary Intermediate Cell 2,
 Peribronchial,Endothelial,Bronchial Vessel cell 1,
 Peribronchial,Endothelial,Bronchial Vessel cell 2,
 Proximal vessels,Endothelial,Lymphatic Cell,"PROX1, PDPN"
-Peribronchial,Stroma,Airway Smooth Muscle,"CNN1, ACTA2, TAGLN. DES, LGR6"
+Peribronchial,Stroma,Airway Smooth Muscle,"CNN1, ACTA2, TAGLN, DES, LGR6"
 perivascular,Stroma,Vascular Smooth Muscle,"CNN1, ACTA2 , TAGLN, RGS5"
 ,Stroma,Fibroblast,"COL1A1, POGFRA"
 alveolar ducts,Stroma,Myofibroblast,"COL1A1, PDGFRA, ELN, ACTA2"
@@ -44,14 +44,14 @@ Peribronchial,Stroma,Fibromyocyte,
 perivascular,Stroma,Adventitial Fibroblast,
 Peribronchial,Stroma,Adventitial Fibroblast,
 Alveoli,Stroma,Alveolar Fibroblast,
-Alveoli,Stroma,Lipofibroblast,"COL1A1, PDGFRA , PLIN2 . APOE"
+Alveoli,Stroma,Lipofibroblast,"COL1A1, PDGFRA , PLIN2, APOE"
 Alveoli,Stroma,Pericyte,"CSPG4 , TRPC6 , PDGFRB"
 Pleura,Stroma,Mesothelial Cell,"MSLN, UPK3B, WT1"
 lymph node (LN),Immune system,B Cell,"CD79A , CD24 , MS4A1, CD19"
 throughout,Immune system,Plasma Cell,"CD79A , CD27 , SLAMF7"
 throughout,Immune system,CD8+ Memory/Effector T Cell,"CD3E , CD8A , GZMK, DUSP2"
 throughout,Immune system,CD8+ Naive T Cell,"CD3E , CD8, GZMH, GZMB"
-throughout,Immune system,CD4+ Memory/Effector T Cell,"CD3E , CD8. COTL1, LDHB"
+throughout,Immune system,CD4+ Memory/Effector T Cell,"CD3E , CD8, COTL1, LDHB"
 throughout,Immune system,CD4+ Naive T Cell,"CD3E, CD4 , CCR7, LEF1"
 throughout,Immune system,Natural Killer T Cell,"CD3E , CD8A , FCER1G , TYROBP"
 throughout,Immune system,Natural Killer Cell,"KLRD1 , NKG7, TYROBP"
@@ -63,7 +63,7 @@ circulation,Immune system,platelet/megakaryocyte,"NRGN, PPBP, PF4, OST4"
 Alveoli,Immune system,Macrophage,"MARCO, MSR1 , MRC1"
 ,Immune system,proliferating Macrophage,
 throughout,Immune system,Plasmacytoid Dendritic Cell,"LILRB4, IRF8, LILRA4"
-throughout,Immune system,Myeloid Dendrilic Cell 1,"MHCII CLEC9A , LAMP3"
+throughout,Immune system,Myeloid Dendrilic Cell 1,"MHCII, CLEC9A , LAMP3"
 throughout,Immune system,Myeloid Dendritic Cell 2,"MHCII, CD1C, PLD4"
 perivascular,Immune system,IGSF21+Dendritic cell,
 throughout,Immune system,EREG+ Dendritic cell,
