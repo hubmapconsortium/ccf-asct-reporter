@@ -56,7 +56,7 @@ export class SconfigService {
       marker_col: 6,
       uberon_col: 0,
       report_cols: [0, 1, 2, 4],
-      tree_cols: [0, 1],
+      tree_cols: [0, 1, 2],
       indent_cols: [0, 1, 2],
       body: 'Kidney',
       config: {
