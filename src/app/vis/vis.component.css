@@ -15,6 +15,12 @@
     overflow-x: auto;
 }
 
+@media only screen and (max-width: 900px) {
+    .sidenav-drawer {
+      width: 100%;
+    }
+  }
+
 
 /* SNACKABR */
 
