@@ -327,7 +327,7 @@ export class SheetService {
                         cells[i].toLowerCase().trim()
                     );
                     if (foundCell === -1) {
-                      const nc = new Cell(cells[i]);
+                      const nc = new Cell(cells[i].trim());
                       nc.parents.push(parent.toLowerCase());
                       cellDegrees.push(nc);
                     } else {
@@ -370,7 +370,7 @@ export class SheetService {
                   }
                 }
               } else {
-                const nc = new Cell(cells[c]);
+                const nc = new Cell(cells[c].trim());
                 nc.parents.push(...markers);
                 cellDegrees.push(nc);
               }
