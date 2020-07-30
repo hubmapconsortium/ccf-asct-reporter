@@ -671,6 +671,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         link.setAttribute('target', '_blank');
         link.setAttribute('download', fileName);
         link.dispatchEvent(new MouseEvent('click'));
+        this.treeView.background('transparent');
       }).catch((error) => {
         console.log(error);
       });
