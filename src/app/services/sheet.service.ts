@@ -20,10 +20,12 @@ export class Marker {
 export class Cell {
   structure: string;
   parents: Array<string>;
+  link: string;
 
-  constructor(structure: string) {
+  constructor(structure: string, link='NONE') {
     this.structure = structure;
     this.parents = [];
+    this.link = link;
   }
 }
 
@@ -327,7 +329,7 @@ export class SheetService {
                         cells[i].toLowerCase().trim()
                     );
                     if (foundCell === -1) {
-                      const nc = new Cell(cells[i].trim());
+                      const nc = new Cell(cells[i].trim(), row[this.sheet.cell_col + this.sheet.uberon_col]);
                       nc.parents.push(parent.toLowerCase());
                       cellDegrees.push(nc);
                     } else {
@@ -370,7 +372,7 @@ export class SheetService {
                   }
                 }
               } else {
-                const nc = new Cell(cells[c].trim());
+                const nc = new Cell(cells[c].trim(), row[this.sheet.cell_col + this.sheet.uberon_col]);
                 nc.parents.push(...markers);
                 cellDegrees.push(nc);
               }
