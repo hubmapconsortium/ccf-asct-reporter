@@ -1,10 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
-
-interface StyleObj {
-  [key: string]: any;
-}
-
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
