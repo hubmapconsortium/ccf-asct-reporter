@@ -1,4 +1,14 @@
-Structure/Region,Sub structure/Sub region,,Cell Type,Subset of Marker Genes,"Cell marker (antibody) in tissue, FACS - should these be separate columns?"
+This table was composed by ,,,,,
+original table flattened for machine learning by Medina Sydykanova,,,,,
+flattened table verified and formatting adjusted to match ASCT-B reporter requirements by Ellen M. Quardokus,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+//Structure/Region,//Sub structure/Sub region,,//Cell Type,//Subset of Marker Genes,"//Cell marker (antibody) in tissue, FACS - should these be separate columns?"
 hepatic Lobule,hepatic sinusoid,,liver sinusoid endothelial cell,"CD31 Low, Ulex lectin binding, CD105/ endoglin",CD34-/CD31 low/CD105+
 hepatic Lobule,hepatic sinusoid,,Kupffer cell,CD68,CD68
 hepatic Lobule,Disse's space,,quiescent hepatic stellate cell,"PDGFRB, GFAP, desmin","PDGFRb, GFAP, desmin"
@@ -23,7 +33,7 @@ hepatic Lobule,Liver immune resident component,,conventional Dendritic cell,,"CD
 hepatic Lobule,Liver immune resident component,,Conventional DC 1,,CD141+ (BDCA-3)
 hepatic Lobule,Liver immune resident component,,Conventional DC 2,,CD1c (BDCA-1)
 hepatic Lobule,Liver immune resident component,,plasmacytoid Dendritic cell,,CD11c Neg
-hepatic Lobule,Liver immune resident component,,CD8 TRm(residence memory),"HOBIT and BLIMP1,","CD8, TCRαβ, CD69 and CD103"
+hepatic Lobule,Liver immune resident component,,CD8 TRm (residence memory),HOBIT and BLIMP1,"CD8, TCRαβ, CD69 and CD103"
 hepatic Lobule,Liver immune resident component,,CD4+T cell,,"CD4, TCRαβ"
 hepatic Lobule,Liver immune resident component,,gamma delta T cell,,"γδTCR,CD27lo, CD45RAlo subset of Vδ1+ T, CD69, CXCR3, and CXCR6"
 hepatic Lobule,Liver immune resident component,,CD8+ Liver-Resident Memory T cell,,"CXCR3 and CXCR6, CCR7, CD62L, KLF2, and S1PR1"

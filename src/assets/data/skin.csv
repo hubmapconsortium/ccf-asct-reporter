@@ -1,4 +1,14 @@
-Main Layers,Sub Layers,Other structures,Major cell types,Markers
+"This table was composed by Contributors: Joel Sunshine, Anup Sood, Thomas Brenn, and Jonhan Ho",,,,
+original table flattened for machine learning by Medina Sydykanova,,,,
+flattened table verified and formatting adjusted to match ASCT-B reporter requirements by Ellen M. Quardokus,,,,
+"Note: Skin structure varies by body site and certain structures may be more abundant, larger than other sites or may be absent",,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+//Main Layers,//Sub Layers,//Other structures,//Major cell types,//Markers
 Epidermis,Stratum corneum (SC),,Corneocyte,"Involucrin, Fillagrin"
 Epidermis,Stratum granulosum (SG),,Keratinocyte,"Specific keratins (k2/k10); P63, p40; panCK (PCK26, AE1)"
 Epidermis,Stratum granulosum (SG),,Langerhans cell,"CD1a, Langerin"
@@ -50,6 +60,3 @@ Subcutaneous,,Blood vessels,Endothelial cell,"CD31, ERG"
 Subcutaneous,,,Perivascular smooth muscle cell,"SMA, calponin, h-caldesmon"
 Subcutaneous,,,Glomus cell,"SMA, calponin, h-caldesmon"
 Subcutaneous,,,Pericyte,SMA
-,,,,
-"// Contributors: Joel Sunshine, Anup Sood, Thomas Brenn, and Jonhan Ho",,,,
-"// Note: Skin structure varies by body site and certain structures may be more abundant, larger than other sites or may be absent",,,,

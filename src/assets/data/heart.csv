@@ -1,5 +1,14 @@
-// Data added by Shin Lin and Marc Halushka,,,More (better) markers on the preprint:,,,https://www.biorxiv.org/content/10.1101/2020.04.03.024075v1,,,,,,,,,,,
-Structure/Region,Structure/Region UBERON rdfs:label,Structure/Region UBERON ID,Substructure/Sub-region,Substructure/Sub-region UBERON rdfs:label,Substructure/Sub-region UBERON ID,Cell Types,CL rdfs:label,CL ID,Marker Subset,HGNC rdfs:label marker 1,HGNC ID marker 1,HGNC rdfs:label marker 2,HGNC ID marker 2,HGNC rdfs:label marker 3,HGNC ID marker 3,HGNC rdfs:label marker 4,HGNC ID marker 4
+Data added by Shin Lin and Marc Halushka,,,,,,,,,,,,,,,,,
+More (better) markers on the preprint: https://www.biorxiv.org/content/10.1101/2020.04.03.024075v1,,,,,,,,,,,,,,,,,
+original table flattened for machine learning by Medina Sydykanova,,,,,,,,,,,,,,,,,
+flattened table verified and formatting adjusted to match ASCT-B reporter requirements by Ellen M. Quardokus,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+//Structure/Region,//Structure/Region UBERON rdfs:label,//Structure/Region UBERON ID,//Substructure/Sub-region,//Substructure/Sub-region UBERON rdfs:label,//Substructure/Sub-region UBERON ID,//Cell Types,//CL rdfs:label,//CL ID,//Marker Subset,//HGNC rdfs:label marker 1,//HGNC ID marker 1,//HGNC rdfs:label marker 2,//HGNC ID marker 2,//HGNC rdfs:label marker 3,//HGNC ID marker 3,//HGNC rdfs:label marker 4,HGNC ID marker 4
 right atrium,right cardiac atrium,UBERON:0002078,sinoatrial node,sinoatrial node,UBERON:0002351,pacemaker cell,cardiac pacemaker cell of sinoatrial node,CL:1000477,"HCN4, Cx45",HCN4,HGNC:16882,Cx45,HGNC:4280,,,,
 right atrium,right cardiac atrium,UBERON:0002078,myocardium,myocardium of atrium,UBERON:0002302,cardiomyocyte,cardiac muscle cell,CL:0000746,"TTN, MYH6, NPPA",TTN,HGNC:12403,MYH6,,NPPA,HGNC:7939,,
 right atrium,right cardiac atrium,UBERON:0002078,myocardium,myocardium of atrium,UBERON:0002302,fibroblast,cardiac atrium fibroblast,CL:2000067,"PDGFRA, GSN",PDGFRA,HGNC:8803,GSN,HGNC:4620,,,,

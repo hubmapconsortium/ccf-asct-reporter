@@ -1,4 +1,14 @@
-organ,AS#1,AS#2,AS#3,CT,B#1,B#2
+This table was composed by ,,,,,,
+original table flattened for machine learning by Medina Sydykanova,,,,,,
+flattened table verified and formatting adjusted to match ASCT-B reporter requirements by Ellen M. Quardokus,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+//organ,//AS#1,//AS#2,//AS#3,//CT,//B#1,//B#2
 large bowel,ileo-cecal valve,mucosa,Epithelium,epithelial stem cell,"CD34, SOX9, CD44","LGR5, ASCL2, CDHR1, BIRC3, MYL9"
 large bowel,ileo-cecal valve,mucosa,Epithelium,Paneth,alpha Defensin 5a,"LYZ, DEFA5"
 large bowel,ileo-cecal valve,mucosa,Epithelium,endocrine,"Chromogranin, Synaptophysin",CRYBA2

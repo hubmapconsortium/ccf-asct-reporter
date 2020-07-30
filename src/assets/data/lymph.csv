@@ -1,4 +1,14 @@
-Structure,Substructure #1,Substructure #2,Substructure #3,Cell Type,Biomarker Subset
+This table was composed by ,,,,,
+original table flattened for machine learning by Medina Sydykanova,,,,,
+flattened table verified and formatting adjusted to match ASCT-B reporter requirements by Ellen M. Quardokus,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+//Structure,//Substructure #1,//Substructure #2,//Substructure #3,//Cell Type,//Biomarker Subset
 Capsule,Fibrous Capsule,Connective Tissue,,Myofibroblast,"Collagen I+, Collagen III+"
 Capsule,Fibrous Capsule,Blood Vessels,,Blood Endothelial Cell,"CD31+, CD34+, CD105+"
 Capsule,Trabeculae,Connective Tissue,,Myofibroblast,"Collagen I+, Collagen III+"
