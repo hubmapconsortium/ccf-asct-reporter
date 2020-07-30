@@ -68,6 +68,7 @@ export class SheetService {
     'Spleen',
     'Kidney',
     'Liver',
+    'Lung',
     'Lymph Nodes',
     'Heart',
     'Small Intestine',

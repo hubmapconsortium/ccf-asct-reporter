@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 
+
+/**
+ * report_cols: All AS columns and CT column.
+ */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SconfigService {
-
   SHEET_CONFIG = [
     {
       name: 'ao',
@@ -21,9 +24,9 @@ export class SconfigService {
         bimodal_distance: 350,
         width: 700,
         width_offset: 750,
-        height_offset: 4500
+        height_offset: 4500,
       },
-      title: 'Organs'
+      title: 'Organs',
     },
     {
       name: 'spleen',
@@ -42,9 +45,9 @@ export class SconfigService {
         bimodal_distance: 350,
         width: 1000,
         width_offset: 550,
-        height_offset: 200
+        height_offset: 200,
       },
-      title: 'Anatomical Structures'
+      title: 'Anatomical Structures',
     },
     {
       name: 'kidney',
@@ -63,9 +66,9 @@ export class SconfigService {
         bimodal_distance: 350,
         width: 700,
         width_offset: 600,
-        height_offset: 200
+        height_offset: 200,
       },
-      title: 'Anatomical Structures'
+      title: 'Anatomical Structures',
     },
     {
       name: 'liver',
@@ -84,9 +87,9 @@ export class SconfigService {
         bimodal_distance: 360,
         width: 800,
         width_offset: 600,
-        height_offset: 200
+        height_offset: 200,
       },
-      title: 'Anatomical Structures'
+      title: 'Anatomical Structures',
     },
     {
       name: 'lymph',
@@ -105,9 +108,9 @@ export class SconfigService {
         bimodal_distance: 350,
         width: 1200,
         width_offset: 350,
-        height_offset: 200
+        height_offset: 200,
       },
-      title: 'Anatomical Structures'
+      title: 'Anatomical Structures',
     },
     {
       name: 'heart',
@@ -126,9 +129,9 @@ export class SconfigService {
         bimodal_distance: 400,
         width: 800,
         width_offset: 550,
-        height_offset: 200
+        height_offset: 200,
       },
-      title: 'Anatomical Structures'
+      title: 'Anatomical Structures',
     },
     {
       name: 'si',
@@ -147,9 +150,9 @@ export class SconfigService {
         bimodal_distance: 360,
         width: 1200,
         width_offset: 0,
-        height_offset: 200
+        height_offset: 200,
       },
-      title: 'Anatomical Structures'
+      title: 'Anatomical Structures',
     },
     {
       name: 'li',
@@ -168,9 +171,9 @@ export class SconfigService {
         bimodal_distance: 360,
         width: 1200,
         width_offset: 0,
-        height_offset: 200
+        height_offset: 200,
       },
-      title: 'Anatomical Structures'
+      title: 'Anatomical Structures',
     },
     {
       name: 'skin',
@@ -189,12 +192,32 @@ export class SconfigService {
         bimodal_distance: 350,
         width: 800,
         width_offset: 650,
-        height_offset: 200
+        height_offset: 200,
       },
-      title: 'Anatomical Structures'
+      title: 'Anatomical Structures',
+    },
+    {
+      name: 'lung',
+      display: 'Lung',
+      sheetId: '1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI',
+      gid: '1167730392',
+      header_count: 11,
+      cell_col: 3,
+      marker_col: 4,
+      uberon_col: 0,
+      report_cols: [0, 1, 2, 3],
+      tree_cols: [0, 1, 2],
+      indent_cols: [0, 1, 2, 3],
+      body: 'Lung',
+      config: {
+        bimodal_distance: 350,
+        width: 800,
+        width_offset: 650,
+        height_offset: 200,
+      },
+      title: 'Anatomical Structures',
     },
   ];
 
-
-  constructor() { }
+  constructor() {}
 }
