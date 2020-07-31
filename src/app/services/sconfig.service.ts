@@ -217,6 +217,27 @@ export class SconfigService {
       },
       title: 'Anatomical Structures',
     },
+    {
+      name: 'brain',
+      display: 'Brain',
+      sheetId: '1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI',
+      gid: '478407375',
+      header_count: 11,
+      cell_col: 2,
+      marker_col: 3,
+      uberon_col: 0,
+      report_cols: [0, 1, 2],
+      tree_cols: [0, 1],
+      indent_cols: [0, 1, 2],
+      body: 'Brain',
+      config: {
+        bimodal_distance: 350,
+        width: 800,
+        width_offset: 650,
+        height_offset: 200,
+      },
+      title: 'Anatomical Structures',
+    },
   ];
 
   constructor() {}

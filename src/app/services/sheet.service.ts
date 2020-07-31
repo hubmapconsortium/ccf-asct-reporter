@@ -67,6 +67,7 @@ export class SheetService {
   // NAVBAR SHEET SELECTION
   sheet: any;
   organs = [
+    'Brain',
     'Spleen',
     'Kidney',
     'Liver',
