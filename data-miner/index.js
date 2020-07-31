@@ -28,7 +28,7 @@ app.get('/:sheetid/:gid', (req, res) => {
         } else {
             res.send({
                 data: [],
-                msg: 'Error from node server',
+                msg: 'Data fetched from node server',
                 status: response.statusCode
             });
         }
