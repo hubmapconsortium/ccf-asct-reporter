@@ -591,7 +591,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       const config: any = await this.makeVegaSpec(this.screenWidth, height);
       await this.renderGraph(config);
       this.shouldRenderASCTBiomodal = true;
-      this.report.reportLog(`${this.sheet.sheet.display} tree succesfully rendered`, 'success', 'msg');
+      this.report.reportLog(`${this.sheet.sheet.display} tree successfully rendered`, 'success', 'msg');
 
       this.returnRefresh.emit({
         msg: this.sheetData.msg,
