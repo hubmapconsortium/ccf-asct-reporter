@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+
 /**
  * report_cols: All AS columns and CT column.
  */
@@ -59,7 +60,7 @@ export class SconfigService {
       uberon_col: 0,
       report_cols: [0, 1, 2, 4],
       tree_cols: [0, 1, 2],
-      indent_cols: [0, 1, 2, 4],
+      indent_cols: [0, 1, 2],
       body: 'Kidney',
       config: {
         bimodal_distance: 350,
