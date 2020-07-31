@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angu
 import { ReportService } from '../report/report.service';
 import { SheetService } from '../services/sheet.service';
 import * as XLSX from 'xlsx';
+import * as moment from 'moment';
 
 export class AS {
   structure: string;
@@ -54,16 +55,16 @@ export class ReportComponent implements OnInit, OnChanges {
     for (let i = 0; i < Math.max(this.anatomicalStructures.length, this.cellTypes.length, this.bioMarkers.length); i++) {
       const row = {};
       if (i < this.anatomicalStructures.length) {
-        row['Unique Anatomical Structres'] = this.anatomicalStructures[i].structure;
+        row['Unique Anatomical Structures'] = this.anatomicalStructures[i].structure;
         if (!(this.anatomicalStructures[i].uberon.includes('UBERON'))) {
-          row['AS with no Uberon Link'] = this.anatomicalStructures[i].structure;
+          row['AS with no Uberon link'] = this.anatomicalStructures[i].structure;
         }
 
       }
       if (i < this.cellTypes.length) {
         row['Unique Cell Types'] = this.cellTypes[i].structure;
         if (!(this.cellTypes[i].link.includes('CL'))) {
-          row['CL with no Link'] = this.cellTypes[i].structure;
+          row['CL with no link'] = this.cellTypes[i].structure;
         }
       }
       if (i < this.bioMarkers.length) {
@@ -79,8 +80,10 @@ export class ReportComponent implements OnInit, OnChanges {
       sheetWS['!cols'].push({ wch: 30 });
     }
     const wb = XLSX.utils.book_new();
+    const dt = moment(new Date).format('YYYY.MM.DD_hh.mm');
+    const sn = this.sheet.sheet.display.toLowerCase().replace(' ', '_');
     XLSX.utils.book_append_sheet(wb, sheetWS, this.sheet.sheet.display);
-    XLSX.writeFile(wb, `${this.sheet.sheet.name}_Report.xlsx`);
+    XLSX.writeFile(wb, `ASCT+B-Reporter_${sn}_${dt}_Report.xlsx`);
   }
 
   getASWithNoLink() {

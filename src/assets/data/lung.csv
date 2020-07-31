@@ -47,30 +47,30 @@ Alveoli,Stroma,Alveolar Fibroblast,
 Alveoli,Stroma,Lipofibroblast,"COL1A1, PDGFRA , PLIN2, APOE"
 Alveoli,Stroma,Pericyte,"CSPG4 , TRPC6 , PDGFRB"
 Pleura,Stroma,Mesothelial Cell,"MSLN, UPK3B, WT1"
-lymph node (LN),Immune system,B Cell,"CD79A , CD24 , MS4A1, CD19"
-throughout,Immune system,Plasma Cell,"CD79A , CD27 , SLAMF7"
-throughout,Immune system,CD8+ Memory/Effector T Cell,"CD3E , CD8A , GZMK, DUSP2"
-throughout,Immune system,CD8+ Naive T Cell,"CD3E , CD8, GZMH, GZMB"
-throughout,Immune system,CD4+ Memory/Effector T Cell,"CD3E , CD8, COTL1, LDHB"
-throughout,Immune system,CD4+ Naive T Cell,"CD3E, CD4 , CCR7, LEF1"
-throughout,Immune system,Natural Killer T Cell,"CD3E , CD8A , FCER1G , TYROBP"
-throughout,Immune system,Natural Killer Cell,"KLRD1 , NKG7, TYROBP"
-,Immune system,Proliferating NK/T cell,
-throughout,Immune system,Neutrophil,"S100A8, S100A9 , IFITM2, FCGR3B"
-Alveoli,Immune system,Mast cell/ basophil type 1,"MS4A2 , CPA3 , TPSABl"
-Alveoli,Immune system,Mast cell/ basophil type 2,"MS4A2 , CPA3 , TPSABl"
-circulation,Immune system,platelet/megakaryocyte,"NRGN, PPBP, PF4, OST4"
-Alveoli,Immune system,Macrophage,"MARCO, MSR1 , MRC1"
-,Immune system,proliferating Macrophage,
-throughout,Immune system,Plasmacytoid Dendritic Cell,"LILRB4, IRF8, LILRA4"
-throughout,Immune system,Myeloid Dendrilic Cell 1,"MHCII, CLEC9A , LAMP3"
-throughout,Immune system,Myeloid Dendritic Cell 2,"MHCII, CD1C, PLD4"
-perivascular,Immune system,IGSF21+Dendritic cell,
-throughout,Immune system,EREG+ Dendritic cell,
-throughout,Immune system,TREM2+ Dendritic cell,
-throughout,Immune system,Classical Monocyte,"CD14, S100A8"
-,Immune system,OLR1+ Classical monocyte,
-throughout,Immune system,Nonclasslcal Monocyte,CD16
-throughout,Immune system,lntermediate Monocyte,"CD14 , S100A8, CD16"
+lymph node (LN),Immune,B Cell,"CD79A , CD24 , MS4A1, CD19"
+throughout,Immune,Plasma Cell,"CD79A , CD27 , SLAMF7"
+throughout,Immune,CD8+ Memory/Effector T Cell,"CD3E , CD8A , GZMK, DUSP2"
+throughout,Immune,CD8+ Naive T Cell,"CD3E , CD8, GZMH, GZMB"
+throughout,Immune,CD4+ Memory/Effector T Cell,"CD3E , CD8, COTL1, LDHB"
+throughout,Immune,CD4+ Naive T Cell,"CD3E, CD4 , CCR7, LEF1"
+throughout,Immune,Natural Killer T Cell,"CD3E , CD8A , FCER1G , TYROBP"
+throughout,Immune,Natural Killer Cell,"KLRD1 , NKG7, TYROBP"
+,Immune,Proliferating NK/T cell,
+throughout,Immune,Neutrophil,"S100A8, S100A9 , IFITM2, FCGR3B"
+Alveoli,Immune,Mast cell/ basophil type 1,"MS4A2 , CPA3 , TPSABl"
+Alveoli,Immune,Mast cell/ basophil type 2,"MS4A2 , CPA3 , TPSABl"
+circulation,Immune,platelet/megakaryocyte,"NRGN, PPBP, PF4, OST4"
+Alveoli,Immune,Macrophage,"MARCO, MSR1 , MRC1"
+,Immune,proliferating Macrophage,
+throughout,Immune,Plasmacytoid Dendritic Cell,"LILRB4, IRF8, LILRA4"
+throughout,Immune,Myeloid Dendrilic Cell 1,"MHCII, CLEC9A , LAMP3"
+throughout,Immune,Myeloid Dendritic Cell 2,"MHCII, CD1C, PLD4"
+perivascular,Immune,IGSF21+Dendritic cell,
+throughout,Immune,EREG+ Dendritic cell,
+throughout,Immune,TREM2+ Dendritic cell,
+throughout,Immune,Classical Monocyte,"CD14, S100A8"
+,Immune,OLR1+ Classical monocyte,
+throughout,Immune,Nonclasslcal Monocyte,CD16
+throughout,Immune,lntermediate Monocyte,"CD14 , S100A8, CD16"
 ,Peripheral Nervous System,Intrinsic Neuron,SNAP25
 ,Peripheral Nervous System,Glial Cell,
