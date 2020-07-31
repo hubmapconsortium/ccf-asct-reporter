@@ -109,7 +109,6 @@ export class SheetService {
           .toPromise();
         const parsedData = parse(data);
         parsedData.data.splice(0, header_count);
-
         res({
           data: parsedData.data,
           status,
@@ -131,6 +130,9 @@ export class SheetService {
    */
   public async getSheetData(): Promise<any> {
     let constructedURL = '';
+    let responseMsg = 'Ok';
+    let responseStatus = 200;
+
     if (this.sheet.display === 'All Organs') {
       return this.makeAOData();
     } else {
@@ -155,11 +157,13 @@ export class SheetService {
 
       try {
         const csvData = await this.getDataFromURL(constructedURL);
+        responseMsg = csvData.msg;
+        responseStatus = csvData.status;
         this.organSheetData = new Promise((res, rej) => {
           res({
             data: csvData.data,
-            msg: 'Ok',
-            status: 200,
+            msg: responseMsg,
+            status: responseStatus,
           });
         });
       } catch (err) {
@@ -174,11 +178,12 @@ export class SheetService {
           err.status,
           err.msg
         );
+      
         this.organSheetData = new Promise((res, rej) => {
           res({
             data: csvData.data,
-            msg: 'Ok',
-            status: 200,
+            msg: err.msg,
+            status: err.status,
           });
         });
       }
@@ -196,6 +201,8 @@ export class SheetService {
     let csvData;
     let organData;
     let constructedURL: string;
+    let responseMsg = 'Ok';
+    let responseStatus = 200;
 
     for (const organ of this.organs) {
       const organSheet = this.sc.SHEET_CONFIG[
@@ -212,6 +219,8 @@ export class SheetService {
       try {
         csvData = await this.getDataFromURL(constructedURL);
         organData = csvData.data;
+        responseMsg = csvData.msg;
+        responseStatus = csvData.status;
       } catch (err) {
         console.log(err);
         constructedURL = `assets/data/${organSheet.name}.csv`;
@@ -220,8 +229,10 @@ export class SheetService {
           'warning',
           'msg'
         );
-        csvData = await this.getDataFromURL(constructedURL);
+        csvData = await this.getDataFromURL(constructedURL, err.status, err.name);
         organData = csvData.data;
+        responseMsg = csvData.msg;
+        responseStatus = csvData.status;
       }
 
       organData.forEach((row) => {
@@ -240,8 +251,8 @@ export class SheetService {
     this.organSheetData = new Promise((res, rej) => {
       res({
         data: allOrganData,
-        status: 200,
-        msg: 'Ok',
+        status: responseStatus,
+        msg: responseMsg,
       });
     });
     return await this.getOrganSheetData();
