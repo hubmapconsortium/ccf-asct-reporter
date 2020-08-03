@@ -2,14 +2,16 @@ const express = require("express");
 var bodyParser = require("body-parser");
 const axios = require("axios");
 var cors = require("cors");
+var path = require('path');
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, '/')));
 
 app.get("/", (req, res) => {
-  res.send("Welcome to the ASCT+B Miner!");
+  res.sendFile('views/home.html', {root: __dirname});
 });
 
 app.get("/:sheetid/:gid", (req, res) => {
@@ -35,7 +37,6 @@ app.get("/:sheetid/:gid", (req, res) => {
       }
     })
     .catch((err) => {
-      console.log(err);
       if (err) {
         res.send({
           data: [],
