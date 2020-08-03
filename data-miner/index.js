@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 app.get("/", (req, res) => {
   res.send("Welcome to the ASCT+B Miner!");
 });
+
 app.get("/:sheetid/:gid", (req, res) => {
   var f1 = req.params.sheetid;
   var f2 = req.params.gid;
@@ -45,4 +46,4 @@ app.get("/:sheetid/:gid", (req, res) => {
     });
 });
 
-app.listen(3000, () => console.log("ASCT+B Miner listening on port 3000!"));
+app.listen(process.env.PORT || 5000)
