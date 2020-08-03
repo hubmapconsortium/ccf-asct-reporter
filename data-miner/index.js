@@ -28,6 +28,7 @@ app.get('/:sheetid/:gid', (req, res) => {
             }
         })
         .catch(err => {
+            console.log(err)
             if (err) {
                 res.send({
                     data: [],
@@ -38,4 +39,4 @@ app.get('/:sheetid/:gid', (req, res) => {
         })
 });
 
-app.listen(3000, () => console.log('Gator app listening on port 3000!'));
+app.listen(3000, () => console.log('ASCT+B Miner listening on port 3000!'));
