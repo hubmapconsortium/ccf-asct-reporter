@@ -32,6 +32,9 @@
     border-radius: 10px;
     border: 1px solid grey;
     font-size: 18pt;
+    display: block;
+    font-family: monospace;
+    word-wrap: break-word;
 }
 
 .cb {
