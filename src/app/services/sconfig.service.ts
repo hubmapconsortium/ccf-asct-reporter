@@ -222,7 +222,7 @@ export class SconfigService {
       uberon_col: 0,
       report_cols: [0, 1, 2],
       tree_cols: [0, 1],
-      indent_cols: [0, 1, 2],
+      indent_cols: [0, 1],
       body: 'Lung',
       config: {
         bimodal_distance: 350,
@@ -243,7 +243,7 @@ export class SconfigService {
       uberon_col: 0,
       report_cols: [0, 1, 2],
       tree_cols: [0, 1],
-      indent_cols: [0, 1, 2],
+      indent_cols: [0, 1],
       body: 'Brain',
       config: {
         bimodal_distance: 350,

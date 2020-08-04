@@ -39,9 +39,7 @@ export class IndentComponent implements OnInit, OnChanges {
     public sheet: SheetService,
     public report: ReportService,
     public indent: IndentService
-  ) {
-    this.getData();
-  }
+  ) {}
 
   sheetData;
   indentData = [];
@@ -55,6 +53,8 @@ export class IndentComponent implements OnInit, OnChanges {
   @Input() currentSheet: any;
 
   @ViewChild('indentTree') indentTree;
+
+  hasChild;
 
   treeControl = new FlatTreeControl<FlatNode>(
     (node) => node.level,
@@ -72,6 +72,22 @@ export class IndentComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.indent.setCurrentSheet(this.currentSheet);
+    this.initializeTree();
+  }
+
+  ngOnChanges() {
+    if (this.refreshData) {
+      this.indent.setCurrentSheet(this.currentSheet);
+      this.getData();
+    }
+
+    if (this.shouldReloadData && !this.refreshData) {
+      this.indent.setCurrentSheet(this.currentSheet);
+      this.getData();
+    }
+  }
+
+  public initializeTree() {
     this.treeFlattener = new MatTreeFlattener(
       this.transformer,
       (node) => node.level,
@@ -83,22 +99,11 @@ export class IndentComponent implements OnInit, OnChanges {
       this.treeControl,
       this.treeFlattener
     );
+    this.hasChild = (_: number, node: FlatNode) => node.expandable;
+
   }
 
-  ngOnChanges() {
-    if (this.refreshData) {
-      console.log('here');
-      this.getData();
-    }
-
-    if (this.shouldReloadData && !this.refreshData) {
-      console.log('here2');
-      this.getData();
-    }
-  }
-
-  hasChild = (_: number, node: FlatNode) => node.expandable;
-
+  
   async getData() {
     try {
       const data = await this.sheet.getSheetData(this.currentSheet);
@@ -106,23 +111,27 @@ export class IndentComponent implements OnInit, OnChanges {
       this.dataSource.data = [this.indent.makeIndentData(this.sheetData.data)];
       this.indentTree.treeControl.expandAll();
 
-      if (this.sheetData) {
         this.returnRefresh.emit({
           comp: 'Indented List',
           msg: this.sheetData.msg,
           status: this.sheetData.status,
           val: true,
         });
-        this.report.reportLog(`Indented List for ${this.currentSheet.display} successfully rendered.`, 'success', 'msg');
-      }
+        this.report.reportLog(
+          `Indented List for ${this.currentSheet.display} successfully rendered.`,
+          'success',
+          'msg'
+        );
+      
     } catch (err) {
+      console.log(err);
       this.returnRefresh.emit({
         comp: 'Indented List',
         msg: 'Failed',
         status: '500',
         val: false,
       });
-      // this.report.reportLog(`Indented List failed to render`, 'error', 'msg');
+      this.report.reportLog(`Indented List failed to render`, 'error', 'msg');
     }
   }
 }
