@@ -1,7 +1,18 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+} from '@angular/core';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { SheetService } from '../services/sheet.service';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import {
+  MatTreeFlatDataSource,
+  MatTreeFlattener,
+} from '@angular/material/tree';
 import { ReportService } from '../report/report.service';
 import { IndentService } from './indent.service';
 
@@ -21,11 +32,14 @@ interface FlatNode {
 @Component({
   selector: 'app-indent',
   templateUrl: './indent.component.html',
-  styleUrls: ['./indent.component.css']
+  styleUrls: ['./indent.component.css'],
 })
 export class IndentComponent implements OnInit, OnChanges {
-
-  constructor(public sheet: SheetService, public report: ReportService, public indent: IndentService) {
+  constructor(
+    public sheet: SheetService,
+    public report: ReportService,
+    public indent: IndentService
+  ) {
     this.getData();
   }
 
@@ -43,7 +57,9 @@ export class IndentComponent implements OnInit, OnChanges {
   @ViewChild('indentTree') indentTree;
 
   treeControl = new FlatTreeControl<FlatNode>(
-    node => node.level, node => node.expandable);
+    (node) => node.level,
+    (node) => node.expandable
+  );
 
   private transformer = (node: Node, level: number) => {
     return {
@@ -52,22 +68,31 @@ export class IndentComponent implements OnInit, OnChanges {
       uberon: node.uberon,
       level,
     };
-  }
+  };
 
   ngOnInit(): void {
     this.indent.setCurrentSheet(this.currentSheet);
     this.treeFlattener = new MatTreeFlattener(
-      this.transformer, node => node.level, node => node.expandable, node => node.children);
+      this.transformer,
+      (node) => node.level,
+      (node) => node.expandable,
+      (node) => node.children
+    );
 
-    this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+    this.dataSource = new MatTreeFlatDataSource(
+      this.treeControl,
+      this.treeFlattener
+    );
   }
 
   ngOnChanges() {
     if (this.refreshData) {
+      console.log('here');
       this.getData();
     }
 
     if (this.shouldReloadData && !this.refreshData) {
+      console.log('here2');
       this.getData();
     }
   }
@@ -75,27 +100,29 @@ export class IndentComponent implements OnInit, OnChanges {
   hasChild = (_: number, node: FlatNode) => node.expandable;
 
   async getData() {
-    const data = await this.sheet.getSheetData(this.currentSheet);
     try {
+      const data = await this.sheet.getSheetData(this.currentSheet);
       this.sheetData = data;
       this.dataSource.data = [this.indent.makeIndentData(this.sheetData.data)];
       this.indentTree.treeControl.expandAll();
 
-      this.returnRefresh.emit({
-        comp: 'Indented List',
-        msg: this.sheetData.msg,
-        status: this.sheetData.status,
-        val: true
-      });
+      if (this.sheetData) {
+        this.returnRefresh.emit({
+          comp: 'Indented List',
+          msg: this.sheetData.msg,
+          status: this.sheetData.status,
+          val: true,
+        });
+        this.report.reportLog(`Indented List for ${this.currentSheet.display} successfully rendered.`, 'success', 'msg');
+      }
     } catch (err) {
       this.returnRefresh.emit({
         comp: 'Indented List',
-        msg: this.sheetData.msg,
-        status: this.sheetData.status,
-        val: false
+        msg: 'Failed',
+        status: '500',
+        val: false,
       });
-      this.report.reportLog(`Indented List failed to render`, 'error', 'msg');
-
+      // this.report.reportLog(`Indented List failed to render`, 'error', 'msg');
     }
   }
 }

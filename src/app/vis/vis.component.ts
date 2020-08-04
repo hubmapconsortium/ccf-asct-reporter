@@ -10,10 +10,9 @@ import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-vis',
   templateUrl: './vis.component.html',
-  styleUrls: ['./vis.component.css']
+  styleUrls: ['./vis.component.css'],
 })
 export class VisComponent implements OnInit {
-
   @ViewChild('drawer') drawer;
   @ViewChild('reportComponent') reportComponent;
   @ViewChild('tree') treeComponent;
@@ -33,11 +32,10 @@ export class VisComponent implements OnInit {
     public snackBar: MatSnackBar,
     public sc: SconfigService,
     public sheet: SheetService,
-    public report: ReportService) {
-  }
+    public report: ReportService
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   toggleReportDrawer(val) {
     this.refreshReport = val;
@@ -55,6 +53,7 @@ export class VisComponent implements OnInit {
     this.openLoading();
     this.displayGraph = val;
     this.shouldRefreshData = true;
+    
   }
 
   refreshData(val) {
@@ -72,29 +71,37 @@ export class VisComponent implements OnInit {
     if (val.comp === 'Tree') {
       this.dialog.closeAll();
       if (val.val) {
-        val.status === 200 ?
-          this.openSnackBar('Tree data successfully fetched.', 'Close', 'green') :
-          this.openSnackBar(val.msg, 'Close', 'warn');
-
+        val.status === 200
+          ? this.openSnackBar(
+              'Tree data successfully fetched.',
+              'Close',
+              'green'
+            )
+          : this.openSnackBar(val.msg, 'Close', 'warn');
       } else {
         this.openSnackBar('Error while fetching data.', 'Close', 'red');
       }
       this.refreshTree = false;
       this.shouldRefreshData = false;
-
-
     } else if (val.comp === 'Indented List') {
       this.dialog.closeAll();
       if (val.val) {
-        val.status === 200 ?
-          this.openSnackBar('Indented List data successfully fetched.', 'Close', 'green') :
-          this.openSnackBar('Indented List successfully fetched from system cache.', 'Close', 'warn');
+        val.status === 200
+          ? this.openSnackBar(
+              'Indented List data successfully fetched.',
+              'Close',
+              'green'
+            )
+          : this.openSnackBar(
+              'Indented List successfully fetched from system cache.',
+              'Close',
+              'warn'
+            );
       } else {
         this.openSnackBar('Error while fetching data.', 'Close', 'red');
       }
       this.refreshIndent = false;
       this.shouldRefreshData = false;
-
     }
   }
 
@@ -111,8 +118,8 @@ export class VisComponent implements OnInit {
       autoFocus: true,
       data: {
         sheet: this.currentSheet,
-        list: this.currentSheet.name === 'ao' ? this.sc.ORGANS : []
-      }
+        list: this.currentSheet.name === 'ao' ? this.sc.ORGANS : [],
+      },
     });
   }
 
@@ -121,7 +128,7 @@ export class VisComponent implements OnInit {
       duration: style === 'green' || style === 'warn' ? 3000 : undefined,
       verticalPosition: 'bottom',
       horizontalPosition: 'end',
-      panelClass: [`${style}-snackbar`]
+      panelClass: [`${style}-snackbar`],
     });
   }
 
@@ -132,9 +139,10 @@ export class VisComponent implements OnInit {
   getSelectedSheet(event) {
     this.currentSheetName = event;
     this.report.reportLog(`${this.currentSheetName}`, 'success', 'file');
-    this.currentSheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.display === this.currentSheetName)];
+    this.currentSheet = this.sc.SHEET_CONFIG[
+      this.sc.SHEET_CONFIG.findIndex((i) => i.display === this.currentSheetName)
+    ];
     this.openLoading();
     this.shouldRefreshData = true;
   }
 }
-

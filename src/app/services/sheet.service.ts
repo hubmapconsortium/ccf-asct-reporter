@@ -108,8 +108,9 @@ export class SheetService {
     let constructedURL = '';
     let responseStatus = 200;
     let csvData: any;
-
-    this.loadingStatus.emit(currentSheet.display);
+    
+    if (currentSheet)
+      this.loadingStatus.emit(currentSheet.display);
 
     if (currentSheet.display === 'All Organs') {
       return this.makeAOData();
