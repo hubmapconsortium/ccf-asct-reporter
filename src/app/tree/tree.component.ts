@@ -66,7 +66,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   };
 
   constructor(public sheet: SheetService, public report: ReportService, public ts: TreeService, public bms: BimodalService) {
-
+    
   }
 
   ngOnInit(): void {
@@ -91,6 +91,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     if (this.shouldReloadData && !this.refreshData) {
+      this.ts.setCurrentSheet(this.currentSheet);
       this.getData();
     }
   }

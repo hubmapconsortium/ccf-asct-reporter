@@ -64,6 +64,11 @@ const AS_RED = '#E41A1C';
 export class TreeService {
 
   constructor(public sheet: SheetService, public report: ReportService) { }
+
+  currentSheet: any;
+  public setCurrentSheet(sheet: any) {
+    this.currentSheet = sheet;
+  }
   /**
    * Creates the structure from the sheet data that is accepted by the vis.
    *
@@ -71,13 +76,13 @@ export class TreeService {
    */
   public makeTreeData(data): Promise<Array<TNode>> {
     return new Promise((res, rej) => {
-      const cols = this.sheet.sheet.tree_cols;
+      const cols = this.currentSheet.tree_cols;
       const id = 1;
       let parent;
       const tree = new Tree(id);
-      const uberon_col = this.sheet.sheet.uberon_col;
+      const uberon_col = this.currentSheet.uberon_col;
 
-      const root = new TNode(id, this.sheet.sheet.body, 0, 0, AS_RED);
+      const root = new TNode(id, this.currentSheet.body, 0, 0, AS_RED);
       delete root.parent; delete root.uberonId;
       tree.append(root);
 
@@ -100,7 +105,7 @@ export class TreeService {
 
               if (searchedNode.found) {
                 if (searchedNode.problem) {
-                  if (this.sheet.sheet.name !== 'ao') {
+                  if (this.currentSheet.name !== 'ao') {
                     this.report.reportLog(`Nodes with multiple in-links`, 'warning', 'multi', searchedNode.name);
                   }
                 }
