@@ -21,7 +21,8 @@ export class ReportComponent implements OnInit, OnChanges {
   bioMarkers = [];
   warningCount = 0;
   @Output() closeComponent = new EventEmitter();
-  @Input() refreshData;
+  @Input() refreshData: any;
+  @Input() currentSheet: any;
 
   sheetName = 'Spleen_R2';
 
@@ -81,8 +82,8 @@ export class ReportComponent implements OnInit, OnChanges {
     }
     const wb = XLSX.utils.book_new();
     const dt = moment(new Date).format('YYYY.MM.DD_hh.mm');
-    const sn = this.sheet.sheet.display.toLowerCase().replace(' ', '_');
-    XLSX.utils.book_append_sheet(wb, sheetWS, this.sheet.sheet.display);
+    const sn = this.currentSheet.display.toLowerCase().replace(' ', '_');
+    XLSX.utils.book_append_sheet(wb, sheetWS, this.currentSheet.display);
     XLSX.writeFile(wb, `ASCT+B-Reporter_${sn}_${dt}_Report.xlsx`);
   }
 
@@ -116,7 +117,7 @@ export class ReportComponent implements OnInit, OnChanges {
   }
 
   mail() {
-    const subject = `Problem with ${this.sheet.sheet.name}.xlsx`;
+    const subject = `Problem with ${this.currentSheet.name}.xlsx`;
     const mailText = `mailto:infoccf@indiana.edu?subject=${subject}`;
     window.location.href = mailText;
   }

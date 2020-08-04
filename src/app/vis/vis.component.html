@@ -12,6 +12,7 @@
         (closeComponent)="drawer.toggle()"
         [refreshData]="refreshReport"
         #reportComponent
+        [currentSheet]="currentSheet"
         *ngIf="showCompInDrawer == 'Report'"
       ></app-report>
       <app-logs
