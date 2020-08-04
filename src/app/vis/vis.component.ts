@@ -106,7 +106,14 @@ export class VisComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    this.dialog.open(LoadingComponent, dialogConfig);
+    this.dialog.open(LoadingComponent, {
+      disableClose: true,
+      autoFocus: true,
+      data: {
+        sheet: this.currentSheet,
+        list: this.currentSheet.name === 'ao' ? this.sc.ORGANS : []
+      }
+    });
   }
 
   openSnackBar(message, action, style) {

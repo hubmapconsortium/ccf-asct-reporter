@@ -8,7 +8,20 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class SconfigService {
-  SERVER_URL = 'http://localhost:5000';
+  SERVER_URL = 'https://asctb-data-miner.herokuapp.com';
+
+  ORGANS = [
+    'Brain',
+    'Spleen',
+    'Kidney',
+    'Liver',
+    'Lung',
+    'Lymph Nodes',
+    'Heart',
+    'Small Intestine',
+    'Large Intestine',
+    'Skin',
+  ];
 
   SHEET_CONFIG = [
     {

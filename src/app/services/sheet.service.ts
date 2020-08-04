@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { parse } from 'papaparse';
 import { SconfigService } from './sconfig.service';
@@ -56,6 +56,7 @@ export class SheetService {
   ];
   organSheetData: any;
   rowsToSkip: Array<number> = [];
+  loadingStatus = new EventEmitter();
 
   constructor(
     private http: HttpClient,
@@ -108,8 +109,10 @@ export class SheetService {
     let responseStatus = 200;
     let csvData: any;
 
+    this.loadingStatus.emit(currentSheet.display);
+
     if (currentSheet.display === 'All Organs') {
-      return this.makeAOData(currentSheet);
+      return this.makeAOData();
     } else {
       if (environment.production) {
         // in development mode
@@ -214,11 +217,10 @@ export class SheetService {
    *
    * @returns {Promise} - An object that has - CSV data, status and return message
    */
-  public async makeAOData(currentSheet: any) {
+  public async makeAOData() {
     const allOrganData = [];
-    let csvData;
-    let organData;
-    let constructedURL: string;
+    let csvData: any;
+    let organData: any;
     let responseMsg = 'Ok';
     let responseStatus = 200;
 

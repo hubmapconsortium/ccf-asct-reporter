@@ -1,5 +1,17 @@
-<div style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-content: center;">
-    <mat-spinner></mat-spinner>
-    <br>
-    <span>Loading data...</span>
+<div
+  style="
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+  "
+>
+  <h1 style="margin: 0 auto;">Please wait while the data loads...</h1>
+  <embed style="margin: 0 auto;" src="assets/loading.svg" class="loadingSVG" />
+  <br />
+  <div style="margin: 0 auto;">
+    <h3>Fetching {{loadingText}} data</h3>
+  </div>
 </div>
