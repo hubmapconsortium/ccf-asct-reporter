@@ -105,7 +105,6 @@ export class SheetService {
    */
   public async getSheetData(currentSheet: any): Promise<any> {
     let constructedURL = '';
-    let responseMsg = 'Ok';
     let responseStatus = 200;
     let csvData: any;
 
@@ -120,7 +119,7 @@ export class SheetService {
           res({
             data: csvData.data,
             status: 200,
-            msg: 'Ok',
+            msg: 'Data fetched from system cache. [DEV]',
           });
         });
 
@@ -133,56 +132,81 @@ export class SheetService {
 
       try {
         csvData = await this.getDataFromURL(constructedURL);
-        this.organSheetData = new Promise((res, rej) => {
-          res({
-            data: csvData.data,
-            msg: 'Data fetched from Google Sheets',
-            status: 200,
-          });
-        });
+        this.organSheetData = {
+          data: csvData.data,
+          msg: 'Data fetched from Google Sheets',
+          status: 200,
+        };
       } catch (err) {
         responseStatus = err.status;
-        constructedURL = `http://localhost:5000/${sheetId}/${gid}`;
-        this.report.reportLog(
-          `${currentSheet.display} data fetched from node server`,
-          'warning',
-          'msg'
-        );
+        constructedURL = `${this.sc.SERVER_URL}/${sheetId}/${gid}`;
+
         try {
-          csvData = await this.getDataFromURL(constructedURL);
-          
-          this.organSheetData = new Promise((res, rej) => {
-            res({
-              data: csvData.data,
-              msg: 'Data fetched from Node Server',
-              status: 206,
-            });
-          });
+          await this.getDataFromNodeServer(constructedURL);
+          this.report.reportLog(
+            `${currentSheet.display} data fetched from Node server`,
+            'warning',
+            'msg'
+          );
         } catch (nodeErr) {
-          responseStatus = nodeErr.status;
+          responseStatus = nodeErr;
         }
       } finally {
         if (responseStatus === 500) {
-          console.log(responseStatus)
           constructedURL = `assets/data/${currentSheet.name}.csv`;
           this.report.reportLog(
             `${currentSheet.display} data fetched from system cache`,
             'warning',
             'msg'
           );
-          csvData = await this.getDataFromURL(constructedURL);
-
-          this.organSheetData = new Promise((res, rej) => {
-            res({
-              data: csvData.data,
-              msg: 'Data fetched from system cache',
-              status: 500,
-            });
-          });
+          try {
+            await this.getDataFromSystemCache(constructedURL);
+          } catch (err) {
+            console.log(err);
+          }
         }
       }
       return await this.getOrganSheetData();
     }
+  }
+
+  public async getDataFromNodeServer(url: string) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const csvData = await this.getDataFromURL(url);
+        this.organSheetData = {
+          data: csvData.data,
+          msg: 'Data fetched from Node Server',
+          status: 206,
+        };
+        resolve(true);
+      } catch (nodeErr) {
+        this.organSheetData = {
+          data: [],
+          msg: 'Failed to get data',
+          status: 500,
+        };
+        reject(nodeErr.status);
+      }
+    });
+  }
+
+  public async getDataFromSystemCache(url: string) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const csvData = await this.getDataFromURL(url);
+
+        this.organSheetData = {
+          data: csvData.data,
+          msg: 'Data fetched from system cache',
+          status: 500,
+        };
+        resolve(true);
+      } catch (err) {
+        console.log(err);
+        reject('Failed to get data.');
+      }
+    });
   }
 
   /**
@@ -202,35 +226,17 @@ export class SheetService {
       const organSheet = this.sc.SHEET_CONFIG[
         this.sc.SHEET_CONFIG.findIndex((i) => i.display === organ)
       ];
-      if (!environment.production) {
-        constructedURL = `assets/data/${organSheet.name}.csv`;
-      } else {
-        const sheetId = organSheet.sheetId;
-        const gid = organSheet.gid;
-        constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
-      }
-
       try {
-        csvData = await this.getDataFromURL(constructedURL);
+        csvData = await this.getSheetData(organSheet);
         organData = csvData.data;
         responseMsg = csvData.msg;
         responseStatus = csvData.status;
       } catch (err) {
         console.log(err);
-        constructedURL = `assets/data/${organSheet.name}.csv`;
-        this.report.reportLog(
-          `${organSheet.display} data fetched from system cache`,
-          'warning',
-          'msg'
-        );
-        csvData = await this.getDataFromURL(constructedURL);
-        organData = csvData.data;
-        responseMsg = csvData.msg;
-        responseStatus = csvData.status;
       }
 
       organData.forEach((row) => {
-        const od = [
+        const organRow = [
           'Body',
           organ,
           organ,
@@ -238,17 +244,15 @@ export class SheetService {
           row[organSheet.cell_col + organSheet.uberon_col],
           row[organSheet.marker_col],
         ];
-        allOrganData.push(od);
+        allOrganData.push(organRow);
       });
     }
 
-    this.organSheetData = new Promise((res, rej) => {
-      res({
-        data: allOrganData,
-        status: responseStatus,
-        msg: responseMsg,
-      });
-    });
+    this.organSheetData = {
+      data: allOrganData,
+      status: responseStatus,
+      msg: responseMsg,
+    };
     return await this.getOrganSheetData();
   }
 

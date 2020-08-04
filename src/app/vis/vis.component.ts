@@ -72,7 +72,6 @@ export class VisComponent implements OnInit {
     if (val.comp === 'Tree') {
       this.dialog.closeAll();
       if (val.val) {
-        console.log(val)
         val.status === 200 ?
           this.openSnackBar('Tree data successfully fetched.', 'Close', 'green') :
           this.openSnackBar(val.msg, 'Close', 'warn');
