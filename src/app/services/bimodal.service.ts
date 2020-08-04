@@ -88,7 +88,7 @@ export class BimodalService {
 
     // sorting cells based on options
     if (bimodalConfig.CT.sort === 'Alphabetically') {
-      cellTypes = await this.sheet.makeCellTypes(sheetData);
+      cellTypes = await this.sheet.makeCellTypes(sheetData, {report_cols: currentSheet.report_cols, cell_col: currentSheet.cell_col});
       cellTypes.sort((a, b) => {
         return (
           a.structure.toLowerCase() > b.structure.toLowerCase() ? 1 : (
@@ -97,16 +97,16 @@ export class BimodalService {
       });
     } else {
       if (bimodalConfig.CT.size === 'None') {
-        cellTypes = await this.sheet.makeCellDegree(sheetData, treeData,  'Degree');
+        cellTypes = await this.sheet.makeCellDegree(sheetData, treeData,  'Degree', currentSheet);
       } else {
-        cellTypes = await this.sheet.makeCellDegree(sheetData, treeData,  bimodalConfig.CT.size);
+        cellTypes = await this.sheet.makeCellDegree(sheetData, treeData,  bimodalConfig.CT.size, currentSheet);
       }
     }
 
 
     if (bimodalConfig.CT.size !== 'None') {
       // put sort size by degree function here
-      const tempCellTypes = await this.sheet.makeCellDegree(sheetData, treeData, bimodalConfig.CT.size);
+      const tempCellTypes = await this.sheet.makeCellDegree(sheetData, treeData, bimodalConfig.CT.size, currentSheet);
       cellTypes.forEach(c => {
         const idx = tempCellTypes.findIndex(i => i.structure.toLowerCase() === c.structure.toLowerCase());
         if (idx !== -1) {
@@ -131,7 +131,7 @@ export class BimodalService {
 
     // based on select input, sorting markers
     if (bimodalConfig.BM.sort === 'Alphabetically') {
-      biomarkers = await this.sheet.makeBioMarkers(sheetData);
+      biomarkers = await this.sheet.makeBioMarkers(sheetData, {marker_col: currentSheet.marker_col});
       biomarkers.sort((a, b) => {
         return (
           a.structure.toLowerCase() > b.structure.toLowerCase() ? 1 : (
@@ -139,11 +139,11 @@ export class BimodalService {
         );
       });
     } else {
-      biomarkers = await this.sheet.makeMarkerDegree(sheetData);
+      biomarkers = await this.sheet.makeMarkerDegree(sheetData, currentSheet);
     }
 
     if (bimodalConfig.BM.size === 'Degree') {
-      const tempBiomarkers = await this.sheet.makeMarkerDegree(sheetData);
+      const tempBiomarkers = await this.sheet.makeMarkerDegree(sheetData, currentSheet);
       biomarkers.forEach(b => {
         const idx = tempBiomarkers.findIndex(i => i.structure === b.structure);
         if (idx !== -1) {

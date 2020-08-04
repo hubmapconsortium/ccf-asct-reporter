@@ -42,9 +42,9 @@ export class ReportComponent implements OnInit, OnChanges {
   public async getData() {
     this.sheetData = await this.sheet.getOrganSheetData();
     try {
-      this.anatomicalStructures = await this.sheet.makeAS(this.sheetData.data);
-      this.cellTypes = await this.sheet.makeCellTypes(this.sheetData.data);
-      this.bioMarkers = await this.sheet.makeBioMarkers(this.sheetData.data);
+      this.anatomicalStructures = await this.sheet.makeAS(this.sheetData.data, {report_cols: this.currentSheet.report_cols, cell_col: this.currentSheet.cell_col, marker_col: this.currentSheet.marker_col, uberon_col: this.currentSheet.uberon_col});
+      this.cellTypes = await this.sheet.makeCellTypes(this.sheetData.data, {report_cols: this.currentSheet.report_cols, cell_col: this.currentSheet.cell_col});
+      this.bioMarkers = await this.sheet.makeBioMarkers(this.sheetData.data, {marker_col: this.currentSheet.marker_col});
     } catch (err) {
       console.log(err);
     }

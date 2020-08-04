@@ -9,7 +9,8 @@ import { ReportService } from '../report/report.service';
 })
 export class LogsComponent implements OnInit {
   @Output() closeComponent = new EventEmitter();
-  @Input() refreshData;
+  @Input() refreshData: any;
+  @Input() currentSheet: any;
 
   logs = [];
   sheetLogs = [];
@@ -28,7 +29,7 @@ export class LogsComponent implements OnInit {
   }
 
   mail() {
-    const subject = `Problem with ${this.sheet.sheet.name}.xlsx`;
+    const subject = `Problem with ${this.currentSheet.name}.xlsx`;
     const mailText = `mailto:infoccf@indiana.edu?subject=${subject}`;
     window.location.href = mailText;
   }

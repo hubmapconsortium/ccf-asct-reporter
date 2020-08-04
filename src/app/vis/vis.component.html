@@ -19,6 +19,7 @@
         (closeComponent)="drawer.toggle()"
         [refreshData]="refreshLogs"
         #logs_component
+        [currentSheet]="currentSheet"
         *ngIf="showCompInDrawer == 'Logs'"
       ></app-logs>
     </mat-drawer>

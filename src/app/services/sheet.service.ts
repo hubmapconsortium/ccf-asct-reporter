@@ -133,18 +133,18 @@ export class SheetService {
    *
    * @returns {Promise} - An object that has - CSV data, status and return message
    */
-  public async getSheetData(currentSheet?: any): Promise<any> {
+  public async getSheetData(currentSheet: any): Promise<any> {
     let constructedURL = '';
     let responseMsg = 'Ok';
     let responseStatus = 200;
 
     if (currentSheet.display === 'All Organs') {
-      return this.makeAOData();
+      return this.makeAOData(currentSheet);
     } else {
       if (environment.production) {
         // in development mode
         constructedURL = `assets/data/${currentSheet.name}.csv`;
-        const csvData = await this.getDataFromURL(constructedURL);
+        const csvData = await this.getDataFromURL(constructedURL, 200, 'Ok', currentSheet.header_count);
         this.organSheetData = new Promise(async (res, rej) => {
           res({
             data: csvData.data,
@@ -161,7 +161,7 @@ export class SheetService {
       constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
 
       try {
-        const csvData = await this.getDataFromURL(constructedURL);
+        const csvData = await this.getDataFromURL(constructedURL, 200, "Ok", currentSheet.header_count);
         responseMsg = csvData.msg;
         responseStatus = csvData.status;
         this.organSheetData = new Promise((res, rej) => {
@@ -182,7 +182,8 @@ export class SheetService {
         const csvData = await this.getDataFromURL(
           constructedURL,
           err.status,
-          err.msg
+          err.msg,
+          currentSheet.header_count
         );
 
         responseMsg = csvData.msg;
@@ -207,7 +208,8 @@ export class SheetService {
           const csvData = await this.getDataFromURL(
             constructedURL,
             responseStatus,
-            responseMsg
+            responseMsg,
+            currentSheet.header_count
           );
 
           this.organSheetData = new Promise((res, rej) => {
@@ -228,7 +230,7 @@ export class SheetService {
    *
    * @returns {Promise} - An object that has - CSV data, status and return message
    */
-  public async makeAOData() {
+  public async makeAOData(currentSheet: any) {
     const allOrganData = [];
     let csvData;
     let organData;
@@ -249,7 +251,7 @@ export class SheetService {
       }
 
       try {
-        csvData = await this.getDataFromURL(constructedURL);
+        csvData = await this.getDataFromURL(constructedURL, 200, "Ok", currentSheet.header_count);
         organData = csvData.data;
         responseMsg = csvData.msg;
         responseStatus = csvData.status;
@@ -264,7 +266,8 @@ export class SheetService {
         csvData = await this.getDataFromURL(
           constructedURL,
           err.status,
-          err.name
+          err.name,
+          currentSheet.header_count
         );
         organData = csvData.data;
         responseMsg = csvData.msg;
@@ -306,12 +309,12 @@ export class SheetService {
    * Returns the array of biomarkers that are sorted have their degrees calculated.
    * @param {Array<Array<string>>} data - Sheet data
    */
-  public async makeMarkerDegree(data: Array<Array<string>>) {
+  public async makeMarkerDegree(data: Array<Array<string>>, currentSheet: any) {
     const markerDegrees = [];
 
     data.forEach((row) => {
-      const markers = row[this.sheet.marker_col].split(',');
-      const cells = row[this.sheet.cell_col]
+      const markers = row[currentSheet.marker_col].split(',');
+      const cells = row[currentSheet.cell_col]
         .split(',')
         .map((str) => str.trim())
         .filter((c) => c !== '');
@@ -352,7 +355,7 @@ export class SheetService {
    * @param treeData - Data from the tree visualization.
    * @param degree - Degree configuration. Can be Degree, Indegree and Outdegree
    */
-  public async makeCellDegree(data, treeData, degree): Promise<Array<Cell>> {
+  public async makeCellDegree(data, treeData, degree, currentSheet: any): Promise<Array<Cell>> {
     return new Promise((res, rej) => {
       const cellDegrees: Array<Cell> = [];
 
@@ -367,7 +370,7 @@ export class SheetService {
               parent = row.find((i) => i.toLowerCase() === leaf.toLowerCase());
 
               if (parent) {
-                const cells = row[this.sheet.cell_col].split(',');
+                const cells = row[currentSheet.cell_col].split(',');
                 for (const i in cells) {
                   if (cells[i] !== '' && !cells[i].startsWith('//')) {
                     const foundCell = cellDegrees.findIndex(
@@ -378,7 +381,7 @@ export class SheetService {
                     if (foundCell === -1) {
                       const nc = new Cell(
                         cells[i].trim(),
-                        row[this.sheet.cell_col + this.sheet.uberon_col]
+                        row[currentSheet.cell_col + currentSheet.uberon_col]
                       );
                       nc.parents.push(parent.toLowerCase());
                       cellDegrees.push(nc);
@@ -399,11 +402,11 @@ export class SheetService {
       // calculating out degree (CT -> B)
       if (degree === 'Degree' || degree === 'Outdegree') {
         data.forEach((row) => {
-          const markers = row[this.sheet.marker_col]
+          const markers = row[currentSheet.marker_col]
             .split(',')
             .map((str) => str.trim().toLowerCase())
             .filter((c) => c !== '');
-          const cells = row[this.sheet.cell_col]
+          const cells = row[currentSheet.cell_col]
             .split(',')
             .map((str) => str.trim())
             .filter((c) => c !== '');
@@ -424,7 +427,7 @@ export class SheetService {
               } else {
                 const nc = new Cell(
                   cells[c].trim(),
-                  row[this.sheet.cell_col + this.sheet.uberon_col]
+                  row[currentSheet.cell_col + currentSheet.uberon_col]
                 );
                 nc.parents.push(...markers);
                 cellDegrees.push(nc);
@@ -514,10 +517,7 @@ export class SheetService {
    */
   public makeCellTypes(
     data: Array<Array<string>>,
-    config: ASCTBConfig = {
-      cell_col: this.sheet.cell_col,
-      uberon_col: this.sheet.uberon_col,
-    }
+    config: ASCTBConfig
   ): Promise<Array<CT>> {
     const cellTypes = [];
     return new Promise((res, rej) => {
@@ -562,7 +562,7 @@ export class SheetService {
    */
   public makeBioMarkers(
     data: Array<Array<string>>,
-    config: ASCTBConfig = { marker_col: this.sheet.marker_col }
+    config: ASCTBConfig
   ): Promise<Array<B>> {
     return new Promise((res, rej) => {
       const bioMarkers = [];
