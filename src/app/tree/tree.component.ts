@@ -619,7 +619,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
    */
 
   public async makeBimodalGraph() {
-    this.asctData = await this.bms.makeASCTData(this.sheetData.data, this.updatedTreeData, this.bimodalConfig);
+    this.asctData = await this.bms.makeASCTData(this.sheetData.data, this.updatedTreeData, this.bimodalConfig, this.currentSheet);
     this.treeView._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
     this.treeView._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
     this.treeView._runtime.signals.targets__click.value = []; // removing clicked bold target nodes if at all

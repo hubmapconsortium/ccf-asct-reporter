@@ -56,14 +56,14 @@ export interface ASCTD {
 export class BimodalService {
 
   constructor(public sheet: SheetService, public report: ReportService) { }
-
-  async makeASCTData(sheetData, treeData, bimodalConfig) {
+  
+  async makeASCTData(sheetData, treeData, bimodalConfig, currentSheet) {
     let ASCTGraphData: ASCTD;
     const links = [];
     const nodes = [];
     let treeX = 0;
     let treeY = 50;
-    const distance = this.sheet.sheet.config.bimodal_distance;
+    const distance = currentSheet.config.bimodal_distance;
     let id = 0;
     let biomarkers = [];
     
@@ -183,7 +183,7 @@ export class BimodalService {
         sheetData.forEach(row => {
           for (const j in row) {
             if (row[j] === treeData[i].name) {
-              const cells = row[this.sheet.sheet.cell_col].split(',');
+              const cells = row[currentSheet.cell_col].split(',');
               for (const c in cells) {
                 if (cells[c] !== '') {
                   const found = nodes.findIndex(r => r.name.toLowerCase().trim() === cells[c].toLowerCase().trim());
@@ -208,8 +208,8 @@ export class BimodalService {
 
     // CT to B
     sheetData.forEach(row => {
-      const markers = row[this.sheet.sheet.marker_col].trim().split(',');
-      const cells = row[this.sheet.sheet.cell_col].trim().split(',');
+      const markers = row[currentSheet.marker_col].trim().split(',');
+      const cells = row[currentSheet.cell_col].trim().split(',');
 
       for (const c in cells) {
         if (cells[c] !== '') {
