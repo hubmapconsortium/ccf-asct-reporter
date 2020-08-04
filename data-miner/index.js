@@ -23,26 +23,12 @@ app.get("/:sheetid/:gid", (req, res) => {
     )
     .then((response) => {
       if (response.status === 200) {
-        res.send({
-          data: response.data,
-          msg: "Data fetched from node server",
-          status: response.status,
-        });
-      } else {
-        res.send({
-          data: [],
-          msg: "Data fetched from node server",
-          status: response.status,
-        });
+        res.send(response.data);
       }
     })
     .catch((err) => {
       if (err) {
-        res.send({
-          data: [],
-          msg: "Error from node server",
-          status: 500,
-        });
+        res.send('');
       }
     });
 });

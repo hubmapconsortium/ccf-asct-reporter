@@ -23,7 +23,8 @@ export class VisComponent implements OnInit {
   refreshIndent = false;
   refreshReport = false;
   refreshLogs = false;
-  sheetName = 'All Organs';
+  currentSheetName = 'All Organs';
+  currentSheet = this.sc.SHEET_CONFIG[0];
   shouldRefreshData = false;
   showCompInDrawer = '';
 
@@ -122,10 +123,10 @@ export class VisComponent implements OnInit {
   }
 
   getSelectedSheet(event) {
-    this.sheetName = event;
-    this.report.reportLog(`${this.sheetName}`, 'success', 'file');
+    this.currentSheetName = event;
+    this.report.reportLog(`${this.currentSheetName}`, 'success', 'file');
     new Promise((res, rej) => {
-      this.sheet.sheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.display === this.sheetName)];
+      this.sheet.sheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.display === this.currentSheetName)];
       res(true);
     })
       .then(data => {

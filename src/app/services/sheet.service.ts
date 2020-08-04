@@ -22,7 +22,7 @@ export class Cell {
   parents: Array<string>;
   link: string;
 
-  constructor(structure: string, link='NONE') {
+  constructor(structure: string, link = 'NONE') {
     this.structure = structure;
     this.parents = [];
     this.link = link;
@@ -85,7 +85,7 @@ export class SheetService {
     private http: HttpClient,
     public sc: SconfigService,
     public report: ReportService
-  ) { }
+  ) {}
 
   /**
    * Returns the parsed data  by extracting it from google sheets.
@@ -105,11 +105,15 @@ export class SheetService {
   ): Promise<any> {
     return new Promise(async (res, rej) => {
       try {
-        const data = await this.http
+        let data = await this.http
           .get(url, { responseType: 'text' })
           .toPromise();
+        if (data !== '') {
+          status = 200;
+        }
         const parsedData = parse(data);
         parsedData.data.splice(0, header_count);
+
         res({
           data: parsedData.data,
           status,
@@ -129,17 +133,17 @@ export class SheetService {
    *
    * @returns {Promise} - An object that has - CSV data, status and return message
    */
-  public async getSheetData(): Promise<any> {
+  public async getSheetData(currentSheet?: any): Promise<any> {
     let constructedURL = '';
     let responseMsg = 'Ok';
     let responseStatus = 200;
 
-    if (this.sheet.display === 'All Organs') {
+    if (currentSheet.display === 'All Organs') {
       return this.makeAOData();
     } else {
-      if (!environment.production) {
+      if (environment.production) {
         // in development mode
-        constructedURL = `assets/data/${this.sheet.name}.csv`;
+        constructedURL = `assets/data/${currentSheet.name}.csv`;
         const csvData = await this.getDataFromURL(constructedURL);
         this.organSheetData = new Promise(async (res, rej) => {
           res({
@@ -152,8 +156,8 @@ export class SheetService {
         return await this.getOrganSheetData();
       }
 
-      const sheetId = this.sheet.sheetId;
-      const gid = this.sheet.gid;
+      const sheetId = currentSheet.sheetId;
+      const gid = currentSheet.gid;
       constructedURL = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
 
       try {
@@ -168,9 +172,10 @@ export class SheetService {
           });
         });
       } catch (err) {
-        constructedURL = `assets/data/${this.sheet.name}.csv`;
+        constructedURL = `http://localhost:5000/${sheetId}/${gid}`;
+
         this.report.reportLog(
-          `${this.sheet.display} data fetched from system cache`,
+          `${currentSheet.display} data fetched from node server`,
           'warning',
           'msg'
         );
@@ -179,14 +184,40 @@ export class SheetService {
           err.status,
           err.msg
         );
-      
+
+        responseMsg = csvData.msg;
+        responseStatus = csvData.status;
+
         this.organSheetData = new Promise((res, rej) => {
           res({
             data: csvData.data,
-            msg: err.msg,
-            status: err.status,
+            msg: responseMsg,
+            status: responseStatus,
           });
         });
+      } finally {
+        if (responseStatus !== 200) {
+          console.log(responseStatus);
+          constructedURL = `assets/data/${currentSheet.name}.csv`;
+          this.report.reportLog(
+            `${currentSheet.display} data fetched from system cache`,
+            'warning',
+            'msg'
+          );
+          const csvData = await this.getDataFromURL(
+            constructedURL,
+            responseStatus,
+            responseMsg
+          );
+
+          this.organSheetData = new Promise((res, rej) => {
+            res({
+              data: csvData.data,
+              msg: responseMsg,
+              status: responseStatus,
+            });
+          });
+        }
       }
       return await this.getOrganSheetData();
     }
@@ -230,7 +261,11 @@ export class SheetService {
           'warning',
           'msg'
         );
-        csvData = await this.getDataFromURL(constructedURL, err.status, err.name);
+        csvData = await this.getDataFromURL(
+          constructedURL,
+          err.status,
+          err.name
+        );
         organData = csvData.data;
         responseMsg = csvData.msg;
         responseStatus = csvData.status;
@@ -341,7 +376,10 @@ export class SheetService {
                         cells[i].toLowerCase().trim()
                     );
                     if (foundCell === -1) {
-                      const nc = new Cell(cells[i].trim(), row[this.sheet.cell_col + this.sheet.uberon_col]);
+                      const nc = new Cell(
+                        cells[i].trim(),
+                        row[this.sheet.cell_col + this.sheet.uberon_col]
+                      );
                       nc.parents.push(parent.toLowerCase());
                       cellDegrees.push(nc);
                     } else {
@@ -384,7 +422,10 @@ export class SheetService {
                   }
                 }
               } else {
-                const nc = new Cell(cells[c].trim(), row[this.sheet.cell_col + this.sheet.uberon_col]);
+                const nc = new Cell(
+                  cells[c].trim(),
+                  row[this.sheet.cell_col + this.sheet.uberon_col]
+                );
                 nc.parents.push(...markers);
                 cellDegrees.push(nc);
               }
@@ -443,7 +484,7 @@ export class SheetService {
                   structure,
                   uberon:
                     row[cols[col] + config.uberon_col].toLowerCase() !==
-                      structure.toLowerCase()
+                    structure.toLowerCase()
                       ? row[cols[col] + config.uberon_col]
                       : '',
                 });

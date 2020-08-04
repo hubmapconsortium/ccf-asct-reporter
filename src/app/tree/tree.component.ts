@@ -31,6 +31,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   asctData: ASCTD;
 
   @Input() settingsExpanded: boolean;
+  @Input() currentSheet: any;
   @Input() public refreshData = false;
   @Input() public shouldReloadData = false;
   @Output() returnRefresh = new EventEmitter();
@@ -193,7 +194,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             {
               type: 'tree',
               method: 'cluster',
-              size: [{ signal: height + this.sheet.sheet.config.height_offset }, { signal: width - this.bimodalDistance * 3 }],
+              size: [{ signal: height + this.currentSheet.config.height_offset }, { signal: width - this.bimodalDistance * 3 }],
               separation: { value: false },
               as: ['y', 'x', 'depth', 'children']
             }
@@ -573,8 +574,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
    * Fetched the data to form the visualization on load.
    */
   async getData() {
-
-    this.sheetData = await this.sheet.getSheetData();
+    this.sheetData = await this.sheet.getSheetData(this.currentSheet);
     this.treeData = await this.ts.makeTreeData(this.sheetData.data);
 
     const height = document.getElementsByTagName('body')[0].clientHeight;
@@ -584,14 +584,14 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       this.screenWidth = 1450;
     }
 
-    this.bimodalDistance = this.sheet.sheet.config.bimodal_distance;
-    this.treeWidthOffset = this.sheet.sheet.config.width_offset;
+    this.bimodalDistance = this.currentSheet.config.bimodal_distance;
+    this.treeWidthOffset = this.currentSheet.config.width_offset;
 
     try {
       const config: any = await this.makeVegaSpec(this.screenWidth, height);
       await this.renderGraph(config);
       this.shouldRenderASCTBiomodal = true;
-      this.report.reportLog(`${this.sheet.sheet.display} tree successfully rendered`, 'success', 'msg');
+      this.report.reportLog(`${this.currentSheet.display} tree successfully rendered`, 'success', 'msg');
 
       this.returnRefresh.emit({
         msg: this.sheetData.msg,
@@ -647,7 +647,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
   async downloadVis(format) {
     const dt = moment(new Date).format('YYYY.MM.DD_hh.mm');
-    const sn = this.sheet.sheet.display.toLowerCase().replace(' ', '_');
+    const sn = this.currentSheet.display.toLowerCase().replace(' ', '_');
     const formatType = format.toLowerCase();
 
     if (format === 'Vega Spec') {
