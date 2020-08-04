@@ -87,6 +87,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges() {
     if (this.refreshData) {
+      this.ts.setCurrentSheet(this.currentSheet);
       this.getData();
     }
 
