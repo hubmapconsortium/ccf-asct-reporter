@@ -1,4 +1,11 @@
-import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  Input,
+  OnChanges,
+} from '@angular/core';
 import { ReportService } from '../report/report.service';
 import { SheetService } from '../services/sheet.service';
 import * as XLSX from 'xlsx';
@@ -12,7 +19,7 @@ export class AS {
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
-  styleUrls: ['./report.component.css']
+  styleUrls: ['./report.component.css'],
 })
 export class ReportComponent implements OnInit, OnChanges {
   sheetData;
@@ -26,25 +33,33 @@ export class ReportComponent implements OnInit, OnChanges {
 
   sheetName = 'Spleen_R2';
 
-  constructor(public report: ReportService, public sheet: SheetService) {
-  }
+  constructor(public report: ReportService, public sheet: SheetService) {}
 
-  ngOnChanges() {
-
-  }
+  ngOnChanges() {}
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.getData();
+      this.getData(this.currentSheet);
     }, 500);
   }
 
-  public async getData() {
+  public async getData(currentSheet) {
     this.sheetData = await this.sheet.getOrganSheetData();
     try {
-      this.anatomicalStructures = await this.sheet.makeAS(this.sheetData.data, {report_cols: this.currentSheet.report_cols, cell_col: this.currentSheet.cell_col, marker_col: this.currentSheet.marker_col, uberon_col: this.currentSheet.uberon_col});
-      this.cellTypes = await this.sheet.makeCellTypes(this.sheetData.data, {report_cols: this.currentSheet.report_cols, cell_col: this.currentSheet.cell_col});
-      this.bioMarkers = await this.sheet.makeBioMarkers(this.sheetData.data, {marker_col: this.currentSheet.marker_col});
+      this.anatomicalStructures = await this.sheet.makeAS(this.sheetData.data, {
+        report_cols: currentSheet.report_cols,
+        cell_col: currentSheet.cell_col,
+        marker_col: currentSheet.marker_col,
+        uberon_col: currentSheet.uberon_col,
+      });
+      this.cellTypes = await this.sheet.makeCellTypes(this.sheetData.data, {
+        report_cols: currentSheet.report_cols,
+        cell_col: currentSheet.cell_col,
+        uberon_col: currentSheet.uberon_col,
+      });
+      this.bioMarkers = await this.sheet.makeBioMarkers(this.sheetData.data, {
+        marker_col: currentSheet.marker_col,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -53,18 +68,30 @@ export class ReportComponent implements OnInit, OnChanges {
   downloadData() {
     const download = [];
     const totalRows = 6;
-    for (let i = 0; i < Math.max(this.anatomicalStructures.length, this.cellTypes.length, this.bioMarkers.length); i++) {
+    for (
+      let i = 0;
+      i <
+      Math.max(
+        this.anatomicalStructures.length,
+        this.cellTypes.length,
+        this.bioMarkers.length
+      );
+      i++
+    ) {
       const row = {};
       if (i < this.anatomicalStructures.length) {
-        row['Unique Anatomical Structures'] = this.anatomicalStructures[i].structure;
-        if (!(this.anatomicalStructures[i].uberon.includes('UBERON'))) {
-          row['AS with no Uberon link'] = this.anatomicalStructures[i].structure;
+        row['Unique Anatomical Structures'] = this.anatomicalStructures[
+          i
+        ].structure;
+        if (!this.anatomicalStructures[i].uberon.includes('UBERON')) {
+          row['AS with no Uberon link'] = this.anatomicalStructures[
+            i
+          ].structure;
         }
-
       }
       if (i < this.cellTypes.length) {
         row['Unique Cell Types'] = this.cellTypes[i].structure;
-        if (!(this.cellTypes[i].link.includes('CL'))) {
+        if (!this.cellTypes[i].link.includes('CL')) {
           row['CL with no link'] = this.cellTypes[i].structure;
         }
       }
@@ -81,7 +108,7 @@ export class ReportComponent implements OnInit, OnChanges {
       sheetWS['!cols'].push({ wch: 30 });
     }
     const wb = XLSX.utils.book_new();
-    const dt = moment(new Date).format('YYYY.MM.DD_hh.mm');
+    const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
     const sn = this.currentSheet.display.toLowerCase().replace(' ', '_');
     XLSX.utils.book_append_sheet(wb, sheetWS, this.currentSheet.display);
     XLSX.writeFile(wb, `ASCT+B-Reporter_${sn}_${dt}_Report.xlsx`);
@@ -89,8 +116,8 @@ export class ReportComponent implements OnInit, OnChanges {
 
   getASWithNoLink() {
     const noLinks = [];
-    this.anatomicalStructures.forEach(ele => {
-      if (!(ele.uberon.includes('UBERON'))) {
+    this.anatomicalStructures.forEach((ele) => {
+      if (!ele.uberon.includes('UBERON')) {
         noLinks.push(ele);
       }
     });
@@ -99,8 +126,9 @@ export class ReportComponent implements OnInit, OnChanges {
 
   getCTWithNoLink() {
     const noLinks = [];
-    this.cellTypes.forEach(ele => {
-      if (!(ele.link.includes('CL'))) {
+    console.log(this.cellTypes);
+    this.cellTypes.forEach((ele) => {
+      if (!ele.link.includes('CL')) {
         noLinks.push(ele);
       }
     });
@@ -121,5 +149,4 @@ export class ReportComponent implements OnInit, OnChanges {
     const mailText = `mailto:infoccf@indiana.edu?subject=${subject}`;
     window.location.href = mailText;
   }
-
 }
