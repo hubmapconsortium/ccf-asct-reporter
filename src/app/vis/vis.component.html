@@ -41,6 +41,7 @@
       <app-indent
         *ngIf="displayGraph === 'Indented List'"
         [refreshData]="refreshIndent"
+        [currentSheet]="currentSheet"
         (returnRefresh)="returnRefresh($event)"
         [shouldReloadData]="shouldRefreshData"
       ></app-indent>

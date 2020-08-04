@@ -38,6 +38,7 @@ export class IndentComponent implements OnInit, OnChanges {
   @Input() public refreshData = false;
   @Output() returnRefresh = new EventEmitter();
   @Input() public shouldReloadData = false;
+  @Input() currentSheet: any;
 
   @ViewChild('indentTree') indentTree;
 
@@ -54,6 +55,7 @@ export class IndentComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.indent.setCurrentSheet(this.currentSheet);
     this.treeFlattener = new MatTreeFlattener(
       this.transformer, node => node.level, node => node.expandable, node => node.children);
 
@@ -73,7 +75,7 @@ export class IndentComponent implements OnInit, OnChanges {
   hasChild = (_: number, node: FlatNode) => node.expandable;
 
   async getData() {
-    const data = await this.sheet.getSheetData();
+    const data = await this.sheet.getSheetData(this.currentSheet);
     try {
       this.sheetData = data;
       this.dataSource.data = [this.indent.makeIndentData(this.sheetData.data)];

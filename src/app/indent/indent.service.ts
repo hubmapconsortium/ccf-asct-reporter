@@ -32,10 +32,13 @@ export class Node {
 export class IndentService {
 
   constructor(public sheet: SheetService) { }
-
+  currentSheet: any;
+  public setCurrentSheet(sheet) {
+    this.currentSheet = sheet;
+  }
   public makeIndentData(data) {
-    const cols = this.sheet.sheet.indent_cols;
-    const root = new Node(this.sheet.sheet.body, [], '');
+    const cols = this.currentSheet.indent_cols;
+    const root = new Node(this.currentSheet.body, [], '');
     delete root.uberon;
 
     let parent;
@@ -56,7 +59,7 @@ export class IndentService {
             if (Object.keys(searchedNode).length !== 0) {
               parent = searchedNode;
             } else {
-              const newNode = new Node(foundNodes[i], [], row[cols[col] + this.sheet.sheet.uberon_col]);
+              const newNode = new Node(foundNodes[i], [], row[cols[col] + this.currentSheet.uberon_col]);
               parent.children.push(newNode);
               parent = newNode;
             }
