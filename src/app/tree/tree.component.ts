@@ -93,7 +93,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     if (this.shouldReloadData && !this.refreshData) {
       this.getData();
     }
-
   }
 
   /**

@@ -126,6 +126,7 @@ export class VisComponent implements OnInit {
     this.currentSheetName = event;
     this.report.reportLog(`${this.currentSheetName}`, 'success', 'file');
     new Promise((res, rej) => {
+      this.currentSheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.display === this.currentSheetName)];
       this.sheet.sheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.display === this.currentSheetName)];
       res(true);
     })

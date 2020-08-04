@@ -66,7 +66,7 @@ export class BimodalService {
     const distance = this.sheet.sheet.config.bimodal_distance;
     let id = 0;
     let biomarkers = [];
-
+    
     // making anatomical structures (last layer of the tree)
     treeData.forEach(td => {
       if (td.children === 0) {
