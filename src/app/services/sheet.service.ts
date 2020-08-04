@@ -114,7 +114,7 @@ export class SheetService {
     if (currentSheet.display === 'All Organs') {
       return this.makeAOData();
     } else {
-      if (environment.production) {
+      if (!environment.production) {
         // in development mode
         constructedURL = `assets/data/${currentSheet.name}.csv`;
         const csvData = await this.getDataFromURL(constructedURL);
