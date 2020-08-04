@@ -10,6 +10,30 @@ const groupNameMapper = {
   3: 'Biomarkers'
 };
 
+export class Cell {
+  structure: string;
+  parents: Array<string>;
+  link: string;
+
+  constructor(structure: string, link = 'NONE') {
+    this.structure = structure;
+    this.parents = [];
+    this.link = link;
+  }
+}
+
+export class Marker {
+  structure: string;
+  parents: Array<string>;
+  count: number;
+
+  constructor(structure, count) {
+    this.structure = structure;
+    this.parents = [];
+    this.count = count;
+  }
+}
+
 export class BMNode {
   name: string;
   group: number;
@@ -97,16 +121,16 @@ export class BimodalService {
       });
     } else {
       if (bimodalConfig.CT.size === 'None') {
-        cellTypes = await this.sheet.makeCellDegree(sheetData, treeData,  'Degree', currentSheet);
+        cellTypes = await this.makeCellDegree(sheetData, treeData,  'Degree', currentSheet);
       } else {
-        cellTypes = await this.sheet.makeCellDegree(sheetData, treeData,  bimodalConfig.CT.size, currentSheet);
+        cellTypes = await this.makeCellDegree(sheetData, treeData,  bimodalConfig.CT.size, currentSheet);
       }
     }
 
 
     if (bimodalConfig.CT.size !== 'None') {
       // put sort size by degree function here
-      const tempCellTypes = await this.sheet.makeCellDegree(sheetData, treeData, bimodalConfig.CT.size, currentSheet);
+      const tempCellTypes = await this.makeCellDegree(sheetData, treeData, bimodalConfig.CT.size, currentSheet);
       cellTypes.forEach(c => {
         const idx = tempCellTypes.findIndex(i => i.structure.toLowerCase() === c.structure.toLowerCase());
         if (idx !== -1) {
@@ -139,11 +163,11 @@ export class BimodalService {
         );
       });
     } else {
-      biomarkers = await this.sheet.makeMarkerDegree(sheetData, currentSheet);
+      biomarkers = await this.makeMarkerDegree(sheetData, currentSheet);
     }
 
     if (bimodalConfig.BM.size === 'Degree') {
-      const tempBiomarkers = await this.sheet.makeMarkerDegree(sheetData, currentSheet);
+      const tempBiomarkers = await this.makeMarkerDegree(sheetData, currentSheet);
       biomarkers.forEach(b => {
         const idx = tempBiomarkers.findIndex(i => i.structure === b.structure);
         if (idx !== -1) {
@@ -244,6 +268,142 @@ export class BimodalService {
     this.report.checkLinks(ASCTGraphData.nodes); // check for missing links to submit to the Log
 
     return ASCTGraphData;
+  }
+
+    /**
+   * Returns the array of biomarkers that are sorted have their degrees calculated.
+   * @param {Array<Array<string>>} data - Sheet data
+   */
+  public async makeMarkerDegree(data: Array<Array<string>>, currentSheet: any) {
+    const markerDegrees = [];
+
+    data.forEach((row) => {
+      const markers = row[currentSheet.marker_col].split(',');
+      const cells = row[currentSheet.cell_col]
+        .split(',')
+        .map((str) => str.trim())
+        .filter((c) => c !== '');
+
+      for (const i in markers) {
+        if (markers[i] !== '' && !markers[i].startsWith('//')) {
+          const foundMarker = markerDegrees.findIndex(
+            (r) =>
+              r.structure.toLowerCase().trim() ===
+              markers[i].toLowerCase().trim()
+          );
+          if (foundMarker === -1) {
+            const nm = new Marker(markers[i].trim(), cells.length);
+            nm.parents.push(...cells.map((cell) => cell.toLowerCase()));
+            markerDegrees.push(nm);
+          } else {
+            const m = markerDegrees[foundMarker];
+            for (const c in cells) {
+              if (cells[c] !== '' && !cells[c].startsWith('//')) {
+                if (!m.parents.includes(cells[c].toLowerCase())) {
+                  m.count += 1;
+                  m.parents.push(cells[c].toLowerCase());
+                }
+              }
+            }
+          }
+        }
+      }
+    });
+
+    markerDegrees.sort((a, b) => b.parents.length - a.parents.length);
+    return markerDegrees;
+  }
+
+  /**
+   * Returns the array of cell types that are sorted have their degrees calculated.
+   * @param data - Sheet data
+   * @param treeData - Data from the tree visualization.
+   * @param degree - Degree configuration. Can be Degree, Indegree and Outdegree
+   */
+  public async makeCellDegree(data, treeData, degree, currentSheet: any): Promise<Array<Cell>> {
+    return new Promise((res, rej) => {
+      const cellDegrees: Array<Cell> = [];
+
+      // calculating in degree (AS -> CT)
+      if (degree === 'Degree' || degree === 'Indegree') {
+        treeData.forEach((td) => {
+          if (td.children === 0) {
+            const leaf = td.name;
+
+            data.forEach((row) => {
+              let parent;
+              parent = row.find((i) => i.toLowerCase() === leaf.toLowerCase());
+
+              if (parent) {
+                const cells = row[currentSheet.cell_col].split(',');
+                for (const i in cells) {
+                  if (cells[i] !== '' && !cells[i].startsWith('//')) {
+                    const foundCell = cellDegrees.findIndex(
+                      (c) =>
+                        c.structure.toLowerCase().trim() ===
+                        cells[i].toLowerCase().trim()
+                    );
+                    if (foundCell === -1) {
+                      const nc = new Cell(
+                        cells[i].trim(),
+                        row[currentSheet.cell_col + currentSheet.uberon_col]
+                      );
+                      nc.parents.push(parent.toLowerCase());
+                      cellDegrees.push(nc);
+                    } else {
+                      const c = cellDegrees[foundCell];
+                      if (!c.parents.includes(parent.toLowerCase())) {
+                        c.parents.push(parent.toLowerCase());
+                      }
+                    }
+                  }
+                }
+              }
+            });
+          }
+        });
+      }
+
+      // calculating out degree (CT -> B)
+      if (degree === 'Degree' || degree === 'Outdegree') {
+        data.forEach((row) => {
+          const markers = row[currentSheet.marker_col]
+            .split(',')
+            .map((str) => str.trim().toLowerCase())
+            .filter((c) => c !== '');
+          const cells = row[currentSheet.cell_col]
+            .split(',')
+            .map((str) => str.trim())
+            .filter((c) => c !== '');
+
+          for (const c in cells) {
+            if (cells[c] !== '' && !cells[c].startsWith('//')) {
+              const cd = cellDegrees.findIndex(
+                (i) => i.structure.toLowerCase() === cells[c].toLowerCase()
+              );
+              if (cd !== -1) {
+                for (const m in markers) {
+                  if (
+                    !cellDegrees[cd].parents.includes(markers[m].toLowerCase())
+                  ) {
+                    cellDegrees[cd].parents.push(markers[m]);
+                  }
+                }
+              } else {
+                const nc = new Cell(
+                  cells[c].trim(),
+                  row[currentSheet.cell_col + currentSheet.uberon_col]
+                );
+                nc.parents.push(...markers);
+                cellDegrees.push(nc);
+              }
+            }
+          }
+        });
+      }
+      cellDegrees.sort((a, b) => b.parents.length - a.parents.length);
+      res(cellDegrees);
+    });
   }
 
 }
