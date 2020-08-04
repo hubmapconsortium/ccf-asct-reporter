@@ -126,7 +126,6 @@ export class ReportComponent implements OnInit, OnChanges {
 
   getCTWithNoLink() {
     const noLinks = [];
-    console.log(this.cellTypes);
     this.cellTypes.forEach((ele) => {
       if (!ele.link.includes('CL')) {
         noLinks.push(ele);

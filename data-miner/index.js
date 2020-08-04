@@ -23,12 +23,14 @@ app.get("/:sheetid/:gid", (req, res) => {
     )
     .then((response) => {
       if (response.status === 200) {
-        res.send(response.data);
+        res.status(206).send(response.data);
       }
     })
     .catch((err) => {
       if (err) {
-        res.send('');
+        res.statusMessage = 'Node server could not fetch sheet'
+        
+        res.status(500).end();
       }
     });
 });

@@ -72,9 +72,10 @@ export class VisComponent implements OnInit {
     if (val.comp === 'Tree') {
       this.dialog.closeAll();
       if (val.val) {
+        console.log(val)
         val.status === 200 ?
           this.openSnackBar('Tree data successfully fetched.', 'Close', 'green') :
-          this.openSnackBar('Tree data successfully fetched from system cache.', 'Close', 'warn');
+          this.openSnackBar(val.msg, 'Close', 'warn');
 
       } else {
         this.openSnackBar('Error while fetching data.', 'Close', 'red');
@@ -125,19 +126,9 @@ export class VisComponent implements OnInit {
   getSelectedSheet(event) {
     this.currentSheetName = event;
     this.report.reportLog(`${this.currentSheetName}`, 'success', 'file');
-    new Promise((res, rej) => {
-      this.currentSheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.display === this.currentSheetName)];
-      // this.sheet.sheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.display === this.currentSheetName)];
-      res(true);
-    })
-      .then(data => {
-        if (data) {
-          this.openLoading();
-          this.shouldRefreshData = true;
-
-        }
-      });
-
+    this.currentSheet = this.sc.SHEET_CONFIG[this.sc.SHEET_CONFIG.findIndex(i => i.display === this.currentSheetName)];
+    this.openLoading();
+    this.shouldRefreshData = true;
   }
 }
 
