@@ -65,9 +65,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     }
   };
 
-  constructor(public sheet: SheetService, public report: ReportService, public ts: TreeService, public bms: BimodalService) {
-    
-  }
+  constructor(public sheet: SheetService, public report: ReportService, public ts: TreeService, public bms: BimodalService) { }
 
   ngOnInit(): void {
 

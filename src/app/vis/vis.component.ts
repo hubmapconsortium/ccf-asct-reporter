@@ -53,7 +53,6 @@ export class VisComponent implements OnInit {
     this.openLoading();
     this.displayGraph = val;
     this.shouldRefreshData = true;
-    
   }
 
   refreshData(val) {

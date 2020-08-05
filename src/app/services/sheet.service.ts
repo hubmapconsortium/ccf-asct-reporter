@@ -77,7 +77,7 @@ export class SheetService {
   public async getDataFromURL(url: string, header_count = 11): Promise<any> {
     return new Promise(async (res, rej) => {
       try {
-        let data = await this.http
+        const data = await this.http
           .get(url, { responseType: 'text' })
           .toPromise();
         const parsedData = parse(data);

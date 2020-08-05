@@ -68,7 +68,7 @@ export class IndentComponent implements OnInit, OnChanges {
       uberon: node.uberon,
       level,
     };
-  };
+  }
 
   ngOnInit(): void {
     this.indent.setCurrentSheet(this.currentSheet);
@@ -103,7 +103,7 @@ export class IndentComponent implements OnInit, OnChanges {
 
   }
 
-  
+
   async getData() {
     try {
       const data = await this.sheet.getSheetData(this.currentSheet);
@@ -111,18 +111,18 @@ export class IndentComponent implements OnInit, OnChanges {
       this.dataSource.data = [this.indent.makeIndentData(this.sheetData.data)];
       this.indentTree.treeControl.expandAll();
 
-        this.returnRefresh.emit({
+      this.returnRefresh.emit({
           comp: 'Indented List',
           msg: this.sheetData.msg,
           status: this.sheetData.status,
           val: true,
         });
-        this.report.reportLog(
+      this.report.reportLog(
           `Indented List for ${this.currentSheet.display} successfully rendered.`,
           'success',
           'msg'
         );
-      
+
     } catch (err) {
       console.log(err);
       this.returnRefresh.emit({

@@ -80,7 +80,7 @@ export interface ASCTD {
 export class BimodalService {
 
   constructor(public sheet: SheetService, public report: ReportService) { }
-  
+
   async makeASCTData(sheetData, treeData, bimodalConfig, currentSheet) {
     let ASCTGraphData: ASCTD;
     const links = [];
@@ -90,7 +90,7 @@ export class BimodalService {
     const distance = currentSheet.config.bimodal_distance;
     let id = 0;
     let biomarkers = [];
-    
+
     // making anatomical structures (last layer of the tree)
     treeData.forEach(td => {
       if (td.children === 0) {

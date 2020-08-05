@@ -36,18 +36,18 @@ large bowel,ileo-cecal valve,mucosa,Lamina propria/Gut associated lymphoid tissu
 large bowel,ileo-cecal valve,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),Innate lymphoid cell,"CD127, CD117, CD161",
 large bowel,ileo-cecal valve,mucosa,muscularis mucosa,muscle,aSMA,
 large bowel,ileo-cecal valve,submucosa,submucosa,nerve,"PDL1, CD56, PGP9.5",
-large bowel,ileo-cecal valve,submucosa,submucosa,endothelial,"CD31, CD34, CD36","NOVA2, SOX17"
+large bowel,ileo-cecal valve,submucosa,submucosa,endothelial cell ,"CD31, CD34, CD36","NOVA2, SOX17"
 large bowel,ileo-cecal valve,submucosa,submucosa,lymphatic,"CD31, Podoplanin",
 large bowel,ileo-cecal valve,submucosa,submucosal plexus of Meissner,nerve,"PDL1, CD56, PGP9.5",
 large bowel,ileo-cecal valve,submucosa,submucosal plexus of Meissner,muscle,aSMA,
 large bowel,ileo-cecal valve,muscularis externa,circular/longitudinal muscle,muscle,aSMA,
 large bowel,ileo-cecal valve,muscularis externa,circular/longitudinal muscle,Interstitial cell of Cajal,"CD117, CD34",
 large bowel,ileo-cecal valve,muscularis externa,circular/longitudinal muscle,fibroblast,"Col6A1, Col6A2","COL6A1, COL6A2"
-large bowel,ileo-cecal valve,muscularis externa,circular/longitudinal muscle,endothelial,"CD31, CD34, CD36","NOVA2, SOX17"
+large bowel,ileo-cecal valve,muscularis externa,circular/longitudinal muscle,endothelial cell,"CD31, CD34, CD36","NOVA2, SOX17"
 large bowel,ileo-cecal valve,muscularis externa,circular/longitudinal muscle,nerve,"PDL1, CD56, PGP9.5",
 large bowel,ileo-cecal valve,muscularis externa,myenteric plexus of Auerbach,nerve,"PDL1, CD56, PGP9.5",
 large bowel,ileo-cecal valve,muscularis externa,myenteric plexus of Auerbach,muscle,aSMA,
-large bowel,ileo-cecal valve,serosa,,mesothelial,Cytokeratin,
+large bowel,ileo-cecal valve,serosa,,mesothelial cell,Cytokeratin,
 large bowel,ileo-cecal valve,serosa,connective tissue,fibroblast,,"COL6A1, COL6A2"
 large bowel,ileo-cecal valve,serosa,connective tissue,endothelial cell,,"NOVA2, SOX17"
 large bowel,ceacum,mucosa,Epithelium,epithelial stem cell,"CD34, SOX9, CD44","LGR5, ASCL2, CDHR1, BIRC3, MYL9"
@@ -57,7 +57,7 @@ large bowel,ceacum,mucosa,Epithelium,absorptive,,"CA2, SI"
 large bowel,ceacum,mucosa,Epithelium,goblet,,"MUC2, ITLN1, SLC26A2, CLCA4"
 large bowel,ceacum,mucosa,Epithelium,enterocyte,,"BEST4, CA7, NEURL1, HES1"
 large bowel,ceacum,mucosa,Epithelium,Tuft cell,,"DCLK1, IRF7, SELENBP1"
-large bowel,ceacum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),endothelial,"CD31, CD34, CD36","CD36, SOX17"
+large bowel,ceacum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),endothelial cell,"CD31, CD34, CD36","CD36, SOX17"
 large bowel,ceacum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),lymphatics,"CD31, Podoplanin",
 large bowel,ceacum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),myofibroblast,,"TP53I3, DES, ACTG2, CNN1"
 large bowel,ceacum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),fibroblast,"Col6A1, Col6A2","COL6A1, COL6A2"
@@ -77,18 +77,18 @@ large bowel,ceacum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),D
 large bowel,ceacum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),Innate lymphoid cell,"CD127, CD117, CD161",
 large bowel,ceacum,mucosa,muscularis mucosa,muscle,aSMA,
 large bowel,ceacum,submucosa,submucosa,nerve,"PDL1, CD56, PGP9.5",
-large bowel,ceacum,submucosa,submucosa,endoethlial,"CD31, CD34, CD36","NOVA2, SOX17"
+large bowel,ceacum,submucosa,submucosa,endoethlial cell,"CD31, CD34, CD36","NOVA2, SOX17"
 large bowel,ceacum,submucosa,submucosa,lymphatic,"CD31, Podoplanin",
 large bowel,ceacum,submucosa,submucosal plexus of Meissner,nerve,"PDL1, CD56, PGP9.5",
 large bowel,ceacum,submucosa,submucosal plexus of Meissner,muscle,aSMA,
 large bowel,ceacum,muscularis externa,circular/longitudinal muscle,muscle,aSMA,
 large bowel,ceacum,muscularis externa,circular/longitudinal muscle,Interstitial cell of Cajal,"CD117, CD34",
 large bowel,ceacum,muscularis externa,circular/longitudinal muscle,fibroblast,"Col6A1, Col6A2","COL6A1, COL6A2"
-large bowel,ceacum,muscularis externa,circular/longitudinal muscle,endothelial,"CD31, CD34, CD36","NOVA2, SOX17"
+large bowel,ceacum,muscularis externa,circular/longitudinal muscle,endothelial cell,"CD31, CD34, CD36","NOVA2, SOX17"
 large bowel,ceacum,muscularis externa,circular/longitudinal muscle,nerve,"PDL1, CD56, PGP9.5",
 large bowel,ceacum,muscularis externa,myenteric plexus of Auerbach,nerve,"PDL1, CD56, PGP9.5",
 large bowel,ceacum,muscularis externa,myenteric plexus of Auerbach,muscle,aSMA,
-large bowel,ceacum,serosa,,mesothelial,Cytokeratin,
+large bowel,ceacum,serosa,,mesothelial cell,Cytokeratin,
 large bowel,ceacum,serosa,connective tissue,fibroblast,,"COL6A1, COL6A2"
 large bowel,ceacum,serosa,connective tissue,endothelial cell,,"NOVA2, SOX17"
 large bowel,Appendix,mucosa,Epithelium,epithelial stem cell,"CD34, SOX9, CD44","LGR5, ASCL2, CDHR1, BIRC3, MYL9"
@@ -98,7 +98,7 @@ large bowel,Appendix,mucosa,Epithelium,absorptive,,"CA2, SI"
 large bowel,Appendix,mucosa,Epithelium,goblet,,"MUC2, ITLN1, SLC26A2, CLCA4"
 large bowel,Appendix,mucosa,Epithelium,enterocyte,,"BEST4, CA7, NEURL1, HES1"
 large bowel,Appendix,mucosa,Epithelium,Tuft cell,,"DCLK1, IRF7, SELENBP1"
-large bowel,Appendix,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),endothelial,"CD31, CD34, CD36","CD36, SOX17"
+large bowel,Appendix,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),endothelial cell,"CD31, CD34, CD36","CD36, SOX17"
 large bowel,Appendix,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),lymphatics,"CD31, Podoplanin",
 large bowel,Appendix,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),myofibroblast,,"TP53I3, DES, ACTG2, CNN1"
 large bowel,Appendix,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),fibroblast,"Col6A1, Col6A2","COL6A1, COL6A2"
@@ -118,18 +118,18 @@ large bowel,Appendix,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT)
 large bowel,Appendix,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),Innate lymphoid cell,"CD127, CD117, CD161",
 large bowel,Appendix,mucosa,muscularis mucosa,muscle,aSMA,
 large bowel,Appendix,submucosa,submucosa,nerve,"PDL1, CD56, PGP9.5",
-large bowel,Appendix,submucosa,submucosa,endoethlial,"CD31, CD34, CD36","NOVA2, SOX17"
+large bowel,Appendix,submucosa,submucosa,endoethlial cell,"CD31, CD34, CD36","NOVA2, SOX17"
 large bowel,Appendix,submucosa,submucosa,lymphatic,"CD31, Podoplanin",
 large bowel,Appendix,submucosa,submucosal plexus of Meissner,nerve,"PDL1, CD56, PGP9.5",
 large bowel,Appendix,submucosa,submucosal plexus of Meissner,muscle,aSMA,
 large bowel,Appendix,muscularis externa,circular/longitudinal muscle,muscle,aSMA,
 large bowel,Appendix,muscularis externa,circular/longitudinal muscle,Interstitial cell of Cajal,"CD117, CD34",
 large bowel,Appendix,muscularis externa,circular/longitudinal muscle,fibroblast,"Col6A1, Col6A2","COL6A1, COL6A2"
-large bowel,Appendix,muscularis externa,circular/longitudinal muscle,endothelial,"CD31, CD34, CD36","NOVA2, SOX17"
+large bowel,Appendix,muscularis externa,circular/longitudinal muscle,endothelial cell,"CD31, CD34, CD36","NOVA2, SOX17"
 large bowel,Appendix,muscularis externa,circular/longitudinal muscle,nerve,"PDL1, CD56, PGP9.5",
 large bowel,Appendix,muscularis externa,myenteric plexus of Auerbach,nerve,"PDL1, CD56, PGP9.5",
 large bowel,Appendix,muscularis externa,myenteric plexus of Auerbach,muscle,aSMA,
-large bowel,Appendix,serosa,,mesothelial,Cytokeratin,
+large bowel,Appendix,serosa,,mesothelial cell,Cytokeratin,
 large bowel,Appendix,serosa,connective tissue,fibroblast,,"COL6A1, COL6A2"
 large bowel,Appendix,serosa,connective tissue,endothelial cell,,"NOVA2, SOX17"
 large bowel,colon ascending/right,mucosa,Epithelium,epithelial stem cell,"CD34, SOX9, CD44","LGR5, ASCL2, CDHR1, BIRC3, MYL9"
@@ -139,7 +139,7 @@ large bowel,colon ascending/right,mucosa,Epithelium,absorptive,,"CA2, SI"
 large bowel,colon ascending/right,mucosa,Epithelium,goblet,,"MUC2, ITLN1, SLC26A2, CLCA4"
 large bowel,colon ascending/right,mucosa,Epithelium,enterocyte,,"BEST4, CA7, NEURL1, HES1"
 large bowel,colon ascending/right,mucosa,Epithelium,Tuft cell,,"DCLK1, IRF7, SELENBP1"
-large bowel,colon ascending/right,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),endothelial,"CD31, CD34, CD36","CD36, SOX17"
+large bowel,colon ascending/right,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),endothelial cell,"CD31, CD34, CD36","CD36, SOX17"
 large bowel,colon ascending/right,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),lymphatics,"CD31, Podoplanin",
 large bowel,colon ascending/right,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),myofibroblast,,"TP53I3, DES, ACTG2, CNN1"
 large bowel,colon ascending/right,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),fibroblast,"Col6A1, Col6A2","COL6A1, COL6A2"
@@ -159,18 +159,18 @@ large bowel,colon ascending/right,mucosa,Lamina propria/Gut associated lymphoid 
 large bowel,colon ascending/right,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),Innate lymphoid cell,"CD127, CD117, CD161",
 large bowel,colon ascending/right,mucosa,muscularis mucosa,muscle,aSMA,
 large bowel,colon ascending/right,submucosa,submucosa,nerve,"PDL1, CD56, PGP9.5",
-large bowel,colon ascending/right,submucosa,submucosa,endoethlial,"CD31, CD34, CD36","NOVA2, SOX17"
+large bowel,colon ascending/right,submucosa,submucosa,endoethlial cell,"CD31, CD34, CD36","NOVA2, SOX17"
 large bowel,colon ascending/right,submucosa,submucosa,lymphatic,"CD31, Podoplanin",
 large bowel,colon ascending/right,submucosa,submucosal plexus of Meissner,nerve,"PDL1, CD56, PGP9.5",
 large bowel,colon ascending/right,submucosa,submucosal plexus of Meissner,muscle,aSMA,
 large bowel,colon ascending/right,muscularis externa,circular/longitudinal muscle,muscle,aSMA,
 large bowel,colon ascending/right,muscularis externa,circular/longitudinal muscle,Interstitial cell of Cajal,"CD117, CD34",
 large bowel,colon ascending/right,muscularis externa,circular/longitudinal muscle,fibroblast,"Col6A1, Col6A2","COL6A1, COL6A2"
-large bowel,colon ascending/right,muscularis externa,circular/longitudinal muscle,endothelial,"CD31, CD34, CD36","NOVA2, SOX17"
+large bowel,colon ascending/right,muscularis externa,circular/longitudinal muscle,endothelial cell,"CD31, CD34, CD36","NOVA2, SOX17"
 large bowel,colon ascending/right,muscularis externa,circular/longitudinal muscle,nerve,"PDL1, CD56, PGP9.5",
 large bowel,colon ascending/right,muscularis externa,myenteric plexus of Auerbach,nerve,"PDL1, CD56, PGP9.5",
 large bowel,colon ascending/right,muscularis externa,myenteric plexus of Auerbach,muscle,aSMA,
-large bowel,colon ascending/right,serosa,,mesothelial,Cytokeratin,
+large bowel,colon ascending/right,serosa,,mesothelial cell,Cytokeratin,
 large bowel,colon ascending/right,serosa,connective tissue,fibroblast,,"COL6A1, COL6A2"
 large bowel,colon ascending/right,serosa,connective tissue,endothelial cell,,"NOVA2, SOX17"
 large bowel,"colon, transverse",mucosa,Epithelium,epithelial stem cell,"CD34, SOX9, CD44","LGR5, ASCL2, CDHR1, BIRC3, MYL9"
@@ -323,7 +323,7 @@ large bowel,rectum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),D
 large bowel,rectum,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),Innate lymphoid cell,"CD127, CD117, CD161",
 large bowel,rectum,mucosa,muscularis mucosa,muscle,aSMA,
 large bowel,rectum,submucosa,submucosa,nerve,"PDL1, CD56, PGP9.5",
-large bowel,rectum,submucosa,submucosa,endoethlial,"CD31, CD34, CD36","NOVA2, SOX17"
+large bowel,rectum,submucosa,submucosa,endothelial,"CD31, CD34, CD36","NOVA2, SOX17"
 large bowel,rectum,submucosa,submucosa,lymphatic,"CD31, Podoplanin",
 large bowel,rectum,submucosa,submucosal plexus of Meissner,nerve,"PDL1, CD56, PGP9.5",
 large bowel,rectum,submucosa,submucosal plexus of Meissner,muscle,aSMA,
@@ -334,7 +334,7 @@ large bowel,rectum,muscularis externa,circular/longitudinal muscle,endothelial,"
 large bowel,rectum,muscularis externa,circular/longitudinal muscle,nerve,"PDL1, CD56, PGP9.5",
 large bowel,rectum,muscularis externa,myenteric plexus of Auerbach,nerve,"PDL1, CD56, PGP9.5",
 large bowel,rectum,muscularis externa,myenteric plexus of Auerbach,muscle,aSMA,
-large bowel,rectum,serosa,,mesothelial,Cytokeratin,
+large bowel,rectum,serosa,,mesothelial cell,Cytokeratin,
 large bowel,rectum,serosa,connective tissue,fibroblast,,"COL6A1, COL6A2"
 large bowel,rectum,serosa,connective tissue,endothelial cell,,"NOVA2, SOX17"
 large bowel,anal canal,mucosa,Epithelium,epithelial stem cell,"CD34, SOX9, CD44","LGR5, ASCL2, CDHR1, BIRC3, MYL9"
@@ -364,7 +364,7 @@ large bowel,anal canal,mucosa,Lamina propria/Gut associated lymphoid tissue (GAL
 large bowel,anal canal,mucosa,Lamina propria/Gut associated lymphoid tissue (GALT),Innate lymphoid cell,"CD127, CD117, CD161",
 large bowel,anal canal,mucosa,muscularis mucosa,muscle,aSMA,
 large bowel,anal canal,submucosa,submucosa,nerve,"PDL1, CD56, PGP9.5",
-large bowel,anal canal,submucosa,submucosa,endoethlial,"CD31, CD34, CD36","NOVA2, SOX17"
+large bowel,anal canal,submucosa,submucosa,endothelial,"CD31, CD34, CD36","NOVA2, SOX17"
 large bowel,anal canal,submucosa,submucosa,lymphatic,"CD31, Podoplanin",
 large bowel,anal canal,submucosa,submucosal plexus of Meissner,nerve,"PDL1, CD56, PGP9.5",
 large bowel,anal canal,submucosa,submucosal plexus of Meissner,muscle,aSMA,
