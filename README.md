@@ -83,9 +83,9 @@ Some nodes in the partnomy tree may have a black stoke around them. This indicat
 The bimodal network links the anatomical structures to the cell types, and then the cell types to the biomarkers. The cell types are color coded in blue and the biomarkers in green. This is housed in the [bimodal component](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/src/app/bimodal/bimodal.component.ts).
 
 After the partonomy tree is rendered onto the DOM, the function [`makeASCTData()`](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/d6b98bff6fc8d88c14ee8c38809a063db39d31bc/src/app/bimodal/bimodal.service.ts#L44) is called that accepts the ASCT+B table data and the partonomy tree data. The `treeData` is an array of objects that contains information of the all the nodes in the tree (positions, names, colors, etc). Using this data, paths between the anatomical structures and cell types a formed. The `x` and `y` coordinates of the leaf nodes of the tree is used to start the paths. Each of the structures are divided into multiple groups,
-- Group 1: Anatomical Structures
-- Group 2: Cell Types
-- Group 3: Biomarkers
+- Group 1: Anatomical Structures (red)
+- Group 2: Cell Types (blue)
+- Group 3: Biomarkers (green)
 
 After all the nodes have been pushed using the [`BMNode`](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/d6b98bff6fc8d88c14ee8c38809a063db39d31bc/src/app/bimodal/bimodal.service.ts#L9) class, the links are constucted. This is done by using the position of the nodes in the `nodes` array, specifying the source (`s`) and the target(`t`)
 
@@ -159,7 +159,9 @@ The reporter is also accompanied by a backend server - [ASCT+B Data Miner](https
 
 The Miner can also be used as a stand-alone tool to retrieve the data from the flattened google sheets. Below is the API that you'll have to use,
 
-`https://asctb-data-miner.herokuapp.com/<sheetID>/<gid>`
+```
+https://asctb-data-miner.herokuapp.com/<sheetID>/<gid>
+```
 
 This will either return the CSV data as a string, or will return a `500` HTTP code.
 
