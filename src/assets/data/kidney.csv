@@ -8,7 +8,7 @@ flattened table verified and formatting adjusted to match ASCT-B reporter requir
 ,,,,,,,
 ,,,,,,,
 ,,,,,,,
-//Structure/Region,//Sub structure/Sub region,//Sub sub structure/Sub sub region,//Cell Class/sub class,//Cell Type,//Abbreviation,//Subset of Marker Genes,//Pertinent negatives/comments
+Structure/Region,Sub structure/Sub region,Sub sub structure/Sub sub region,Cell Class/sub class,Cell Type,Abbreviation,Subset of Marker Genes,Pertinent negatives/comments
 Renal Corpuscle,Bowman's (glomerular) Capsule,Parietal epithelial layer,Epithelial,Parietal epithelial cell,PEC,"CRB2, CLDN1",
 Renal Corpuscle,Bowman's (glomerular) Capsule,Visceral epithelial layer,Epithelial,Podocyte,POD,"NPHS2, PODXL, NPHS1",
 Renal Corpuscle,Glomerular tuft,Glomerular capillaries,Endothelial,Capillary Endothelial Cell,GC-EC,"EHD3, EMCN, HECW2, FLT1, AQP1, PLAT",

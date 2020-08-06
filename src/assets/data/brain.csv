@@ -1,4 +1,4 @@
-// SEE HERE unflattened table: https://docs.google.com/spreadsheets/d/19m_xjwM5le7UKvt8966aEPA_a7HSCJBQY9Mq4qDe0ZQ/edit#gid=1644155102,,,
+ SEE HERE unflattened table: https://docs.google.com/spreadsheets/d/19m_xjwM5le7UKvt8966aEPA_a7HSCJBQY9Mq4qDe0ZQ/edit#gid=1644155102,,,
 Pertinent negatives/comments/numbering convention  https://portal.brain-map.org/explore/classes/nomenclature,,,
 ,,,
 ,,,
@@ -8,7 +8,7 @@ Pertinent negatives/comments/numbering convention  https://portal.brain-map.org/
 ,,,
 ,,,
 ,,,
-//Structure/Region,//Cell type Class,//specific cell type,//BioMarker subset
+Structure/Region,Cell type Class,specific cell type,BioMarker subset
 Primary motor cortex,LAMP5 class GABAergic neuron,Inh L1 LAMP5 PVRL2,"CBLN4, HS3ST5, RELN, TRPC3"
 Primary motor cortex,LAMP5 class GABAergic neuron,Inh L1 LAMP5 RAB11FIP1,"ADAMTS20, FREM1, MYH11"
 Primary motor cortex,LAMP5 class GABAergic neuron,Inh L1-6 LAMP5 AARD,"FBXL7, FREM1, KIT, PRELID2"
