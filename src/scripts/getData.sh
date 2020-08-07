@@ -3,13 +3,19 @@ input='src/scripts/scriptdata.csv'
 IFS=','
 
 function get_data() {
-    if [ -z $1 ] ; then
+
+    if [[ ! -f "src/assets/data/$1" ]]
+    then
+        mkdir -p "src/assets/data/$1";
+    fi
+
+    if [ -z $2 ] ; then
         while read f1 f2 f3
         do 
             echo "Downloading $f1..."
             downloadURL="https://docs.google.com/spreadsheets/d/${f2}/export?format=csv&gid=${f3}"
             redirectURL=$(curl -w "%{url_effective}\n" -I -L -s -S $downloadURL -o /dev/null)
-            outputCSV="src/assets/data/${f1}.csv"
+            outputCSV="src/assets/data/$1/${f1}.csv"
 
             curl ${redirectURL} --output ${outputCSV}
 
@@ -17,11 +23,11 @@ function get_data() {
     else
         while read f1 f2 f3
         do 
-            if [ "$f1" == "$1" ]; then
+            if [ "$f1" == "$2" ]; then
                 echo "Downloading $f1..."
                 downloadURL="https://docs.google.com/spreadsheets/d/${f2}/export?format=csv&gid=${f3}"
                 redirectURL=$(curl -w "%{url_effective}\n" -I -L -s -S $downloadURL -o /dev/null)
-                outputCSV="src/assets/data/${f1}.csv"
+                outputCSV="src/assets/data/$1/${f1}.csv"
 
                 curl ${redirectURL} --output ${outputCSV}
             fi
@@ -46,12 +52,12 @@ function print_help() {
     echo "\t  skin"
 }
 
-if [ -z "$1" ]; then 
-    echo "Updating all sheets\n\n"
-    get_data
+if [ -z "$2" ]; then 
+    echo "Updating all sheets\nVersion Folder: $1\n\n"
+    get_data $1
 elif [ "$1" == "help" ]; then 
     print_help
 else
-    echo "Updating $1 sheet"
-    get_data $1
+    echo "Updating $2 sheet. \nVersion Folder: $1\n\n"
+    get_data $1 $2
 fi

@@ -102,6 +102,7 @@ export class NavbarComponent implements OnInit {
 
   getSelectedVersion() {
     this.dataVersion.emit(this.versions.find(i=>i.display === this.selectedVersion).folder);
+    this.refresh.emit(this.selectedOption);
   }
 
 }
