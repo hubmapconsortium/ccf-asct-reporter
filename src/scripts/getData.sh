@@ -16,6 +16,7 @@ function get_data() {
             downloadURL="https://docs.google.com/spreadsheets/d/${f2}/export?format=csv&gid=${f3}"
             redirectURL=$(curl -w "%{url_effective}\n" -I -L -s -S $downloadURL -o /dev/null)
             outputCSV="src/assets/data/$1/${f1}.csv"
+            echo "\nFile path: $outputCSV\n"
 
             curl ${redirectURL} --output ${outputCSV}
 
@@ -28,7 +29,8 @@ function get_data() {
                 downloadURL="https://docs.google.com/spreadsheets/d/${f2}/export?format=csv&gid=${f3}"
                 redirectURL=$(curl -w "%{url_effective}\n" -I -L -s -S $downloadURL -o /dev/null)
                 outputCSV="src/assets/data/$1/${f1}.csv"
-
+                 echo "\nFile path: $outputCSV\n"
+                 
                 curl ${redirectURL} --output ${outputCSV}
             fi
         done < $input
