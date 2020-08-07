@@ -40,8 +40,8 @@ function print_help() {
     echo "ASCT Reporter Data Miner"
     echo ""
 	echo "Usage:"
-    echo "./getcsv.sh - Updates all the sheets from google sheets."
-    echo "./getcsv <sheet>: Download a specific sheet. Options are:"
+    echo "./getcsv.sh <folder_name> - Updates all the sheets from google sheets."
+    echo "./getcsv <folder_name> <sheet>: Download a specific sheet. Options are:"
     echo "\t  spleen"
     echo "\t  kidney"
     echo "\t  liver"
@@ -50,13 +50,17 @@ function print_help() {
     echo "\t  si"
     echo "\t  li"
     echo "\t  skin"
+    echo "\t  lung"
+    echo "\t  brain"
+
+    echo "\n\nFolder Naming Example: v100 for v1.0.0"
 }
 
-if [ -z "$2" ]; then 
+if [ "$1" == "help" ]; then 
+    print_help
+elif [ -z "$2" ]; then 
     echo "Updating all sheets\nVersion Folder: $1\n\n"
     get_data $1
-elif [ "$1" == "help" ]; then 
-    print_help
 else
     echo "Updating $2 sheet. \nVersion Folder: $1\n\n"
     get_data $1 $2
