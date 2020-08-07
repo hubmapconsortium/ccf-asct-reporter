@@ -43,8 +43,8 @@ $ git subtree push --prefix data-miner miner master
 
 For updating table data,
 ```shell
-$ npm run data # for updating all sheets
-$ npm run data <sheet> # for updating a specific sheet
+$ npm run data <folder_name> # for updating all sheets
+$ npm run data <folder_name> <sheet> # for updating a specific sheet
 ```
 
 ## Details
@@ -141,13 +141,14 @@ This shell script is used to fetch data from the flattened tables. The sheetId a
 The script encorporates 2 options,
 1. No parameters: Updates the data of all the sheets from google sheets.
    ```shell
-   $ npm run data
+   $ npm run data <folder_name> 
    ```
 2. <sheet_name> parameter: Updates the data of a specific sheet.
    ```shell
-   $ npm run data <sheet_name>
+   $ npm run data <folder_name> <sheet_name>
    ```
-
+**Naming Folders:** For version `v1.0.0` the folder name will be `v100`, and so on.
+ 
 For additional help,
 ```shell
 $ npm run data help
