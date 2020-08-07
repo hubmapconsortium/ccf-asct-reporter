@@ -104,7 +104,7 @@ export class SheetService {
    *
    * @returns {Promise} - An object that has - CSV data, status and return message
    */
-  public async getSheetData(currentSheet: any): Promise<any> {
+  public async getSheetData(currentSheet: any, dataVersion?: string): Promise<any> {
     let constructedURL = '';
     let responseStatus = 200;
     let csvData: any;
@@ -112,11 +112,11 @@ export class SheetService {
     this.loadingStatus.emit(currentSheet.display);
 
     if (currentSheet.display === 'All Organs') {
-      return this.makeAOData();
+      return this.makeAOData(dataVersion);
     } else {
       if (!environment.production) {
         // in development mode
-        constructedURL = `assets/data/${currentSheet.name}.csv`;
+        constructedURL = `assets/data/${dataVersion}/${currentSheet.name}.csv`;
         const csvData = await this.getDataFromURL(constructedURL);
         this.organSheetData = new Promise(async (res, rej) => {
           res({
@@ -217,7 +217,7 @@ export class SheetService {
    *
    * @returns {Promise} - An object that has - CSV data, status and return message
    */
-  public async makeAOData() {
+  public async makeAOData(dataVersion: string) {
     const allOrganData = [];
     let csvData: any;
     let organData: any;
@@ -229,7 +229,7 @@ export class SheetService {
         this.sc.SHEET_CONFIG.findIndex((i) => i.display === organ)
       ];
       try {
-        csvData = await this.getSheetData(organSheet);
+        csvData = await this.getSheetData(organSheet, dataVersion);
         organData = csvData.data;
         responseMsg = csvData.msg;
         responseStatus = csvData.status;

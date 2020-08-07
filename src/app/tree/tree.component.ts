@@ -7,6 +7,7 @@ import vegaTooltip from 'vega-tooltip';
 import { ReportService } from '../report/report.service';
 import { TreeService } from './tree.service';
 import { BimodalService, ASCTD } from '../services/bimodal.service';
+import { SconfigService } from '../services/sconfig.service';
 
 @Component({
   selector: 'app-tree',
@@ -29,7 +30,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   treeWidthOffset = 0;
   screenWidth = 0;
   asctData: ASCTD;
-
+  
+  @Input() dataVersion=this.sc.VERSIONS[0].folder;
   @Input() settingsExpanded: boolean;
   @Input() currentSheet: any;
   @Input() public refreshData = false;
@@ -65,7 +67,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     }
   };
 
-  constructor(public sheet: SheetService, public report: ReportService, public ts: TreeService, public bms: BimodalService) { }
+  constructor(public sheet: SheetService, public report: ReportService, public ts: TreeService, public bms: BimodalService, public sc: SconfigService) { }
 
   ngOnInit(): void {
 
@@ -573,7 +575,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
    * Fetched the data to form the visualization on load.
    */
   async getData() {
-    this.sheetData = await this.sheet.getSheetData(this.currentSheet);
+    this.sheetData = await this.sheet.getSheetData(this.currentSheet, this.dataVersion);
     this.treeData = await this.ts.makeTreeData(this.sheetData.data);
 
     const height = document.getElementsByTagName('body')[0].clientHeight;

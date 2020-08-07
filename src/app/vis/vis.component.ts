@@ -26,6 +26,7 @@ export class VisComponent implements OnInit {
   currentSheet = this.sc.SHEET_CONFIG[0];
   shouldRefreshData = false;
   showCompInDrawer = '';
+  dataVersion = '';
 
   constructor(
     private dialog: MatDialog,
@@ -143,5 +144,9 @@ export class VisComponent implements OnInit {
     ];
     this.openLoading();
     this.shouldRefreshData = true;
+  }
+
+  setVersionFolder(folder: string) {
+    this.dataVersion = folder;
   }
 }

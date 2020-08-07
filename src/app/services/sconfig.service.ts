@@ -10,6 +10,13 @@ import { Injectable } from '@angular/core';
 export class SconfigService {
   SERVER_URL = 'https://asctb-data-miner.herokuapp.com';
 
+  VERSIONS = [
+    {
+      display: 'v1.0.0',
+      folder: 'v100'
+    }
+  ]
+
   ORGANS = [
     'Brain',
     'Spleen',

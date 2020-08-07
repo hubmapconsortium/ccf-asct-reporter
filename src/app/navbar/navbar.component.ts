@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { SconfigService } from '../services/sconfig.service';
 
 @Component({
   selector: 'app-navbar',
@@ -44,6 +45,9 @@ export class NavbarComponent implements OnInit {
 
   screenWidth = document.getElementsByTagName('body')[0].clientWidth;
 
+  versions = this.sc.VERSIONS;
+  selectedVersion = this.versions[0].display;
+
   @Output() showReport = new EventEmitter<any>();
   @Output() showLog = new EventEmitter<any>();
   @Output() showFunction = new EventEmitter<any>();
@@ -51,13 +55,15 @@ export class NavbarComponent implements OnInit {
   @Output() refresh = new EventEmitter<any>();
   @Output() getSheet = new EventEmitter<any>();
   @Output() downloadVis = new EventEmitter<any>();
+  @Output() dataVersion = new EventEmitter<any>();
 
-  constructor() {
+  constructor(public sc: SconfigService) {
   }
 
   ngOnInit(): void {
     this.getSheetSelection();
     this.getSelection();
+    this.getSelectedVersion();
   }
 
   getSelection(option= this.selectedOption) {
@@ -92,6 +98,10 @@ export class NavbarComponent implements OnInit {
 
   openGithub() {
     window.open('https://github.com/hubmapconsortium/ccf-asct-reporter', '_blank');
+  }
+
+  getSelectedVersion() {
+    this.dataVersion.emit(this.versions.find(i=>i.display === this.selectedVersion).folder);
   }
 
 }
