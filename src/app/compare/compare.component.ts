@@ -40,7 +40,10 @@ export class CompareComponent implements OnInit {
     let sheetID = this.checkLinkFormat(link).sheetID;
     let gid = this.checkLinkFormat(link).gid;
     try {
-      const constructedURL = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv&gid=${gid}`;
+      console.log(sheetID, gid)
+      // const constructedURL = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv&gid=${gid}`;
+      const constructedURL = `http://asctb-data-miner.herokuapp.com/${sheetID}/${gid}`
+      console.log(constructedURL)
       const CN = columns.split(',');
 
       const markerCol = CN[CN.length - 1];
@@ -48,28 +51,18 @@ export class CompareComponent implements OnInit {
 
       let structureNames = [];
       const csvData = await this.sheet.getDataFromURL(
-        constructedURL,
-        200,
-        'Ok',
-        1
+        constructedURL, 1
       );
 
       csvData.data.forEach((row) => {
         for (let i = 0; i < CN.length - 2; i++) {
-          if (
-            !structureNames.some(
-              (s) => s.name.toLowerCase() == row[i].toLowerCase()
-            )
-          ) {
+          if (!structureNames.some((s) => s.name.toLowerCase() == row[i].toLowerCase())) {
             structureNames.push({ name: row[i] });
           }
         }
         let cells = row[cellCol].split(',').map((c) => c.trim());
         for (let i = 0; i < cells.length; i++) {
-          if (
-            !structureNames.some(
-              (s) => s.name.toLowerCase() == cells[i].toLowerCase()
-            )
+          if (!structureNames.some((s) => s.name.toLowerCase() == cells[i].toLowerCase())
           ) {
             structureNames.push({ name: cells[i].trim() });
           }
@@ -77,11 +70,7 @@ export class CompareComponent implements OnInit {
 
         let markers = row[markerCol].split(',').map((m) => m.trim());
         for (let i = 0; i < markers.length; i++) {
-          if (
-            !structureNames.some(
-              (s) => s.name.toLowerCase() == markers[i].toLowerCase()
-            )
-          ) {
+          if (!structureNames.some((s) => s.name.toLowerCase() == markers[i].toLowerCase())) {
             structureNames.push({ name: markers[i] });
           }
         }
@@ -120,6 +109,9 @@ export class CompareComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      sheet: 'Derived Data Sheet'
+    }
     this.loadingDialog = this.dialog.open(LoadingComponent, dialogConfig);
   }
 

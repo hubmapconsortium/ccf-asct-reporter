@@ -16,8 +16,9 @@ export class LoadingComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public sheet: SheetService
   ) {
+    console.log(data)
     this.loadingText = data.sheet.display;
-    this.loadingList = data.list;
+    // this.loadingList = data.list;
   }
 
   ngOnInit(): void {

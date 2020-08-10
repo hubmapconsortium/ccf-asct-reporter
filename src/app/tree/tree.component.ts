@@ -91,6 +91,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges() {
+    console.log(this.compareData);
     if (this.refreshData) {
       this.ts.setCurrentSheet(this.currentSheet);
       this.compareData = []; // remove compare data on refresh
@@ -231,7 +232,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               type: 'tree',
               method: 'cluster',
               size: [
-                { signal: height + this.sheet.sheet.config.height_offset },
+                { signal: height + this.currentSheet.config.height_offset },
                 { signal: width - this.bimodalDistance * 3 },
               ],
               separation: { value: false },
@@ -416,7 +417,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                     },
                     {
                       test: 'length(compare_dd__signal) !== 0',
-                      value: 'orange',
+                      value: '#FDD835',
                     },
                     { value: '#ccc' },
                   ],
@@ -552,7 +553,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                     },
                     {
                       test: 'length(compare_dd__signal) !== 0',
-                      value: 'orange',
+                      value: '#FDD835',
                     },
                     { value: '#ccc' },
                   ],
@@ -701,7 +702,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       await this.renderGraph(config);
       this.shouldRenderASCTBiomodal = true;
       this.report.reportLog(
-        `${this.sheet.sheet.display} tree succesfully rendered`,
+        `${this.currentSheet.display} tree succesfully rendered`,
         'success',
         'msg'
       );
