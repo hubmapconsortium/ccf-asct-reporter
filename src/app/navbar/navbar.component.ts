@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SconfigService } from '../services/sconfig.service';
+import { SheetService } from '../services/sheet.service';
 
 @Component({
   selector: 'app-navbar',
@@ -57,13 +58,17 @@ export class NavbarComponent implements OnInit {
   @Output() downloadVis = new EventEmitter<any>();
   @Output() dataVersion = new EventEmitter<any>();
 
-  constructor(public sc: SconfigService) {
+  constructor(public sc: SconfigService, public sheet: SheetService) {
   }
 
   ngOnInit(): void {
     this.getSheetSelection();
     this.getSelection();
     this.getSelectedVersion();
+
+    this.sheet.changeDataVersion.subscribe((dv) => {
+      this.selectedVersion = dv.display;
+    });
   }
 
   getSelection(option= this.selectedOption) {
@@ -89,6 +94,7 @@ export class NavbarComponent implements OnInit {
   }
 
   refreshData() {
+    this.dataVersion.emit(this.versions.find(i=>i.display === this.selectedVersion).folder);
     this.refresh.emit(this.selectedOption);
   }
 

@@ -17,23 +17,23 @@
                         <mat-list-item style="padding-left: 0;" *ngFor="let l of sheetLogs" class="py-2">
                             <mat-icon mat-list-icon style="color: grey;" *ngIf="l.type == 'file'">next_plan</mat-icon>
                             <div mat-line style="width: 100%; display: flex; justify-content: space-between;" *ngIf="l.type == 'file'">
-                                <span class="i2">{{l.message}}</span>
+                                <span class="i2" [innerHTML]="l.message"></span>
                             </div>
                             <mat-icon mat-list-icon [ngStyle]="{'color': l.icon === 'check_circle' ? '#66BB6A' : l.icon === 'error' ? '#FFCA28' : '#FF5722'}" *ngIf="l.type !== 'file'">{{l.icon}}</mat-icon>
                             <div mat-line style="width: 100%; display: flex; justify-content: space-between;" *ngIf="l.type  === 'msg';else multu">
-                                <span class="i2">{{l.message}}</span>
+                                <span class="i2" [innerHTML]="l.message"></span>
                             </div>
                             <ng-template #multu style="width: 100%;">
                                 <mat-expansion-panel style="box-shadow: none;" *ngIf="l.type === 'multi'" expanded class="mepNoPadding">
                                     <mat-expansion-panel-header class="p-0" style="width: 95%;" [collapsedHeight]="'35px'" [expandedHeight]="'35px'">
                                         <mat-panel-title>
                                             <div>
-                                                <p class="i2">{{l.message}}</p>
+                                                <p class="i2" [innerHTML]="l.message"></p>
                                             </div>
                                         </mat-panel-title>
                                     </mat-expansion-panel-header>
                                     <div style="text-align: start;">
-                                        <p class="i2" *ngFor="let i of l.multi">{{i}}</p>
+                                        <p class="i2" *ngFor="let i of l.multi" [innerHTML]="i"></p>
                                     </div>
                                 </mat-expansion-panel>
                             </ng-template>
@@ -49,23 +49,23 @@
                         <mat-list-item style="padding-left: 0;" *ngFor="let l of logs" class="py-2">
                             <mat-icon mat-list-icon style="color: grey;" *ngIf="l.type == 'file'">next_plan</mat-icon>
                             <div mat-line style="width: 100%; display: flex; justify-content: space-between;" *ngIf="l.type == 'file'">
-                                <span class="i2">{{l.message}}</span>
+                                <span class="i2" [innerHTML]="l.message"></span>
                             </div>
                             <mat-icon mat-list-icon [ngStyle]="{'color': l.icon === 'check_circle' ? '#66BB6A' : l.icon === 'error' ? '#FFCA28' : '#FF5722'}" *ngIf="l.type !== 'file'">{{l.icon}}</mat-icon>
                             <div mat-line style="width: 100%; display: flex; justify-content: space-between;" *ngIf="l.type  === 'msg';else multu">
-                                <span class="i2">{{l.message}}</span>
+                                <span class="i2" [innerHTML]="l.message"></span>
                             </div>
                             <ng-template #multu style="width: 100%;">
                                 <mat-expansion-panel style="box-shadow: none;" *ngIf="l.type === 'multi'" class="mepNoPadding">
                                     <mat-expansion-panel-header class="p-0" style="width: 95%;" [collapsedHeight]="'35px'" [expandedHeight]="'35px'">
                                         <mat-panel-title>
                                             <div>
-                                                <p class="i2">{{l.message}}</p>
+                                                <p class="i2" [innerHTML]="l.message"></p>
                                             </div>
                                         </mat-panel-title>
                                     </mat-expansion-panel-header>
                                     <div style="text-align: start;">
-                                        <p class="i2" *ngFor="let i of l.multi">{{i}}</p>
+                                        <p class="i2" *ngFor="let i of l.multi" [innerHTML]="i"></p>
                                     </div>
                                 </mat-expansion-panel>
                             </ng-template>

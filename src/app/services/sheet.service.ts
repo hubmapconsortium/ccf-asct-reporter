@@ -57,6 +57,7 @@ export class SheetService {
   organSheetData: any;
   rowsToSkip: Array<number> = [];
   loadingStatus = new EventEmitter();
+  changeDataVersion = new EventEmitter();
 
   constructor(
     private http: HttpClient,
@@ -104,7 +105,10 @@ export class SheetService {
    *
    * @returns {Promise} - An object that has - CSV data, status and return message
    */
-  public async getSheetData(currentSheet: any, dataVersion?: string): Promise<any> {
+  public async getSheetData(
+    currentSheet: any,
+    dataVersion?: string
+  ): Promise<any> {
     let constructedURL = '';
     let responseStatus = 200;
     let csvData: any;
@@ -116,16 +120,37 @@ export class SheetService {
     } else {
       if (!environment.production) {
         // in development mode
-        constructedURL = `assets/data/${dataVersion}/${currentSheet.name}.csv`;
-        const csvData = await this.getDataFromURL(constructedURL);
-        this.organSheetData = new Promise(async (res, rej) => {
-          res({
-            data: csvData.data,
-            status: 200,
-            msg: 'Data fetched from system cache. [DEV]',
-          });
-        });
+        if (dataVersion === '') {
+          dataVersion = this.sc.VERSIONS[1].folder;
+          this.changeDataVersion.emit(this.sc.VERSIONS[1]);
+          this.report.reportLog(
+            `<code>${this.sc.VERSIONS[1].display}</code> ${currentSheet.display} data fetched from system cache. [DEV]`,
+            'warning',
+            'msg'
+          );
+        }
 
+        constructedURL = `assets/data${dataVersion}/${currentSheet.name}.csv`;
+        const csvData = await this.getDataFromURL(constructedURL);
+        this.organSheetData = {
+          data: csvData.data,
+          status: 200,
+          msg: 'Data fetched from system cache. [DEV]',
+        };
+
+        return await this.getOrganSheetData();
+      }
+
+      if (dataVersion !== '') {
+        constructedURL = `assets/data${dataVersion}/${currentSheet.name}.csv`;
+        const v = this.sc.VERSIONS.findIndex(i => i.folder === dataVersion);
+        await this.getDataFromSystemCache(constructedURL);
+        this.changeDataVersion.emit(this.sc.VERSIONS[v]);
+        this.report.reportLog(
+          `<code>${this.sc.VERSIONS[1].display}</code> ${currentSheet.display} data fetched from system cache.`,
+          'warning',
+          'msg'
+        );
         return await this.getOrganSheetData();
       }
 
@@ -147,7 +172,7 @@ export class SheetService {
         try {
           await this.getDataFromNodeServer(constructedURL);
           this.report.reportLog(
-            `${currentSheet.display} data fetched from Node server`,
+            `<code>Latest</code> ${currentSheet.display} data fetched from Node server`,
             'warning',
             'msg'
           );
@@ -156,9 +181,15 @@ export class SheetService {
         }
       } finally {
         if (responseStatus === 500) {
-          constructedURL = `assets/data/${currentSheet.name}.csv`;
+          if (dataVersion === '') {
+            dataVersion = this.sc.VERSIONS[1].folder;
+            this.changeDataVersion.emit(this.sc.VERSIONS[1]);
+          }
+          this.changeDataVersion.emit(this.sc.VERSIONS[1]);
+
+          constructedURL = `assets/data${dataVersion}/${currentSheet.name}.csv`;
           this.report.reportLog(
-            `${currentSheet.display} data fetched from system cache`,
+            `<code>${this.sc.VERSIONS[1].display}</code> ${currentSheet.display} data fetched from system cache`,
             'warning',
             'msg'
           );

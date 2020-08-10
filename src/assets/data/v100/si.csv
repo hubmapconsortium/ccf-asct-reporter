@@ -53,7 +53,7 @@ Small bowel,"duodenum, superior",serosa,connective tissue,endothelial cell,,"NOV
 Small bowel,"duodenum, descending",mucosa,Epithelium,epithelial stem cell,"CD34, SOX9, CD44","LGR5, ASCL2, CDHR1, BIRC3, MYL9"
 Small bowel,"duodenum, descending",mucosa,Epithelium,Paneth,alpha Defensin 5a,"LYZ, DEFA5"
 Small bowel,"duodenum, descending",mucosa,Epithelium,endocrine,"Chromogranin, Synaptophysin",CRYBA2
-Small bowel,"duodenum, descending",mucosa,Epithelium,absorptive,,"CA2, SI"
+Small bowel,"duodenum, descending",mucosa,Epithelium,absorptive222,,"CA2, SI"
 Small bowel,"duodenum, descending",mucosa,Epithelium,goblet,,"MUC2, ITLN1, SLC26A2, CLCA4"
 Small bowel,"duodenum, descending",mucosa,Epithelium,enterocyte,,"BEST4, CA7, NEURL1, HES1"
 Small bowel,"duodenum, descending",mucosa,Epithelium,Tuft cell,,"DCLK1, IRF7, SELENBP1"
