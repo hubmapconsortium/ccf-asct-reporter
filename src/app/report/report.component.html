@@ -49,15 +49,15 @@
       <div *ngIf="compareData.length > 0">
         <div class="i1">
           <span>Similar Anatomical Structures from Derived Data Sheet : </span>
-          <span class="number">{{ getSimilarASFromDD() }}</span>
+          <span class="number">{{ getSimilarASFromDD().length }}</span>
         </div>
         <div class="i1">
           <span>Similar Cell Types from Derived Data Sheet: </span>
-          <span class="number">{{ getSimilarCTFromDD() }}</span>
+          <span class="number">{{ getSimilarCTFromDD().length }}</span>
         </div>
         <div class="i1">
           <span>Similar Biomarkers from Derived Data Sheet: </span>
-          <span class="number">{{ getSimilarBFromDD() }}</span>
+          <span class="number">{{ getSimilarBFromDD().length }}</span>
         </div>
       </div>
     </div>
@@ -178,6 +178,69 @@
           </div>
         </div>
       </mat-expansion-panel>
+
+      <br />
+      <div *ngIf="compareData.length > 0">
+        <div class="title2">Data from Derives Sheet</div>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div style="font-weight: 400; font-size: 13pt;">
+                Similar Anatomical Structures 
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+  
+          <div class="as-details">
+            <div
+              *ngFor="let a of getSimilarASFromDD() | orderBy: 'name'"
+              class="i1"
+            >
+              {{ a.name }}
+            </div>
+          </div>
+        </mat-expansion-panel>
+        <br />
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div style="font-weight: 400; font-size: 13pt;">
+                Similar Cell Types Structures 
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+  
+          <div class="as-details">
+            <div
+              *ngFor="let a of getSimilarCTFromDD() | orderBy: 'name'"
+              class="i1"
+            >
+              {{ a.name }}
+            </div>
+          </div>
+        </mat-expansion-panel>
+        <br />
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div style="font-weight: 400; font-size: 13pt;">
+                Similar Anatomical Structures 
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+  
+          <div class="as-details">
+            <div
+              *ngFor="let a of getSimilarBFromDD() | orderBy: 'name'"
+              class="i1"
+            >
+              {{ a.name }}
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </div>
+
     </div>
     <br />
     <br />

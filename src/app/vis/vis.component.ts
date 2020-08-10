@@ -41,6 +41,7 @@ export class VisComponent implements OnInit {
 
   toggleReportDrawer(val) {
     // this.refreshReport = val;
+    // this.shouldRefreshData = false;
     this.drawer.opened = val;
     this.showCompInDrawer = 'Report';
   }
@@ -73,6 +74,7 @@ export class VisComponent implements OnInit {
 
   refreshData(val) {
     this.refreshReport = true;
+    this.compareData = [];
     if (val === 'Tree') {
       this.openLoading();
       this.refreshTree = true;
@@ -119,6 +121,7 @@ export class VisComponent implements OnInit {
       this.refreshIndent = false;
       this.shouldRefreshData = false;
     }
+    this.refreshReport = false;
   }
 
   closeComponent() {

@@ -91,7 +91,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges() {
-    console.log(this.compareData);
     if (this.refreshData) {
       this.ts.setCurrentSheet(this.currentSheet);
       this.compareData = []; // remove compare data on refresh

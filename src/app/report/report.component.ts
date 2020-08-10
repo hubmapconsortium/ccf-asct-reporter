@@ -39,16 +39,10 @@ export class ReportComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    if (this.refreshData) {
-      this.compareData = [];
-    }
-
-    if (this.shouldReloadData && !this.refreshData) {
-      this.compareData = []; // remove compare remove compare data on refresh
-    }
   }
 
   ngOnInit(): void {
+    // this.refreshData = false;
     setTimeout(() => {
       this.getData(this.currentSheet);
     }, 500);
@@ -79,21 +73,10 @@ export class ReportComponent implements OnInit, OnChanges {
   downloadData() {
     const download = [];
     const totalRows = 6;
-    for (
-      let i = 0;
-      i <
-      Math.max(
-        this.anatomicalStructures.length,
-        this.cellTypes.length,
-        this.bioMarkers.length
-      );
-      i++
-    ) {
+    for (let i = 0; i < Math.max(this.anatomicalStructures.length,this.cellTypes.length,this.bioMarkers.length); i++) {
       const row = {};
       if (i < this.anatomicalStructures.length) {
-        row['Unique Anatomical Structres'] = this.anatomicalStructures[
-          i
-        ].structure;
+        row['Unique Anatomical Structres'] = this.anatomicalStructures[i].structure;
         if (!this.anatomicalStructures[i].uberon.includes('UBERON')) {
           row['AS with no Uberon Link'] = this.anatomicalStructures[
             i
@@ -151,33 +134,37 @@ export class ReportComponent implements OnInit, OnChanges {
   }
 
   getSimilarASFromDD() {
-    let count = 0;
+    let similarAS = [];
     this.anatomicalStructures.forEach((a) => {
-      if (this.compareData.some((i) => i.name.toLowerCase() === a.structure.toLowerCase())) {
-        count++;
+      const idx = this.compareData.findIndex((i) => i.name.toLowerCase() === a.structure.toLowerCase());
+      if (idx !== -1) {
+        similarAS.push(this.compareData[idx]);
       }
     });
-    return count;
+    return similarAS;
   }
 
   getSimilarCTFromDD() {
-    let count = 0;
+    let similarCT = [];
     this.cellTypes.forEach((a) => {
-      if (this.compareData.some((i) => i.name.toLowerCase() === a.structure.toLowerCase())) {
-        count++;
+      const idx = this.compareData.findIndex((i) => i.name.toLowerCase() === a.structure.toLowerCase());
+      if (idx !== -1) {
+        similarCT.push(this.compareData[idx])
       }
     });
-    return count;
+    return similarCT;
   }
 
   getSimilarBFromDD() {
     let count = 0;
+    let similarB = [];
     this.bioMarkers.forEach((a) => {
-      if (this.compareData.some((i) => i.name.toLowerCase() === a.structure.toLowerCase().replace('*',''))) {
-        count++;
+      const idx = this.compareData.findIndex((i) => i.name.toLowerCase() === a.structure.toLowerCase().replace('*',''))
+      if (idx !== -1) {
+        similarB.push(this.compareData[idx])
       }
     });
-    return count;
+    return similarB;
   }
 
   closeDrawer() {
