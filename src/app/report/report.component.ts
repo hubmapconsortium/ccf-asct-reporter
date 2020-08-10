@@ -26,6 +26,9 @@ export class ReportComponent implements OnInit, OnChanges {
   anatomicalStructures = [];
   cellTypes = [];
   bioMarkers = [];
+  similarAS = [];
+  similarCT = [];
+  similarB = [];
   warningCount = 0;
   @Output() closeComponent = new EventEmitter();
   @Input() refreshData;
@@ -93,6 +96,18 @@ export class ReportComponent implements OnInit, OnChanges {
         row['Unique Biomarkers'] = this.bioMarkers[i].structure;
         row['Biomarkers with no links'] = this.bioMarkers[i].structure;
       }
+
+      if (i < this.similarAS.length) {
+        row['Similar AS from Derived Data'] = this.similarAS[i].name;
+      }
+
+      if (i < this.similarCT.length) {
+        row['Similar CT from Derived Data'] = this.similarCT[i].name;
+      }
+
+      if (i < this.similarB.length) {
+        row['Similar B from Derived Data'] = this.similarB[i].name;
+      }
       download.push(row);
     }
 
@@ -134,37 +149,37 @@ export class ReportComponent implements OnInit, OnChanges {
   }
 
   getSimilarASFromDD() {
-    let similarAS = [];
+    this.similarAS = [];
     this.anatomicalStructures.forEach((a) => {
       const idx = this.compareData.findIndex((i) => i.name.toLowerCase() === a.structure.toLowerCase());
       if (idx !== -1) {
-        similarAS.push(this.compareData[idx]);
+        this.similarAS.push(this.compareData[idx]);
       }
     });
-    return similarAS;
+    
+    return this.similarAS;
   }
 
   getSimilarCTFromDD() {
-    let similarCT = [];
+    this.similarCT = [];
     this.cellTypes.forEach((a) => {
       const idx = this.compareData.findIndex((i) => i.name.toLowerCase() === a.structure.toLowerCase());
       if (idx !== -1) {
-        similarCT.push(this.compareData[idx])
+        this.similarCT.push(this.compareData[idx])
       }
     });
-    return similarCT;
-  }
+    return this.similarCT;
+  }t
 
   getSimilarBFromDD() {
-    let count = 0;
-    let similarB = [];
+    this.similarB = [];
     this.bioMarkers.forEach((a) => {
       const idx = this.compareData.findIndex((i) => i.name.toLowerCase() === a.structure.toLowerCase().replace('*',''))
       if (idx !== -1) {
-        similarB.push(this.compareData[idx])
+        this.similarB.push(this.compareData[idx])
       }
     });
-    return similarB;
+    return this.similarB;
   }
 
   closeDrawer() {
