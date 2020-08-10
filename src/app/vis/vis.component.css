@@ -21,7 +21,6 @@
     }
   }
 
-
 @media only screen and (max-width: 600px) {
     .sidenav-drawer {
         width: 100%;
@@ -32,9 +31,6 @@
 /* SNACKABR */
 
 
-::ng-deep .red-snackbar {
-    background: rgb(194, 87, 87);
-}
 
 ::ng-deep .warn-snackbar {
     background: #ff8c00;
