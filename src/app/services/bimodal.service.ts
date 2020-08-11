@@ -112,7 +112,7 @@ export class BimodalService {
 
     // sorting cells based on options
     if (bimodalConfig.CT.sort === 'Alphabetically') {
-      cellTypes = await this.sheet.makeCellTypes(sheetData, {report_cols: currentSheet.report_cols, cell_col: currentSheet.cell_col});
+      cellTypes = await this.sheet.makeCellTypes(sheetData, {report_cols: currentSheet.report_cols, cell_col: currentSheet.cell_col, uberon_col: currentSheet.uberon_col});
       cellTypes.sort((a, b) => {
         return (
           a.structure.toLowerCase() > b.structure.toLowerCase() ? 1 : (
