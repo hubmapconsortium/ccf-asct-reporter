@@ -118,7 +118,7 @@ export class SheetService {
     if (currentSheet.display === 'All Organs') {
       return this.makeAOData(dataVersion);
     } else {
-      if (environment.production) {
+      if (!environment.production) {
         // in development mode
         if (dataVersion === 'latest') {
           dataVersion = this.sc.VERSIONS[1].folder;

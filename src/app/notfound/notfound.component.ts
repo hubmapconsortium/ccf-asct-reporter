@@ -3,11 +3,12 @@ import { SconfigService } from '../services/sconfig.service';
 import { environment } from '../../environments/environment';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  selector: 'app-notfound',
+  templateUrl: './notfound.component.html',
+  styleUrls: ['./notfound.component.css']
 })
-export class HomeComponent implements OnInit {
+export class NotfoundComponent implements OnInit {
+
   window = window;
   screenWidth = document.getElementsByTagName('body')[0].clientWidth;
   dataVersion: string;

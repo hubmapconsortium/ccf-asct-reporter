@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { VisComponent } from './vis/vis.component';
+import { NotfoundComponent } from './notfound/notfound.component'
 const routes: Routes = [
     {
         path: '', component: HomeComponent
@@ -14,14 +15,14 @@ const routes: Routes = [
         path: 'vis/:sheet/:dataVersion',
         component: VisComponent
     },
-    // {
-    //     path: 'vis',
-    //     children:[
-    //         {
-    //             path: ':sheet',  component: VisComponent
-    //         }
-    //     ]
-    // }
+    {
+        path: 'error',
+        component: NotfoundComponent
+    },
+    {
+        path: '**',
+        redirectTo: '/error'
+    }
 ];
 @NgModule({
    imports: [

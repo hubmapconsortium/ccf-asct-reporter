@@ -34,6 +34,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { VisComponent } from './vis/vis.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 
 const MatModules = [
@@ -65,6 +66,7 @@ const MatModules = [
     LogsComponent,
     HomeComponent,
     VisComponent,
+    NotfoundComponent,
   ],
   imports: [
     BrowserModule,

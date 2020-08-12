@@ -37,6 +37,15 @@ a {
     margin: 0 auto;
 }
 
+.title2 {
+    font-size: 5px;
+    line-height: 55px;
+    font-weight: 400;
+    color: #444a65;
+    text-align: justify;
+    margin: 0 auto;
+}
+
 @media only screen and (max-width: 1000px) {
     .title {
         text-align: center;
