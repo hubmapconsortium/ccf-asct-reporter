@@ -117,7 +117,7 @@ export class NavbarComponent implements OnInit {
     this.route.queryParams.subscribe((queryparams: Params) => {
       const selectedSheetName = this.sheetOptions.find(i => i.sheet == queryparams.sheet)
       this.getSheetSelection(selectedSheetName.title);
-      this.getSelectedVersion(queryparams.dataVersion)
+      this.getSelectedVersion(queryparams.dataVersion);
     });
 
     this.sheet.changeDataVersion.subscribe((dv) => {
@@ -176,6 +176,7 @@ export class NavbarComponent implements OnInit {
   }
 
   getSelectedVersion(version = this.versions.find((i) => i.display === this.selectedVersion).folder) {
+    this.selectedVersion = this.versions.find((i) => i.folder === version).display;
     const urlTree = this.router.createUrlTree([], {
       relativeTo: this.route,
       queryParams: {
