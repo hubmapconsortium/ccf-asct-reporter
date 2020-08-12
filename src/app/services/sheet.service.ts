@@ -4,6 +4,7 @@ import { parse } from 'papaparse';
 import { SconfigService } from './sconfig.service';
 import { ReportService } from '../report/report.service';
 import { environment } from './../../environments/environment';
+import {Router} from '@angular/router';
 
 export interface AS {
   structure: string;
@@ -62,7 +63,8 @@ export class SheetService {
   constructor(
     private http: HttpClient,
     public sc: SconfigService,
-    public report: ReportService
+    public report: ReportService,
+    public router: Router
   ) { }
 
   /**
@@ -116,10 +118,20 @@ export class SheetService {
     this.loadingStatus.emit(currentSheet.display);
 
     if (currentSheet.display === 'All Organs') {
-      return this.makeAOData(dataVersion);
+      const data = await this.makeAOData(dataVersion);
+      if (data.status === 404) {
+        return data
+      }
+      return data
     } else {
       if (!environment.production) {
         // in development mode
+        if (dataVersion ===  '') {
+          return {
+            data: [], msg: 'Not Found', status: 404
+          }
+        }
+        
         if (dataVersion === 'latest') {
           dataVersion = this.sc.VERSIONS[1].folder;
           this.changeDataVersion.emit(this.sc.VERSIONS[1]);
@@ -130,8 +142,10 @@ export class SheetService {
           );
         }
 
+        if (this.sc.VERSIONS.findIndex(i => i.folder === dataVersion) === -1) {return {data: [], msg: 'Not Found', status: 404}}
         constructedURL = `assets/data/${dataVersion}/${currentSheet.name}.csv`;
         const csvData = await this.getDataFromURL(constructedURL);
+
         this.organSheetData = {
           data: csvData.data,
           status: 200,
@@ -142,8 +156,11 @@ export class SheetService {
       }
 
       if (dataVersion !== 'latest') {
-        constructedURL = `assets/data/${dataVersion}/${currentSheet.name}.csv`;
         const v = this.sc.VERSIONS.findIndex(i => i.folder === dataVersion);
+        if (v===-1) return {data: [], msg: 'Not Found', status: 404}
+
+        constructedURL = `assets/data/${dataVersion}/${currentSheet.name}.csv`;
+
         await this.getDataFromSystemCache(constructedURL);
         this.changeDataVersion.emit(this.sc.VERSIONS[v]);
         this.report.reportLog(
@@ -256,16 +273,19 @@ export class SheetService {
     let responseStatus = 200;
 
     for (const organ of this.organs) {
-      const organSheet = this.sc.SHEET_CONFIG[
-        this.sc.SHEET_CONFIG.findIndex((i) => i.display === organ)
-      ];
+      const idx = this.sc.SHEET_CONFIG.findIndex((i) => i.display === organ)
+      let organSheet;
       try {
+        if (idx === -1) throw new TypeError("Invalid data")
+        organSheet = this.sc.SHEET_CONFIG[idx];
         csvData = await this.getSheetData(organSheet, dataVersion);
         organData = csvData.data;
         responseMsg = csvData.msg;
         responseStatus = csvData.status;
       } catch (err) {
         console.log(err);
+        this.router.navigateByUrl('/error');
+        return err
       }
 
       organData.forEach((row) => {

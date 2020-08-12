@@ -8,6 +8,7 @@ import { ReportService } from '../report/report.service';
 import { TreeService } from './tree.service';
 import { BimodalService, ASCTD } from '../services/bimodal.service';
 import { SconfigService } from '../services/sconfig.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tree',
@@ -67,7 +68,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     }
   };
 
-  constructor(public sheet: SheetService, public report: ReportService, public ts: TreeService, public bms: BimodalService, public sc: SconfigService) { }
+  constructor(public sheet: SheetService, public report: ReportService, public ts: TreeService, public bms: BimodalService, public sc: SconfigService,
+    public router: Router) { }
 
   ngOnInit(): void {
 
@@ -575,7 +577,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
    * Fetched the data to form the visualization on load.
    */
   async getData() {
-    this.sheetData = await this.sheet.getSheetData(this.currentSheet, this.dataVersion);
+    try {
+      this.sheetData = await this.sheet.getSheetData(this.currentSheet, this.dataVersion);
+      if (this.sheetData.status == 404) {
+        this.router.navigateByUrl('/error');
+        throw new Error;
+      }
+ 
     this.treeData = await this.ts.makeTreeData(this.sheetData.data);
 
     const height = document.getElementsByTagName('body')[0].clientHeight;
@@ -588,7 +596,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     this.bimodalDistance = this.currentSheet.config.bimodal_distance;
     this.treeWidthOffset = this.currentSheet.config.width_offset;
 
-    try {
+    
       const config: any = await this.makeVegaSpec(this.screenWidth, height);
       await this.renderGraph(config);
       this.shouldRenderASCTBiomodal = true;
@@ -602,10 +610,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       });
     } catch (err) {
       console.log(err);
+      if (err.status === 404) {
+        this.router.navigateByUrl('/error');
+      }
       this.returnRefresh.emit({
         comp: 'Tree',
-        msg: this.sheetData.msg,
-        status: this.sheetData.status,
+        msg: err.msg,
+        status: err.status,
         val: false
       });
       this.report.reportLog(`Tree failed to render`, 'error', 'msg');
