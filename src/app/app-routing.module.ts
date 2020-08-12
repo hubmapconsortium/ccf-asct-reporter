@@ -7,8 +7,21 @@ const routes: Routes = [
         path: '', component: HomeComponent
     },
     {
-        path: 'vis', component: VisComponent
-    }
+        path: 'vis',
+        component: VisComponent
+    },
+    {
+        path: 'vis/:sheet/:dataVersion',
+        component: VisComponent
+    },
+    // {
+    //     path: 'vis',
+    //     children:[
+    //         {
+    //             path: ':sheet',  component: VisComponent
+    //         }
+    //     ]
+    // }
 ];
 @NgModule({
    imports: [

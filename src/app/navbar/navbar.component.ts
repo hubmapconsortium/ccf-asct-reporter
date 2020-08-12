@@ -1,11 +1,13 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SconfigService } from '../services/sconfig.service';
 import { SheetService } from '../services/sheet.service';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import {Location} from '@angular/common'; 
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
   window = window;
@@ -16,33 +18,75 @@ export class NavbarComponent implements OnInit {
   ];
   selectedOption = this.options[0];
 
-  sheetOptions = ['All Organs', 'Brain', 'Heart', 'Kidney', 'Large Intestine', 'Liver', 'Lung', 'Lymph Nodes', 'Skin', 'Small Intestine', 'Spleen'];
+  sheetOptions = [
+    {
+      title: 'All Organs',
+      sheet: 'all'
+    },
+    {
+      title: 'Brain',
+      sheet: 'brain'
+    },
+    {
+      title: 'Heart',
+      sheet: 'heart'
+    },
+    {
+      title: 'Kidney',
+      sheet: 'kidney'
+    },
+    {
+      title: 'Large Intestine',
+      sheet: 'large_intestile'
+    },
+    {
+      title: 'Liver',
+      sheet: 'liver'
+    },
+    {
+      title: 'Lung',
+      sheet: 'lung'
+    },
+    {
+      title: 'Lymph Nodes',
+      sheet: 'lymph_nodes'
+    },
+    {
+      title: 'Skin',
+      sheet: 'skin'
+    },
+    {
+      title: 'Small Intestine',
+      sheet: 'small_intestine'
+    },
+    {
+      title: 'Spleen',
+      sheet: 'spleen'
+    }
+  ]
+
+  selectedSheetOption = this.sheetOptions[0].title;
 
   moreOptions = [
     {
       name: 'Data Tables',
-      url: 'https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1268820100'
+      url:
+        'https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1268820100',
     },
     {
       name: 'Github',
-      url: 'https://github.com/hubmapconsortium/ccf-asct-reporter'
-    }
+      url: 'https://github.com/hubmapconsortium/ccf-asct-reporter',
+    },
   ];
 
-  imageOptions = [
-    'PNG',
-    'SVG',
-    'Vega Spec'
-  ];
+  imageOptions = ['PNG', 'SVG', 'Vega Spec'];
 
   hamMenuOptions = [
     {
       name: 'Select Organ',
-      options: this.sheetOptions
-    }
+      options: this.sheetOptions,
+    },
   ];
-
-  selectedSheetOption = this.sheetOptions[0];
 
   screenWidth = document.getElementsByTagName('body')[0].clientWidth;
 
@@ -58,25 +102,45 @@ export class NavbarComponent implements OnInit {
   @Output() downloadVis = new EventEmitter<any>();
   @Output() dataVersion = new EventEmitter<any>();
 
-  constructor(public sc: SconfigService, public sheet: SheetService) {
+  constructor(
+    public sc: SconfigService,
+    public sheet: SheetService,
+    public route: ActivatedRoute,
+    public location: Location,
+    public router: Router
+  ) {
   }
 
   ngOnInit(): void {
-    this.getSheetSelection();
     this.getSelection();
-    this.getSelectedVersion();
+
+    this.route.queryParams.subscribe((queryparams: Params) => {
+      const selectedSheetName = this.sheetOptions.find(i => i.sheet == queryparams.sheet)
+      this.getSheetSelection(selectedSheetName.title);
+      this.getSelectedVersion(queryparams.dataVersion)
+    });
 
     this.sheet.changeDataVersion.subscribe((dv) => {
       this.selectedVersion = dv.display;
     });
   }
 
-  getSelection(option= this.selectedOption) {
+  getSelection(option = this.selectedOption) {
     this.selectedOption = option;
     this.showGraph.emit(option);
   }
 
-  getSheetSelection(sheet= this.selectedSheetOption) {
+  getSheetSelection(sheet = this.selectedSheetOption) {
+    const urlTree = this.router.createUrlTree([], {
+      relativeTo: this.route,
+      queryParams: {
+        sheet: this.sheetOptions.find(i => i.title === sheet).sheet,
+        dataVersion: this.versions.find((i) => i.display === this.selectedVersion).folder
+      },
+      queryParamsHandling: 'merge',
+    })
+
+    this.location.go(urlTree.toString());
     this.selectedSheetOption = sheet;
     this.getSheet.emit(sheet);
   }
@@ -94,7 +158,9 @@ export class NavbarComponent implements OnInit {
   }
 
   refreshData() {
-    this.dataVersion.emit(this.versions.find(i=>i.display === this.selectedVersion).folder);
+    this.dataVersion.emit(
+      this.versions.find((i) => i.display === this.selectedVersion).folder
+    );
     this.refresh.emit(this.selectedOption);
   }
 
@@ -103,12 +169,25 @@ export class NavbarComponent implements OnInit {
   }
 
   openGithub() {
-    window.open('https://github.com/hubmapconsortium/ccf-asct-reporter', '_blank');
+    window.open(
+      'https://github.com/hubmapconsortium/ccf-asct-reporter',
+      '_blank'
+    );
   }
 
-  getSelectedVersion() {
-    this.dataVersion.emit(this.versions.find(i=>i.display === this.selectedVersion).folder);
+  getSelectedVersion(version = this.versions.find((i) => i.display === this.selectedVersion).folder) {
+    const urlTree = this.router.createUrlTree([], {
+      relativeTo: this.route,
+      queryParams: {
+        sheet: this.sheetOptions.find(i => i.title === this.selectedSheetOption).sheet,
+        dataVersion: version
+      },
+      queryParamsHandling: 'merge',
+    })
+    this.location.go(urlTree.toString());
+    this.dataVersion.emit(
+      version
+    );
     this.refresh.emit(this.selectedOption);
   }
-
 }

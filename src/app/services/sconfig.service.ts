@@ -13,11 +13,11 @@ export class SconfigService {
   VERSIONS = [
     {
       display: 'Latest',
-      folder: ''
+      folder: 'latest'
     },
     {
       display: 'v1.0.0',
-      folder: '/v100'
+      folder: 'v100'
     }
   ]
 

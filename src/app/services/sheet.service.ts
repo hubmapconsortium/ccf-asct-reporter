@@ -118,9 +118,9 @@ export class SheetService {
     if (currentSheet.display === 'All Organs') {
       return this.makeAOData(dataVersion);
     } else {
-      if (!environment.production) {
+      if (environment.production) {
         // in development mode
-        if (dataVersion === '') {
+        if (dataVersion === 'latest') {
           dataVersion = this.sc.VERSIONS[1].folder;
           this.changeDataVersion.emit(this.sc.VERSIONS[1]);
           this.report.reportLog(
@@ -130,7 +130,7 @@ export class SheetService {
           );
         }
 
-        constructedURL = `assets/data${dataVersion}/${currentSheet.name}.csv`;
+        constructedURL = `assets/data/${dataVersion}/${currentSheet.name}.csv`;
         const csvData = await this.getDataFromURL(constructedURL);
         this.organSheetData = {
           data: csvData.data,
@@ -141,8 +141,8 @@ export class SheetService {
         return await this.getOrganSheetData();
       }
 
-      if (dataVersion !== '') {
-        constructedURL = `assets/data${dataVersion}/${currentSheet.name}.csv`;
+      if (dataVersion !== 'latest') {
+        constructedURL = `assets/data/${dataVersion}/${currentSheet.name}.csv`;
         const v = this.sc.VERSIONS.findIndex(i => i.folder === dataVersion);
         await this.getDataFromSystemCache(constructedURL);
         this.changeDataVersion.emit(this.sc.VERSIONS[v]);
@@ -181,13 +181,13 @@ export class SheetService {
         }
       } finally {
         if (responseStatus === 500) {
-          if (dataVersion === '') {
+          if (dataVersion === 'latest') {
             dataVersion = this.sc.VERSIONS[1].folder;
             this.changeDataVersion.emit(this.sc.VERSIONS[1]);
           }
           this.changeDataVersion.emit(this.sc.VERSIONS[1]);
 
-          constructedURL = `assets/data${dataVersion}/${currentSheet.name}.csv`;
+          constructedURL = `assets/data/${dataVersion}/${currentSheet.name}.csv`;
           this.report.reportLog(
             `<code>${this.sc.VERSIONS[1].display}</code> ${currentSheet.display} data fetched from system cache`,
             'warning',

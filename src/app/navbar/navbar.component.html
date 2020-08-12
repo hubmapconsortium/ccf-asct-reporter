@@ -46,10 +46,10 @@
             <button
               mat-menu-item
               *ngFor="let sheet of sheetOptions"
-              (click)="getSheetSelection(sheet)"
+              (click)="getSheetSelection(sheet.title)"
               [ngStyle]="{
                 backgroundColor:
-                  sheet === selectedSheetOption ? '#ececec' : 'white'
+                  sheet.title === selectedSheetOption ? '#ececec' : 'white'
               }"
             >
               {{ sheet }}
@@ -119,8 +119,8 @@
             (selectionChange)="getSheetSelection()"
             [(ngModel)]="selectedSheetOption"
           >
-            <mat-option *ngFor="let option of sheetOptions" [value]="option">
-              {{ option }}
+            <mat-option *ngFor="let option of sheetOptions" [value]="option.title">
+              {{ option.title }}
             </mat-option>
           </mat-select>
         </button>
