@@ -410,10 +410,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                       test: "indata('compare_dd', 'name', datum.source.name)",
                       value: 'darkgreen',
                     },
-                    {
-                      test: 'length(compare_dd__signal) !== 0',
-                      value: '#FDD835',
-                    },
                     { value: '#ccc' },
                   ],
                   opacity: { value: 0.4 },
@@ -545,10 +541,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                     {
                       test: "indata('compare_dd', 'name', datum.source.name)",
                       value: 'darkgreen',
-                    },
-                    {
-                      test: 'length(compare_dd__signal) !== 0',
-                      value: '#FDD835',
                     },
                     { value: '#ccc' },
                   ],
