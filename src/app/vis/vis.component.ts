@@ -5,7 +5,7 @@ import { LoadingComponent } from '../loading/loading.component';
 import { SconfigService } from '../services/sconfig.service';
 import { SheetService } from '../services/sheet.service';
 import { ReportService } from '../report/report.service';
-import { environment } from '../../environments/environment';
+import { CompareComponent } from "../compare/compare.component";
 
 @Component({
   selector: 'app-vis',
@@ -27,6 +27,7 @@ export class VisComponent implements OnInit {
   shouldRefreshData = false;
   showCompInDrawer = '';
   dataVersion = '';
+  compareData = [];
 
   constructor(
     private dialog: MatDialog,
@@ -39,7 +40,8 @@ export class VisComponent implements OnInit {
   ngOnInit() {}
 
   toggleReportDrawer(val) {
-    this.refreshReport = val;
+    // this.refreshReport = val;
+    // this.shouldRefreshData = false;
     this.drawer.opened = val;
     this.showCompInDrawer = 'Report';
   }
@@ -56,7 +58,23 @@ export class VisComponent implements OnInit {
     this.shouldRefreshData = true;
   }
 
+  uploadDDSheet() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "100%";
+    dialogConfig.maxWidth = "700px";
+    let dialogRef = this.dialog.open(CompareComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(r => {
+      if (r.data.length > 0)
+      this.compareData = r.data;
+    })
+  }
+
   refreshData(val) {
+    this.refreshReport = true;
+    this.compareData = [];
     if (val === 'Tree') {
       this.openLoading();
       this.refreshTree = true;
@@ -103,9 +121,11 @@ export class VisComponent implements OnInit {
       this.refreshIndent = false;
       this.shouldRefreshData = false;
     }
+    this.refreshReport = false;
   }
 
   closeComponent() {
+    this.refreshReport = false;
     this.showCompInDrawer = '';
   }
 

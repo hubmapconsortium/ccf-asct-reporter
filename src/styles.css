@@ -40,3 +40,20 @@ button {
 .mat-button-focus-overlay {
     background-color: transparent!important;
 }
+
+/* SNACKBAR */
+::ng-deep .green-snackbar {
+    background: #4CAF50;
+}
+
+::ng-deep .mat-simple-snackbar-action {
+    color: white;
+}
+
+::ng-deep .red-snackbar {
+    background: rgb(194, 87, 87);
+}
+
+::ng-deep .warn-snackbar {
+    background: #ffa500;
+}

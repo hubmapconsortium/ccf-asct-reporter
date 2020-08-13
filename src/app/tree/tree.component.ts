@@ -1,4 +1,13 @@
-import { Component, OnInit, Input, OnChanges, Output, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnChanges,
+  Output,
+  EventEmitter,
+  OnDestroy,
+  ViewChild,
+} from '@angular/core';
 import { SheetService } from '../services/sheet.service';
 import * as vega from 'vega';
 import * as moment from 'moment';
@@ -13,7 +22,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-tree',
   templateUrl: './tree.component.html',
-  styleUrls: ['./tree.component.css']
+  styleUrls: ['./tree.component.css'],
 })
 export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   sheetData: any;
@@ -25,7 +34,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   shouldRenderASCTBiomodal = false;
   prevData: ASCTD = {
     nodes: [],
-    links: []
+    links: [],
+    compareDD: [],
   };
   treeWidth = 0;
   treeWidthOffset = 0;
@@ -37,43 +47,32 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   @Input() currentSheet: any;
   @Input() public refreshData = false;
   @Input() public shouldReloadData = false;
+  @Input() public compareData = [];
+
   @Output() returnRefresh = new EventEmitter();
   @ViewChild('bimodal') biomodal;
 
-  bimodalSortOptions = [
-    'Alphabetically',
-    'Degree'
-  ];
+  bimodalSortOptions = ['Alphabetically', 'Degree'];
 
-  bimodalSizeOptions = [
-    'None',
-    'Degree'
-  ];
+  bimodalSizeOptions = ['None', 'Degree'];
 
-  bimodalCTSizeOptions = [
-    'None',
-    'Degree',
-    'Indegree',
-    'Outdegree'
-  ];
+  bimodalCTSizeOptions = ['None', 'Degree', 'Indegree', 'Outdegree'];
 
   bimodalConfig = {
     BM: {
       sort: this.bimodalSortOptions[0],
-      size: this.bimodalSizeOptions[0]
+      size: this.bimodalSizeOptions[0],
     },
     CT: {
       sort: this.bimodalSortOptions[0],
-      size: this.bimodalCTSizeOptions[0]
-    }
+      size: this.bimodalCTSizeOptions[0],
+    },
   };
 
   constructor(public sheet: SheetService, public report: ReportService, public ts: TreeService, public bms: BimodalService, public sc: SconfigService,
     public router: Router) { }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy() {
     this.shouldReloadData = false;
@@ -90,12 +89,18 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges() {
     if (this.refreshData) {
       this.ts.setCurrentSheet(this.currentSheet);
+      this.compareData = []; // remove compare data on refresh
       this.getData();
     }
 
     if (this.shouldReloadData && !this.refreshData) {
       this.ts.setCurrentSheet(this.currentSheet);
+      this.compareData = []; // remove compare remove compare data on refresh
       this.getData();
+    }
+
+    if (this.compareData.length > 0) {
+      this.setGraphToCompare(this.compareData);
     }
   }
 
@@ -112,16 +117,24 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     if (width < 1450) {
       this.screenWidth = 1450;
     }
-
-
     const height = document.getElementsByTagName('body')[0].clientHeight;
     const config: any = await this.makeVegaSpec(this.screenWidth, height);
     await this.renderGraph(config);
+  }
 
+  public async setGraphToCompare(data) {
+    this.treeView._runtime.signals.compare_dd__signal.value = data;
+    this.treeView
+      .change(
+        'compare_dd',
+        vega.changeset().remove(this.prevData.compareDD).insert(data)
+      )
+      .runAsync();
+    await this.treeView.runAsync();
   }
 
   /**
-   * Creates teh vega specification
+   * Creates the vega specification
    *
    * @param width - Width the tree
    * @param height - Height of the tree branches
@@ -135,54 +148,70 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         right: 0,
         top: 20,
         bottom: 20,
-        left: 30
+        left: 30,
       },
       signals: [
         {
-          name: 'node__hover', value: null,
+          name: 'node__hover',
+          value: null,
           on: [
             { events: '@bimodal-symbol:mouseover', update: 'datum.id' },
-            { events: 'mouseover[!event.item]', update: 'null' }
-          ]
+            { events: 'mouseover[!event.item]', update: 'null' },
+          ],
         },
         {
           name: 'node_targets__hover',
           value: [],
           on: [
             { events: '@bimodal-symbol:mouseover', update: 'datum.targets' },
-            { events: 'mouseover[!event.item]', update: '[]' }
-          ]
+            { events: 'mouseover[!event.item]', update: '[]' },
+          ],
         },
         {
           name: 'node_sources__hover',
           value: [],
           on: [
             { events: '@bimodal-symbol:mouseover', update: 'datum.sources' },
-            { events: 'mouseover[!event.item]', update: '[]' }
-          ]
+            { events: 'mouseover[!event.item]', update: '[]' },
+          ],
         },
         {
-          name: 'node__click', value: null,
+          name: 'node__click',
+          value: null,
           on: [
-            { events: '@bimodal-symbol:click', update: 'datum.id === node__click ? null : datum.id' },
-            { events: 'click[!event.item]', update: 'null' }
-          ]
+            {
+              events: '@bimodal-symbol:click',
+              update: 'datum.id === node__click ? null : datum.id',
+            },
+            { events: 'click[!event.item]', update: 'null' },
+          ],
         },
         {
-          name: 'targets__click', value: [],
+          name: 'targets__click',
+          value: [],
           on: [
-            { events: '@bimodal-symbol:click', update: 'datum.targets === targets__click ? [] : datum.targets' },
-            { events: 'click[!event.item]', update: '[]' }
-          ]
+            {
+              events: '@bimodal-symbol:click',
+              update: 'datum.targets === targets__click ? [] : datum.targets',
+            },
+            { events: 'click[!event.item]', update: '[]' },
+          ],
         },
         {
           name: 'sources__click',
           value: [],
           on: [
-            { events: '@bimodal-symbol:click', update: 'datum.sources === sources__click ? [] : datum.sources' },
-            { events: 'click[!event.item]', update: '[]' }
-          ]
-        }
+            {
+              events: '@bimodal-symbol:click',
+              update: 'datum.sources === sources__click ? [] : datum.sources',
+            },
+            { events: 'click[!event.item]', update: '[]' },
+          ],
+        },
+        {
+          name: 'compare_dd__signal',
+          value: [],
+        },
       ],
       data: [
         {
@@ -192,16 +221,19 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             {
               type: 'stratify',
               key: 'id',
-              parentKey: 'parent'
+              parentKey: 'parent',
             },
             {
               type: 'tree',
               method: 'cluster',
-              size: [{ signal: height + this.currentSheet.config.height_offset }, { signal: width - this.bimodalDistance * 3 }],
+              size: [
+                { signal: height + this.currentSheet.config.height_offset },
+                { signal: width - this.bimodalDistance * 3 },
+              ],
               separation: { value: false },
-              as: ['y', 'x', 'depth', 'children']
-            }
-          ]
+              as: ['y', 'x', 'depth', 'children'],
+            },
+          ],
         },
         {
           name: 'links',
@@ -211,9 +243,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             {
               type: 'linkpath',
               orient: 'horizontal',
-              shape: 'diagonal'
-            }
-          ]
+              shape: 'diagonal',
+            },
+          ],
         },
         {
           name: 'nodes',
@@ -228,7 +260,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               from: 'nodes',
               key: 'id',
               fields: ['s', 't'],
-              as: ['source', 'target']
+              as: ['source', 'target'],
             },
             {
               type: 'linkpath',
@@ -237,23 +269,33 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               targetX: 'target.x',
               targetY: 'target.y',
               orient: 'horizontal',
-              shape: 'diagonal'
-            }
-          ]
+              shape: 'diagonal',
+            },
+          ],
+        },
+        {
+          name: 'compare_dd',
+          values: [],
         },
         {
           name: 'targets_hovered_array',
           source: 'nodes',
           transform: [
-            { type: 'filter', expr: 'indexof(node_targets__hover, datum.id) !== -1' }
-          ]
+            {
+              type: 'filter',
+              expr: 'indexof(node_targets__hover, datum.id) !== -1',
+            },
+          ],
         },
         {
           name: 'sources_hovered_array',
           source: 'nodes',
           transform: [
-            { type: 'filter', expr: 'indexof(node_sources__hover, datum.id) !== -1' }
-          ]
+            {
+              type: 'filter',
+              expr: 'indexof(node_sources__hover, datum.id) !== -1',
+            },
+          ],
         },
         {
           name: 'targets_clicked_array',
@@ -261,9 +303,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
           transform: [
             {
               type: 'filter',
-              expr: 'indexof(targets__click, datum.id) !== -1'
-            }
-          ]
+              expr: 'indexof(targets__click, datum.id) !== -1',
+            },
+          ],
         },
         {
           name: 'sources_clicked_array',
@@ -271,9 +313,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
           transform: [
             {
               type: 'filter',
-              expr: 'indexof(sources__click, datum.id) !== -1'
-            }
-          ]
+              expr: 'indexof(sources__click, datum.id) !== -1',
+            },
+          ],
         },
         {
           name: 'targets_clicked_array__bold',
@@ -281,13 +323,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
           transform: [
             {
               type: 'filter',
-              expr: 'indexof(targets__click, datum.id) !== -1'
+              expr: 'indexof(targets__click, datum.id) !== -1',
             },
             {
               type: 'flatten',
-              fields: ['targets']
-            }
-          ]
+              fields: ['targets'],
+            },
+          ],
         },
         {
           name: 'sources_clicked_array__bold',
@@ -295,28 +337,28 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
           transform: [
             {
               type: 'filter',
-              expr: 'indexof(sources__click, datum.id) !== -1'
+              expr: 'indexof(sources__click, datum.id) !== -1',
             },
             {
               type: 'flatten',
-              fields: ['sources']
-            }
-          ]
-        }
+              fields: ['sources'],
+            },
+          ],
+        },
       ],
       scales: [
         {
           name: 'bimodal',
           type: 'ordinal',
           domain: { data: 'nodes', field: 'groupName' },
-          range: ['#E41A1C', '#377EB8', '#4DAF4A']
+          range: ['#E41A1C', '#377EB8', '#4DAF4A'],
         },
         {
           name: 'treeLegend',
           type: 'ordinal',
           domain: { data: 'tree', field: 'groupName' },
-          range: ['#E41A1C']
-        }
+          range: ['#E41A1C'],
+        },
       ],
       legends: [
         {
@@ -346,12 +388,11 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             symbols: {
               update: {
                 stroke: { value: 'black' },
-                strokeWidth: { value: 2 }
-              }
-            }
-          }
-        }
-
+                strokeWidth: { value: 2 },
+              },
+            },
+          },
+        },
       ],
       marks: [
         {
@@ -364,11 +405,21 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               encode: {
                 update: {
                   path: { field: 'path' },
-                  stroke: { value: '#ccc' },
+                  stroke: [
+                    {
+                      test: "indata('compare_dd', 'name', datum.source.name)",
+                      value: 'darkgreen',
+                    },
+                    {
+                      test: 'length(compare_dd__signal) !== 0',
+                      value: '#FDD835',
+                    },
+                    { value: '#ccc' },
+                  ],
                   opacity: { value: 0.4 },
-                  strokeWidth: { value: 1.5 }
-                }
-              }
+                  strokeWidth: { value: 1.5 },
+                },
+              },
             },
             {
               type: 'symbol',
@@ -377,18 +428,16 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                 enter: {
                   size: { value: 300 },
                   stroke: { signal: 'datum.problem ? "#000": "#fff"' },
-                  strokeWidth: { signal: 'datum.problem ? 3: 0' }
+                  strokeWidth: { signal: 'datum.problem ? 3: 0' },
                 },
                 update: {
                   x: { field: 'x' },
                   y: { field: 'y' },
-                  tooltip: [
-                    { field: 'uberonId', type: 'quantitative' }
-                  ],
+                  tooltip: [{ field: 'uberonId', type: 'quantitative' }],
                   opacity: { signal: 'datum.children ? 1 : 0' },
-                  fill: { field: 'color' }
-                }
-              }
+                  fill: { field: 'color' },
+                },
+              },
             },
             {
               type: 'text',
@@ -399,18 +448,18 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                   limit: { value: 180 },
                   fontSize: { value: 14 },
                   baseline: { value: 'middle' },
-                  fontWeight: { value: 400 }
+                  fontWeight: { value: 400 },
                 },
                 update: {
                   x: { field: 'x' },
                   y: { field: 'y' },
                   dx: { signal: 'datum.children ? 15: -15' },
                   opacity: { signal: 'datum.children ? 1 : 0' },
-                  align: { signal: 'datum.children ? \'left\' : \'right\'' },
-                }
-              }
-            }
-          ]
+                  align: { signal: "datum.children ? 'left' : 'right'" },
+                },
+              },
+            },
+          ],
         },
         {
           type: 'group',
@@ -423,54 +472,100 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                   stroke: { value: '#ccc' },
                   strokeWidth: { value: 1.5 },
                   x: { value: 0 },
-                  y: { value: 5 }
+                  y: { value: 5 },
                 },
                 update: {
                   path: { field: 'path' },
                   stroke: [
                     // red: E41A1C, green: 4DAF4A, blue: 377EB8
-                    { test: 'datum.source.id === node__hover && datum.source.group == 1', value: '#E41A1C' }, // for hover
-                    { test: 'datum.source.id === node__hover && datum.source.group == 2', value: '#377EB8' }, // for hover
-                    { test: 'datum.target.id === node__hover && datum.target.group == 2', value: '#E41A1C' }, // for hover
-                    { test: 'datum.target.id === node__hover && datum.target.group == 3', value: '#4DAF4A' }, // for hover
+                    {
+                      test:
+                        'datum.source.id === node__hover && datum.source.group == 1',
+                      value: '#E41A1C',
+                    }, // for hover
+                    {
+                      test:
+                        'datum.source.id === node__hover && datum.source.group == 2',
+                      value: '#377EB8',
+                    }, // for hover
+                    {
+                      test:
+                        'datum.target.id === node__hover && datum.target.group == 2',
+                      value: '#E41A1C',
+                    }, // for hover
+                    {
+                      test:
+                        'datum.target.id === node__hover && datum.target.group == 3',
+                      value: '#4DAF4A',
+                    }, // for hover
 
-                    { test: 'datum.source.id === node__click && datum.source.group == 1', value: '#E41A1C' }, // for click
-                    { test: 'datum.source.id === node__click && datum.source.group == 2', value: '#377EB8' }, // for click
-                    { test: 'datum.target.id === node__click && datum.target.group == 2', value: '#E41A1C' }, // for click
-                    { test: 'datum.target.id === node__click && datum.target.group == 3', value: '#4DAF4A' }, // for click
+                    {
+                      test:
+                        'datum.source.id === node__click && datum.source.group == 1',
+                      value: '#E41A1C',
+                    }, // for click
+                    {
+                      test:
+                        'datum.source.id === node__click && datum.source.group == 2',
+                      value: '#377EB8',
+                    }, // for click
+                    {
+                      test:
+                        'datum.target.id === node__click && datum.target.group == 2',
+                      value: '#E41A1C',
+                    }, // for click
+                    {
+                      test:
+                        'datum.target.id === node__click && datum.target.group == 3',
+                      value: '#4DAF4A',
+                    }, // for click
                     // for getting AS -> CT -> B
                     {
-                      test: 'indata(\'targets_hovered_array\', \'id\', datum.source.id)',
-                      value: '#377EB8'
+                      test:
+                        "indata('targets_hovered_array', 'id', datum.source.id)",
+                      value: '#377EB8',
                     },
 
                     {
-                      test: 'indata(\'targets_clicked_array\', \'id\', datum.source.id)',
-                      value: '#377EB8'
+                      test:
+                        "indata('targets_clicked_array', 'id', datum.source.id)",
+                      value: '#377EB8',
                     },
                     // for getting B -> CT -> AS
                     {
-                      test: 'indata(\'sources_hovered_array\', \'id\', datum.target.id) && datum.source.group !== 2',
-                      value: '#377EB8'
+                      test:
+                        "indata('sources_hovered_array', 'id', datum.target.id) && datum.source.group !== 2",
+                      value: '#377EB8',
                     },
                     {
-                      test: 'indata(\'sources_clicked_array\', \'id\', datum.target.id) && datum.source.group !== 2',
-                      value: '#377EB8'
+                      test:
+                        "indata('sources_clicked_array', 'id', datum.target.id) && datum.source.group !== 2",
+                      value: '#377EB8',
                     },
-                    { value: '#ccc' }
+                    {
+                      test: "indata('compare_dd', 'name', datum.source.name)",
+                      value: 'darkgreen',
+                    },
+                    {
+                      test: 'length(compare_dd__signal) !== 0',
+                      value: '#FDD835',
+                    },
+                    { value: '#ccc' },
                   ],
                   opacity: [
                     { test: 'datum.target.id === node__click', value: 0.65 },
                     { test: 'datum.source.id === node__click', value: 0.65 },
                     {
-                      test: 'indata(\'targets_clicked_array\', \'id\', datum.source.id)',
-                      value: 0.65
+                      test:
+                        "indata('targets_clicked_array', 'id', datum.source.id)",
+                      value: 0.65,
                     },
                     {
-                      test: 'indata(\'sources_clicked_array\', \'id\', datum.target.id) && datum.source.group !== 2',
-                      value: 0.65
+                      test:
+                        "indata('sources_clicked_array', 'id', datum.target.id) && datum.source.group !== 2",
+                      value: 0.65,
                     },
-                    { value: 0.4 }
+                    { value: 0.4 },
                   ],
                   zindex: [
                     { test: 'datum.source.id === node__hover', value: 2 },
@@ -478,12 +573,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                     { test: 'datum.source.id === node__click', value: 2 },
                     { test: 'datum.target.id === node__click', value: 2 },
                     {
-                      test: 'indata(\'targets_clicked_array\', \'id\', datum.source.id)',
-                      value: 2
+                      test:
+                        "indata('targets_clicked_array', 'id', datum.source.id)",
+                      value: 2,
                     },
-                  ]
-                }
-              }
+                  ],
+                },
+              },
             },
             {
               type: 'symbol',
@@ -496,7 +592,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                   x: { field: 'x' },
                   y: { field: 'y', offset: 5 },
                   cursor: { value: 'pointer' },
-                  tooltip: { signal: '{\'Name\': datum.name, \'Degree\': datum.group === 1 ? length(datum.sources) + length(datum.targets) + 1 : length(datum.sources) + length(datum.targets), "Indegree": datum.group == 1 ? 1 : length(datum.sources), "Outdegree": length(datum.targets), "Uberon/Link": datum.uberonId}'}
+                  tooltip: {
+                    signal:
+                      '{\'Name\': datum.name, \'Degree\': datum.group === 1 ? length(datum.sources) + length(datum.targets) + 1 : length(datum.sources) + length(datum.targets), "Indegree": datum.group == 1 ? 1 : length(datum.sources), "Outdegree": length(datum.targets), "Uberon/Link": datum.uberonId}',
+                  },
                 },
                 update: {
                   stroke: { signal: 'datum.problem ? "#000": "#fff"' },
@@ -520,32 +619,35 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                   fontSize: { field: 'fontSize' },
                   fontWeight: [
                     {
-                      test: 'indata(\'targets_clicked_array\', \'id\', datum.id)',
-                      value: 'bold'
+                      test: "indata('targets_clicked_array', 'id', datum.id)",
+                      value: 'bold',
                     },
                     {
-                      test: 'datum.id === node__click', value: 'bold'
+                      test: 'datum.id === node__click',
+                      value: 'bold',
                     },
                     {
-                      test: 'indata(\'sources_clicked_array\', \'id\', datum.id)',
-                      value: 'bold'
+                      test: "indata('sources_clicked_array', 'id', datum.id)",
+                      value: 'bold',
                     },
                     {
-                      test: 'indata(\'targets_clicked_array__bold\', \'targets\', datum.id)',
-                      value: 'bold'
+                      test:
+                        "indata('targets_clicked_array__bold', 'targets', datum.id)",
+                      value: 'bold',
                     },
                     {
-                      test: 'indata(\'sources_clicked_array__bold\', \'sources\', datum.id)  && datum.group !== 2 && datum.group !== 3',
-                      value: 'bold'
-                    }
+                      test:
+                        "indata('sources_clicked_array__bold', 'sources', datum.id)  && datum.group !== 2 && datum.group !== 3",
+                      value: 'bold',
+                    },
                   ],
                   opacity: { value: 1 },
-                  limit: { value: 180 }
-                }
-              }
+                  limit: { value: 180 },
+                },
+              },
             },
-          ]
-        }
+          ],
+        },
       ],
     };
 
@@ -564,7 +666,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       .initialize('#vis')
       .hover();
 
-    vegaTooltip(this.treeView, {theme: 'custom'});
+    vegaTooltip(this.treeView, { theme: 'custom' });
     this.treeView.runAsync();
 
     this.updatedTreeData = this.treeView.data('tree');
@@ -600,13 +702,17 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       const config: any = await this.makeVegaSpec(this.screenWidth, height);
       await this.renderGraph(config);
       this.shouldRenderASCTBiomodal = true;
-      this.report.reportLog(`${this.currentSheet.display} tree successfully rendered`, 'success', 'msg');
+      this.report.reportLog(
+        `${this.currentSheet.display} tree succesfully rendered`,
+        'success',
+        'msg'
+      );
 
       this.returnRefresh.emit({
         msg: this.sheetData.msg,
         status: this.sheetData.status,
         comp: 'Tree',
-        val: true
+        val: true,
       });
     } catch (err) {
       console.log(err);
@@ -635,8 +741,18 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     this.treeView._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
     this.treeView._runtime.signals.targets__click.value = []; // removing clicked bold target nodes if at all
 
-    this.treeView.change('nodes', vega.changeset().remove(this.prevData.nodes).insert(this.asctData.nodes)).runAsync();
-    this.treeView.change('edges', vega.changeset().remove(this.prevData.links).insert(this.asctData.links)).runAsync();
+    this.treeView
+      .change(
+        'nodes',
+        vega.changeset().remove(this.prevData.nodes).insert(this.asctData.nodes)
+      )
+      .runAsync();
+    this.treeView
+      .change(
+        'edges',
+        vega.changeset().remove(this.prevData.links).insert(this.asctData.links)
+      )
+      .runAsync();
 
     const didViewRender = await this.treeView.resize().runAsync();
     await this.treeView.runAsync();
@@ -658,36 +774,47 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
    */
 
   async downloadVis(format) {
-    const dt = moment(new Date).format('YYYY.MM.DD_hh.mm');
-    const sn = this.currentSheet.display.toLowerCase().replace(' ', '_');
+    const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
+    const sn = this.sheet.sheet.display.toLowerCase().replace(' ', '_');
     const formatType = format.toLowerCase();
 
     if (format === 'Vega Spec') {
       const height = document.getElementsByTagName('body')[0].clientHeight;
       const config: any = await this.makeVegaSpec(this.screenWidth, height);
-      config.data[config.data.findIndex(i => i.name === 'nodes')].values = this.asctData.nodes;
-      config.data[config.data.findIndex(i => i.name === 'edges')].values = this.asctData.links;
+      config.data[
+        config.data.findIndex((i) => i.name === 'nodes')
+      ].values = this.asctData.nodes;
+      config.data[
+        config.data.findIndex((i) => i.name === 'edges')
+      ].values = this.asctData.links;
 
-      const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(config, null, 4));
+      const dataStr =
+        'data:text/json;charset=utf-8,' +
+        encodeURIComponent(JSON.stringify(config, null, 4));
       const downloadAnchorNode = document.createElement('a');
       downloadAnchorNode.setAttribute('href', dataStr);
-      downloadAnchorNode.setAttribute('download', `asct+b_${sn}_${dt}` + '.json');
+      downloadAnchorNode.setAttribute(
+        'download',
+        `asct+b_${sn}_${dt}` + '.json'
+      );
       document.body.appendChild(downloadAnchorNode);
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
     } else {
       const fileName = `asct+b_${sn}_${dt}.${formatType}`;
       this.treeView.background('white');
-      this.treeView.toImageURL(formatType).then((url) => {
-        const link = document.createElement('a');
-        link.setAttribute('href', url);
-        link.setAttribute('target', '_blank');
-        link.setAttribute('download', fileName);
-        link.dispatchEvent(new MouseEvent('click'));
-        this.treeView.background('transparent');
-      }).catch((error) => {
-        console.log(error);
-      });
+      this.treeView
+        .toImageURL(formatType)
+        .then((url) => {
+          const link = document.createElement('a');
+          link.setAttribute('href', url);
+          link.setAttribute('target', '_blank');
+          link.setAttribute('download', fileName);
+          link.dispatchEvent(new MouseEvent('click'));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }
 }

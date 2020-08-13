@@ -75,6 +75,9 @@
             >
               {{ option }}
             </button>
+            </mat-menu>
+
+            
           </mat-menu>
           <mat-menu #moreMenu="matMenu">
             <button
@@ -85,7 +88,7 @@
               {{ option.name }}
             </button>
           </mat-menu>
-        </mat-menu>
+
       </button>
     </div>
     <div *ngIf="screenWidth > 1000">
@@ -153,6 +156,9 @@
       >
         <mat-icon style="color: white; font-weight: bold;">refresh</mat-icon>
       </button>
+      <button mat-icon-button style="margin-right: 20px;" (click)="compareDD()" #tooltip="matTooltip" matTooltip="Upload DD Sheet and Compare" matTooltipPosition="below">
+        <mat-icon style=" color: white; font-weight: bold; ">compare_arrows</mat-icon>
+    </button>
       <button
         mat-icon-button
         *ngIf="selectedOption === 'Tree'"

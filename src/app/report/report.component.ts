@@ -26,18 +26,26 @@ export class ReportComponent implements OnInit, OnChanges {
   anatomicalStructures = [];
   cellTypes = [];
   bioMarkers = [];
+  similarAS = [];
+  similarCT = [];
+  similarB = [];
   warningCount = 0;
   @Output() closeComponent = new EventEmitter();
-  @Input() refreshData: any;
+  @Input() refreshData;
+  @Input() public compareData = [];
+  @Input() public shouldReloadData;
   @Input() currentSheet: any;
 
   sheetName = 'Spleen_R2';
 
-  constructor(public report: ReportService, public sheet: SheetService) {}
+  constructor(public report: ReportService, public sheet: SheetService) {
+  }
 
-  ngOnChanges() {}
+  ngOnChanges() {
+  }
 
   ngOnInit(): void {
+    // this.refreshData = false;
     setTimeout(() => {
       this.getData(this.currentSheet);
     }, 500);
@@ -68,23 +76,12 @@ export class ReportComponent implements OnInit, OnChanges {
   downloadData() {
     const download = [];
     const totalRows = 6;
-    for (
-      let i = 0;
-      i <
-      Math.max(
-        this.anatomicalStructures.length,
-        this.cellTypes.length,
-        this.bioMarkers.length
-      );
-      i++
-    ) {
+    for (let i = 0; i < Math.max(this.anatomicalStructures.length,this.cellTypes.length,this.bioMarkers.length); i++) {
       const row = {};
       if (i < this.anatomicalStructures.length) {
-        row['Unique Anatomical Structures'] = this.anatomicalStructures[
-          i
-        ].structure;
+        row['Unique Anatomical Structres'] = this.anatomicalStructures[i].structure;
         if (!this.anatomicalStructures[i].uberon.includes('UBERON')) {
-          row['AS with no Uberon link'] = this.anatomicalStructures[
+          row['AS with no Uberon Link'] = this.anatomicalStructures[
             i
           ].structure;
         }
@@ -92,12 +89,24 @@ export class ReportComponent implements OnInit, OnChanges {
       if (i < this.cellTypes.length) {
         row['Unique Cell Types'] = this.cellTypes[i].structure;
         if (!this.cellTypes[i].link.includes('CL')) {
-          row['CL with no link'] = this.cellTypes[i].structure;
+          row['CL with no Link'] = this.cellTypes[i].structure;
         }
       }
       if (i < this.bioMarkers.length) {
         row['Unique Biomarkers'] = this.bioMarkers[i].structure;
         row['Biomarkers with no links'] = this.bioMarkers[i].structure;
+      }
+
+      if (i < this.similarAS.length) {
+        row['Similar AS from Derived Data'] = this.similarAS[i].name;
+      }
+
+      if (i < this.similarCT.length) {
+        row['Similar CT from Derived Data'] = this.similarCT[i].name;
+      }
+
+      if (i < this.similarB.length) {
+        row['Similar B from Derived Data'] = this.similarB[i].name;
       }
       download.push(row);
     }
@@ -137,6 +146,40 @@ export class ReportComponent implements OnInit, OnChanges {
     const noLinks = [];
 
     return noLinks;
+  }
+
+  getSimilarASFromDD() {
+    this.similarAS = [];
+    this.anatomicalStructures.forEach((a) => {
+      const idx = this.compareData.findIndex((i) => i.name.toLowerCase() === a.structure.toLowerCase());
+      if (idx !== -1) {
+        this.similarAS.push(this.compareData[idx]);
+      }
+    });
+    
+    return this.similarAS;
+  }
+
+  getSimilarCTFromDD() {
+    this.similarCT = [];
+    this.cellTypes.forEach((a) => {
+      const idx = this.compareData.findIndex((i) => i.name.toLowerCase() === a.structure.toLowerCase());
+      if (idx !== -1) {
+        this.similarCT.push(this.compareData[idx])
+      }
+    });
+    return this.similarCT;
+  }t
+
+  getSimilarBFromDD() {
+    this.similarB = [];
+    this.bioMarkers.forEach((a) => {
+      const idx = this.compareData.findIndex((i) => i.name.toLowerCase() === a.structure.toLowerCase().replace('*',''))
+      if (idx !== -1) {
+        this.similarB.push(this.compareData[idx])
+      }
+    });
+    return this.similarB;
   }
 
   closeDrawer() {
