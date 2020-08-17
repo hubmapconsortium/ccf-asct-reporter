@@ -14,11 +14,15 @@ export class Cell {
   structure: string;
   parents: Array<string>;
   link: string;
+  isNew: boolean;
+  color: string;
 
   constructor(structure: string, link = 'NONE') {
     this.structure = structure;
     this.parents = [];
     this.link = link;
+    this.isNew = false;
+    this.color = '#ccc';
   }
 }
 
@@ -26,11 +30,15 @@ export class Marker {
   structure: string;
   parents: Array<string>;
   count: number;
+  isNew: boolean;
+  color: string
 
   constructor(structure, count) {
     this.structure = structure;
     this.parents = [];
     this.count = count;
+    this.isNew = false;
+    this.color = '#ccc';
   }
 }
 
@@ -48,6 +56,8 @@ export class BMNode {
   sources: Array<number>;
   uberonId: string;
   problem: boolean;
+  pathColor: string;
+  isNew: boolean ;
 
   constructor(name, group, x, y, fontSize, uberonId= '', color = '#E41A1C', nodeSize = 300, ) {
     this.name = name;
@@ -61,6 +71,8 @@ export class BMNode {
     this.sources = [];
     this.groupName = groupNameMapper[group];
     this.uberonId = uberonId;
+    this.pathColor = '#ccc';
+    this.isNew = false;
   }
 }
 
@@ -85,7 +97,7 @@ export class BimodalService {
 
   constructor(public sheet: SheetService, public report: ReportService) { }
 
-  async makeASCTData(sheetData, treeData, bimodalConfig, currentSheet) {
+  async makeASCTData(sheetData, treeData, bimodalConfig, currentSheet, compareData?) {
     let ASCTGraphData: ASCTD;
     const links = [];
     const nodes = [];
@@ -94,6 +106,11 @@ export class BimodalService {
     const distance = currentSheet.config.bimodal_distance;
     let id = 0;
     let biomarkers = [];
+    for(let sheet of compareData) {
+      for (let row of sheet) {
+        sheetData.push(row)
+      }
+    }
 
     // making anatomical structures (last layer of the tree)
     treeData.forEach(td => {
@@ -102,6 +119,9 @@ export class BimodalService {
         const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.uberonId);
         newLeaf.id = id;
         newLeaf.problem = td.problem;
+        newLeaf.pathColor = td.pathColor;
+        newLeaf.isNew = td.isNew;
+        newLeaf.color = td.color;
         nodes.push(newLeaf);
         id += 1;
         treeX = td.x;
@@ -116,7 +136,7 @@ export class BimodalService {
 
     // sorting cells based on options
     if (bimodalConfig.CT.sort === 'Alphabetically') {
-      cellTypes = await this.sheet.makeCellTypes(sheetData, {report_cols: currentSheet.report_cols, cell_col: currentSheet.cell_col, uberon_col: currentSheet.uberon_col});
+      cellTypes = await this.sheet.makeCellTypes(sheetData, {report_cols: currentSheet.report_cols, cell_col: currentSheet.cell_col, uberon_col: currentSheet.uberon_col, marker_col: currentSheet.marker_col});
       cellTypes.sort((a, b) => {
         return (
           a.structure.toLowerCase() > b.structure.toLowerCase() ? 1 : (
@@ -149,6 +169,12 @@ export class BimodalService {
     cellTypes.forEach(cell => {
       const newNode = new BMNode(cell.structure, 2, treeX, treeY, 14, cell.link, CT_BLUE, cell.nodeSize);
       newNode.id = id;
+      newNode.isNew = cell.isNew;
+      newNode.pathColor = cell.color;
+      
+      if (newNode.isNew) {
+        newNode.color = cell.color;
+      }
       nodes.push(newNode);
       treeY += 50;
       id += 1;
@@ -183,7 +209,7 @@ export class BimodalService {
     }
 
     // making group 3: bio markers
-    biomarkers.forEach((item, i) => {
+    biomarkers.forEach((marker, i) => {
       const newNode = new BMNode(biomarkers[i].structure,
         3,
         treeX,
@@ -194,6 +220,12 @@ export class BimodalService {
         biomarkers[i].nodeSize
       );
       newNode.id = id;
+      newNode.isNew = marker.isNew;
+      newNode.pathColor = marker.color;
+      
+      if (newNode.isNew) {
+        newNode.color = marker.color;
+      }
       nodes.push(newNode);
       treeY += 40;
       id += 1;
@@ -218,6 +250,8 @@ export class BimodalService {
                   if (found !== -1) {
                     nodes[parent].targets.indexOf(found) === -1 && nodes[parent].targets.push(found);
                     nodes[found].sources.indexOf(parent) === -1 && nodes[found].sources.push(parent);
+                    nodes[found].pathColor = nodes[parent].pathColor;
+                    // nodes[found].isNew = nodes[parent].isNew;
 
                     if (!links.some(n => n.s === parent && n.t === found)) {
                       links.push({
@@ -250,8 +284,10 @@ export class BimodalService {
                 if (!links.some(n => n.s === cell && n.t === marker)) {
                   nodes[cell].targets.indexOf(marker) === -1 && nodes[cell].targets.push(marker);
                   nodes[cell].sources.indexOf(marker) === -1 && nodes[cell].sources.push(marker);
-
                   nodes[marker].sources.indexOf(cell) === -1 && nodes[marker].sources.push(cell);
+                  nodes[marker].pathColor = nodes[cell].pathColor;
+                  
+
                   links.push({
                     s: cell,
                     t: marker
@@ -278,7 +314,7 @@ export class BimodalService {
    * Returns the array of biomarkers that are sorted have their degrees calculated.
    * @param {Array<Array<string>>} data - Sheet data
    */
-  public async makeMarkerDegree(data: Array<Array<string>>, currentSheet: any) {
+  public async makeMarkerDegree(data: any, currentSheet: any) {
     const markerDegrees = [];
 
     data.forEach((row) => {
@@ -298,6 +334,8 @@ export class BimodalService {
           if (foundMarker === -1) {
             const nm = new Marker(markers[i].trim(), cells.length);
             nm.parents.push(...cells.map((cell) => cell.toLowerCase()));
+            nm.isNew = row[currentSheet.marker_col + 2];
+            nm.color = row[currentSheet.marker_col + 3];
             markerDegrees.push(nm);
           } else {
             const m = markerDegrees[foundMarker];
@@ -336,7 +374,7 @@ export class BimodalService {
 
             data.forEach((row) => {
               let parent;
-              parent = row.find((i) => i.toLowerCase() === leaf.toLowerCase());
+              parent = row.find((i) => {if (typeof i === 'string') i.toLowerCase() === leaf.toLowerCase()});
 
               if (parent) {
                 const cells = row[currentSheet.cell_col].split(',');
@@ -352,6 +390,8 @@ export class BimodalService {
                         cells[i].trim(),
                         row[currentSheet.cell_col + currentSheet.uberon_col]
                       );
+                      nc.isNew = row[currentSheet.marker_col + 2];
+                      nc.color = row[currentSheet.marker_col + 3];
                       nc.parents.push(parent.toLowerCase());
                       cellDegrees.push(nc);
                     } else {
@@ -398,6 +438,8 @@ export class BimodalService {
                   cells[c].trim(),
                   row[currentSheet.cell_col + currentSheet.uberon_col]
                 );
+                nc.isNew = row[currentSheet.marker_col + 2];
+                nc.color = row[currentSheet.marker_col + 3];
                 nc.parents.push(...markers);
                 cellDegrees.push(nc);
               }

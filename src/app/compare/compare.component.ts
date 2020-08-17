@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { FormControl, Validators, FormControlName, FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { SheetService } from '../services/sheet.service';
 import { LoadingComponent } from '../loading/loading.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -47,58 +47,32 @@ export class CompareComponent implements OnInit {
 
   public async getData(link?: string, columns?: string) {
     this.openLoading();
-    let structureNames = [];
+    let exportCompareData = [];
+   
 
-    for(const ddSheet of this.formGroup.value.sheets) {
-      if (!ddSheet.link) {
-        continue
-      }
-
+    for(let ddSheet of this.formGroup.value.sheets) {
       let sheetID = this.checkLinkFormat(ddSheet.link).sheetID;
       let gid = this.checkLinkFormat(ddSheet.link).gid;
       
       try {
         // const constructedURL = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv&gid=${gid}`;
         const constructedURL = `http://asctb-data-miner.herokuapp.com/${sheetID}/${gid}`
-        const CN = ddSheet.columnNumbers.split(',');
-  
-        const markerCol = CN[CN.length - 1];
-        const cellCol = CN[CN.length - 2];
-  
         
         const csvData = await this.sheet.getDataFromURL(
-          constructedURL, 1
+          constructedURL, 1, {isNew: true, color: ddSheet.color}
         );
-  
-        csvData.data.forEach((row) => {
-          for (let i = 0; i < CN.length - 2; i++) {
-            if (!structureNames.some((s) => s.name.toLowerCase() == row[i].toLowerCase())) {
-              structureNames.push({ name: row[i] });
-            }
-          }
-          let cells = row[cellCol].split(',').map((c) => c.trim());
-          for (let i = 0; i < cells.length; i++) {
-            if (!structureNames.some((s) => s.name.toLowerCase() == cells[i].toLowerCase())) {
-              structureNames.push({ name: cells[i].trim() });
-            }
-          }
-  
-          let markers = row[markerCol].split(',').map((m) => m.trim());
-          for (let i = 0; i < markers.length; i++) {
-            if (!structureNames.some((s) => s.name.toLowerCase() == markers[i].toLowerCase())) {
-              structureNames.push({ name: markers[i] });
-            }
-          }
-        });
-  
-        this.openSnackBar('Derived Data sheet succesfully fetched.', 'Close', 'green')
-        this.dialog.closeAll();
-        this.dialogRef.close({ data: structureNames });
+
+        exportCompareData.push(csvData.data)
+        
       } catch (err) {
         this.loadingDialog.close();
         this.openSnackBar('Error while fetching data.', 'Close', 'red');
       }
+      
     }
+    this.openSnackBar('Derived Data sheet succesfully fetched.', 'Close', 'green')
+      this.dialog.closeAll();
+      this.dialogRef.close({ data: exportCompareData });
     
   }
 

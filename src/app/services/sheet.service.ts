@@ -22,11 +22,15 @@ export interface CT {
   structure: string;
   link: string;
   nodeSize: number;
+  isNew: boolean;
+  color: string;
 }
 
 export interface B {
   structure: string;
   link: string;
+  isNew: boolean;
+  color: string;
 }
 
 export class Organ {
@@ -77,7 +81,7 @@ export class SheetService {
    *
    * @returns {Promise} - An object that has the data, status and return message
    */
-  public async getDataFromURL(url: string, header_count = 11): Promise<any> {
+  public async getDataFromURL(url: string, header_count = 11, compareConfig = {isNew: false, color: '#ccc'}): Promise<any> {
     return new Promise(async (res, rej) => {
       try {
         const data = await this.http
@@ -85,6 +89,7 @@ export class SheetService {
           .toPromise();
         const parsedData = parse(data);
         parsedData.data.splice(0, header_count);
+        parsedData.data.map(i => {i.push(compareConfig.isNew); i.push(compareConfig.color)})
 
         res({
           data: parsedData.data,
@@ -401,19 +406,17 @@ export class SheetService {
         const cells = row[config.cell_col].trim().split(',');
         for (const i in cells) {
           if (cells[i] !== '' && !cells[i].startsWith('//')) {
-            if (
-              !cellTypes.some(
-                (c) =>
-                  c.structure.trim().toLowerCase() ===
-                  cells[i].trim().toLowerCase()
-              )
-            ) {
+            if (!cellTypes.some((c) => c.structure.trim().toLowerCase() === cells[i].trim().toLowerCase())) {
+             
+              // console.log(`name: ${cells[i].trim()}, color: ${row[config.marker_col + 3]}, isNew: ${row[config.marker_col + 2]}`)
               cellTypes.push({
                 structure: cells[i].trim(),
                 link:
                   row[config.cell_col + config.uberon_col] !== cells[i].trim()
                     ? row[config.cell_col + config.uberon_col]
                     : 'NONE',
+                isNew: row[config.marker_col + 2],
+                color: row[config.marker_col + 3]
               });
             }
           }
@@ -455,6 +458,8 @@ export class SheetService {
               bioMarkers.push({
                 structure: markers[i].trim(),
                 link: 'NONE',
+                isNew: row[config.marker_col + 2],
+                color: row[config.marker_col + 3]
               });
             }
           }

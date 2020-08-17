@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SheetService } from '../services/sheet.service';
 import { ReportService } from '../report/report.service';
+import { compare } from 'vega';
 
 // Used in the tree visualization
 export class TNode {
@@ -12,6 +13,8 @@ export class TNode {
   problem: boolean;
   found: boolean;
   groupName: string;
+  isNew: boolean;
+  pathColor: string;
 
   constructor(id, name, parent, uId, color = '#808080') {
     this.id = id;
@@ -21,6 +24,8 @@ export class TNode {
     this.color = color;
     this.problem = false;
     this.groupName = 'See Debug Log';
+    this.isNew = false;
+    this.pathColor = '#ccc'
   }
 }
 
@@ -74,12 +79,21 @@ export class TreeService {
    *
    * @param data - Sheet data
    */
-  public makeTreeData(data): Promise<Array<TNode>> {
-    return new Promise((res, rej) => {
+  public makeTreeData(data, compareData?: any): Promise<Array<TNode>> {
+    
+    return new Promise(async (res, rej) => {
+
+      for(let sheet of compareData) {
+        for (let row of sheet) {
+          data.push(row)
+        }
+      }
+
+      
       const cols = this.currentSheet.tree_cols;
       const id = 1;
       let parent;
-      const tree = new Tree(id);
+      let tree = new Tree(id);
       const uberon_col = this.currentSheet.uberon_col;
 
       const root = new TNode(id, this.currentSheet.body, 0, 0, AS_RED);
@@ -102,6 +116,7 @@ export class TreeService {
           for (const i in foundNodes) {
             if (foundNodes[i] !== '') {
               const searchedNode = tree.search(foundNodes[i], parent);
+              searchedNode.pathColor = row[this.currentSheet.marker_col + 3];
 
               if (searchedNode.found) {
                 if (searchedNode.problem) {
@@ -114,6 +129,11 @@ export class TreeService {
                 tree.id += 1;
                 const uberon =  row[cols[col] + uberon_col] !== foundNodes[i] ? row[cols[col] + uberon_col] : 'NONE';
                 const newNode = new TNode(tree.id, foundNodes[i], parent.id, uberon, AS_RED);
+                newNode.isNew = row[this.currentSheet.marker_col + 2]
+                if (newNode.isNew) {
+                  newNode.color = row[this.currentSheet.marker_col + 3]
+                  newNode.pathColor = row[this.currentSheet.marker_col + 3]
+                }
                 tree.append(newNode);
                 parent = newNode;
               }
@@ -129,6 +149,5 @@ export class TreeService {
       res(tree.nodes);
     });
   }
-
 
 }

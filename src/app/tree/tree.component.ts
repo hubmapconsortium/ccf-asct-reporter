@@ -89,13 +89,11 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges() {
     if (this.refreshData) {
       this.ts.setCurrentSheet(this.currentSheet);
-      this.compareData = []; // remove compare data on refresh
       this.getData();
     }
 
     if (this.shouldReloadData && !this.refreshData) {
       this.ts.setCurrentSheet(this.currentSheet);
-      this.compareData = []; // remove compare remove compare data on refresh
       this.getData();
     }
 
@@ -123,14 +121,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public async setGraphToCompare(data) {
-    this.treeView._runtime.signals.compare_dd__signal.value = data;
-    this.treeView
-      .change(
-        'compare_dd',
-        vega.changeset().remove(this.prevData.compareDD).insert(data)
-      )
-      .runAsync();
-    await this.treeView.runAsync();
+    this.treeData = await this.ts.makeTreeData(this.sheetData.data, data);
+    const height = document.getElementsByTagName('body')[0].clientHeight;
+    const config: any = await this.makeVegaSpec(this.screenWidth, height);
+    await this.renderGraph(config);
+    // this.treeView._runtime.signals.compare_dd__signal.value = data;
+    // this.treeView.change('compare_dd',vega.changeset().remove(this.prevData.compareDD).insert(data)).runAsync();
+    // await this.treeView.runAsync();
   }
 
   /**
@@ -259,8 +256,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               type: 'lookup',
               from: 'nodes',
               key: 'id',
-              fields: ['s', 't'],
-              as: ['source', 'target'],
+              fields: ['s', 't', 'pathColor'],
+              as: ['source', 'target', 'c'],
             },
             {
               type: 'linkpath',
@@ -405,13 +402,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               encode: {
                 update: {
                   path: { field: 'path' },
-                  stroke: [
-                    {
-                      test: "indata('compare_dd', 'name', datum.source.name)",
-                      value: 'darkgreen',
-                    },
-                    { value: '#ccc' },
-                  ],
+                  stroke: {signal: 'datum.source.pathColor'},
                   opacity: { value: 0.4 },
                   strokeWidth: { value: 1.5 },
                 },
@@ -423,15 +414,16 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               encode: {
                 enter: {
                   size: { value: 300 },
-                  stroke: { signal: 'datum.problem ? "#000": "#fff"' },
-                  strokeWidth: { signal: 'datum.problem ? 3: 0' },
+                  stroke: { signal: 'datum.problem ? "#000": datum.isNew ? datum.color :"#fff"' },
+                  strokeWidth: { signal: 'datum.problem ? 3: datum.isNew ? 3 : 0' },
+                  strokeDash: {signal: 'datum.isNew ? 3 : 0'}
                 },
                 update: {
                   x: { field: 'x' },
                   y: { field: 'y' },
                   tooltip: [{ field: 'uberonId', type: 'quantitative' }],
                   opacity: { signal: 'datum.children ? 1 : 0' },
-                  fill: { field: 'color' },
+                  fill: { signal: 'datum.isNew ? "#fafafa" : datum.color' },
                 },
               },
             },
@@ -542,7 +534,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                       test: "indata('compare_dd', 'name', datum.source.name)",
                       value: 'darkgreen',
                     },
-                    { value: '#ccc' },
+                    {signal: 'datum.source.pathColor'},
                   ],
                   opacity: [
                     { test: 'datum.target.id === node__click', value: 0.65 },
@@ -580,7 +572,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               encode: {
                 enter: {
                   size: { field: 'nodeSize' },
-                  fill: { field: 'color' },
+                  fill: { signal: 'datum.isNew ? "#fafafa" : datum.color'},
                   x: { field: 'x' },
                   y: { field: 'y', offset: 5 },
                   cursor: { value: 'pointer' },
@@ -590,8 +582,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                   },
                 },
                 update: {
-                  stroke: { signal: 'datum.problem ? "#000": "#fff"' },
-                  strokeWidth: { signal: 'datum.problem ? 3: 0' }
+                  stroke: { signal: 'datum.problem ? "#000" : datum.isNew ? datum.color : "#fff"' },
+                  strokeWidth: {signal: 'datum.isNew ? 3 : datum.problem ? 3 : 0'},
+                  strokeDash: {signal: 'datum.isNew ? 3 : 0'}
                 }
               }
             },
@@ -677,8 +670,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         this.router.navigateByUrl('/error');
         throw new Error;
       }
- 
-    this.treeData = await this.ts.makeTreeData(this.sheetData.data);
+    this.treeData = await this.ts.makeTreeData(this.sheetData.data, this.compareData);
 
     const height = document.getElementsByTagName('body')[0].clientHeight;
     this.screenWidth = document.getElementsByTagName('body')[0].clientWidth;
@@ -728,7 +720,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
    */
 
   public async makeBimodalGraph() {
-    this.asctData = await this.bms.makeASCTData(this.sheetData.data, this.updatedTreeData, this.bimodalConfig, this.currentSheet);
+    this.asctData = await this.bms.makeASCTData(this.sheetData.data, this.updatedTreeData, this.bimodalConfig, this.currentSheet, this.compareData);
     this.treeView._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
     this.treeView._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
     this.treeView._runtime.signals.targets__click.value = []; // removing clicked bold target nodes if at all
@@ -767,7 +759,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
   async downloadVis(format) {
     const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
-    const sn = this.sheet.sheet.display.toLowerCase().replace(' ', '_');
+    const sn = this.currentSheet.display.toLowerCase().replace(' ', '_');
     const formatType = format.toLowerCase();
 
     if (format === 'Vega Spec') {
