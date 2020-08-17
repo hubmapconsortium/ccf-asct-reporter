@@ -1,9 +1,9 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, Inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { SheetService } from '../services/sheet.service';
 import { LoadingComponent } from '../loading/loading.component';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -18,6 +18,7 @@ export class CompareComponent implements OnInit {
   formSheets: FormArray;
   loadingDialog: any;
 
+  @Input() sources
   @Output() compareData = new EventEmitter<any>();
 
   constructor(
@@ -25,7 +26,8 @@ export class CompareComponent implements OnInit {
     public sheet: SheetService,
     private dialog: MatDialog,
     public snackBar: MatSnackBar,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public dialogSources: any
   ) {}
 
   ngOnInit(): void {
@@ -34,13 +36,24 @@ export class CompareComponent implements OnInit {
     })
 
     this.formSheets = this.formGroup.get('sheets') as FormArray;
+    
+    // retain the previously uploaded sheet data sources
+    if (this.dialogSources.sources.length > 0) {
+      for (let source of this.dialogSources.sources) {
+        this.formSheets.push(this.createCompareForm(source.link, source.color));
+      }
+      // remove the row that was insert on component creation
+      this.removeCompareSheetRow(0);
+    }
   }
 
-  createCompareForm(): FormGroup {
+  createCompareForm(link = '', color?: string): FormGroup {
+    if (!color) color = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
+
     return this.fb.group({
-      link: ['', Validators.compose([Validators.required, Validators.pattern(/\/([\w-_]{15,})\/(.*?gid=(\d+))?/)])],
-      columnNumbers: ['', Validators.compose([Validators.required, Validators.pattern(/^([0-9\s]+,)*([0-9\s]+){1}$/i)])],
-      color: ['#8B008B']
+      link: [link, Validators.compose([Validators.required, Validators.pattern(/\/([\w-_]{15,})\/(.*?gid=(\d+))?/)])],
+      // columnNumbers: ['', Validators.compose([Validators.required, Validators.pattern(/^([0-9\s]+,)*([0-9\s]+){1}$/i)])],
+      color: [color]
     })
   }
 
@@ -48,9 +61,15 @@ export class CompareComponent implements OnInit {
   public async getData(link?: string, columns?: string) {
     this.openLoading();
     let exportCompareData = [];
+    let sources = [];
    
 
     for(let ddSheet of this.formGroup.value.sheets) {
+      sources.push({
+        link: ddSheet.link,
+        color: ddSheet.color
+      })
+
       let sheetID = this.checkLinkFormat(ddSheet.link).sheetID;
       let gid = this.checkLinkFormat(ddSheet.link).gid;
       
@@ -71,8 +90,8 @@ export class CompareComponent implements OnInit {
       
     }
     this.openSnackBar('Derived Data sheet succesfully fetched.', 'Close', 'green')
-      this.dialog.closeAll();
-      this.dialogRef.close({ data: exportCompareData });
+    this.dialog.closeAll();
+    this.dialogRef.close({ data: exportCompareData, sources: sources });
     
   }
 
@@ -80,7 +99,7 @@ export class CompareComponent implements OnInit {
     this.formSheets.push(this.createCompareForm());
   }
 
-  removeCompareSheetRow(i) {
+  removeCompareSheetRow(i: number) {
     this.formSheets.removeAt(i);
   }
 
@@ -125,6 +144,7 @@ export class CompareComponent implements OnInit {
   close() {
     this.dialogRef.close({data: []});
   }
+
   changeComplete(e) {
     console.log(e)
   }

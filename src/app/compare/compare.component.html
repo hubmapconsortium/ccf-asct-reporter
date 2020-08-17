@@ -11,22 +11,23 @@
                 <div formArrayName="sheets">
                     <div *ngFor="let sheet of CSControls.controls; let i=index">
                         <div [formGroupName]="i">
-                            <mat-form-field [floatLabel]="'always'" class="link-input-field">
-                                <mat-label>Google Sheets Link</mat-label>
-                                <input matInput placeholder="Enter link..." formControlName="link" required>
-                                <mat-hint>Please enter your Google Sheet Link</mat-hint>
-                                <mat-error *ngIf="sheet.get('link').hasError('required') || sheet.get('link').hasError('pattern')">Invalid link</mat-error>
-                            </mat-form-field>
+                         
                             <div class=" w-100" style="display: flex; align-items: center; justify-content: space-between;">
                                 <div class='w-75'>
-                                    <mat-form-field [floatLabel]="'always'" class="link-input-field mt-4">
+                                    <mat-form-field [floatLabel]="'always'" class="link-input-field">
+                                        <mat-label>Google Sheets Link</mat-label>
+                                        <input matInput placeholder="Enter link..." formControlName="link" required>
+                                        <mat-hint>Please enter your Google Sheet Link</mat-hint>
+                                        <mat-error *ngIf="sheet.get('link').hasError('required') || sheet.get('link').hasError('pattern')">Invalid link</mat-error>
+                                    </mat-form-field>
+                                    <!-- <mat-form-field [floatLabel]="'always'" class="link-input-field mt-4">
                                         <mat-label>Column Numbers</mat-label>
                                         <input matInput placeholder="Enter comma separated column numbers..." formControlName="columnNumbers" required>
                                         <mat-hint>Ex: 1,2,3</mat-hint>
                                         <mat-error *ngIf="sheet.get('columnNumbers').hasError('required') || sheet.get('columnNumbers').hasError('pattern')">Invalid column number format</mat-error>
-                                    </mat-form-field>
+                                    </mat-form-field> -->
                                 </div>
-                                <div style="width: 15%;">
+                                <div style="width: 15%; margin-top: -15px;">
                                     <mat-label style="font-size: 10px; color:grey">Pick Color</mat-label>
                                     <input 
                                         type="color" 
@@ -36,7 +37,7 @@
                                         [style.backgroundColor]="sheet.get('color').value"
                                     >
                                 </div>
-                                <div class="mt-3 ml-2">
+                                <div class="mt-1 ml-2">
                                     <button mat-icon-button [disabled]="formGroup.value.sheets.length === 1" (click)="removeCompareSheetRow(i)">
                                         <mat-icon color="red">delete</mat-icon>
                                     </button>

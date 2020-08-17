@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnChanges } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingComponent } from '../loading/loading.component';
@@ -12,7 +12,7 @@ import { CompareComponent } from "../compare/compare.component";
   templateUrl: './vis.component.html',
   styleUrls: ['./vis.component.css'],
 })
-export class VisComponent implements OnInit {
+export class VisComponent implements OnInit, OnChanges {
   @ViewChild('drawer') drawer;
   @ViewChild('reportComponent') reportComponent;
   @ViewChild('tree') treeComponent;
@@ -28,6 +28,7 @@ export class VisComponent implements OnInit {
   showCompInDrawer = '';
   dataVersion = '';
   compareData = [];
+  comapreComponentSources = [];
 
   constructor(
     private dialog: MatDialog,
@@ -38,6 +39,11 @@ export class VisComponent implements OnInit {
   ) {}
 
   ngOnInit() {}
+
+  ngOnChanges() {
+    console.log('hi')
+    console.log(this.comapreComponentSources);
+  }
 
   toggleReportDrawer(val) {
     // this.refreshReport = val;
@@ -64,11 +70,16 @@ export class VisComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = "100%";
     dialogConfig.maxWidth = "700px";
+    dialogConfig.data = {
+      sources: this.comapreComponentSources
+    }
     let dialogRef = this.dialog.open(CompareComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(r => {
-      if (r.data.length > 0)
-      this.compareData = r.data;
+      if (r.data.length > 0) {
+        this.compareData = r.data;
+        this.comapreComponentSources = r.sources;
+      }
     })
   }
 
