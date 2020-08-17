@@ -283,7 +283,7 @@ export class BimodalService {
                 const marker = nodes.findIndex(r => r.name.toLowerCase().trim() === markers[m].toLowerCase().trim());
                 if (!links.some(n => n.s === cell && n.t === marker)) {
                   nodes[cell].targets.indexOf(marker) === -1 && nodes[cell].targets.push(marker);
-                  nodes[cell].sources.indexOf(marker) === -1 && nodes[cell].sources.push(marker);
+                  // nodes[cell].sources.indexOf(marker) === -1 && nodes[cell].sources.push(marker);
                   nodes[marker].sources.indexOf(cell) === -1 && nodes[marker].sources.push(cell);
                   nodes[marker].pathColor = nodes[cell].pathColor;
                   
@@ -374,7 +374,13 @@ export class BimodalService {
 
             data.forEach((row) => {
               let parent;
-              parent = row.find((i) => {if (typeof i === 'string') i.toLowerCase() === leaf.toLowerCase()});
+              for (let i in row) {
+                if (typeof row[i] === 'string' && row[i] !== '') {
+                  if (row[i].toLowerCase() === leaf.toLowerCase()) {
+                    parent = i
+                  }
+                }
+              }
 
               if (parent) {
                 const cells = row[currentSheet.cell_col].split(',');
