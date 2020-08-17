@@ -533,7 +533,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                       test: "indata('compare_dd', 'name', datum.source.name)",
                       value: 'darkgreen',
                     },
-                    {signal: 'datum.source.pathColor'},
+                    {signal: 'datum.source.pathColor ? datum.source.pathColor : "#ccc"'},
                   ],
                   opacity: [
                     { test: 'datum.target.id === node__click', value: 0.65 },
