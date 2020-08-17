@@ -84,7 +84,7 @@ export class TreeService {
     return new Promise(async (res, rej) => {
 
       for(let sheet of compareData) {
-        for (let row of sheet) {
+        for (let row of sheet.data) {
           data.push(row)
         }
       }

@@ -126,9 +126,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     const height = document.getElementsByTagName('body')[0].clientHeight;
     const config: any = await this.makeVegaSpec(this.screenWidth, height);
     await this.renderGraph(config);
-    // this.treeView._runtime.signals.compare_dd__signal.value = data;
-    // this.treeView.change('compare_dd',vega.changeset().remove(this.prevData.compareDD).insert(data)).runAsync();
-    // await this.treeView.runAsync();
+
   }
 
   /**

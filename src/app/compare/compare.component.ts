@@ -81,7 +81,10 @@ export class CompareComponent implements OnInit {
           constructedURL, 1, {isNew: true, color: ddSheet.color}
         );
 
-        exportCompareData.push(csvData.data)
+        exportCompareData.push({
+          data: csvData.data,
+          color: ddSheet.color
+        })
         
       } catch (err) {
         this.loadingDialog.close();

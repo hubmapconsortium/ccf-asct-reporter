@@ -31,6 +31,7 @@ export class ReportComponent implements OnInit, OnChanges {
   similarB = [];
   warningCount = 0;
   @Output() closeComponent = new EventEmitter();
+  @Output() openCompareDialog = new EventEmitter();
   @Input() refreshData;
   @Input() public compareData = [];
   @Input() public shouldReloadData;
@@ -46,8 +47,9 @@ export class ReportComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     // this.refreshData = false;
+    this.getData(this.currentSheet);
     setTimeout(() => {
-      this.getData(this.currentSheet);
+     
     }, 500);
   }
 
@@ -64,10 +66,13 @@ export class ReportComponent implements OnInit, OnChanges {
         report_cols: currentSheet.report_cols,
         cell_col: currentSheet.cell_col,
         uberon_col: currentSheet.uberon_col,
+        marker_col: currentSheet.marker_col
       });
       this.bioMarkers = await this.sheet.makeBioMarkers(this.sheetData.data, {
         marker_col: currentSheet.marker_col,
       });
+
+      console.log(this.cellTypes)
     } catch (err) {
       console.log(err);
     }
@@ -150,40 +155,44 @@ export class ReportComponent implements OnInit, OnChanges {
 
   getSimilarASFromDD() {
     this.similarAS = [];
-    this.anatomicalStructures.forEach((a) => {
-      const idx = this.compareData.findIndex((i) => i.name.toLowerCase() === a.structure.toLowerCase());
-      if (idx !== -1) {
-        this.similarAS.push(this.compareData[idx]);
-      }
-    });
+    // this.anatomicalStructures.forEach((a) => {
+    //   const idx = this.compareData.findIndex((i) => i.name.toLowerCase() === a.structure.toLowerCase());
+    //   if (idx !== -1) {
+    //     this.similarAS.push(this.compareData[idx]);
+    //   }
+    // });
     
     return this.similarAS;
   }
 
   getSimilarCTFromDD() {
     this.similarCT = [];
-    this.cellTypes.forEach((a) => {
-      const idx = this.compareData.findIndex((i) => i.name.toLowerCase() === a.structure.toLowerCase());
-      if (idx !== -1) {
-        this.similarCT.push(this.compareData[idx])
-      }
-    });
+    // this.cellTypes.forEach((a) => {
+    //   const idx = this.compareData.findIndex((i) => i.name.toLowerCase() === a.structure.toLowerCase());
+    //   if (idx !== -1) {
+    //     this.similarCT.push(this.compareData[idx])
+    //   }
+    // });
     return this.similarCT;
   }t
 
   getSimilarBFromDD() {
     this.similarB = [];
-    this.bioMarkers.forEach((a) => {
-      const idx = this.compareData.findIndex((i) => i.name.toLowerCase() === a.structure.toLowerCase().replace('*',''))
-      if (idx !== -1) {
-        this.similarB.push(this.compareData[idx])
-      }
-    });
+    // this.bioMarkers.forEach((a) => {
+    //   const idx = this.compareData.findIndex((i) => i.name.toLowerCase() === a.structure.toLowerCase().replace('*',''))
+    //   if (idx !== -1) {
+    //     this.similarB.push(this.compareData[idx])
+    //   }
+    // });
     return this.similarB;
   }
 
   closeDrawer() {
     this.closeComponent.emit(false);
+  }
+
+  openDialogtoCompare() {
+    this.openCompareDialog.emit(true);
   }
 
   mail() {

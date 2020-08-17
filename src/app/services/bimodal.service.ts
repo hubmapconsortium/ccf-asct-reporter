@@ -106,8 +106,9 @@ export class BimodalService {
     const distance = currentSheet.config.bimodal_distance;
     let id = 0;
     let biomarkers = [];
+
     for(let sheet of compareData) {
-      for (let row of sheet) {
+      for (let row of sheet.data) {
         sheetData.push(row)
       }
     }

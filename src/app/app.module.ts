@@ -38,8 +38,6 @@ import { HomeComponent } from './home/home.component';
 import { VisComponent } from './vis/vis.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { CompareComponent } from './compare/compare.component';
-import { ColorTwitterModule } from 'ngx-color/twitter';
-
 
 const MatModules = [
   MatToolbarModule,
@@ -83,8 +81,7 @@ const MatModules = [
     MatModules,
     OrderModule,
     AppRoutingModule,
-    ReactiveFormsModule,
-    ColorTwitterModule
+    ReactiveFormsModule
   ],
   providers: [
     SheetService,
