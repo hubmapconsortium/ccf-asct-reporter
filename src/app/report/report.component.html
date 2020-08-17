@@ -46,21 +46,6 @@
             <span class="number">{{ bioMarkers.length }}</span>
           </div>
           <br />
-    
-          <div *ngIf="compareData.length > 0">
-            <div class="i1">
-              <span>Similar Anatomical Structures from Derived Data Sheet : </span>
-              <span class="number">{{ getSimilarASFromDD().length }}</span>
-            </div>
-            <div class="i1">
-              <span>Similar Cell Types from Derived Data Sheet: </span>
-              <span class="number">{{ getSimilarCTFromDD().length }}</span>
-            </div>
-            <div class="i1">
-              <span>Similar Biomarkers from Derived Data Sheet: </span>
-              <span class="number">{{ getSimilarBFromDD().length }}</span>
-            </div>
-          </div>
         </div>
     
         <br />
@@ -181,7 +166,7 @@
           </mat-expansion-panel>
     
           <br />
-          <div *ngIf="compareData.length > 0">
+          <!-- <div *ngIf="compareData.length > 0">
             <div class="title2">Data from Derives Sheet</div>
     
             <mat-expansion-panel>
@@ -240,7 +225,7 @@
                 </div>
               </div>
             </mat-expansion-panel>
-          </div>
+          </div> -->
     
         </div>
         <br>
@@ -252,6 +237,124 @@
         <div style="width: 100%; display:flex; justify-content: center;">
           <button mat-flat-button (click)="openDialogtoCompare()">Compare Sheet</button>
         </div>
+      </div>
+      <div *ngIf="compareDataStats.length > 0">
+        <br>
+        <div *ngFor="let sheet of compareDataStats; let i=index">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header [style.backgroundColor]="sheet.color" class="compare">
+              <mat-panel-title>
+                <div style="font-weight: 400; font-size: 13pt;">
+                  Sheet {{i + 1}}
+                </div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <br>
+            <div class="title2">Overview</div>
+
+            <div class="overview">
+              <div class="i1">
+                <span>Identical anatomical structures: </span>
+                <span class="number">{{ sheet.identicalAS.length }}</span>
+              </div>
+              <div class="i1">
+                <span>Identical cell types: </span>
+                <span class="number">{{ sheet.identicalCT.length }}</span>
+              </div>
+              <div class="i1">
+                <span>Identical biomarkers: </span>
+                <span class="number">{{ sheet.identicalB.length }}</span>
+              </div>
+              <br />
+        
+              <div class="i1">
+                <span>New anatomical structures: </span>
+                <span class="number">{{ sheet.newAS.length }}</span>
+              </div>
+              <div class="i1">
+                <span>New cell types: </span>
+                <span class="number">{{ sheet.newCT.length }}</span>
+              </div>
+              <div class="i1">
+                <span>New biomarkers: </span>
+                <span class="number">{{ sheet.newB.length }}</span>
+              </div>
+              <br />
+            </div>
+            
+            <div class="title2">Details</div>
+
+            <mat-expansion-panel>
+              <mat-expansion-panel-header class="mb-2">
+                <div style="font-weight: 400; font-size: 12pt;">
+                  Identical Anatomical Structures
+                </div>
+              </mat-expansion-panel-header>
+              <div class="i1" *ngFor="let ia of sheet.identicalAS">
+                {{ ia }}
+              </div>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel class="mt-2">
+              <mat-expansion-panel-header class="mb-2">
+                <div style="font-weight: 400; font-size: 12pt;">
+                  Identical Cell Types
+                </div>
+              </mat-expansion-panel-header>
+              <div class="i1" *ngFor="let ia of sheet.identicalCT">
+                {{ ia }}
+              </div>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel class="mt-2">
+              <mat-expansion-panel-header class="mb-2">
+                <div style="font-weight: 400; font-size: 12pt;">
+                  Identical Biomarkers
+                </div>
+              </mat-expansion-panel-header>
+              <div class="i1" *ngFor="let ia of sheet.identicalB">
+                {{ ia }}
+              </div>
+            </mat-expansion-panel>
+            
+            <mat-expansion-panel class="mt-2">
+              <mat-expansion-panel-header class="mb-2">
+                <div style="font-weight: 400; font-size: 12pt;">
+                  New Anatomical Structures
+                </div>
+              </mat-expansion-panel-header>
+              <div class="i1" *ngFor="let ia of sheet.newAS">
+                {{ ia }}
+              </div>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel class="mt-2">
+              <mat-expansion-panel-header class="mb-2">
+                <div style="font-weight: 400; font-size: 12pt;">
+                  New Cell Types
+                </div>
+              </mat-expansion-panel-header>
+              <div class="i1" *ngFor="let ia of sheet.newCT">
+                {{ ia }}
+              </div>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel class="mt-2">
+              <mat-expansion-panel-header class="mb-2">
+                <div style="font-weight: 400; font-size: 12pt;">
+                  New Biomarkers
+                </div>
+              </mat-expansion-panel-header>
+              <div class="i1" *ngFor="let ia of sheet.newB">
+                {{ ia }}
+              </div>
+            </mat-expansion-panel>
+          </mat-expansion-panel>
+          
+          <br />
+        </div>
+        
+      
       </div>
     </mat-tab>
   </mat-tab-group>

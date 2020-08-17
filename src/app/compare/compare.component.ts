@@ -18,7 +18,7 @@ export class CompareComponent implements OnInit {
   formSheets: FormArray;
   loadingDialog: any;
 
-  @Input() sources
+  @Input() sources;
   @Output() compareData = new EventEmitter<any>();
 
   constructor(

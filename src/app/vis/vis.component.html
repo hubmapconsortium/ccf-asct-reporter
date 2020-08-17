@@ -16,6 +16,7 @@
         [shouldReloadData]="shouldRefreshData"
         [compareData]="compareData"
         (openCompareDialog)="drawer.toggle(); uploadDDSheet()"
+        [dataVersion]="dataVersion"
         *ngIf="showCompInDrawer == 'Report'"
       ></app-report>
       <app-logs

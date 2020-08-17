@@ -30,9 +30,11 @@ export class ReportComponent implements OnInit, OnChanges {
   similarCT = [];
   similarB = [];
   warningCount = 0;
+  compareDataStats = [];
   @Output() closeComponent = new EventEmitter();
   @Output() openCompareDialog = new EventEmitter();
   @Input() refreshData;
+  @Input() dataVersion;
   @Input() public compareData = [];
   @Input() public shouldReloadData;
   @Input() currentSheet: any;
@@ -42,19 +44,89 @@ export class ReportComponent implements OnInit, OnChanges {
   constructor(public report: ReportService, public sheet: SheetService) {
   }
 
-  ngOnChanges() {
+  async ngOnChanges() {
+     
+  }
+
+  async makeCompareData() {
+    for(let sheet of this.compareData) {
+      let newEntry: any = {};
+
+      const compareAS = await this.sheet.makeAS(sheet.data, {
+        report_cols: this.currentSheet.report_cols,
+        cell_col: this.currentSheet.cell_col,
+        marker_col: this.currentSheet.marker_col,
+        uberon_col: this.currentSheet.uberon_col,
+      });
+
+      const compareCT = await this.sheet.makeCellTypes(sheet.data, {
+        report_cols: this.currentSheet.report_cols,
+        cell_col: this.currentSheet.cell_col,
+        marker_col: this.currentSheet.marker_col,
+        uberon_col: this.currentSheet.uberon_col,
+      });
+
+      const compareB = await this.sheet.makeBioMarkers(sheet.data, {
+        report_cols: this.currentSheet.report_cols,
+        cell_col: this.currentSheet.cell_col,
+        marker_col: this.currentSheet.marker_col,
+        uberon_col: this.currentSheet.uberon_col,
+      });
+
+      let identicalStructures = []; 
+      let newStructures = [];
+
+      if (compareAS.length > 0 ) {
+        for (let a of compareAS) {
+          let findObj = this.anatomicalStructures.findIndex(i => i.structure === a.structure)
+          if (findObj !== -1) identicalStructures.push(a.structure)
+          else newStructures.push(a.structure)
+        }
+      }
+
+      newEntry.identicalAS = identicalStructures;
+      newEntry.newAS = newStructures;
+
+      identicalStructures = []; 
+      newStructures = [];
+
+      if (compareCT.length > 0 ) {
+        for (let a of compareCT) {
+          let findObj = this.cellTypes.findIndex(i => i.structure === a.structure)
+          if (findObj !== -1) identicalStructures.push(a.structure)
+          else newStructures.push(a.structure)
+        }
+      }
+
+      newEntry.identicalCT = identicalStructures;
+      newEntry.newCT = newStructures;
+
+      identicalStructures = []; 
+      newStructures = [];
+
+      if (compareB.length > 0 ) {
+        for (let a of compareB) {
+          let findObj = this.bioMarkers.findIndex(i => i.structure === a.structure)
+          if (findObj !== -1) identicalStructures.push(a.structure)
+          else newStructures.push(a.structure)
+        }
+      }
+
+      newEntry.identicalB = identicalStructures;
+      newEntry.newB = newStructures;
+      newEntry.color = sheet.color;
+
+      this.compareDataStats.push(newEntry);
+    }
   }
 
   ngOnInit(): void {
-    // this.refreshData = false;
     this.getData(this.currentSheet);
-    setTimeout(() => {
-     
-    }, 500);
   }
 
   public async getData(currentSheet) {
-    this.sheetData = await this.sheet.getOrganSheetData();
+
+    this.sheetData = await this.sheet.getSheetData(this.currentSheet, this.dataVersion);
     try {
       this.anatomicalStructures = await this.sheet.makeAS(this.sheetData.data, {
         report_cols: currentSheet.report_cols,
@@ -72,7 +144,9 @@ export class ReportComponent implements OnInit, OnChanges {
         marker_col: currentSheet.marker_col,
       });
 
-      console.log(this.cellTypes)
+      if (this.compareData.length) {
+        this.makeCompareData()
+      }  
     } catch (err) {
       console.log(err);
     }
@@ -153,8 +227,14 @@ export class ReportComponent implements OnInit, OnChanges {
     return noLinks;
   }
 
-  getSimilarASFromDD() {
+  async getSimilarASFromDD() {
     this.similarAS = [];
+    // for (let sheet of this.compareData) {
+    //   this.similarAS = await this.sheet.makeAS(sheet.data, {report_cols: this.currentSheet.report_cols,
+    //     cell_col: this.currentSheet.cell_col,
+    //     marker_col: this.currentSheet.marker_col,
+    //     uberon_col: this.currentSheet.uberon_col})
+    // }
     // this.anatomicalStructures.forEach((a) => {
     //   const idx = this.compareData.findIndex((i) => i.name.toLowerCase() === a.structure.toLowerCase());
     //   if (idx !== -1) {

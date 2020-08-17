@@ -100,12 +100,12 @@
     box-shadow: none;
 }
 
-.mat-expansion-panel-header {
+.mat-expansion-panel-header:not(.compare){
     background: rgb(235, 235, 235) !important;
 }
 
 .mat-expansion-panel-header:hover {
-    background: rgb(225, 225, 225) !important;
+    opacity: 0.85 !important;
 }
 
 .example-spacer {
