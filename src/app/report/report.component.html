@@ -266,11 +266,10 @@
                 
               </mat-panel-title>
               <mat-panel-description>
-                
-                <button mat-icon-button (click)="downloadCompareSheetReport(i)">
+                <button mat-icon-button (click)="downloadReport(i)">
                   <mat-icon>get_app</mat-icon>
                 </button>
-                <button mat-icon-button (click)="deleteCompareSheetReport(i)" style="margin-top: -4px;">
+                <button mat-icon-button (click)="deleteCompareSheetReport(i)" style="margin-left: 4px;">
                   <mat-icon>delete</mat-icon>
                 </button>
               
@@ -393,7 +392,7 @@
     <button
       mat-flat-button
       color="primary"
-      (click)="downloadData()"
+      (click)="downloadReport(-1)"
       class="mr-4"
     >
       Download Report

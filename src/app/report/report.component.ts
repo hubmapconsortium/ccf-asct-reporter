@@ -193,8 +193,7 @@ export class ReportComponent implements OnInit, OnChanges {
       }
       download.push(row);
     }
-    
-    console.log(download)
+
     const sheetWS = XLSX.utils.json_to_sheet(download);
     sheetWS['!cols'] = [];
     for (let i = 0; i < totalRows; i++) {
@@ -203,8 +202,12 @@ export class ReportComponent implements OnInit, OnChanges {
     const wb = XLSX.utils.book_new();
     const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
     const sn = this.currentSheet.display.toLowerCase().replace(' ', '_');
-    XLSX.utils.book_append_sheet(wb, sheetWS, this.currentSheet.display);
-    XLSX.writeFile(wb, `ASCT+B-Reporter_${sn}_${dt}_Report.xlsx`);
+
+    return {
+      sheet: sheetWS,
+      sheetName: this.currentSheet.display,
+      name:  `ASCT+B-Reporter_${sn}_${dt}_Report.xlsx`
+    }
   }
 
   getASWithNoLink() {
@@ -232,7 +235,34 @@ export class ReportComponent implements OnInit, OnChanges {
     return noLinks;
   }
 
-  downloadCompareSheetReport(i) {
+  downloadReport(i=-1) {
+    const wb = XLSX.utils.book_new();
+    let allReport = [];
+
+    /**
+     * When all reports need to be downloaded
+     */
+    if (i === -1) {
+      allReport.push(this.downloadData());
+
+      for(let sheet in this.compareDataStats) {
+        allReport.push(this.downloadCompareSheetReport(parseInt(sheet)))
+      }
+    } else {
+      /**
+       * When a single compare sheet report needs to be downloaded
+       */
+      allReport.push(this.downloadCompareSheetReport(i))
+    }
+
+    for (let book of allReport) {
+      XLSX.utils.book_append_sheet(wb, book.sheet, book.sheetName);
+    }
+
+    XLSX.writeFile(wb, allReport[0].name);
+  }
+
+  downloadCompareSheetReport(i: number) {
     this.clickButton = true;
     let totalRows = 6;
     const sheet = this.compareDataStats[i];
@@ -271,8 +301,11 @@ export class ReportComponent implements OnInit, OnChanges {
     const wb = XLSX.utils.book_new();
     const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
     const sn = sheet.title.toLowerCase().replace(' ', '_');
-    XLSX.utils.book_append_sheet(wb, sheetWS, sheet.title);
-    XLSX.writeFile(wb, `ASCT+B-Reporter_Derived_${sn}_${dt}_Report.xlsx`);
+    return {
+      sheet: sheetWS,
+      sheetName: sheet.title,
+      name:  `ASCT+B-Reporter_Derived_${sn}_${dt}_Report.xlsx`
+    }
   }
 
   deleteCompareSheetReport(i) {
