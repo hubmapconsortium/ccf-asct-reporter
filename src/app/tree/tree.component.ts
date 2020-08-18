@@ -673,7 +673,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       this.sheetData = await this.sheet.getSheetData(this.currentSheet, this.dataVersion);
       if (this.sheetData.status === 404) {
         this.router.navigateByUrl('/error');
-        throw new Error;
+        throw new Error();
       }
       this.treeData = await this.ts.makeTreeData(this.sheetData.data, this.compareData);
 
