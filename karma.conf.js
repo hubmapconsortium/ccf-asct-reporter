@@ -18,15 +18,26 @@ module.exports = function (config) {
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, './coverage/ccf-asct-reporter'),
       reports: ['html', 'lcovonly', 'text-summary'],
-      fixWebpackSourcePaths: true
+      fixWebpackSourcePaths: true,
+      thresholds: {
+        emitWarning: false,
+        global: {
+          lines: 20
+        },
+      }
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
-    autoWatch: true,
-    browsers: ['Chrome'],
-    singleRun: false,
-    restartOnFileChange: true
+    browsers: ['ChromeHeadless'],
+    singleRun: true,
+
+    customLaunchers: {
+      ChromeHeadlessWSL: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox', '--disable-features=VizDisplayCompositor']
+      }
+    }
   });
 };
