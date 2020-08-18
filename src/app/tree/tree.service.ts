@@ -89,6 +89,8 @@ export class TreeService {
         }
       }
 
+      console.log(data)
+
       
       const cols = this.currentSheet.tree_cols;
       const id = 1;
@@ -116,7 +118,7 @@ export class TreeService {
           for (const i in foundNodes) {
             if (foundNodes[i] !== '') {
               const searchedNode = tree.search(foundNodes[i], parent);
-              searchedNode.pathColor = row[this.currentSheet.marker_col + 3];
+              searchedNode.pathColor = row[row.length - 1];
 
               if (searchedNode.found) {
                 if (searchedNode.problem) {
@@ -129,10 +131,10 @@ export class TreeService {
                 tree.id += 1;
                 const uberon =  row[cols[col] + uberon_col] !== foundNodes[i] ? row[cols[col] + uberon_col] : 'NONE';
                 const newNode = new TNode(tree.id, foundNodes[i], parent.id, uberon, AS_RED);
-                newNode.isNew = row[this.currentSheet.marker_col + 2]
+                newNode.isNew = row[row.length - 2]
                 if (newNode.isNew) {
-                  newNode.color = row[this.currentSheet.marker_col + 3]
-                  newNode.pathColor = row[this.currentSheet.marker_col + 3]
+                  newNode.color = row[row.length - 1]
+                  newNode.pathColor = row[row.length - 1]
                 }
                 tree.append(newNode);
                 parent = newNode;

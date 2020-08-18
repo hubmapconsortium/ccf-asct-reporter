@@ -415,8 +415,8 @@ export class SheetService {
                   row[config.cell_col + config.uberon_col] !== cells[i].trim()
                     ? row[config.cell_col + config.uberon_col]
                     : 'NONE',
-                isNew: row[config.marker_col + 2],
-                color: row[config.marker_col + 3]
+                isNew: row[row.length - 2],
+                color: row[row.length - 1]
               });
             }
           }
@@ -458,8 +458,8 @@ export class SheetService {
               bioMarkers.push({
                 structure: markers[i].trim(),
                 link: 'NONE',
-                isNew: row[config.marker_col + 2],
-                color: row[config.marker_col + 3]
+                isNew: row[row.length - 2],
+                color: row[row.length - 1]
               });
             }
           }
