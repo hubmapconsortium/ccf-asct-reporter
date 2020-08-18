@@ -40,17 +40,20 @@ export class CompareComponent implements OnInit {
     // retain the previously uploaded sheet data sources
     if (this.dialogSources.sources.length > 0) {
       for (let source of this.dialogSources.sources) {
-        this.formSheets.push(this.createCompareForm(source.link, source.color));
+        this.formSheets.push(this.createCompareForm(source.link, source.color, source.title, source.description));
       }
+
       // remove the row that was insert on component creation
       this.removeCompareSheetRow(0);
     }
   }
 
-  createCompareForm(link = '', color?: string): FormGroup {
-    if (!color) color = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
+  createCompareForm(link='', color?: string, title='', description=''): FormGroup {
+    if (!color) color = this.getRandomColor();
 
     return this.fb.group({
+      title: [title],
+      description:[description],
       link: [link, Validators.compose([Validators.required, Validators.pattern(/\/([\w-_]{15,})\/(.*?gid=(\d+))?/)])],
       // columnNumbers: ['', Validators.compose([Validators.required, Validators.pattern(/^([0-9\s]+,)*([0-9\s]+){1}$/i)])],
       color: [color]
@@ -64,17 +67,18 @@ export class CompareComponent implements OnInit {
     let sources = [];
    
 
-    for(let ddSheet of this.formGroup.value.sheets) {
+    for(let [idx, ddSheet] of this.formGroup.value.sheets.entries()) {
       sources.push({
         link: ddSheet.link,
-        color: ddSheet.color
+        color: ddSheet.color,
+        title: ddSheet.title === '' ? `Sheet ${idx + 1}` : ddSheet.title,
+        description: ddSheet.description
       })
 
       let sheetID = this.checkLinkFormat(ddSheet.link).sheetID;
       let gid = this.checkLinkFormat(ddSheet.link).gid;
       
       try {
-        // const constructedURL = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv&gid=${gid}`;
         const constructedURL = `http://asctb-data-miner.herokuapp.com/${sheetID}/${gid}`
         
         const csvData = await this.sheet.getDataFromURL(
@@ -83,7 +87,9 @@ export class CompareComponent implements OnInit {
 
         exportCompareData.push({
           data: csvData.data,
-          color: ddSheet.color
+          color: ddSheet.color,
+          title: ddSheet.title === '' ? `Sheet ${idx + 1}`: ddSheet.title,
+          description: ddSheet.description
         })
         
       } catch (err) {
@@ -148,7 +154,12 @@ export class CompareComponent implements OnInit {
     this.dialogRef.close({data: []});
   }
 
-  changeComplete(e) {
-    console.log(e)
+  getRandomColor() {
+    let letters = '678BCDEF'.split('');
+    let color = '#';
+    for (let i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * letters.length)];
+    }
+    return color;
   }
 }

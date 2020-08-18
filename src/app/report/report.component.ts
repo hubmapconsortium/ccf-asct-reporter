@@ -31,6 +31,7 @@ export class ReportComponent implements OnInit, OnChanges {
   similarB = [];
   warningCount = 0;
   compareDataStats = [];
+  clickButton: boolean = false; // for mat expansion panel download button
   @Output() closeComponent = new EventEmitter();
   @Output() openCompareDialog = new EventEmitter();
   @Input() refreshData;
@@ -115,9 +116,12 @@ export class ReportComponent implements OnInit, OnChanges {
       newEntry.identicalB = identicalStructures;
       newEntry.newB = newStructures;
       newEntry.color = sheet.color;
+      newEntry.title = sheet.title;
+      newEntry.description = sheet.description;
 
       this.compareDataStats.push(newEntry);
     }
+    console.log(  this.compareDataStats)
   }
 
   ngOnInit(): void {
@@ -227,44 +231,9 @@ export class ReportComponent implements OnInit, OnChanges {
     return noLinks;
   }
 
-  async getSimilarASFromDD() {
-    this.similarAS = [];
-    // for (let sheet of this.compareData) {
-    //   this.similarAS = await this.sheet.makeAS(sheet.data, {report_cols: this.currentSheet.report_cols,
-    //     cell_col: this.currentSheet.cell_col,
-    //     marker_col: this.currentSheet.marker_col,
-    //     uberon_col: this.currentSheet.uberon_col})
-    // }
-    // this.anatomicalStructures.forEach((a) => {
-    //   const idx = this.compareData.findIndex((i) => i.name.toLowerCase() === a.structure.toLowerCase());
-    //   if (idx !== -1) {
-    //     this.similarAS.push(this.compareData[idx]);
-    //   }
-    // });
-    
-    return this.similarAS;
-  }
-
-  getSimilarCTFromDD() {
-    this.similarCT = [];
-    // this.cellTypes.forEach((a) => {
-    //   const idx = this.compareData.findIndex((i) => i.name.toLowerCase() === a.structure.toLowerCase());
-    //   if (idx !== -1) {
-    //     this.similarCT.push(this.compareData[idx])
-    //   }
-    // });
-    return this.similarCT;
-  }t
-
-  getSimilarBFromDD() {
-    this.similarB = [];
-    // this.bioMarkers.forEach((a) => {
-    //   const idx = this.compareData.findIndex((i) => i.name.toLowerCase() === a.structure.toLowerCase().replace('*',''))
-    //   if (idx !== -1) {
-    //     this.similarB.push(this.compareData[idx])
-    //   }
-    // });
-    return this.similarB;
+  downloadCompareSheetReport(i) {
+    this.clickButton = true;
+    console.log(i)
   }
 
   closeDrawer() {
