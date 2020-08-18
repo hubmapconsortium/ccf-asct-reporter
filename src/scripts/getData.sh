@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 input='src/scripts/scriptdata.csv'
 IFS=','
 
@@ -11,7 +11,7 @@ function get_data() {
 
     if [ -z $2 ] ; then
         while read f1 f2 f3
-        do 
+        do
             echo "Downloading $f1..."
             downloadURL="https://docs.google.com/spreadsheets/d/${f2}/export?format=csv&gid=${f3}"
             redirectURL=$(curl -w "%{url_effective}\n" -I -L -s -S $downloadURL -o /dev/null)
@@ -23,14 +23,14 @@ function get_data() {
         done < $input
     else
         while read f1 f2 f3
-        do 
+        do
             if [ "$f1" == "$2" ]; then
                 echo "Downloading $f1..."
                 downloadURL="https://docs.google.com/spreadsheets/d/${f2}/export?format=csv&gid=${f3}"
                 redirectURL=$(curl -w "%{url_effective}\n" -I -L -s -S $downloadURL -o /dev/null)
                 outputCSV="src/assets/data/$1/${f1}.csv"
                  echo "\nFile path: $outputCSV\n"
-                 
+
                 curl ${redirectURL} --output ${outputCSV}
             fi
         done < $input
@@ -58,9 +58,9 @@ function print_help() {
     echo "\n\nFolder Naming Example: v100 for v1.0.0"
 }
 
-if [ "$1" == "help" ]; then 
+if [ "$1" == "help" ]; then
     print_help
-elif [ -z "$2" ]; then 
+elif [ -z "$2" ]; then
     echo "Updating all sheets\nVersion Folder: $1\n\n"
     get_data $1
 else
