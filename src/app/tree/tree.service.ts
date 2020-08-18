@@ -25,7 +25,7 @@ export class TNode {
     this.problem = false;
     this.groupName = 'See Debug Log';
     this.isNew = false;
-    this.pathColor = '#ccc'
+    this.pathColor = '#ccc';
   }
 }
 
@@ -80,20 +80,19 @@ export class TreeService {
    * @param data - Sheet data
    */
   public makeTreeData(data, compareData?: any): Promise<Array<TNode>> {
-    
+
     return new Promise(async (res, rej) => {
 
-      for(let sheet of compareData) {
-        for (let row of sheet.data) {
-          data.push(row)
+      for (const sheet of compareData) {
+        for (const row of sheet.data) {
+          data.push(row);
         }
       }
 
-      
       const cols = this.currentSheet.tree_cols;
       const id = 1;
       let parent;
-      let tree = new Tree(id);
+      const tree = new Tree(id);
       const uberon_col = this.currentSheet.uberon_col;
 
       const root = new TNode(id, this.currentSheet.body, 0, 0, AS_RED);
@@ -116,7 +115,7 @@ export class TreeService {
           for (const i in foundNodes) {
             if (foundNodes[i] !== '') {
               const searchedNode = tree.search(foundNodes[i], parent);
-              searchedNode.pathColor = row[this.currentSheet.marker_col + 3];
+              searchedNode.pathColor = row[row.length - 1];
 
               if (searchedNode.found) {
                 if (searchedNode.problem) {
@@ -129,10 +128,10 @@ export class TreeService {
                 tree.id += 1;
                 const uberon =  row[cols[col] + uberon_col] !== foundNodes[i] ? row[cols[col] + uberon_col] : 'NONE';
                 const newNode = new TNode(tree.id, foundNodes[i], parent.id, uberon, AS_RED);
-                newNode.isNew = row[this.currentSheet.marker_col + 2]
+                newNode.isNew = row[row.length - 2];
                 if (newNode.isNew) {
-                  newNode.color = row[this.currentSheet.marker_col + 3]
-                  newNode.pathColor = row[this.currentSheet.marker_col + 3]
+                  newNode.color = row[row.length - 1];
+                  newNode.pathColor = row[row.length - 1];
                 }
                 tree.append(newNode);
                 parent = newNode;

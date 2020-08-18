@@ -33,13 +33,13 @@ export class CompareComponent implements OnInit {
   ngOnInit(): void {
     this.formGroup = this.fb.group({
       sheets: this.fb.array([this.createCompareForm()])
-    })
+    });
 
     this.formSheets = this.formGroup.get('sheets') as FormArray;
-    
+
     // retain the previously uploaded sheet data sources
     if (this.dialogSources.sources.length > 0) {
-      for (let source of this.dialogSources.sources) {
+      for (const source of this.dialogSources.sources) {
         this.formSheets.push(this.createCompareForm(source.link, source.color, source.title, source.description));
       }
 
@@ -48,53 +48,53 @@ export class CompareComponent implements OnInit {
     }
   }
 
-  createCompareForm(link='', color?: string, title='', description=''): FormGroup {
-    if (!color) color = this.getRandomColor();
+  createCompareForm(link= '', color?: string, title= '', description= ''): FormGroup {
+    if (!color) { color = this.getRandomColor(); }
 
     return this.fb.group({
       title: [title],
-      description:[description],
+      description: [description],
       link: [link, Validators.compose([Validators.required, Validators.pattern(/\/([\w-_]{15,})\/(.*?gid=(\d+))?/)])],
       // columnNumbers: ['', Validators.compose([Validators.required, Validators.pattern(/^([0-9\s]+,)*([0-9\s]+){1}$/i)])],
       color: [color]
-    })
+    });
   }
 
 
   public async getData(link?: string, columns?: string) {
     this.openLoading();
-    let exportCompareData = [];
-    let sources = [];
-   
+    const exportCompareData = [];
+    const sources = [];
+
     try {
-    for(let [idx, ddSheet] of this.formGroup.value.sheets.entries()) {
+    for (const [idx, ddSheet] of this.formGroup.value.sheets.entries()) {
       sources.push({
         link: ddSheet.link,
         color: ddSheet.color,
         title: ddSheet.title === '' ? `Sheet ${idx + 1}` : ddSheet.title,
         description: ddSheet.description
-      })
+      });
 
-      let sheetID = this.checkLinkFormat(ddSheet.link).sheetID;
-      let gid = this.checkLinkFormat(ddSheet.link).gid;
-      
-      
-        const constructedURL = `https://asctb-data-miner.herokuapp.com/${sheetID}/${gid}`
-        
-        const csvData = await this.sheet.getDataFromURL(
+      const sheetID = this.checkLinkFormat(ddSheet.link).sheetID;
+      const gid = this.checkLinkFormat(ddSheet.link).gid;
+
+
+      const constructedURL = `https://asctb-data-miner.herokuapp.com/${sheetID}/${gid}`;
+
+      const csvData = await this.sheet.getDataFromURL(
           constructedURL, 1, {isNew: true, color: ddSheet.color}
         );
 
-        exportCompareData.push({
+      exportCompareData.push({
           data: csvData.data,
           color: ddSheet.color,
-          title: ddSheet.title === '' ? `Sheet ${idx + 1}`: ddSheet.title,
+          title: ddSheet.title === '' ? `Sheet ${idx + 1}` : ddSheet.title,
           description: ddSheet.description
-        })
+        });
       }
-        this.openSnackBar('Derived Data sheet succesfully fetched.', 'Close', 'green')
-        this.dialog.closeAll();
-        this.dialogRef.close({ data: exportCompareData, sources: sources });
+    this.openSnackBar('Derived Data sheet succesfully fetched.', 'Close', 'green');
+    this.dialog.closeAll();
+    this.dialogRef.close({ data: exportCompareData, sources });
       } catch (err) {
         this.loadingDialog.close();
         this.openSnackBar('Error while fetching data.', 'Close', 'red');
@@ -139,12 +139,12 @@ export class CompareComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
       sheet: 'Derived Data Sheet'
-    }
+    };
     this.loadingDialog = this.dialog.open(LoadingComponent, dialogConfig);
   }
 
   doesFormHaveError() {
-    return this.formGroup.status !== 'VALID'
+    return this.formGroup.status !== 'VALID';
   }
 
   close() {
@@ -152,7 +152,7 @@ export class CompareComponent implements OnInit {
   }
 
   getRandomColor() {
-    let letters = '678BCDEF'.split('');
+    const letters = '678BCDEF'.split('');
     let color = '#';
     for (let i = 0; i < 6; i++ ) {
         color += letters[Math.floor(Math.random() * letters.length)];

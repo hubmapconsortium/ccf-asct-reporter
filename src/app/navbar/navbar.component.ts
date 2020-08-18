@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SconfigService } from '../services/sconfig.service';
 import { SheetService } from '../services/sheet.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import {Location} from '@angular/common'; 
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
@@ -63,7 +63,7 @@ export class NavbarComponent implements OnInit {
       title: 'Spleen',
       sheet: 'spleen'
     }
-  ]
+  ];
 
   selectedSheetOption = this.sheetOptions[0].title;
 
@@ -116,7 +116,7 @@ export class NavbarComponent implements OnInit {
     this.getSelection();
 
     this.route.queryParams.subscribe((queryparams: Params) => {
-      const selectedSheetName = this.sheetOptions.find(i => i.sheet == queryparams.sheet)
+      const selectedSheetName = this.sheetOptions.find(i => i.sheet === queryparams.sheet);
       this.getSheetSelection(selectedSheetName.title);
       this.getSelectedVersion(queryparams.dataVersion);
     });
@@ -139,7 +139,7 @@ export class NavbarComponent implements OnInit {
         dataVersion: this.versions.find((i) => i.display === this.selectedVersion).folder
       },
       queryParamsHandling: 'merge',
-    })
+    });
 
     this.location.go(urlTree.toString());
     this.selectedSheetOption = sheet;
@@ -189,7 +189,7 @@ export class NavbarComponent implements OnInit {
         dataVersion: version
       },
       queryParamsHandling: 'merge',
-    })
+    });
     this.location.go(urlTree.toString());
     this.dataVersion.emit(
       version

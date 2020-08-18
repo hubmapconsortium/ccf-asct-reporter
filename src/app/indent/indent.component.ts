@@ -109,7 +109,7 @@ export class IndentComponent implements OnInit, OnChanges {
   async getData() {
     try {
       const data = await this.sheet.getSheetData(this.currentSheet, this.dataVersion);
-      console.log(data)
+      console.log(data);
       this.sheetData = data;
       this.dataSource.data = [this.indent.makeIndentData(this.sheetData.data)];
       this.indentTree.treeControl.expandAll();
