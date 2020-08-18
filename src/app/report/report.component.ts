@@ -193,7 +193,8 @@ export class ReportComponent implements OnInit, OnChanges {
       }
       download.push(row);
     }
-
+    
+    console.log(download)
     const sheetWS = XLSX.utils.json_to_sheet(download);
     sheetWS['!cols'] = [];
     for (let i = 0; i < totalRows; i++) {
@@ -233,7 +234,45 @@ export class ReportComponent implements OnInit, OnChanges {
 
   downloadCompareSheetReport(i) {
     this.clickButton = true;
-    console.log(i)
+    let totalRows = 6;
+    const sheet = this.compareDataStats[i];
+    const keyMapper = {
+      identicalAS: 'Identical Anatomical Structures',
+      newAS: 'New Anatomical Structres',
+      identicalCT: 'Identical Cell Types',
+      newCT: 'New Cell Types',
+      identicalB: 'Identical Biomarkers',
+      newB: 'New Biomarkers'
+    }
+    let download = [];
+    const keys = Object.keys(this.compareDataStats[i]);
+
+    for (let key of keys)  {
+      if (typeof sheet[key] === 'object') {
+        for(let [idx, value] of sheet[key].entries()) {
+          let t = {}
+          t[keyMapper[key]] = value;
+    
+          if (!!download[idx]) {
+            download[idx] = {...download[idx], ...t};
+          } else {
+            download.push(t);
+          }
+        }
+      }
+    }
+
+    const sheetWS = XLSX.utils.json_to_sheet(download);
+    console.log(sheetWS)
+    sheetWS['!cols'] = [];
+    for (let i = 0; i < totalRows; i++) {
+      sheetWS['!cols'].push({ wch: 30 });
+    }
+    const wb = XLSX.utils.book_new();
+    const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
+    const sn = sheet.title.toLowerCase().replace(' ', '_');
+    XLSX.utils.book_append_sheet(wb, sheetWS, sheet.title);
+    XLSX.writeFile(wb, `ASCT+B-Reporter_Derived_${sn}_${dt}_Report.xlsx`);
   }
 
   deleteCompareSheetReport(i) {
