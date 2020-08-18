@@ -59,8 +59,13 @@
                 </div>
             </form>
         </div>
+        <div class="mt-1">
+            <span style="font-size: 10px; color:gray;">* required field</span>
+        </div>
     </div>
-    <div class="mt-4" style="width: 100%; justify-content: space-between; display: flex;">
+    
+    <div class="mt-2" style="width: 100%; justify-content: space-between; display: flex;">
+        
         <button mat-flat-button color="primary" (click)="getData()" [disabled]="doesFormHaveError()">Compare</button>
         <button mat-flat-button
             style="border: 1px solid rgb(196, 196, 196); color: grey;" (click)="addCompareSheetRow()">
