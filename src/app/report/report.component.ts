@@ -34,6 +34,7 @@ export class ReportComponent implements OnInit, OnChanges {
   clickButton: boolean = false; // for mat expansion panel download button
   @Output() closeComponent = new EventEmitter();
   @Output() openCompareDialog = new EventEmitter();
+  @Output() deleteSheet = new EventEmitter();
   @Input() refreshData;
   @Input() dataVersion;
   @Input() public compareData = [];
@@ -121,7 +122,6 @@ export class ReportComponent implements OnInit, OnChanges {
 
       this.compareDataStats.push(newEntry);
     }
-    console.log(  this.compareDataStats)
   }
 
   ngOnInit(): void {
@@ -234,6 +234,12 @@ export class ReportComponent implements OnInit, OnChanges {
   downloadCompareSheetReport(i) {
     this.clickButton = true;
     console.log(i)
+  }
+
+  deleteCompareSheetReport(i) {
+    this.clickButton = true;
+    this.compareDataStats.splice(i, 1);
+    this.deleteSheet.emit(i);
   }
 
   closeDrawer() {

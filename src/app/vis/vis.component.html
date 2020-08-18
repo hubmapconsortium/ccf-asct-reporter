@@ -10,6 +10,7 @@
     >
       <app-report
         (closeComponent)="drawer.toggle()"
+        (deleteSheet)="deleteCompareSheet($event)"
         [refreshData]="refreshReport"
         #reportComponent
         [currentSheet]="currentSheet"

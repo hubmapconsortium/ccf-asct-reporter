@@ -83,6 +83,12 @@ export class VisComponent implements OnInit, OnChanges {
     })
   }
 
+  deleteCompareSheet(i) {
+    this.compareData.splice(i, 1);
+    this.comapreComponentSources.splice(i, 1);
+    this.shouldRefreshData = true;
+  }
+
   refreshData(val) {
     this.refreshReport = true;
     this.compareData = [];
