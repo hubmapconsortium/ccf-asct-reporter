@@ -1,11 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 input='src/scripts/scriptdata.csv'
 IFS=','
 
 function get_data() {
     if [ -z $1 ] ; then
         while read f1 f2 f3
-        do 
+        do
             echo "Downloading $f1..."
             downloadURL="https://docs.google.com/spreadsheets/d/${f2}/export?format=csv&gid=${f3}"
             redirectURL=$(curl -w "%{url_effective}\n" -I -L -s -S $downloadURL -o /dev/null)
@@ -16,7 +16,7 @@ function get_data() {
         done < $input
     else
         while read f1 f2 f3
-        do 
+        do
             if [ "$f1" == "$1" ]; then
                 echo "Downloading $f1..."
                 downloadURL="https://docs.google.com/spreadsheets/d/${f2}/export?format=csv&gid=${f3}"
@@ -46,10 +46,10 @@ function print_help() {
     echo "\t  skin"
 }
 
-if [ -z "$1" ]; then 
+if [ -z "$1" ]; then
     echo "Updating all sheets\n\n"
     get_data
-elif [ "$1" == "help" ]; then 
+elif [ "$1" == "help" ]; then
     print_help
 else
     echo "Updating $1 sheet"
