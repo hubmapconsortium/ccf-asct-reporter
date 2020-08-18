@@ -5,7 +5,7 @@ import { LoadingComponent } from '../loading/loading.component';
 import { SconfigService } from '../services/sconfig.service';
 import { SheetService } from '../services/sheet.service';
 import { ReportService } from '../report/report.service';
-import { CompareComponent } from "../compare/compare.component";
+import { CompareComponent } from '../compare/compare.component';
 
 @Component({
   selector: 'app-vis',
@@ -41,7 +41,7 @@ export class VisComponent implements OnInit, OnChanges {
   ngOnInit() {}
 
   ngOnChanges() {
-    console.log('hi')
+    console.log('hi');
     console.log(this.comapreComponentSources);
   }
 
@@ -68,19 +68,19 @@ export class VisComponent implements OnInit, OnChanges {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "100%";
-    dialogConfig.maxWidth = "700px";
+    dialogConfig.width = '100%';
+    dialogConfig.maxWidth = '700px';
     dialogConfig.data = {
       sources: this.comapreComponentSources
-    }
-    let dialogRef = this.dialog.open(CompareComponent, dialogConfig);
+    };
+    const dialogRef = this.dialog.open(CompareComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(r => {
       if (r.data.length > 0) {
         this.compareData = r.data;
         this.comapreComponentSources = r.sources;
       }
-    })
+    });
   }
 
   deleteCompareSheet(i) {

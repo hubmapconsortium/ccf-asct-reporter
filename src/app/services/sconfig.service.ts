@@ -19,7 +19,7 @@ export class SconfigService {
       display: 'v1.0.0',
       folder: 'v100'
     }
-  ]
+  ];
 
   ORGANS = [
     'Brain',

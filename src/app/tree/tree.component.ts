@@ -41,8 +41,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   treeWidthOffset = 0;
   screenWidth = 0;
   asctData: ASCTD;
-  
-  @Input() dataVersion=this.sc.VERSIONS[0].folder;
+
+  @Input() dataVersion = this.sc.VERSIONS[0].folder;
   @Input() settingsExpanded: boolean;
   @Input() currentSheet: any;
   @Input() public refreshData = false;
@@ -69,8 +69,14 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     },
   };
 
-  constructor(public sheet: SheetService, public report: ReportService, public ts: TreeService, public bms: BimodalService, public sc: SconfigService,
-    public router: Router) { }
+  constructor(
+    public sheet: SheetService,
+    public report: ReportService,
+    public ts: TreeService,
+    public bms: BimodalService,
+    public sc: SconfigService,
+    public router: Router
+  ) { }
 
   ngOnInit(): void {}
 
@@ -87,7 +93,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges() {
-    
+
     if (this.refreshData) {
       this.ts.setCurrentSheet(this.currentSheet);
       this.getData();
@@ -442,7 +448,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                   y: { field: 'y' },
                   dx: { signal: 'datum.children ? 15: -15' },
                   opacity: { signal: 'datum.children ? 1 : 0' },
-                  align: { signal: "datum.children ? 'left' : 'right'" },
+                  align: { signal: 'datum.children ? \'left\' : \'right\'' },
                 },
               },
             },
@@ -509,28 +515,28 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                     // for getting AS -> CT -> B
                     {
                       test:
-                        "indata('targets_hovered_array', 'id', datum.source.id)",
+                        'indata(\'targets_hovered_array\', \'id\', datum.source.id)',
                       value: '#377EB8',
                     },
 
                     {
                       test:
-                        "indata('targets_clicked_array', 'id', datum.source.id)",
+                        'indata(\'targets_clicked_array\', \'id\', datum.source.id)',
                       value: '#377EB8',
                     },
                     // for getting B -> CT -> AS
                     {
                       test:
-                        "indata('sources_hovered_array', 'id', datum.target.id) && datum.source.group !== 2",
+                        'indata(\'sources_hovered_array\', \'id\', datum.target.id) && datum.source.group !== 2',
                       value: '#377EB8',
                     },
                     {
                       test:
-                        "indata('sources_clicked_array', 'id', datum.target.id) && datum.source.group !== 2",
+                        'indata(\'sources_clicked_array\', \'id\', datum.target.id) && datum.source.group !== 2',
                       value: '#377EB8',
                     },
                     {
-                      test: "indata('compare_dd', 'name', datum.source.name)",
+                      test: 'indata(\'compare_dd\', \'name\', datum.source.name)',
                       value: 'darkgreen',
                     },
                     {signal: 'datum.source.pathColor ? datum.source.pathColor : "#ccc"'},
@@ -540,12 +546,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                     { test: 'datum.source.id === node__click', value: 0.65 },
                     {
                       test:
-                        "indata('targets_clicked_array', 'id', datum.source.id)",
+                        'indata(\'targets_clicked_array\', \'id\', datum.source.id)',
                       value: 0.65,
                     },
                     {
                       test:
-                        "indata('sources_clicked_array', 'id', datum.target.id) && datum.source.group !== 2",
+                        'indata(\'sources_clicked_array\', \'id\', datum.target.id) && datum.source.group !== 2',
                       value: 0.65,
                     },
                     { value: 0.4 },
@@ -557,7 +563,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                     { test: 'datum.target.id === node__click', value: 2 },
                     {
                       test:
-                        "indata('targets_clicked_array', 'id', datum.source.id)",
+                        'indata(\'targets_clicked_array\', \'id\', datum.source.id)',
                       value: 2,
                     },
                   ],
@@ -603,7 +609,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                   fontSize: { field: 'fontSize' },
                   fontWeight: [
                     {
-                      test: "indata('targets_clicked_array', 'id', datum.id)",
+                      test: 'indata(\'targets_clicked_array\', \'id\', datum.id)',
                       value: 'bold',
                     },
                     {
@@ -611,17 +617,17 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                       value: 'bold',
                     },
                     {
-                      test: "indata('sources_clicked_array', 'id', datum.id)",
+                      test: 'indata(\'sources_clicked_array\', \'id\', datum.id)',
                       value: 'bold',
                     },
                     {
                       test:
-                        "indata('targets_clicked_array__bold', 'targets', datum.id)",
+                        'indata(\'targets_clicked_array__bold\', \'targets\', datum.id)',
                       value: 'bold',
                     },
                     {
                       test:
-                        "indata('sources_clicked_array__bold', 'sources', datum.id)  && datum.group !== 2 && datum.group !== 3",
+                        'indata(\'sources_clicked_array__bold\', \'sources\', datum.id)  && datum.group !== 2 && datum.group !== 3',
                       value: 'bold',
                     },
                   ],
@@ -665,23 +671,23 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   async getData() {
     try {
       this.sheetData = await this.sheet.getSheetData(this.currentSheet, this.dataVersion);
-      if (this.sheetData.status == 404) {
+      if (this.sheetData.status === 404) {
         this.router.navigateByUrl('/error');
         throw new Error;
       }
-    this.treeData = await this.ts.makeTreeData(this.sheetData.data, this.compareData);
+      this.treeData = await this.ts.makeTreeData(this.sheetData.data, this.compareData);
 
-    const height = document.getElementsByTagName('body')[0].clientHeight;
-    this.screenWidth = document.getElementsByTagName('body')[0].clientWidth;
+      const height = document.getElementsByTagName('body')[0].clientHeight;
+      this.screenWidth = document.getElementsByTagName('body')[0].clientWidth;
 
-    if (this.screenWidth < 1450) {
+      if (this.screenWidth < 1450) {
       this.screenWidth = 1450;
     }
 
-    this.bimodalDistance = this.currentSheet.config.bimodal_distance;
-    this.treeWidthOffset = this.currentSheet.config.width_offset;
+      this.bimodalDistance = this.currentSheet.config.bimodal_distance;
+      this.treeWidthOffset = this.currentSheet.config.width_offset;
 
-    
+
       const config: any = await this.makeVegaSpec(this.screenWidth, height);
       await this.renderGraph(config);
       this.shouldRenderASCTBiomodal = true;
@@ -719,7 +725,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
    */
 
   public async makeBimodalGraph() {
-    this.asctData = await this.bms.makeASCTData(this.sheetData.data, this.updatedTreeData, this.bimodalConfig, this.currentSheet, this.compareData);
+    this.asctData = await this.bms.makeASCTData(
+      this.sheetData.data,
+      this.updatedTreeData,
+      this.bimodalConfig,
+      this.currentSheet,
+      this.compareData
+    );
     this.treeView._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
     this.treeView._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
     this.treeView._runtime.signals.targets__click.value = []; // removing clicked bold target nodes if at all

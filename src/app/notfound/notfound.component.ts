@@ -15,7 +15,7 @@ export class NotfoundComponent implements OnInit {
 
   constructor(public sc: SconfigService) {
     if (environment.production) {
-      this.dataVersion = 'latest'
+      this.dataVersion = 'latest';
     } else {
       this.dataVersion = this.sc.VERSIONS[1].folder;
     }

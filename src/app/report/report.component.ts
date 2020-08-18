@@ -31,7 +31,7 @@ export class ReportComponent implements OnInit, OnChanges {
   similarB = [];
   warningCount = 0;
   compareDataStats = [];
-  clickButton: boolean = false; // for mat expansion panel download button
+  clickButton = false; // for mat expansion panel download button
   @Output() closeComponent = new EventEmitter();
   @Output() openCompareDialog = new EventEmitter();
   @Output() deleteSheet = new EventEmitter();
@@ -47,12 +47,12 @@ export class ReportComponent implements OnInit, OnChanges {
   }
 
   async ngOnChanges() {
-     
+
   }
 
   async makeCompareData() {
-    for(let sheet of this.compareData) {
-      let newEntry: any = {};
+    for (const sheet of this.compareData) {
+      const newEntry: any = {};
 
       const compareAS = await this.sheet.makeAS(sheet.data, {
         report_cols: this.currentSheet.report_cols,
@@ -75,42 +75,42 @@ export class ReportComponent implements OnInit, OnChanges {
         uberon_col: this.currentSheet.uberon_col,
       });
 
-      let identicalStructures = []; 
+      let identicalStructures = [];
       let newStructures = [];
 
       if (compareAS.length > 0 ) {
-        for (let a of compareAS) {
-          let findObj = this.anatomicalStructures.findIndex(i => i.structure === a.structure)
-          if (findObj !== -1) identicalStructures.push(a.structure)
-          else newStructures.push(a.structure)
+        for (const a of compareAS) {
+          const findObj = this.anatomicalStructures.findIndex(i => i.structure === a.structure);
+          if (findObj !== -1) { identicalStructures.push(a.structure); }
+          else { newStructures.push(a.structure); }
         }
       }
 
       newEntry.identicalAS = identicalStructures;
       newEntry.newAS = newStructures;
 
-      identicalStructures = []; 
+      identicalStructures = [];
       newStructures = [];
 
       if (compareCT.length > 0 ) {
-        for (let a of compareCT) {
-          let findObj = this.cellTypes.findIndex(i => i.structure === a.structure)
-          if (findObj !== -1) identicalStructures.push(a.structure)
-          else newStructures.push(a.structure)
+        for (const a of compareCT) {
+          const findObj = this.cellTypes.findIndex(i => i.structure === a.structure);
+          if (findObj !== -1) { identicalStructures.push(a.structure); }
+          else { newStructures.push(a.structure); }
         }
       }
 
       newEntry.identicalCT = identicalStructures;
       newEntry.newCT = newStructures;
 
-      identicalStructures = []; 
+      identicalStructures = [];
       newStructures = [];
 
       if (compareB.length > 0 ) {
-        for (let a of compareB) {
-          let findObj = this.bioMarkers.findIndex(i => i.structure === a.structure)
-          if (findObj !== -1) identicalStructures.push(a.structure)
-          else newStructures.push(a.structure)
+        for (const a of compareB) {
+          const findObj = this.bioMarkers.findIndex(i => i.structure === a.structure);
+          if (findObj !== -1) { identicalStructures.push(a.structure); }
+          else { newStructures.push(a.structure); }
         }
       }
 
@@ -149,8 +149,8 @@ export class ReportComponent implements OnInit, OnChanges {
       });
 
       if (this.compareData.length) {
-        this.makeCompareData()
-      }  
+        this.makeCompareData();
+      }
     } catch (err) {
       console.log(err);
     }
@@ -159,7 +159,7 @@ export class ReportComponent implements OnInit, OnChanges {
   downloadData() {
     const download = [];
     const totalRows = 6;
-    for (let i = 0; i < Math.max(this.anatomicalStructures.length,this.cellTypes.length,this.bioMarkers.length); i++) {
+    for (let i = 0; i < Math.max(this.anatomicalStructures.length, this.cellTypes.length, this.bioMarkers.length); i++) {
       const row = {};
       if (i < this.anatomicalStructures.length) {
         row['Unique Anatomical Structres'] = this.anatomicalStructures[i].structure;
@@ -207,7 +207,7 @@ export class ReportComponent implements OnInit, OnChanges {
       sheet: sheetWS,
       sheetName: this.currentSheet.display,
       name:  `ASCT+B-Reporter_${sn}_${dt}_Report.xlsx`
-    }
+    };
   }
 
   getASWithNoLink() {
@@ -235,9 +235,9 @@ export class ReportComponent implements OnInit, OnChanges {
     return noLinks;
   }
 
-  downloadReport(i=-1) {
+  downloadReport(i= -1) {
     const wb = XLSX.utils.book_new();
-    let allReport = [];
+    const allReport = [];
 
     /**
      * When all reports need to be downloaded
@@ -245,17 +245,17 @@ export class ReportComponent implements OnInit, OnChanges {
     if (i === -1) {
       allReport.push(this.downloadData());
 
-      for(let sheet in this.compareDataStats) {
-        allReport.push(this.downloadCompareSheetReport(parseInt(sheet)))
+      for (const [sheet, ele] of this.compareDataStats.entries()) {
+        allReport.push(this.downloadCompareSheetReport(sheet));
       }
     } else {
       /**
        * When a single compare sheet report needs to be downloaded
        */
-      allReport.push(this.downloadCompareSheetReport(i))
+      allReport.push(this.downloadCompareSheetReport(i));
     }
 
-    for (let book of allReport) {
+    for (const book of allReport) {
       XLSX.utils.book_append_sheet(wb, book.sheet, book.sheetName);
     }
 
@@ -264,7 +264,7 @@ export class ReportComponent implements OnInit, OnChanges {
 
   downloadCompareSheetReport(i: number) {
     this.clickButton = true;
-    let totalRows = 6;
+    const totalRows = 6;
     const sheet = this.compareDataStats[i];
     const keyMapper = {
       identicalAS: 'Identical Anatomical Structures',
@@ -273,16 +273,16 @@ export class ReportComponent implements OnInit, OnChanges {
       newCT: 'New Cell Types',
       identicalB: 'Identical Biomarkers',
       newB: 'New Biomarkers'
-    }
-    let download = [];
+    };
+    const download = [];
     const keys = Object.keys(this.compareDataStats[i]);
 
-    for (let key of keys)  {
+    for (const key of keys)  {
       if (typeof sheet[key] === 'object') {
-        for(let [idx, value] of sheet[key].entries()) {
-          let t = {}
+        for (const [idx, value] of sheet[key].entries()) {
+          const t = {};
           t[keyMapper[key]] = value;
-    
+
           if (!!download[idx]) {
             download[idx] = {...download[idx], ...t};
           } else {
@@ -293,9 +293,9 @@ export class ReportComponent implements OnInit, OnChanges {
     }
 
     const sheetWS = XLSX.utils.json_to_sheet(download);
-    console.log(sheetWS)
+
     sheetWS['!cols'] = [];
-    for (let i = 0; i < totalRows; i++) {
+    for (let j = 0; j < totalRows; j++) {
       sheetWS['!cols'].push({ wch: 30 });
     }
     const wb = XLSX.utils.book_new();
@@ -305,7 +305,7 @@ export class ReportComponent implements OnInit, OnChanges {
       sheet: sheetWS,
       sheetName: sheet.title,
       name:  `ASCT+B-Reporter_Derived_${sn}_${dt}_Report.xlsx`
-    }
+    };
   }
 
   deleteCompareSheetReport(i) {

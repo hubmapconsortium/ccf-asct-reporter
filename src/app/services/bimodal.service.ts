@@ -121,8 +121,8 @@ export class BimodalService {
     let id = 0;
     let biomarkers = [];
 
-    for (let sheet of compareData) {
-      for (let row of sheet.data) {
+    for (const sheet of compareData) {
+      for (const row of sheet.data) {
         sheetData.push(row);
       }
     }
@@ -314,10 +314,13 @@ export class BimodalService {
                       cells[c].toLowerCase().trim()
                   );
                   if (found !== -1) {
-                    nodes[parent].targets.indexOf(found) === -1 &&
+                    if (nodes[parent].targets.indexOf(found) === -1) {
                       nodes[parent].targets.push(found);
-                    nodes[found].sources.indexOf(parent) === -1 &&
+                    }
+                    if (nodes[found].sources.indexOf(parent) === -1) {
                       nodes[found].sources.push(parent);
+                    }
+
                     nodes[found].pathColor = nodes[parent].pathColor;
                     // nodes[found].isNew = nodes[parent].isNew;
 
@@ -356,11 +359,13 @@ export class BimodalService {
                     markers[m].toLowerCase().trim()
                 );
                 if (!links.some((n) => n.s === cell && n.t === marker)) {
-                  nodes[cell].targets.indexOf(marker) === -1 &&
+                  if (nodes[cell].targets.indexOf(marker) === -1) {
                     nodes[cell].targets.push(marker);
+                  }
                   // nodes[cell].sources.indexOf(marker) === -1 && nodes[cell].sources.push(marker);
-                  nodes[marker].sources.indexOf(cell) === -1 &&
+                  if (nodes[marker].sources.indexOf(cell) === -1) {
                     nodes[marker].sources.push(cell);
+                  }
                   nodes[marker].pathColor = nodes[cell].pathColor;
 
                   links.push({
@@ -387,7 +392,7 @@ export class BimodalService {
 
   /**
    * Returns the array of biomarkers that are sorted have their degrees calculated.
-   * @param {Array<Array<string>>} data - Sheet data
+   * @param data - Sheet data
    */
   public async makeMarkerDegree(data: any, currentSheet: any) {
     const markerDegrees = [];
@@ -454,7 +459,7 @@ export class BimodalService {
 
             data.forEach((row) => {
               let parent;
-              for (let i in row) {
+              for (const i in row) {
                 if (typeof row[i] === 'string' && row[i] !== '') {
                   if (row[i].toLowerCase() === leaf.toLowerCase()) {
                     parent = i;

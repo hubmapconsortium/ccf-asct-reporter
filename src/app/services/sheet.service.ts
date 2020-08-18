@@ -74,22 +74,22 @@ export class SheetService {
   /**
    * Returns the parsed data  by extracting it from google sheets.
    *
-   * @param {string} url - The constructed Google Sheet URL
-   * @param {string} status - Status to show whether it is getting data from the cache or the google sheets.
-   * @param {number} msg - Error message if present.
-   * @param {number} header_count - Count of headers to discard while parsing the data.
+   * @param url - The constructed Google Sheet URL
+   * @param status - Status to show whether it is getting data from the cache or the google sheets.
+   * @param msg - Error message if present.
+   * @param headerCount - Count of headers to discard while parsing the data.
    *
-   * @returns {Promise} - An object that has the data, status and return message
+   * @returns - An object that has the data, status and return message
    */
-  public async getDataFromURL(url: string, header_count = 11, compareConfig = {isNew: false, color: '#ccc'}): Promise<any> {
+  public async getDataFromURL(url: string, headerCount = 11, compareConfig = {isNew: false, color: '#ccc'}): Promise<any> {
     return new Promise(async (res, rej) => {
       try {
         const data = await this.http
           .get(url, { responseType: 'text' })
           .toPromise();
         const parsedData = parse(data);
-        parsedData.data.splice(0, header_count);
-        parsedData.data.map(i => {i.push(compareConfig.isNew); i.push(compareConfig.color)})
+        parsedData.data.splice(0, headerCount);
+        parsedData.data.map(i => {i.push(compareConfig.isNew); i.push(compareConfig.color); });
 
         res({
           data: parsedData.data,
@@ -110,7 +110,7 @@ export class SheetService {
    * 2. Production: During production, it extracts sheets from google docs. Incase that fails
    * the data is extracted from the cache.
    *
-   * @returns {Promise} - An object that has - CSV data, status and return message
+   * @returns - An object that has - CSV data, status and return message
    */
   public async getSheetData(
     currentSheet: any,
@@ -119,24 +119,24 @@ export class SheetService {
     let constructedURL = '';
     let responseStatus = 200;
     let csvData: any;
-    
+
     this.loadingStatus.emit(currentSheet.display);
 
     if (currentSheet.display === 'All Organs') {
       const data = await this.makeAOData(dataVersion);
       if (data.status === 404) {
-        return data
+        return data;
       }
-      return data
+      return data;
     } else {
       if (!environment.production) {
         // in development mode
         if (dataVersion ===  '') {
           return {
             data: [], msg: 'Not Found', status: 404
-          }
+          };
         }
-        
+
         if (dataVersion === 'latest') {
           dataVersion = this.sc.VERSIONS[1].folder;
           this.changeDataVersion.emit(this.sc.VERSIONS[1]);
@@ -147,9 +147,9 @@ export class SheetService {
           );
         }
 
-        if (this.sc.VERSIONS.findIndex(i => i.folder === dataVersion) === -1) {return {data: [], msg: 'Not Found', status: 404}}
+        if (this.sc.VERSIONS.findIndex(i => i.folder === dataVersion) === -1) {return {data: [], msg: 'Not Found', status: 404}; }
         constructedURL = `assets/data/${dataVersion}/${currentSheet.name}.csv`;
-        const csvData = await this.getDataFromURL(constructedURL);
+        csvData = await this.getDataFromURL(constructedURL);
 
         this.organSheetData = {
           data: csvData.data,
@@ -162,7 +162,7 @@ export class SheetService {
 
       if (dataVersion !== 'latest') {
         const v = this.sc.VERSIONS.findIndex(i => i.folder === dataVersion);
-        if (v===-1) return {data: [], msg: 'Not Found', status: 404}
+        if (v === -1) { return {data: [], msg: 'Not Found', status: 404}; }
 
         constructedURL = `assets/data/${dataVersion}/${currentSheet.name}.csv`;
 
@@ -268,7 +268,7 @@ export class SheetService {
   /**
    * Function to create the All Organs data.
    *
-   * @returns {Promise} - An object that has - CSV data, status and return message
+   * @returns - An object that has - CSV data, status and return message
    */
   public async makeAOData(dataVersion: string) {
     const allOrganData = [];
@@ -278,10 +278,10 @@ export class SheetService {
     let responseStatus = 200;
 
     for (const organ of this.organs) {
-      const idx = this.sc.SHEET_CONFIG.findIndex((i) => i.display === organ)
+      const idx = this.sc.SHEET_CONFIG.findIndex((i) => i.display === organ);
       let organSheet;
       try {
-        if (idx === -1) throw new TypeError("Invalid data")
+        if (idx === -1) { throw new TypeError('Invalid data'); }
         organSheet = this.sc.SHEET_CONFIG[idx];
         csvData = await this.getSheetData(organSheet, dataVersion);
         organData = csvData.data;
@@ -290,7 +290,7 @@ export class SheetService {
       } catch (err) {
         console.log(err);
         this.router.navigateByUrl('/error');
-        return err
+        return err;
       }
 
       organData.forEach((row) => {
@@ -325,14 +325,14 @@ export class SheetService {
   /**
    * Function to compute the Anatomical Structures from the given Data Table.
    *
-   * @param {Array<Array<string>>} data - Sheet data
-   * @param {ASCTBConfig} config - Configurations that consist of the following params,
+   * @param data - Sheet data
+   * @param config - Configurations that consist of the following params,
    *   1. report_cols - The cols that are to be considered to form the data. This includes AS, and CT col numbers.
    *   2. cell_col - The column number in which the cell types are present.
    *   3. marker_col - The column number in which the biomarkers are present.
    *   4. uberon_col - The number of columns after which the uberon column can be found.
    *
-   * @returns {Promise} - Array of anatomical structures
+   * @returns - Array of anatomical structures
    *
    */
   public makeAS(
@@ -389,12 +389,12 @@ export class SheetService {
   /**
    * Function to compute the Cell Types from the given Data Table.
    *
-   * @param {Array<Array<string>>} data - Sheet data
-   * @param {ASCTBConfig} - Configurations that consist of the following params,
+   * @param data - Sheet data
+   * @param - Configurations that consist of the following params,
    *   1. cell_col - The column number in which the cell types are present.
    *   2. uberon_col - The number of columns after which the uberon column can be found.
    *
-   * @returns {Promise} - Array of cell types
+   * @returns - Array of cell types
    */
   public makeCellTypes(
     data: Array<Array<string>>,
@@ -407,7 +407,7 @@ export class SheetService {
         for (const i in cells) {
           if (cells[i] !== '' && !cells[i].startsWith('//')) {
             if (!cellTypes.some((c) => c.structure.trim().toLowerCase() === cells[i].trim().toLowerCase())) {
-             
+
               // console.log(`name: ${cells[i].trim()}, color: ${row[config.marker_col + 3]}, isNew: ${row[config.marker_col + 2]}`)
               cellTypes.push({
                 structure: cells[i].trim(),
@@ -433,11 +433,11 @@ export class SheetService {
   /**
    * Function to compute the Cell Types from the given Data Table.
    *
-   * @param {Array<Array<string>>} data - Sheet data
-   * @param {ASCTBConfig} - Configurations that consist of the following params,
+   * @param data - Sheet data
+   * @param - Configurations that consist of the following params,
    *   1. marker_col - The column number in which the biomarkers are present.
    *
-   * @returns {Promise} - Array of biomarkers
+   * @returns - Array of biomarkers
    */
   public makeBioMarkers(
     data: Array<Array<string>>,
