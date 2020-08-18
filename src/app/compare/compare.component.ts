@@ -66,7 +66,7 @@ export class CompareComponent implements OnInit {
     let exportCompareData = [];
     let sources = [];
    
-
+    try {
     for(let [idx, ddSheet] of this.formGroup.value.sheets.entries()) {
       sources.push({
         link: ddSheet.link,
@@ -78,7 +78,7 @@ export class CompareComponent implements OnInit {
       let sheetID = this.checkLinkFormat(ddSheet.link).sheetID;
       let gid = this.checkLinkFormat(ddSheet.link).gid;
       
-      try {
+      
         const constructedURL = `https://asctb-data-miner.herokuapp.com/${sheetID}/${gid}`
         
         const csvData = await this.sheet.getDataFromURL(
@@ -91,17 +91,14 @@ export class CompareComponent implements OnInit {
           title: ddSheet.title === '' ? `Sheet ${idx + 1}`: ddSheet.title,
           description: ddSheet.description
         })
-        
+      }
+        this.openSnackBar('Derived Data sheet succesfully fetched.', 'Close', 'green')
+        this.dialog.closeAll();
+        this.dialogRef.close({ data: exportCompareData, sources: sources });
       } catch (err) {
         this.loadingDialog.close();
         this.openSnackBar('Error while fetching data.', 'Close', 'red');
       }
-      
-    }
-    this.openSnackBar('Derived Data sheet succesfully fetched.', 'Close', 'green')
-    this.dialog.closeAll();
-    this.dialogRef.close({ data: exportCompareData, sources: sources });
-    
   }
 
   addCompareSheetRow() {
