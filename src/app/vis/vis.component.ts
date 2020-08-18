@@ -40,14 +40,9 @@ export class VisComponent implements OnInit, OnChanges {
 
   ngOnInit() {}
 
-  ngOnChanges() {
-    console.log('hi');
-    console.log(this.comapreComponentSources);
-  }
+  ngOnChanges() {}
 
   toggleReportDrawer(val) {
-    // this.refreshReport = val;
-    // this.shouldRefreshData = false;
     this.drawer.opened = val;
     this.showCompInDrawer = 'Report';
   }
@@ -60,6 +55,8 @@ export class VisComponent implements OnInit, OnChanges {
 
   showGraph(val) {
     this.openLoading();
+    this.compareData = [];
+    this.comapreComponentSources = [];
     this.displayGraph = val;
     this.shouldRefreshData = true;
   }
@@ -92,6 +89,7 @@ export class VisComponent implements OnInit, OnChanges {
   refreshData(val) {
     this.refreshReport = true;
     this.compareData = [];
+    this.comapreComponentSources = [];
     if (val === 'Tree') {
       this.openLoading();
       this.refreshTree = true;
@@ -174,6 +172,8 @@ export class VisComponent implements OnInit, OnChanges {
   }
 
   getSelectedSheet(event) {
+    this.compareData = [];
+    this.comapreComponentSources = [];
     this.currentSheetName = event;
     this.report.reportLog(`${this.currentSheetName}`, 'success', 'file');
     this.currentSheet = this.sc.SHEET_CONFIG[
