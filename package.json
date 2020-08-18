@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "data": "./src/scripts/getData.sh",
-    "deploy": "cd dist/ccf-asct-reporter && touch .nojekyll && touch 404.html && cat index.html >> 404.html && cd ../.. &&gh-pages -d dist/ccf-asct-reporter"
+    "deploy": "cd dist/ccf-asct-reporter && touch .nojekyll && touch 404.html && cat index.html >> 404.html && cd ../.. &&gh-pages -d dist/ccf-asct-reporter",
     "deploy:staging": "cd dist/ccf-asct-reporter && touch .nojekyll && touch 404.html && cat index.html >> 404.html && cd ../.. &&gh-pages -b staging -d dist/ccf-asct-reporter"
   },
   "private": true,
