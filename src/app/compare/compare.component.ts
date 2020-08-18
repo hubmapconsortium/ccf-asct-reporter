@@ -79,7 +79,7 @@ export class CompareComponent implements OnInit {
       let gid = this.checkLinkFormat(ddSheet.link).gid;
       
       try {
-        const constructedURL = `http://asctb-data-miner.herokuapp.com/${sheetID}/${gid}`
+        const constructedURL = `https://asctb-data-miner.herokuapp.com/${sheetID}/${gid}`
         
         const csvData = await this.sheet.getDataFromURL(
           constructedURL, 1, {isNew: true, color: ddSheet.color}
