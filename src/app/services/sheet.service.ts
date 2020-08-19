@@ -301,6 +301,8 @@ export class SheetService {
           row[organSheet.cell_col],
           row[organSheet.cell_col + organSheet.uberon_col],
           row[organSheet.marker_col],
+          row[row.length - 2],
+          row[row.length - 1]
         ];
         allOrganData.push(organRow);
       });
