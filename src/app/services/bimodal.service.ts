@@ -236,6 +236,7 @@ export class BimodalService {
     if (bimodalConfig.BM.sort === 'Alphabetically') {
       biomarkers = await this.sheet.makeBioMarkers(sheetData, {
         marker_col: currentSheet.marker_col,
+        uberon_col: currentSheet.uberon_col
       });
       biomarkers.sort((a, b) => {
         return a.structure.toLowerCase() > b.structure.toLowerCase()

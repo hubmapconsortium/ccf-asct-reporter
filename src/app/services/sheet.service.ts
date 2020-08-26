@@ -87,7 +87,8 @@ export class SheetService {
         const data = await this.http
           .get(url, { responseType: 'text' })
           .toPromise();
-        const parsedData = parse(data);
+
+        const parsedData = parse(data,{skipEmptyLines: true,});
         parsedData.data.splice(0, headerCount);
         parsedData.data.map(i => {i.push(compareConfig.isNew); i.push(compareConfig.color); });
 
@@ -285,6 +286,7 @@ export class SheetService {
         organSheet = this.sc.SHEET_CONFIG[idx];
         csvData = await this.getSheetData(organSheet, dataVersion);
         organData = csvData.data;
+
         responseMsg = csvData.msg;
         responseStatus = csvData.status;
       } catch (err) {
@@ -294,20 +296,23 @@ export class SheetService {
       }
 
       organData.forEach((row) => {
-        const organRow = [
-          'Body',
-          organ,
-          organ,
-          row[organSheet.cell_col],
-          row[organSheet.cell_col + organSheet.uberon_col],
-          row[organSheet.marker_col],
-          row[row.length - 2],
-          row[row.length - 1]
-        ];
+        let bmc = row[organSheet.marker_col].split(',').length
+        let organRow = ['Body', organ, organ, row[organSheet.cell_col], row[organSheet.cell_col + organSheet.uberon_col], row[organSheet.marker_col]]
+        for(let i = 0 ; i < bmc; i ++) {
+          if (organSheet.uberon_col !== 0) {
+            if (organSheet.marker_col + organSheet.uberon_col * (i + 1) < row.length) {
+              organRow.push(row[organSheet.marker_col + organSheet.uberon_col * (i + 1)])          
+              }  
+            } else {
+              organRow.push('NONE')
+            }
+          }
+
+        organRow.push(row[row.length - 2]) // isNew
+        organRow.push(row[row.length - 1]) // color
         allOrganData.push(organRow);
       });
     }
-
     this.organSheetData = {
       data: allOrganData,
       status: responseStatus,
@@ -459,7 +464,9 @@ export class SheetService {
             ) {
               bioMarkers.push({
                 structure: markers[i].trim(),
-                link: 'NONE',
+                link:  row[config.marker_col + config.uberon_col] !== markers[i].trim()
+                ? row[config.marker_col + (config.uberon_col * (parseInt(i)+1))]
+                : 'NONE',
                 isNew: row[row.length - 2],
                 color: row[row.length - 1]
               });
