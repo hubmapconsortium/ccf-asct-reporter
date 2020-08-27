@@ -88,7 +88,7 @@ export class SheetService {
           .get(url, { responseType: 'text' })
           .toPromise();
 
-        const parsedData = parse(data,{skipEmptyLines: true,});
+        const parsedData = parse(data, {skipEmptyLines: true, });
         parsedData.data.splice(0, headerCount);
         parsedData.data.map(i => {i.push(compareConfig.isNew); i.push(compareConfig.color); });
 
@@ -296,20 +296,28 @@ export class SheetService {
       }
 
       organData.forEach((row) => {
-        let bmc = row[organSheet.marker_col].split(',').length
-        let organRow = ['Body', organ, organ, row[organSheet.cell_col], row[organSheet.cell_col + organSheet.uberon_col], row[organSheet.marker_col]]
-        for(let i = 0 ; i < bmc; i ++) {
+        const bmc = row[organSheet.marker_col].split(',').length;
+        const organRow = [
+          'Body',
+          organ,
+          organ,
+          row[organSheet.cell_col],
+          row[organSheet.cell_col + organSheet.uberon_col],
+          row[organSheet.marker_col]
+        ];
+
+        for (let i = 0 ; i < bmc; i ++) {
           if (organSheet.uberon_col !== 0) {
             if (organSheet.marker_col + organSheet.uberon_col * (i + 1) < row.length) {
-              organRow.push(row[organSheet.marker_col + organSheet.uberon_col * (i + 1)])          
-              }  
+              organRow.push(row[organSheet.marker_col + organSheet.uberon_col * (i + 1)]);
+              }
             } else {
-              organRow.push('NONE')
+              organRow.push('NONE');
             }
           }
 
-        organRow.push(row[row.length - 2]) // isNew
-        organRow.push(row[row.length - 1]) // color
+        organRow.push(row[row.length - 2]); // isNew
+        organRow.push(row[row.length - 1]); // color
         allOrganData.push(organRow);
       });
     }
@@ -454,19 +462,14 @@ export class SheetService {
       const bioMarkers = [];
       data.forEach((row) => {
         const markers = row[config.marker_col].split(',');
-        for (const i in markers) {
+
+        for (let i = 0 ; i < markers.length; i ++) {
           if (markers[i] !== '' && !markers[i].startsWith('//')) {
-            if (
-              !bioMarkers.some(
-                (b) =>
-                  b.structure.toLowerCase() === markers[i].trim().toLowerCase()
-              )
-            ) {
+            if (!bioMarkers.some((b) => b.structure.toLowerCase() === markers[i].trim().toLowerCase())) {
               bioMarkers.push({
                 structure: markers[i].trim(),
                 link:  row[config.marker_col + config.uberon_col] !== markers[i].trim()
-                ? row[config.marker_col + (config.uberon_col * (parseInt(i)+1))]
-                : 'NONE',
+                ? row[config.marker_col + (config.uberon_col * (i + 1))] : 'NONE',
                 isNew: row[row.length - 2],
                 color: row[row.length - 1]
               });
