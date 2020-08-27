@@ -483,12 +483,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                       test: 'node__click !== null',
                       value: 0.1
                     },
-                    { 
+                    {
                       test: 'node__hover && datum.source.id !== node__hover && node__click === null',
                       value: 0.25
                     },
-                    { 
-                      value: 0.4 
+                    {
+                      value: 0.4
                     }
                   ],
                   strokeWidth: { value: 1.5 },
