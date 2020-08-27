@@ -484,7 +484,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                       value: 0.1
                     },
                     {
-                      test: 'node__hover && datum.source.id !== node__hover && node__click === null',
+                      test: 'node__hover !== null && datum.source.id !== node__hover && node__click === null',
                       value: 0.25
                     },
                     {
@@ -508,14 +508,14 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                 update: {
                   x: { field: 'x' },
                   y: { field: 'y' },
-                  tooltip: [{ field: 'uberonId', type: 'quantitative' }],
+                  tooltip: {signal: '{"Ontology Link": datum.uberonId}'},
                   opacity: [
                     {
                       test: 'node__click === null && node__hover === null',
                       value: 1
                     },
                     {
-                      test: 'node__hover && datum.id !== node__hover && node__click === null',
+                      test: 'node__hover !== null && node__click === null',
                       value: 0.5
                     },
                     {
@@ -559,12 +559,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                       value: 1
                     },
                     {
-                      test: 'node__hover && datum.id !== node__hover && node__click === null',
+                      test: 'node__hover !== null && node__click === null',
                       value: 0.5
                     },
-                    {
-                      value: 0
-                    }
                   ],
                   align: { signal: 'datum.children ? \'left\' : \'right\'' },
                 },
@@ -737,7 +734,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                         value: 1
                       },
                       {
-                        test: 'node__hover && datum.id !== node__hover && node__click === null',
+                        test: 'node__hover !== null && datum.id !== node__hover && node__click === null',
                         value: 0.5
                       },
                       {
@@ -802,7 +799,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                       value: 1
                     },
                     {
-                      test: 'node__hover && datum.id !== node__hover && node__click === null',
+                      test: 'node__hover !== null && datum.id !== node__hover && node__click === null',
                       value: 0.5
                     },
                     {
