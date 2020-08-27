@@ -58,7 +58,7 @@ export class Tree {
       if (this.nodes[i].name === name) {
         const parent = this.nodes.findIndex(n => n.name === nodeParent.name);
         if (this.nodes[parent].id !== this.nodes[i].parent) {
-          if (!this.nodes[i].parents.includes(this.nodes[parent].id)) 
+          if (!this.nodes[i].parents.includes(this.nodes[parent].id) && this.nodes[parent].id !== 1) 
             this.nodes[i].parents.push(this.nodes[parent].id);
 
           this.nodes[i].problem = true;
