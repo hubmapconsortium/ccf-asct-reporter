@@ -15,6 +15,8 @@ export class TNode {
   groupName: string;
   isNew: boolean;
   pathColor: string;
+  parents: Array<number>;
+  pathShape: string;
 
   constructor(id, name, parent, uId, color = '#808080') {
     this.id = id;
@@ -26,7 +28,15 @@ export class TNode {
     this.groupName = 'See Debug Log';
     this.isNew = false;
     this.pathColor = '#ccc';
+    this.parents = [];
+    this.pathShape = 'diagonal';
   }
+}
+
+export class TreeAndMultiParent {
+  tree: Array<TNode>;
+  multiParentLinks: any;
+
 }
 
 // Used in the tree visualization
@@ -48,6 +58,9 @@ export class Tree {
       if (this.nodes[i].name === name) {
         const parent = this.nodes.findIndex(n => n.name === nodeParent.name);
         if (this.nodes[parent].id !== this.nodes[i].parent) {
+          if (!this.nodes[i].parents.includes(this.nodes[parent].id)) 
+            this.nodes[i].parents.push(this.nodes[parent].id);
+
           this.nodes[i].problem = true;
         }
         this.nodes[i].found = true;
@@ -79,7 +92,7 @@ export class TreeService {
    *
    * @param data - Sheet data
    */
-  public makeTreeData(data, compareData?: any): Promise<Array<TNode>> {
+  public makeTreeData(data, compareData?: any): Promise<TreeAndMultiParent> {
 
     return new Promise(async (res, rej) => {
 
@@ -89,8 +102,7 @@ export class TreeService {
         }
       }
 
-
-
+      let linkData = [];
       const cols = this.currentSheet.tree_cols;
       const id = 1;
       let parent;
@@ -146,8 +158,23 @@ export class TreeService {
       if (tree.nodes.length < 0) {
         rej(['Could not process tree data']);
       }
-
-      res(tree.nodes);
+      
+      for(let node of tree.nodes) {
+        if (node.problem) {
+          for(let parent of node.parents) {
+            linkData.push({
+              s: parent,
+              t: node.id
+            })
+          }
+        }
+      }
+      
+      
+      res({
+        tree: tree.nodes,
+        multiParentLinks: linkData
+      });
     });
   }
 

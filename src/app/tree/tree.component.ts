@@ -27,6 +27,7 @@ import { Router } from '@angular/router';
 export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   sheetData: any;
   treeData: any;
+  multiParentLinksData: any;
   updatedTreeData: any;
   treeView: any;
   graphWidth: number;
@@ -128,7 +129,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public async setGraphToCompare(data) {
-    this.treeData = await this.ts.makeTreeData(this.sheetData.data, data);
+    const treeServiceData = await this.ts.makeTreeData(this.sheetData.data, data);
+    this.treeData = treeServiceData.tree;
+    this.multiParentLinksData = treeServiceData.multiParentLinks;
+
     const height = document.getElementsByTagName('body')[0].clientHeight;
     const config: any = await this.makeVegaSpec(this.screenWidth, height);
     await this.renderGraph(config);
@@ -231,11 +235,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             },
             { events: 'mouseover[!event.item]', update: '[]' },
           ],
-        },
-        {
-          name: 'compare_dd__signal',
-          value: [],
-        },
+        }
       ],
       data: [
         {
@@ -295,6 +295,28 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               orient: 'horizontal',
               shape: 'diagonal',
             },
+          ],
+        },
+        {
+          name: 'multi_parent_edges',
+          values: this.multiParentLinksData,
+          transform: [
+            {
+              type: 'lookup',
+              from: 'tree',
+              key: 'id',
+              fields: ['s', 't'],
+              as: ['source', 'target'],
+            },
+            {
+              type: 'linkpath',
+              sourceX: 'source.x',
+              sourceY: 'source.y',
+              targetX: 'target.x',
+              targetY: 'target.y',
+              orient: 'horizontal',
+              shape: 'curve',
+            }
           ],
         },
         {
@@ -469,6 +491,37 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       marks: [
         {
           type: 'group',
+          marks: [
+            {
+              type: 'path',
+              from: { data: 'multi_parent_edges' },
+              encode: {
+                update: {
+                  path: { field: 'path' },
+                  stroke: {signal: 'datum.source.pathColor'},
+                  strokeDash: {value: [5,8]},
+                  opacity: [
+                    {
+                      test: 'node__click !== null',
+                      value: 0.1
+                    },
+                    {
+                      test: 'node__hover !== null && datum.source.id !== node__hover && node__click === null',
+                      value: 0.25
+                    },
+                    {
+                      value: 0.4
+                    }
+                  ],
+                  zIndex: {value: -1},
+                  strokeWidth: { value: 2 },
+                },
+              },
+            },
+          ]
+        },
+        {
+          type: 'group',
           name: 'asTree',
           marks: [
             {
@@ -526,6 +579,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                       value: 0
                     }
                   ],
+                  zIndex: {value: 1},
                   fill: { signal: 'datum.isNew ? "#fafafa" : datum.color' },
                 },
               },
@@ -849,7 +903,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         this.router.navigateByUrl('/error');
         throw new Error();
       }
-      this.treeData = await this.ts.makeTreeData(this.sheetData.data, this.compareData);
+
+      const treeServiceData = await this.ts.makeTreeData(this.sheetData.data, this.compareData);
+      this.treeData = treeServiceData.tree;
+      this.multiParentLinksData = treeServiceData.multiParentLinks;
 
       const height = document.getElementsByTagName('body')[0].clientHeight;
       this.screenWidth = document.getElementsByTagName('body')[0].clientWidth;
