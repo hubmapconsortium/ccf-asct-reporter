@@ -211,6 +211,28 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
           ],
         },
         {
+          name: 'targets__hover',
+          value: [],
+          on: [
+            {
+              events: '@bimodal-symbol:mouseover',
+              update: 'datum.targets === targets__hover ? [] : datum.targets',
+            },
+            { events: 'mouseover[!event.item]', update: '[]' },
+          ],
+        },
+        {
+          name: 'sources__hover',
+          value: [],
+          on: [
+            {
+              events: '@bimodal-symbol:mouseover',
+              update: 'datum.sources === sources__hover ? [] : datum.sources',
+            },
+            { events: 'mouseover[!event.item]', update: '[]' },
+          ],
+        },
+        {
           name: 'compare_dd__signal',
           value: [],
         },
@@ -261,8 +283,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               type: 'lookup',
               from: 'nodes',
               key: 'id',
-              fields: ['s', 't', 'pathColor'],
-              as: ['source', 'target', 'c'],
+              fields: ['s', 't'],
+              as: ['source', 'target'],
             },
             {
               type: 'linkpath',
@@ -320,7 +342,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
           ],
         },
         {
-          name: 'targets_clicked_array__bold',
+          name: 'targets_of_targets__click',
           source: 'nodes',
           transform: [
             {
@@ -334,7 +356,21 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
           ],
         },
         {
-          name: 'sources_clicked_array__bold',
+          name: 'targets_of_targets__hover',
+          source: 'nodes',
+          transform: [
+            {
+              type: 'filter',
+              expr: 'indexof(targets__hover, datum.id) !== -1',
+            },
+            {
+              type: 'flatten',
+              fields: ['targets'],
+            },
+          ],
+        },
+        {
+          name: 'sources_of_sources__click',
           source: 'nodes',
           transform: [
             {
@@ -347,6 +383,41 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             },
           ],
         },
+        {
+          name: 'sources_of_sources__hover',
+          source: 'nodes',
+          transform: [
+            {
+              type: 'filter',
+              expr: 'indexof(sources__hover, datum.id) !== -1',
+            },
+            {
+              type: 'flatten',
+              fields: ['sources'],
+            },
+          ],
+        },
+        {
+          name: 'marks_to_be_kept__click',
+          source: 'nodes',
+          transform: [
+            {
+              type: 'filter',
+              expr: 'node__click === datum.id || indata("sources_clicked_array", "id", datum.id) || indata("targets_clicked_array", "id", datum.id)',
+            },
+          ]
+        },
+        {
+          name: 'marks_to_be_kept__hover',
+          source: 'nodes',
+          transform: [
+            {
+              type: 'filter',
+              expr: 'node__hover === datum.id || indata("sources_hovered_array", "id", datum.id) || indata("targets_hovered_array", "id", datum.id)',
+            },
+          ]
+        }
+        
       ],
       scales: [
         {
@@ -407,8 +478,25 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               encode: {
                 update: {
                   path: { field: 'path' },
-                  stroke: {signal: 'datum.source.pathColor'},
-                  opacity: { value: 0.4 },
+                  stroke: [
+                    {
+                      test: "indata('compare_dd', 'name', datum.source.name)",
+                      value: 'darkgreen',
+                    },
+                    { value: '#ccc' },
+                  ],
+                  opacity: [
+                    {
+                      test: 'node__click !== null',
+                      value: 0.1
+                    },
+                    { test: 'node__hover && datum.source.id !== node__hover && node__click === null', 
+                      value: 0.25 
+                    },
+                    {
+                      value: 0.4
+                    }
+                  ],
                   strokeWidth: { value: 1.5 },
                 },
               },
@@ -419,16 +507,31 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               encode: {
                 enter: {
                   size: { value: 300 },
-                  stroke: { signal: 'datum.problem ? "#000": datum.isNew ? datum.color :"#fff"' },
-                  strokeWidth: { signal: 'datum.problem ? 3: datum.isNew ? 3 : 0' },
-                  strokeDash: {signal: 'datum.isNew ? 3 : 0'}
+                  stroke: { signal: 'datum.problem ? "#000": "#fff"' },
+                  strokeWidth: { signal: 'datum.problem ? 3: 0' },
                 },
                 update: {
                   x: { field: 'x' },
                   y: { field: 'y' },
                   tooltip: [{ field: 'uberonId', type: 'quantitative' }],
-                  opacity: { signal: 'datum.children ? 1 : 0' },
-                  fill: { signal: 'datum.isNew ? "#fafafa" : datum.color' },
+                  opacity: [
+                    {
+                      test: 'node__click === null && node__hover === null',
+                      value: 1
+                    },
+                    {
+                      test: "node__hover && datum.id !== node__hover && node__click === null",
+                      value: 0.5
+                    },
+                    {
+                      test: "node__click !== null",
+                      value: 0.1
+                    },
+                    {
+                      value: 0
+                    }
+                  ],
+                  fill: { field: 'color' },
                 },
               },
             },
@@ -447,8 +550,28 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                   x: { field: 'x' },
                   y: { field: 'y' },
                   dx: { signal: 'datum.children ? 15: -15' },
-                  opacity: { signal: 'datum.children ? 1 : 0' },
-                  align: { signal: 'datum.children ? \'left\' : \'right\'' },
+                  opacity: [
+                    {
+                      test: '!datum.children',
+                      value: 0
+                    },
+                    {
+                      test: "node__click !== null",
+                      value: 0.1
+                    },
+                    {
+                      test: 'node__click === null && node__hover === null',
+                      value: 1
+                    },
+                    {
+                      test: "node__hover && datum.id !== node__hover && node__click === null",
+                      value: 0.5
+                    },
+                    {
+                      value: 0
+                    }
+                  ],
+                  align: { signal: "datum.children ? 'left' : 'right'" },
                 },
               },
             },
@@ -515,44 +638,60 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                     // for getting AS -> CT -> B
                     {
                       test:
-                        'indata(\'targets_hovered_array\', \'id\', datum.source.id)',
+                        "indata('targets_hovered_array', 'id', datum.source.id)",
                       value: '#377EB8',
                     },
-
                     {
                       test:
-                        'indata(\'targets_clicked_array\', \'id\', datum.source.id)',
+                        "indata('targets_clicked_array', 'id', datum.source.id)",
                       value: '#377EB8',
                     },
                     // for getting B -> CT -> AS
                     {
                       test:
-                        'indata(\'sources_hovered_array\', \'id\', datum.target.id) && datum.source.group !== 2',
+                        "indata('sources_hovered_array', 'id', datum.target.id) && datum.source.group !== 2",
                       value: '#377EB8',
                     },
                     {
                       test:
-                        'indata(\'sources_clicked_array\', \'id\', datum.target.id) && datum.source.group !== 2',
+                        "indata('sources_clicked_array', 'id', datum.target.id) && datum.source.group !== 2",
                       value: '#377EB8',
                     },
                     {
-                      test: 'indata(\'compare_dd\', \'name\', datum.source.name)',
+                      test: "indata('compare_dd', 'name', datum.source.name)",
                       value: 'darkgreen',
                     },
-                    {signal: 'datum.source.pathColor ? datum.source.pathColor : "#ccc"'},
+                    { value: '#ccc' },
                   ],
                   opacity: [
                     { test: 'datum.target.id === node__click', value: 0.65 },
                     { test: 'datum.source.id === node__click', value: 0.65 },
                     {
-                      test:
-                        'indata(\'targets_clicked_array\', \'id\', datum.source.id)',
+                      test: "indata('targets_clicked_array', 'id', datum.source.id)",
                       value: 0.65,
                     },
                     {
-                      test:
-                        'indata(\'sources_clicked_array\', \'id\', datum.target.id) && datum.source.group !== 2',
+                      test: "indata('sources_clicked_array', 'id', datum.target.id) && datum.source.group !== 2",
                       value: 0.65,
+                    },
+                    {
+                      test: "indata('targets_hovered_array', 'id', datum.source.id)",
+                      value: 0.4
+                    },
+                    {
+                      test: "indata('sources_hovered_array', 'id', datum.target.id)",
+                      value: 0.4
+                    },
+                    {
+                      "test": "indata('marks_to_be_kept__hover', 'id', datum.source.id) && indata('marks_to_be_kept__hover', 'id', datum.target.id)",
+                      "value": 0.4
+                    },
+                    { test: 'node__hover && datum.source.id !== node__hover && node__click === null', 
+                      value: 0.25 
+                    },
+                    {
+                      "test": "node__click !== null",
+                      "value": 0.1
                     },
                     { value: 0.4 },
                   ],
@@ -563,7 +702,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                     { test: 'datum.target.id === node__click', value: 2 },
                     {
                       test:
-                        'indata(\'targets_clicked_array\', \'id\', datum.source.id)',
+                        "indata('targets_clicked_array', 'id', datum.source.id)",
                       value: 2,
                     },
                   ],
@@ -577,19 +716,40 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               encode: {
                 enter: {
                   size: { field: 'nodeSize' },
-                  fill: { signal: 'datum.isNew ? "#fafafa" : datum.color'},
+                  fill: { field: 'color' },
                   x: { field: 'x' },
                   y: { field: 'y', offset: 5 },
                   cursor: { value: 'pointer' },
                   tooltip: {
                     signal:
-                      '{\'Name\': datum.name, \'Degree\': datum.group === 1 ? length(datum.sources) + length(datum.targets) + 1 : length(datum.sources) + length(datum.targets), "Indegree": datum.group == 1 ? 1 : length(datum.sources), "Outdegree": length(datum.targets), "Ontology ID": datum.uberonId}',
+                      '{\'Name\': datum.name, \'Degree\': datum.group === 1 ? length(datum.sources) + length(datum.targets) + 1 : length(datum.sources) + length(datum.targets), "Indegree": datum.group == 1 ? 1 : length(datum.sources), "Outdegree": length(datum.targets), "Uberon/Link": datum.uberonId}',
                   },
                 },
                 update: {
-                  stroke: { signal: 'datum.problem ? "#000" : datum.isNew ? datum.color : "#fff"' },
-                  strokeWidth: {signal: 'datum.isNew ? 3 : datum.problem ? 3 : 0'},
-                  strokeDash: {signal: 'datum.isNew ? 3 : 0'}
+                  "opacity": 
+                    [
+                      {
+                        test: 'node__click === null && node__hover === null',
+                        value: 1
+                      },
+                      {
+                        test: "indata('marks_to_be_kept__click', 'id', datum.id) || indata('targets_of_targets__click', 'targets', datum.id) || (indata('sources_of_sources__click', 'sources', datum.id) && datum.group !== 2 && datum.group !== 3)",
+                        value: 1
+                      },
+                      {
+                        test: "node__hover !== null && indata('marks_to_be_kept__hover', 'id', datum.id) || indata('targets_of_targets__hover', 'targets', datum.id) || (indata('sources_of_sources__hover', 'sources', datum.id) && datum.group !== 2 && datum.group !== 3)",
+                        value: 1
+                      },
+                      {
+                        test: "node__hover && datum.id !== node__hover && node__click === null",
+                        value: 0.5
+                      },
+                      {
+                        value: 0.1
+                      }
+                    ],
+                  stroke: { signal: 'datum.problem ? "#000": "#fff"' },
+                  strokeWidth: { signal: 'datum.problem ? 3: 0' }
                 }
               }
             },
@@ -609,7 +769,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                   fontSize: { field: 'fontSize' },
                   fontWeight: [
                     {
-                      test: 'indata(\'targets_clicked_array\', \'id\', datum.id)',
+                      test: "indata('targets_clicked_array', 'id', datum.id)",
                       value: 'bold',
                     },
                     {
@@ -617,21 +777,41 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                       value: 'bold',
                     },
                     {
-                      test: 'indata(\'sources_clicked_array\', \'id\', datum.id)',
+                      test: "indata('sources_clicked_array', 'id', datum.id)",
                       value: 'bold',
                     },
                     {
                       test:
-                        'indata(\'targets_clicked_array__bold\', \'targets\', datum.id)',
+                        "indata('targets_of_targets__click', 'targets', datum.id)",
                       value: 'bold',
                     },
                     {
                       test:
-                        'indata(\'sources_clicked_array__bold\', \'sources\', datum.id)  && datum.group !== 2 && datum.group !== 3',
+                        "indata('sources_of_sources__click', 'sources', datum.id)  && datum.group !== 2 && datum.group !== 3",
                       value: 'bold',
                     },
                   ],
-                  opacity: { value: 1 },
+                  "opacity": [
+                    {
+                      test: 'node__click === null && node__hover === null',
+                      value: 1
+                    },
+                    {
+                      test: "indata('marks_to_be_kept__click', 'id', datum.id) || indata('targets_of_targets__click', 'targets', datum.id) || (indata('sources_of_sources__click', 'sources', datum.id) && datum.group !== 2 && datum.group !== 3)",
+                      value: 1
+                    },
+                    {
+                      test: "node__hover !== null && indata('marks_to_be_kept__hover', 'id', datum.id) || indata('targets_of_targets__hover', 'targets', datum.id) || (indata('sources_of_sources__hover', 'sources', datum.id) && datum.group !== 2 && datum.group !== 3)",
+                      value: 1
+                    },
+                    {
+                      test: "node__hover && datum.id !== node__hover && node__click === null",
+                      value: 0.5
+                    },
+                    {
+                      value: 0.1
+                    }
+                  ],
                   limit: { value: 180 },
                 },
               },
