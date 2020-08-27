@@ -283,8 +283,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               type: 'lookup',
               from: 'nodes',
               key: 'id',
-              fields: ['s', 't'],
-              as: ['source', 'target'],
+              fields: ['s', 't', 'pathColor'],
+              as: ['source', 'target', 'c'],
             },
             {
               type: 'linkpath',
@@ -356,20 +356,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
           ],
         },
         {
-          name: 'targets_of_targets__hover',
-          source: 'nodes',
-          transform: [
-            {
-              type: 'filter',
-              expr: 'indexof(targets__hover, datum.id) !== -1',
-            },
-            {
-              type: 'flatten',
-              fields: ['targets'],
-            },
-          ],
-        },
-        {
           name: 'sources_of_sources__click',
           source: 'nodes',
           transform: [
@@ -380,6 +366,20 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             {
               type: 'flatten',
               fields: ['sources'],
+            },
+          ],
+        },
+        {
+          name: 'targets_of_targets__hover',
+          source: 'nodes',
+          transform: [
+            {
+              type: 'filter',
+              expr: 'indexof(targets__hover, datum.id) !== -1',
+            },
+            {
+              type: 'flatten',
+              fields: ['targets'],
             },
           ],
         },
@@ -417,7 +417,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
             },
           ]
         }
-
       ],
       scales: [
         {
@@ -478,23 +477,18 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               encode: {
                 update: {
                   path: { field: 'path' },
-                  stroke: [
-                    {
-                      test: 'indata(\'compare_dd\', \'name\', datum.source.name)',
-                      value: 'darkgreen',
-                    },
-                    { value: '#ccc' },
-                  ],
+                  stroke: {signal: 'datum.source.pathColor'},
                   opacity: [
                     {
                       test: 'node__click !== null',
                       value: 0.1
                     },
-                    { test: 'node__hover && datum.source.id !== node__hover && node__click === null',
+                    { 
+                      test: 'node__hover && datum.source.id !== node__hover && node__click === null',
                       value: 0.25
                     },
-                    {
-                      value: 0.4
+                    { 
+                      value: 0.4 
                     }
                   ],
                   strokeWidth: { value: 1.5 },
@@ -507,8 +501,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               encode: {
                 enter: {
                   size: { value: 300 },
-                  stroke: { signal: 'datum.problem ? "#000": "#fff"' },
-                  strokeWidth: { signal: 'datum.problem ? 3: 0' },
+                  stroke: { signal: 'datum.problem ? "#000": datum.isNew ? datum.color :"#fff"' },
+                  strokeWidth: { signal: 'datum.problem ? 3: datum.isNew ? 3 : 0' },
+                  strokeDash: {signal: 'datum.isNew ? 3 : 0'}
                 },
                 update: {
                   x: { field: 'x' },
@@ -531,7 +526,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                       value: 0
                     }
                   ],
-                  fill: { field: 'color' },
+                  fill: { signal: 'datum.isNew ? "#fafafa" : datum.color' },
                 },
               },
             },
@@ -641,6 +636,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                         'indata(\'targets_hovered_array\', \'id\', datum.source.id)',
                       value: '#377EB8',
                     },
+
                     {
                       test:
                         'indata(\'targets_clicked_array\', \'id\', datum.source.id)',
@@ -661,7 +657,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                       test: 'indata(\'compare_dd\', \'name\', datum.source.name)',
                       value: 'darkgreen',
                     },
-                    { value: '#ccc' },
+                    {signal: 'datum.source.pathColor ? datum.source.pathColor : "#ccc"'},
                   ],
                   opacity: [
                     { test: 'datum.target.id === node__click', value: 0.65 },
@@ -687,7 +683,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                       value: 0.4
                     },
                     { test: 'node__hover && datum.source.id !== node__hover && node__click === null',
-                      value: 0.25
+                      value: 0.22
                     },
                     {
                       test: 'node__click !== null',
@@ -716,13 +712,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
               encode: {
                 enter: {
                   size: { field: 'nodeSize' },
-                  fill: { field: 'color' },
+                  fill: { signal: 'datum.isNew ? "#fafafa" : datum.color'},
                   x: { field: 'x' },
                   y: { field: 'y', offset: 5 },
                   cursor: { value: 'pointer' },
                   tooltip: {
                     signal:
-                      '{\'Name\': datum.name, \'Degree\': datum.group === 1 ? length(datum.sources) + length(datum.targets) + 1 : length(datum.sources) + length(datum.targets), "Indegree": datum.group == 1 ? 1 : length(datum.sources), "Outdegree": length(datum.targets), "Uberon/Link": datum.uberonId}',
+                      '{\'Name\': datum.name, \'Degree\': datum.group === 1 ? length(datum.sources) + length(datum.targets) + 1 : length(datum.sources) + length(datum.targets), "Indegree": datum.group == 1 ? 1 : length(datum.sources), "Outdegree": length(datum.targets), "Ontology ID": datum.uberonId}',
                   },
                 },
                 update: {
@@ -748,8 +744,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                         value: 0.1
                       }
                     ],
-                  stroke: { signal: 'datum.problem ? "#000": "#fff"' },
-                  strokeWidth: { signal: 'datum.problem ? 3: 0' }
+                  stroke: { signal: 'datum.problem ? "#000" : datum.isNew ? datum.color : "#fff"' },
+                  strokeWidth: {signal: 'datum.isNew ? 3 : datum.problem ? 3 : 0'},
+                  strokeDash: {signal: 'datum.isNew ? 3 : 0'}
                 }
               }
             },
