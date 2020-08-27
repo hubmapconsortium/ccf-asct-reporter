@@ -58,8 +58,9 @@ export class Tree {
       if (this.nodes[i].name === name) {
         const parent = this.nodes.findIndex(n => n.name === nodeParent.name);
         if (this.nodes[parent].id !== this.nodes[i].parent) {
-          if (!this.nodes[i].parents.includes(this.nodes[parent].id) && this.nodes[parent].id !== 1) 
+          if (!this.nodes[i].parents.includes(this.nodes[parent].id) && this.nodes[parent].id !== 1) {
             this.nodes[i].parents.push(this.nodes[parent].id);
+          }
 
           this.nodes[i].problem = true;
         }
@@ -102,7 +103,7 @@ export class TreeService {
         }
       }
 
-      let linkData = [];
+      const linkData = [];
       const cols = this.currentSheet.tree_cols;
       const id = 1;
       let parent;
@@ -158,19 +159,19 @@ export class TreeService {
       if (tree.nodes.length < 0) {
         rej(['Could not process tree data']);
       }
-      
-      for(let node of tree.nodes) {
+
+      for (const node of tree.nodes) {
         if (node.problem) {
-          for(let parent of node.parents) {
+          for (const p of node.parents) {
             linkData.push({
-              s: parent,
+              s: p,
               t: node.id
-            })
+            });
           }
         }
       }
-      
-      
+
+
       res({
         tree: tree.nodes,
         multiParentLinks: linkData

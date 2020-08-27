@@ -499,7 +499,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
                 update: {
                   path: { field: 'path' },
                   stroke: {signal: 'datum.source.pathColor'},
-                  strokeDash: {value: [5,8]},
+                  strokeDash: {value: [5, 8]},
                   opacity: [
                     {
                       test: 'node__click !== null',
