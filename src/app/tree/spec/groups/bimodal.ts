@@ -262,7 +262,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
               value: 0.1
             }
           ],
-          limit: { value: 180 },
+          limit: { signal: 'node__click === datum.id || node__hover === datum.id || indata(\'view_mode__click\', \'id\', datum.id) || indata(\'view_mode__hover\', \'id\', datum.id) || indata(\'targets_of_targets__click\', \'targets\', datum.id) || indata(\'sources_of_sources__click\', \'sources\', datum.id) || indata(\'targets_of_targets__hover\', \'targets\', datum.id) || indata(\'sources_of_sources__hover\', \'sources\', datum.id)? null : 150' },
         },
       },
     };
