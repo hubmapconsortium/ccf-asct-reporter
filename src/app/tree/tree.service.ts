@@ -132,7 +132,9 @@ export class TreeService {
               if (searchedNode.found) {
                 if (searchedNode.problem) {
                   if (this.currentSheet.name !== 'ao') {
-                    this.report.reportLog(`Nodes with multiple in-links`, 'warning', 'multi', searchedNode.name);
+                    if (!searchedNode.parents.includes(searchedNode.id)) {
+                      this.report.reportLog(`Nodes with multiple in-links`, 'warning', 'multi', searchedNode.name);
+                    }
                   }
                 }
                 parent = searchedNode;
@@ -160,6 +162,9 @@ export class TreeService {
       for (const node of tree.nodes) {
         if (node.problem) {
           for (const p of node.parents) {
+            if (p === node.id) {
+              this.report.reportLog(`Nodes with self-links`, 'warning', 'multi', node.name);
+            }
             linkData.push({
               s: p,
               t: node.id

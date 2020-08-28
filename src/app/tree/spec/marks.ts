@@ -13,8 +13,8 @@ export class Marks implements VegaMark {
 
   constructor() {
     this.marks = [
-      this.makeTreeMarkGroup(),
       this.makeMultiParentMarkGroup(),
+      this.makeTreeMarkGroup(),
       this.makeBimodalMarkGroup()
     ];
 
