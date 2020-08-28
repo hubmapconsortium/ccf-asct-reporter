@@ -1,25 +1,25 @@
 import { Signal } from 'vega';
 
 interface VegaSignals {
-    signals: Array<Signal>;
+  signals: Array<Signal>;
 }
 
-export class Signals implements VegaSignals{
-    signals: any;
+export class Signals implements VegaSignals {
+  signals: any;
 
   constructor() {
-      this.signals = [
-          this.makeBimodalNodeClickStateSignal(),
-          this.makeBimodalNodeHoverStateSignal(),
-          this.makeBimodalNodeSourcesHoverStateSignal(),
-          this.makeBimodalNodeTargetsHoverStateSignal(),
-          this.makeBimodalTargetsClickStateSignal(),
-          this.makeBimodalTargetsHoverStateSignal(),
-          this.makeBimodalSourcesClickStateSignal(),
-          this.makeBimodalSourcesHoverStateSignal()
-      ];
+    this.signals = [
+      this.makeBimodalNodeClickStateSignal(),
+      this.makeBimodalNodeHoverStateSignal(),
+      this.makeBimodalNodeSourcesHoverStateSignal(),
+      this.makeBimodalNodeTargetsHoverStateSignal(),
+      this.makeBimodalTargetsClickStateSignal(),
+      this.makeBimodalTargetsHoverStateSignal(),
+      this.makeBimodalSourcesClickStateSignal(),
+      this.makeBimodalSourcesHoverStateSignal()
+    ];
 
-      return this.signals;
+    return this.signals;
   }
 
   makeBimodalNodeHoverStateSignal() {
@@ -84,17 +84,17 @@ export class Signals implements VegaSignals{
   }
 
   makeBimodalTargetsHoverStateSignal() {
-   return {
-        name: 'targets__hover',
-        value: [],
-        on: [
-          {
-            events: '@bimodal-symbol:mouseover',
-            update: 'datum.targets === targets__hover ? [] : datum.targets',
-          },
-          { events: 'mouseover[!event.item]', update: '[]' },
-        ],
-      };
+    return {
+      name: 'targets__hover',
+      value: [],
+      on: [
+        {
+          events: '@bimodal-symbol:mouseover',
+          update: 'datum.targets === targets__hover ? [] : datum.targets',
+        },
+        { events: 'mouseover[!event.item]', update: '[]' },
+      ],
+    };
   }
 
   makeBimodalSourcesClickStateSignal() {
@@ -112,16 +112,16 @@ export class Signals implements VegaSignals{
   }
 
   makeBimodalSourcesHoverStateSignal() {
-      return {
-        name: 'sources__hover',
-        value: [],
-        on: [
-          {
-            events: '@bimodal-symbol:mouseover',
-            update: 'datum.sources === sources__hover ? [] : datum.sources',
-          },
-          { events: 'mouseover[!event.item]', update: '[]' },
-        ],
-      };
+    return {
+      name: 'sources__hover',
+      value: [],
+      on: [
+        {
+          events: '@bimodal-symbol:mouseover',
+          update: 'datum.sources === sources__hover ? [] : datum.sources',
+        },
+        { events: 'mouseover[!event.item]', update: '[]' },
+      ],
+    };
   }
 }

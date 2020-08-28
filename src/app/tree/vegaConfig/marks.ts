@@ -5,31 +5,31 @@ import { MultiParentMarkGroup } from './groups/multiparent';
 import { BimodalMarkGroup } from './groups/bimodal';
 
 interface VegaMark {
-	marks: Array<Mark>;
+  marks: Array<Mark>;
 }
 
 export class Marks implements VegaMark {
-	marks: any;
+  marks: any;
 
-	constructor() {
-		this.marks = [
-			this.makeTreeMarkGroup(),
-			this.makeMultiParentMarkGroup(),
-			this.makeBimodalMarkGroup()
-		];
+  constructor() {
+    this.marks = [
+      this.makeTreeMarkGroup(),
+      this.makeMultiParentMarkGroup(),
+      this.makeBimodalMarkGroup()
+    ];
 
-		return this.marks;
-	}
+    return this.marks;
+  }
 
-	makeTreeMarkGroup() {
-		return new TreeMarkGroup();
-	}
+  makeTreeMarkGroup() {
+    return new TreeMarkGroup();
+  }
 
-	makeMultiParentMarkGroup() {
-		return new MultiParentMarkGroup();
-	}
+  makeMultiParentMarkGroup() {
+    return new MultiParentMarkGroup();
+  }
 
-	makeBimodalMarkGroup() {
-		return new BimodalMarkGroup();
-	}
+  makeBimodalMarkGroup() {
+    return new BimodalMarkGroup();
+  }
 }
