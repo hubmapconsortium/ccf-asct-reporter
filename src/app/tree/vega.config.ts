@@ -1,5 +1,6 @@
 import { Signals } from './vegaConfig/signals'
 import { Data } from './vegaConfig/data'
+import { Scales } from './vegaConfig/scales'
 
 export class VegaConfig {
     
@@ -15,20 +16,7 @@ export class VegaConfig {
             },
             signals: new Signals(),
             data: new Data(currentSheet, bimodalDistance, height, width, treeData, multiParentLinksData),
-            scales: [
-              {
-                name: 'bimodal',
-                type: 'ordinal',
-                domain: { data: 'nodes', field: 'groupName' },
-                range: ['#E41A1C', '#377EB8', '#4DAF4A'],
-              },
-              {
-                name: 'treeLegend',
-                type: 'ordinal',
-                domain: { data: 'tree', field: 'groupName' },
-                range: ['#E41A1C'],
-              },
-            ],
+            scales: new Scales(),
             legends: [
               {
                 type: 'symbol',
