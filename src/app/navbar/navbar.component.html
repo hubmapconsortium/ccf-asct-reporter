@@ -52,7 +52,7 @@
                   sheet.title === selectedSheetOption ? '#ececec' : 'white'
               }"
             >
-              {{ sheet }}
+              {{ sheet.title }}
             </button>
           </mat-menu>
           <mat-menu #graphOptionsMenu="matMenu">
@@ -92,7 +92,7 @@
       </button>
     </div>
     <div *ngIf="screenWidth > 1000">
-      <mat-form-field style="margin-right: -15px; margin-bottom: 0;">
+      <mat-form-field style="margin-right: -12px; margin-bottom: 0;">
         <button
           mat-flat-button
           style="width: 80%; background-color: rgb(247, 247, 247);"
