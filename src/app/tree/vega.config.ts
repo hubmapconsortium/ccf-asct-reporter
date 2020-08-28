@@ -1,8 +1,8 @@
-import { Signals } from './vegaConfig/signals';
-import { Data } from './vegaConfig/data';
-import { Scales } from './vegaConfig/scales';
-import { Legends } from './vegaConfig/legends';
-import { Marks } from './vegaConfig/marks';
+import { Signals } from './spec/signals';
+import { Data } from './spec/data';
+import { Scales } from './spec/scales';
+import { Legends } from './spec/legends';
+import { Marks } from './spec/marks';
 
 export class VegaConfig {
 
