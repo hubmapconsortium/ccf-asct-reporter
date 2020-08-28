@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SheetService } from '../services/sheet.service';
 import { ReportService } from '../report/report.service';
-import { compare } from 'vega';
 
 // Used in the tree visualization
 export class TNode {
@@ -16,7 +15,6 @@ export class TNode {
   isNew: boolean;
   pathColor: string;
   parents: Array<number>;
-  pathShape: string;
 
   constructor(id, name, parent, uId, color = '#808080') {
     this.id = id;
@@ -29,7 +27,6 @@ export class TNode {
     this.isNew = false;
     this.pathColor = '#ccc';
     this.parents = [];
-    this.pathShape = 'diagonal';
   }
 }
 
