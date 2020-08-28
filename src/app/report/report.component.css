@@ -12,6 +12,10 @@
   padding: 0 !important;
 }
 
+::ng-deep .mat-tab-body {
+  text-align: left;
+}
+
 .header {
   display: flex;
   z-index: 2;
