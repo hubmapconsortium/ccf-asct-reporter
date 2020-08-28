@@ -29,7 +29,7 @@ export class Legends implements VegaLegend {
 			labelOffset: 10,
 			symbolSize: 200,
 			rowPadding: 10,
-		}
+		};
 	}
 
 	makeTreeLegend() {
@@ -51,7 +51,7 @@ export class Legends implements VegaLegend {
 					},
 				},
 			},
-		}
+		};
 	}
 
 

@@ -94,7 +94,7 @@ export class Signals implements VegaSignals{
           },
           { events: 'mouseover[!event.item]', update: '[]' },
         ],
-      }
+      };
   }
 
   makeBimodalSourcesClickStateSignal() {
@@ -122,6 +122,6 @@ export class Signals implements VegaSignals{
           },
           { events: 'mouseover[!event.item]', update: '[]' },
         ],
-      }
+      };
   }
 }

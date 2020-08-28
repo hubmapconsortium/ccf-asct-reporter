@@ -5,9 +5,9 @@ import { Legends } from './vegaConfig/legends';
 import { Marks } from './vegaConfig/marks';
 
 export class VegaConfig {
-    
+
     async makeVegaConfig(currentSheet, bimodalDistance, height, width, treeData, multiParentLinksData) {
-        let config: any = {
+        const config: any = {
             $schema: 'https://vega.github.io/schema/vega/v5.json',
             autosize: 'pad',
             padding: {
@@ -22,7 +22,7 @@ export class VegaConfig {
             legends: new Legends(),
             marks: new Marks(),
           };
-        
-          return config
+
+        return config;
     }
 }

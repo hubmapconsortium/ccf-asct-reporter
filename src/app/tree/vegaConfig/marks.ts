@@ -1,6 +1,6 @@
 import { Mark } from 'vega';
 
-import { TreeMarkGroup } from './groups/tree'
+import { TreeMarkGroup } from './groups/tree';
 import { MultiParentMarkGroup } from './groups/multiparent';
 import { BimodalMarkGroup } from './groups/bimodal';
 
@@ -12,24 +12,24 @@ export class Marks implements VegaMark {
 	marks: any;
 
 	constructor() {
-        this.marks = [
-            this.makeTreeMarkGroup(),
-            this.makeMultiParentMarkGroup(),
-            this.makeBimodalMarkGroup()
-        ];
+		this.marks = [
+			this.makeTreeMarkGroup(),
+			this.makeMultiParentMarkGroup(),
+			this.makeBimodalMarkGroup()
+		];
 
-		return this.marks; 
-    }
-    
-    makeTreeMarkGroup() {
-        return new TreeMarkGroup();
-    }
+		return this.marks;
+	}
 
-    makeMultiParentMarkGroup() {
-        return new MultiParentMarkGroup();
-    }
+	makeTreeMarkGroup() {
+		return new TreeMarkGroup();
+	}
 
-    makeBimodalMarkGroup() {
-        return new BimodalMarkGroup();
-    }
+	makeMultiParentMarkGroup() {
+		return new MultiParentMarkGroup();
+	}
+
+	makeBimodalMarkGroup() {
+		return new BimodalMarkGroup();
+	}
 }

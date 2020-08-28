@@ -19,7 +19,7 @@ export class MultiParentMarkGroup implements VegaMultiParentMarkGroup {
 			marks: [
 				this.makeMultiParentPathMarks()
 			],
-		}
+		};
 	}
 
 	makeMultiParentPathMarks() {
@@ -48,7 +48,7 @@ export class MultiParentMarkGroup implements VegaMultiParentMarkGroup {
 					strokeWidth: { value: 2 },
 				},
 			},
-		}
+		};
 	}
 
 }

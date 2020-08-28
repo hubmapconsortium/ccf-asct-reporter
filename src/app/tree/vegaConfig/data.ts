@@ -50,7 +50,7 @@ export class Data implements VegaData {
 					as: ['y', 'x', 'depth', 'children'],
 				},
 			],
-		}
+		};
 	}
 
 	makeASTreeLinksData() {
@@ -65,7 +65,7 @@ export class Data implements VegaData {
 					shape: 'diagonal',
 				},
 			],
-		}
+		};
 	}
 
 	makeASMultiParentEdgesData(multiParentLinksData) {
@@ -90,14 +90,14 @@ export class Data implements VegaData {
 					shape: 'curve',
 				}
 			],
-		}
+		};
 	}
 
 	makeBimodalNodesData() {
 		return {
 			name: 'nodes',
 			values: []
-		}
+		};
 	}
 
 	makeBimodalEdgesData() {
@@ -122,7 +122,7 @@ export class Data implements VegaData {
 					shape: 'diagonal',
 				},
 			],
-		}
+		};
 	}
 
 	makeTargetsHoverData() {
@@ -135,7 +135,7 @@ export class Data implements VegaData {
 					expr: 'indexof(node_targets__hover, datum.id) !== -1',
 				},
 			],
-		}
+		};
 	}
 
 	makeSourcesHoverData() {
@@ -148,7 +148,7 @@ export class Data implements VegaData {
 					expr: 'indexof(node_sources__hover, datum.id) !== -1',
 				},
 			],
-		}
+		};
 	}
 
 	makeTargetsClickData() {
@@ -161,7 +161,7 @@ export class Data implements VegaData {
 					expr: 'indexof(targets__click, datum.id) !== -1',
 				},
 			],
-		}
+		};
 	}
 
 	makeSourcesClickData() {
@@ -174,7 +174,7 @@ export class Data implements VegaData {
 					expr: 'indexof(sources__click, datum.id) !== -1',
 				},
 			],
-		}
+		};
 	}
 
 	makeTargetsOfTargetsClickData() {
@@ -191,7 +191,7 @@ export class Data implements VegaData {
 					fields: ['targets'],
 				},
 			],
-		}
+		};
 	}
 
 	makeSourcesOfSourcesClickData() {
@@ -208,7 +208,7 @@ export class Data implements VegaData {
 					fields: ['sources'],
 				},
 			],
-		}
+		};
 	}
 
 	makeTargetsOfTargetsHoverData() {
@@ -225,7 +225,7 @@ export class Data implements VegaData {
 					fields: ['targets'],
 				},
 			],
-		}
+		};
 	}
 
 	makeSourcesOfSourcesHoverData() {
@@ -242,7 +242,7 @@ export class Data implements VegaData {
 					fields: ['sources'],
 				},
 			],
-		}
+		};
 	}
 
 	makeViewModeClickData() {
@@ -255,7 +255,7 @@ export class Data implements VegaData {
 					expr: 'node__click === datum.id || indata("sources_clicked_array", "id", datum.id) || indata("targets_clicked_array", "id", datum.id)',
 				},
 			]
-		}
+		};
 	}
 
 	makeViewModeHoverData() {
@@ -268,6 +268,6 @@ export class Data implements VegaData {
 					expr: 'node__hover === datum.id || indata("sources_hovered_array", "id", datum.id) || indata("targets_hovered_array", "id", datum.id)',
 				},
 			]
-		}
+		};
 	}
 }

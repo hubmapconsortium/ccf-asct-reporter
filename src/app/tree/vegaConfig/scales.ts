@@ -22,7 +22,7 @@ export class Scales implements VegaScale {
 			type: 'ordinal',
 			domain: { data: 'nodes', field: 'groupName' },
 			range: ['#E41A1C', '#377EB8', '#4DAF4A'],
-		}
+		};
 	}
 
 	makeTreeLegendScale() {
@@ -31,7 +31,7 @@ export class Scales implements VegaScale {
 			type: 'ordinal',
 			domain: { data: 'tree', field: 'groupName' },
 			range: ['#E41A1C'],
-		}
+		};
 	}
 
 

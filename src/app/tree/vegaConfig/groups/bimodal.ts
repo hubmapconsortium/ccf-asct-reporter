@@ -21,7 +21,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
         this.makeBimodalSymbolMarks(),
         this.makeBiomodalTextMarks()
       ]
-    }
+    };
   }
 
   makeBimodalPathMarks() {
@@ -151,7 +151,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
           ],
         },
       },
-    }
+    };
   }
 
   makeBimodalSymbolMarks() {
@@ -199,7 +199,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
           strokeDash: { signal: 'datum.isNew ? 3 : 0' }
         }
       }
-    }
+    };
   }
 
   makeBiomodalTextMarks() {
@@ -265,6 +265,6 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
           limit: { value: 180 },
         },
       },
-    }
+    };
   }
 }

@@ -22,7 +22,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
 				this.makeTreeSymbolMarks(),
 				this.makeTreeTextMarks()
 			],
-		}
+		};
 	}
 
 	makeTreePathMarks() {
@@ -49,7 +49,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
 					strokeWidth: { value: 1.5 },
 				},
 			},
-		}
+		};
 	}
 
 	makeTreeSymbolMarks() {
@@ -88,7 +88,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
 					fill: { signal: 'datum.isNew ? "#fafafa" : datum.color' },
 				},
 			},
-		}
+		};
 	}
 
 	makeTreeTextMarks() {
@@ -128,7 +128,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
 					align: { signal: 'datum.children ? \'left\' : \'right\'' },
 				},
 			},
-		}
+		};
 	}
 
 }
