@@ -106,37 +106,37 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             { signal: 'datum.source.pathColor ? datum.source.pathColor : "#ccc"' },
           ],
           opacity: [
-            { test: 'datum.target.id === node__click', value: 0.65 },
-            { test: 'datum.source.id === node__click', value: 0.65 },
+            { test: 'datum.target.id === node__click', value: 0.5 },
+            { test: 'datum.source.id === node__click', value: 0.5 },
             {
               test: 'indata(\'targets_clicked_array\', \'id\', datum.source.id)',
-              value: 0.65,
+              value: 0.5,
             },
             {
               test: 'indata(\'sources_clicked_array\', \'id\', datum.target.id) && datum.source.group !== 2',
-              value: 0.65,
+              value: 0.5,
             },
             {
               test: 'indata(\'targets_hovered_array\', \'id\', datum.source.id)',
-              value: 0.4
+              value: 0.3
             },
             {
               test: 'indata(\'sources_hovered_array\', \'id\', datum.target.id)',
-              value: 0.4
+              value: 0.3
             },
             {
               test: 'indata(\'view_mode__hover\', \'id\', datum.source.id) && indata(\'view_mode__hover\', \'id\', datum.target.id)',
-              value: 0.4
+              value: 0.3
             },
             {
               test: 'node__hover && datum.source.id !== node__hover && node__click === null',
-              value: 0.22
+              value: 0.15
             },
             {
               test: 'node__click !== null',
               value: 0.1
             },
-            { value: 0.4 },
+            { value: 0.3 },
           ],
           zindex: [
             { test: 'datum.source.id === node__hover', value: 2 },
