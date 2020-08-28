@@ -146,6 +146,7 @@ export class ReportComponent implements OnInit, OnChanges {
       });
       this.bioMarkers = await this.sheet.makeBioMarkers(this.sheetData.data, {
         marker_col: currentSheet.marker_col,
+        uberon_col: currentSheet.uberon_col
       });
 
       if (this.compareData.length) {
@@ -231,7 +232,11 @@ export class ReportComponent implements OnInit, OnChanges {
   }
   getBMWithNoLink() {
     const noLinks = [];
-
+    this.bioMarkers.forEach((ele) => {
+      if (!ele.link.includes('HGNC')) {
+        noLinks.push(ele);
+      }
+    });
     return noLinks;
   }
 

@@ -43,7 +43,7 @@
           </div>
           <div class="i1">
             <span>Biomarkers with no Go/UniProt link: </span>
-            <span class="number">{{ bioMarkers.length }}</span>
+            <span class="number">{{ getBMWithNoLink().length }}</span>
           </div>
           <br />
         </div>
@@ -166,7 +166,7 @@
 
             <div class="as-details">
               <div
-                *ngFor="let a of bioMarkers | orderBy: 'structure'"
+                *ngFor="let a of getBMWithNoLink() | orderBy: 'structure'"
                 class="i1"
               >
                 {{ a.structure }}
