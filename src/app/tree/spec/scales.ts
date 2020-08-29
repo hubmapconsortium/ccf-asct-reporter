@@ -16,6 +16,13 @@ export class Scales implements VegaScale {
     return this.scales;
   }
 
+  /**
+   * Creates the color scaling that is used to form the
+   * bimodal and tree legend. Red, blue and gree are the 
+   * colors. It uses the properly 'groupName' to assign 
+   * color.
+   */
+
   makeBiomodalScale() {
     return {
       name: 'bimodal',
@@ -24,6 +31,12 @@ export class Scales implements VegaScale {
       range: ['#E41A1C', '#377EB8', '#4DAF4A'],
     };
   }
+
+  /**
+   * Creates the color scaling that is used to form the
+   * tree legend. It is for the See Debug Log option in 
+   * the legend and only has the red color.
+   */
 
   makeTreeLegendScale() {
     return {
