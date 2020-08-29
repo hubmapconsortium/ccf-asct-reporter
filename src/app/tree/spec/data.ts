@@ -218,7 +218,7 @@ export class Data implements VegaData {
       transform: [
         {
           type: 'filter',
-          expr: 'indexof(targets__hover, datum.id) !== -1',
+          expr: 'indexof(node_targets__hover, datum.id) !== -1',
         },
         {
           type: 'flatten',
@@ -235,7 +235,7 @@ export class Data implements VegaData {
       transform: [
         {
           type: 'filter',
-          expr: 'indexof(sources__hover, datum.id) !== -1',
+          expr: 'indexof(node_sources__hover, datum.id) !== -1',
         },
         {
           type: 'flatten',

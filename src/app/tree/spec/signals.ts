@@ -14,46 +14,19 @@ export class Signals implements VegaSignals {
       this.makeBimodalNodeSourcesHoverStateSignal(),
       this.makeBimodalNodeTargetsHoverStateSignal(),
       this.makeBimodalTargetsClickStateSignal(),
-      this.makeBimodalTargetsHoverStateSignal(),
-      this.makeBimodalSourcesClickStateSignal(),
-      this.makeBimodalSourcesHoverStateSignal()
+      this.makeBimodalSourcesClickStateSignal()
     ];
 
     return this.signals;
   }
 
-  makeBimodalNodeHoverStateSignal() {
-    return {
-      name: 'node__hover',
-      value: null,
-      on: [
-        { events: '@bimodal-symbol:mouseover', update: 'datum.id' },
-        { events: 'mouseover[!event.item]', update: 'null' },
-      ],
-    };
-  }
-
-  makeBimodalNodeTargetsHoverStateSignal() {
-    return {
-      name: 'node_targets__hover',
-      value: [],
-      on: [
-        { events: '@bimodal-symbol:mouseover', update: 'datum.targets' },
-        { events: 'mouseover[!event.item]', update: '[]' },
-      ],
-    };
-  }
-
-  makeBimodalNodeSourcesHoverStateSignal() {
-    return {
-      name: 'node_sources__hover',
-      value: [],
-      on: [
-        { events: '@bimodal-symbol:mouseover', update: 'datum.sources' },
-        { events: 'mouseover[!event.item]', update: '[]' },
-      ],
-    };
-  }
+  /**
+   * Signal to trigger clicking action on a bimodal network signal. It updates the field (node__click)
+   * with the id of the node being clicked on.
+   *
+   * On clicking elsewhere, the field is updated with null.
+   *
+   */
 
   makeBimodalNodeClickStateSignal() {
     return {
@@ -69,7 +42,68 @@ export class Signals implements VegaSignals {
     };
   }
 
-  makeBimodalTargetsClickStateSignal() {
+  /**
+   * Signal to trigger hovering action on a bimodal network signal. It updates the field (node__hover)
+   * with the id of the node being hovered on.
+   *
+   * On removing the mouse from the node, the field is updated with null.
+   */
+
+  makeBimodalNodeHoverStateSignal(): Signal {
+    return {
+      name: 'node__hover',
+      value: null,
+      on: [
+        { events: '@bimodal-symbol:mouseover', update: 'datum.id' },
+        { events: 'mouseover[!event.item]', update: 'null' },
+      ],
+    };
+  }
+
+  /**
+   * Signal to trigger hovering action on a bimodal network signal. It updates the field (node_targets__hover)
+   * with the targets array of the current node.
+   *
+   * On removing the mouse from the node, the field is updated with null.
+   */
+
+  makeBimodalNodeTargetsHoverStateSignal(): Signal {
+    return {
+      name: 'node_targets__hover',
+      value: [],
+      on: [
+        { events: '@bimodal-symbol:mouseover', update: 'datum.targets' },
+        { events: 'mouseover[!event.item]', update: '[]' },
+      ],
+    };
+  }
+
+  /**
+   * Signal to trigger hovering action on a bimodal network signal. It updates the field (node_sources__hover)
+   * with the sources array of the current node.
+   *
+   * On removing the mouse from the node, the field is updated with null.
+   */
+
+  makeBimodalNodeSourcesHoverStateSignal(): Signal {
+    return {
+      name: 'node_sources__hover',
+      value: [],
+      on: [
+        { events: '@bimodal-symbol:mouseover', update: 'datum.sources' },
+        { events: 'mouseover[!event.item]', update: '[]' },
+      ],
+    };
+  }
+
+  /**
+   * Signal to trigger clicking action on a bimodal network signal. It updates the field (targets__click)
+   * with the targets array of the current node.
+   *
+   * On clicking elsewhere, the field is updated with null.
+   */
+
+  makeBimodalTargetsClickStateSignal(): Signal {
     return {
       name: 'targets__click',
       value: [],
@@ -83,19 +117,12 @@ export class Signals implements VegaSignals {
     };
   }
 
-  makeBimodalTargetsHoverStateSignal() {
-    return {
-      name: 'targets__hover',
-      value: [],
-      on: [
-        {
-          events: '@bimodal-symbol:mouseover',
-          update: 'datum.targets === targets__hover ? [] : datum.targets',
-        },
-        { events: 'mouseover[!event.item]', update: '[]' },
-      ],
-    };
-  }
+  /**
+   * Signal to trigger clicking action on a bimodal network signal. It updates the field (sources__click)
+   * with the sources array of the current node.
+   *
+   * On clicking elsewhere, the field is updated with null.
+   */
 
   makeBimodalSourcesClickStateSignal() {
     return {
@@ -111,17 +138,4 @@ export class Signals implements VegaSignals {
     };
   }
 
-  makeBimodalSourcesHoverStateSignal() {
-    return {
-      name: 'sources__hover',
-      value: [],
-      on: [
-        {
-          events: '@bimodal-symbol:mouseover',
-          update: 'datum.sources === sources__hover ? [] : datum.sources',
-        },
-        { events: 'mouseover[!event.item]', update: '[]' },
-      ],
-    };
-  }
 }
