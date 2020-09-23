@@ -23,7 +23,7 @@ export class TNode {
     this.uberonId = uId;
     this.color = color;
     this.problem = false;
-    this.groupName = 'Multi-parent Nodes';
+    this.groupName = 'Multi-parent Nodes'; 
     this.isNew = false;
     this.pathColor = '#ccc';
     this.parents = [];
