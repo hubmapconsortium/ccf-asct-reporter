@@ -37,7 +37,7 @@ export class NavbarComponent implements OnInit {
     },
     {
       title: 'Large Intestine',
-      sheet: 'large_intestile'
+      sheet: 'large_intestine'
     },
     {
       title: 'Liver',
