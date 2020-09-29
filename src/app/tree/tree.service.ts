@@ -12,6 +12,9 @@ export class TNode {
   problem: boolean;
   found: boolean;
   groupName: string;
+  isNew: boolean;
+  pathColor: string;
+  parents: Array<number>;
 
   constructor(id, name, parent, uId, color = '#808080') {
     this.id = id;
@@ -20,8 +23,17 @@ export class TNode {
     this.uberonId = uId;
     this.color = color;
     this.problem = false;
-    this.groupName = 'See Debug Log';
+    this.groupName = 'Multi-parent Nodes';
+    this.isNew = false;
+    this.pathColor = '#ccc';
+    this.parents = [];
   }
+}
+
+export class TreeAndMultiParent {
+  tree: Array<TNode>;
+  multiParentLinks: any;
+
 }
 
 // Used in the tree visualization
@@ -43,6 +55,10 @@ export class Tree {
       if (this.nodes[i].name === name) {
         const parent = this.nodes.findIndex(n => n.name === nodeParent.name);
         if (this.nodes[parent].id !== this.nodes[i].parent) {
+          if (!this.nodes[i].parents.includes(this.nodes[parent].id) && this.nodes[parent].id !== 1) {
+            this.nodes[i].parents.push(this.nodes[parent].id);
+          }
+
           this.nodes[i].problem = true;
         }
         this.nodes[i].found = true;
@@ -74,8 +90,17 @@ export class TreeService {
    *
    * @param data - Sheet data
    */
-  public makeTreeData(data): Promise<Array<TNode>> {
-    return new Promise((res, rej) => {
+  public makeTreeData(data, compareData?: any): Promise<TreeAndMultiParent> {
+
+    return new Promise(async (res, rej) => {
+
+      for (const sheet of compareData) {
+        for (const row of sheet.data) {
+          data.push(row);
+        }
+      }
+
+      const linkData = [];
       const cols = this.currentSheet.tree_cols;
       const id = 1;
       let parent;
@@ -102,11 +127,14 @@ export class TreeService {
           for (const i in foundNodes) {
             if (foundNodes[i] !== '') {
               const searchedNode = tree.search(foundNodes[i], parent);
+              searchedNode.pathColor = row[row.length - 1];
 
               if (searchedNode.found) {
                 if (searchedNode.problem) {
                   if (this.currentSheet.name !== 'ao') {
-                    this.report.reportLog(`Nodes with multiple in-links`, 'warning', 'multi', searchedNode.name);
+                    if (!searchedNode.parents.includes(searchedNode.id)) {
+                      this.report.reportLog(`Nodes with multiple in-links`, 'warning', 'multi', searchedNode.name);
+                    }
                   }
                 }
                 parent = searchedNode;
@@ -114,6 +142,11 @@ export class TreeService {
                 tree.id += 1;
                 const uberon =  row[cols[col] + uberon_col] !== foundNodes[i] ? row[cols[col] + uberon_col] : 'NONE';
                 const newNode = new TNode(tree.id, foundNodes[i], parent.id, uberon, AS_RED);
+                newNode.isNew = row[row.length - 2];
+                if (newNode.isNew) {
+                  newNode.color = row[row.length - 1];
+                  newNode.pathColor = row[row.length - 1];
+                }
                 tree.append(newNode);
                 parent = newNode;
               }
@@ -126,9 +159,26 @@ export class TreeService {
         rej(['Could not process tree data']);
       }
 
-      res(tree.nodes);
+      for (const node of tree.nodes) {
+        if (node.problem) {
+          for (const p of node.parents) {
+            if (p === node.id) {
+              this.report.reportLog(`Nodes with self-links`, 'warning', 'multi', node.name);
+            }
+            linkData.push({
+              s: p,
+              t: node.id
+            });
+          }
+        }
+      }
+
+
+      res({
+        tree: tree.nodes,
+        multiParentLinks: linkData
+      });
     });
   }
-
 
 }

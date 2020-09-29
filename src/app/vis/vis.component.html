@@ -10,9 +10,14 @@
     >
       <app-report
         (closeComponent)="drawer.toggle()"
+        (deleteSheet)="deleteCompareSheet($event)"
         [refreshData]="refreshReport"
         #reportComponent
         [currentSheet]="currentSheet"
+        [shouldReloadData]="shouldRefreshData"
+        [compareData]="compareData"
+        (openCompareDialog)="drawer.toggle(); uploadDDSheet()"
+        [dataVersion]="dataVersion"
         *ngIf="showCompInDrawer == 'Report'"
       ></app-report>
       <app-logs
@@ -25,24 +30,32 @@
     </mat-drawer>
     <div class="content text-center">
       <app-navbar
+        [ngStyle]="{'display': fullscreen ? 'none' : 'block'}"
+        style=""
+        (compare)="uploadDDSheet()"
         (showReport)="toggleReportDrawer($event)"
         (showLog)="toggleLogsDrawer($event)"
         (showGraph)="showGraph($event)"
         (refresh)="refreshData($event)"
         (getSheet)="getSelectedSheet($event)"
         (downloadVis)="downloadVis($event)"
+        (dataVersion)="setVersionFolder($event)"
       ></app-navbar>
       <app-tree
         #tree
         *ngIf="displayGraph === 'Tree'"
         [refreshData]="refreshTree"
         [currentSheet]="currentSheet"
+        [dataVersion]="dataVersion"
         (returnRefresh)="returnRefresh($event)"
         [shouldReloadData]="shouldRefreshData"
+        [compareData]="compareData"
+        (fullscreen)="toggleFullScreen($event)"
       ></app-tree>
       <app-indent
         *ngIf="displayGraph === 'Indented List'"
         [refreshData]="refreshIndent"
+        [dataVersion]="dataVersion"
         [currentSheet]="currentSheet"
         (returnRefresh)="returnRefresh($event)"
         [shouldReloadData]="shouldRefreshData"

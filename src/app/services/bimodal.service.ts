@@ -7,18 +7,22 @@ const B_GREEN = '#4DAF4A';
 const groupNameMapper = {
   1: 'Anatomical Structures',
   2: 'Cell Types',
-  3: 'Biomarkers'
+  3: 'Biomarkers',
 };
 
 export class Cell {
   structure: string;
   parents: Array<string>;
   link: string;
+  isNew: boolean;
+  color: string;
 
   constructor(structure: string, link = 'NONE') {
     this.structure = structure;
     this.parents = [];
     this.link = link;
+    this.isNew = false;
+    this.color = '#ccc';
   }
 }
 
@@ -26,11 +30,15 @@ export class Marker {
   structure: string;
   parents: Array<string>;
   count: number;
+  isNew: boolean;
+  color: string;
 
   constructor(structure, count) {
     this.structure = structure;
     this.parents = [];
     this.count = count;
+    this.isNew = false;
+    this.color = '#ccc';
   }
 }
 
@@ -48,8 +56,19 @@ export class BMNode {
   sources: Array<number>;
   uberonId: string;
   problem: boolean;
+  pathColor: string;
+  isNew: boolean;
 
-  constructor(name, group, x, y, fontSize, uberonId= '', color = '#E41A1C', nodeSize = 300, ) {
+  constructor(
+    name,
+    group,
+    x,
+    y,
+    fontSize,
+    uberonId = '',
+    color = '#E41A1C',
+    nodeSize = 300
+  ) {
     this.name = name;
     this.group = group;
     this.fontSize = fontSize;
@@ -61,6 +80,8 @@ export class BMNode {
     this.sources = [];
     this.groupName = groupNameMapper[group];
     this.uberonId = uberonId;
+    this.pathColor = '#ccc';
+    this.isNew = false;
   }
 }
 
@@ -69,19 +90,28 @@ export interface Link {
   t: number;
 }
 
+export interface DD {
+  name: string;
+}
 export interface ASCTD {
   nodes: Array<BMNode>;
   links: Array<Link>;
+  compareDD?: Array<DD>;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BimodalService {
+  constructor(public sheet: SheetService, public report: ReportService) {}
 
-  constructor(public sheet: SheetService, public report: ReportService) { }
-
-  async makeASCTData(sheetData, treeData, bimodalConfig, currentSheet) {
+  async makeASCTData(
+    sheetData,
+    treeData,
+    bimodalConfig,
+    currentSheet,
+    compareData?
+  ) {
     let ASCTGraphData: ASCTD;
     const links = [];
     const nodes = [];
@@ -91,13 +121,22 @@ export class BimodalService {
     let id = 0;
     let biomarkers = [];
 
+    for (const sheet of compareData) {
+      for (const row of sheet.data) {
+        sheetData.push(row);
+      }
+    }
+
     // making anatomical structures (last layer of the tree)
-    treeData.forEach(td => {
+    treeData.forEach((td) => {
       if (td.children === 0) {
         const leaf = td.name;
         const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.uberonId);
         newLeaf.id = id;
         newLeaf.problem = td.problem;
+        newLeaf.pathColor = td.pathColor;
+        newLeaf.isNew = td.isNew;
+        newLeaf.color = td.color;
         nodes.push(newLeaf);
         id += 1;
         treeX = td.x;
@@ -112,39 +151,79 @@ export class BimodalService {
 
     // sorting cells based on options
     if (bimodalConfig.CT.sort === 'Alphabetically') {
-      cellTypes = await this.sheet.makeCellTypes(sheetData, {report_cols: currentSheet.report_cols, cell_col: currentSheet.cell_col});
+      cellTypes = await this.sheet.makeCellTypes(sheetData, {
+        report_cols: currentSheet.report_cols,
+        cell_col: currentSheet.cell_col,
+        uberon_col: currentSheet.uberon_col,
+        marker_col: currentSheet.marker_col,
+      });
       cellTypes.sort((a, b) => {
-        return (
-          a.structure.toLowerCase() > b.structure.toLowerCase() ? 1 : (
-            (b.structure.toLowerCase() > a.structure.toLowerCase()) ? -1 : 0)
-        );
+        return a.structure.toLowerCase() > b.structure.toLowerCase()
+          ? 1
+          : b.structure.toLowerCase() > a.structure.toLowerCase()
+          ? -1
+          : 0;
       });
     } else {
       if (bimodalConfig.CT.size === 'None') {
-        cellTypes = await this.makeCellDegree(sheetData, treeData,  'Degree', currentSheet);
+        cellTypes = await this.makeCellDegree(
+          sheetData,
+          treeData,
+          'Degree',
+          currentSheet
+        );
       } else {
-        cellTypes = await this.makeCellDegree(sheetData, treeData,  bimodalConfig.CT.size, currentSheet);
+        cellTypes = await this.makeCellDegree(
+          sheetData,
+          treeData,
+          bimodalConfig.CT.size,
+          currentSheet
+        );
       }
     }
 
-
     if (bimodalConfig.CT.size !== 'None') {
       // put sort size by degree function here
-      const tempCellTypes = await this.makeCellDegree(sheetData, treeData, bimodalConfig.CT.size, currentSheet);
-      cellTypes.forEach(c => {
-        const idx = tempCellTypes.findIndex(i => i.structure.toLowerCase() === c.structure.toLowerCase());
+      const tempCellTypes = await this.makeCellDegree(
+        sheetData,
+        treeData,
+        bimodalConfig.CT.size,
+        currentSheet
+      );
+      cellTypes.forEach((c) => {
+        const idx = tempCellTypes.findIndex(
+          (i) => i.structure.toLowerCase() === c.structure.toLowerCase()
+        );
         if (idx !== -1) {
           c.nodeSize = tempCellTypes[idx].parents.length * 75;
         } else {
-          this.report.reportLog(`Parent not found for cell - ${c.structure}`, 'warning', 'msg');
+          this.report.reportLog(
+            `Parent not found for cell - ${c.structure}`,
+            'warning',
+            'msg'
+          );
         }
       });
-
     }
 
-    cellTypes.forEach(cell => {
-      const newNode = new BMNode(cell.structure, 2, treeX, treeY, 14, cell.link, CT_BLUE, cell.nodeSize);
+    cellTypes.forEach((cell) => {
+      const newNode = new BMNode(
+        cell.structure,
+        2,
+        treeX,
+        treeY,
+        14,
+        cell.link,
+        CT_BLUE,
+        cell.nodeSize
+      );
       newNode.id = id;
+      newNode.isNew = cell.isNew;
+      newNode.pathColor = cell.color;
+
+      if (newNode.isNew) {
+        newNode.color = cell.color;
+      }
       nodes.push(newNode);
       treeY += 50;
       id += 1;
@@ -155,32 +234,46 @@ export class BimodalService {
 
     // based on select input, sorting markers
     if (bimodalConfig.BM.sort === 'Alphabetically') {
-      biomarkers = await this.sheet.makeBioMarkers(sheetData, {marker_col: currentSheet.marker_col});
+      biomarkers = await this.sheet.makeBioMarkers(sheetData, {
+        marker_col: currentSheet.marker_col,
+        uberon_col: currentSheet.uberon_col
+      });
       biomarkers.sort((a, b) => {
-        return (
-          a.structure.toLowerCase() > b.structure.toLowerCase() ? 1 : (
-            (b.structure.toLowerCase() > a.structure.toLowerCase()) ? -1 : 0)
-        );
+        return a.structure.toLowerCase() > b.structure.toLowerCase()
+          ? 1
+          : b.structure.toLowerCase() > a.structure.toLowerCase()
+          ? -1
+          : 0;
       });
     } else {
       biomarkers = await this.makeMarkerDegree(sheetData, currentSheet);
     }
 
     if (bimodalConfig.BM.size === 'Degree') {
-      const tempBiomarkers = await this.makeMarkerDegree(sheetData, currentSheet);
-      biomarkers.forEach(b => {
-        const idx = tempBiomarkers.findIndex(i => i.structure === b.structure);
+      const tempBiomarkers = await this.makeMarkerDegree(
+        sheetData,
+        currentSheet
+      );
+      biomarkers.forEach((b) => {
+        const idx = tempBiomarkers.findIndex(
+          (i) => i.structure === b.structure
+        );
         if (idx !== -1) {
           b.nodeSize = tempBiomarkers[idx].parents.length * 75;
         } else {
-          this.report.reportLog(`Parent not found for biomarker - ${b.structure}`, 'warning', 'msg');
+          this.report.reportLog(
+            `Parent not found for biomarker - ${b.structure}`,
+            'warning',
+            'msg'
+          );
         }
       });
     }
 
     // making group 3: bio markers
-    biomarkers.forEach((item, i) => {
-      const newNode = new BMNode(biomarkers[i].structure,
+    biomarkers.forEach((marker, i) => {
+      const newNode = new BMNode(
+        biomarkers[i].structure,
         3,
         treeX,
         treeY,
@@ -190,35 +283,52 @@ export class BimodalService {
         biomarkers[i].nodeSize
       );
       newNode.id = id;
+      newNode.isNew = marker.isNew;
+      newNode.pathColor = marker.color;
+
+      if (newNode.isNew) {
+        newNode.color = marker.color;
+      }
       nodes.push(newNode);
       treeY += 40;
       id += 1;
     });
-
-
 
     // AS to CT
     let parent = 0;
 
     for (const i in treeData) {
       if (treeData[i].children === 0) {
-        parent = nodes.findIndex(r => r.name.toLowerCase() === treeData[i].name.toLowerCase());
+        parent = nodes.findIndex(
+          (r) => r.name.toLowerCase() === treeData[i].name.toLowerCase()
+        );
 
-        sheetData.forEach(row => {
+        sheetData.forEach((row) => {
           for (const j in row) {
             if (row[j] === treeData[i].name) {
               const cells = row[currentSheet.cell_col].split(',');
               for (const c in cells) {
                 if (cells[c] !== '') {
-                  const found = nodes.findIndex(r => r.name.toLowerCase().trim() === cells[c].toLowerCase().trim());
+                  const found = nodes.findIndex(
+                    (r) =>
+                      r.name.toLowerCase().trim() ===
+                      cells[c].toLowerCase().trim()
+                  );
                   if (found !== -1) {
-                    nodes[parent].targets.indexOf(found) === -1 && nodes[parent].targets.push(found);
-                    nodes[found].sources.indexOf(parent) === -1 && nodes[found].sources.push(parent);
+                    if (nodes[parent].targets.indexOf(found) === -1) {
+                      nodes[parent].targets.push(found);
+                    }
+                    if (nodes[found].sources.indexOf(parent) === -1) {
+                      nodes[found].sources.push(parent);
+                    }
 
-                    if (!links.some(n => n.s === parent && n.t === found)) {
+                    nodes[found].pathColor = nodes[parent].pathColor;
+                    // nodes[found].isNew = nodes[parent].isNew;
+
+                    if (!links.some((n) => n.s === parent && n.t === found)) {
                       links.push({
                         s: parent,
-                        t: found
+                        t: found,
                       });
                     }
                   }
@@ -231,26 +341,37 @@ export class BimodalService {
     }
 
     // CT to B
-    sheetData.forEach(row => {
+    sheetData.forEach((row) => {
       const markers = row[currentSheet.marker_col].trim().split(',');
       const cells = row[currentSheet.cell_col].trim().split(',');
 
       for (const c in cells) {
         if (cells[c] !== '') {
-          const cell = nodes.findIndex(r => r.name.toLowerCase().trim() === cells[c].toLowerCase().trim());
+          const cell = nodes.findIndex(
+            (r) => r.name.toLowerCase().trim() === cells[c].toLowerCase().trim()
+          );
 
           if (cell !== -1) {
             for (const m in markers) {
               if (markers[m] !== '') {
-                const marker = nodes.findIndex(r => r.name.toLowerCase().trim() === markers[m].toLowerCase().trim());
-                if (!links.some(n => n.s === cell && n.t === marker)) {
-                  nodes[cell].targets.indexOf(marker) === -1 && nodes[cell].targets.push(marker);
-                  nodes[cell].sources.indexOf(marker) === -1 && nodes[cell].sources.push(marker);
+                const marker = nodes.findIndex(
+                  (r) =>
+                    r.name.toLowerCase().trim() ===
+                    markers[m].toLowerCase().trim()
+                );
+                if (!links.some((n) => n.s === cell && n.t === marker)) {
+                  if (nodes[cell].targets.indexOf(marker) === -1) {
+                    nodes[cell].targets.push(marker);
+                  }
+                  // nodes[cell].sources.indexOf(marker) === -1 && nodes[cell].sources.push(marker);
+                  if (nodes[marker].sources.indexOf(cell) === -1) {
+                    nodes[marker].sources.push(cell);
+                  }
+                  nodes[marker].pathColor = nodes[cell].pathColor;
 
-                  nodes[marker].sources.indexOf(cell) === -1 && nodes[marker].sources.push(cell);
                   links.push({
                     s: cell,
-                    t: marker
+                    t: marker,
                   });
                 }
               }
@@ -262,7 +383,7 @@ export class BimodalService {
 
     ASCTGraphData = {
       nodes,
-      links
+      links,
     };
 
     this.report.checkLinks(ASCTGraphData.nodes); // check for missing links to submit to the Log
@@ -270,11 +391,11 @@ export class BimodalService {
     return ASCTGraphData;
   }
 
-    /**
+  /**
    * Returns the array of biomarkers that are sorted have their degrees calculated.
-   * @param {Array<Array<string>>} data - Sheet data
+   * @param data - Sheet data
    */
-  public async makeMarkerDegree(data: Array<Array<string>>, currentSheet: any) {
+  public async makeMarkerDegree(data: any, currentSheet: any) {
     const markerDegrees = [];
 
     data.forEach((row) => {
@@ -294,6 +415,8 @@ export class BimodalService {
           if (foundMarker === -1) {
             const nm = new Marker(markers[i].trim(), cells.length);
             nm.parents.push(...cells.map((cell) => cell.toLowerCase()));
+            nm.isNew = row[row.length - 2];
+            nm.color = row[row.length - 1];
             markerDegrees.push(nm);
           } else {
             const m = markerDegrees[foundMarker];
@@ -320,7 +443,12 @@ export class BimodalService {
    * @param treeData - Data from the tree visualization.
    * @param degree - Degree configuration. Can be Degree, Indegree and Outdegree
    */
-  public async makeCellDegree(data, treeData, degree, currentSheet: any): Promise<Array<Cell>> {
+  public async makeCellDegree(
+    data,
+    treeData,
+    degree,
+    currentSheet: any
+  ): Promise<Array<Cell>> {
     return new Promise((res, rej) => {
       const cellDegrees: Array<Cell> = [];
 
@@ -332,7 +460,13 @@ export class BimodalService {
 
             data.forEach((row) => {
               let parent;
-              parent = row.find((i) => i.toLowerCase() === leaf.toLowerCase());
+              for (const i in row) {
+                if (typeof row[i] === 'string' && row[i] !== '') {
+                  if (row[i].toLowerCase() === leaf.toLowerCase()) {
+                    parent = i;
+                  }
+                }
+              }
 
               if (parent) {
                 const cells = row[currentSheet.cell_col].split(',');
@@ -348,6 +482,8 @@ export class BimodalService {
                         cells[i].trim(),
                         row[currentSheet.cell_col + currentSheet.uberon_col]
                       );
+                      nc.isNew = row[row.length - 2];
+                      nc.color = row[row.length - 1];
                       nc.parents.push(parent.toLowerCase());
                       cellDegrees.push(nc);
                     } else {
@@ -394,6 +530,8 @@ export class BimodalService {
                   cells[c].trim(),
                   row[currentSheet.cell_col + currentSheet.uberon_col]
                 );
+                nc.isNew = row[row.length - 2];
+                nc.color = row[row.length - 1];
                 nc.parents.push(...markers);
                 cellDegrees.push(nc);
               }
@@ -405,5 +543,4 @@ export class BimodalService {
       res(cellDegrees);
     });
   }
-
 }

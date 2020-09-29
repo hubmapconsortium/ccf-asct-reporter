@@ -1,18 +1,18 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnChanges, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingComponent } from '../loading/loading.component';
 import { SconfigService } from '../services/sconfig.service';
 import { SheetService } from '../services/sheet.service';
 import { ReportService } from '../report/report.service';
-import { environment } from '../../environments/environment';
+import { CompareComponent } from '../compare/compare.component';
 
 @Component({
   selector: 'app-vis',
   templateUrl: './vis.component.html',
   styleUrls: ['./vis.component.css'],
 })
-export class VisComponent implements OnInit {
+export class VisComponent implements OnInit, OnChanges {
   @ViewChild('drawer') drawer;
   @ViewChild('reportComponent') reportComponent;
   @ViewChild('tree') treeComponent;
@@ -26,6 +26,10 @@ export class VisComponent implements OnInit {
   currentSheet = this.sc.SHEET_CONFIG[0];
   shouldRefreshData = false;
   showCompInDrawer = '';
+  dataVersion = '';
+  compareData = [];
+  comapreComponentSources = [];
+  fullscreen: boolean;
 
   constructor(
     private dialog: MatDialog,
@@ -37,8 +41,13 @@ export class VisComponent implements OnInit {
 
   ngOnInit() {}
 
+  ngOnChanges() {}
+
+  toggleFullScreen(val: boolean) {
+    this.fullscreen = val;
+  }
+
   toggleReportDrawer(val) {
-    this.refreshReport = val;
     this.drawer.opened = val;
     this.showCompInDrawer = 'Report';
   }
@@ -51,11 +60,41 @@ export class VisComponent implements OnInit {
 
   showGraph(val) {
     this.openLoading();
+    this.compareData = [];
+    this.comapreComponentSources = [];
     this.displayGraph = val;
     this.shouldRefreshData = true;
   }
 
+  uploadDDSheet() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '100%';
+    dialogConfig.maxWidth = '700px';
+    dialogConfig.data = {
+      sources: this.comapreComponentSources
+    };
+    const dialogRef = this.dialog.open(CompareComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(r => {
+      if (r.data.length > 0) {
+        this.compareData = r.data;
+        this.comapreComponentSources = r.sources;
+      }
+    });
+  }
+
+  deleteCompareSheet(i) {
+    this.compareData.splice(i, 1);
+    this.comapreComponentSources.splice(i, 1);
+    this.shouldRefreshData = true;
+  }
+
   refreshData(val) {
+    this.refreshReport = true;
+    this.compareData = [];
+    this.comapreComponentSources = [];
     if (val === 'Tree') {
       this.openLoading();
       this.refreshTree = true;
@@ -102,9 +141,11 @@ export class VisComponent implements OnInit {
       this.refreshIndent = false;
       this.shouldRefreshData = false;
     }
+    this.refreshReport = false;
   }
 
   closeComponent() {
+    this.refreshReport = false;
     this.showCompInDrawer = '';
   }
 
@@ -136,6 +177,8 @@ export class VisComponent implements OnInit {
   }
 
   getSelectedSheet(event) {
+    this.compareData = [];
+    this.comapreComponentSources = [];
     this.currentSheetName = event;
     this.report.reportLog(`${this.currentSheetName}`, 'success', 'file');
     this.currentSheet = this.sc.SHEET_CONFIG[
@@ -143,5 +186,9 @@ export class VisComponent implements OnInit {
     ];
     this.openLoading();
     this.shouldRefreshData = true;
+  }
+
+  setVersionFolder(folder: string) {
+    this.dataVersion = folder;
   }
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SconfigService } from '../services/sconfig.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +10,15 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
   window = window;
   screenWidth = document.getElementsByTagName('body')[0].clientWidth;
-  constructor() {}
+  dataVersion: string;
+
+  constructor(public sc: SconfigService) {
+    if (environment.production) {
+      this.dataVersion = 'latest';
+    } else {
+      this.dataVersion = this.sc.VERSIONS[1].folder;
+    }
+  }
 
   ngOnInit(): void {}
 
