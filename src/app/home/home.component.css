@@ -125,6 +125,61 @@ a {
 
 /* SVG STYLES */
 
+.svg-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.svg-wrapper:hover .lsvg1 {
+    bottom: -160px;
+}
+
+.svg-wrapper:hover .lsvg2 {
+    bottom: -60px;
+    left: 140px;
+}
+
+.svg-wrapper:hover .lsvg3 {
+    bottom: 10px;
+    left: 220px
+}
+
+.lsvg1 {
+    position: absolute;
+    bottom: -140px;
+    width: 50%;
+    border-radius: 10px;
+    box-shadow: -5px 28px 25px 7px rgba(201, 201, 201, 0.468);
+    z-index: 3;
+    left: 60px;
+    transition: all 1s ease;
+}
+
+.lsvg2 {
+    position: absolute;
+    width: 50%;
+    z-index: 2;
+    border-radius: 10px;
+    bottom: -80px;
+    left: 120px;
+    box-shadow: -5px 28px 25px 7px rgba(201, 201, 201, 0.468);
+    transition: all 1s ease;
+}
+
+.lsvg3 {
+    transition: all 1s ease;
+    position: absolute;
+    width: 50%;
+    z-index: 1;
+    border-radius: 10px;
+    bottom: -30px;
+    left: 180px;
+    box-shadow: 5px 28px 25px 7px rgba(201, 201, 201, 0.468);
+}
+
 
 /* CARDS */
 

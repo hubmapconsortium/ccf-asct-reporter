@@ -46,8 +46,6 @@ export class IndentComponent implements OnInit, OnChanges {
   activateNode;
   treeFlattener;
   dataSource;
-  // @Input() dataVersion=this.sc.VERSIONS[0].folder;
-  @Input() dataVersion;
 
   @Input() public refreshData = false;
   @Output() returnRefresh = new EventEmitter();
@@ -108,8 +106,7 @@ export class IndentComponent implements OnInit, OnChanges {
 
   async getData() {
     try {
-      const data = await this.sheet.getSheetData(this.currentSheet, this.dataVersion);
-      console.log(data);
+      const data = await this.sheet.getSheetData(this.currentSheet);
       this.sheetData = data;
       this.dataSource.data = [this.indent.makeIndentData(this.sheetData.data)];
       this.indentTree.treeControl.expandAll();
