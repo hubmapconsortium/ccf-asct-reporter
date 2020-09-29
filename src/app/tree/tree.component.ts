@@ -91,8 +91,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
   toggleFullScreen() {
     this.isFullScreen = !this.isFullScreen;
-    this.fullscreen.emit(this.isFullScreen)
-    console.log(this.isFullScreen)
+    this.fullscreen.emit(this.isFullScreen);
+    console.log(this.isFullScreen);
   }
 
   /**

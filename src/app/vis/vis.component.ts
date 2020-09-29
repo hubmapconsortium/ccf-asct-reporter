@@ -29,7 +29,7 @@ export class VisComponent implements OnInit, OnChanges {
   dataVersion = '';
   compareData = [];
   comapreComponentSources = [];
-  fullscreen: Boolean;
+  fullscreen: boolean;
 
   constructor(
     private dialog: MatDialog,
@@ -43,7 +43,7 @@ export class VisComponent implements OnInit, OnChanges {
 
   ngOnChanges() {}
 
-  toggleFullScreen(val: Boolean) {
+  toggleFullScreen(val: boolean) {
     this.fullscreen = val;
   }
 
