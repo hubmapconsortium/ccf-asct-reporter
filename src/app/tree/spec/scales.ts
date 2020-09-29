@@ -18,8 +18,8 @@ export class Scales implements VegaScale {
 
   /**
    * Creates the color scaling that is used to form the
-   * bimodal and tree legend. Red, blue and gree are the 
-   * colors. It uses the properly 'groupName' to assign 
+   * bimodal and tree legend. Red, blue and gree are the
+   * colors. It uses the properly 'groupName' to assign
    * color.
    */
 
@@ -34,7 +34,7 @@ export class Scales implements VegaScale {
 
   /**
    * Creates the color scaling that is used to form the
-   * tree legend. It is for the See Debug Log option in 
+   * tree legend. It is for the See Debug Log option in
    * the legend and only has the red color.
    */
 
