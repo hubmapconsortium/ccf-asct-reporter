@@ -127,7 +127,7 @@ export class ReportComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     debugger;
-    
+
     this.getData(this.currentSheet);
   }
 
@@ -155,7 +155,7 @@ export class ReportComponent implements OnInit, OnChanges {
       if (this.compareData.length) {
         this.makeCompareData();
       }
-      this.isVisible=true;
+      this.isVisible = true;
     } catch (err) {
       console.log(err);
     }
