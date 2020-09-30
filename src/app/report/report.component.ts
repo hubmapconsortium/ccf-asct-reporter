@@ -32,6 +32,7 @@ export class ReportComponent implements OnInit, OnChanges {
   warningCount = 0;
   compareDataStats = [];
   clickButton = false; // for mat expansion panel download button
+  isVisible = false;  // for report on load, befor count populated
   @Output() closeComponent = new EventEmitter();
   @Output() openCompareDialog = new EventEmitter();
   @Output() deleteSheet = new EventEmitter();
@@ -125,11 +126,13 @@ export class ReportComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    debugger;
+    
     this.getData(this.currentSheet);
   }
 
   public async getData(currentSheet) {
-
+    debugger;
     this.sheetData = await this.sheet.getSheetData(this.currentSheet, this.dataVersion);
     try {
       this.anatomicalStructures = await this.sheet.makeAS(this.sheetData.data, {
@@ -152,6 +155,7 @@ export class ReportComponent implements OnInit, OnChanges {
       if (this.compareData.length) {
         this.makeCompareData();
       }
+      this.isVisible=true;
     } catch (err) {
       console.log(err);
     }
