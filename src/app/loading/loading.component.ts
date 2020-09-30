@@ -17,7 +17,7 @@ export class LoadingComponent implements OnInit {
     public sheet: SheetService
   ) {
     this.loadingText = data.sheet.display;
-    // this.loadingList = data.list;
+    this.loadingList = data.list;
   }
 
   ngOnInit(): void {

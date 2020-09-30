@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { OrderModule } from 'ngx-order-pipe';
 
 import { SheetService } from './services/sheet.service';
@@ -30,14 +30,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { VisComponent } from './vis/vis.component';
-import { NotfoundComponent } from './notfound/notfound.component';
-import { CompareComponent } from './compare/compare.component';
+
 
 const MatModules = [
   MatToolbarModule,
@@ -54,9 +51,7 @@ const MatModules = [
   MatExpansionModule,
   MatTableModule,
   MatMenuModule,
-  MatTabsModule,
-  MatInputModule,
-  MatFormFieldModule
+  MatTabsModule
 ];
 
 @NgModule({
@@ -70,8 +65,6 @@ const MatModules = [
     LogsComponent,
     HomeComponent,
     VisComponent,
-    NotfoundComponent,
-    CompareComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,11 +73,10 @@ const MatModules = [
     FormsModule,
     MatModules,
     OrderModule,
-    AppRoutingModule,
-    ReactiveFormsModule
+    AppRoutingModule
   ],
   providers: [
-    SheetService,
+    SheetService
   ],
   exports: [
     MatModules
