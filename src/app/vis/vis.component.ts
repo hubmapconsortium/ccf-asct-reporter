@@ -5,7 +5,9 @@ import { LoadingComponent } from '../loading/loading.component';
 import { SconfigService } from '../services/sconfig.service';
 import { SheetService } from '../services/sheet.service';
 import { ReportService } from '../report/report.service';
+import { BimodalService } from '../services/bimodal.service';
 import { CompareComponent } from '../compare/compare.component';
+import { SearchComponent} from '../search/search.component'
 
 @Component({
   selector: 'app-vis',
@@ -35,7 +37,8 @@ export class VisComponent implements OnInit, OnChanges {
     public snackBar: MatSnackBar,
     public sc: SconfigService,
     public sheet: SheetService,
-    public report: ReportService
+    public report: ReportService,
+    public bms: BimodalService
   ) {}
 
   ngOnInit() {}
@@ -59,6 +62,21 @@ export class VisComponent implements OnInit, OnChanges {
     this.comapreComponentSources = [];
     this.displayGraph = val;
     this.shouldRefreshData = true;
+  }
+
+  async searchStructure() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '100%';
+    dialogConfig.maxWidth = '700px';
+    // dialogConfig.data = {
+    //   sources: this.comapreComponentSources
+    // };
+    
+    
+
+    const dialogRef = this.dialog.open(SearchComponent, dialogConfig);
   }
 
   uploadDDSheet() {

@@ -103,6 +103,7 @@ export interface ASCTD {
   providedIn: 'root',
 })
 export class BimodalService {
+  asctData: any;
   constructor(public sheet: SheetService, public report: ReportService) {}
 
   async makeASCTData(
@@ -386,9 +387,15 @@ export class BimodalService {
       links,
     };
 
+    this.asctData = ASCTGraphData;
+
     this.report.checkLinks(ASCTGraphData.nodes); // check for missing links to submit to the Log
 
     return ASCTGraphData;
+  }
+
+  public async getASCTData() {
+    return this.asctData;
   }
 
   /**

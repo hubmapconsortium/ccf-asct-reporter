@@ -158,7 +158,10 @@
       </button>
       <button mat-icon-button style="margin-right: 20px;" (click)="compareDD()" #tooltip="matTooltip" matTooltip="Upload DD Sheet and Compare" matTooltipPosition="below">
         <mat-icon style=" color: white; font-weight: bold; ">compare_arrows</mat-icon>
-    </button>
+      </button>
+      <button mat-icon-button style="margin-right: 20px;" (click)="openSearch()" #tooltip="matTooltip" matTooltip="Search Structure" matTooltipPosition="below">
+        <mat-icon style=" color: white; font-weight: bold; ">search</mat-icon>
+      </button>
       <button
         mat-icon-button
         *ngIf="selectedOption === 'Tree'"

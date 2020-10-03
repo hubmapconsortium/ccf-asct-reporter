@@ -1,0 +1,36 @@
+.mat-select-search-hidden {
+  visibility: hidden;
+}
+.mat-select-search-inner {
+  position: absolute;
+  top: 0;
+  width: calc(100% + 15px);
+  border-bottom: 1px solid #ccc;
+  background: white;
+  z-index: 100;
+}
+.mat-select-search-inner.mat-select-search-inner-multiple {
+  width: calc(100% + 48px);
+}
+::ng-deep .mat-select-search-panel {
+ /* allow absolute positioning relative to outer options container */
+  transform: none !important;
+  max-height: 350px;
+}
+.mat-select-search-input {
+  padding: 16px;
+  padding-right: 36px;
+  box-sizing: border-box;
+}
+.mat-select-search-no-entries-found {
+  padding: 16px;
+}
+.mat-select-search-clear {
+  position: absolute;
+  right: 0;
+  top: 4px;
+}
+::ng-deep .cdk-overlay-pane-select-search {
+ /* correct offsetY so that the selected option is at the position of the select box when opening */
+  margin-top: -50px;
+}

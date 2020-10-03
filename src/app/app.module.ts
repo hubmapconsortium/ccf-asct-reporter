@@ -38,6 +38,8 @@ import { HomeComponent } from './home/home.component';
 import { VisComponent } from './vis/vis.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { CompareComponent } from './compare/compare.component';
+import { SearchComponent } from './search/search.component';
+import { SelectSearchComponent } from './select-search/select-search.component';
 
 const MatModules = [
   MatToolbarModule,
@@ -72,6 +74,8 @@ const MatModules = [
     VisComponent,
     NotfoundComponent,
     CompareComponent,
+    SearchComponent,
+    SelectSearchComponent,
   ],
   imports: [
     BrowserModule,

@@ -102,6 +102,7 @@ export class NavbarComponent implements OnInit {
   @Output() downloadVis = new EventEmitter<any>();
   @Output() dataVersion = new EventEmitter<any>();
   @Output() compare = new EventEmitter<any>();
+  @Output() search = new EventEmitter<any>();
 
   constructor(
     public sc: SconfigService,
@@ -171,6 +172,10 @@ export class NavbarComponent implements OnInit {
 
   compareDD() {
     this.compare.emit(true);
+  }
+
+  openSearch() {
+    this.search.emit(true)
   }
 
   openGithub() {
