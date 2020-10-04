@@ -2,10 +2,10 @@ import {   AfterViewInit,
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component, ElementRef, EventEmitter, forwardRef, Inject, Input, OnDestroy, OnInit, QueryList,
   ViewChild} from '@angular/core';
-  import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-  import { MatSelectModule, MatSelect } from '@angular/material/select';
-  import { Subject } from 'rxjs';
-  import { take, takeUntil } from 'rxjs/operators';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MatSelectModule, MatSelect } from '@angular/material/select';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { MatOption } from '@angular/material/core';
 
 @Component({
@@ -23,46 +23,37 @@ import { MatOption } from '@angular/material/core';
 })
 export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, ControlValueAccessor {
 
-  
-  /** Label of the search placeholder */
-  @Input() placeholderLabel = 'Search';
-
-  /** Label to be shown when no entries are found. Set to null if no message should be shown. */
-  @Input() noEntriesFoundLabel = 'No Options Found';
-
-  /** Reference to the search input field */
-  @ViewChild('searchSelectInput', {read: ElementRef}) searchSelectInput: ElementRef;
-
-  /** Current search value */
   get value(): string {
-    return this._value;
+    return this.val;
   }
-  private _value: string;
-
-  onChange: Function = (_: any) => {};
-  onTouched: Function = (_: any) => {};
-
-  /** Reference to the MatSelect options */
-  public _options: QueryList<MatOption>;
-
-  /** Previously selected values when using <mat-select [multiple]="true">*/
-  private previousSelectedValues: any[];
-
-  /** Whether the backdrop class has been set */
-  private overlayClassSet = false;
-
-  /** Event that emits when the current value changes */
-  private change = new EventEmitter<string>();
-
-  /** Subject that emits when the component has been destroyed. */
-  private _onDestroy = new Subject<void>();
 
 
   constructor(@Inject(MatSelect) public matSelect: MatSelect,
               private changeDetectorRef: ChangeDetectorRef) {
-    
+
 
   }
+
+
+  @Input() placeholderLabel = 'Search';
+
+  @Input() noEntriesFoundLabel = 'No Options Found';
+
+  @ViewChild('searchSelectInput', {read: ElementRef}) searchSelectInput: ElementRef;
+  private val: string;
+
+  public opt: QueryList<MatOption>;
+
+  private previousSelectedValues: any[];
+
+  private overlayClassSet = false;
+
+  private change = new EventEmitter<string>();
+
+  private od = new Subject<void>();
+
+  onChange = (_: any) => {};
+  onTouched = (_?: any) => {};
 
   ngOnInit() {
     // set custom panel class
@@ -81,7 +72,7 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
 
     // when the select dropdown panel is opened or closed
     this.matSelect.openedChange
-      .pipe(takeUntil(this._onDestroy))
+      .pipe(takeUntil(this.od))
       .subscribe((opened) => {
         if (opened) {
           // focus the search field when opening
@@ -95,11 +86,11 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
     // set the first item active after the options changed
     this.matSelect.openedChange
       .pipe(take(1))
-      .pipe(takeUntil(this._onDestroy))
+      .pipe(takeUntil(this.od))
       .subscribe(() => {
-        this._options = this.matSelect.options;
-        this._options.changes
-          .pipe(takeUntil(this._onDestroy))
+        this.opt = this.matSelect.options;
+        this.opt.changes
+          .pipe(takeUntil(this.od))
           .subscribe(() => {
             const keyManager = this.matSelect._keyManager;
             if (keyManager && this.matSelect.panelOpen) {
@@ -113,7 +104,7 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
 
     // detect changes when the input changes
     this.change
-      .pipe(takeUntil(this._onDestroy))
+      .pipe(takeUntil(this.od))
       .subscribe(() => {
         this.changeDetectorRef.detectChanges();
       });
@@ -122,8 +113,8 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
   }
 
   ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
+    this.od.next();
+    this.od.complete();
   }
 
   ngAfterViewInit() {
@@ -146,17 +137,17 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
 
 
   writeValue(value: string) {
-    const valueChanged = value !== this._value;
+    const valueChanged = value !== this.val;
     if (valueChanged) {
-      this._value = value;
+      this.val = value;
       this.change.emit(value);
     }
   }
 
   onInputChange(value) {
-    const valueChanged = value !== this._value;
+    const valueChanged = value !== this.val;
     if (valueChanged) {
-      this._value = value;
+      this.val = value;
       this.onChange(value);
       this.change.emit(value);
     }
@@ -167,11 +158,11 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
     this.onTouched();
   }
 
-  registerOnChange(fn: Function) {
+  registerOnChange(fn) {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: Function) {
+  registerOnTouched(fn) {
     this.onTouched = fn;
   }
 
@@ -221,7 +212,7 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
     const overlayClass = 'cdk-overlay-pane-select-search';
 
     this.matSelect.overlayDir.attach
-      .pipe(takeUntil(this._onDestroy))
+      .pipe(takeUntil(this.od))
       .subscribe(() => {
         // note: this is hacky, but currently there is no better way to do this
         this.searchSelectInput.nativeElement.parentElement.parentElement
@@ -231,7 +222,7 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
     this.overlayClassSet = true;
   }
 
-  
+
   /**
    * Initializes handling <mat-select [multiple]="true">
    * Note: to improve this code, mat-select should be extended to allow disabling resetting the selection while filtering.
@@ -241,11 +232,11 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
     // store previously selected values and restore them when they are deselected
     // because the option is not available while we are currently filtering
     this.matSelect.valueChange
-      .pipe(takeUntil(this._onDestroy))
+      .pipe(takeUntil(this.od))
       .subscribe((values) => {
         if (this.matSelect.multiple) {
           let restoreSelectedValues = false;
-          if (this._value && this._value.length
+          if (this.val && this.val.length
             && this.previousSelectedValues && Array.isArray(this.previousSelectedValues)) {
             if (!values || !Array.isArray(values)) {
               values = [];

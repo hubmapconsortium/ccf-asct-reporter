@@ -7,7 +7,7 @@ import { SheetService } from '../services/sheet.service';
 import { ReportService } from '../report/report.service';
 import { BimodalService } from '../services/bimodal.service';
 import { CompareComponent } from '../compare/compare.component';
-import { SearchComponent} from '../search/search.component'
+import { SearchComponent} from '../search/search.component';
 
 @Component({
   selector: 'app-vis',
@@ -80,7 +80,7 @@ export class VisComponent implements OnInit, OnChanges {
         this.searchIds = [-1];
       }
     });
-    
+
   }
 
   uploadDDSheet() {

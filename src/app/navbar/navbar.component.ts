@@ -175,7 +175,7 @@ export class NavbarComponent implements OnInit {
   }
 
   openSearch() {
-    this.search.emit(true)
+    this.search.emit(true);
   }
 
   openGithub() {

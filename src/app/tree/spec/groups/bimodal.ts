@@ -15,8 +15,8 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
   makeBimodalMarkGroup() {
     return {
       type: 'group',
-      "signals": [
-        {"name": "bgoffset", "value": 10}
+      signals: [
+        {name: 'bgoffset', value: 10}
       ],
       name: 'bimodal-network',
       marks: [
@@ -30,31 +30,31 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
 
   makeBimodalTextSearchMarks() {
     return {
-      "name": "rectmark",
-      "type": "rect",
-      "from": {"data": "textmark"},
-      "encode": {
-        "enter": {
-          "x": {"field": "bounds.x1", "round": true, "offset": {"signal": "-bgoffset"}},
-          "x2": {"field": "bounds.x2", "round": true, "offset": {"signal": "bgoffset"}},
-          "y": {"field": "bounds.y1", "round": true, "offset": {"signal": "-bgoffset"}},
-          "y2": {"field": "bounds.y2", "round": true, "offset": {"signal": "bgoffset"}},
-          "fill": {"value": "aliceblue"},
-          "stroke": {"value": "steelblue"}
+      name: 'rectmark',
+      type: 'rect',
+      from: {data: 'textmark'},
+      encode: {
+        enter: {
+          x: {field: 'bounds.x1', round: true, offset: {signal: '-bgoffset'}},
+          x2: {field: 'bounds.x2', round: true, offset: {signal: 'bgoffset'}},
+          y: {field: 'bounds.y1', round: true, offset: {signal: '-bgoffset'}},
+          y2: {field: 'bounds.y2', round: true, offset: {signal: 'bgoffset'}},
+          fill: {value: 'aliceblue'},
+          stroke: {value: 'steelblue'}
         },
         update: {
-          "opacity": [
+          opacity: [
             {
-              "test": "node__click === null && indata('search', 'id', datum.datum.id)",
-              "value": 1
+              test: 'node__click === null && indata(\'search\', \'id\', datum.datum.id)',
+              value: 1
             },
             {
-             "value": "0"
+             value: '0'
             }
            ]
         }
       }
-    }
+    };
   }
 
   makeBimodalPathMarks() {

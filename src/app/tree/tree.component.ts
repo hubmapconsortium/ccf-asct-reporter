@@ -114,13 +114,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     if (this.compareData.length > 0) {
       this.setGraphToCompare(this.compareData);
     }
-    
-    if (this.searchIds[0] == -1) {
-      this.setGraphToShowSearch([])
+
+    if (this.searchIds[0] === -1) {
+      this.setGraphToShowSearch([]);
     } else if (this.searchIds.length > 0) {
-      this.setGraphToShowSearch(this.searchIds)
+      this.setGraphToShowSearch(this.searchIds);
     }
-    
+
   }
 
   /**
@@ -153,8 +153,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public async setGraphToShowSearch(data) {
-    
-    this.treeView.data('search', data)
+
+    this.treeView.data('search', data);
     this.treeView.runAsync();
     this.prevData.searchIds = data;
     await this.makeBimodalGraph();
