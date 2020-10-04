@@ -31,7 +31,7 @@ export class VisComponent implements OnInit, OnChanges {
   dataVersion = '';
   compareData = [];
   comapreComponentSources = [];
-  searchIds = [];
+  searchIds = [-1];
 
   constructor(
     private dialog: MatDialog,
@@ -76,6 +76,8 @@ export class VisComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe(r => {
       if (r?.data) {
         this.searchIds = r.data;
+      } else {
+        this.searchIds = [-1];
       }
     });
     

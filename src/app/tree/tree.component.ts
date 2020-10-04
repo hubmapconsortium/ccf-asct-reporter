@@ -83,7 +83,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     public router: Router
   ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.searchIds = [-1];
+  }
 
   ngOnDestroy() {
     this.shouldReloadData = false;
@@ -113,10 +115,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       this.setGraphToCompare(this.compareData);
     }
     
-    if (this.searchIds.length > 0) {
+    if (this.searchIds[0] == -1) {
+      this.setGraphToShowSearch([])
+    } else if (this.searchIds.length > 0) {
       this.setGraphToShowSearch(this.searchIds)
     }
-
+    
   }
 
   /**
@@ -149,6 +153,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public async setGraphToShowSearch(data) {
+    
     this.treeView.data('search', data)
     this.treeView.runAsync();
     this.prevData.searchIds = data;
