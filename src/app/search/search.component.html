@@ -7,24 +7,30 @@
           </button>
       </div>
       <div class="content mt-1">
-
-        <p style="width: 100%;">
+        <span style="font-style: italic;">Type the name of the structure that you want to look for in the input field below. Multiple structures can be selected too.</span>
+        <div style="width: 100%;" class="mt-2">
           <mat-form-field style="width: 100%;">
-            <mat-select [formControl]="bankMultiCtrl" placeholder="Structures" [multiple]="true" >
-              <app-select-search [formControl]="bankMultiFilterCtrl" style="width: 100%;"></app-select-search>
-              <mat-option *ngFor="let bank of filteredBanksMulti | async" [value]="bank">
+            <mat-select [formControl]="structureMultiCtrl" placeholder="Structures" [multiple]="true" >
+              <app-select-search [formControl]="structureMultiFilterCtrl" style="width: 100%;"></app-select-search>
+              <mat-option *ngFor="let structure of filteredstructuresMulti | async" [value]="structure">
                 <div style="width: 100%; display: flex; justify-content: space-between;">
                   <div>
-                    {{bank.name}}
+                    {{structure.name}}
                   </div>
                   <div style="font-style: italic;">
-                    {{bank.groupName}}
+                    {{structure.groupName}}
                   </div>
                 </div>
               </mat-option>
             </mat-select>
           </mat-form-field>
-        </p>
+        </div>
+      </div>
+      <div style="max-height: 400px; overflow: auto;" *ngIf="structureMultiCtrl?.value">
+        <h3>Selected Structures</h3>
+        <ul *ngFor="let s of structureMultiCtrl?.value">
+          <li>{{s.name}} ({{s.groupName}})</li>
+        </ul>
       </div>
 
       <div class="mt-2" style="width: 100%; justify-content: space-between; display: flex;">

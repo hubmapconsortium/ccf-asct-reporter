@@ -74,7 +74,7 @@ export class VisComponent implements OnInit, OnChanges {
 
     const dialogRef = this.dialog.open(SearchComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(r => {
-      if (r.data) {
+      if (r?.data) {
         this.searchIds = r.data;
       }
     });

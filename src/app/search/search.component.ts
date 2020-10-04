@@ -11,7 +11,7 @@ import { ReplaySubject } from 'rxjs';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
-interface Bank {
+interface structure {
   id: string;
   name: string;
  }
@@ -39,25 +39,25 @@ export class SearchComponent implements OnInit {
     ) { }
 
   @Output() search = new EventEmitter<any>();
-  /** control for the selected bank */
-  public bankCtrl: FormControl = new FormControl();
+  /** control for the selected structure */
+  public structureCtrl: FormControl = new FormControl();
 
    /** control for the MatSelect filter keyword */
-  public bankFilterCtrl: FormControl = new FormControl();
+  public structureFilterCtrl: FormControl = new FormControl();
 
-    /** control for the selected bank for multi-selection */
-  public bankMultiCtrl: FormControl = new FormControl();
+    /** control for the selected structure for multi-selection */
+  public structureMultiCtrl: FormControl = new FormControl();
 
    /** control for the MatSelect filter keyword multi-selection */
-  public bankMultiFilterCtrl: FormControl = new FormControl();
+  public structureMultiFilterCtrl: FormControl = new FormControl();
 
   private structures: Structure[] = [];
 
-  /** list of banks filtered by search keyword */
-  public filteredBanks: ReplaySubject<Structure[]> = new ReplaySubject<Structure[]>(1);
+  /** list of structures filtered by search keyword */
+  public filteredstructures: ReplaySubject<Structure[]> = new ReplaySubject<Structure[]>(1);
 
-  /** list of banks filtered by search keyword for multi-selection */
-  public filteredBanksMulti: ReplaySubject<Structure[]> = new ReplaySubject<Structure[]>(1); 
+  /** list of structures filtered by search keyword for multi-selection */
+  public filteredstructuresMulti: ReplaySubject<Structure[]> = new ReplaySubject<Structure[]>(1); 
 
   /** Subject that emits when the component has been destroyed. */
   private _onDestroy = new Subject<void>();
@@ -76,22 +76,22 @@ export class SearchComponent implements OnInit {
     }
 
     // set initial selection
-    this.bankCtrl.setValue(this.structures[10]);
+    this.structureCtrl.setValue(this.structures[10]);
 
-    // load the initial bank list
-    this.filteredBanks.next(this.structures.slice());
-    this.filteredBanksMulti.next(this.structures.slice());
+    // load the initial structure list
+    this.filteredstructures.next(this.structures.slice());
+    this.filteredstructuresMulti.next(this.structures.slice());
 
     // listen for search field value changes
-    this.bankFilterCtrl.valueChanges
+    this.structureFilterCtrl.valueChanges
       .pipe(takeUntil(this._onDestroy))
       .subscribe(() => {
-        this.filterBanks();
+        this.filterstructures();
       });
-    this.bankMultiFilterCtrl.valueChanges
+    this.structureMultiFilterCtrl.valueChanges
       .pipe(takeUntil(this._onDestroy))
       .subscribe(() => {
-        this.filterBanksMulti();
+        this.filterstructuresMulti();
       });
   }
 
@@ -105,61 +105,61 @@ export class SearchComponent implements OnInit {
   }
 
   /**
-   * Sets the initial value after the filteredBanks are loaded initially
+   * Sets the initial value after the filteredstructures are loaded initially
    */
   private setInitialValue() {
-    this.filteredBanks
+    this.filteredstructures
       .pipe(take(1), takeUntil(this._onDestroy))
       .subscribe(() => {          
         // setting the compareWith property to a comparison function 
         // triggers initializing the selection according to the initial value of 
         // the form control (i.e. _initializeSelection())
-        // this needs to be done after the filteredBanks are loaded initially 
+        // this needs to be done after the filteredstructures are loaded initially 
         // and after the mat-option elements are available
       
       });
   }
 
-  private filterBanks() {
+  private filterstructures() {
     if (!this.structures) {
       return;
     }
     // get the search keyword
-    let search = this.bankFilterCtrl.value;
+    let search = this.structureFilterCtrl.value;
     if (!search) {
-      this.filteredBanks.next(this.structures.slice());
+      this.filteredstructures.next(this.structures.slice());
       return;
     } else {
       search = search.toLowerCase();
     }
-    // filter the banks
-    this.filteredBanks.next(
-      this.structures.filter(bank => bank.name.toLowerCase().indexOf(search) > -1)
+    // filter the structures
+    this.filteredstructures.next(
+      this.structures.filter(structure => structure.name.toLowerCase().indexOf(search) > -1)
     );
   }
 
-  private filterBanksMulti() {
+  private filterstructuresMulti() {
     if (!this.structures) {
       return;
     }
     // get the search keyword
-    let search = this.bankMultiFilterCtrl.value;
+    let search = this.structureMultiFilterCtrl.value;
     if (!search) {
-      this.filteredBanksMulti.next(this.structures.slice());
+      this.filteredstructuresMulti.next(this.structures.slice());
       return;
     } else {
       search = search.toLowerCase();
     }
-    // filter the banks
-    this.filteredBanksMulti.next(
-      this.structures.filter(bank => bank.name.toLowerCase().indexOf(search) > -1)
+    // filter the structures
+    this.filteredstructuresMulti.next(
+      this.structures.filter(structure => structure.name.toLowerCase().indexOf(search) > -1)
     );
   }
 
   doSearch() {
-    if (this.bankMultiCtrl.value) {
-      this.search.emit(this.bankMultiCtrl.value)
-      this.dialogRef.close({ data: this.bankMultiCtrl.value});
+    if (this.structureMultiCtrl.value) {
+      this.search.emit(this.structureMultiCtrl.value)
+      this.dialogRef.close({ data: this.structureMultiCtrl.value});
     } else {
       this.dialogRef.close({ data: []});
     }
