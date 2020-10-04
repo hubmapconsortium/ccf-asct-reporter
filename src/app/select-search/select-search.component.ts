@@ -1,5 +1,4 @@
-import {   AfterViewInit,
-  ChangeDetectionStrategy, ChangeDetectorRef,
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef,
   Component, ElementRef, EventEmitter, forwardRef, Inject, Input, OnDestroy, OnInit, QueryList,
   ViewChild} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -128,10 +127,10 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
    * @private
    */
   _handleKeydown(event: KeyboardEvent) {
-    if (event.keyCode === 32) {
-      // do not propagate spaces to MatSelect, as this would select the currently active option
-      event.stopPropagation();
-    }
+    // if (event.keyCode === 32) {
+    //   // do not propagate spaces to MatSelect, as this would select the currently active option
+    //   event.stopPropagation();
+    // }
 
   }
 
@@ -206,20 +205,20 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
    * so that the selected option is at the position of the select box when opening
    */
   private setOverlayClass() {
-    if (this.overlayClassSet) {
-      return;
-    }
-    const overlayClass = 'cdk-overlay-pane-select-search';
+    // if (this.overlayClassSet) {
+    //   return;
+    // }
+    // const overlayClass = 'cdk-overlay-pane-select-search';
 
-    this.matSelect.overlayDir.attach
-      .pipe(takeUntil(this.od))
-      .subscribe(() => {
-        // note: this is hacky, but currently there is no better way to do this
-        this.searchSelectInput.nativeElement.parentElement.parentElement
-          .parentElement.parentElement.parentElement.classList.add(overlayClass);
-      });
+    // this.matSelect.overlayDir.attach
+    //   .pipe(takeUntil(this.od))
+    //   .subscribe(() => {
+    //     // note: this is hacky, but currently there is no better way to do this
+    //     this.searchSelectInput.nativeElement.parentElement.parentElement
+    //       .parentElement.parentElement.parentElement.classList.add(overlayClass);
+    //   });
 
-    this.overlayClassSet = true;
+    // this.overlayClassSet = true;
   }
 
 
