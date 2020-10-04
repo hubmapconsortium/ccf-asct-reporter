@@ -15,11 +15,30 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
   makeBimodalMarkGroup() {
     return {
       type: 'group',
+      "signals": [
+        {"name": "bgoffset", "value": 3}
+      ],
       name: 'bimodal-network',
       marks: [
         this.makeBimodalPathMarks(),
         this.makeBimodalSymbolMarks(),
-        this.makeBiomodalTextMarks()
+        this.makeBiomodalTextMarks(),
+        {
+          "name": "rectmark",
+          "type": "rect",
+          "from": {"data": "textmark"},
+          "encode": {
+            "enter": {
+              "opacity": {"signal": "indata('search', 'id', datum.datum.id) ? 1 : 0"},
+              "x": {"field": "bounds.x1", "round": true, "offset": {"signal": "-bgoffset"}},
+              "x2": {"field": "bounds.x2", "round": true, "offset": {"signal": "bgoffset"}},
+              "y": {"field": "bounds.y1", "round": true, "offset": {"signal": "-bgoffset"}},
+              "y2": {"field": "bounds.y2", "round": true, "offset": {"signal": "bgoffset"}},
+              "fill": {"value": "aliceblue"},
+              "stroke": {"value": "steelblue"}
+            }
+          }
+        }
       ]
     };
   }
@@ -205,6 +224,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
   makeBiomodalTextMarks() {
     return {
       type: 'text',
+      name: 'textmark',
       zindex: 5,
       dx: 5,
       from: { data: 'nodes' },

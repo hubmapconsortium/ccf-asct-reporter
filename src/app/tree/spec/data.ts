@@ -23,10 +23,18 @@ export class Data implements VegaData {
       this.makeTargetsOfTargetsClickData(),
       this.makeTargetsOfTargetsHoverData(),
       this.makeViewModeClickData(),
-      this.makeViewModeHoverData()
+      this.makeViewModeHoverData(),
+      this.makeSearchIdsData()
     ];
 
     return this.data;
+  }
+
+  makeSearchIdsData() {
+    return {
+      name: 'search',
+      values: []
+    };
   }
 
   makeASTreeData(currentSheet, bimodalDistance, height, width, treeData) {

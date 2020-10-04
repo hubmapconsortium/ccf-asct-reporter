@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, Input, ViewChild, EventEmitter } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SheetService } from '../services/sheet.service';
@@ -37,7 +37,8 @@ export class SearchComponent implements OnInit {
     private dialog: MatDialog, 
     public bms: BimodalService
     ) { }
-  
+
+  @Output() search = new EventEmitter<any>();
   /** control for the selected bank */
   public bankCtrl: FormControl = new FormControl();
 
@@ -92,10 +93,6 @@ export class SearchComponent implements OnInit {
       .subscribe(() => {
         this.filterBanksMulti();
       });
-
-    
-    console.log(this.structures)
-
   }
 
   ngAfterViewInit() {
@@ -160,7 +157,14 @@ export class SearchComponent implements OnInit {
   }
 
   doSearch() {
-    console.log(this.bankMultiCtrl)
+    if (this.bankMultiCtrl.value) {
+      this.search.emit(this.bankMultiCtrl.value)
+      this.dialogRef.close({ data: this.bankMultiCtrl.value});
+    } else {
+      this.dialogRef.close({ data: []});
+    }
+  
+    
   }
 
   close() {

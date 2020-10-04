@@ -97,6 +97,7 @@ export interface ASCTD {
   nodes: Array<BMNode>;
   links: Array<Link>;
   compareDD?: Array<DD>;
+  searchIds?: Array<number>;
 }
 
 @Injectable({

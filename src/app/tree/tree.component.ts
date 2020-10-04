@@ -39,6 +39,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     nodes: [],
     links: [],
     compareDD: [],
+    searchIds: []
   };
   treeWidth = 0;
   treeWidthOffset = 0;
@@ -51,6 +52,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   @Input() public refreshData = false;
   @Input() public shouldReloadData = false;
   @Input() public compareData = [];
+  @Input() public searchIds = [];
 
   @Output() returnRefresh = new EventEmitter();
   @ViewChild('bimodal') biomodal;
@@ -110,6 +112,11 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     if (this.compareData.length > 0) {
       this.setGraphToCompare(this.compareData);
     }
+    
+    if (this.searchIds.length > 0) {
+      this.setGraphToShowSearch(this.searchIds)
+    }
+
   }
 
   /**
@@ -139,6 +146,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     const config: any = await this.makeVegaSpec(this.screenWidth, height);
     await this.renderGraph(config);
 
+  }
+
+  public async setGraphToShowSearch(data) {
+    this.treeView.data('search', data)
+    this.treeView.runAsync();
+    this.prevData.searchIds = data;
+    await this.makeBimodalGraph();
   }
 
   /**
@@ -180,7 +194,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
     this.updatedTreeData = this.treeView.data('tree');
     this.treeWidth = this.treeView._runtime.group.context.data.asTree.values.value[0].bounds.x2;
-
     await this.makeBimodalGraph();
   }
 

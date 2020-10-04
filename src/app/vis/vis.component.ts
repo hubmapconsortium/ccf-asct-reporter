@@ -31,6 +31,7 @@ export class VisComponent implements OnInit, OnChanges {
   dataVersion = '';
   compareData = [];
   comapreComponentSources = [];
+  searchIds = [];
 
   constructor(
     private dialog: MatDialog,
@@ -70,13 +71,14 @@ export class VisComponent implements OnInit, OnChanges {
     dialogConfig.autoFocus = true;
     dialogConfig.width = '100%';
     dialogConfig.maxWidth = '700px';
-    // dialogConfig.data = {
-    //   sources: this.comapreComponentSources
-    // };
-    
-    
 
     const dialogRef = this.dialog.open(SearchComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(r => {
+      if (r.data) {
+        this.searchIds = r.data;
+      }
+    });
+    
   }
 
   uploadDDSheet() {
@@ -108,6 +110,7 @@ export class VisComponent implements OnInit, OnChanges {
     this.refreshReport = true;
     this.compareData = [];
     this.comapreComponentSources = [];
+    this.searchIds = [];
     if (val === 'Tree') {
       this.openLoading();
       this.refreshTree = true;
@@ -119,7 +122,6 @@ export class VisComponent implements OnInit, OnChanges {
   }
 
   returnRefresh(val) {
-    console.log(val);
     if (val.comp === 'Tree') {
       this.dialog.closeAll();
       if (val.val) {
