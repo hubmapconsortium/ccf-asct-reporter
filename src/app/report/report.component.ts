@@ -130,6 +130,7 @@ export class ReportComponent implements OnInit, OnChanges {
   }
 
   public async getData(currentSheet) {
+    debugger;
     this.sheetData = await this.sheet.getSheetData(this.currentSheet, this.dataVersion);
     try {
       this.anatomicalStructures = await this.sheet.makeAS(this.sheetData.data, {
@@ -152,6 +153,7 @@ export class ReportComponent implements OnInit, OnChanges {
       if (this.compareData.length) {
         this.makeCompareData();
       }
+     
       this.isVisible = true;
     } catch (err) {
       console.log(err);

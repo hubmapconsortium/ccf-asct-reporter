@@ -12,8 +12,11 @@
       <mat-icon style="color: grey;">close</mat-icon>
     </button>
   </div>
-  <embed style="margin: 0 auto;" src="assets/loading.svg" class="loadingSVG" [style.display]="isVisible ? 'none': 'block'" />
-  <mat-tab-group mat-stretch-tabs class="tabs" [style.display]="isVisible ? 'block' : 'none'" >
+  <div class="loader" *ngIf="!isVisible">
+    <h3 style="margin: 0 auto;">Loading...</h3>
+  <embed style="width: 50%;margin: 0 auto;" src="assets/loading.svg" class="loadingSVG"  />
+  </div>
+  <mat-tab-group mat-stretch-tabs class="tabs" *ngIf="isVisible" >
     <mat-tab [label]="'Main Sheet'">
       <div class="content">
         <br />
