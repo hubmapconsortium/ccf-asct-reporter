@@ -28,6 +28,7 @@
     "bootstrap": "^4.5.0",
     "jquery": "^3.5.1",
     "moment": "^2.26.0",
+    "ngx-google-analytics": "^9.0.1",
     "ngx-order-pipe": "^2.0.4",
     "papaparse": "^5.2.0",
     "rxjs": "~6.5.4",

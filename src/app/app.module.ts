@@ -34,10 +34,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { AppRoutingModule } from './app-routing.module';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from "./home/HomeComponent";
 import { VisComponent } from './vis/vis.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { CompareComponent } from './compare/compare.component';
+
+import {GoogleAnalyticsService} from './google-analytics.service';
 
 const MatModules = [
   MatToolbarModule,
@@ -85,6 +87,7 @@ const MatModules = [
   ],
   providers: [
     SheetService,
+    GoogleAnalyticsService
   ],
   exports: [
     MatModules
