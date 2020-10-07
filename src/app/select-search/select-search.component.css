@@ -19,8 +19,11 @@
 }
 .mat-select-search-input {
   padding: 16px;
+  width: 100%;
   padding-right: 36px;
   box-sizing: border-box;
+  border: none;
+  outline: none;
 }
 .mat-select-search-no-entries-found {
   padding: 16px;

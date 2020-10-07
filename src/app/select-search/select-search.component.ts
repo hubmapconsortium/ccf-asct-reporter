@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef,
   Component, ElementRef, EventEmitter, forwardRef, Inject, Input, OnDestroy, OnInit, QueryList,
-  ViewChild} from '@angular/core';
+  ViewChild,
+  Output} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatSelectModule, MatSelect } from '@angular/material/select';
 import { Subject } from 'rxjs';
@@ -39,6 +40,8 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
   @Input() noEntriesFoundLabel = 'No Options Found';
 
   @ViewChild('searchSelectInput', {read: ElementRef}) searchSelectInput: ElementRef;
+
+  
   private val: string;
 
   public opt: QueryList<MatOption>;
@@ -48,7 +51,6 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
   private overlayClassSet = false;
 
   private change = new EventEmitter<string>();
-
   private od = new Subject<void>();
 
   onChange = (_: any) => {};
@@ -133,8 +135,7 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
     // }
 
   }
-
-
+  
   writeValue(value: string) {
     const valueChanged = value !== this.val;
     if (valueChanged) {

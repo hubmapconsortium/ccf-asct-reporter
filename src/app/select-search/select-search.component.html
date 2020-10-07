@@ -3,13 +3,13 @@
 
 <div class="mat-select-search-inner"
      [ngClass]="{'mat-select-search-inner-multiple': matSelect.multiple}">
-  <input matInput
+  <input 
          class="mat-select-search-input"
          #searchSelectInput
          (keydown)="_handleKeydown($event)"
          (input)="onInputChange($event.target.value)"
          (blur)="onBlur($event.target.value)"
-         placeholder="Search"
+         placeholder="Type to search..."
   />
   <button mat-button *ngIf="value"
           mat-icon-button
@@ -19,12 +19,6 @@
     <mat-icon>close</mat-icon>
   </button>
 </div>
-<!-- <div class="p-2 w-100">
-  <div style="width: 100%; display: flex; justify-content: start; align-items: center; height: 100%;">
-    <span style="font-weight: 600;">Filter: </span>
-    <mat-checkbox>Checked</mat-checkbox>
-  </div>
-</div> -->
 
 <div *ngIf="noEntriesFoundLabel && value && opt?.length === 0"
      class="mat-select-search-no-entries-found">

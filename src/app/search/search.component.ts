@@ -34,6 +34,8 @@ export class SearchComponent implements OnInit {
     public bms: BimodalService
     ) { }
 
+  public filterList = [];
+
   @Output() search = new EventEmitter<any>();
   /** control for the selected structure */
   public structureCtrl: FormControl = new FormControl();
@@ -91,29 +93,12 @@ export class SearchComponent implements OnInit {
       });
   }
 
-  // ngAfterViewInit() {
-  //   this.setInitialValue();
-  // }
-
-  // ngOnDestroy() {
-  //   this.od.next();
-  //   this.od.complete();
-  // }
-
-  /**
-   * Sets the initial value after the filteredstructures are loaded initially
-   */
-  private setInitialValue() {
-    this.filteredstructures
-      .pipe(take(1), takeUntil(this.od))
-      .subscribe(() => {
-        // setting the compareWith property to a comparison function
-        // triggers initializing the selection according to the initial value of
-        // the form control (i.e. _initializeSelection())
-        // this needs to be done after the filteredstructures are loaded initially
-        // and after the mat-option elements are available
-
-      });
+  changeFilter(structure) {
+    if (this.filterList.includes(structure)) {
+      this.filterList.splice(this.filterList.indexOf(structure), 1);
+    } else {
+      this.filterList.push(structure);
+    }
   }
 
   private filterstructures() {
