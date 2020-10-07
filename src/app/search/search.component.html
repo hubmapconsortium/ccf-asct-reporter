@@ -7,10 +7,10 @@
           </button>
       </div>
       <div class="content mt-1">
-        <span style="font-style: italic;">Type the name of the structure that you want to look for in the input field below. Multiple structures can be selected too.</span>
+        <span style="font-style: italic; font-size: 12px; color: gray;">Type the name of the structure that you want to look for in the input field below. Multiple structures can be selected too.</span>
         <div style="width: 100%;" class="mt-2">
           <mat-form-field style="width: 100%;">
-            <mat-select [formControl]="structureMultiCtrl" placeholder="No Structures Selected" [multiple]="true" >
+            <mat-select [formControl]="structureMultiCtrl" placeholder="Structure Names" [multiple]="true" >
               <app-select-search [formControl]="structureMultiFilterCtrl" style="width: 100%;"></app-select-search>
               <div class="p-2 w-100">
                 <div style="width: 100%; display: flex; justify-content: start; align-items: center; height: 100%;">
@@ -37,15 +37,17 @@
           </mat-form-field>
         </div>
       </div>
-      <div style="max-height: 400px; overflow: auto;" *ngIf="structureMultiCtrl?.value">
-        <h3>Selected Structures</h3>
-        <ul *ngFor="let s of structureMultiCtrl?.value">
-          <li>{{s.name}} ({{s.groupName}})</li>
-        </ul>
+
+      <div  *ngIf="structureMultiCtrl?.value">
+        <h3 style="margin-bottom: 2px;">Selected Structures</h3>
+        <div style="max-height: 120px; overflow: auto;">
+          <ul *ngFor="let s of structureMultiCtrl?.value" style="margin-bottom: 0; padding-left: 0;">
+            <li>• {{s.name}} ({{s.groupName}})</li>
+          </ul>
+        </div>
       </div>
 
-      <div class="mt-2" style="width: 100%; justify-content: space-between; display: flex;">
-        
+      <div class="mt-4" style="width: 100%; justify-content: space-between; display: flex;">
         <button mat-flat-button color="primary" (click)="doSearch()">Search</button>
     </div>
 </div>
