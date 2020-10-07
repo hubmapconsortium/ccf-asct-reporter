@@ -32,6 +32,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
@@ -58,7 +60,9 @@ const MatModules = [
   MatMenuModule,
   MatTabsModule,
   MatInputModule,
-  MatFormFieldModule
+  MatFormFieldModule,
+  MatChipsModule,
+  MatCheckboxModule
 ];
 
 @NgModule({
@@ -75,7 +79,7 @@ const MatModules = [
     NotfoundComponent,
     CompareComponent,
     SearchComponent,
-    SelectSearchComponent,
+    SelectSearchComponent
   ],
   imports: [
     BrowserModule,

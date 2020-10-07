@@ -34,3 +34,7 @@
  /* correct offsetY so that the selected option is at the position of the select box when opening */
   margin-top: -50px;
 }
+
+:ng-deep #mat-checkbox-1 label.mat-checkbox-layout {
+  margin: 0 !important;
+}
