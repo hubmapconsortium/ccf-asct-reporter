@@ -41,7 +41,7 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
 
   @ViewChild('searchSelectInput', {read: ElementRef}) searchSelectInput: ElementRef;
 
-  
+
   private val: string;
 
   public opt: QueryList<MatOption>;
@@ -135,7 +135,7 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
     // }
 
   }
-  
+
   writeValue(value: string) {
     const valueChanged = value !== this.val;
     if (valueChanged) {
