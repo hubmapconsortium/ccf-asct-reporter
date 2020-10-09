@@ -139,7 +139,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
           fontSize: { value: 14 },
           baseline: { value: 'middle' },
           fontWeight: { value: 400 },
-         
+
         },
         update: {
           x: { field: 'x' },

@@ -73,9 +73,9 @@ export class SearchComponent implements OnInit {
           groupName: 'Anatomical Structures',
           x: node.x,
           y: node.y
-        })
+        });
       }
-      
+
     }
 
     for (const node of data.nodes) {

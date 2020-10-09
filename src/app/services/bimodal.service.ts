@@ -318,8 +318,8 @@ export class BimodalService {
                       r.name.toLowerCase().trim() ===
                       cells[c].toLowerCase().trim()
                   );
-                  if (nodes[parent].name === "Epicardium") {
-                    console.log(found)
+                  if (nodes[parent].name === 'Epicardium') {
+                    console.log(found);
                     // console.log(nodes[31])
                   }
                   if (found !== -1) {
