@@ -3,6 +3,7 @@ import { SconfigService } from '../services/sconfig.service';
 import { SheetService } from '../services/sheet.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import {Location} from '@angular/common';
+import {GoogleAnalyticsService} from './../google-analytics.service';
 
 @Component({
   selector: 'app-navbar',
@@ -17,7 +18,6 @@ export class NavbarComponent implements OnInit {
     // 'Table' temporarily hide table
   ];
   selectedOption = this.options[0];
-
   sheetOptions = [
     {
       title: 'All Organs',
@@ -108,7 +108,8 @@ export class NavbarComponent implements OnInit {
     public sheet: SheetService,
     public route: ActivatedRoute,
     public location: Location,
-    public router: Router
+    public router: Router,
+    public googleAnalyticsService: GoogleAnalyticsService
   ) {
   }
 
@@ -129,6 +130,7 @@ export class NavbarComponent implements OnInit {
   getSelection(option = this.selectedOption) {
     this.selectedOption = option;
     this.showGraph.emit(option);
+    this.googleAnalyticsService.eventEmitter('vis_selector', 'navbar', this.selectedOption, 'selection', 1);
   }
 
   getSheetSelection(sheet = this.selectedSheetOption) {
@@ -144,14 +146,17 @@ export class NavbarComponent implements OnInit {
     this.location.go(urlTree.toString());
     this.selectedSheetOption = sheet;
     this.getSheet.emit(sheet);
+    this.googleAnalyticsService.eventEmitter('organ_sheet_selector', 'navbar', this.selectedSheetOption, 'selection', 1);
   }
 
   showLogs() {
     this.showLog.emit(true);
+    this.googleAnalyticsService.eventEmitter('organ_sheet_selector', 'navbar', this.selectedSheetOption, 'click', 1);
   }
 
   showReports() {
     this.showReport.emit(true);
+    this.googleAnalyticsService.eventEmitter('debug_log_open', 'navbar', 'Open Debug Log', 'selection', 1);
   }
 
   onResize(e) {
@@ -163,17 +168,21 @@ export class NavbarComponent implements OnInit {
       this.versions.find((i) => i.display === this.selectedVersion).folder
     );
     this.refresh.emit(this.selectedOption);
+    this.googleAnalyticsService.eventEmitter('refresh', 'navbar', 'Refresh', 'click', 1);
   }
 
   downloadVisFunction(img) {
     this.downloadVis.emit(img);
+    this.googleAnalyticsService.eventEmitter('export_vis', 'navbar', img, 'click', 1);
   }
 
   compareDD() {
     this.compare.emit(true);
+    this.googleAnalyticsService.eventEmitter('compare_start', 'navbar', 'Compare', 'click', 1);
   }
 
   openGithub() {
+
     window.open(
       'https://github.com/hubmapconsortium/ccf-asct-reporter',
       '_blank'
@@ -181,6 +190,7 @@ export class NavbarComponent implements OnInit {
   }
 
   getSelectedVersion(version = this.versions.find((i) => i.display === this.selectedVersion).folder) {
+
     this.selectedVersion = this.versions.find((i) => i.folder === version).display;
     const urlTree = this.router.createUrlTree([], {
       relativeTo: this.route,
@@ -195,5 +205,7 @@ export class NavbarComponent implements OnInit {
       version
     );
     this.refresh.emit(this.selectedOption);
+    this.googleAnalyticsService.eventEmitter('data_version_selector', 'navbar', this.selectedVersion, 'selection', 1);
   }
+
 }

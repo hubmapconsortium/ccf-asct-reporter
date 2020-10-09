@@ -34,11 +34,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { AppRoutingModule } from './app-routing.module';
-import { HomeComponent } from "./home/HomeComponent";
+import { HomeComponent } from './home/home.component';
 import { VisComponent } from './vis/vis.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { CompareComponent } from './compare/compare.component';
-
 import {GoogleAnalyticsService} from './google-analytics.service';
 
 const MatModules = [

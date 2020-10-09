@@ -211,7 +211,7 @@
           <button
             mat-menu-item
             *ngFor="let option of moreOptions"
-            (click)="window.open(option.url, '_blank')"
+            (click)="window.open(option.url, '_blank');"
           >
             {{ option.name }}
           </button>

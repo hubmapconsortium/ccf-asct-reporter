@@ -1,26 +1,25 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { environment } from '../environments/environment';
-import{Router, NavigationEnd} from '@angular/router';
-
+import {Router, NavigationEnd} from '@angular/router';
+declare let gtag;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-declare let gtag: Function;
 export class AppComponent implements OnInit {
 
   constructor(public router: Router) {
     this.router.events.subscribe(event => {
-      if(event instanceof NavigationEnd){
-          gtag('config', 'xx-xxxxx-xx', 
+      if (event instanceof NavigationEnd){
+          gtag('config', 'UA-165706173-1',
                 {
-                  'page_path': event.urlAfterRedirects
+                  page_path: event.urlAfterRedirects
                 }
                );
        }
     }
- )}
+ ); }
 
   ngOnInit() {
     console.log('%cWelcome to the ASCT+B Reporter!', 'font-weight: bold; font-size: 14pt;');
