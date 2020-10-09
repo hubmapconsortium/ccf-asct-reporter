@@ -75,12 +75,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   };
 
   constructor(
-    public sheet: SheetService,
-    public report: ReportService,
-    public ts: TreeService,
-    public bms: BimodalService,
-    public sc: SconfigService,
-    public router: Router
+    public sheet?: SheetService,
+    public report?: ReportService,
+    public ts?: TreeService,
+    public bms?: BimodalService,
+    public sc?: SconfigService,
+    public router?: Router
   ) { }
 
   ngOnInit(): void {
@@ -110,17 +110,6 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       this.ts.setCurrentSheet(this.currentSheet);
       this.getData();
     }
-
-    if (this.compareData.length > 0) {
-      this.setGraphToCompare(this.compareData);
-    }
-
-    if (this.searchIds[0] === -1) {
-      this.setGraphToShowSearch([]);
-    } else if (this.searchIds.length > 0) {
-      this.setGraphToShowSearch(this.searchIds);
-    }
-
   }
 
   /**
@@ -149,15 +138,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     const height = document.getElementsByTagName('body')[0].clientHeight;
     const config: any = await this.makeVegaSpec(this.screenWidth, height);
     await this.renderGraph(config);
-
   }
 
   public async setGraphToShowSearch(data) {
-
-    this.treeView.data('search', data);
+    this.treeView.data('search', data)
     this.treeView.runAsync();
     this.prevData.searchIds = data;
-    await this.makeBimodalGraph();
   }
 
   /**
@@ -275,6 +261,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     this.treeView._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
     this.treeView._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
     this.treeView._runtime.signals.targets__click.value = []; // removing clicked bold target nodes if at all
+    
 
     this.treeView
       .change(
@@ -288,7 +275,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         vega.changeset().remove(this.prevData.links).insert(this.asctData.links)
       )
       .runAsync();
-
+   
     const didViewRender = await this.treeView.resize().runAsync();
     await this.treeView.runAsync();
     if (didViewRender) {

@@ -9,6 +9,8 @@ import { BimodalService } from '../services/bimodal.service';
 import { CompareComponent } from '../compare/compare.component';
 import { SearchComponent} from '../search/search.component';
 
+import { TreeComponent } from '../tree/tree.component'
+
 @Component({
   selector: 'app-vis',
   templateUrl: './vis.component.html',
@@ -33,6 +35,9 @@ export class VisComponent implements OnInit, OnChanges {
   comapreComponentSources = [];
   searchIds = [-1];
 
+  @ViewChild(TreeComponent) treeChild: TreeComponent;
+  
+
   constructor(
     private dialog: MatDialog,
     public snackBar: MatSnackBar,
@@ -44,7 +49,9 @@ export class VisComponent implements OnInit, OnChanges {
 
   ngOnInit() {}
 
-  ngOnChanges() {}
+  ngOnChanges() {
+    
+  }
 
   toggleReportDrawer(val) {
     this.drawer.opened = val;
@@ -75,6 +82,7 @@ export class VisComponent implements OnInit, OnChanges {
     const dialogRef = this.dialog.open(SearchComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(r => {
       if (r?.data) {
+        this.treeChild.setGraphToShowSearch(r.data)
         this.searchIds = r.data;
       } else {
         this.searchIds = [-1];
@@ -96,6 +104,7 @@ export class VisComponent implements OnInit, OnChanges {
 
     dialogRef.afterClosed().subscribe(r => {
       if (r.data.length > 0) {
+        this.treeChild.setGraphToCompare(r.data)
         this.compareData = r.data;
         this.comapreComponentSources = r.sources;
       }
