@@ -63,6 +63,21 @@ export class SearchComponent implements OnInit {
 
   async ngOnInit() {
     const data = await this.bms.getASCTData();
+    const partonomyTreeData = await this.bms.getPartonomyTreeData();
+
+    for (const node of partonomyTreeData) {
+      if (node.children !== 0) {
+        this.structures.push({
+          id: node.id,
+          name: node.name,
+          groupName: 'Anatomical Structures',
+          x: node.x,
+          y: node.y
+        })
+      }
+      
+    }
+
     for (const node of data.nodes) {
       this.structures.push({
         id: node.id,

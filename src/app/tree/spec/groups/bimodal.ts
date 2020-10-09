@@ -16,7 +16,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
     return {
       type: 'group',
       signals: [
-        {name: 'bgoffset', value: 10}
+        {name: 'bgoffset', value: 8}
       ],
       name: 'bimodal-network',
       marks: [

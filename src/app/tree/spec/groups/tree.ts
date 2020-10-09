@@ -16,12 +16,47 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
   makeTreeMarkGroup() {
     return {
       type: 'group',
+      signals: [
+        {name: 'bgoffset', value: 6}
+      ],
       name: 'asTree',
       marks: [
         this.makeTreePathMarks(),
         this.makeTreeSymbolMarks(),
-        this.makeTreeTextMarks()
+        this.makeTreeTextMarks(),
+        this.makeBimodalTextSearchMarks(),
       ],
+    };
+  }
+
+  makeBimodalTextSearchMarks() {
+    return {
+      name: 'rectmark',
+      type: 'rect',
+      from: {
+        data: 'astextmark'
+      },
+      encode: {
+        enter: {
+          x: {field: 'bounds.x1', round: true, offset: {signal: '-bgoffset'}},
+          x2: {field: 'bounds.x2', round: true, offset: {signal: 'bgoffset'}},
+          y: {field: 'bounds.y1', round: true, offset: {signal: '-bgoffset'}},
+          y2: {field: 'bounds.y2', round: true, offset: {signal: 'bgoffset'}},
+          fill: {value: 'aliceblue'},
+          stroke: {value: 'steelblue'}
+        },
+        update: {
+          opacity: [
+            {
+              test: 'node__click === null && indata(\'search\', \'id\', datum.datum.id)',
+              value: 1
+            },
+            {
+             value: '0'
+            }
+           ]
+        }
+      }
     };
   }
 
@@ -94,7 +129,9 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
   makeTreeTextMarks() {
     return {
       type: 'text',
+      name: 'astextmark',
       from: { data: 'tree' },
+      zindex: 5,
       encode: {
         enter: {
           text: { field: 'name' },
@@ -102,6 +139,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
           fontSize: { value: 14 },
           baseline: { value: 'middle' },
           fontWeight: { value: 400 },
+         
         },
         update: {
           x: { field: 'x' },
