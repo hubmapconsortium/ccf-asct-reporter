@@ -141,7 +141,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public async setGraphToShowSearch(data) {
-    this.treeView.data('search', data)
+    this.treeView.data('search', data);
     this.treeView.runAsync();
     this.prevData.searchIds = data;
   }
@@ -261,7 +261,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     this.treeView._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
     this.treeView._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
     this.treeView._runtime.signals.targets__click.value = []; // removing clicked bold target nodes if at all
-    
+
 
     this.treeView
       .change(
@@ -275,7 +275,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         vega.changeset().remove(this.prevData.links).insert(this.asctData.links)
       )
       .runAsync();
-   
+
     const didViewRender = await this.treeView.resize().runAsync();
     await this.treeView.runAsync();
     if (didViewRender) {
