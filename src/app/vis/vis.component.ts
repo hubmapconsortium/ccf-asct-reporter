@@ -19,7 +19,7 @@ import { TreeComponent } from '../tree/tree.component';
 export class VisComponent implements OnInit, OnChanges {
   @ViewChild('drawer') drawer;
   @ViewChild('reportComponent') reportComponent;
-  @ViewChild('tree') treeComponent; 
+  @ViewChild('tree') treeComponent;
   @ViewChild(TreeComponent) treeChild: TreeComponent;
 
   displayGraph = 'Tree';
