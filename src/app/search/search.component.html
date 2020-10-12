@@ -10,29 +10,30 @@
         <span style="font-style: italic; font-size: 12px; color: gray;">Type the name of the structure that you want to look for in the input field below. Multiple structures can be selected too.</span>
         <div style="width: 100%;" class="mt-2">
           <mat-form-field style="width: 100%;">
-            <mat-select [formControl]="structureMultiCtrl" placeholder="Structure Names" [multiple]="true" >
+            <mat-select [formControl]="structureMultiCtrl" placeholder="Structure Names" [multiple]="true" style="width: 100%;">
               <app-select-search [formControl]="structureMultiFilterCtrl" style="width: 100%;"></app-select-search>
-              <div class="p-2 w-100">
-                <div style="width: 100%; display: flex; justify-content: start; align-items: center; height: 100%;">
+              <div clas style="position: absolute; top: 45px; width: 109%; z-index: 2;">
+                <div style="width: 100%; display: flex; justify-content: start; align-items: center; background: white !important;" class="py-2 pt-3 px-2">
                   <span style="font-weight: 600;">Filters: </span>
                   <mat-checkbox style="margin-top: 8px; margin-left: 8px;" (change)="changeFilter('Anatomical Structures')">Anatomical Structures</mat-checkbox>
                   <mat-checkbox style="margin-top: 8px; margin-left: 8px;" (change)="changeFilter('Cell Types')">Cell Types</mat-checkbox>
                   <mat-checkbox style="margin-top: 8px; margin-left: 8px;" (change)="changeFilter('Biomarkers')">Biomarkers</mat-checkbox>
                 </div>
               </div>
-              <div *ngFor="let structure of filteredstructuresMulti | async">
-                <mat-option [value]="structure" *ngIf="filterList.length ? filterList.includes(structure.groupName) ? true : false : true">
-                  <div style="width: 100%; display: flex; justify-content: space-between;">
-                    <div>
-                      {{structure.name}}
+              <div style="margin-top: 57px; z-index: -1;">
+                <div *ngFor="let structure of filteredstructuresMulti | async">
+                  <mat-option [value]="structure" *ngIf="filterList.length ? filterList.includes(structure.groupName) ? true : false : true">
+                    <div style="width: 100%; display: flex; justify-content: space-between;">
+                      <div>
+                        {{structure.name}}
+                      </div>
+                      <div style="font-style: italic;">
+                        {{structure.groupName}}
+                      </div>
                     </div>
-                    <div style="font-style: italic;">
-                      {{structure.groupName}}
-                    </div>
-                  </div>
-                </mat-option>
+                  </mat-option>
+                </div>
               </div>
-              
             </mat-select>
           </mat-form-field>
         </div>
