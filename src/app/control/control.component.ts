@@ -30,7 +30,11 @@ export class ControlComponent implements OnInit {
 
   getSliderValue() {
     this.height.emit(this.heightValue)
-    console.log(this.heightValue)
+  }
+
+  reset() {
+    this.heightValue = document.getElementsByTagName('body')[0].clientHeight;
+    this.height.emit(this.heightValue)
   }
 
   close() {

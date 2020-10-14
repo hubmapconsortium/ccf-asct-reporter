@@ -61,10 +61,10 @@ button {
 .control-class .mat-dialog-container  {
     border-radius: 10px;
     background: #444a65;
-    padding: 10px;
-    padding-left: 15px;
+    padding: 0;
     opacity: 30%;
     transition: 0.5s all;
+    box-shadow: black 2px 40px 60px;
 }
 
 .control-class .mat-dialog-container:hover {

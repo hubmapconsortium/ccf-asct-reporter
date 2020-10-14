@@ -35,6 +35,17 @@
   margin-bottom: 20px;
 }
 
+.content {
+  padding: 5px;
+}
+
+.control {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 label {
   color: white;
   font-weight: bold;
@@ -49,3 +60,14 @@ mat-slider {
   background: white;
 }
 
+::ng-deep .mat-expansion-panel-header.mat-expanded {
+  height: 40px !important;
+}
+
+::ng-deep .mat-expansion-panel {
+  background-color: transparent;
+}
+
+::ng-deep .mat-expansion-indicator::after {
+  color: white;
+}
