@@ -35,6 +35,7 @@ export class VisComponent implements OnInit, OnChanges {
   compareData = [];
   comapreComponentSources = [];
   searchIds = [-1];
+  loadingDialog: any;
 
   constructor(
     private dialog: MatDialog,
@@ -63,7 +64,9 @@ export class VisComponent implements OnInit, OnChanges {
   }
 
   showGraph(val) {
-    this.openLoading();
+    
+      this.openLoading();
+
     this.compareData = [];
     this.comapreComponentSources = [];
     this.displayGraph = val;
@@ -99,12 +102,14 @@ export class VisComponent implements OnInit, OnChanges {
       sources: this.comapreComponentSources
     };
     const dialogRef = this.dialog.open(CompareComponent, dialogConfig);
-
+    
     dialogRef.afterClosed().subscribe(r => {
       if (r.data.length > 0) {
         this.treeChild.setGraphToCompare(r.data);
         this.compareData = r.data;
         this.comapreComponentSources = r.sources;
+        dialogRef.close();
+        this.loadingDialog.close();
       }
     });
   }
@@ -121,19 +126,24 @@ export class VisComponent implements OnInit, OnChanges {
     this.comapreComponentSources = [];
     this.searchIds = [];
     if (val === 'Tree') {
-      this.openLoading();
+      
+      
+        this.openLoading();
+
       this.refreshTree = true;
       this.shouldRefreshData = true;
     } else if (val === 'Indented List') {
-      this.openLoading();
+      
+        this.openLoading();
       this.refreshIndent = true;
     }
   }
 
   returnRefresh(val) {
     if (val.comp === 'Tree') {
-      this.dialog.closeAll();
+      this.loadingDialog.close();
       if (val.val) {
+        // console.log(this.loadingDialog)
         val.status === 200
           ? this.openSnackBar(
               val.msg,
@@ -141,14 +151,13 @@ export class VisComponent implements OnInit, OnChanges {
               'green'
             )
           : this.openSnackBar(val.msg, 'Close', 'warn');
-          this.treeChild.showControl();
       } else {
         this.openSnackBar('Error while fetching data.', 'Close', 'red');
       }
       this.refreshTree = false;
       this.shouldRefreshData = false;
     } else if (val.comp === 'Indented List') {
-      this.dialog.closeAll();
+      this.loadingDialog.close();
       if (val.val) {
         val.status === 200
           ? this.openSnackBar(
@@ -176,18 +185,22 @@ export class VisComponent implements OnInit, OnChanges {
   }
 
   openLoading() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
+    if (!this.dialog.getDialogById('loading-dialog')) {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      
+      this.loadingDialog = this.dialog.open(LoadingComponent, {
+        id: 'loading-dialog',
+        disableClose: true,
+        autoFocus: true,
+        data: {
+          sheet: this.currentSheet,
+          list: this.currentSheet.name === 'ao' ? this.sc.ORGANS : [],
+        },
+      });
+    }
     
-    this.dialog.open(LoadingComponent, {
-      disableClose: true,
-      autoFocus: true,
-      data: {
-        sheet: this.currentSheet,
-        list: this.currentSheet.name === 'ao' ? this.sc.ORGANS : [],
-      },
-    })
   }
 
   openSnackBar(message, action, style) {
@@ -211,7 +224,9 @@ export class VisComponent implements OnInit, OnChanges {
     this.currentSheet = this.sc.SHEET_CONFIG[
       this.sc.SHEET_CONFIG.findIndex((i) => i.display === this.currentSheetName)
     ];
+    
     this.openLoading();
+
     this.shouldRefreshData = true;
   }
 

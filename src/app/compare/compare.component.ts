@@ -28,7 +28,9 @@ export class CompareComponent implements OnInit {
     public snackBar: MatSnackBar,
     public fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public dialogSources: any
-  ) {}
+  ) {
+
+  }
 
   ngOnInit(): void {
     this.formGroup = this.fb.group({
@@ -93,12 +95,12 @@ export class CompareComponent implements OnInit {
         });
       }
     this.openSnackBar('Derived Data sheet succesfully fetched.', 'Close', 'green');
-    this.dialog.closeAll();
     this.dialogRef.close({ data: exportCompareData, sources });
       } catch (err) {
-        this.loadingDialog.close();
+        
         this.openSnackBar('Error while fetching data.', 'Close', 'red');
       }
+      this.loadingDialog.close();
   }
 
   addCompareSheetRow() {
