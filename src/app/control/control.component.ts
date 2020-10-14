@@ -20,8 +20,8 @@ export class ControlComponent implements OnInit {
   }
 
   constructor(private dialogRef: MatDialogRef<ControlComponent>,
-    private dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: any) { 
+              private dialog: MatDialog,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
       this.heightValue = data.height;
     }
 
@@ -29,12 +29,12 @@ export class ControlComponent implements OnInit {
   }
 
   getSliderValue() {
-    this.height.emit(this.heightValue)
+    this.height.emit(this.heightValue);
   }
 
   reset() {
     this.heightValue = document.getElementsByTagName('body')[0].clientHeight;
-    this.height.emit(this.heightValue)
+    this.height.emit(this.heightValue);
   }
 
   close() {

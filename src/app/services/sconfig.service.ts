@@ -253,9 +253,9 @@ export class SconfigService {
       cell_col: 7,
       marker_col: 8,
       uberon_col: 0,
-      report_cols: [0, 1,2,3,4,5,7],
-      tree_cols: [0, 1,2,3,4,5],
-      indent_cols: [0, 1,2,3,4,5],
+      report_cols: [0, 1, 2, 3, 4, 5, 7],
+      tree_cols: [0, 1, 2, 3, 4, 5],
+      indent_cols: [0, 1, 2, 3, 4, 5],
       body: 'Brain',
       config: {
         bimodal_distance: 350,

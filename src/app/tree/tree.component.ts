@@ -15,7 +15,7 @@ import vegaTooltip from 'vega-tooltip';
 
 import { ReportService } from '../report/report.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ControlComponent } from '../control/control.component'
+import { ControlComponent } from '../control/control.component';
 import { TreeService } from './tree.service';
 import { BimodalService, ASCTD } from '../services/bimodal.service';
 import { SconfigService } from '../services/sconfig.service';
@@ -92,7 +92,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log(this.controlDialog.close())
+    console.log(this.controlDialog.close());
     this.shouldReloadData = false;
   }
 
@@ -134,12 +134,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
           height: document.getElementsByTagName('body')[0].clientHeight
         }
       });
-  
+
       this.controlDialog.componentInstance.height.subscribe(async (emmitedValue) => {
         const config: any = await this.makeVegaSpec(this.screenWidth, emmitedValue);
         await this.renderGraph(config);
       });
-    }    
+    }
   }
 
   /**

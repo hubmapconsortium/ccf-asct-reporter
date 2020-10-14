@@ -440,7 +440,7 @@ export class SheetService {
       if (cellTypes.length > 0) {
         res(cellTypes);
       } else {
-        rej('Could not process cell types')
+        rej('Could not process cell types');
       }
     });
   }
@@ -481,7 +481,7 @@ export class SheetService {
       if (bioMarkers.length > 0) {
         res(bioMarkers);
       } else {
-        rej('Could not process biomarkers')
+        rej('Could not process biomarkers');
       }
     });
   }

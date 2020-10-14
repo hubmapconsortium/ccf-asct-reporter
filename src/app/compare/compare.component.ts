@@ -97,10 +97,10 @@ export class CompareComponent implements OnInit {
     this.openSnackBar('Derived Data sheet succesfully fetched.', 'Close', 'green');
     this.dialogRef.close({ data: exportCompareData, sources });
       } catch (err) {
-        
+
         this.openSnackBar('Error while fetching data.', 'Close', 'red');
       }
-      this.loadingDialog.close();
+    this.loadingDialog.close();
   }
 
   addCompareSheetRow() {

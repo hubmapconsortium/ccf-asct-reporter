@@ -64,13 +64,13 @@ export class VisComponent implements OnInit, OnChanges {
   }
 
   showGraph(val) {
-    
+
       this.openLoading();
 
-    this.compareData = [];
-    this.comapreComponentSources = [];
-    this.displayGraph = val;
-    this.shouldRefreshData = true;
+      this.compareData = [];
+      this.comapreComponentSources = [];
+      this.displayGraph = val;
+      this.shouldRefreshData = true;
   }
 
   async searchStructure() {
@@ -102,7 +102,7 @@ export class VisComponent implements OnInit, OnChanges {
       sources: this.comapreComponentSources
     };
     const dialogRef = this.dialog.open(CompareComponent, dialogConfig);
-    
+
     dialogRef.afterClosed().subscribe(r => {
       if (r.data.length > 0) {
         this.treeChild.setGraphToCompare(r.data);
@@ -126,16 +126,16 @@ export class VisComponent implements OnInit, OnChanges {
     this.comapreComponentSources = [];
     this.searchIds = [];
     if (val === 'Tree') {
-      
-      
+
+
         this.openLoading();
 
-      this.refreshTree = true;
-      this.shouldRefreshData = true;
+        this.refreshTree = true;
+        this.shouldRefreshData = true;
     } else if (val === 'Indented List') {
-      
+
         this.openLoading();
-      this.refreshIndent = true;
+        this.refreshIndent = true;
     }
   }
 
@@ -189,7 +189,7 @@ export class VisComponent implements OnInit, OnChanges {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      
+
       this.loadingDialog = this.dialog.open(LoadingComponent, {
         id: 'loading-dialog',
         disableClose: true,
@@ -200,7 +200,7 @@ export class VisComponent implements OnInit, OnChanges {
         },
       });
     }
-    
+
   }
 
   openSnackBar(message, action, style) {
@@ -224,7 +224,7 @@ export class VisComponent implements OnInit, OnChanges {
     this.currentSheet = this.sc.SHEET_CONFIG[
       this.sc.SHEET_CONFIG.findIndex((i) => i.display === this.currentSheetName)
     ];
-    
+
     this.openLoading();
 
     this.shouldRefreshData = true;

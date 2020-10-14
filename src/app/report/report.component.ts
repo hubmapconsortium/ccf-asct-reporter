@@ -64,8 +64,10 @@ export class ReportComponent implements OnInit, OnChanges {
 
   async makeCompareData() {
     for (const sheet of this.compareData) {
-      let newEntry: any = {};
-      let compareAS, compareCT, compareB;
+      const newEntry: any = {};
+      let compareAS;
+      let compareCT;
+      let compareB;
       let identicalStructures = [];
       let newStructures = [];
 
@@ -85,7 +87,7 @@ export class ReportComponent implements OnInit, OnChanges {
           }
         }
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
 
       newEntry.identicalAS = identicalStructures;
@@ -109,7 +111,7 @@ export class ReportComponent implements OnInit, OnChanges {
           }
         }
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
 
       newEntry.identicalCT = identicalStructures;
@@ -133,7 +135,7 @@ export class ReportComponent implements OnInit, OnChanges {
           }
         }
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
 
       newEntry.identicalB = identicalStructures;
@@ -144,8 +146,6 @@ export class ReportComponent implements OnInit, OnChanges {
 
       this.compareDataStats.push(newEntry);
     }
-
-    console.log(this.compareDataStats)
   }
 
   ngOnInit(): void {
