@@ -141,6 +141,7 @@ export class VisComponent implements OnInit, OnChanges {
               'green'
             )
           : this.openSnackBar(val.msg, 'Close', 'warn');
+          this.treeChild.showControl();
       } else {
         this.openSnackBar('Error while fetching data.', 'Close', 'red');
       }
@@ -178,6 +179,7 @@ export class VisComponent implements OnInit, OnChanges {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+    
     this.dialog.open(LoadingComponent, {
       disableClose: true,
       autoFocus: true,
@@ -185,7 +187,7 @@ export class VisComponent implements OnInit, OnChanges {
         sheet: this.currentSheet,
         list: this.currentSheet.name === 'ao' ? this.sc.ORGANS : [],
       },
-    });
+    })
   }
 
   openSnackBar(message, action, style) {

@@ -1,0 +1,51 @@
+.wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  max-height: 800px;
+  overflow-y: auto;
+  position: relative;
+}
+.header,
+.footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.content {
+  flex: 1;
+  overflow: auto;
+}
+
+.header {
+    margin-bottom: 10px;
+}
+
+.title {
+  font-size:16px;
+  line-height: 1.6;
+  font-weight: bold;
+  color: white;
+}
+
+.title1 {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
+label {
+  color: white;
+  font-weight: bold;
+}
+
+mat-slider {
+  width: 100%;
+  color: white;
+}
+
+::ng-deep .mat-accent .mat-slider-track-fill .mat-slider-thumb{
+  background: white;
+}
+

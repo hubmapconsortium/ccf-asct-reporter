@@ -14,6 +14,8 @@ import * as moment from 'moment';
 import vegaTooltip from 'vega-tooltip';
 
 import { ReportService } from '../report/report.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ControlComponent } from '../control/control.component'
 import { TreeService } from './tree.service';
 import { BimodalService, ASCTD } from '../services/bimodal.service';
 import { SconfigService } from '../services/sconfig.service';
@@ -75,6 +77,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   };
 
   constructor(
+    private dialog?: MatDialog,
     public sheet?: SheetService,
     public report?: ReportService,
     public ts?: TreeService,
@@ -110,6 +113,28 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       this.ts.setCurrentSheet(this.currentSheet);
       this.getData();
     }
+  }
+
+  showControl() {
+    const modalRef = this.dialog.open(ControlComponent, {
+      disableClose: false,
+      autoFocus: false,
+      hasBackdrop: false,
+      width: '400px',
+      position: {
+        bottom: '20px',
+        left: '20px'
+      },
+      panelClass: 'control-class',
+      data: {
+        height: document.getElementsByTagName('body')[0].clientHeight
+      }
+    });
+
+    modalRef.componentInstance.height.subscribe(async (emmitedValue) => {
+      const config: any = await this.makeVegaSpec(this.screenWidth, emmitedValue);
+      await this.renderGraph(config);
+  });
   }
 
   /**

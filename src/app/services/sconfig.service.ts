@@ -261,7 +261,7 @@ export class SconfigService {
         bimodal_distance: 350,
         width: 800,
         width_offset: 1000,
-        height_offset: 20000,
+        height_offset: 4000,
       },
       title: 'Anatomical Structures',
     },
