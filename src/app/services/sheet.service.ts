@@ -132,50 +132,50 @@ export class SheetService {
     } else {
       if (environment.production) {
         // in development mode
-        // if (dataVersion ===  '') {
-        //   return {
-        //     data: [], msg: 'Not Found', status: 404
-        //   };
-        // }
+        if (dataVersion ===  '') {
+          return {
+            data: [], msg: 'Not Found', status: 404
+          };
+        }
+        
+        if (dataVersion === 'latest') {
+          dataVersion = this.sc.VERSIONS[2].folder;
+          this.changeDataVersion.emit(this.sc.VERSIONS[2]);
+          this.report.reportLog(
+            `<code>${this.sc.VERSIONS[2].display}</code> ${currentSheet.display} data fetched from system cache. [DEV]`,
+            'warning',
+            'msg'
+          );
+        }
 
-        // if (dataVersion === 'latest') {
-        //   dataVersion = this.sc.VERSIONS[1].folder;
-        //   this.changeDataVersion.emit(this.sc.VERSIONS[1]);
-        //   this.report.reportLog(
-        //     `<code>${this.sc.VERSIONS[1].display}</code> ${currentSheet.display} data fetched from system cache. [DEV]`,
-        //     'warning',
-        //     'msg'
-        //   );
-        // }
+        if (this.sc.VERSIONS.findIndex(i => i.folder === dataVersion) === -1) {return {data: [], msg: 'Not Found', status: 404}; }
+        constructedURL = `assets/data/${dataVersion}/${currentSheet.name}.csv`;
+        csvData = await this.getDataFromURL(constructedURL);
 
-        // if (this.sc.VERSIONS.findIndex(i => i.folder === dataVersion) === -1) {return {data: [], msg: 'Not Found', status: 404}; }
-        // constructedURL = `assets/data/${dataVersion}/${currentSheet.name}.csv`;
-        // csvData = await this.getDataFromURL(constructedURL);
+        this.organSheetData = {
+          data: csvData.data,
+          status: 200,
+          msg: 'Data fetched from system cache. [DEV]',
+        };
 
-        // this.organSheetData = {
-        //   data: csvData.data,
-        //   status: 200,
-        //   msg: 'Data fetched from system cache. [DEV]',
-        // };
-
-        // return await this.getOrganSheetData();
+        return await this.getOrganSheetData();
       }
 
-      // if (dataVersion !== 'latest') {
-      //   const v = this.sc.VERSIONS.findIndex(i => i.folder === dataVersion);
-      //   if (v === -1) { return {data: [], msg: 'Not Found', status: 404}; }
+      if (dataVersion !== 'latest') {
+        const v = this.sc.VERSIONS.findIndex(i => i.folder === dataVersion);
+        if (v === -1) { return {data: [], msg: 'Not Found', status: 404}; }
 
-      //   constructedURL = `assets/data/${dataVersion}/${currentSheet.name}.csv`;
+        constructedURL = `assets/data/${dataVersion}/${currentSheet.name}.csv`;
 
-      //   await this.getDataFromSystemCache(constructedURL);
-      //   this.changeDataVersion.emit(this.sc.VERSIONS[v]);
-      //   this.report.reportLog(
-      //     `<code>${this.sc.VERSIONS[1].display}</code> ${currentSheet.display} data fetched from system cache.`,
-      //     'warning',
-      //     'msg'
-      //   );
-      //   return await this.getOrganSheetData();
-      // }
+        await this.getDataFromSystemCache(constructedURL);
+        this.changeDataVersion.emit(this.sc.VERSIONS[v]);
+        this.report.reportLog(
+          `<code>${this.sc.VERSIONS[1].display}</code> ${currentSheet.display} data fetched from system cache.`,
+          'warning',
+          'msg'
+        );
+        return await this.getOrganSheetData();
+      }
 
       const sheetId = currentSheet.sheetId;
       const gid = currentSheet.gid;

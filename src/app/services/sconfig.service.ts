@@ -18,6 +18,10 @@ export class SconfigService {
     {
       display: 'v1.0.0',
       folder: 'v100'
+    },
+    {
+      display: 'v1.0.1',
+      folder: 'v101'
     }
   ];
 
