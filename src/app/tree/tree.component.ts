@@ -6,7 +6,7 @@ import {
   Output,
   EventEmitter,
   OnDestroy,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { SheetService } from '../services/sheet.service';
 import * as vega from 'vega';
@@ -92,6 +92,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log(this.controlDialog.close())
     this.shouldReloadData = false;
   }
 
