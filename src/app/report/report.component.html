@@ -175,66 +175,6 @@
           </mat-expansion-panel>
 
           <br />
-          <!-- <div *ngIf="compareData.length > 0">
-            <div class="title2">Data from Derives Sheet</div>
-    
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <div style="font-weight: 400; font-size: 13pt;">
-                    Similar Anatomical Structures 
-                  </div>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-      
-              <div class="as-details">
-                <div
-                  *ngFor="let a of getSimilarASFromDD() | orderBy: 'name'"
-                  class="i1"
-                >
-                  {{ a.name }}
-                </div>
-              </div>
-            </mat-expansion-panel>
-            <br />
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <div style="font-weight: 400; font-size: 13pt;">
-                    Similar Cell Types Structures 
-                  </div>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-      
-              <div class="as-details">
-                <div
-                  *ngFor="let a of getSimilarCTFromDD() | orderBy: 'name'"
-                  class="i1"
-                >
-                  {{ a.name }}
-                </div>
-              </div>
-            </mat-expansion-panel>
-            <br />
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <div style="font-weight: 400; font-size: 13pt;">
-                    Similar Anatomical Structures 
-                  </div>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-      
-              <div class="as-details">
-                <div
-                  *ngFor="let a of getSimilarBFromDD() | orderBy: 'name'"
-                  class="i1"
-                >
-                  {{ a.name }}
-                </div>
-              </div>
-            </mat-expansion-panel>
-          </div> -->
         </div>
         <br />
       </div>
@@ -251,7 +191,7 @@
           </button>
         </div>
       </div>
-      <div *ngIf="compareDataStats.length > 0">
+      <div *ngIf="compareData.length > 0">
         <br />
         <div *ngFor="let sheet of compareDataStats; let i = index">
           <mat-expansion-panel hideToggle="true" [disabled]="clickButton" (click)="clickButton=false">
@@ -260,7 +200,7 @@
               class="compare"
             >
               <mat-panel-title>
-                <div style="font-weight: 400; font-size: 13pt; color: #ececec">
+                <div style="font-weight: 400; font-size: 13pt; color:white;">
                   {{sheet.title}}
                 </div>
                 

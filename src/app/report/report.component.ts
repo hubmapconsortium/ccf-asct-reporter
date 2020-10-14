@@ -16,6 +16,18 @@ export class AS {
   uberon: string;
 }
 
+export interface Entry {
+  identicalAS: Array<string>;
+  identicalCT: Array<string>;
+  identicalB: Array<string>;
+  newAS: Array<string>;
+  newCT: Array<string>;
+  newB: Array<string>;
+  color: string;
+  title: string;
+  description: string;
+}
+
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
@@ -52,66 +64,76 @@ export class ReportComponent implements OnInit, OnChanges {
 
   async makeCompareData() {
     for (const sheet of this.compareData) {
-      const newEntry: any = {};
-
-      const compareAS = await this.sheet.makeAS(sheet.data, {
-        report_cols: this.currentSheet.report_cols,
-        cell_col: this.currentSheet.cell_col,
-        marker_col: this.currentSheet.marker_col,
-        uberon_col: this.currentSheet.uberon_col,
-      });
-
-      const compareCT = await this.sheet.makeCellTypes(sheet.data, {
-        report_cols: this.currentSheet.report_cols,
-        cell_col: this.currentSheet.cell_col,
-        marker_col: this.currentSheet.marker_col,
-        uberon_col: this.currentSheet.uberon_col,
-      });
-
-      const compareB = await this.sheet.makeBioMarkers(sheet.data, {
-        report_cols: this.currentSheet.report_cols,
-        cell_col: this.currentSheet.cell_col,
-        marker_col: this.currentSheet.marker_col,
-        uberon_col: this.currentSheet.uberon_col,
-      });
-
+      let newEntry: any = {};
+      let compareAS, compareCT, compareB;
       let identicalStructures = [];
       let newStructures = [];
 
-      if (compareAS.length > 0 ) {
-        for (const a of compareAS) {
-          const findObj = this.anatomicalStructures.findIndex(i => i.structure === a.structure);
-          if (findObj !== -1) { identicalStructures.push(a.structure); }
-          else { newStructures.push(a.structure); }
+      try {
+        compareAS = await this.sheet.makeAS(sheet.data, {
+          report_cols: this.currentSheet.report_cols,
+          cell_col: this.currentSheet.cell_col,
+          marker_col: this.currentSheet.marker_col,
+          uberon_col: this.currentSheet.uberon_col,
+        });
+
+        if (compareAS.length > 0 ) {
+          for (const a of compareAS) {
+            const findObj = this.anatomicalStructures.findIndex(i => i.structure === a.structure);
+            if (findObj !== -1) { identicalStructures.push(a.structure); }
+            else { newStructures.push(a.structure); }
+          }
         }
+      } catch (err) {
+        console.log(err)
       }
 
       newEntry.identicalAS = identicalStructures;
       newEntry.newAS = newStructures;
-
       identicalStructures = [];
       newStructures = [];
 
-      if (compareCT.length > 0 ) {
-        for (const a of compareCT) {
-          const findObj = this.cellTypes.findIndex(i => i.structure === a.structure);
-          if (findObj !== -1) { identicalStructures.push(a.structure); }
-          else { newStructures.push(a.structure); }
+      try {
+        compareCT = await this.sheet.makeCellTypes(sheet.data, {
+          report_cols: this.currentSheet.report_cols,
+          cell_col: this.currentSheet.cell_col,
+          marker_col: this.currentSheet.marker_col,
+          uberon_col: this.currentSheet.uberon_col,
+        });
+
+        if (compareCT.length > 0 ) {
+          for (const a of compareCT) {
+            const findObj = this.cellTypes.findIndex(i => i.structure === a.structure);
+            if (findObj !== -1) { identicalStructures.push(a.structure); }
+            else { newStructures.push(a.structure); }
+          }
         }
+      } catch (err) {
+        console.log(err)
       }
 
       newEntry.identicalCT = identicalStructures;
       newEntry.newCT = newStructures;
-
       identicalStructures = [];
       newStructures = [];
 
-      if (compareB.length > 0 ) {
-        for (const a of compareB) {
-          const findObj = this.bioMarkers.findIndex(i => i.structure === a.structure);
-          if (findObj !== -1) { identicalStructures.push(a.structure); }
-          else { newStructures.push(a.structure); }
+      try {
+        compareB = await this.sheet.makeBioMarkers(sheet.data, {
+          report_cols: this.currentSheet.report_cols,
+          cell_col: this.currentSheet.cell_col,
+          marker_col: this.currentSheet.marker_col,
+          uberon_col: this.currentSheet.uberon_col,
+        });
+
+        if (compareB.length > 0 ) {
+          for (const a of compareB) {
+            const findObj = this.bioMarkers.findIndex(i => i.structure === a.structure);
+            if (findObj !== -1) { identicalStructures.push(a.structure); }
+            else { newStructures.push(a.structure); }
+          }
         }
+      } catch (err) {
+        console.log(err)
       }
 
       newEntry.identicalB = identicalStructures;
@@ -122,6 +144,8 @@ export class ReportComponent implements OnInit, OnChanges {
 
       this.compareDataStats.push(newEntry);
     }
+
+    console.log(this.compareDataStats)
   }
 
   ngOnInit(): void {
