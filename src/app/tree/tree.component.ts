@@ -267,8 +267,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       }
       this.returnRefresh.emit({
         comp: 'Tree',
-        msg: err.msg,
-        status: err.status,
+        msg: err,
+        status: 500,
         val: false
       });
       this.report.reportLog(`Tree failed to render`, 'error', 'msg');

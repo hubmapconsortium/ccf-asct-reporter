@@ -110,50 +110,54 @@ export class TreeService {
       const root = new TNode(id, this.currentSheet.body, 0, 0, AS_RED);
       delete root.parent; delete root.uberonId;
       tree.append(root);
-
-      data.forEach(row => {
-        parent = root;
-        for (const col in cols) {
-
-          if (row[cols[col]] === '') {
-            continue;
-          }
-
-          if (row[cols[col]].startsWith('//')) {
-            continue;
-          }
-
-          const foundNodes = row[cols[col]].trim().split();
-          for (const i in foundNodes) {
-            if (foundNodes[i] !== '') {
-              const searchedNode = tree.search(foundNodes[i], parent);
-              searchedNode.pathColor = row[row.length - 1];
-
-              if (searchedNode.found) {
-                if (searchedNode.problem) {
-                  if (this.currentSheet.name !== 'ao') {
-                    if (!searchedNode.parents.includes(searchedNode.id)) {
-                      this.report.reportLog(`Nodes with multiple in-links`, 'warning', 'multi', searchedNode.name);
+  
+      try {
+        data.forEach(row => {
+          parent = root;
+          for (const col in cols) {
+  
+            if (row[cols[col]] === '') {
+              continue;
+            }
+  
+            if (row[cols[col]].startsWith('//')) {
+              continue;
+            }
+  
+            const foundNodes = row[cols[col]].trim().split();
+            for (const i in foundNodes) {
+              if (foundNodes[i] !== '') {
+                const searchedNode = tree.search(foundNodes[i], parent);
+                searchedNode.pathColor = row[row.length - 1];
+  
+                if (searchedNode.found) {
+                  if (searchedNode.problem) {
+                    if (this.currentSheet.name !== 'ao') {
+                      if (!searchedNode.parents.includes(searchedNode.id)) {
+                        this.report.reportLog(`Nodes with multiple in-links`, 'warning', 'multi', searchedNode.name);
+                      }
                     }
                   }
+                  parent = searchedNode;
+                } else {
+                  tree.id += 1;
+                  const uberon =  row[cols[col] + uberon_col] !== foundNodes[i] ? row[cols[col] + uberon_col] : 'NONE';
+                  const newNode = new TNode(tree.id, foundNodes[i], parent.id, uberon, AS_RED);
+                  newNode.isNew = row[row.length - 2];
+                  if (newNode.isNew) {
+                    newNode.color = row[row.length - 1];
+                    newNode.pathColor = row[row.length - 1];
+                  }
+                  tree.append(newNode);
+                  parent = newNode;
                 }
-                parent = searchedNode;
-              } else {
-                tree.id += 1;
-                const uberon =  row[cols[col] + uberon_col] !== foundNodes[i] ? row[cols[col] + uberon_col] : 'NONE';
-                const newNode = new TNode(tree.id, foundNodes[i], parent.id, uberon, AS_RED);
-                newNode.isNew = row[row.length - 2];
-                if (newNode.isNew) {
-                  newNode.color = row[row.length - 1];
-                  newNode.pathColor = row[row.length - 1];
-                }
-                tree.append(newNode);
-                parent = newNode;
               }
             }
           }
-        }
-      });
+        });
+      } catch (err) {
+        rej(['Could not process tree data']);
+      }
 
       if (tree.nodes.length < 0) {
         rej(['Could not process tree data']);

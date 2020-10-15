@@ -152,7 +152,7 @@ export class VisComponent implements OnInit, OnChanges {
             )
           : this.openSnackBar(val.msg, 'Close', 'warn');
       } else {
-        this.openSnackBar('Error while fetching data.', 'Close', 'red');
+        this.openSnackBar(val.msg, 'Close', 'red');
       }
       this.refreshTree = false;
       this.shouldRefreshData = false;
