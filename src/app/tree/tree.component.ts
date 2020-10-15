@@ -48,6 +48,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   screenWidth = 0;
   asctData: ASCTD;
   controlDialog: any;
+  isFullScreen = false;
 
   @Input() dataVersion = this.sc.VERSIONS[0].folder;
   @Input() settingsExpanded: boolean;
@@ -58,6 +59,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   @Input() public searchIds = [];
 
   @Output() returnRefresh = new EventEmitter();
+  @Output() fullscreen = new EventEmitter();
   @ViewChild('bimodal') biomodal;
 
   bimodalSortOptions = ['Alphabetically', 'Degree'];
@@ -94,6 +96,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   ngOnDestroy() {
     console.log(this.controlDialog.close());
     this.shouldReloadData = false;
+  }
+
+  toggleFullScreen() {
+    this.isFullScreen = !this.isFullScreen;
+    this.fullscreen.emit(this.isFullScreen);
+    console.log(this.isFullScreen);
   }
 
   /**

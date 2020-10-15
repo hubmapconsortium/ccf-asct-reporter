@@ -1,7 +1,7 @@
 <div style="width: inherit;" (window:resize)="onResize($event)">
-    <div style="overflow-x: auto; position: sticky; max-height: calc(100vh - 64px);" class="text-center">
+    <div style="overflow-x: auto; position: sticky;" class="text-center" [ngStyle]="{'max-height': isFullScreen ? '100vh' : '93.7vh'}"> 
         <div [ngStyle]="{'width': screenWidth + 'px' }" style="display: flex; flex-direction: row; background-color: #f7f7f7; padding: 10px;" *ngIf="shouldRenderASCTBiomodal">
-            <div [ngStyle]="{'width': treeWidth + bimodalDistance + 'px' }">
+            <div [ngStyle]="{'width': treeWidth + (bimodalDistance - 30) + 'px' }">
                 <mat-expansion-panel style="width: 50%;" hideToggle="true" #mepAS="matExpansionPanel" [(expanded)]="settingsExpanded">
                     <mat-expansion-panel-header style="margin-left: -5px;">
                         <mat-panel-title>
@@ -79,9 +79,28 @@
                 </mat-expansion-panel>
             </div>
 
+            <div style="height: 100%; margin-top: 5px; padding-right: 10px;">
+                <button 
+                    mat-flat-button 
+                    style="background-color: transparent;" 
+                    (click)="toggleFullScreen()"
+                    #tooltip="matTooltip" matTooltip="Toggle Full Screen" matTooltipPosition="below"
+                >
+                    <mat-icon>
+                        {{isFullScreen ? 'close_fullscreen' : 'open_in_full'}}
+                    </mat-icon>
+                </button>
+            </div>
+
         </div>
+        
         <div style="display: flex; justify-content: start;">
+<<<<<<< HEAD
             <div id="vis" #graph></div>
+=======
+            
+            <div id="vis" #graph> </div>
+>>>>>>> chore/fullscreen
         </div>
     </div>
 

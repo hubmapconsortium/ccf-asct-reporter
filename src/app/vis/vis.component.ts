@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnChanges } from '@angular/core';
+import { Component, OnInit, ViewChild, OnChanges, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingComponent } from '../loading/loading.component';
@@ -36,6 +36,7 @@ export class VisComponent implements OnInit, OnChanges {
   comapreComponentSources = [];
   searchIds = [-1];
   loadingDialog: any;
+  fullscreen: boolean;
 
   constructor(
     private dialog: MatDialog,
@@ -50,6 +51,10 @@ export class VisComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
 
+  }
+
+  toggleFullScreen(val: boolean) {
+    this.fullscreen = val;
   }
 
   toggleReportDrawer(val) {

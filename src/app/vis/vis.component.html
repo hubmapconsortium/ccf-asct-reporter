@@ -30,6 +30,8 @@
     </mat-drawer>
     <div class="content text-center">
       <app-navbar
+        [ngStyle]="{'display': fullscreen ? 'none' : 'block'}"
+        style=""
         (compare)="uploadDDSheet()"
         (search)="searchStructure()"
         (showReport)="toggleReportDrawer($event)"
@@ -50,6 +52,7 @@
         [shouldReloadData]="shouldRefreshData"
         [compareData]="compareData"
         [searchIds]="searchIds"
+        (fullscreen)="toggleFullScreen($event)"
       ></app-tree>
       <app-indent
         *ngIf="displayGraph === 'Indented List'"
