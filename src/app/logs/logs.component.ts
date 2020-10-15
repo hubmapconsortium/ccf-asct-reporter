@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
 import { SheetService } from '../services/sheet.service';
 import { ReportService } from '../report/report.service';
+import {GoogleAnalyticsService} from '../google-analytics.service';
 
 @Component({
   selector: 'app-logs',
@@ -15,7 +16,7 @@ export class LogsComponent implements OnInit {
   logs = [];
   sheetLogs = [];
 
-  constructor(public sheet: SheetService, public report: ReportService) {
+  constructor(public sheet: SheetService, public report: ReportService, public googleAnalyticsService: GoogleAnalyticsService) {
     }
 
   async ngOnInit() {
@@ -26,6 +27,7 @@ export class LogsComponent implements OnInit {
 
   closeDrawer() {
     this.closeComponent.emit(false);
+    this.googleAnalyticsService.eventEmitter('debug_log_close', 'debug_log', 'click', 'Close' , 1);
   }
 
   mail() {
