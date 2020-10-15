@@ -85,6 +85,7 @@ export class TreeService {
   public setCurrentSheet(sheet: any) {
     this.currentSheet = sheet;
   }
+
   /**
    * Creates the structure from the sheet data that is accepted by the vis.
    *
@@ -110,26 +111,26 @@ export class TreeService {
       const root = new TNode(id, this.currentSheet.body, 0, 0, AS_RED);
       delete root.parent; delete root.uberonId;
       tree.append(root);
-  
+
       try {
         data.forEach(row => {
           parent = root;
           for (const col in cols) {
-  
+
             if (row[cols[col]] === '') {
               continue;
             }
-  
+
             if (row[cols[col]].startsWith('//')) {
               continue;
             }
-  
+
             const foundNodes = row[cols[col]].trim().split();
             for (const i in foundNodes) {
               if (foundNodes[i] !== '') {
                 const searchedNode = tree.search(foundNodes[i], parent);
                 searchedNode.pathColor = row[row.length - 1];
-  
+
                 if (searchedNode.found) {
                   if (searchedNode.problem) {
                     if (this.currentSheet.name !== 'ao') {

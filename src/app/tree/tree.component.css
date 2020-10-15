@@ -22,6 +22,6 @@
         text-align: left;
     }
     
-    ::ng-deep .mat-expansion-indicator::after {
+    ::ng-deep .black-indicator .mat-expansion-indicator::after {
         color: black !important;
       }

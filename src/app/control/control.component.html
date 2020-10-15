@@ -8,7 +8,7 @@
     <div class="content">
       <div class="control">
         <label>Height</label>
-        <div style="width: 100%; display: flex; flex-direction: row;;">
+        <div style="width: 100%; display: flex; flex-direction: row; justify-content: space-between;">
           <div class="w-100">
               <mat-slider thumbLabel
               [displayWith]="formatLabel"
@@ -19,10 +19,10 @@
               max="40000"></mat-slider>
            
           </div>
-          <div style="display: flex; align-items: center;">
+          <div style="display: flex; align-items: center; padding-left:10px;">
             <label>{{heightValue}}</label>
           </div>
-          <div style="display: flex; align-items: center;">
+          <div style="display: flex; align-items: center; padding-left:10px;">
             <button mat-icon-button style="color: #ececec; margin-top: -10px;" (click)="reset()">
               <mat-icon>undo</mat-icon>
             </button>

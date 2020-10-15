@@ -137,7 +137,7 @@ export class SheetService {
             data: [], msg: 'Not Found', status: 404
           };
         }
-        
+
         if (dataVersion === 'latest') {
           dataVersion = this.sc.VERSIONS[2].folder;
           this.changeDataVersion.emit(this.sc.VERSIONS[2]);
