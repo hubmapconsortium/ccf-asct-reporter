@@ -124,7 +124,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         webkitExitFullscreen(): Promise<void>;
         msExitFullscreen(): Promise<void>;
       };
-      
+
       if (docWithBrowsersExitFunctions.exitFullscreen) {
         docWithBrowsersExitFunctions.exitFullscreen();
       } else if (docWithBrowsersExitFunctions.mozCancelFullScreen) { /* Firefox */
@@ -169,7 +169,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         width: '400px',
         position: {
           bottom: '20px',
-          left: '20px'
+          left: '35px'
         },
         panelClass: 'control-class',
         data: {
