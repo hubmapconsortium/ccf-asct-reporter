@@ -14,7 +14,7 @@ import * as moment from 'moment';
 import vegaTooltip from 'vega-tooltip';
 
 import { ReportService } from '../report/report.service';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ControlComponent } from '../control/control.component';
 import { TreeService } from './tree.service';
 import { BimodalService, ASCTD } from '../services/bimodal.service';
@@ -47,7 +47,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   treeWidthOffset = 0;
   screenWidth = 0;
   asctData: ASCTD;
-  controlDialog: any;
+  controlDialog: MatDialogRef<ControlComponent>;
   isFullScreen = false;
 
   @Input() dataVersion = this.sc.VERSIONS[0].folder;
@@ -94,7 +94,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log(this.controlDialog.close());
+    this.controlDialog.close()
     this.shouldReloadData = false;
   }
 
@@ -147,13 +147,17 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges() {
-
+    
     if (this.refreshData) {
       this.ts.setCurrentSheet(this.currentSheet);
       this.getData();
+      if (this.controlDialog) {
+        this.controlDialog.componentInstance.heightValue = document.getElementsByTagName('body')[0].clientHeight;
+      }
     }
 
     if (this.shouldReloadData && !this.refreshData) {
+      this.controlDialog.componentInstance.heightValue = document.getElementsByTagName('body')[0].clientHeight;
       this.ts.setCurrentSheet(this.currentSheet);
       this.getData();
     }
@@ -264,7 +268,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * Fetched the data to form the visualization on load.
    */
-  async getData() {
+  async getData() {    
     try {
       this.sheetData = await this.sheet.getSheetData(this.currentSheet, this.dataVersion);
       if (this.sheetData.status === 404) {
@@ -290,6 +294,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       const config: any = await this.makeVegaSpec(this.screenWidth, height);
       await this.renderGraph(config);
       this.shouldRenderASCTBiomodal = true;
+
       this.report.reportLog(
         `${this.currentSheet.display} tree succesfully rendered`,
         'success',

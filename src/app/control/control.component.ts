@@ -8,7 +8,7 @@ import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/d
   styleUrls: ['./control.component.css']
 })
 export class ControlComponent implements OnInit {
-  heightValue: number;
+  heightValue = document.getElementsByTagName('body')[0].clientHeight;
 
   @Output() height = new EventEmitter<any>();
 
