@@ -11,8 +11,8 @@
                 </mat-expansion-panel>
             </div>
             <div [ngStyle]="{'width': bimodalDistance+'px' }">
-                <mat-expansion-panel style="width: 50%;" #mepCT="matExpansionPanel" [(expanded)]="settingsExpanded" class="mepNoPadding black-indicator">
-                    <mat-expansion-panel-header class="p-0 pr-1">
+                <mat-expansion-panel style="width: 60%;" #mepCT="matExpansionPanel" [(expanded)]="settingsExpanded" class="mepNoPadding black-indicator">
+                    <mat-expansion-panel-header class='p-0 pr-1'>
                         <mat-panel-title class="text-center">
                             <div style="font-weight: 500; font-size: 13pt;">Cell Types</div>
                         </mat-panel-title>
@@ -44,8 +44,8 @@
                     </div>
                 </mat-expansion-panel>
             </div>
-            <div [ngStyle]="{'width': bimodalDistance +'px' }">
-                <mat-expansion-panel style="width: 50%" #mepBM="matExpansionPanel" [(expanded)]="settingsExpanded" class="mepNoPadding black-indicator">
+            <div [ngStyle]="{'width': (bimodalDistance - 50) +'px' }">
+                <mat-expansion-panel style="width: 60%" #mepBM="matExpansionPanel" [(expanded)]="settingsExpanded" class="mepNoPadding black-indicator">
                     <mat-expansion-panel-header class="p-0 pr-1">
                         <mat-panel-title>
                             <div style="font-weight: 500; font-size: 13pt;">Biomarkers</div>
@@ -95,12 +95,7 @@
         </div>
         
         <div style="display: flex; justify-content: start;">
-<<<<<<< HEAD
             <div id="vis" #graph></div>
-=======
-            
-            <div id="vis" #graph> </div>
->>>>>>> chore/fullscreen
         </div>
     </div>
 
