@@ -94,7 +94,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.controlDialog.close()
+    if(this.controlDialog)
+      this.controlDialog.close();
     this.shouldReloadData = false;
   }
 
@@ -147,7 +148,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges() {
-    
+
     if (this.refreshData) {
       this.ts.setCurrentSheet(this.currentSheet);
       this.getData();
@@ -268,7 +269,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * Fetched the data to form the visualization on load.
    */
-  async getData() {    
+  async getData() {
     try {
       this.sheetData = await this.sheet.getSheetData(this.currentSheet, this.dataVersion);
       if (this.sheetData.status === 404) {

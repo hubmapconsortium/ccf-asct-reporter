@@ -21,7 +21,8 @@ export class VisComponent implements OnInit, OnChanges {
   @ViewChild('reportComponent') reportComponent;
   @ViewChild('tree') treeComponent;
   @ViewChild(TreeComponent) treeChild: TreeComponent;
-
+  
+  visError = false;
   displayGraph = 'Tree';
   refreshTree = false;
   refreshIndent = false;
@@ -131,10 +132,7 @@ export class VisComponent implements OnInit, OnChanges {
     this.comapreComponentSources = [];
     this.searchIds = [];
     if (val === 'Tree') {
-
-
         this.openLoading();
-
         this.refreshTree = true;
         this.shouldRefreshData = true;
     } else if (val === 'Indented List') {
@@ -148,7 +146,6 @@ export class VisComponent implements OnInit, OnChanges {
     if (val.comp === 'Tree') {
       this.loadingDialog.close();
       if (val.val) {
-        // console.log(this.loadingDialog)
         val.status === 200
           ? this.openSnackBar(
               val.msg,
@@ -157,6 +154,7 @@ export class VisComponent implements OnInit, OnChanges {
             )
           : this.openSnackBar(val.msg, 'Close', 'warn');
       } else {
+        this.visError = true;
         this.openSnackBar(val.msg, 'Close', 'red');
       }
       this.refreshTree = false;
@@ -237,5 +235,11 @@ export class VisComponent implements OnInit, OnChanges {
 
   setVersionFolder(folder: string) {
     this.dataVersion = folder;
+  }
+
+  mail() {
+    const subject = `Problem with ${this.currentSheet.name}.xlsx`;
+    const mailText = `mailto:infoccf@indiana.edu?subject=${subject}`;
+    window.location.href = mailText;
   }
 }
