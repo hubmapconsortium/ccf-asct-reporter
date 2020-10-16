@@ -31,7 +31,6 @@
     <div class="content text-center">
       <app-navbar
         [ngStyle]="{'display': fullscreen ? 'none' : 'block'}"
-        style=""
         (compare)="uploadDDSheet()"
         (search)="searchStructure()"
         (showReport)="toggleReportDrawer($event)"
@@ -63,8 +62,8 @@
         [shouldReloadData]="shouldRefreshData"
       ></app-indent>
 
-      <div style="width: 100%; height: 90%; display: flex; justify-content: center; align-items: center; flex-direction: column;">
-        <span *ngIf="visError" class='title1'>
+      <div style="width: 100%; height: 90%; display: flex; justify-content: center; align-items: center; flex-direction: column;" *ngIf="visError">
+        <span class='title1'>
           :(
         </span>
         <span *ngIf="visError" class='title1'>

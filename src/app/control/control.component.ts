@@ -11,6 +11,7 @@ export class ControlComponent implements OnInit {
   heightValue = document.getElementsByTagName('body')[0].clientHeight;
 
   @Output() height = new EventEmitter<any>();
+  @Output() visibility = new EventEmitter<any>();
 
   formatLabel(value: number) {
     if (value >= 1000) {
@@ -23,6 +24,7 @@ export class ControlComponent implements OnInit {
               private dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) public data: any) {
       this.heightValue = data.height;
+      
     }
 
   ngOnInit(): void {
@@ -37,8 +39,10 @@ export class ControlComponent implements OnInit {
     this.height.emit(this.heightValue);
   }
 
-  close() {
-    this.dialogRef.close();
+  close(e?: Event) {
+    e.stopPropagation()
+    document.getElementById('control-dialog').style.display = 'none';
+    this.visibility.emit('none');
   }
 
 }

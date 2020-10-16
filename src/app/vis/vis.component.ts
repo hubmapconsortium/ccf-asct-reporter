@@ -237,6 +237,7 @@ export class VisComponent implements OnInit, OnChanges {
     this.dataVersion = folder;
   }
 
+
   mail() {
     const subject = `Problem with ${this.currentSheet.name}.xlsx`;
     const mailText = `mailto:infoccf@indiana.edu?subject=${subject}`;

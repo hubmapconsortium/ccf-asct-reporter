@@ -49,6 +49,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   asctData: ASCTD;
   controlDialog: MatDialogRef<ControlComponent>;
   isFullScreen = false;
+  isControlVisible = true;
 
   @Input() dataVersion = this.sc.VERSIONS[0].folder;
   @Input() settingsExpanded: boolean;
@@ -187,7 +188,18 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
         const config: any = await this.makeVegaSpec(this.screenWidth, emmitedValue);
         await this.renderGraph(config);
       });
+
+      this.controlDialog.componentInstance.visibility.subscribe(async (emmitedValue) => {
+        if (emmitedValue === 'none') {
+          this.isControlVisible = false;
+        }
+      });
     }
+  }
+
+  makeControlVisible() {
+    document.getElementById('control-dialog').style.display = 'block';
+    this.isControlVisible = true;
   }
 
   /**

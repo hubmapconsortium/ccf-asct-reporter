@@ -79,8 +79,9 @@
                 </mat-expansion-panel>
             </div>
 
-            <div style="height: 100%; margin-top: 5px; padding-right: 10px;">
+            <div style="height: 100%; margin-top: 5px;">
                 <button 
+                class="p-0"
                     mat-flat-button 
                     style="background-color: transparent;" 
                     (click)="toggleFullScreen()"
@@ -91,11 +92,18 @@
                     </mat-icon>
                 </button>
             </div>
-
         </div>
         
         <div style="display: flex; justify-content: start;">
             <div id="vis" #graph></div>
+        </div> 
+    </div>
+
+    <div style="position: absolute; bottom: 30px; left: 0;" *ngIf="!isControlVisible">
+        <div style="background-color: #444a65; border-top-right-radius: 5px; border-bottom-right-radius: 5px;">
+            <button mat-icon-button (click)="makeControlVisible()">
+                <mat-icon style="color: white;">settings</mat-icon>
+            </button>
         </div>
     </div>
 
