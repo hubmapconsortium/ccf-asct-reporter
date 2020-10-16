@@ -14,7 +14,7 @@
     align-items: center;
 }
 .content {
-  flex: 1;
+  flex: 1 1;
   overflow: auto;
 }
 
