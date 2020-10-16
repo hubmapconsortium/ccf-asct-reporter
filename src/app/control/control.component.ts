@@ -24,7 +24,7 @@ export class ControlComponent implements OnInit {
               private dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) public data: any) {
       this.heightValue = data.height;
-      
+
     }
 
   ngOnInit(): void {
@@ -40,7 +40,7 @@ export class ControlComponent implements OnInit {
   }
 
   close(e?: Event) {
-    e.stopPropagation()
+    e.stopPropagation();
     document.getElementById('control-dialog').style.display = 'none';
     this.visibility.emit('none');
   }
