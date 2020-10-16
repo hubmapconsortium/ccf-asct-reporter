@@ -60,7 +60,7 @@ mat-slider {
   background: white;
 }
 
-::ng-deep .mat-expansion-panel-header.mat-expanded {
+::ng-deep .controlDialog > .mat-expansion-panel-header.mat-expanded {
   height: 40px !important;
 }
 
@@ -68,7 +68,7 @@ mat-slider {
   background-color: transparent;
 }
 
-::ng-deep .mat-expansion-indicator::after {
+::ng-deep .right-aligned-header > .mat-expansion-indicator::after {
   color: white;
 }
 
