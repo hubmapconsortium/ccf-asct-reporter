@@ -163,6 +163,10 @@ export class SearchComponent implements OnInit {
 
   }
 
+  clearSelections() {
+    this.structureMultiCtrl.reset()
+  }
+
   close() {
     this.dialogRef.close({data: []});
   }
