@@ -51,7 +51,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   isFullScreen = false;
   isControlVisible = true;
 
-  @Input() dataVersion = this.sc.VERSIONS[0].folder;
+  dataVersion: string;
   @Input() settingsExpanded: boolean;
   @Input() currentSheet: any;
   @Input() public refreshData = false;
@@ -202,6 +202,10 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     this.isControlVisible = true;
   }
 
+  setDataVersion(version) {
+    this.dataVersion = version;
+  }
+
   /**
    * Re-renders the graph on window size reset.
    *
@@ -284,7 +288,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
    */
   async getData() {
     try {
-      this.sheetData = await this.sheet.getSheetData(this.currentSheet, this.dataVersion);
+      this.sheetData = await this.sheet.getSheetData(this.currentSheet);
       if (this.sheetData.status === 404) {
         this.router.navigateByUrl('/error');
         throw new Error();

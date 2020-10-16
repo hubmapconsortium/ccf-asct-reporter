@@ -227,14 +227,14 @@ export class VisComponent implements OnInit, OnChanges {
     this.currentSheet = this.sc.SHEET_CONFIG[
       this.sc.SHEET_CONFIG.findIndex((i) => i.display === this.currentSheetName)
     ];
-
     this.openLoading();
-
     this.shouldRefreshData = true;
   }
 
   setVersionFolder(folder: string) {
+    this.visError = false;
     this.dataVersion = folder;
+    this.sheet.dataVersion = folder;
   }
 
 

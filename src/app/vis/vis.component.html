@@ -46,7 +46,6 @@
         *ngIf="!visError && displayGraph === 'Tree'"
         [refreshData]="refreshTree"
         [currentSheet]="currentSheet"
-        [dataVersion]="dataVersion"
         (returnRefresh)="returnRefresh($event)"
         [shouldReloadData]="shouldRefreshData"
         [compareData]="compareData"

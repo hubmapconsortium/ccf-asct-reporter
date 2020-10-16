@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
     if (environment.production) {
       this.dataVersion = 'latest';
     } else {
-      this.dataVersion = this.sc.VERSIONS[1].folder;
+      this.dataVersion = this.sc.VERSIONS[this.sc.VERSIONS.length - 1].folder;
     }
   }
 

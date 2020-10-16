@@ -196,9 +196,7 @@ export class NavbarComponent implements OnInit {
       queryParamsHandling: 'merge',
     });
     this.location.go(urlTree.toString());
-    this.dataVersion.emit(
-      version
-    );
+    this.dataVersion.emit(version);
     this.refresh.emit(this.selectedOption);
   }
 }
