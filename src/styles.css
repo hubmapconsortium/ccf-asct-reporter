@@ -62,13 +62,13 @@ button {
     border-radius: 10px;
     background: #444a65;
     padding: 0;
-    opacity: 30%;
+    opacity: 0.3 !important;
     transition: 0.5s all;
     box-shadow: black 2px 40px 60px;
 }
 
 .control-class .mat-dialog-container:hover {
-    opacity: 100%;
+    opacity: 1 !important;
     transition: 0.5s all;
 }
 
@@ -76,6 +76,6 @@ button {
     justify-content: space-between;
   }
 
-  .right-aligned-header > .mat-content > mat-panel-title, .right-aligned-header > .mat-content > mat-panel-description {
+.right-aligned-header > .mat-content > mat-panel-title, .right-aligned-header > .mat-content > mat-panel-description {
     flex: 0 0 auto;
-    }
+}
