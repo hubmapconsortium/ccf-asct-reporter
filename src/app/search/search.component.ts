@@ -164,7 +164,7 @@ export class SearchComponent implements OnInit {
   }
 
   clearSelections() {
-    this.structureMultiCtrl.reset()
+    this.structureMultiCtrl.reset();
   }
 
   close() {
