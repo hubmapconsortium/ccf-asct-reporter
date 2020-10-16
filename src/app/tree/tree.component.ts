@@ -94,8 +94,9 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.controlDialog)
+    if (this.controlDialog) {
       this.controlDialog.close();
+    }
     this.shouldReloadData = false;
   }
 

@@ -21,7 +21,7 @@ export class VisComponent implements OnInit, OnChanges {
   @ViewChild('reportComponent') reportComponent;
   @ViewChild('tree') treeComponent;
   @ViewChild(TreeComponent) treeChild: TreeComponent;
-  
+
   visError = false;
   displayGraph = 'Tree';
   refreshTree = false;
