@@ -12,7 +12,7 @@
       <mat-icon style="color: grey;">close</mat-icon>
     </button>
   </div>
-  <mat-tab-group mat-stretch-tabs class="tabs">
+  <mat-tab-group mat-stretch-tabs class="tabs" (selectedTabChange)="tabClick($event)">
     <mat-tab [label]="'Main Sheet'">
       <div class="content">
         <br />
@@ -54,8 +54,8 @@
         <div class="details">
           <div class="title2">Alphabetically sorted listings of all ASCT+B</div>
 
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
+          <mat-expansion-panel >
+            <mat-expansion-panel-header (selected)="panelClick($event)">
               <mat-panel-title>
                 <div style="font-weight: 400; font-size: 13pt;">
                   Unique anatomical structures (AS)

@@ -93,12 +93,13 @@ export class CompareComponent implements OnInit {
           title: ddSheet.title === '' ? `Sheet ${idx + 1}` : ddSheet.title,
           description: ddSheet.description
         });
-        this.googleAnalyticsService.eventEmitter('compare_sheet_title', 'compare', 'input', ddSheet.title === '' ? `Sheet ${idx + 1}` : ddSheet.title, idx+1);
-        this.googleAnalyticsService.eventEmitter('compare_sheet_description', 'compare', 'input',ddSheet.description, idx+1);
-        this.googleAnalyticsService.eventEmitter('compare_sheet_link', 'compare', 'input', ddSheet.link , idx+1);
-        this.googleAnalyticsService.eventEmitter('compare_sheet_color', 'compare', 'input', ddSheet.color, idx+1);
-        this.googleAnalyticsService.eventEmitter('compare_sheet_delete', 'compare', 'click', 'Delete Sheet' , idx+1);
-      
+      this.googleAnalyticsService.eventEmitter('compare_sheet_title', 'compare',
+      'input', ddSheet.title === '' ? `Sheet ${idx + 1}` : ddSheet.title, idx + 1);
+      this.googleAnalyticsService.eventEmitter('compare_sheet_description', 'compare', 'input', ddSheet.description, idx + 1);
+      this.googleAnalyticsService.eventEmitter('compare_sheet_link', 'compare', 'input', ddSheet.link , idx + 1);
+      this.googleAnalyticsService.eventEmitter('compare_sheet_color', 'compare', 'input', ddSheet.color, idx + 1);
+      this.googleAnalyticsService.eventEmitter('compare_sheet_delete', 'compare', 'click', 'Delete Sheet' , idx + 1);
+
       }
     this.openSnackBar('Derived Data sheet succesfully fetched.', 'Close', 'green');
     this.dialog.closeAll();
@@ -107,7 +108,7 @@ export class CompareComponent implements OnInit {
         this.loadingDialog.close();
         this.openSnackBar('Error while fetching data.', 'Close', 'red');
       }
-      
+
   }
 
   addCompareSheetRow() {

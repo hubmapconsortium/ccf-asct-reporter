@@ -18,6 +18,7 @@ import { TreeService } from './tree.service';
 import { BimodalService, ASCTD } from '../services/bimodal.service';
 import { SconfigService } from '../services/sconfig.service';
 import { Router } from '@angular/router';
+import {GoogleAnalyticsService} from '../google-analytics.service';
 
 import { VegaConfig } from './vega.config';
 
@@ -78,7 +79,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     public ts: TreeService,
     public bms: BimodalService,
     public sc: SconfigService,
-    public router: Router
+    public router: Router,
+    public googleAnalyticsService: GoogleAnalyticsService
   ) { }
 
   ngOnInit(): void {}
@@ -247,6 +249,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
    */
 
   public async makeBimodalGraph() {
+   
     this.asctData = await this.bms.makeASCTData(
       this.sheetData.data,
       this.updatedTreeData,
@@ -254,6 +257,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       this.currentSheet,
       this.compareData
     );
+    this.googleAnalyticsService.eventEmitter('tree_functions_sort_ct', 'tree', 'click', this.bimodalConfig.BM.sort , 1);
+    this.googleAnalyticsService.eventEmitter('tree_functions_size_ct', 'tree', 'click', this.bimodalConfig.CT.sort , 1);
     this.treeView._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
     this.treeView._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
     this.treeView._runtime.signals.targets__click.value = []; // removing clicked bold target nodes if at all
@@ -278,6 +283,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       this.graphWidth = didViewRender._viewWidth;
       return true;
     }
+
     return false;
   }
 

@@ -128,7 +128,7 @@ export class NavbarComponent implements OnInit {
   }
 
   getSelection(option = this.selectedOption) {
-    debugger;
+
     this.selectedOption = option;
     this.showGraph.emit(option);
     this.googleAnalyticsService.eventEmitter('vis_selector', 'navbar', 'selection', this.selectedOption, 1);
