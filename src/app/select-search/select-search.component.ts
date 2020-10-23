@@ -41,6 +41,8 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
 
   @ViewChild('searchSelectInput', {read: ElementRef}) searchSelectInput: ElementRef;
 
+  @Output() emitFilter = new EventEmitter<any>();
+  @Output() emitClearFilter = new EventEmitter<any>();
 
   private val: string;
 
@@ -48,10 +50,10 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
 
   private previousSelectedValues: any[];
 
-  private overlayClassSet = false;
-
   private change = new EventEmitter<string>();
   private od = new Subject<void>();
+
+  public filterList = [];
 
   onChange = (_: any) => {};
   onTouched = (_?: any) => {};
@@ -120,6 +122,21 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
 
   ngAfterViewInit() {
     this.setOverlayClass();
+  }
+
+  changeFilter(structure) {
+    if (this.filterList.includes(structure)) {
+      this.filterList.splice(this.filterList.indexOf(structure), 1);
+      
+    } else {
+      this.filterList.push(structure);
+    }
+    this.emitFilter.emit(this.filterList)
+  }
+
+  clearSelections() {
+    this.filterList = []
+    this.emitClearFilter.emit([])
   }
 
   /**

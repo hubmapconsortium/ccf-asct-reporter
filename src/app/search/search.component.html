@@ -11,21 +11,9 @@
         <div style="width: 100%;" class="mt-2">
           <mat-form-field style="width: 100%;">
             <mat-select [formControl]="structureMultiCtrl" placeholder="Structure Names" [multiple]="true" style="width: 100%;">
-              <app-select-search [formControl]="structureMultiFilterCtrl" style="width: 100%;"></app-select-search>
-              <div clas style="position: absolute; top: 45px; width: 109%; z-index: 2;">
-                <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; background: white !important;" class="py-2 pt-3 px-2">
-                 <div style="display: flex; justify-content: start; align-items: center;">
-                  <span style="font-weight: 600;">Filters: </span>
-                  <mat-checkbox style="margin-top: 8px; margin-left: 8px;" (change)="changeFilter('Anatomical Structures')">Anatomical Structures</mat-checkbox>
-                  <mat-checkbox style="margin-top: 8px; margin-left: 8px;" (change)="changeFilter('Cell Types')">Cell Types</mat-checkbox>
-                  <mat-checkbox style="margin-top: 8px; margin-left: 8px;" (change)="changeFilter('Biomarkers')">Biomarkers</mat-checkbox>
-                 </div>
-                 <div>
-                   <button mat-flat-button color="primary" (click)="clearSelections()">Clear</button>
-                 </div>
-                </div>
-              </div>
-              <div style="margin-top: 57px; z-index: -1;">
+              <app-select-search [formControl]="structureMultiFilterCtrl" style="width: 100%;" (emitFilter)="changeFilter($event)" (emitClearFilter)="changeFilter($event)"></app-select-search>
+             
+              <div style="z-index: -1;">
                 <div *ngFor="let structure of filteredstructuresMulti | async">
                   <mat-option [value]="structure" *ngIf="filterList.length ? filterList.includes(structure.groupName) ? true : false : true">
                     <div style="width: 100%; display: flex; justify-content: space-between;">

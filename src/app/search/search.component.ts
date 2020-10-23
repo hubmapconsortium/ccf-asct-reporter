@@ -108,12 +108,8 @@ export class SearchComponent implements OnInit {
       });
   }
 
-  changeFilter(structure) {
-    if (this.filterList.includes(structure)) {
-      this.filterList.splice(this.filterList.indexOf(structure), 1);
-    } else {
-      this.filterList.push(structure);
-    }
+  changeFilter(fl) {
+    this.filterList = fl;
   }
 
   private filterstructures() {
@@ -161,10 +157,6 @@ export class SearchComponent implements OnInit {
     }
 
 
-  }
-
-  clearSelections() {
-    this.structureMultiCtrl.reset();
   }
 
   close() {
