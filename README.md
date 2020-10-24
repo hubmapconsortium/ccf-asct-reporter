@@ -141,10 +141,10 @@ Multiple sheet can be linked too by clicking on the *+ Add* button. On clicking 
 - All edges that are common between the two sheets (compare sheet and master sheet) will be highligted in the color of that sheet.
 - Structures that are not present in the master sheet will be added to the visualization. These nodes will be transparent and will have a colored dashed stroke boder.
 
-#### Derived Sheets Report
+##### Derived Sheets Report
 In the Report, there will a new tab called *Derived Sheets*. Here, there will be computed statistics for each sheet that was uploaded in their respective panels. These sheets can be downloaded individually in XLSX format from the downloadb button on the panel header (beside the delete icon). On downloading the entire report (the *Download* button at the bottom) along with the main report, each derived sheet will be a sheet in the XL file.
 
-#### Important Requirements
+##### Important Requirements
 > in order for the compare feature to work seamlessly, please make sure the follow pointers are followed.
 1. The structure of the compare sheet that the user is uploading has to be the **same** as the master tables, in terms of column numbers (even if the contents of the rows are empty) For example,
 
