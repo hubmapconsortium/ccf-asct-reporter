@@ -47,6 +47,8 @@ $ npm run data <folder_name> # for updating all sheets
 $ npm run data <folder_name> <sheet> # for updating a specific sheet
 ```
 
+ > Folder name is the version. For example, to update an already exisisting version use the folder name like : v100. If the folder name is not present, a new one will be created.
+
 ## Details
 
 ### Currently supported ASCT Tables
