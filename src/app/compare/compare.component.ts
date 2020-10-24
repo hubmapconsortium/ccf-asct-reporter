@@ -84,7 +84,7 @@ export class CompareComponent implements OnInit {
       const constructedURL = `https://asctb-data-miner.herokuapp.com/${sheetID}/${gid}`;
 
       const csvData = await this.sheet.getDataFromURL(
-          constructedURL, 1, {isNew: true, color: ddSheet.color}
+          constructedURL, 11, {isNew: true, color: ddSheet.color}
         );
 
       exportCompareData.push({

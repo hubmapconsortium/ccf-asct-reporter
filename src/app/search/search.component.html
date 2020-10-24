@@ -9,11 +9,10 @@
       <div class="content mt-1">
         <span style="font-style: italic; font-size: 12px; color: gray;">Type the name of the structure that you want to look for in the input field below. Multiple structures can be selected too.</span>
         <div style="width: 100%;" class="mt-2">
-          <mat-form-field style="width: 100%;">
-            <mat-select [formControl]="structureMultiCtrl" placeholder="Structure Names" [multiple]="true" style="width: 100%;">
+          <mat-form-field style="width: 100%; overflow: auto; height: 80px;">
+            <mat-select [formControl]="structureMultiCtrl" placeholder="Structure Names" [multiple]="true">
               <app-select-search [formControl]="structureMultiFilterCtrl" style="width: 100%;" (emitFilter)="changeFilter($event)" (emitClearFilter)="changeFilter($event)"></app-select-search>
-             
-              <div style="z-index: -1;">
+              <div class="mt-5">
                 <div *ngFor="let structure of filteredstructuresMulti | async">
                   <mat-option [value]="structure" *ngIf="filterList.length ? filterList.includes(structure.groupName) ? true : false : true">
                     <div style="width: 100%; display: flex; justify-content: space-between;">

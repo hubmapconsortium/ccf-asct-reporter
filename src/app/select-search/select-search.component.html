@@ -11,6 +11,7 @@
          (blur)="onBlur($event.target.value)"
          placeholder="Type to search..."
   />
+  
   <button mat-button *ngIf="value"
           mat-icon-button
           aria-label="Clear"
@@ -18,22 +19,25 @@
           class="mat-select-search-clear">
     <mat-icon>close</mat-icon>
   </button>
-</div>
-<div>
-  <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; background: white !important;" class="py-2 pt-3 px-3">
-   <div style="display: flex; justify-content: start; align-items: center;">
-    <span style="font-weight: 600;">Filters: </span>
-    <mat-checkbox style="margin-top: 8px; margin-left: 8px;" (change)="changeFilter('Anatomical Structures')" [checked]="filterList.includes('Anatomical Structures')">Anatomical Structures</mat-checkbox>
-    <mat-checkbox style="margin-top: 8px; margin-left: 8px;" (change)="changeFilter('Cell Types')" [checked]="filterList.includes('Cell Types')">Cell Types</mat-checkbox>
-    <mat-checkbox style="margin-top: 8px; margin-left: 8px;" (change)="changeFilter('Biomarkers')" [checked]="filterList.includes('Biomarkers')">Biomarkers</mat-checkbox>
-   </div>
-   <div>
-     <button mat-flat-button color="primary" (click)="clearSelections()">Clear</button>
-   </div>
+
+  <div>
+    <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; background: white !important;" class="pb-2 px-3">
+     <div style="display: flex; justify-content: start; align-items: center;">
+      <span style="font-weight: 600;">Filters: </span>
+      <mat-checkbox style="margin-top: 8px; margin-left: 8px;" (change)="changeFilter('Anatomical Structures')" [checked]="filterList.includes('Anatomical Structures')">Anatomical Structures</mat-checkbox>
+      <mat-checkbox style="margin-top: 8px; margin-left: 8px;" (change)="changeFilter('Cell Types')" [checked]="filterList.includes('Cell Types')">Cell Types</mat-checkbox>
+      <mat-checkbox style="margin-top: 8px; margin-left: 8px;" (change)="changeFilter('Biomarkers')" [checked]="filterList.includes('Biomarkers')">Biomarkers</mat-checkbox>
+     </div>
+     <div>
+       <button mat-flat-button color="primary" (click)="clearSelections()">Clear</button>
+     </div>
+    </div>
   </div>
 </div>
 
+
+
 <div *ngIf="noEntriesFoundLabel && value && opt?.length === 0"
-     class="mat-select-search-no-entries-found">
+     class="mat-select-search-no-entries-found mt-5">
   {{noEntriesFoundLabel}}
 </div>
