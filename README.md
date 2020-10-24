@@ -130,6 +130,39 @@ Similar messages are clubbed together, and displayed via an expansion panel that
 - Sheet changes
 - Tree successfully/unsuccessfully rendering
 
+#### Compare Sheets
+This feature is used to compare the structures in a google sheet with the main master tables. To do so, click on the button beside the *refresh* button on navigation toolbar OR going to the *Derived Sheet* tab in the Report. On clicking the opposite arrows icon, there will be a popup where an user can enter 4 details,,
+- Title of the sheet
+- Description of the sheet
+- Google sheets link
+- Color of the sheet
+
+Multiple sheet can be linked too by clicking on the *+ Add* button. On clicking on *Compare* the data will take a while to fetch, and once it is done you can see the results on the visualization. Following are the features of the results,
+- All edges that are common between the two sheets (compare sheet and master sheet) will be highligted in the color of that sheet.
+- Structures that are not present in the master sheet will be added to the visualization. These nodes will be transparent and will have a colored dashed stroke boder.
+
+#### Derived Sheets Report
+In the Report, there will a new tab called *Derived Sheets*. Here, there will be computed statistics for each sheet that was uploaded in their respective panels. These sheets can be downloaded individually in XLSX format from the downloadb button on the panel header (beside the delete icon). On downloading the entire report (the *Download* button at the bottom) along with the main report, each derived sheet will be a sheet in the XL file.
+
+#### Important Requirements
+> in order for the compare feature to work seamlessly, please make sure the follow pointers are followed.
+1. The structure of the compare sheet that the user is uploading has to be the **same** as the master tables, in terms of column numbers (even if the contents of the rows are empty) For example,
+
+   Structure of Master_table.xlsx
+   | Structure_1 | Structure_2 | Structure_3 | Cell Type | Biomarkers
+   | --- | --- |--- | --- | ---|
+   | AS1 | AS2 | AS3 | CT1 | B1 |
+   | AS4 | AS5 | AS6 | CT2 | B2 |
+
+   Structure of your Compare_sheet.xlsx
+   | Structure_1 | Structure_2 | Structure_3 | Cell Type | Biomarkers
+   | --- | --- |--- | --- | ---|
+   | AS1.1 | AS2.1 | AS3.1 |  |  |
+
+2. Please make sure to use the **browser URL** and not the URL that you get from the *Share* button. 
+3. Since the data is fetched from Google Sheets, please make sure the sheet that you are linking has **public access** (ANYONE CAN VIEW). This can be done by going to the *Share* button at the top right corner and changing the access.
+
+
 #### Export
 The ASCT+B Reporter visualization can be saved out in PNG (Portable Network Graphics) and SVG (Scalable Vector Graphics File) format. The Vega Specification can also be exported in JSON format. The data that is currently being supplied to the visualization gets saved in this JSON too. This can be done by clicking on the download button on the navigation toolbar on the top (beside the refresh icon) and selecting the suitable image format.
 
