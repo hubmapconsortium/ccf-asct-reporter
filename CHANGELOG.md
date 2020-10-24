@@ -30,7 +30,7 @@ All notable changes to this project will be documented in this file.
 - XLSX file generation to make it more efficient and robust when any of the structures are not present.
 - Dialogs are now independent and are not centrally controlled. 
 - Snackbar messages
-
+- Data Miner to handle links that are private and respond with appropriate messages.
 
 
  
