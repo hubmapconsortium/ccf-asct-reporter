@@ -13,26 +13,28 @@ app.use(express.static(path.join(__dirname, '/')));
 app.get("/", (req, res) => {
   res.sendFile('views/home.html', {root: __dirname});
 });
-
-app.get("/:sheetid/:gid", (req, res) => {
+   
+app.get("/:sheetid/:gid", async (req, res) => {
   var f1 = req.params.sheetid;
   var f2 = req.params.gid;
-  axios
-    .get(
-      `https://docs.google.com/spreadsheets/d/${f1}/export?format=csv&gid=${f2}`
-    )
-    .then((response) => {
-      if (response.status === 200) {
-        res.status(206).send(response.data);
-      }
-    })
-    .catch((err) => {
-      if (err) {
-        res.statusMessage = 'Node server could not fetch sheet'
-        
-        res.status(500).end();
-      }
-    });
+
+  try {
+    const response = await axios.get(`https://docs.google.com/spreadsheets/d/${f1}/export?format=csv&gid=${f2}`)
+    if (response.headers['content-type'] !== 'text/csv') {
+      res.statusMessage = 'Please check if the sheet has the right access'
+      res.status(500).end();
+      return
+    }
+
+    if (response.status === 200) {
+      res.status(206).send(response.data);
+    }
+
+  } catch (err) {
+    console.log(err)
+    res.statusMessage = err
+    res.status(500).end();
+  }
 });
 
 app.listen(process.env.PORT || 5000)
