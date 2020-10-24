@@ -105,7 +105,7 @@ export class CompareComponent implements OnInit {
     );
     this.dialogRef.close({ data: exportCompareData, sources });
       } catch (err) {
-        console.log(this.sheet)
+        console.log(this.sheet);
         this.openSnackBar(err.msg, 'Close', 'red');
         this.report.reportLog(
           `Compare data failed to rendered`,
