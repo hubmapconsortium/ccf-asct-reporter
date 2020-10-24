@@ -94,7 +94,7 @@ The bimodal network contans a few functions that is used to sort the nodes,
 2. Sort by degree: Sorts the nodes based on the number of connections to a particular node. Makes use of the [`makeMarkerDegree()`](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/src/app/services/sheet.service.ts#L94) and [`makeCellDegree()`](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/src/app/services/sheet.service.ts#L127) functions for calculating the degree of markers and cells respectively.
 3. Sort by size: Nodes can be sorted by their relative sizes that depends on their degree. 
 
-Each node in the network can be hovered over to highlight its path links. Additionally, for better visual purposes, a node can be clicked to bold its name and persist the color of the path connecting the nodes. Clicking on an AS node colors the AS to CT paths, as well as CT to B paths. Clicking on a B node highlights the B to CT paths and CT to AS paths. Any clicked node can be clicked again to unbold and dehighlight.
+Each node in the network can be hovered over to highlight its path links. Additionally, for better visual purposes, a node can be clicked to bold its name and persist the color of the path connecting the nodes. Clicking on an AS node colors the AS to CT paths, as well as CT to B paths. Clicking on a B node highlights the B to CT paths and CT to AS paths. Any clicked node can be clicked again to unbold and dehighlight. Hovering or clicking will cause the nodes that are not a part of the connections will be "dimmed" to reduce visualization clutter.
 
 Hovering over a node also reveals a floating tooltip, that has the following information,
 - Name
@@ -109,15 +109,18 @@ This visualization is a traditional, hierarchical structure. This displays anato
 The function [`makeIndentData()`](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/3e7837c5af98945c61b9de6b7edb7e408ed77297/src/app/sheet.service.ts#L503) builds the data for the indented list. 
 
 #### Report Generator
-The report generator lists different meda data of the data which are downloadable. This can be accessed by clicking on the report icon in the navbar, which opens a navigation drawer. There are 2 main sections,
-1. **Overview**: This section contains the following statistics,
-   - Unique anatomical structures
-   - Unique cell types
-   - Unique bio markers
-   - Anatomical Structures with no uberon links
-   - Cell types with no CL links
-   - Biomarkers with no Go/UniPot link (as the moment none of the markers have this link)
-2. **Details**: This section has expandable panels that list the above mentioned node names in alphabetical order.
+The report generator lists different meda data of the data which are downloadable. This can be accessed by clicking on the report icon in the navbar, which opens a navigation drawer. There are 2 tabs in the Report,
+1. **Main Sheet**: This tab will contain the statistics of the Main Master table of that marticular organ. The main sections of this tab are,
+   * **Overview**: This section contains the following statistics,
+      - Unique anatomical structures
+      - Unique cell types
+      - Unique bio markers
+      - Anatomical Structures with no uberon links
+      - Cell types with no CL links
+      - Biomarkers with no Go/UniPot link (as the moment none of the markers have this link)
+   * **Details**: This section has expandable panels that list the above mentioned node names in alphabetical order.
+2. **Derived Sheet**: This tab will have exapandable panels of every uploaded derived sheet. If there are no sheets, there will be a button that will allow the user tolink a new sheet. To check the contents of the panels in this tab, please check the **Compare Sheets** section in this documentation.
+
 
 #### Debug Log
 The Debug Log lists warnings and errors that occurred during data parsing and visualization creation—for individual organs and for all organs. It is separated into two tabs,
@@ -161,6 +164,16 @@ In the Report, there will a new tab called *Derived Sheets*. Here, there will be
 
 2. Please make sure to use the **browser URL** and not the URL that you get from the *Share* button. 
 3. Since the data is fetched from Google Sheets, please make sure the sheet that you are linking has **public access** (ANYONE CAN VIEW). This can be done by going to the *Share* button at the top right corner and changing the access.
+
+> Clicking on refresh will reset the visualization and remove any compare sheet data.
+
+#### Visualization Control
+The new Visualization Control (VC) is a floating panel at the bottom left of the screen that allows the user to control the heeight of the visualization (will add many more controls im the future). This is particularly important because while uploading the compare sheets, sometimes the visualization gets too cluttered due to the huge number of nodes. By re-adjusting the height, the visualization can be made cleaner. 
+
+The VC can be hidden by clicking on teh *Close* (X) button that will cause the VC to minimize into a small badge at the left bottom of the screen. This can be toggled on and off.
+
+#### Search
+An user can search for particular features. The search can be opened by clicking on the maginifying glass icon on the navigation toolbar. This will open a up a modal that will have an autocomplete area to search and select multiple structures. Additionally, structures can also be filtered based on the group there are in (Anatomical Structures, Cell Types, Biomarkers). On clicking *Search* the structures that were selected will have a blue rectagle around them. Re-opening the search function again or clicking on refresh, will cause the searches to reset. 
 
 
 #### Export
