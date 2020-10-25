@@ -182,6 +182,15 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
     this.updatedTreeData = this.treeView.data('tree');
     this.treeWidth = this.treeView._runtime.group.context.data.asTree.values.value[0].bounds.x2;
+    this.treeView.addSignalListener('node__hover', (name, value) => {
+
+     this.googleAnalyticsService.eventEmitter(this.prevData.nodes[value].groupName, 'tree', 'hover', this.prevData.nodes[value].name, 1);
+    });
+
+    this.treeView.addSignalListener('node__click', (name, value) => {
+
+      this.googleAnalyticsService.eventEmitter( this.prevData.nodes[value].groupName, 'tree', 'click', `(${this.prevData.nodes[value].name},${this.prevData.nodes[value].x},${this.prevData.nodes[value].y})`, 1);
+    });
 
     await this.makeBimodalGraph();
   }
@@ -249,7 +258,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
    */
 
   public async makeBimodalGraph() {
-   
+
     this.asctData = await this.bms.makeASCTData(
       this.sheetData.data,
       this.updatedTreeData,
