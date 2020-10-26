@@ -12,10 +12,12 @@
       <mat-icon style="color: grey;">close</mat-icon>
     </button>
   </div>
+
   <div class="loader" *ngIf="!isVisible">
-  <embed style="width: 50%;margin: 0 auto;" src="assets/loading.svg" class="loadingSVG"  />
-  <h2 style="margin: 0 auto;">Loading...</h2>
+    <embed src="assets/loading.svg" />
+    <p>Generating report for {{ currentSheet.display }}...</p>
   </div>
+
   <mat-tab-group mat-stretch-tabs class="tabs" *ngIf="isVisible" >
     <mat-tab [label]="'Main Sheet'">
       <div class="content">
