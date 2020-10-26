@@ -176,7 +176,7 @@ export class ReportComponent implements OnInit, OnChanges {
       if (this.compareData.length) {
         this.makeCompareData();
       }
-     
+
       this.isVisible = true;
     } catch (err) {
       console.log(err);
