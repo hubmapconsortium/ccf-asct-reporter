@@ -12,7 +12,13 @@
       <mat-icon style="color: grey;">close</mat-icon>
     </button>
   </div>
-  <mat-tab-group mat-stretch-tabs class="tabs">
+
+  <div class="loader" *ngIf="!isVisible">
+    <embed src="assets/loading.svg" />
+    <p>Generating report for {{ currentSheet.display }}...</p>
+  </div>
+
+  <mat-tab-group mat-stretch-tabs class="tabs" *ngIf="isVisible" >
     <mat-tab [label]="'Main Sheet'">
       <div class="content">
         <br />
@@ -333,7 +339,7 @@
       mat-flat-button
       color="primary"
       (click)="downloadReport(-1)"
-      class="mr-4"
+      class="mr-4" [disabled]="!isVisible"
     >
       Download Report
     </button>

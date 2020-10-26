@@ -148,7 +148,7 @@ export class VisComponent implements OnInit, OnChanges {
       if (val.val) {
         val.status === 200
           ? this.openSnackBar(
-              val.msg,
+              'Tree data successfully fetched.',
               'Close',
               'green'
             )
