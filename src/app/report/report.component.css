@@ -154,4 +154,8 @@
   margin: 0 auto;
   width: 50%;
   margin-top: 30%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }

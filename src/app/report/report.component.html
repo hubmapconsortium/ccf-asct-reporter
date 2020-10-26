@@ -13,8 +13,8 @@
     </button>
   </div>
   <div class="loader" *ngIf="!isVisible">
-    <h3 style="margin: 0 auto;">Loading...</h3>
   <embed style="width: 50%;margin: 0 auto;" src="assets/loading.svg" class="loadingSVG"  />
+  <h2 style="margin: 0 auto;">Loading...</h2>
   </div>
   <mat-tab-group mat-stretch-tabs class="tabs" *ngIf="isVisible" >
     <mat-tab [label]="'Main Sheet'">
