@@ -136,7 +136,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
                 'indata(\'sources_clicked_array\', \'id\', datum.target.id) && datum.source.group !== 2',
               value: '#377EB8',
             },
-            { signal: 'datum.source.pathColor ? datum.source.pathColor : "#ccc"' },
+            { signal: 'datum.source.pathColor === datum.target.pathColor ? datum.source.pathColor : "#ccc"' },
           ],
           opacity: [
             { test: 'datum.target.id === node__click', value: 0.5 },
