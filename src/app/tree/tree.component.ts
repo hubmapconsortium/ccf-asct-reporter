@@ -283,7 +283,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     this.treeWidth = this.treeView._runtime.group.context.data.asTree.values.value[0].bounds.x2;
     this.treeView.addSignalListener('node__hover', (name, value) => {
 
-     this.googleAnalyticsService.eventEmitter(this.prevData.nodes[value].groupName,'hover',  'tree', this.prevData.nodes[value].name, 1);
+     this.googleAnalyticsService.eventEmitter(this.prevData.nodes[value].groupName, 'hover',  'tree', this.prevData.nodes[value].name, 1);
     });
 
     this.treeView.addSignalListener('node__click', (name, value) => {
@@ -367,8 +367,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       this.currentSheet,
       this.compareData
     );
-    this.googleAnalyticsService.eventEmitter('tree_functions_sort_ct', 'click','tree',  this.bimodalConfig.BM.sort , 1);
-    this.googleAnalyticsService.eventEmitter('tree_functions_size_ct', 'click','tree',  this.bimodalConfig.CT.sort , 1);
+    this.googleAnalyticsService.eventEmitter('tree_functions_sort_ct', 'click', 'tree',  this.bimodalConfig.BM.sort , 1);
+    this.googleAnalyticsService.eventEmitter('tree_functions_size_ct', 'click', 'tree',  this.bimodalConfig.CT.sort , 1);
     this.treeView._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
     this.treeView._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
     this.treeView._runtime.signals.targets__click.value = []; // removing clicked bold target nodes if at all

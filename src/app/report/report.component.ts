@@ -292,7 +292,7 @@ export class ReportComponent implements OnInit, OnChanges {
     }
 
     XLSX.writeFile(wb, allReport[0].name);
-    this.googleAnalyticsService.eventEmitter('report_download','click',  'report', 'Download Report', 1);
+    this.googleAnalyticsService.eventEmitter('report_download', 'click',  'report', 'Download Report', 1);
   }
 
   downloadCompareSheetReport(i: number) {
@@ -348,7 +348,7 @@ export class ReportComponent implements OnInit, OnChanges {
   }
 
   closeDrawer() {
-    this.googleAnalyticsService.eventEmitter('report_close','click', 'report',  'close' , 1);
+    this.googleAnalyticsService.eventEmitter('report_close', 'click', 'report',  'close' , 1);
     this.closeComponent.emit(false);
   }
 
@@ -362,7 +362,7 @@ export class ReportComponent implements OnInit, OnChanges {
     const subject = `Problem with ${this.currentSheet.name}.xlsx`;
     const mailText = `mailto:infoccf@indiana.edu?subject=${subject}`;
     window.location.href = mailText;
-    this.googleAnalyticsService.eventEmitter('report_problem', 'click','report',  'Report Problem' , 1);
+    this.googleAnalyticsService.eventEmitter('report_problem', 'click', 'report',  'Report Problem' , 1);
   }
 
   tabClick(event){
@@ -370,6 +370,6 @@ export class ReportComponent implements OnInit, OnChanges {
   }
 
   panelClick(panel){
-    this.googleAnalyticsService.eventEmitter('report_main_sheet_panels',  'click','report', panel ,  1);
+    this.googleAnalyticsService.eventEmitter('report_main_sheet_panels',  'click', 'report', panel ,  1);
   }
 }

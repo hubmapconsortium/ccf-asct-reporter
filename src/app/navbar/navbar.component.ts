@@ -148,7 +148,7 @@ export class NavbarComponent implements OnInit {
     this.location.go(urlTree.toString());
     this.selectedSheetOption = sheet;
     this.getSheet.emit(sheet);
-    this.googleAnalyticsService.eventEmitter('organ_sheet_selector', 'selection',  'navbar',this.selectedSheetOption, 1);
+    this.googleAnalyticsService.eventEmitter('organ_sheet_selector', 'selection',  'navbar', this.selectedSheetOption, 1);
   }
 
   showLogs() {
@@ -158,7 +158,7 @@ export class NavbarComponent implements OnInit {
 
   showReports() {
     this.showReport.emit(true);
-    this.googleAnalyticsService.eventEmitter('debug_log_open',  'selection','navbar', 'Open Debug Log', 1);
+    this.googleAnalyticsService.eventEmitter('debug_log_open',  'selection', 'navbar', 'Open Debug Log', 1);
   }
 
   onResize(e) {
@@ -175,12 +175,12 @@ export class NavbarComponent implements OnInit {
 
   downloadVisFunction(img) {
     this.downloadVis.emit(img);
-    this.googleAnalyticsService.eventEmitter('export_vis','click',  'navbar', img,  1);
+    this.googleAnalyticsService.eventEmitter('export_vis', 'click',  'navbar', img,  1);
   }
 
   compareDD() {
     this.compare.emit(true);
-    this.googleAnalyticsService.eventEmitter('compare_start','click', 'navbar',  'Compare',  1);
+    this.googleAnalyticsService.eventEmitter('compare_start', 'click', 'navbar',  'Compare',  1);
   }
 
   openSearch() {

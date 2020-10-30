@@ -98,7 +98,7 @@ export class CompareComponent implements OnInit {
           title: ddSheet.title === '' ? `Sheet ${idx + 1}` : ddSheet.title,
           description: ddSheet.description
         });
-      this.googleAnalyticsService.eventEmitter('compare_sheet_title','input', 'compare',
+      this.googleAnalyticsService.eventEmitter('compare_sheet_title', 'input', 'compare',
        ddSheet.title === '' ? `Sheet ${idx + 1}` : ddSheet.title, idx + 1);
       this.googleAnalyticsService.eventEmitter('compare_sheet_description', 'input', 'compare', ddSheet.description, idx + 1);
       this.googleAnalyticsService.eventEmitter('compare_sheet_link', 'input', 'compare',  ddSheet.link , idx + 1);

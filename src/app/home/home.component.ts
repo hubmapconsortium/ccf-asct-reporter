@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
 
   openGithub() {
 
-    this.googleAnalyticsService.eventEmitter('link_click', 'click',  'home','Icon', 1);
+    this.googleAnalyticsService.eventEmitter('link_click', 'click',  'home', 'Icon', 1);
     window.open(
       'https://github.com/hubmapconsortium/ccf-asct-reporter',
       '_blank'
@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
   }
 
   openDocs() {
-    this.googleAnalyticsService.eventEmitter('link_click', 'click','home',  'Documentation' , 1);
+    this.googleAnalyticsService.eventEmitter('link_click', 'click', 'home',  'Documentation' , 1);
     window.open(
       'https://drive.google.com/file/d/1r8Br4t6zftyrRXbb-DnidzwS3t8FSCu4/view?usp=sharing',
       '_blank'
