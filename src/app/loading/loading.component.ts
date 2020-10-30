@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { SheetService } from '../services/sheet.service';
 
 @Component({
@@ -14,10 +14,10 @@ export class LoadingComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<LoadingComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public sheet: SheetService
+    public sheet: SheetService,
+    private dialog: MatDialog,
   ) {
     this.loadingText = data.sheet.display;
-    // this.loadingList = data.list;
   }
 
   ngOnInit(): void {

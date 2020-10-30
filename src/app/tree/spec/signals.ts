@@ -14,7 +14,11 @@ export class Signals implements VegaSignals {
       this.makeBimodalNodeSourcesHoverStateSignal(),
       this.makeBimodalNodeTargetsHoverStateSignal(),
       this.makeBimodalTargetsClickStateSignal(),
-      this.makeBimodalSourcesClickStateSignal()
+      this.makeBimodalSourcesClickStateSignal(),
+      {
+        name: 'search_signal',
+        value: [],
+      },
     ];
 
     return this.signals;

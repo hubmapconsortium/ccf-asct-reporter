@@ -97,12 +97,15 @@ export interface ASCTD {
   nodes: Array<BMNode>;
   links: Array<Link>;
   compareDD?: Array<DD>;
+  searchIds?: Array<number>;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class BimodalService {
+  asctData: any;
+  partonomyTreeData: any;
   constructor(public sheet: SheetService, public report: ReportService) {}
 
   async makeASCTData(
@@ -112,13 +115,14 @@ export class BimodalService {
     currentSheet,
     compareData?
   ) {
+    this.partonomyTreeData = treeData;
     let ASCTGraphData: ASCTD;
     const links = [];
     const nodes = [];
     let treeX = 0;
     let treeY = 50;
     const distance = currentSheet.config.bimodal_distance;
-    let id = 0;
+    let id = treeData.length + 1;
     let biomarkers = [];
 
     for (const sheet of compareData) {
@@ -314,21 +318,22 @@ export class BimodalService {
                       r.name.toLowerCase().trim() ===
                       cells[c].toLowerCase().trim()
                   );
+
                   if (found !== -1) {
-                    if (nodes[parent].targets.indexOf(found) === -1) {
-                      nodes[parent].targets.push(found);
+                    if (nodes[parent].targets.indexOf(nodes[found].id) === -1) {
+                      nodes[parent].targets.push(nodes[found].id);
                     }
-                    if (nodes[found].sources.indexOf(parent) === -1) {
-                      nodes[found].sources.push(parent);
+                    if (nodes[found].sources.indexOf(nodes[parent].id) === -1) {
+                      nodes[found].sources.push(nodes[parent].id);
                     }
 
                     nodes[found].pathColor = nodes[parent].pathColor;
                     // nodes[found].isNew = nodes[parent].isNew;
 
-                    if (!links.some((n) => n.s === parent && n.t === found)) {
+                    if (!links.some((n) => n.s === nodes[parent].id && n.t === nodes[found].id)) {
                       links.push({
-                        s: parent,
-                        t: found,
+                        s: nodes[parent].id,
+                        t: nodes[found].id,
                       });
                     }
                   }
@@ -359,19 +364,18 @@ export class BimodalService {
                     r.name.toLowerCase().trim() ===
                     markers[m].toLowerCase().trim()
                 );
-                if (!links.some((n) => n.s === cell && n.t === marker)) {
-                  if (nodes[cell].targets.indexOf(marker) === -1) {
-                    nodes[cell].targets.push(marker);
+                if (!links.some((n) => n.s === nodes[cell].id && n.t === nodes[marker].id)) {
+                  if (nodes[cell].targets.indexOf(nodes[marker].id) === -1) {
+                    nodes[cell].targets.push(nodes[marker].id);
                   }
-                  // nodes[cell].sources.indexOf(marker) === -1 && nodes[cell].sources.push(marker);
-                  if (nodes[marker].sources.indexOf(cell) === -1) {
-                    nodes[marker].sources.push(cell);
+                  if (nodes[marker].sources.indexOf(nodes[cell].id) === -1) {
+                    nodes[marker].sources.push(nodes[cell].id);
                   }
                   nodes[marker].pathColor = nodes[cell].pathColor;
 
                   links.push({
-                    s: cell,
-                    t: marker,
+                    s: nodes[cell].id,
+                    t: nodes[marker].id,
                   });
                 }
               }
@@ -386,9 +390,19 @@ export class BimodalService {
       links,
     };
 
+    this.asctData = ASCTGraphData;
+
     this.report.checkLinks(ASCTGraphData.nodes); // check for missing links to submit to the Log
 
     return ASCTGraphData;
+  }
+
+  public async getASCTData() {
+    return this.asctData;
+  }
+
+  public async getPartonomyTreeData() {
+    return this.partonomyTreeData;
   }
 
   /**

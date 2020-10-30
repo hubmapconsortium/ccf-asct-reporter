@@ -102,6 +102,7 @@ export class NavbarComponent implements OnInit {
   @Output() downloadVis = new EventEmitter<any>();
   @Output() dataVersion = new EventEmitter<any>();
   @Output() compare = new EventEmitter<any>();
+  @Output() search = new EventEmitter<any>();
 
   constructor(
     public sc: SconfigService,
@@ -131,7 +132,7 @@ export class NavbarComponent implements OnInit {
 
     this.selectedOption = option;
     this.showGraph.emit(option);
-    this.googleAnalyticsService.eventEmitter('vis_selector', 'navbar', 'selection', this.selectedOption, 1);
+    this.googleAnalyticsService.eventEmitter('vis_selector', 'selection', 'navbar', this.selectedOption, 1);
   }
 
   getSheetSelection(sheet = this.selectedSheetOption) {
@@ -147,17 +148,17 @@ export class NavbarComponent implements OnInit {
     this.location.go(urlTree.toString());
     this.selectedSheetOption = sheet;
     this.getSheet.emit(sheet);
-    this.googleAnalyticsService.eventEmitter('organ_sheet_selector', 'navbar', 'selection', this.selectedSheetOption, 1);
+    this.googleAnalyticsService.eventEmitter('organ_sheet_selector', 'selection',  'navbar',this.selectedSheetOption, 1);
   }
 
   showLogs() {
     this.showLog.emit(true);
-    this.googleAnalyticsService.eventEmitter('organ_sheet_selector', 'navbar',  'click', this.selectedSheetOption, 1);
+    this.googleAnalyticsService.eventEmitter('organ_sheet_selector',  'click', 'navbar', this.selectedSheetOption, 1);
   }
 
   showReports() {
     this.showReport.emit(true);
-    this.googleAnalyticsService.eventEmitter('debug_log_open', 'navbar', 'selection', 'Open Debug Log', 1);
+    this.googleAnalyticsService.eventEmitter('debug_log_open',  'selection','navbar', 'Open Debug Log', 1);
   }
 
   onResize(e) {
@@ -169,17 +170,21 @@ export class NavbarComponent implements OnInit {
       this.versions.find((i) => i.display === this.selectedVersion).folder
     );
     this.refresh.emit(this.selectedOption);
-    this.googleAnalyticsService.eventEmitter('refresh', 'navbar',  'click', 'Refresh', 1);
+    this.googleAnalyticsService.eventEmitter('refresh', 'click',  'navbar', 'Refresh', 1);
   }
 
   downloadVisFunction(img) {
     this.downloadVis.emit(img);
-    this.googleAnalyticsService.eventEmitter('export_vis', 'navbar', 'click', img,  1);
+    this.googleAnalyticsService.eventEmitter('export_vis','click',  'navbar', img,  1);
   }
 
   compareDD() {
     this.compare.emit(true);
-    this.googleAnalyticsService.eventEmitter('compare_start', 'navbar', 'click', 'Compare',  1);
+    this.googleAnalyticsService.eventEmitter('compare_start','click', 'navbar',  'Compare',  1);
+  }
+
+  openSearch() {
+    this.search.emit(true);
   }
 
   openGithub() {
@@ -202,11 +207,9 @@ export class NavbarComponent implements OnInit {
       queryParamsHandling: 'merge',
     });
     this.location.go(urlTree.toString());
-    this.dataVersion.emit(
-      version
-    );
+    this.dataVersion.emit(version);
     this.refresh.emit(this.selectedOption);
-    this.googleAnalyticsService.eventEmitter('data_version_selector', 'navbar', 'selection', this.selectedVersion, 1);
+    this.googleAnalyticsService.eventEmitter('data_version_selector', 'selection', 'navbar', this.selectedVersion, 1);
   }
 
 }

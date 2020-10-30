@@ -32,6 +32,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatSliderModule} from '@angular/material/slider';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
@@ -39,6 +43,9 @@ import { VisComponent } from './vis/vis.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { CompareComponent } from './compare/compare.component';
 import {GoogleAnalyticsService} from './google-analytics.service';
+import { SearchComponent } from './search/search.component';
+import { SelectSearchComponent } from './select-search/select-search.component';
+import { ControlComponent } from './control/control.component';
 
 const MatModules = [
   MatToolbarModule,
@@ -57,7 +64,10 @@ const MatModules = [
   MatMenuModule,
   MatTabsModule,
   MatInputModule,
-  MatFormFieldModule
+  MatFormFieldModule,
+  MatChipsModule,
+  MatCheckboxModule,
+  MatSliderModule
 ];
 
 @NgModule({
@@ -73,6 +83,9 @@ const MatModules = [
     VisComponent,
     NotfoundComponent,
     CompareComponent,
+    SearchComponent,
+    SelectSearchComponent,
+    ControlComponent
   ],
   imports: [
     BrowserModule,

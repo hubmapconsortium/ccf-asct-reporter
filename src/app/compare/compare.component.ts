@@ -6,6 +6,7 @@ import { LoadingComponent } from '../loading/loading.component';
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {GoogleAnalyticsService} from '../google-analytics.service';
+import { ReportService } from '../report/report.service';
 
 @Component({
   selector: 'app-compare',
@@ -27,10 +28,13 @@ export class CompareComponent implements OnInit {
     public sheet: SheetService,
     private dialog: MatDialog,
     public snackBar: MatSnackBar,
+    public report: ReportService,
     public fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public dialogSources: any,
-    public googleAnalyticsService: GoogleAnalyticsService
-  ) {}
+    public googleAnalyticsService: GoogleAnalyticsService,
+    @Inject(MAT_DIALOG_DATA) public dialogSources: any
+  ) {
+
+  }
 
   ngOnInit(): void {
     this.formGroup = this.fb.group({
@@ -82,9 +86,10 @@ export class CompareComponent implements OnInit {
 
 
       const constructedURL = `https://asctb-data-miner.herokuapp.com/${sheetID}/${gid}`;
+      // const constructedURL = `http://localhost:5000/${sheetID}/${gid}`;
 
       const csvData = await this.sheet.getDataFromURL(
-          constructedURL, 1, {isNew: true, color: ddSheet.color}
+          constructedURL, 11, {isNew: true, color: ddSheet.color}
         );
 
       exportCompareData.push({
@@ -93,22 +98,31 @@ export class CompareComponent implements OnInit {
           title: ddSheet.title === '' ? `Sheet ${idx + 1}` : ddSheet.title,
           description: ddSheet.description
         });
-      this.googleAnalyticsService.eventEmitter('compare_sheet_title', 'compare',
-      'input', ddSheet.title === '' ? `Sheet ${idx + 1}` : ddSheet.title, idx + 1);
-      this.googleAnalyticsService.eventEmitter('compare_sheet_description', 'compare', 'input', ddSheet.description, idx + 1);
-      this.googleAnalyticsService.eventEmitter('compare_sheet_link', 'compare', 'input', ddSheet.link , idx + 1);
-      this.googleAnalyticsService.eventEmitter('compare_sheet_color', 'compare', 'input', ddSheet.color, idx + 1);
-      this.googleAnalyticsService.eventEmitter('compare_sheet_delete', 'compare', 'click', 'Delete Sheet' , idx + 1);
+      this.googleAnalyticsService.eventEmitter('compare_sheet_title','input', 'compare',
+       ddSheet.title === '' ? `Sheet ${idx + 1}` : ddSheet.title, idx + 1);
+      this.googleAnalyticsService.eventEmitter('compare_sheet_description', 'input', 'compare', ddSheet.description, idx + 1);
+      this.googleAnalyticsService.eventEmitter('compare_sheet_link', 'input', 'compare',  ddSheet.link , idx + 1);
+      this.googleAnalyticsService.eventEmitter('compare_sheet_color', 'input', 'compare', ddSheet.color, idx + 1);
+      this.googleAnalyticsService.eventEmitter('compare_sheet_delete', 'click', 'compare', 'Delete Sheet' , idx + 1);
 
       }
     this.openSnackBar('Derived Data sheet succesfully fetched.', 'Close', 'green');
-    this.dialog.closeAll();
+    this.report.reportLog(
+      `Compare sheet data successfully rendered`,
+      'success',
+      'msg'
+    );
     this.dialogRef.close({ data: exportCompareData, sources });
       } catch (err) {
-        this.loadingDialog.close();
-        this.openSnackBar('Error while fetching data.', 'Close', 'red');
+        console.log(this.sheet);
+        this.openSnackBar(err.msg, 'Close', 'red');
+        this.report.reportLog(
+          `Compare data failed to rendered`,
+          'error',
+          'msg'
+        );
       }
-
+    this.loadingDialog.close();
   }
 
   addCompareSheetRow() {

@@ -15,12 +15,45 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
   makeBimodalMarkGroup() {
     return {
       type: 'group',
+      signals: [
+        {name: 'bgoffset', value: 8}
+      ],
       name: 'bimodal-network',
       marks: [
         this.makeBimodalPathMarks(),
         this.makeBimodalSymbolMarks(),
-        this.makeBiomodalTextMarks()
+        this.makeBiomodalTextMarks(),
+        this.makeBimodalTextSearchMarks()
       ]
+    };
+  }
+
+  makeBimodalTextSearchMarks() {
+    return {
+      name: 'rectmark',
+      type: 'rect',
+      from: {data: 'textmark'},
+      encode: {
+        enter: {
+          x: {field: 'bounds.x1', round: true, offset: {signal: '-bgoffset'}},
+          x2: {field: 'bounds.x2', round: true, offset: {signal: 'bgoffset'}},
+          y: {field: 'bounds.y1', round: true, offset: {signal: '-bgoffset'}},
+          y2: {field: 'bounds.y2', round: true, offset: {signal: 'bgoffset'}},
+          fill: {value: 'aliceblue'},
+          stroke: {value: 'steelblue'}
+        },
+        update: {
+          opacity: [
+            {
+              test: 'node__click === null && indata(\'search\', \'id\', datum.datum.id)',
+              value: 1
+            },
+            {
+             value: '0'
+            }
+           ]
+        }
+      }
     };
   }
 
@@ -103,7 +136,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
                 'indata(\'sources_clicked_array\', \'id\', datum.target.id) && datum.source.group !== 2',
               value: '#377EB8',
             },
-            { signal: 'datum.source.pathColor ? datum.source.pathColor : "#ccc"' },
+            { signal: 'datum.source.pathColor === datum.target.pathColor ? datum.source.pathColor : "#ccc"' },
           ],
           opacity: [
             { test: 'datum.target.id === node__click', value: 0.5 },
@@ -205,6 +238,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
   makeBiomodalTextMarks() {
     return {
       type: 'text',
+      name: 'textmark',
       zindex: 5,
       dx: 5,
       from: { data: 'nodes' },

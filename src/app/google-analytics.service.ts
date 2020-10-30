@@ -11,16 +11,16 @@ export class GoogleAnalyticsService {
 
   public eventEmitter(
     eventName: string,
-    eventCategory: string,
     eventAction: string,
-    eventLabel: string = null,
-    eventValue: number = null
+    eventCategory: string,
+    eventLabel: string,
+    eventValue: number
   ){
     gtag('event', eventName, {
-      event_name: eventName,
+      event_action: eventAction,
       event_category: eventCategory,
-      event_label: eventAction,
-      value: eventValue
+      event_label: eventLabel,
+      event_value: eventValue
     });
   }
 }

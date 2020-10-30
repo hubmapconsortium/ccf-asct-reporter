@@ -15,7 +15,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: 5px;
+    width: 2px;
     height: 5px;
     backdrop-filter: blur(10px);
 }
@@ -56,4 +56,26 @@ button {
 
 ::ng-deep .warn-snackbar {
     background: #ffa500;
+}
+
+.control-class .mat-dialog-container  {
+    border-radius: 10px;
+    background: #444a65;
+    padding: 0;
+    opacity: 0.3 !important;
+    transition: 0.5s all;
+    box-shadow: black 2px 40px 60px;
+}
+
+.control-class .mat-dialog-container:hover {
+    opacity: 1 !important;
+    transition: 0.5s all;
+}
+
+.right-aligned-header > .mat-content {
+    justify-content: space-between;
+  }
+
+.right-aligned-header > .mat-content > mat-panel-title, .right-aligned-header > .mat-content > mat-panel-description {
+    flex: 0 0 auto;
 }

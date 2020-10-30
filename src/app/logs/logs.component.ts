@@ -27,7 +27,7 @@ export class LogsComponent implements OnInit {
 
   closeDrawer() {
     this.closeComponent.emit(false);
-    this.googleAnalyticsService.eventEmitter('debug_log_close', 'debug_log', 'click', 'Close' , 1);
+    this.googleAnalyticsService.eventEmitter('debug_log_close','click', 'debug_log',  'Close' , 1);
   }
 
   mail() {

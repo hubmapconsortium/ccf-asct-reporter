@@ -17,6 +17,18 @@ export class AS {
   uberon: string;
 }
 
+export interface Entry {
+  identicalAS: Array<string>;
+  identicalCT: Array<string>;
+  identicalB: Array<string>;
+  newAS: Array<string>;
+  newCT: Array<string>;
+  newB: Array<string>;
+  color: string;
+  title: string;
+  description: string;
+}
+
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
@@ -33,6 +45,7 @@ export class ReportComponent implements OnInit, OnChanges {
   warningCount = 0;
   compareDataStats = [];
   clickButton = false; // for mat expansion panel download button
+  isVisible = false;  // for report on load, befor count populated
   @Output() closeComponent = new EventEmitter();
   @Output() openCompareDialog = new EventEmitter();
   @Output() deleteSheet = new EventEmitter();
@@ -54,65 +67,77 @@ export class ReportComponent implements OnInit, OnChanges {
   async makeCompareData() {
     for (const sheet of this.compareData) {
       const newEntry: any = {};
-
-      const compareAS = await this.sheet.makeAS(sheet.data, {
-        report_cols: this.currentSheet.report_cols,
-        cell_col: this.currentSheet.cell_col,
-        marker_col: this.currentSheet.marker_col,
-        uberon_col: this.currentSheet.uberon_col,
-      });
-
-      const compareCT = await this.sheet.makeCellTypes(sheet.data, {
-        report_cols: this.currentSheet.report_cols,
-        cell_col: this.currentSheet.cell_col,
-        marker_col: this.currentSheet.marker_col,
-        uberon_col: this.currentSheet.uberon_col,
-      });
-
-      const compareB = await this.sheet.makeBioMarkers(sheet.data, {
-        report_cols: this.currentSheet.report_cols,
-        cell_col: this.currentSheet.cell_col,
-        marker_col: this.currentSheet.marker_col,
-        uberon_col: this.currentSheet.uberon_col,
-      });
-
+      let compareAS;
+      let compareCT;
+      let compareB;
       let identicalStructures = [];
       let newStructures = [];
 
-      if (compareAS.length > 0 ) {
-        for (const a of compareAS) {
-          const findObj = this.anatomicalStructures.findIndex(i => i.structure === a.structure);
-          if (findObj !== -1) { identicalStructures.push(a.structure); }
-          else { newStructures.push(a.structure); }
+      try {
+        compareAS = await this.sheet.makeAS(sheet.data, {
+          report_cols: this.currentSheet.report_cols,
+          cell_col: this.currentSheet.cell_col,
+          marker_col: this.currentSheet.marker_col,
+          uberon_col: this.currentSheet.uberon_col,
+        });
+
+        if (compareAS.length > 0 ) {
+          for (const a of compareAS) {
+            const findObj = this.anatomicalStructures.findIndex(i => i.structure === a.structure);
+            if (findObj !== -1) { identicalStructures.push(a.structure); }
+            else { newStructures.push(a.structure); }
+          }
         }
+      } catch (err) {
+        console.log(err);
       }
 
       newEntry.identicalAS = identicalStructures;
       newEntry.newAS = newStructures;
-
       identicalStructures = [];
       newStructures = [];
 
-      if (compareCT.length > 0 ) {
-        for (const a of compareCT) {
-          const findObj = this.cellTypes.findIndex(i => i.structure === a.structure);
-          if (findObj !== -1) { identicalStructures.push(a.structure); }
-          else { newStructures.push(a.structure); }
+      try {
+        compareCT = await this.sheet.makeCellTypes(sheet.data, {
+          report_cols: this.currentSheet.report_cols,
+          cell_col: this.currentSheet.cell_col,
+          marker_col: this.currentSheet.marker_col,
+          uberon_col: this.currentSheet.uberon_col,
+        });
+
+        if (compareCT.length > 0 ) {
+          for (const a of compareCT) {
+            const findObj = this.cellTypes.findIndex(i => i.structure === a.structure);
+            if (findObj !== -1) { identicalStructures.push(a.structure); }
+            else { newStructures.push(a.structure); }
+          }
         }
+      } catch (err) {
+        console.log(err);
       }
 
       newEntry.identicalCT = identicalStructures;
       newEntry.newCT = newStructures;
-
       identicalStructures = [];
       newStructures = [];
 
-      if (compareB.length > 0 ) {
-        for (const a of compareB) {
-          const findObj = this.bioMarkers.findIndex(i => i.structure === a.structure);
-          if (findObj !== -1) { identicalStructures.push(a.structure); }
-          else { newStructures.push(a.structure); }
+      try {
+        compareB = await this.sheet.makeBioMarkers(sheet.data, {
+          report_cols: this.currentSheet.report_cols,
+          cell_col: this.currentSheet.cell_col,
+          marker_col: this.currentSheet.marker_col,
+          uberon_col: this.currentSheet.uberon_col,
+        });
+
+        if (compareB.length > 0 ) {
+          for (const a of compareB) {
+            const findObj = this.bioMarkers.findIndex(i => i.structure === a.structure);
+            if (findObj !== -1) { identicalStructures.push(a.structure); }
+            else { newStructures.push(a.structure); }
+          }
         }
+      } catch (err) {
+        console.log(err);
       }
 
       newEntry.identicalB = identicalStructures;
@@ -130,7 +155,6 @@ export class ReportComponent implements OnInit, OnChanges {
   }
 
   public async getData(currentSheet) {
-
     this.sheetData = await this.sheet.getSheetData(this.currentSheet, this.dataVersion);
     try {
       this.anatomicalStructures = await this.sheet.makeAS(this.sheetData.data, {
@@ -153,6 +177,8 @@ export class ReportComponent implements OnInit, OnChanges {
       if (this.compareData.length) {
         this.makeCompareData();
       }
+
+      this.isVisible = true;
     } catch (err) {
       console.log(err);
     }
@@ -266,7 +292,7 @@ export class ReportComponent implements OnInit, OnChanges {
     }
 
     XLSX.writeFile(wb, allReport[0].name);
-    this.googleAnalyticsService.eventEmitter('report_download', 'report', 'Download Report', 'click', 1);
+    this.googleAnalyticsService.eventEmitter('report_download','click',  'report', 'Download Report', 1);
   }
 
   downloadCompareSheetReport(i: number) {
@@ -322,13 +348,13 @@ export class ReportComponent implements OnInit, OnChanges {
   }
 
   closeDrawer() {
-    this.googleAnalyticsService.eventEmitter('report_close', 'report', 'click', 'close' , 1);
+    this.googleAnalyticsService.eventEmitter('report_close','click', 'report',  'close' , 1);
     this.closeComponent.emit(false);
   }
 
   openDialogtoCompare() {
     this.openCompareDialog.emit(true);
-    this.googleAnalyticsService.eventEmitter('report_compare_button', 'report', 'click', 'Compare Sheet' , 1);
+    this.googleAnalyticsService.eventEmitter('report_compare_button', 'click', 'report', 'Compare Sheet' , 1);
   }
 
   mail() {
@@ -336,14 +362,14 @@ export class ReportComponent implements OnInit, OnChanges {
     const subject = `Problem with ${this.currentSheet.name}.xlsx`;
     const mailText = `mailto:infoccf@indiana.edu?subject=${subject}`;
     window.location.href = mailText;
-    this.googleAnalyticsService.eventEmitter('report_problem', 'report', 'click', 'Report Problem' , 1);
+    this.googleAnalyticsService.eventEmitter('report_problem', 'click','report',  'Report Problem' , 1);
   }
 
   tabClick(event){
-    this.googleAnalyticsService.eventEmitter('report_tabs', 'report', event.tab.textLabel , 'click', 1);
+    this.googleAnalyticsService.eventEmitter('report_tabs', 'click', 'report', event.tab.textLabel , 1);
   }
 
   panelClick(panel){
-    this.googleAnalyticsService.eventEmitter('report_main_sheet_panels', 'report', panel , 'click', 1);
+    this.googleAnalyticsService.eventEmitter('report_main_sheet_panels',  'click','report', panel ,  1);
   }
 }

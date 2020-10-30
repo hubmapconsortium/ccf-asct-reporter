@@ -92,131 +92,136 @@
       </button>
     </div>
     <div *ngIf="screenWidth > 1000">
-      <mat-form-field style="margin-right: -12px; margin-bottom: 0;">
+      <div style="margin-right: -15px;">
+        <mat-form-field style="margin-right: -12px; margin-bottom: 0;">
+          <button
+            mat-flat-button
+            style="width: 80%; background-color: rgb(247, 247, 247);"
+            #tooltip="matTooltip"
+            matTooltip="Select Version"
+            matTooltipPosition="below"
+          >
+            <mat-select
+              (selectionChange)="getSelectedVersion()"
+              [(ngModel)]="selectedVersion"
+            >
+              <mat-option *ngFor="let version of versions" [value]="version.display">
+                {{ version.display }}
+              </mat-option>
+            </mat-select>
+          </button>
+        </mat-form-field>
+        <mat-form-field style="margin-right: 60px; margin-bottom: 0;">
+          <button
+            mat-flat-button
+            style="width: 120%; background-color: rgb(247, 247, 247);"
+            #tooltip="matTooltip"
+            matTooltip="Select Organ Set"
+            matTooltipPosition="below"
+          >
+            <mat-select
+              (selectionChange)="getSheetSelection()"
+              [(ngModel)]="selectedSheetOption"
+            >
+              <mat-option *ngFor="let option of sheetOptions" [value]="option.title">
+                {{ option.title }}
+              </mat-option>
+            </mat-select>
+          </button>
+        </mat-form-field>
+        <mat-form-field style="margin-right: 20px; margin-bottom: 0;">
+          <button
+            mat-flat-button
+            style="width: 100%; background-color: rgb(247, 247, 247);"
+            #tooltip="matTooltip"
+            matTooltip="Select Visualization"
+            matTooltipPosition="below"
+          >
+            <mat-select
+              (selectionChange)="getSelection()"
+              [(ngModel)]="selectedOption"
+            >
+              <mat-option *ngFor="let option of options" [value]="option">
+                {{ option }}
+              </mat-option>
+            </mat-select>
+          </button>
+        </mat-form-field>
         <button
-          mat-flat-button
-          style="width: 80%; background-color: rgb(247, 247, 247);"
+          mat-icon-button
+          style="margin-right: 20px;"
+          (click)="refreshData()"
           #tooltip="matTooltip"
-          matTooltip="Select Version"
+          matTooltip="Refresh Data"
           matTooltipPosition="below"
         >
-          <mat-select
-            (selectionChange)="getSelectedVersion()"
-            [(ngModel)]="selectedVersion"
-          >
-            <mat-option *ngFor="let version of versions" [value]="version.display">
-              {{ version.display }}
-            </mat-option>
-          </mat-select>
+          <mat-icon style="color: white; font-weight: bold;">refresh</mat-icon>
         </button>
-      </mat-form-field>
-      <mat-form-field style="margin-right: 60px; margin-bottom: 0;">
-        <button
-          mat-flat-button
-          style="width: 120%; background-color: rgb(247, 247, 247);"
-          #tooltip="matTooltip"
-          matTooltip="Select Organ Set"
-          matTooltipPosition="below"
-        >
-          <mat-select
-            (selectionChange)="getSheetSelection()"
-            [(ngModel)]="selectedSheetOption"
-          >
-            <mat-option *ngFor="let option of sheetOptions" [value]="option.title">
-              {{ option.title }}
-            </mat-option>
-          </mat-select>
+        <button mat-icon-button style="margin-right: 20px;" (click)="compareDD()" #tooltip="matTooltip" matTooltip="Upload DD Sheet and Compare" matTooltipPosition="below">
+          <mat-icon style=" color: white; font-weight: bold; ">compare_arrows</mat-icon>
         </button>
-      </mat-form-field>
-      <mat-form-field style="margin-right: 20px; margin-bottom: 0;">
+        <button mat-icon-button style="margin-right: 20px;" (click)="openSearch()" #tooltip="matTooltip" matTooltip="Search Structure" matTooltipPosition="below">
+          <mat-icon style=" color: white; font-weight: bold; ">search</mat-icon>
+        </button>
         <button
-          mat-flat-button
-          style="width: 100%; background-color: rgb(247, 247, 247);"
+          mat-icon-button
+          *ngIf="selectedOption === 'Tree'"
+          style="margin-right: 20px;"
           #tooltip="matTooltip"
-          matTooltip="Select Visualization"
+          matTooltip="Download Vis"
           matTooltipPosition="below"
+          [matMenuTriggerFor]="imgMenu"
         >
-          <mat-select
-            (selectionChange)="getSelection()"
-            [(ngModel)]="selectedOption"
-          >
-            <mat-option *ngFor="let option of options" [value]="option">
+          <mat-icon style="color: white; font-weight: bold;">get_app</mat-icon>
+          <mat-menu #imgMenu="matMenu">
+            <button
+              mat-menu-item
+              *ngFor="let option of imageOptions"
+              (click)="downloadVisFunction(option)"
+            >
               {{ option }}
-            </mat-option>
-          </mat-select>
+            </button>
+          </mat-menu>
         </button>
-      </mat-form-field>
-      <button
-        mat-icon-button
-        style="margin-right: 20px;"
-        (click)="refreshData()"
-        #tooltip="matTooltip"
-        matTooltip="Refresh Data"
-        matTooltipPosition="below"
-      >
-        <mat-icon style="color: white; font-weight: bold;">refresh</mat-icon>
-      </button>
-      <button mat-icon-button style="margin-right: 20px;" (click)="compareDD()" #tooltip="matTooltip" matTooltip="Upload DD Sheet and Compare" matTooltipPosition="below">
-        <mat-icon style=" color: white; font-weight: bold; ">compare_arrows</mat-icon>
-    </button>
-      <button
-        mat-icon-button
-        *ngIf="selectedOption === 'Tree'"
-        style="margin-right: 20px;"
-        #tooltip="matTooltip"
-        matTooltip="Download Vis"
-        matTooltipPosition="below"
-        [matMenuTriggerFor]="imgMenu"
-      >
-        <mat-icon style="color: white; font-weight: bold;">get_app</mat-icon>
-        <mat-menu #imgMenu="matMenu">
-          <button
-            mat-menu-item
-            *ngFor="let option of imageOptions"
-            (click)="downloadVisFunction(option)"
-          >
-            {{ option }}
-          </button>
-        </mat-menu>
-      </button>
-      <button
-        mat-icon-button
-        style="margin-right: 20px;"
-        (click)="showReports()"
-        #tooltip="matTooltip"
-        matTooltip="Report"
-        matTooltipPosition="below"
-      >
-        <mat-icon style="color: white;">analytics</mat-icon>
-      </button>
-      <button
-        mat-icon-button
-        style="margin-right: 20px;"
-        (click)="showLogs()"
-        #tooltip="matTooltip"
-        matTooltip="Debug Log"
-        matTooltipPosition="below"
-      >
-        <mat-icon style="color: white;">article</mat-icon>
-      </button>
-      <button
-        mat-icon-button
-        #tooltip="matTooltip"
-        matTooltip="Menu"
-        matTooltipPosition="below"
-        [matMenuTriggerFor]="menu"
-      >
-        <mat-icon style="color: white;">more_vert </mat-icon>
-        <mat-menu #menu="matMenu">
-          <button
-            mat-menu-item
-            *ngFor="let option of moreOptions"
-            (click)="window.open(option.url, '_blank');"
-          >
-            {{ option.name }}
-          </button>
-        </mat-menu>
-      </button>
+        <button
+          mat-icon-button
+          style="margin-right: 20px;"
+          (click)="showReports()"
+          #tooltip="matTooltip"
+          matTooltip="Report"
+          matTooltipPosition="below"
+        >
+          <mat-icon style="color: white;">analytics</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          style="margin-right: 20px;"
+          (click)="showLogs()"
+          #tooltip="matTooltip"
+          matTooltip="Debug Log"
+          matTooltipPosition="below"
+        >
+          <mat-icon style="color: white;">article</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          #tooltip="matTooltip"
+          matTooltip="Menu"
+          matTooltipPosition="below"
+          [matMenuTriggerFor]="menu"
+        >
+          <mat-icon style="color: white;">more_vert </mat-icon>
+          <mat-menu #menu="matMenu">
+            <button
+              mat-menu-item
+              *ngFor="let option of moreOptions"
+              (click)="window.open(option.url, '_blank')"
+            >
+              {{ option.name }}
+            </button>
+          </mat-menu>
+        </button>
+      </div>
     </div>
   </mat-toolbar>
 </div>

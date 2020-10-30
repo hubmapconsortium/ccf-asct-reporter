@@ -1,7 +1,7 @@
 <div style="width: inherit;" (window:resize)="onResize($event)">
-    <div style="overflow-x: auto; position: sticky; max-height: calc(100vh - 64px);" class="text-center">
+    <div style="overflow-x: auto; position: sticky;" class="text-center" [ngStyle]="{'max-height': isFullScreen ? '100vh' : '93.7vh'}"> 
         <div [ngStyle]="{'width': screenWidth + 'px' }" style="display: flex; flex-direction: row; background-color: #f7f7f7; padding: 10px;" *ngIf="shouldRenderASCTBiomodal">
-            <div [ngStyle]="{'width': treeWidth + bimodalDistance + 'px' }">
+            <div [ngStyle]="{'width': treeWidth + (bimodalDistance - 30) + 'px' }">
                 <mat-expansion-panel style="width: 50%;" hideToggle="true" #mepAS="matExpansionPanel" [(expanded)]="settingsExpanded">
                     <mat-expansion-panel-header style="margin-left: -5px;">
                         <mat-panel-title>
@@ -11,8 +11,8 @@
                 </mat-expansion-panel>
             </div>
             <div [ngStyle]="{'width': bimodalDistance+'px' }">
-                <mat-expansion-panel style="width: 50%;" #mepCT="matExpansionPanel" [(expanded)]="settingsExpanded" class="mepNoPadding">
-                    <mat-expansion-panel-header class="p-0">
+                <mat-expansion-panel style="width: 60%;" #mepCT="matExpansionPanel" [(expanded)]="settingsExpanded" class="mepNoPadding black-indicator">
+                    <mat-expansion-panel-header class='p-0 pr-1'>
                         <mat-panel-title class="text-center">
                             <div style="font-weight: 500; font-size: 13pt;">Cell Types</div>
                         </mat-panel-title>
@@ -44,9 +44,9 @@
                     </div>
                 </mat-expansion-panel>
             </div>
-            <div [ngStyle]="{'width': bimodalDistance +'px' }">
-                <mat-expansion-panel style="width: 50%" #mepBM="matExpansionPanel" [(expanded)]="settingsExpanded" class="mepNoPadding">
-                    <mat-expansion-panel-header class="p-0">
+            <div [ngStyle]="{'width': (bimodalDistance - 50) +'px' }">
+                <mat-expansion-panel style="width: 60%" #mepBM="matExpansionPanel" [(expanded)]="settingsExpanded" class="mepNoPadding black-indicator">
+                    <mat-expansion-panel-header class="p-0 pr-1">
                         <mat-panel-title>
                             <div style="font-weight: 500; font-size: 13pt;">Biomarkers</div>
                         </mat-panel-title>
@@ -79,9 +79,31 @@
                 </mat-expansion-panel>
             </div>
 
+            <div style="height: 100%; margin-top: 5px;">
+                <button 
+                class="p-0"
+                    mat-flat-button 
+                    style="background-color: transparent;" 
+                    (click)="toggleFullScreen()"
+                    #tooltip="matTooltip" matTooltip="Toggle Full Screen" matTooltipPosition="below"
+                >
+                    <mat-icon style="color: #444a65;">
+                        {{isFullScreen ? 'close_fullscreen' : 'open_in_full'}}
+                    </mat-icon>
+                </button>
+            </div>
         </div>
+        
         <div style="display: flex; justify-content: start;">
-            <div id="vis" #graph> </div>
+            <div id="vis" #graph></div>
+        </div> 
+    </div>
+
+    <div style="position: absolute; bottom: 30px; left: 0;" *ngIf="!isControlVisible">
+        <div style="background-color: #444a65; border-top-right-radius: 5px; border-bottom-right-radius: 5px;">
+            <button mat-icon-button (click)="makeControlVisible()">
+                <mat-icon style="color: white; margin-bottom: 3px;">settings</mat-icon>
+            </button>
         </div>
     </div>
 

@@ -1,0 +1,46 @@
+<div style="width: 100%; ">
+  <div class="wrapper">
+      <div class="header">
+          <span style="margin: 0; font-weight: 300;" class="title">Search Structure</span>
+          <button mat-icon-button (click)="close()" #tooltip="matTooltip" matTooltip="Close">
+              <mat-icon style="color: grey;">close</mat-icon>
+          </button>
+      </div>
+      <div class="content mt-1">
+        <span style="font-style: italic; font-size: 12px; color: gray;">Type the name of the structure that you want to look for in the input field below. Multiple structures can be selected too.</span>
+        <div style="width: 100%;" class="mt-2">
+          <mat-form-field style="width: 100%; overflow: auto; height: 80px;">
+            <mat-select [formControl]="structureMultiCtrl" placeholder="Structure Names" [multiple]="true">
+              <app-select-search [formControl]="structureMultiFilterCtrl" style="width: 100%;" (emitFilter)="changeFilter($event)" (emitClearFilter)="changeFilter($event)"></app-select-search>
+              <div class="mt-5">
+                <div *ngFor="let structure of filteredstructuresMulti | async">
+                  <mat-option [value]="structure" *ngIf="filterList.length ? filterList.includes(structure.groupName) ? true : false : true">
+                    <div style="width: 100%; display: flex; justify-content: space-between;">
+                      <div>
+                        {{structure.name}}
+                      </div>
+                      <div style="font-style: italic;">
+                        {{structure.groupName}}
+                      </div>
+                    </div>
+                  </mat-option>
+                </div>
+              </div>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div  *ngIf="structureMultiCtrl?.value">
+        <h3 style="margin-bottom: 2px;">Selected Structures</h3>
+        <div style="max-height: 120px; overflow: auto;">
+          <ul *ngFor="let s of structureMultiCtrl?.value" style="margin-bottom: 0; padding-left: 0;">
+            <li>• {{s.name}} ({{s.groupName}})</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-4" style="width: 100%; justify-content: space-between; display: flex;">
+        <button mat-flat-button color="primary" (click)="doSearch()">Search</button>
+    </div>
+</div>

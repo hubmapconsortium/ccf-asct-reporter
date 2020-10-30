@@ -12,7 +12,13 @@
       <mat-icon style="color: grey;">close</mat-icon>
     </button>
   </div>
-  <mat-tab-group mat-stretch-tabs class="tabs" (selectedTabChange)="tabClick($event)">
+
+  <div class="loader" *ngIf="!isVisible">
+    <embed src="assets/loading.svg" />
+    <p>Generating report for {{ currentSheet.display }}...</p>
+  </div>
+
+  <mat-tab-group mat-stretch-tabs class="tabs" *ngIf="isVisible" >
     <mat-tab [label]="'Main Sheet'">
       <div class="content">
         <br />
@@ -175,66 +181,6 @@
           </mat-expansion-panel>
 
           <br />
-          <!-- <div *ngIf="compareData.length > 0">
-            <div class="title2">Data from Derives Sheet</div>
-    
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <div style="font-weight: 400; font-size: 13pt;">
-                    Similar Anatomical Structures 
-                  </div>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-      
-              <div class="as-details">
-                <div
-                  *ngFor="let a of getSimilarASFromDD() | orderBy: 'name'"
-                  class="i1"
-                >
-                  {{ a.name }}
-                </div>
-              </div>
-            </mat-expansion-panel>
-            <br />
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <div style="font-weight: 400; font-size: 13pt;">
-                    Similar Cell Types Structures 
-                  </div>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-      
-              <div class="as-details">
-                <div
-                  *ngFor="let a of getSimilarCTFromDD() | orderBy: 'name'"
-                  class="i1"
-                >
-                  {{ a.name }}
-                </div>
-              </div>
-            </mat-expansion-panel>
-            <br />
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <div style="font-weight: 400; font-size: 13pt;">
-                    Similar Anatomical Structures 
-                  </div>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-      
-              <div class="as-details">
-                <div
-                  *ngFor="let a of getSimilarBFromDD() | orderBy: 'name'"
-                  class="i1"
-                >
-                  {{ a.name }}
-                </div>
-              </div>
-            </mat-expansion-panel>
-          </div> -->
         </div>
         <br />
       </div>
@@ -251,7 +197,7 @@
           </button>
         </div>
       </div>
-      <div *ngIf="compareDataStats.length > 0">
+      <div *ngIf="compareData.length > 0">
         <br />
         <div *ngFor="let sheet of compareDataStats; let i = index">
           <mat-expansion-panel hideToggle="true" [disabled]="clickButton" (click)="clickButton=false">
@@ -260,16 +206,16 @@
               class="compare"
             >
               <mat-panel-title>
-                <div style="font-weight: 400; font-size: 13pt; color: #ececec">
+                <div style="font-weight: 400; font-size: 13pt; color:white;">
                   {{sheet.title}}
                 </div>
                 
               </mat-panel-title>
               <mat-panel-description>
-                <button mat-icon-button (click)="downloadReport(i)" style="color: #ececec">
+                <button mat-icon-button (click)="downloadReport(i)" style="color: white">
                   <mat-icon>get_app</mat-icon>
                 </button>
-                <button mat-icon-button (click)="deleteCompareSheetReport(i)" style="margin-left: 4px; margin-top: -3px; color: #ececec">
+                <button mat-icon-button (click)="deleteCompareSheetReport(i)" style="margin-left: 4px; margin-top: -3px; color: white">
                   <mat-icon>delete</mat-icon>
                 </button>
               
@@ -393,7 +339,7 @@
       mat-flat-button
       color="primary"
       (click)="downloadReport(-1)"
-      class="mr-4"
+      class="mr-4" [disabled]="!isVisible"
     >
       Download Report
     </button>

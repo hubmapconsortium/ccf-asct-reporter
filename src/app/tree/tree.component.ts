@@ -6,7 +6,7 @@ import {
   Output,
   EventEmitter,
   OnDestroy,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { SheetService } from '../services/sheet.service';
 import * as vega from 'vega';
@@ -14,6 +14,8 @@ import * as moment from 'moment';
 import vegaTooltip from 'vega-tooltip';
 
 import { ReportService } from '../report/report.service';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { ControlComponent } from '../control/control.component';
 import { TreeService } from './tree.service';
 import { BimodalService, ASCTD } from '../services/bimodal.service';
 import { SconfigService } from '../services/sconfig.service';
@@ -40,20 +42,26 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     nodes: [],
     links: [],
     compareDD: [],
+    searchIds: []
   };
   treeWidth = 0;
   treeWidthOffset = 0;
   screenWidth = 0;
   asctData: ASCTD;
+  controlDialog: MatDialogRef<ControlComponent>;
+  isFullScreen = false;
+  isControlVisible = true;
 
-  @Input() dataVersion = this.sc.VERSIONS[0].folder;
+  dataVersion: string;
   @Input() settingsExpanded: boolean;
   @Input() currentSheet: any;
   @Input() public refreshData = false;
   @Input() public shouldReloadData = false;
   @Input() public compareData = [];
+  @Input() public searchIds = [];
 
   @Output() returnRefresh = new EventEmitter();
+  @Output() fullscreen = new EventEmitter();
   @ViewChild('bimodal') biomodal;
 
   bimodalSortOptions = ['Alphabetically', 'Degree'];
@@ -74,19 +82,65 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   };
 
   constructor(
-    public sheet: SheetService,
-    public report: ReportService,
-    public ts: TreeService,
-    public bms: BimodalService,
-    public sc: SconfigService,
-    public router: Router,
-    public googleAnalyticsService: GoogleAnalyticsService
+    private dialog?: MatDialog,
+    public sheet?: SheetService,
+    public report?: ReportService,
+    public ts?: TreeService,
+    public bms?: BimodalService,
+    public sc?: SconfigService,
+    public router?: Router,
+    public googleAnalyticsService?: GoogleAnalyticsService
   ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.searchIds = [-1];
+  }
 
   ngOnDestroy() {
+    if (this.controlDialog) {
+      this.controlDialog.close();
+    }
     this.shouldReloadData = false;
+  }
+
+  toggleFullScreen() {
+    this.isFullScreen = !this.isFullScreen;
+    this.fullscreen.emit(this.isFullScreen);
+
+    if (this.isFullScreen === true) {
+      const docElmWithBrowsersFullScreenFunctions = document.documentElement as HTMLElement & {
+        mozRequestFullScreen(): Promise<void>;
+        webkitRequestFullscreen(): Promise<void>;
+        msRequestFullscreen(): Promise<void>;
+      };
+
+      if (docElmWithBrowsersFullScreenFunctions.requestFullscreen) {
+        docElmWithBrowsersFullScreenFunctions.requestFullscreen();
+      } else if (docElmWithBrowsersFullScreenFunctions.mozRequestFullScreen) { /* Firefox */
+        docElmWithBrowsersFullScreenFunctions.mozRequestFullScreen();
+      } else if (docElmWithBrowsersFullScreenFunctions.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        docElmWithBrowsersFullScreenFunctions.webkitRequestFullscreen();
+      } else if (docElmWithBrowsersFullScreenFunctions.msRequestFullscreen) { /* IE/Edge */
+        docElmWithBrowsersFullScreenFunctions.msRequestFullscreen();
+      }
+    } else {
+      const docWithBrowsersExitFunctions = document as Document & {
+        mozCancelFullScreen(): Promise<void>;
+        webkitExitFullscreen(): Promise<void>;
+        msExitFullscreen(): Promise<void>;
+      };
+
+      if (docWithBrowsersExitFunctions.exitFullscreen) {
+        docWithBrowsersExitFunctions.exitFullscreen();
+      } else if (docWithBrowsersExitFunctions.mozCancelFullScreen) { /* Firefox */
+        docWithBrowsersExitFunctions.mozCancelFullScreen();
+      } else if (docWithBrowsersExitFunctions.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+        docWithBrowsersExitFunctions.webkitExitFullscreen();
+      } else if (docWithBrowsersExitFunctions.msExitFullscreen) { /* IE/Edge */
+        docWithBrowsersExitFunctions.msExitFullscreen();
+      }
+    }
+
   }
 
   /**
@@ -102,16 +156,56 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     if (this.refreshData) {
       this.ts.setCurrentSheet(this.currentSheet);
       this.getData();
+      if (this.controlDialog) {
+        this.controlDialog.componentInstance.heightValue = document.getElementsByTagName('body')[0].clientHeight;
+      }
     }
 
     if (this.shouldReloadData && !this.refreshData) {
+      this.controlDialog.componentInstance.heightValue = document.getElementsByTagName('body')[0].clientHeight;
       this.ts.setCurrentSheet(this.currentSheet);
       this.getData();
     }
+  }
 
-    if (this.compareData.length > 0) {
-      this.setGraphToCompare(this.compareData);
+  showControl() {
+    if (!this.dialog.getDialogById('control-dialog')) {
+      this.controlDialog = this.dialog.open(ControlComponent, {
+        id: 'control-dialog',
+        disableClose: false,
+        autoFocus: false,
+        hasBackdrop: false,
+        width: '400px',
+        position: {
+          bottom: '20px',
+          left: '35px'
+        },
+        panelClass: 'control-class',
+        data: {
+          height: document.getElementsByTagName('body')[0].clientHeight
+        }
+      });
+
+      this.controlDialog.componentInstance.height.subscribe(async (emmitedValue) => {
+        const config: any = await this.makeVegaSpec(this.screenWidth, emmitedValue);
+        await this.renderGraph(config);
+      });
+
+      this.controlDialog.componentInstance.visibility.subscribe(async (emmitedValue) => {
+        if (emmitedValue === 'none') {
+          this.isControlVisible = false;
+        }
+      });
     }
+  }
+
+  makeControlVisible() {
+    document.getElementById('control-dialog').style.display = 'block';
+    this.isControlVisible = true;
+  }
+
+  setDataVersion(version) {
+    this.dataVersion = version;
   }
 
   /**
@@ -140,7 +234,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     const height = document.getElementsByTagName('body')[0].clientHeight;
     const config: any = await this.makeVegaSpec(this.screenWidth, height);
     await this.renderGraph(config);
+  }
 
+  public async setGraphToShowSearch(data) {
+    this.treeView.data('search', data);
+    this.treeView.runAsync();
+    this.prevData.searchIds = data;
   }
 
   /**
@@ -184,15 +283,16 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     this.treeWidth = this.treeView._runtime.group.context.data.asTree.values.value[0].bounds.x2;
     this.treeView.addSignalListener('node__hover', (name, value) => {
 
-     this.googleAnalyticsService.eventEmitter(this.prevData.nodes[value].groupName, 'tree', 'hover', this.prevData.nodes[value].name, 1);
+     this.googleAnalyticsService.eventEmitter(this.prevData.nodes[value].groupName,'hover',  'tree', this.prevData.nodes[value].name, 1);
     });
 
     this.treeView.addSignalListener('node__click', (name, value) => {
 
-      this.googleAnalyticsService.eventEmitter( this.prevData.nodes[value].groupName, 'tree', 'click', `(${this.prevData.nodes[value].name},${this.prevData.nodes[value].x},${this.prevData.nodes[value].y})`, 1);
+      this.googleAnalyticsService.eventEmitter( this.prevData.nodes[value].groupName, 'click', 'tree', `(${this.prevData.nodes[value].name},${this.prevData.nodes[value].x},${this.prevData.nodes[value].y})`, 1);
     });
 
     await this.makeBimodalGraph();
+    this.showControl();
   }
 
   /**
@@ -200,7 +300,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
    */
   async getData() {
     try {
-      this.sheetData = await this.sheet.getSheetData(this.currentSheet, this.dataVersion);
+      this.sheetData = await this.sheet.getSheetData(this.currentSheet);
       if (this.sheetData.status === 404) {
         this.router.navigateByUrl('/error');
         throw new Error();
@@ -224,6 +324,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       const config: any = await this.makeVegaSpec(this.screenWidth, height);
       await this.renderGraph(config);
       this.shouldRenderASCTBiomodal = true;
+
       this.report.reportLog(
         `${this.currentSheet.display} tree succesfully rendered`,
         'success',
@@ -243,8 +344,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       }
       this.returnRefresh.emit({
         comp: 'Tree',
-        msg: err.msg,
-        status: err.status,
+        msg: err,
+        status: 500,
         val: false
       });
       this.report.reportLog(`Tree failed to render`, 'error', 'msg');
@@ -266,11 +367,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
       this.currentSheet,
       this.compareData
     );
-    this.googleAnalyticsService.eventEmitter('tree_functions_sort_ct', 'tree', 'click', this.bimodalConfig.BM.sort , 1);
-    this.googleAnalyticsService.eventEmitter('tree_functions_size_ct', 'tree', 'click', this.bimodalConfig.CT.sort , 1);
+    this.googleAnalyticsService.eventEmitter('tree_functions_sort_ct', 'click','tree',  this.bimodalConfig.BM.sort , 1);
+    this.googleAnalyticsService.eventEmitter('tree_functions_size_ct', 'click','tree',  this.bimodalConfig.CT.sort , 1);
     this.treeView._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
     this.treeView._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
     this.treeView._runtime.signals.targets__click.value = []; // removing clicked bold target nodes if at all
+
 
     this.treeView
       .change(

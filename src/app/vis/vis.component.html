@@ -30,7 +30,9 @@
     </mat-drawer>
     <div class="content text-center">
       <app-navbar
+        [ngStyle]="{'display': fullscreen ? 'none' : 'block'}"
         (compare)="uploadDDSheet()"
+        (search)="searchStructure()"
         (showReport)="toggleReportDrawer($event)"
         (showLog)="toggleLogsDrawer($event)"
         (showGraph)="showGraph($event)"
@@ -41,22 +43,43 @@
       ></app-navbar>
       <app-tree
         #tree
-        *ngIf="displayGraph === 'Tree'"
+        *ngIf="!visError && displayGraph === 'Tree'"
         [refreshData]="refreshTree"
         [currentSheet]="currentSheet"
-        [dataVersion]="dataVersion"
         (returnRefresh)="returnRefresh($event)"
         [shouldReloadData]="shouldRefreshData"
         [compareData]="compareData"
+        [searchIds]="searchIds"
+        (fullscreen)="toggleFullScreen($event)"
       ></app-tree>
       <app-indent
-        *ngIf="displayGraph === 'Indented List'"
+        *ngIf="!visError && displayGraph === 'Indented List'"
         [refreshData]="refreshIndent"
         [dataVersion]="dataVersion"
         [currentSheet]="currentSheet"
         (returnRefresh)="returnRefresh($event)"
         [shouldReloadData]="shouldRefreshData"
       ></app-indent>
+
+      <div style="width: 100%; height: 90%; display: flex; justify-content: center; align-items: center; flex-direction: column;" *ngIf="visError">
+        <span class='title1'>
+          :(
+        </span>
+        <span *ngIf="visError" class='title1'>
+          Could not render visualization. 
+        </span>
+        <p class="title4">
+          Something went wrong while parsing the data. Following are a list of problems that could've occurred, 
+        </p>
+        <ul class="text-left">
+          <li>The data version that you selected is depricated for the sheet. Click on this link to see the depricated sheets.</li>
+          <li>The format of the data didn't match the format of the master tables.</li>
+          <li>Network issues.</li>
+        </ul>
+        <p class="title4">
+          To report this issue, please reach out to us, <a style="color: rgb(64, 132, 201);" (click)="mail()">here</a>.
+        </p>
+      </div>
     </div>
   </mat-drawer-container>
 </div>

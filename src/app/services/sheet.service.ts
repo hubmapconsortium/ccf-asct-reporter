@@ -63,6 +63,7 @@ export class SheetService {
   rowsToSkip: Array<number> = [];
   loadingStatus = new EventEmitter();
   changeDataVersion = new EventEmitter();
+  dataVersion: string;
 
   constructor(
     private http: HttpClient,
@@ -115,7 +116,7 @@ export class SheetService {
    */
   public async getSheetData(
     currentSheet: any,
-    dataVersion?: string
+    dataVersion = this.dataVersion
   ): Promise<any> {
     let constructedURL = '';
     let responseStatus = 200;
@@ -139,10 +140,10 @@ export class SheetService {
         }
 
         if (dataVersion === 'latest') {
-          dataVersion = this.sc.VERSIONS[1].folder;
-          this.changeDataVersion.emit(this.sc.VERSIONS[1]);
+          dataVersion = this.sc.VERSIONS[this.sc.VERSIONS.length - 1].folder;
+          this.changeDataVersion.emit(this.sc.VERSIONS[this.sc.VERSIONS.length - 1]);
           this.report.reportLog(
-            `<code>${this.sc.VERSIONS[1].display}</code> ${currentSheet.display} data fetched from system cache. [DEV]`,
+            `<code>${this.sc.VERSIONS[this.sc.VERSIONS.length - 1].display}</code> ${currentSheet.display} data fetched from system cache. [DEV]`,
             'warning',
             'msg'
           );
@@ -440,7 +441,7 @@ export class SheetService {
       if (cellTypes.length > 0) {
         res(cellTypes);
       } else {
-        rej(['Could not process cell types']);
+        rej('Could not process cell types');
       }
     });
   }
@@ -481,7 +482,7 @@ export class SheetService {
       if (bioMarkers.length > 0) {
         res(bioMarkers);
       } else {
-        rej(['Could not process biomarkers']);
+        rej('Could not process biomarkers');
       }
     });
   }
