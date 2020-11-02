@@ -4,6 +4,9 @@ import { SheetService } from '../services/sheet.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import {Location} from '@angular/common';
 
+import {GaService} from "../services/ga.service"; // import our analytics service
+
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -109,7 +112,8 @@ export class NavbarComponent implements OnInit {
     public sheet: SheetService,
     public route: ActivatedRoute,
     public location: Location,
-    public router: Router
+    public router: Router,
+    public ga: GaService
   ) {
   }
 
@@ -125,6 +129,7 @@ export class NavbarComponent implements OnInit {
     this.sheet.changeDataVersion.subscribe((dv) => {
       this.selectedVersion = dv.display;
     });
+
   }
 
   getSelection(option = this.selectedOption) {
@@ -145,6 +150,7 @@ export class NavbarComponent implements OnInit {
     this.location.go(urlTree.toString());
     this.selectedSheetOption = sheet;
     this.getSheet.emit(sheet);
+    this.ga.eventEmitter('navbar', 'click', sheet, 1)
   }
 
   showLogs() {
