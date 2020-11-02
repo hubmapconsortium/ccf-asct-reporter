@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-declare let ga:Function; // Declare ga as a function
+
+declare let ga: (arg1?, arg2?, arg3?) => void;
 
 @Injectable({
   providedIn: 'root'
@@ -8,14 +9,14 @@ export class GaService {
 
   constructor() { }
   public eventEmitter(eventCategory: string,
-    eventAction: string,
-    eventLabel: string = null,
-    eventValue: number = null) {
+                      eventAction: string,
+                      eventLabel: string = null,
+                      eventValue: number = null) {
       ga('send', 'event', {
-      eventCategory: eventCategory,
-      eventLabel: eventLabel,
-      eventAction: eventAction,
-      eventValue: eventValue
+      eventCategory,
+      eventLabel,
+      eventAction,
+      eventValue
       });
     }
 }

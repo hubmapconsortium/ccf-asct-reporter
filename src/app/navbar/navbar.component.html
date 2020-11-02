@@ -120,7 +120,7 @@
             matTooltipPosition="below"
           >
             <mat-select
-              (selectionChange)="getSheetSelection()"
+              (selectionChange)="getSheetSelection(selectedSheetOption, $event)"
               [(ngModel)]="selectedSheetOption"
             >
               <mat-option *ngFor="let option of sheetOptions" [value]="option.title">

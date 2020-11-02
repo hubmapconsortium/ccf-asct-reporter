@@ -4,7 +4,7 @@ import { SheetService } from '../services/sheet.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import {Location} from '@angular/common';
 
-import {GaService} from "../services/ga.service"; // import our analytics service
+import {GaService} from '../services/ga.service'; // import our analytics service
 
 
 @Component({
@@ -137,7 +137,7 @@ export class NavbarComponent implements OnInit {
     this.showGraph.emit(option);
   }
 
-  getSheetSelection(sheet = this.selectedSheetOption) {
+  getSheetSelection(sheet = this.selectedSheetOption, event?: Event) {
     const urlTree = this.router.createUrlTree([], {
       relativeTo: this.route,
       queryParams: {
@@ -150,7 +150,7 @@ export class NavbarComponent implements OnInit {
     this.location.go(urlTree.toString());
     this.selectedSheetOption = sheet;
     this.getSheet.emit(sheet);
-    this.ga.eventEmitter('navbar', 'click', sheet, 1)
+    if (event) { this.ga.eventEmitter('navbar', 'click', sheet, 1); }
   }
 
   showLogs() {

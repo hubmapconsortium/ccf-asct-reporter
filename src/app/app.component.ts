@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { environment } from '../environments/environment';
-import{Router, NavigationEnd} from '@angular/router';
+import {Router, NavigationEnd} from '@angular/router';
 
-declare let ga: Function;
+declare let ga: (arg1?, arg2?, arg3?) => void;
 
 @Component({
   selector: 'app-root',
@@ -11,14 +11,14 @@ declare let ga: Function;
 })
 export class AppComponent implements OnInit {
 
-  constructor(public router: Router){   
+  constructor(public router: Router){
     this.router.events.subscribe(event => {
-       if(event instanceof NavigationEnd){
+       if (event instanceof NavigationEnd) {
          ga('set', 'page', event.urlAfterRedirects);
          ga('send', 'pageview');
         }
      }
-  )}
+  ); }
 
   ngOnInit() {
     console.log('%cWelcome to the ASCT+B Reporter!', 'font-weight: bold; font-size: 14pt;');
