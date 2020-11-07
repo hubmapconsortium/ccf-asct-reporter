@@ -10,7 +10,7 @@ import { ReportService } from '../report/report.service';
 import { SheetService } from '../services/sheet.service';
 import * as XLSX from 'xlsx';
 import * as moment from 'moment';
-
+import {GaService} from '../services/ga.service';
 export class AS {
   structure: string;
   uberon: string;
@@ -56,7 +56,7 @@ export class ReportComponent implements OnInit, OnChanges {
 
   sheetName = 'Spleen_R2';
 
-  constructor(public report: ReportService, public sheet: SheetService) {
+  constructor(public report: ReportService, public sheet: SheetService,   public ga: GaService) {
   }
 
   async ngOnChanges() {
@@ -291,6 +291,7 @@ export class ReportComponent implements OnInit, OnChanges {
     }
 
     XLSX.writeFile(wb, allReport[0].name);
+    this.ga.eventEmitter( 'report', 'click',  'Download Report', 1);
   }
 
   downloadCompareSheetReport(i: number) {
@@ -347,15 +348,26 @@ export class ReportComponent implements OnInit, OnChanges {
 
   closeDrawer() {
     this.closeComponent.emit(false);
+    this.ga.eventEmitter( 'report', 'click',   'close' , 1);
   }
 
   openDialogtoCompare() {
     this.openCompareDialog.emit(true);
+    this.ga.eventEmitter( 'report', 'click', 'Compare Sheet' , 1);
   }
 
   mail() {
     const subject = `Problem with ${this.currentSheet.name}.xlsx`;
     const mailText = `mailto:infoccf@indiana.edu?subject=${subject}`;
     window.location.href = mailText;
+    this.ga.eventEmitter( 'report', 'click',  'Report Problem' , 1);
+  }
+
+  tabSelection(event){
+    this.ga.eventEmitter('report',  'click',  event.tab.textLabel , 1);
+  }
+
+  panelClick(panel){
+    this.ga.eventEmitter( 'report',  'click', panel ,  1);
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SconfigService } from '../services/sconfig.service';
 import { environment } from '../../environments/environment';
-
+import {GaService} from '../services/ga.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -12,7 +12,8 @@ export class HomeComponent implements OnInit {
   screenWidth = document.getElementsByTagName('body')[0].clientWidth;
   dataVersion: string;
 
-  constructor(public sc: SconfigService) {
+  constructor(public sc: SconfigService,
+              public ga: GaService) {
     if (environment.production) {
       this.dataVersion = 'latest';
     } else {
@@ -22,18 +23,25 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  openGithub() {
+  openGithub(event?: Event) {
     window.open(
       'https://github.com/hubmapconsortium/ccf-asct-reporter',
       '_blank'
     );
-  }
+    if (event){
+      this.ga.eventEmitter( 'home', 'click', 'Icon', 1);
+    }else{
+      this.ga.eventEmitter( 'home', 'click', 'GitHub', 1);
+    }
+    }
+
 
   openDocs() {
     window.open(
       'https://drive.google.com/file/d/1r8Br4t6zftyrRXbb-DnidzwS3t8FSCu4/view?usp=sharing',
       '_blank'
     );
+    this.ga.eventEmitter(  'home', 'click', 'Documentation', 1);
   }
 
   openData() {
@@ -41,6 +49,7 @@ export class HomeComponent implements OnInit {
       'https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1199090884',
       '_blank'
     );
+    this.ga.eventEmitter(  'home', 'click', 'Tables', 1);
   }
 
   onResize(e) {

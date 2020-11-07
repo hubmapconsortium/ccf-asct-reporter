@@ -18,7 +18,7 @@
     <p>Generating report for {{ currentSheet.display }}...</p>
   </div>
 
-  <mat-tab-group mat-stretch-tabs class="tabs" *ngIf="isVisible" >
+  <mat-tab-group mat-stretch-tabs class="tabs" *ngIf="isVisible"  (selectedTabChange)="tabSelection($event)" >
     <mat-tab [label]="'Main Sheet'">
       <div class="content">
         <br />
@@ -61,7 +61,7 @@
           <div class="title2">Alphabetically sorted listings of all ASCT+B</div>
 
           <mat-expansion-panel>
-            <mat-expansion-panel-header>
+            <mat-expansion-panel-header (selected)="panelClick($event)">
               <mat-panel-title>
                 <div style="font-weight: 400; font-size: 13pt;">
                   Unique anatomical structures (AS)

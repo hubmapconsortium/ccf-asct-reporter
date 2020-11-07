@@ -6,6 +6,7 @@ import { LoadingComponent } from '../loading/loading.component';
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReportService } from '../report/report.service';
+import {GaService} from '../services/ga.service';
 
 @Component({
   selector: 'app-compare',
@@ -29,6 +30,7 @@ export class CompareComponent implements OnInit {
     public snackBar: MatSnackBar,
     public report: ReportService,
     public fb: FormBuilder,
+    public ga: GaService,
     @Inject(MAT_DIALOG_DATA) public dialogSources: any
   ) {
 
@@ -96,6 +98,12 @@ export class CompareComponent implements OnInit {
           title: ddSheet.title === '' ? `Sheet ${idx + 1}` : ddSheet.title,
           description: ddSheet.description
         });
+      this.ga.eventEmitter('compare', 'input', ddSheet.title === '' ? `Sheet ${idx + 1}` : ddSheet.title, idx + 1);
+      this.ga.eventEmitter('compare', 'input', ddSheet.description, idx + 1);
+      this.ga.eventEmitter('compare', 'input',   ddSheet.link , idx + 1);
+      this.ga.eventEmitter('compare', 'input',  ddSheet.color, idx + 1);
+
+
       }
     this.openSnackBar('Derived Data sheet succesfully fetched.', 'Close', 'green');
     this.report.reportLog(
@@ -114,6 +122,7 @@ export class CompareComponent implements OnInit {
         );
       }
     this.loadingDialog.close();
+
   }
 
   addCompareSheetRow() {
@@ -122,6 +131,7 @@ export class CompareComponent implements OnInit {
 
   removeCompareSheetRow(i: number) {
     this.formSheets.removeAt(i);
+    this.ga.eventEmitter('compare', 'click', 'Delete Sheet' , i + 1);
   }
 
   get CSControls() {

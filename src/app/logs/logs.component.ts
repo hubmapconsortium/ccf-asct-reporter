@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
 import { SheetService } from '../services/sheet.service';
 import { ReportService } from '../report/report.service';
+import {GaService} from '../services/ga.service';
 
 @Component({
   selector: 'app-logs',
@@ -15,7 +16,7 @@ export class LogsComponent implements OnInit {
   logs = [];
   sheetLogs = [];
 
-  constructor(public sheet: SheetService, public report: ReportService) {
+  constructor(public sheet: SheetService, public report: ReportService, public ga: GaService) {
     }
 
   async ngOnInit() {
@@ -26,6 +27,7 @@ export class LogsComponent implements OnInit {
 
   closeDrawer() {
     this.closeComponent.emit(false);
+    this.ga.eventEmitter('debug_log',  'click',  'Close' , 1);
   }
 
   mail() {
@@ -34,4 +36,15 @@ export class LogsComponent implements OnInit {
     window.location.href = mailText;
   }
 
+  gaIconInfo(){
+    this.ga.eventEmitter('debug_log',  'click',  'Info' , 1);
+  }
+
+  tabSelection(event){
+    this.ga.eventEmitter('debug_log',  'click',  event.tab.textLabel , 1);
+  }
+
+  panelClick(event){
+    this.ga.eventEmitter('debug_log',  'click',  event.target.innerText , 1);
+  }
 }

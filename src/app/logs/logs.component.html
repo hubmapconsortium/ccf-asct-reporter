@@ -2,15 +2,15 @@
     <div class="header">
         <span style="margin: 0; font-weight: 300;" class="title">Debug Log</span>
         <span class="example-spacer"></span>
-        <button mat-icon-button #tooltip="matTooltip" matTooltip="Displays important messages about problems that occurerd during the creation of the visualization(s).">
+        <button mat-icon-button #tooltip="matTooltip" (click)="gaIconInfo()" matTooltip="Displays important messages about problems that occurerd during the creation of the visualization(s).">
             <mat-icon style="color: grey;">help_outline</mat-icon>
         </button>
         <button mat-icon-button (click)="closeDrawer()" #tooltip="matTooltip" matTooltip="Close">
             <mat-icon style="color: grey;">close</mat-icon>
         </button>
     </div>
-    <mat-tab-group mat-stretch-tabs class="tabs">
-        <mat-tab [label]="currentSheet.display">
+    <mat-tab-group mat-stretch-tabs class="tabs" (selectedTabChange)="tabSelection($event)" >
+        <mat-tab [label]="currentSheet.display" >
             <div class="content">
                 <div class="details">
                     <mat-list style="padding: 0;" class="logsList">
@@ -26,7 +26,7 @@
                             <ng-template #multu style="width: 100%;">
                                 <mat-expansion-panel style="box-shadow: none;" *ngIf="l.type === 'multi'" expanded class="mepNoPadding">
                                     <mat-expansion-panel-header class="p-0" style="width: 95%;" [collapsedHeight]="'35px'" [expandedHeight]="'35px'">
-                                        <mat-panel-title>
+                                        <mat-panel-title (click)="panelClick($event)">
                                             <div>
                                                 <p class="i2" [innerHTML]="l.message"></p>
                                             </div>

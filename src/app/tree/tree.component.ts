@@ -22,6 +22,7 @@ import { SconfigService } from '../services/sconfig.service';
 import { Router } from '@angular/router';
 
 import { VegaConfig } from './vega.config';
+import {GaService} from '../services/ga.service';
 
 @Component({
   selector: 'app-tree',
@@ -81,6 +82,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   };
 
   constructor(
+    public ga: GaService,
     private dialog?: MatDialog,
     public sheet?: SheetService,
     public report?: ReportService,
@@ -88,6 +90,7 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     public bms?: BimodalService,
     public sc?: SconfigService,
     public router?: Router
+
   ) { }
 
   ngOnInit(): void {
@@ -147,6 +150,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
   getBimodalSelecion() {
     this.makeBimodalGraph();
+    this.ga.eventEmitter('tree', 'click',  this.bimodalConfig.BM.sort , 1);
+    this.ga.eventEmitter('tree', 'click',  this.bimodalConfig.CT.sort , 1);
   }
 
   ngOnChanges() {
@@ -279,8 +284,25 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
     this.updatedTreeData = this.treeView.data('tree');
     this.treeWidth = this.treeView._runtime.group.context.data.asTree.values.value[0].bounds.x2;
+
+    this.treeView.addSignalListener('node__hover', (name, value) => {
+
+      if (value != null){
+        this.ga.eventEmitter( 'tree', 'hover', this.asctData.nodes[value].name, 1);
+      }
+     });
+
+    this.treeView.addSignalListener('node__click', (name, value) => {
+
+      if (value != null){
+       this.ga.eventEmitter('tree', 'click',  `(${this.asctData.nodes[value].name},${this.asctData.nodes[value].x},${this.asctData.nodes[value].y})`, 1);
+      }
+     });
+
     await this.makeBimodalGraph();
     this.showControl();
+
+
   }
 
   /**

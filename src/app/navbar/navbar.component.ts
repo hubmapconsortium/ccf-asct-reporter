@@ -135,6 +135,7 @@ export class NavbarComponent implements OnInit {
   getSelection(option = this.selectedOption) {
     this.selectedOption = option;
     this.showGraph.emit(option);
+    this.ga.eventEmitter('navbar', 'selection',  this.selectedOption, 1);
   }
 
   getSheetSelection(sheet = this.selectedSheetOption, event?: Event) {
@@ -150,15 +151,17 @@ export class NavbarComponent implements OnInit {
     this.location.go(urlTree.toString());
     this.selectedSheetOption = sheet;
     this.getSheet.emit(sheet);
-    if (event) { this.ga.eventEmitter('navbar', 'click', sheet, 1); }
+    if (event) { this.ga.eventEmitter('navbar', 'selection', sheet, 1); }
   }
 
   showLogs() {
     this.showLog.emit(true);
+    this.ga.eventEmitter(  'navbar', 'click', 'Open Debug Log', 1);
   }
 
   showReports() {
     this.showReport.emit(true);
+    this.ga.eventEmitter('navbar', 'click', 'Open Report', 1);
   }
 
   onResize(e) {
@@ -170,14 +173,17 @@ export class NavbarComponent implements OnInit {
       this.versions.find((i) => i.display === this.selectedVersion).folder
     );
     this.refresh.emit(this.selectedOption);
+    this.ga.eventEmitter('navbar', 'click',  'Refresh', 1);
   }
 
   downloadVisFunction(img) {
     this.downloadVis.emit(img);
+    this.ga.eventEmitter( 'navbar', 'click',  img,  1);
   }
 
   compareDD() {
     this.compare.emit(true);
+    this.ga.eventEmitter( 'navbar', 'click',  'Compare',  1);
   }
 
   openSearch() {
@@ -204,5 +210,6 @@ export class NavbarComponent implements OnInit {
     this.location.go(urlTree.toString());
     this.dataVersion.emit(version);
     this.refresh.emit(this.selectedOption);
+    this.ga.eventEmitter('navbar', 'selection',  this.selectedVersion, 1);
   }
 }
