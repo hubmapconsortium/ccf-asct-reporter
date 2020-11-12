@@ -98,11 +98,9 @@ export class CompareComponent implements OnInit {
           title: ddSheet.title === '' ? `Sheet ${idx + 1}` : ddSheet.title,
           description: ddSheet.description
         });
-      this.ga.eventEmitter('compare', 'input', ddSheet.title === '' ? `Sheet ${idx + 1}` : ddSheet.title, idx + 1);
-      this.ga.eventEmitter('compare', 'input', ddSheet.description, idx + 1);
-      this.ga.eventEmitter('compare', 'input',   ddSheet.link , idx + 1);
-      this.ga.eventEmitter('compare', 'input',  ddSheet.color, idx + 1);
-
+        const sheetTitle = ddSheet.title === '' ? `Sheet ${idx + 1}` : ddSheet.title
+      this.ga.eventEmitter('compare', 'input', `(${sheetTitle},${ddSheet.description} , ${ddSheet.link}, ${ddSheet.color})`, idx + 1);
+      
 
       }
     this.openSnackBar('Derived Data sheet succesfully fetched.', 'Close', 'green');
