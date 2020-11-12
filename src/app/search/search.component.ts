@@ -168,6 +168,7 @@ export class SearchComponent implements OnInit {
       this.filterList.forEach(filter => {
         this.ga.eventEmitter(  'search', 'click', filter + ' filter' , 1);
       });
+      
     } else {
       this.dialogRef.close({ data: []});
     }
