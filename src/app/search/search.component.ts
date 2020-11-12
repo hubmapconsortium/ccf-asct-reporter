@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/d
 import { SheetService } from '../services/sheet.service';
 import { BimodalService } from '../services/bimodal.service';
 import {FormControl, Form} from '@angular/forms';
+import {GaService} from '../services/ga.service';
 
 import {MatSelect} from '@angular/material/select';
 
@@ -31,7 +32,8 @@ export class SearchComponent implements OnInit {
     private dialogRef: MatDialogRef<SearchComponent>,
     public sheet: SheetService,
     private dialog: MatDialog,
-    public bms: BimodalService
+    public bms: BimodalService,
+    public ga: GaService
     ) { }
 
   public filterList = [];
@@ -149,9 +151,23 @@ export class SearchComponent implements OnInit {
   }
 
   doSearch() {
+
     if (this.structureMultiCtrl.value) {
       this.search.emit(this.structureMultiCtrl.value);
       this.dialogRef.close({ data: this.structureMultiCtrl.value});
+      let separator = '';
+      const selectionArray = this.structureMultiCtrl.value;
+      let searchedValue = '';
+      for (const index in selectionArray){
+        if (selectionArray.hasOwnProperty(index)) {
+          searchedValue += separator +  selectionArray[index].name +  ' ' + selectionArray[index].groupName;
+          separator = ',';
+        }
+      }
+      this.ga.eventEmitter(  'search', 'click', searchedValue , selectionArray.length);
+      this.filterList.forEach(filter => {
+        this.ga.eventEmitter(  'search', 'click', filter + ' filter' , 1);
+      });
     } else {
       this.dialogRef.close({ data: []});
     }

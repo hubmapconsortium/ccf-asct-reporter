@@ -286,15 +286,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     this.treeWidth = this.treeView._runtime.group.context.data.asTree.values.value[0].bounds.x2;
 
     this.treeView.addSignalListener('node__hover', (name, value) => {
-      debugger;
+
       if (value != null){
-       
         this.ga.eventEmitter( 'tree', 'hover',  this.asctData.nodes.find(i => i.id === value).name, 1);
       }
      });
 
     this.treeView.addSignalListener('node__click', (name, value) => {
-      debugger;
       if (value != null){
        this.ga.eventEmitter('tree', 'click',  `(${this.asctData.nodes.find(i => i.id === value).name},${this.asctData.nodes.find(i => i.id === value).x},${this.asctData.nodes.find(i => i.id === value).y})`, 1);
       }

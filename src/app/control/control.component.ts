@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, Output, EventEmitter } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
+import {GaService} from '../services/ga.service';
 @Component({
   selector: 'app-control',
   templateUrl: './control.component.html',
@@ -22,6 +22,7 @@ export class ControlComponent implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<ControlComponent>,
               private dialog: MatDialog,
+              public ga: GaService,
               @Inject(MAT_DIALOG_DATA) public data: any) {
       this.heightValue = data.height;
 
@@ -32,6 +33,7 @@ export class ControlComponent implements OnInit {
 
   getSliderValue() {
     this.height.emit(this.heightValue);
+    this.ga.eventEmitter(  'vc', 'selection', 'Height Slider' , this.heightValue);
   }
 
   reset() {

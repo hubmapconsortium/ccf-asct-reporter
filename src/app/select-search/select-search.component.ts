@@ -125,6 +125,7 @@ export class SelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, 
   }
 
   changeFilter(structure) {
+
     if (this.filterList.includes(structure)) {
       this.filterList.splice(this.filterList.indexOf(structure), 1);
 
