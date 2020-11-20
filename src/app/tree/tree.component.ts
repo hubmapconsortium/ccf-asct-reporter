@@ -150,8 +150,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
 
   getBimodalSelecion() {
     this.makeBimodalGraph();
-    this.ga.eventEmitter('tree', 'click',  this.bimodalConfig.BM.sort , 1);
-    this.ga.eventEmitter('tree', 'click',  this.bimodalConfig.CT.sort , 1);
+    this.ga.eventEmitter('tree', 'click',  `Biomarkers - ${this.bimodalConfig.BM.sort}` , 1);
+    this.ga.eventEmitter('tree', 'click',  `Cell Types - ${this.bimodalConfig.CT.sort}` , 1);
   }
 
   ngOnChanges() {
@@ -288,13 +288,13 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     this.treeView.addSignalListener('node__hover', (name, value) => {
 
       if (value != null){
-        this.ga.eventEmitter( 'tree', 'hover',  this.asctData.nodes.find(i => i.id === value).name, 1);
+        this.ga.eventEmitter( 'tree', 'hover',  `${this.asctData.nodes.find(i => i.id === value).name},${this.asctData.nodes.find(i => i.id === value).x},${this.asctData.nodes.find(i => i.id === value).y}`, 1);
       }
      });
 
     this.treeView.addSignalListener('node__click', (name, value) => {
       if (value != null){
-       this.ga.eventEmitter('tree', 'click',  `(${this.asctData.nodes.find(i => i.id === value).name},${this.asctData.nodes.find(i => i.id === value).x},${this.asctData.nodes.find(i => i.id === value).y})`, 1);
+       this.ga.eventEmitter('tree', 'click',  `${this.asctData.nodes.find(i => i.id === value).name},${this.asctData.nodes.find(i => i.id === value).x},${this.asctData.nodes.find(i => i.id === value).y}`, 1);
       }
      });
 

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 declare let ga: (arg1?, arg2?, arg3?) => void;
 
@@ -12,11 +13,13 @@ export class GaService {
                       eventAction: string,
                       eventLabel: string = null,
                       eventValue: number = null) {
+    if (environment.production) {
       ga('send', 'event', {
-      eventCategory,
-      eventLabel,
-      eventAction,
-      eventValue
+        eventCategory,
+        eventLabel,
+        eventAction,
+        eventValue
       });
     }
+  }
 }
