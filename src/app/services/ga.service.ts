@@ -13,6 +13,7 @@ export class GaService {
                       eventAction: string,
                       eventLabel: string = null,
                       eventValue: number = null) {
+    console.log(environment)
     if (environment.production) {
       ga('send', 'event', {
         eventCategory,
