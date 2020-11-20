@@ -139,3 +139,8 @@ a {
     transition: all 0.5s ease;
     box-shadow: 5px 28px 35px rgba(128, 128, 128, 0.226);
 }
+
+::ng-deep .organMenu {
+    width: 300px !important;
+    height: 200px !important;
+}

@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --base-href=/ccf-asct-reporter/ --configuration=production",
-    "build:staging": "ng build --base-href=/ --configuration=production",
+    "build": "ng build --prod --base-href=/ccf-asct-reporter/ --configuration=production",
+    "build:staging": "ng build --prod --base-href=/ --configuration=production",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

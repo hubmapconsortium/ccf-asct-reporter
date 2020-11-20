@@ -77,11 +77,18 @@
               background-color: rgb(77, 155, 103);
               color: rgb(249, 249, 249);
             "
-            routerLink="/vis"
-            [queryParams]="{sheet: 'all', dataVersion: dataVersion}"
+            [matMenuTriggerFor]="menu" 
+            
           >
             Go to Visualization
           </button>
+            <mat-menu #menu="matMenu" class="organMenu">
+              <button mat-menu-item *ngFor="let option of sheetOptions" style="width: 100%;" 
+              routerLink="/vis"
+              [queryParams]="{sheet: option.sheet, dataVersion: dataVersion}">
+                <span>{{option.title}}</span>
+              </button>
+            </mat-menu>          
         </div>
       </div>
       <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">

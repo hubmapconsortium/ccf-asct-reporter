@@ -11,6 +11,52 @@ export class HomeComponent implements OnInit {
   window = window;
   screenWidth = document.getElementsByTagName('body')[0].clientWidth;
   dataVersion: string;
+  sheetOptions = [
+    {
+      title: 'All Organs',
+      sheet: 'all'
+    },
+    {
+      title: 'Brain',
+      sheet: 'brain'
+    },
+    {
+      title: 'Heart',
+      sheet: 'heart'
+    },
+    {
+      title: 'Kidney',
+      sheet: 'kidney'
+    },
+    {
+      title: 'Large Intestine',
+      sheet: 'large_intestine'
+    },
+    {
+      title: 'Liver',
+      sheet: 'liver'
+    },
+    {
+      title: 'Lung',
+      sheet: 'lung'
+    },
+    {
+      title: 'Lymph Nodes',
+      sheet: 'lymph_nodes'
+    },
+    {
+      title: 'Skin',
+      sheet: 'skin'
+    },
+    {
+      title: 'Small Intestine',
+      sheet: 'small_intestine'
+    },
+    {
+      title: 'Spleen',
+      sheet: 'spleen'
+    }
+  ];
 
   constructor(public sc: SconfigService,
               public ga: GaService) {
@@ -20,7 +66,8 @@ export class HomeComponent implements OnInit {
       this.dataVersion = this.sc.VERSIONS[this.sc.VERSIONS.length - 1].folder;
     }
   }
-
+  // routerLink="/vis"
+  // [queryParams]="{sheet: 'all', dataVersion: dataVersion}"
   ngOnInit(): void {}
 
   openGithub(event?: Event) {
