@@ -165,6 +165,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     if (this.shouldReloadData && !this.refreshData) {
+
+      this.showControl();
       this.controlDialog.componentInstance.heightValue = document.getElementsByTagName('body')[0].clientHeight;
       this.ts.setCurrentSheet(this.currentSheet);
       this.getData();
