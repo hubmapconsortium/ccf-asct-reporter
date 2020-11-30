@@ -17,13 +17,13 @@ export class LoadingComponent implements OnInit {
     public sheet: SheetService,
     private dialog: MatDialog,
   ) {
-    this.loadingText = data.sheet.display;
-  }
-
-  ngOnInit(): void {
     this.sheet.loadingStatus.subscribe((organ) => {
       this.loadingText = organ;
     });
+  }
+
+  ngOnInit(): void {
+
   }
 
   close() {
