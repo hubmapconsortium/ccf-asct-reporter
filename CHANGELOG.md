@@ -1,6 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2020-12-02
+
+### Added 
+- Integrated Google Analytics
+- Organ selector from the Home Page Button
+
+### Changed
+
+### Fixed
+- Error when shifting from Indented list to tree vis
+
 ## [1.0.1] - 2020-10-23
  
 ### Added
