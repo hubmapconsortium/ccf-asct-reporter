@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class SconfigService {
-  SERVER_URL = 'https://asctb-data-miner.herokuapp.com';
+  SERVER_URL = 'https://ccf-asctb-data-miner.herokuapp.com';
 
   VERSIONS = [
     {
