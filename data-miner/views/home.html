@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="../assets/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;531;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <style></style>
+  <body class="main">
+    <div class="container">
+      <h1>Welcome to the ASCT+B Reporter Data Miner!</h1>
+
+      <p>
+        This is a custom script wrwitten to extract the Flattened data tables
+        from Google Sheet in the event of a failure by the ASCT+B Reporter. The
+        reason you are seeing this page is either because you're lost or you do
+        not know how to use the Miner.
+      </p>
+      <br />
+      <h2>Using the Miner</h2>
+      <p>Hit the URL format below to retrieve the data,</p>
+      <div class="link"
+        >https://asctb-data-miner.herokuapp.com/&lt;sheetID&gt;/&lt;gid&gt;</div
+      >
+      <br />
+      <img src="../assets/link.png" class="linkImg" />
+      <br />
+      <p>Format of the response data:</p>
+      <code class="cb">
+        { data: csv_string, msg: message, status: status_code }
+      </code>
+      <br />
+      <br />
+      <h2>Useful Links</h2>
+      <p>Here are some links you might want to check out,</p>
+      <p>
+        <a href="https://hubmapconsortium.github.io/ccf-asct-reporter/"
+          >ASCT+B Reporter</a
+        >
+      </p>
+      <p>
+        <a href="https://github.com/hubmapconsortium/ccf-asct-reporter"
+          >ASCT+B Reporter GitHub</a
+        >
+      </p>
+      <p>
+        <a
+          href="https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1199090884"
+          >Flattened Data Tables</a
+        >
+      </p>
+      <p>
+        <a href="https://hubmapconsortium.github.io/ccf/">HuBMAP Consortium</a>
+      </p>
+    </div>
+  </body>
+</html>
