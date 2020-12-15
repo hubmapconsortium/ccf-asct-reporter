@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+// import embed from 'vega-embed';
 
 @Component({
   selector: 'app-tree',
@@ -6,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tree.component.scss']
 })
 export class TreeComponent implements OnInit {
+  
+  @Input() spec;
 
-  constructor() { }
+  constructor() { 
+    
+  }
 
-  ngOnInit(): void {
+  async ngOnInit() {
   }
 
 }

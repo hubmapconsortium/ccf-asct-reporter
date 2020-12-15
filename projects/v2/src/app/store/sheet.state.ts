@@ -9,13 +9,14 @@ import { of } from 'rxjs';
 import SC from "../static/config";
 import { Injectable } from '@angular/core';
 import { parse } from "papaparse";
-import { fetchSheetData } from '../actions/sheet.actions';
+import { fetchSheetData, updateVegaSpec } from '../actions/sheet.actions';
 
 export class SheetStateModel {
   data: any;
   sheet: Sheet;
   loading: boolean;
-  error: Error
+  error: Error;
+  spec: any;
 }
 
 
@@ -45,7 +46,8 @@ export class SheetStateModel {
       title: '',
     },
     loading: true,
-    error: {}
+    error: {},
+    spec: {}
   }
 })
 @Injectable()
@@ -63,6 +65,18 @@ export class SheetState {
   static getData(state: SheetStateModel) {
     return state.data;
   }
+
+  // @Selector()
+  // static getVegaSpec(state: SheetStateModel) {
+  //   return state.spec;
+  // }
+
+  // @Action(updateVegaSpec)
+  // updateVegaSpec({getState, setState, patchState}: StateContext<SheetStateModel>, {spec}: updateVegaSpec) {
+  //   patchState({
+  //     spec: spec
+  //   })
+  // }
   
   @Action(fetchSheetData) 
   fetchSheetData({getState, setState, patchState}: StateContext<SheetStateModel>, {sheet}:fetchSheetData) {
