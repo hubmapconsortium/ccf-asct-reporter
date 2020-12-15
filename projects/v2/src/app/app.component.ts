@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 
 import SC from './static/config';
-import { SheetState, fetchSheetData } from './store/sheet.state';
+import { SheetState } from './store/sheet.state';
 import { Sheet } from './models/sheet.model';
 import {Select, Store} from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { fetchSheetData } from './actions/sheet.actions';
 
 
 @Component({

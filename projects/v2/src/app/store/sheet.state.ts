@@ -9,11 +9,7 @@ import { of } from 'rxjs';
 import SC from "../static/config";
 import { Injectable } from '@angular/core';
 import { parse } from "papaparse";
-
-export class fetchSheetData {
-  static readonly type = '[FETCH] Sheet Data';
-  constructor(public sheet:Sheet) {}
-}
+import { fetchSheetData } from '../actions/sheet.actions';
 
 export class SheetStateModel {
   data: any;
