@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 import SC from "../static/config";
 import { Injectable } from '@angular/core';
 import { parse } from "papaparse";
-import { fetchSheetData, updateVegaSpec } from '../actions/sheet.actions';
+import { fetchSheetData } from '../actions/sheet.actions';
 
 export class SheetStateModel {
   data: any;

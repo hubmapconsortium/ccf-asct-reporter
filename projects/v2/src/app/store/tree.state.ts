@@ -6,18 +6,21 @@ import { Error, Response } from "../models/response.model";
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
+import { Spec, View } from 'vega'
 import SC from "../static/config";
 import { Injectable } from '@angular/core';
 import { updateVegaSpec, updateVegaView, updateBimodal } from '../actions/tree.actions';
 import { fetchSheetData } from '../actions/sheet.actions';
+import { TNode } from '../models/tree.model';
+import { BMNode } from '../models/bimodal.model';
 
 export class TreeStateModel {
-  spec: any;
-  treeData: any;
+  spec: Spec;
+  treeData: TNode[];
   view: any;
   width: number;
   bimodal: {
-    nodes: any,
+    nodes: BMNode[],
     links: any,
     config: {
       BM: {sort: string, size: string},
@@ -31,7 +34,7 @@ export class TreeStateModel {
   name: 'treeState',
   defaults: {
     spec: {},
-    treeData: {},
+    treeData: [],
     view: {},
     width: 0,
     bimodal: {nodes: [], links: [], config: {BM: {sort: 'Alphabetically', size: 'None'}, CT: {sort: 'Alphabetically', size: 'None'}}}
@@ -70,7 +73,7 @@ export class TreeState {
     const state = getState()
     setState({
       ...state,
-      bimodal: {nodes: nodes, links: links}
+      bimodal: {nodes: nodes, links: links, config: state.bimodal.config}
     })
   }
 
