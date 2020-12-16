@@ -9,14 +9,15 @@ import { Data } from './spec/data';
 import { Scales } from './spec/scales';
 import { Legends } from './spec/legends';
 import { Marks } from './spec/marks';
-import { updateVegaView } from '../../actions/sheet.actions';
+import { updateVegaView } from '../../actions/tree.actions';
+import { BimodalService } from './bimodal.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VegaService {
 
-  constructor(public store: Store) { }
+  constructor(public store: Store, public bm: BimodalService) { }
 
   async renderGraph(config) {
     const runtime: vega.Runtime = vega.parse(config, {});
@@ -33,7 +34,18 @@ export class VegaService {
     const treeWidth = treeView._runtime.group.context.data.asTree.values.value[0].bounds.x2;
     
 
-    this.store.dispatch(new updateVegaView(treeView));
+    this.store.dispatch(new updateVegaView(treeView)).subscribe(states => {
+      console.log('HERE: ', states)
+      const data = states.sheetState.data
+      const sheet = states.sheetState.sheet
+      const treeData = states.treeState.treeData
+      const bimodalConfig = states.treeState.bimodal.config
+      
+
+      if (data.length) {
+        this.bm.makeBimodalData(data, treeData, bimodalConfig, sheet, [])
+      } 
+    })
 
     // this.treeView.addSignalListener('node__hover', (name, value) => {
 

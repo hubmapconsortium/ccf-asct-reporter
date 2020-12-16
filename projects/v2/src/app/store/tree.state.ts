@@ -8,7 +8,8 @@ import { of } from 'rxjs';
 
 import SC from "../static/config";
 import { Injectable } from '@angular/core';
-import { fetchSheetData, updateVegaSpec, updateVegaView, updateBimodal } from '../actions/sheet.actions';
+import { updateVegaSpec, updateVegaView, updateBimodal } from '../actions/tree.actions';
+import { fetchSheetData } from '../actions/sheet.actions';
 
 export class TreeStateModel {
   spec: any;
@@ -17,7 +18,11 @@ export class TreeStateModel {
   width: number;
   bimodal: {
     nodes: any,
-    links: any
+    links: any,
+    config: {
+      BM: {sort: string, size: string},
+      CT: {sort: string, size: string}
+    }
   }
 }
 
@@ -29,7 +34,7 @@ export class TreeStateModel {
     treeData: {},
     view: {},
     width: 0,
-    bimodal: {nodes: [], links: []}
+    bimodal: {nodes: [], links: [], config: {BM: {sort: 'Alphabetically', size: 'None'}, CT: {sort: 'Alphabetically', size: 'None'}}}
   }
 })
 @Injectable()
