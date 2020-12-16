@@ -35,3 +35,72 @@ export class TreeAndMultiParent {
 
 }
 
+export interface AS {
+  structure: string;
+  uberon: string;
+}
+
+export interface ASCTBConfig {
+  report_cols?: Array<number>;
+  cell_col?: number;
+  marker_col?: number;
+  uberon_col?: number;
+}
+
+export interface CT {
+  structure: string;
+  link: string;
+  nodeSize: number;
+  isNew: boolean;
+  color: string;
+}
+
+export interface B {
+  structure: string;
+  link: string;
+  isNew: boolean;
+  color: string;
+}
+
+export class Cell {
+  structure: string;
+  parents: Array<string>;
+  link: string;
+  isNew: boolean;
+  color: string;
+
+  constructor(structure: string, link = 'NONE') {
+    this.structure = structure;
+    this.parents = [];
+    this.link = link;
+    this.isNew = false;
+    this.color = '#ccc';
+  }
+}
+
+export class Marker {
+  structure: string;
+  parents: Array<string>;
+  count: number;
+  isNew: boolean;
+  color: string;
+
+  constructor(structure, count) {
+    this.structure = structure;
+    this.parents = [];
+    this.count = count;
+    this.isNew = false;
+    this.color = '#ccc';
+  }
+}
+
+
+export class Organ {
+  body: string;
+  organ: string;
+  cellType: string;
+  markers: string;
+  organRow: Array<Organ>;
+}
+
+

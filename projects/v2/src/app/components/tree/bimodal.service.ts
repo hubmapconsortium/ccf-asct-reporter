@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import {  } from './tree.service';
 import { BMNode } from '../../models/bimodal.model';
-import { makeCellDegree, makeMarkerDegree, Cell, Marker, makeCellTypes, makeAS, makeBioMarkers} from './tree.functions';
+import { makeCellDegree, makeMarkerDegree, makeCellTypes, makeAS, makeBioMarkers} from './tree.functions';
 import { CT_BLUE, B_GREEN } from '../../models/tree.model';
 import { updateBimodal } from '../../actions/tree.actions';
 
@@ -10,7 +10,7 @@ import { updateBimodal } from '../../actions/tree.actions';
   providedIn: 'root'
 })
 export class BimodalService {
-  
+
   bimodalSortOptions = ['Alphabetically', 'Degree'];
   bimodalSizeOptions = ['None', 'Degree'];
   bimodalCTSizeOptions = ['None', 'Degree', 'Indegree', 'Outdegree'];

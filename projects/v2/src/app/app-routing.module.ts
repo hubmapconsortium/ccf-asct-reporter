@@ -8,6 +8,10 @@ const routes: Routes = [
   {
     path: 'vis',
     component: RootComponent
+  },
+  {
+    path: 'vis/:sheet',
+    component: RootComponent
   }
 ];
 

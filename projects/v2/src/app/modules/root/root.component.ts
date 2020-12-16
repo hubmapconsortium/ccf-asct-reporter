@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import SC from './../../static/config';
+import {SHEET_CONFIG} from './../../static/config';
 import { SheetState } from './../../store/sheet.state';
 import { TreeState } from './../../store/tree.state';
 import { Sheet } from './../../models/sheet.model';
@@ -10,6 +10,8 @@ import { TreeService } from '../../components/tree/tree.service';
 import { map } from 'rxjs/operators';
 import * as vega from 'vega'
 import { updateVegaSpec } from '../../actions/tree.actions';
+import { Route } from '@angular/compiler/src/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 
@@ -22,35 +24,32 @@ export class RootComponent implements OnInit {
   data: any;
   loading: boolean;
   view: any;
-  sheetData: any;
-  sheet:any = SC.SHEET_CONFIG.find(i => i.name === 'spleen');
+  sheet: any;
   
- 
-
   @Select(SheetState.getLoading) loading$: Observable<boolean>;
   @Select(SheetState.getData) data$: Observable<any>;
   @Select(TreeState.getTreeData) treeData$: Observable<any>;
   @Select(TreeState.getBimodal) bimodalData$: Observable<any>;
   @Select(TreeState.getVegaView) view$: Observable<any>;
 
-  constructor(public store: Store, public ts:TreeService) {
-    // const sheet:any = SC.SHEET_CONFIG.find(i => i.name === 'spleen');
-    store.dispatch(new fetchSheetData(this.sheet));
+  constructor(public store: Store, public ts:TreeService, public route: ActivatedRoute) {
 
     this.loading$.subscribe(loading => {
       this.loading = loading;
     })
     
     this.data$.subscribe(data => {
-      this.data = data;
-      ts.makeTreeData(this.sheet, data, [])
+      if (data.length) {
+        this.data = data;
+        ts.makeTreeData(this.sheet, data, [])
+      }
+      
     })
 
-    // this.treeData$.subscribe(data => {
-    //   if(this.data.length && data.length)
-    //     ts.makeASCTData(this.data, data, this.bimodalConfig, this.sheet)
-    // })
-
+    this.route.queryParamMap.subscribe(query => {
+      this.sheet =  SHEET_CONFIG.find(i => i.name === query.get('sheet'));
+      store.dispatch(new fetchSheetData(this.sheet));
+    })
   }
 
   ngOnInit(): void {

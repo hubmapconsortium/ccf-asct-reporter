@@ -1,6 +1,6 @@
-const HEADER_COUNT = 11;
+export const HEADER_COUNT = 11;
 
-const  SHEET_CONFIG = [
+export const SHEET_CONFIG = [
   {
     name: 'ao',
     display: 'All Organs',
@@ -231,7 +231,8 @@ const  SHEET_CONFIG = [
     title: 'Anatomical Structures',
   },
 ];
-const ORGANS = [
+
+export const ORGANS = [
   'Brain',
   'Spleen',
   'Kidney',
@@ -244,7 +245,7 @@ const ORGANS = [
   'Skin',
 ];
 
-const VERSION  = [
+export const VERSION  = [
   {
     display: 'Latest',
     folder: 'latest'
@@ -258,5 +259,3 @@ const VERSION  = [
     folder: 'v101'
   }
 ];
-
-export default {SHEET_CONFIG, VERSION, ORGANS, HEADER_COUNT}

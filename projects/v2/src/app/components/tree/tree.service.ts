@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { makeCellDegree, makeMarkerDegree, Cell, Marker, makeCellTypes, makeAS, makeBioMarkers} from './tree.functions';
+import { makeCellDegree, makeMarkerDegree } from './tree.functions';
 import { Store } from '@ngxs/store';
 import { updateVegaSpec, updateBimodal } from '../../actions/tree.actions';
 import { VegaService } from './vega.service';
@@ -40,7 +40,6 @@ export class Tree {
     return emptyNode;
   }
 }
-
 
 
 @Injectable({

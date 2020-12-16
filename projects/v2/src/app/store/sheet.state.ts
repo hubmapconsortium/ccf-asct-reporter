@@ -6,19 +6,17 @@ import { Error, Response } from "../models/response.model";
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import SC from "../static/config";
+import { HEADER_COUNT } from "../static/config";
 import { Injectable } from '@angular/core';
 import { parse } from "papaparse";
 import { fetchSheetData } from '../actions/sheet.actions';
 
 export class SheetStateModel {
-  data: any;
+  data: Array<string[]>;
   sheet: Sheet;
   loading: boolean;
   error: Error;
-  spec: any;
 }
-
 
 @State<SheetStateModel>({
   name: 'sheetState',
@@ -47,7 +45,6 @@ export class SheetStateModel {
     },
     loading: true,
     error: {},
-    spec: {}
   }
 })
 @Injectable()
@@ -65,18 +62,6 @@ export class SheetState {
   static getData(state: SheetStateModel) {
     return state.data;
   }
-
-  // @Selector()
-  // static getVegaSpec(state: SheetStateModel) {
-  //   return state.spec;
-  // }
-
-  // @Action(updateVegaSpec)
-  // updateVegaSpec({getState, setState, patchState}: StateContext<SheetStateModel>, {spec}: updateVegaSpec) {
-  //   patchState({
-  //     spec: spec
-  //   })
-  // }
   
   @Action(fetchSheetData) 
   fetchSheetData({getState, setState, patchState}: StateContext<SheetStateModel>, {sheet}:fetchSheetData) {
@@ -89,7 +74,7 @@ export class SheetState {
       tap((res) => {
 
         const parsedData = parse(res, {skipEmptyLines: true, });
-        parsedData.data.splice(0, SC.HEADER_COUNT);
+        parsedData.data.splice(0, HEADER_COUNT);
         parsedData.data.map(i => {i.push(false); i.push('#ccc'); });
 
         setState({

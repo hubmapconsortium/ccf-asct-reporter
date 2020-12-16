@@ -7,12 +7,11 @@ import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { Spec, View } from 'vega'
-import SC from "../static/config";
 import { Injectable } from '@angular/core';
 import { updateVegaSpec, updateVegaView, updateBimodal } from '../actions/tree.actions';
 import { fetchSheetData } from '../actions/sheet.actions';
 import { TNode } from '../models/tree.model';
-import { BMNode } from '../models/bimodal.model';
+import { BMNode, Link } from '../models/bimodal.model';
 
 export class TreeStateModel {
   spec: Spec;
@@ -21,7 +20,7 @@ export class TreeStateModel {
   width: number;
   bimodal: {
     nodes: BMNode[],
-    links: any,
+    links: Link[],
     config: {
       BM: {sort: string, size: string},
       CT: {sort: string, size: string}
@@ -43,7 +42,7 @@ export class TreeStateModel {
 @Injectable()
 export class TreeState {
   
-  constructor(private sheetService: SheetService) {
+  constructor() {
   }
   
 
@@ -78,7 +77,7 @@ export class TreeState {
   }
 
   @Action(updateVegaView)
-  updateVegaView({getState, setState, patchState}: StateContext<TreeStateModel>, {view}: updateVegaView) {
+  updateVegaView({getState, patchState}: StateContext<TreeStateModel>, {view}: updateVegaView) {
     const state = getState();
     patchState({
       view: view,
@@ -89,7 +88,7 @@ export class TreeState {
   
 
   @Action(updateVegaSpec)
-  updateVegaSpec({getState, setState, patchState}: StateContext<TreeStateModel>, {spec}: updateVegaSpec) {
+  updateVegaSpec({patchState}: StateContext<TreeStateModel>, {spec}: updateVegaSpec) {
     patchState({
       spec: spec
     })
