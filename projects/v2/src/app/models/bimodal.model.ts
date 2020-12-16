@@ -62,3 +62,7 @@ export interface ASCTD {
   compareDD?: Array<DD>;
   searchIds?: Array<number>;
 }
+
+export const bimodalSortOptions = ['Alphabetically', 'Degree'],
+             bimodalSizeOptions = ['None', 'Degree'],
+             bimodalCTSizeOptions = ['None', 'Degree', 'Indegree', 'Outdegree'];

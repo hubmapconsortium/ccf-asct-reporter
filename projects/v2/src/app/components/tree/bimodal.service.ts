@@ -11,20 +11,6 @@ import { updateBimodal } from '../../actions/tree.actions';
 })
 export class BimodalService {
 
-  bimodalSortOptions = ['Alphabetically', 'Degree'];
-  bimodalSizeOptions = ['None', 'Degree'];
-  bimodalCTSizeOptions = ['None', 'Degree', 'Indegree', 'Outdegree'];
-  bimodalConfig = {
-    BM: {
-      sort: this.bimodalSortOptions[0],
-      size: this.bimodalSizeOptions[0],
-    },
-    CT: {
-      sort: this.bimodalSortOptions[0],
-      size: this.bimodalCTSizeOptions[0],
-    },
-  };
-
   constructor(private store: Store) { }
 
   async makeBimodalData(
