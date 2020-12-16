@@ -317,6 +317,8 @@ export async function makeCellTypes(
           }
         }
       });
+
+      
       if (cellTypes.length > 0) {
         res(cellTypes);
       } else {

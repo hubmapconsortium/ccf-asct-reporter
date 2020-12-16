@@ -9,7 +9,7 @@ import { Data } from './spec/data';
 import { Scales } from './spec/scales';
 import { Legends } from './spec/legends';
 import { Marks } from './spec/marks';
-import { updateTreeView } from '../../actions/sheet.actions';
+import { updateVegaView } from '../../actions/sheet.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +33,7 @@ export class VegaService {
     const treeWidth = treeView._runtime.group.context.data.asTree.values.value[0].bounds.x2;
     
 
-    this.store.dispatch(new updateTreeView(treeView));
+    this.store.dispatch(new updateVegaView(treeView));
 
     // this.treeView.addSignalListener('node__hover', (name, value) => {
 

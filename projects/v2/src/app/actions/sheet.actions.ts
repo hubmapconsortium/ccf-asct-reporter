@@ -10,7 +10,12 @@ export class updateVegaSpec {
   constructor(public spec: any) {}
 }
 
-export class updateTreeView {
-  static readonly type = '[UPDATE] Tree View';
+export class updateVegaView {
+  static readonly type = '[UPDATE] Vega View';
   constructor(public view: any) {}
+}
+
+export class updateBimodal {
+  static readonly type = '[UPDATE] Bimodal Network';
+  constructor(public nodes: any, public links: any) {}
 }

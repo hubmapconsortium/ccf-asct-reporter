@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { makeCellDegree, makeMarkerDegree, Cell, Marker, makeCellTypes, makeAS, makeBioMarkers} from './tree.functions';
 import { Store } from '@ngxs/store';
-import { updateVegaSpec } from '../../actions/sheet.actions';
+import { updateVegaSpec, updateBimodal } from '../../actions/sheet.actions';
 import { VegaService } from './vega.service';
+import * as vega from 'vega'
 
 export class TNode {
   id: any;
@@ -237,11 +238,6 @@ export class TreeService {
         }
       }
       
-
-      // {
-      //   tree: tree.nodes,
-      //   multiParentLinks: linkData
-      // }
       const spec = this.vs.makeVegaConfig(currentSheet, currentSheet.config.bimodal_distance, 1000, 2000, tree.nodes, linkData)
       // this.store.dispatch(new updateVegaSpec(spec))
       this.vs.renderGraph(spec)
@@ -256,9 +252,12 @@ export class TreeService {
     treeData,
     bimodalConfig,
     currentSheet,
-    compareData?
+    compareData = []
   ) {
     // this.partonomyTreeData = treeData;
+
+    // console.log(sheetData, treeData)
+    // return {}
     let ASCTGraphData: ASCTD;
     const links = [];
     const nodes = [];
@@ -532,12 +531,42 @@ export class TreeService {
       nodes,
       links,
     };
+    
+    this.store.dispatch(new updateBimodal(nodes, links)).subscribe(newData => {
+      console.log('NEW DATA ', newData.treeState)
+      const view  = newData.treeState.view
+      const nodes =  newData.treeState.bimodal.nodes
+      const links = newData.treeState.bimodal.links
 
+      this.updateBimodalData(view, nodes, links)
+    })
     // this.asctData = ASCTGraphData;
 
     // this.report.checkLinks(ASCTGraphData.nodes); // check for missing links to submit to the Log
+    // return ASCTGraphData;
+  }
 
-    return ASCTGraphData;
+  updateBimodalData(view, nodes, links) {
+      view._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
+      view._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
+      view._runtime.signals.targets__click.value = [];
+
+      view.data('nodes', nodes).data('edges', links).resize().runAsync()
+      
+      
+      // view
+      // .change(
+      //   'nodes',
+      //   vega.changeset().remove([]).insert(nodes)
+      // )
+      // .runAsync();
+      // view
+      // .change(
+      //   'edges',
+      //   vega.changeset().remove([]).insert(links)
+      // )
+      // .runAsync();
+  
   }
 }
 
