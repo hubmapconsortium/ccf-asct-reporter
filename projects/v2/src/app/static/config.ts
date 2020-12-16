@@ -84,7 +84,7 @@ export const SHEET_CONFIG = [
     title: 'Anatomical Structures',
   },
   {
-    name: 'lymph',
+    name: 'lymph_nodes',
     display: 'Lymph Nodes',
     sheetId: '1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI',
     gid: '272157091',
@@ -126,7 +126,7 @@ export const SHEET_CONFIG = [
     title: 'Anatomical Structures',
   },
   {
-    name: 'si',
+    name: 'small_intestine',
     display: 'Small Intestine',
     sheetId: '1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI',
     gid: '766906089',
@@ -147,7 +147,7 @@ export const SHEET_CONFIG = [
     title: 'Anatomical Structures',
   },
   {
-    name: 'li',
+    name: 'large_intestine',
     display: 'Large Intestine',
     sheetId: '1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI',
     gid: '82644608',
@@ -232,17 +232,51 @@ export const SHEET_CONFIG = [
   },
 ];
 
-export const ORGANS = [
-  'Brain',
-  'Spleen',
-  'Kidney',
-  'Liver',
-  'Lung',
-  'Lymph Nodes',
-  'Heart',
-  'Small Intestine',
-  'Large Intestine',
-  'Skin',
+export const SHEET_OPTIONS = [
+  {
+    title: 'All Organs',
+    sheet: 'all'
+  },
+  {
+    title: 'Brain',
+    sheet: 'brain'
+  },
+  {
+    title: 'Heart',
+    sheet: 'heart'
+  },
+  {
+    title: 'Kidney',
+    sheet: 'kidney'
+  },
+  {
+    title: 'Large Intestine',
+    sheet: 'large_intestine'
+  },
+  {
+    title: 'Liver',
+    sheet: 'liver'
+  },
+  {
+    title: 'Lung',
+    sheet: 'lung'
+  },
+  {
+    title: 'Lymph Nodes',
+    sheet: 'lymph_nodes'
+  },
+  {
+    title: 'Skin',
+    sheet: 'skin'
+  },
+  {
+    title: 'Small Intestine',
+    sheet: 'small_intestine'
+  },
+  {
+    title: 'Spleen',
+    sheet: 'spleen'
+  }
 ];
 
 export const VERSION  = [

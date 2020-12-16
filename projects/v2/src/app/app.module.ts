@@ -15,16 +15,17 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-// import { TreeModule } from './components/tree/tree.module';
 import { RootComponent } from './modules/root/root.component';
 import { TreeComponent } from './components/tree/tree.component';
+import { HomeComponent } from './components/home/home.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     RootComponent,
-    TreeComponent
+    TreeComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
