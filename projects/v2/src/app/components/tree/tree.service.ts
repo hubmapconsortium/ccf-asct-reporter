@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
-import { makeCellDegree, makeMarkerDegree } from './tree.functions';
 import { Store } from '@ngxs/store';
-import { updateVegaSpec, updateBimodal } from '../../actions/tree.actions';
 import { VegaService } from './vega.service';
-import * as vega from 'vega'
-import {AS_RED, CT_BLUE, B_GREEN, TNode, TreeAndMultiParent} from './../../models/tree.model'
+import {AS_RED, TNode} from './../../models/tree.model'
 
 // Used in the tree visualization
 export class Tree {
@@ -46,9 +43,6 @@ export class Tree {
   providedIn: 'root'
 })
 export class TreeService {
-
-  makeCellDegree = makeCellDegree;
-  makeMarkerDegree = makeMarkerDegree;
 
   constructor(public store: Store, public vs: VegaService) { }
 

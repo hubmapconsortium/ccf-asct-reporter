@@ -43,7 +43,6 @@ export class RootComponent implements OnInit {
         this.data = data;
         ts.makeTreeData(this.sheet, data, [])
       }
-      
     })
 
     this.route.queryParamMap.subscribe(query => {

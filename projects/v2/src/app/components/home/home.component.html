@@ -1,9 +1,9 @@
 <div style="width: 100%; height: 100%;" (window:resize)="onResize($event)">
   <!-- NAVBAR -->
-  <div style="width: 100%; background-color: #444a65; z-index: 2;">
-    <mat-toolbar style="background-color: #444a65;" class="container" no-shadow>
+  <div style="width: 100%; border-bottom: 3px solid #444a65; z-index: 2;">
+    <mat-toolbar style="background-color: white; color: #444a65;" class="container" no-shadow>
       <div class="navbar-logo">
-        <img src="assets/logo.svg" alt class="logo1" (click)="openGithub($event)" />
+        <img src="assets/logo.svg" alt class="logo1" (click)="openGithub($event)"  />
         <img src="assets/ccf.svg" alt class="logo2" (click)="openGithub($event)" />
       </div>
       <span class="example-spacer"></span>
@@ -15,7 +15,7 @@
         [matMenuTriggerFor]="hamMenu"
         *ngIf="screenWidth <= 700"
       >
-        <mat-icon style="color: white; font-weight: bold;">menu</mat-icon>
+        <mat-icon style="color: #444a65; font-weight: bold;">menu</mat-icon>
         <mat-menu #hamMenu="matMenu">
           <button (click)="openData()" mat-menu-item>
             Tables
