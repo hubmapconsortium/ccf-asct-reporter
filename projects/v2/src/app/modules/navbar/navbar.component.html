@@ -1,8 +1,8 @@
 <mat-toolbar
     color="secondary"
     style="
-      padding-left: 30px !important;
-      padding-right: 30px !important;
+      padding-left: 50px !important;
+      padding-right: 50px !important;
       display: flex;
       align-items: center;
       background: white;
@@ -23,8 +23,6 @@
           matTooltip="Select Organ Set"
           matTooltipPosition="below"
         >
-        <!-- ?(selectionChange)="getSheetSelection(selectedSheetOption, $event)" -->
-            <!-- [(ngModel)]="selectedSheetOption" -->
           <mat-select
               (selectionChange)="getSheetSelection(selectedSheetOption, $event)"
               [(ngModel)]="selectedSheetOption"
@@ -35,6 +33,17 @@
           </mat-select>
         </button>
       </mat-form-field>
+
+      <button
+          mat-icon-button
+          style="background-color: #f9f9f9;"
+          (click)="refreshData()" 
+          #tooltip="matTooltip"
+          matTooltip="Refresh Data"
+          matTooltipPosition="below"
+        >
+          <mat-icon style="font-weight: bold;">refresh</mat-icon>
+        </button>
     </div>
   </div>
 
