@@ -39,6 +39,16 @@ export class UIState {
   }
 
   @Selector()
+  static getLoading(state: UIStateModel) {
+    return state.loading;
+  }
+
+  @Select()
+  static getLoadingText(state: UIStateModel) {
+    return state.loadingText;
+  }
+
+  @Selector()
   static getControlPaneState(state: UIStateModel) {
     return state.controlPaneOpen;
   }

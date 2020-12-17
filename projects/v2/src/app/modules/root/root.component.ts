@@ -10,6 +10,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UIState } from '../../store/ui.state';
 import { HasError } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { LoadingComponent } from '../../components/loading/loading.component';
 
 
 
@@ -39,8 +41,11 @@ export class RootComponent implements OnInit {
   // UI Observables
   @Select(UIState.checkForError) hasError$: Observable<boolean>;
   @Select(UIState.getError) error$: Observable<any>;
+  @Select(UIState.getLoading) loading$: Observable<any>;
+  @Select(UIState.getLoadingText) loadingText$: Observable<any>;
 
-  constructor(public store: Store, public ts:TreeService, public route: ActivatedRoute) {
+
+  constructor(public store: Store, public ts:TreeService, public route: ActivatedRoute, public dialog: MatDialog) {
 
     this.data$.subscribe(data => {
       if (data.length) {
@@ -67,9 +72,30 @@ export class RootComponent implements OnInit {
         }
       )
     })
+
+    this.loading$.subscribe(l => {
+      if(l && !this.dialog.getDialogById('LoadingDialog')) this.openLoading()
+      else if (!l) this.closeLoading();
+    })
   }
 
   ngOnInit(): void {
+  }
+
+  openLoading(text?: string) {
+    const config = new MatDialogConfig();
+    config.disableClose = true;
+    config.autoFocus = true;
+    config.id = 'LoadingDialog'
+    config.data = text;
+    config.width = '300px';
+
+    const loadingDialog = this.dialog.open(LoadingComponent, config)
+  }
+
+  closeLoading() {
+    const loadingDialog = this.dialog.getDialogById('LoadingDialog')
+    loadingDialog.close();
   }
 
 }
