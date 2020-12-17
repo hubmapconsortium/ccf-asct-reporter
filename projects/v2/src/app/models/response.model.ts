@@ -9,3 +9,9 @@ export interface Error {
   msg?: string;
   status?: number;
 }
+
+export enum SnackbarType {
+  success = 'success',
+  error = 'error',
+  warning = 'warning'
+}

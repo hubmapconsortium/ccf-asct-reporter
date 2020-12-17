@@ -1,7 +1,8 @@
 import { SheetService } from '../services/sheet.service';
 import {State, Action, StateContext, Selector, Select} from '@ngxs/store';
 import { Sheet, Data } from "../models/sheet.model";
-import { Error, Response } from "../models/response.model";
+import { Error, Response, SnackbarType } from "../models/response.model";
+import { patch } from '@ngxs/store/operators';
 
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -11,14 +12,15 @@ import { Injectable } from '@angular/core';
 import { updateVegaSpec, updateVegaView, updateBimodal } from '../actions/tree.actions';
 import { fetchSheetData } from '../actions/sheet.actions';
 import { TNode } from '../models/tree.model';
-import { ToggleControlPane, OpenLoading, CloseLoading, UpdateLoadingText, HasError } from '../actions/ui.actions';
+import { ToggleControlPane, OpenLoading, CloseLoading, UpdateLoadingText, HasError, OpenSnackbar, CloseSnackbar } from '../actions/ui.actions';
+import { Snackbar } from '../models/ui.model';
 
 export class UIStateModel {
   controlPaneOpen: boolean;
   loading: boolean;
   loadingText: string;
-  hasError: boolean;
   error: Error;
+  snackbar: Snackbar
 }
 
 
@@ -28,14 +30,19 @@ export class UIStateModel {
     controlPaneOpen: true,
     loading: true,
     loadingText: '',
-    hasError: false,
-    error: {}
+    error: {},
+    snackbar: {opened: false, text: '', type: SnackbarType.success}
   }
 })
 @Injectable()
 export class UIState {
   
   constructor() {
+  }
+
+  @Selector()
+  static getSnackbar(state: UIStateModel) {
+    return state.snackbar;
   }
 
   @Selector()
@@ -53,18 +60,34 @@ export class UIState {
     return state.controlPaneOpen;
   }
 
-  @Selector()
-  static checkForError(state: UIStateModel) {
-    return state.hasError
-  }
 
   @Selector()
   static getError(state: UIStateModel) {
     return {
-      hasError: state.hasError,
       error: state.error
     }
   }
+
+  @Action(OpenSnackbar)
+  openSnackbar({getState, setState}: StateContext<UIStateModel>, {text, type}: OpenSnackbar) {
+    const state = getState();
+    setState({
+      ...state,
+      snackbar: {opened: true, text: text, type: type}
+    })
+  }
+
+  @Action(CloseSnackbar)
+  closeSnackbar({getState, setState}: StateContext<UIStateModel>) {
+    const state = getState();
+    setState({
+      ...state,
+      snackbar: {
+        opened: false, text: '', type: SnackbarType.success
+      }
+    })
+  }
+
 
   @Action(ToggleControlPane)
   toggleControlPane({getState, setState}: StateContext<UIStateModel>) {
@@ -82,7 +105,6 @@ export class UIState {
       ...state,
       loadingText: text,
       loading: true,
-      hasError: false,
       error: {}
     })
   }
@@ -97,13 +119,18 @@ export class UIState {
   }
 
   @Action(CloseLoading)
-  closeLoading({getState, setState}: StateContext<UIStateModel>) {
+  closeLoading({getState, setState, dispatch}: StateContext<UIStateModel>, {text}: CloseLoading) {
     const state = getState();
     setState({
       ...state,
       loading: false,
       loadingText: ''
     })
+
+    let type = SnackbarType.success;
+    if (state.error.hasError) type = SnackbarType.error
+
+    dispatch(new OpenSnackbar(text, type))
   }
 
   @Action(HasError)
@@ -111,7 +138,6 @@ export class UIState {
     const state = getState()
     setState({
       ...state,
-      hasError: true,
       error: error,
       loading: false,
       loadingText: ''

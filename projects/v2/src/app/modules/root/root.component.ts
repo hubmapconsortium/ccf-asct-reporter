@@ -8,10 +8,11 @@ import { fetchSheetData } from './../../actions/sheet.actions';
 import { TreeService } from '../../components/tree/tree.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UIState } from '../../store/ui.state';
-import { HasError } from '../../actions/ui.actions';
+import { HasError, CloseSnackbar } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LoadingComponent } from '../../components/loading/loading.component';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 
 
 
@@ -27,6 +28,7 @@ export class RootComponent implements OnInit {
   sheet: any;
   hasError: boolean;
   error: Error;
+  snackbarRef: MatSnackBarRef<PizzaPartyComponent>
   
   // Sheet Observables
   // @Select(SheetState.getLoading) loading$: Observable<boolean>;
@@ -39,13 +41,13 @@ export class RootComponent implements OnInit {
   @Select(UIState.getControlPaneState) pane$: Observable<boolean>;
 
   // UI Observables
-  @Select(UIState.checkForError) hasError$: Observable<boolean>;
   @Select(UIState.getError) error$: Observable<any>;
   @Select(UIState.getLoading) loading$: Observable<any>;
   @Select(UIState.getLoadingText) loadingText$: Observable<any>;
+  @Select(UIState) uiState$: Observable<any>;
 
 
-  constructor(public store: Store, public ts:TreeService, public route: ActivatedRoute, public dialog: MatDialog) {
+  constructor(public store: Store, public ts:TreeService, public route: ActivatedRoute, public dialog: MatDialog, private snackbar: MatSnackBar) {
 
     this.data$.subscribe(data => {
       if (data.length) {
@@ -77,6 +79,14 @@ export class RootComponent implements OnInit {
       if(l && !this.dialog.getDialogById('LoadingDialog')) this.openLoading()
       else if (!l) this.closeLoading();
     })
+
+    this.uiState$.subscribe(state => {
+      if (state.snackbar.opened)  {
+        this.snackbarRef = this.snackbar.openFromComponent(PizzaPartyComponent, {duration: 1500});
+        this.snackbarRef.afterDismissed().subscribe(s => { store.dispatch(new CloseSnackbar())})
+      }
+    })
+
   }
 
   ngOnInit(): void {
@@ -99,3 +109,15 @@ export class RootComponent implements OnInit {
   }
 
 }
+
+
+@Component({
+  selector: 'snack-bar-component-example-snack',
+  template: '<div>HELLO</div>',
+  styles: [`
+    .example-pizza-party {
+      color: hotpink;
+    }
+  `],
+})
+export class PizzaPartyComponent {}

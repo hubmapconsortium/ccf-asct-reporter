@@ -1,4 +1,4 @@
-import { Error } from '../models/response.model';
+import { Error, SnackbarType } from '../models/response.model';
 
 export class OpenLoading {
   static readonly type = '[OPEN] Loading';
@@ -12,6 +12,7 @@ export class UpdateLoadingText {
 
 export class CloseLoading {
   static readonly type = '[CLOSE] Loading';
+  constructor(public text?: string) {}
 }
 
 export class HasError {
@@ -25,5 +26,15 @@ export class NoError {
 
 export class ToggleControlPane {
   static readonly type = '[TOGGLE] Control Pane';
+  constructor() {}
+}
+
+export class OpenSnackbar {
+  static readonly type = '[OPEN] Snackbar';
+  constructor(public text: string, public type: SnackbarType) {}
+}
+
+export class CloseSnackbar {
+  static readonly type = '[CLOSE] Snackbar';
   constructor() {}
 }
