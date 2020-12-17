@@ -309,7 +309,7 @@ export class BimodalService {
       view._runtime.signals.targets__click.value = [];
       view.data('nodes', nodes).data('edges', links).resize().runAsync()
 
-      this.store.dispatch(new CloseLoading());
+      this.store.dispatch(new CloseLoading('Visualization Rendered'));
       
   }
 }

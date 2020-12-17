@@ -12,7 +12,7 @@ import { HasError, CloseSnackbar } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LoadingComponent } from '../../components/loading/loading.component';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarRef, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 
 
@@ -81,8 +81,16 @@ export class RootComponent implements OnInit {
     })
 
     this.uiState$.subscribe(state => {
-      if (state.snackbar.opened)  {
-        this.snackbarRef = this.snackbar.openFromComponent(PizzaPartyComponent, {duration: 1500});
+      const sb = state.snackbar;
+      if (sb.opened)  {
+        const config: MatSnackBarConfig = {
+          duration: 1500,
+          verticalPosition: 'bottom',
+          horizontalPosition: 'end',
+          panelClass: [`${sb.type}-snackbar`]
+        }
+        console.log(config)
+        this.snackbarRef = this.snackbar.open(sb.text, 'Dismiss', config);
         this.snackbarRef.afterDismissed().subscribe(s => { store.dispatch(new CloseSnackbar())})
       }
     })

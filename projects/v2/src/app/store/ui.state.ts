@@ -70,6 +70,7 @@ export class UIState {
 
   @Action(OpenSnackbar)
   openSnackbar({getState, setState}: StateContext<UIStateModel>, {text, type}: OpenSnackbar) {
+    console.log('TEXT: ', text)
     const state = getState();
     setState({
       ...state,
@@ -124,13 +125,9 @@ export class UIState {
     setState({
       ...state,
       loading: false,
-      loadingText: ''
+      loadingText: '',
+      snackbar: {opened: true, text: text, type: SnackbarType.success}
     })
-
-    let type = SnackbarType.success;
-    if (state.error.hasError) type = SnackbarType.error
-
-    dispatch(new OpenSnackbar(text, type))
   }
 
   @Action(HasError)
@@ -140,7 +137,8 @@ export class UIState {
       ...state,
       error: error,
       loading: false,
-      loadingText: ''
+      loadingText: '',
+      snackbar: {opened: true, text: error.msg, type: SnackbarType.error}
     })
   }
 
