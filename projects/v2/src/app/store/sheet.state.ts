@@ -1,5 +1,5 @@
 import { SheetService } from '../services/sheet.service';
-import {State, Action, StateContext, Selector} from '@ngxs/store';
+import {State, Action, StateContext, Selector, Select} from '@ngxs/store';
 import { Sheet, Data } from "../models/sheet.model";
 import { Error, Response } from "../models/response.model";
 
@@ -61,6 +61,11 @@ export class SheetState {
   @Selector()
   static getData(state: SheetStateModel) {
     return state.data;
+  }
+
+  @Select()
+  static getSheet(state: SheetStateModel) {
+    return state.sheet;
   }
   
   @Action(fetchSheetData) 

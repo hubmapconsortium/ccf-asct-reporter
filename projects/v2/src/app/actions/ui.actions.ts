@@ -16,3 +16,8 @@ export class HasError {
 export class NoError {
   static readonly type = '[ERROR] No Error'
 }
+
+export class ToggleControlPane {
+  static readonly type = '[TOGGLE] Control Pane';
+  constructor() {}
+}

@@ -1,0 +1,18 @@
+.nav-wrapper {
+  display: flex; justify-content: space-between; width: 100%; align-items: center;
+}
+
+
+// remove underline from mat-select
+::ng-deep .mat-form-field-underline {
+  display: none;
+}
+
+:host ::ng-deep .mat-form-field-wrapper {
+  margin-bottom: 0 !important;
+  padding: 0;
+}
+
+::ng-deep .mat-form-field-infix {
+  border-top: none !important;
+}

@@ -1,11 +1,10 @@
 
-
-<!-- <app-tree></app-tree> -->
+ <app-navbar></app-navbar>
 <mat-drawer-container class="control-pane-container" autosize>
   <mat-drawer #drawer class="control-pane" mode="side" [opened]="pane$ | async">
    <app-control-pane></app-control-pane>
   </mat-drawer>
   <div>
-    <app-navbar></app-navbar>
+   <app-tree></app-tree>
   </div>
 </mat-drawer-container>

@@ -11,6 +11,7 @@ import { Injectable } from '@angular/core';
 import { updateVegaSpec, updateVegaView, updateBimodal } from '../actions/tree.actions';
 import { fetchSheetData } from '../actions/sheet.actions';
 import { TNode } from '../models/tree.model';
+import { ToggleControlPane } from '../actions/ui.actions';
 
 export class UIStateModel {
   controlPaneOpen: boolean;
@@ -32,6 +33,15 @@ export class UIState {
   @Selector()
   static getControlPaneState(state: UIStateModel) {
     return state.controlPaneOpen;
+  }
+
+  @Action(ToggleControlPane)
+  toggleControlPane({getState, setState}: StateContext<UIStateModel>) {
+    const state = getState();
+    setState({
+      ...state,
+      controlPaneOpen: !state.controlPaneOpen
+    })
   }
 
 }

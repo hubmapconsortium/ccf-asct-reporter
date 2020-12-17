@@ -35,7 +35,6 @@ export class VegaService {
     
 
     this.store.dispatch(new updateVegaView(treeView)).subscribe(states => {
-      console.log('HERE: ', states)
       const data = states.sheetState.data
       const sheet = states.sheetState.sheet
       const treeData = states.treeState.treeData
