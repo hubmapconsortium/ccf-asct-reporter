@@ -18,6 +18,9 @@ import { AppComponent } from './app.component';
 import { RootComponent } from './modules/root/root.component';
 import { TreeComponent } from './components/tree/tree.component';
 import { HomeComponent } from './components/home/home.component';
+import { NavbarComponent } from './modules/navbar/navbar.component';
+import { ControlPaneComponent } from './modules/control-pane/control-pane.component';
+import { UIState } from './store/ui.state';
 
 
 @NgModule({
@@ -25,14 +28,16 @@ import { HomeComponent } from './components/home/home.component';
     AppComponent,
     RootComponent,
     TreeComponent,
-    HomeComponent
+    HomeComponent,
+    NavbarComponent,
+    ControlPaneComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxsModule.forRoot([SheetState, TreeState]),
+    NgxsModule.forRoot([SheetState, TreeState, UIState]),
     NgxsDataPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),

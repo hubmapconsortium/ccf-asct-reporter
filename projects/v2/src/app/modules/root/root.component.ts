@@ -12,6 +12,7 @@ import * as vega from 'vega'
 import { updateVegaSpec } from '../../actions/tree.actions';
 import { Route } from '@angular/compiler/src/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { UIState } from '../../store/ui.state';
 
 
 
@@ -26,11 +27,15 @@ export class RootComponent implements OnInit {
   view: any;
   sheet: any;
   
+  // Sheet Observables
   @Select(SheetState.getLoading) loading$: Observable<boolean>;
   @Select(SheetState.getData) data$: Observable<any>;
+
+  // Tree Observables
   @Select(TreeState.getTreeData) treeData$: Observable<any>;
-  @Select(TreeState.getBimodal) bimodalData$: Observable<any>;
-  @Select(TreeState.getVegaView) view$: Observable<any>;
+
+  // Control Pane Observables
+  @Select(UIState.getControlPaneState) pane$: Observable<boolean>;
 
   constructor(public store: Store, public ts:TreeService, public route: ActivatedRoute) {
 

@@ -13,19 +13,25 @@ import { fetchSheetData } from '../actions/sheet.actions';
 import { TNode } from '../models/tree.model';
 
 export class UIStateModel {
-
+  controlPaneOpen: boolean;
 }
 
 
 @State<UIStateModel>({
   name: 'uiState',
   defaults: {
+    controlPaneOpen: true
   }
 })
 @Injectable()
 export class UIState {
   
   constructor() {
+  }
+
+  @Selector()
+  static getControlPaneState(state: UIStateModel) {
+    return state.controlPaneOpen;
   }
 
 }
