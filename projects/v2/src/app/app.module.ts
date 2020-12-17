@@ -21,6 +21,7 @@ import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './modules/navbar/navbar.component';
 import { ControlPaneComponent } from './modules/control-pane/control-pane.component';
 import { UIState } from './store/ui.state';
+import { ErrorComponent } from './components/error/error.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { UIState } from './store/ui.state';
     TreeComponent,
     HomeComponent,
     NavbarComponent,
-    ControlPaneComponent
+    ControlPaneComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,

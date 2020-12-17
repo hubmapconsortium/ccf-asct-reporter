@@ -5,6 +5,7 @@ import { BMNode } from '../../models/bimodal.model';
 import { makeCellDegree, makeMarkerDegree, makeCellTypes, makeAS, makeBioMarkers} from './tree.functions';
 import { CT_BLUE, B_GREEN } from '../../models/tree.model';
 import { updateBimodal } from '../../actions/tree.actions';
+import { CloseLoading } from '../../actions/ui.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -307,6 +308,8 @@ export class BimodalService {
       view._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
       view._runtime.signals.targets__click.value = [];
       view.data('nodes', nodes).data('edges', links).resize().runAsync()
+
+      this.store.dispatch(new CloseLoading());
       
   }
 }

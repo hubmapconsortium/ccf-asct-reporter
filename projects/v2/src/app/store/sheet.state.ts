@@ -1,5 +1,5 @@
 import { SheetService } from '../services/sheet.service';
-import {State, Action, StateContext, Selector, Select} from '@ngxs/store';
+import {State, Action, StateContext, Selector, Select, Store} from '@ngxs/store';
 import { Sheet, Data } from "../models/sheet.model";
 import { Error, Response } from "../models/response.model";
 
@@ -10,11 +10,11 @@ import { HEADER_COUNT } from "../static/config";
 import { Injectable } from '@angular/core';
 import { parse } from "papaparse";
 import { fetchSheetData } from '../actions/sheet.actions';
+import { OpenLoading, CloseLoading, UpdateLoadingText } from '../actions/ui.actions';
 
 export class SheetStateModel {
   data: Array<string[]>;
   sheet: Sheet;
-  loading: boolean;
   error: Error;
 }
 
@@ -43,20 +43,19 @@ export class SheetStateModel {
       },
       title: '',
     },
-    loading: true,
     error: {},
   }
 })
 @Injectable()
 export class SheetState {
   
-  constructor(private sheetService: SheetService) {
+  constructor(private sheetService: SheetService, private store: Store) {
   }
   
-  @Selector()
-  static getLoading(state: SheetStateModel) {
-    return state.loading;
-  }
+  // @Selector()
+  // static getLoading(state: SheetStateModel) {
+  //   return state.loading;
+  // }
 
   @Selector()
   static getData(state: SheetStateModel) {
@@ -71,9 +70,7 @@ export class SheetState {
   @Action(fetchSheetData) 
   fetchSheetData({getState, setState, patchState}: StateContext<SheetStateModel>, {sheet}:fetchSheetData) {
     const state = getState();
-    patchState({
-      loading: true
-    })
+    this.store.dispatch(new OpenLoading('Fetching data..'))
 
     return this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).pipe(
       tap((res) => {
@@ -86,19 +83,11 @@ export class SheetState {
           ...state,
           data: parsedData.data,
           sheet: sheet,
-          loading: false,
           error: {}
         })
-      }), catchError((err) => {
-        console.log(err)
-        setState({
-          ...state,
-          error: {
-            msg: 'Error' // update the error to the error from the param
-          },
-          loading: false
-        })
-        return of('')
+
+        this.store.dispatch(new UpdateLoadingText('Fetch data successful. Building Visualization..'))
+        
       })
     )
   }

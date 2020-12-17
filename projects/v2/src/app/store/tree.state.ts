@@ -25,7 +25,8 @@ export class TreeStateModel {
       BM: {sort: string, size: string},
       CT: {sort: string, size: string}
     }
-  }
+  };
+  completed: boolean;
 }
 
 
@@ -36,7 +37,8 @@ export class TreeStateModel {
     treeData: [],
     view: {},
     width: 0,
-    bimodal: {nodes: [], links: [], config: {BM: {sort: 'Alphabetically', size: 'None'}, CT: {sort: 'Alphabetically', size: 'None'}}}
+    bimodal: {nodes: [], links: [], config: {BM: {sort: 'Alphabetically', size: 'None'}, CT: {sort: 'Alphabetically', size: 'None'}}},
+    completed: false
   }
 })
 @Injectable()

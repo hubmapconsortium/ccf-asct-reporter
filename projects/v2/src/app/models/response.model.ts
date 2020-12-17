@@ -5,6 +5,7 @@ export interface Response {
 }
 
 export interface Error {
+  hasError?: boolean;
   msg?: string;
   status?: number;
 }

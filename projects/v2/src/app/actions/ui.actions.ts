@@ -2,6 +2,12 @@ import { Error } from '../models/response.model';
 
 export class OpenLoading {
   static readonly type = '[OPEN] Loading';
+  constructor(public text: string) {}
+}
+
+export class UpdateLoadingText {
+  static readonly type = '[UPDATE] Loading Text';
+  constructor(public text: string) {}
 }
 
 export class CloseLoading {

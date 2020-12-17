@@ -149,7 +149,7 @@ export const SHEET_CONFIG = [
   {
     name: 'large_intestine',
     display: 'Large Intestine',
-    sheetId: '1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI',
+    sheetId: '1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3ht',
     gid: '82644608',
     header_count: 11,
     cell_col: 4,

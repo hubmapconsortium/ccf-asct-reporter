@@ -5,6 +5,7 @@
    <app-control-pane></app-control-pane>
   </mat-drawer>
   <div>
-   <app-tree></app-tree>
+    <app-error *ngIf="error.hasError" [error]="error"></app-error>
+    <app-tree *ngIf="!error.hasError"></app-tree>
   </div>
 </mat-drawer-container>
