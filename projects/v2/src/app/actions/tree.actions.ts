@@ -1,4 +1,5 @@
 import { BimodalConfig } from '../models/bimodal.model';
+import { SearchStructure } from '../models/tree.model';
 
 export class UpdateGraphWidth{
   static readonly type = '[UPDATE WIDTH] Update Graph Width';
@@ -23,4 +24,9 @@ export class UpdateBimodal {
 export class UpdateBimodalConfig {
   static readonly type = '[UPDATE] Bimodal config';
   constructor(public config: BimodalConfig) {}
+}
+
+export class DoSearch {
+  static readonly type = '[SEARCH] Update Search List';
+  constructor(public searchStructures: SearchStructure[]) {}
 }

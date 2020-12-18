@@ -8,8 +8,8 @@ import { of } from 'rxjs';
 
 import { Spec, View } from 'vega';
 import { Injectable } from '@angular/core';
-import { UpdateVegaSpec, UpdateVegaView, UpdateBimodal, UpdateBimodalConfig } from '../actions/tree.actions';
-import { TNode } from '../models/tree.model';
+import { UpdateVegaSpec, UpdateVegaView, UpdateBimodal, UpdateBimodalConfig, DoSearch } from '../actions/tree.actions';
+import { TNode, SearchStructure } from '../models/tree.model';
 import { BMNode, Link, BimodalConfig } from '../models/bimodal.model';
 
 export class TreeStateModel {
@@ -24,6 +24,7 @@ export class TreeStateModel {
     links: Link[],
     config: BimodalConfig
   };
+  search: SearchStructure[];
   completed: boolean;
 }
 
@@ -39,7 +40,7 @@ export class TreeStateModel {
     screenWidth:  document.getElementsByTagName('body')[0].clientWidth,
     bimodal: {nodes: [], links: [], config: {BM: {sort: 'Alphabetically', size: 'None'}, CT: {sort: 'Alphabetically', size: 'None'}}},
     completed: false,
-
+    search: []
   }
 })
 @Injectable()
@@ -115,6 +116,15 @@ export class TreeState {
         config
       }
     });
+  }
+
+  @Action(DoSearch)
+  doSearch({getState, setState}: StateContext<TreeStateModel>, {searchStructures}: DoSearch) {
+    const state = getState();
+    setState({
+      ...state,
+      search: searchStructures
+    })
   }
 
 }

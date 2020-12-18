@@ -14,6 +14,9 @@ export class TNode {
   isNew: boolean;
   pathColor: string;
   parents: Array<number>;
+  children: number;
+  x: number;
+  y: number;
 
   constructor(id, name, parent, uId, color = '#808080') {
     this.id = id;
@@ -104,3 +107,10 @@ export class Organ {
 }
 
 
+export interface SearchStructure {
+  id: number;
+  name: string;
+  groupName: string;
+  x: number;
+  y: number;
+}

@@ -23,6 +23,9 @@ import { ControlPaneComponent } from './modules/control-pane/control-pane.compon
 import { UIState } from './store/ui.state';
 import { ErrorComponent } from './components/error/error.component';
 import { FunctionsComponent } from './modules/functions/functions.component';
+import { SearchComponent } from './modules/search/search.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+
 
 
 @NgModule({
@@ -34,7 +37,8 @@ import { FunctionsComponent } from './modules/functions/functions.component';
     NavbarComponent,
     ControlPaneComponent,
     ErrorComponent,
-    FunctionsComponent
+    FunctionsComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +51,8 @@ import { FunctionsComponent } from './modules/functions/functions.component';
     NgxsLoggerPluginModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    NgxMatSelectSearchModule
   ],
   providers: [],
   bootstrap: [AppComponent]
