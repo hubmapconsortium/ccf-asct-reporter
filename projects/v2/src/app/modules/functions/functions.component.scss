@@ -1,0 +1,16 @@
+.mat-expansion-panel:not([class*="mat-elevation-z"]) {
+  box-shadow: none;
+}
+
+.mat-expansion-panel-header:not(.compare) {
+  background: #eeeeee !important;
+  border-top-left-radius: 8px !important;
+  border-top-right-radius: 8px !important;
+}
+
+.mat-expansion-panel-header {
+  transition: all 0.3s;
+}
+.mat-expansion-panel-header:hover {
+  background: #e4e4e4 !important;
+}

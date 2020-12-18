@@ -22,6 +22,7 @@ import { NavbarComponent } from './modules/navbar/navbar.component';
 import { ControlPaneComponent } from './modules/control-pane/control-pane.component';
 import { UIState } from './store/ui.state';
 import { ErrorComponent } from './components/error/error.component';
+import { FunctionsComponent } from './modules/functions/functions.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { ErrorComponent } from './components/error/error.component';
     HomeComponent,
     NavbarComponent,
     ControlPaneComponent,
-    ErrorComponent
+    ErrorComponent,
+    FunctionsComponent
   ],
   imports: [
     BrowserModule,

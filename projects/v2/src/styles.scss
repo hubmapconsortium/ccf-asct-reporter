@@ -23,3 +23,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .warning-snackbar {
   background: #ffa500;
 }
+
+/* EXPANSION PANEL */
+.mepNoPadding .mat-expansion-panel-body {
+  padding: 10px !important;
+  background-color: #eeeeee;
+  border-bottom-left-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+}

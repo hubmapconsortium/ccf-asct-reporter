@@ -1,0 +1,117 @@
+<div>
+  <mat-expansion-panel class="mepNoPadding mt-5" expanded>
+    <mat-expansion-panel-header [expandedHeight]="'50px'"> 
+      <mat-panel-title>
+        <div>
+          <b>
+            Cell Types
+          </b>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    
+    <div class="py-1">
+      <label><b>Sort</b></label>
+      <mat-form-field style="margin-bottom: 0;" class="w-100">
+        <button
+          mat-flat-button
+          style="width: 100%; background-color: white; padding-top: 0 !important;"
+          #tooltip="matTooltip"
+          matTooltip="Select Organ Set"
+          matTooltipPosition="below"
+          class="pt-2"
+        >
+          <mat-select
+          (selectionChange)="changeOptions('CT', 'sort', $event)"
+              [value]="(config$ | async).CT.sort"
+          >
+            <mat-option *ngFor="let option of sortOptions" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-select>
+        </button>
+      </mat-form-field>
+    </div>
+    <div class="py-2">
+      <label><b>Size</b></label>
+      <mat-form-field style="margin-bottom: 0;" class="w-100">
+        <button
+          mat-flat-button
+          style="width: 100%; background-color: white; padding-top: 0 !important;"
+          #tooltip="matTooltip"
+          matTooltip="Select Organ Set"
+          matTooltipPosition="below"
+          class="pt-2"
+        >
+          <mat-select
+          (selectionChange)="changeOptions('CT', 'size',$event)"
+              [value]="(config$ | async).CT.size"
+          >
+            <mat-option *ngFor="let option of ctSizeOptions" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-select>
+        </button>
+      </mat-form-field>
+    </div>
+   
+  </mat-expansion-panel>
+
+  <mat-expansion-panel class="mepNoPadding mt-4" expanded>
+    <mat-expansion-panel-header [expandedHeight]="'50px'"> 
+      <mat-panel-title>
+        <div>
+          <b>
+            Biomarkers
+          </b>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    
+    <div class="py-1">
+      <label><b>Sort</b></label>
+      <mat-form-field style="margin-bottom: 0;" class="w-100">
+        <button
+          mat-flat-button
+          style="width: 100%; background-color: white; padding-top: 0 !important;"
+          #tooltip="matTooltip"
+          matTooltip="Select Organ Set"
+          matTooltipPosition="below"
+          class="pt-2"
+        >
+          <mat-select
+          (selectionChange)="changeOptions('BM', 'sort', $event)"
+              [value]="(config$ | async).BM.sort"
+          >
+            <mat-option *ngFor="let option of sortOptions" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-select>
+        </button>
+      </mat-form-field>
+    </div>
+    <div class="py-2">
+      <label><b>Size</b></label>
+      <mat-form-field style="margin-bottom: 0;" class="w-100">
+        <button
+          mat-flat-button
+          style="width: 100%; background-color: white; padding-top: 0 !important;"
+          #tooltip="matTooltip"
+          matTooltip="Select Organ Set"
+          matTooltipPosition="below"
+          class="pt-2"
+        >
+          <mat-select
+          (selectionChange)="changeOptions('BM', 'size', $event)"
+              [value]="(config$ | async).BM.size"
+          >
+            <mat-option *ngFor="let option of bmSizeOptions" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-select>
+        </button>
+      </mat-form-field>
+    </div>
+   
+  </mat-expansion-panel>
+</div>

@@ -64,5 +64,16 @@ export interface ASCTD {
 }
 
 export const bimodalSortOptions = ['Alphabetically', 'Degree'],
-             bimodalSizeOptions = ['None', 'Degree'],
+             bimodalBSizeOptions = ['None', 'Degree'],
              bimodalCTSizeOptions = ['None', 'Degree', 'Indegree', 'Outdegree'];
+
+export interface BimodalConfig {
+  CT: {
+    sort: string,
+    size: string
+  },
+  BM: {
+    sort: string,
+    size: string
+  }
+}

@@ -8,10 +8,10 @@ import { of } from 'rxjs';
 
 import { Spec, View } from 'vega'
 import { Injectable } from '@angular/core';
-import { updateVegaSpec, updateVegaView, updateBimodal } from '../actions/tree.actions';
+import { updateVegaSpec, updateVegaView, updateBimodal, UpdateBimodalConfig } from '../actions/tree.actions';
 import { fetchSheetData } from '../actions/sheet.actions';
 import { TNode } from '../models/tree.model';
-import { BMNode, Link } from '../models/bimodal.model';
+import { BMNode, Link, BimodalConfig } from '../models/bimodal.model';
 
 export class TreeStateModel {
   spec: Spec;
@@ -23,10 +23,7 @@ export class TreeStateModel {
   bimodal: {
     nodes: BMNode[],
     links: Link[],
-    config: {
-      BM: {sort: string, size: string},
-      CT: {sort: string, size: string}
-    }
+    config: BimodalConfig
   };
   completed: boolean;
 }
@@ -52,6 +49,10 @@ export class TreeState {
   constructor() {
   }
   
+  @Selector()
+  static getBimodalConfig(state: TreeStateModel) {
+    return state.bimodal.config
+  }
 
   @Selector()
   static getVegaSpec(state: TreeStateModel) {
@@ -100,4 +101,21 @@ export class TreeState {
       spec: spec
     })
   }
+
+  @Action(UpdateBimodalConfig)
+  updateBimodalConfig({getState, setState}: StateContext<TreeStateModel>, {config}: UpdateBimodalConfig) {
+    const state = getState()
+    const nodes = state.bimodal.nodes;
+    const links = state.bimodal.links;
+
+    setState({
+      ...state,
+      bimodal: {
+        nodes: nodes,
+        links: links,
+        config: config
+      }
+    })
+  }
+
 }
