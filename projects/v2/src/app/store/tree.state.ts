@@ -18,6 +18,8 @@ export class TreeStateModel {
   treeData: TNode[];
   view: any;
   width: number;
+  height: number;
+  screenWidth: number;
   bimodal: {
     nodes: BMNode[],
     links: Link[],
@@ -37,8 +39,11 @@ export class TreeStateModel {
     treeData: [],
     view: {},
     width: 0,
+    height: document.getElementsByTagName('body')[0].clientHeight,
+    screenWidth:  document.getElementsByTagName('body')[0].clientWidth,
     bimodal: {nodes: [], links: [], config: {BM: {sort: 'Alphabetically', size: 'None'}, CT: {sort: 'Alphabetically', size: 'None'}}},
-    completed: false
+    completed: false,
+    
   }
 })
 @Injectable()

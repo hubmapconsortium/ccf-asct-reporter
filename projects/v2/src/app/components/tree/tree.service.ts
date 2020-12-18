@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { Store, Select } from '@ngxs/store';
 import { VegaService } from './vega.service';
 import {AS_RED, TNode} from './../../models/tree.model'
+import { TreeState, TreeStateModel } from '../../store/tree.state';
+import { Observable } from 'rxjs';
 
 // Used in the tree visualization
 export class Tree {
@@ -43,8 +45,19 @@ export class Tree {
   providedIn: 'root'
 })
 export class TreeService {
+  height: number;
+  screenWidth: number;
 
-  constructor(public store: Store, public vs: VegaService) { }
+  @Select(TreeState) tree$: Observable<TreeStateModel>;
+
+  constructor(public store: Store, public vs: VegaService) {
+    
+    this.tree$.subscribe(state => {
+      this.height = state.height;
+      this.screenWidth = state.screenWidth;
+    })
+
+   }
 
   public makeTreeData(currentSheet, data, compareData?: any){
 
@@ -133,7 +146,7 @@ export class TreeService {
         }
       }
       
-      const spec = this.vs.makeVegaConfig(currentSheet, currentSheet.config.bimodal_distance, 1000, 2000, tree.nodes, linkData)
+      const spec = this.vs.makeVegaConfig(currentSheet, currentSheet.config.bimodal_distance, this.height, this.screenWidth - 200, tree.nodes, linkData)
       // this.store.dispatch(new updateVegaSpec(spec))
       this.vs.renderGraph(spec)
       

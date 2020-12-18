@@ -70,7 +70,6 @@ export class UIState {
 
   @Action(OpenSnackbar)
   openSnackbar({getState, setState}: StateContext<UIStateModel>, {text, type}: OpenSnackbar) {
-    console.log('TEXT: ', text)
     const state = getState();
     setState({
       ...state,

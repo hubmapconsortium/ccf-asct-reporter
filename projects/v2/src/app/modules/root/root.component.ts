@@ -89,7 +89,6 @@ export class RootComponent implements OnInit {
           horizontalPosition: 'end',
           panelClass: [`${sb.type}-snackbar`]
         }
-        console.log(config)
         this.snackbarRef = this.snackbar.open(sb.text, 'Dismiss', config);
         this.snackbarRef.afterDismissed().subscribe(s => { store.dispatch(new CloseSnackbar())})
       }

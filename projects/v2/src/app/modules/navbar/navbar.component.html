@@ -5,20 +5,20 @@
       padding-right: 50px !important;
       display: flex;
       align-items: center;
-      background: white;
-      border-bottom: 3px solid #444a65;
+      border-bottom: 3px solid #444a6510;
       width: 100%;
+      background-color: white;
     "
   >
   <div class="nav-wrapper">
     <div class="logo">
-      <h1>LOGO HERE</h1>
-    </div>
+      <!-- <img src="./../../../assets/logo.png" class="w-100" /> -->
+    </div> 
     <div class="actions">
       <mat-form-field style="margin-right: 60px; margin-bottom: 0;">
         <button
           mat-flat-button
-          style="width: 120%; background-color: rgb(247, 247, 247);"
+          style="width: 120%; background-color: #eeeeee;"
           #tooltip="matTooltip"
           matTooltip="Select Organ Set"
           matTooltipPosition="below"
@@ -36,7 +36,7 @@
 
       <button
           mat-icon-button
-          style="background-color: #f9f9f9;"
+          style="background-color: #eeeeee;"
           (click)="refreshData()" 
           #tooltip="matTooltip"
           matTooltip="Refresh Data"

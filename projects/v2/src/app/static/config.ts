@@ -34,7 +34,7 @@ export const SHEET_CONFIG = [
     indent_cols: [0, 3, 6, 9, 12, 15],
     body: 'Spleen',
     config: {
-      bimodal_distance: 350,
+      bimodal_distance: 250,
       width: 1000,
       width_offset: 550,
       height_offset: 200,
