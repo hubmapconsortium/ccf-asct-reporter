@@ -1,0 +1,280 @@
+This table was composed by Amy Bernard (Allen Institute),,,,,,,,
+The Human Brain CCF is downloadable here: https://community.brain-map.org/t/allen-human-reference-atlas-3d-2020-new/405,,,,,,,,
+"Citation: Ding, S.L., et al.  Comprehensive cellular‐resolution atlas of the adult human brain. Journal of Comparative Neurology, Volume 524:16, pages 3127–3481, 1 November 2016, DOI 10.1002/cne.24080.",,,,,,,,
+ SEE HERE unflattened table: https://docs.google.com/spreadsheets/d/19m_xjwM5le7UKvt8966aEPA_a7HSCJBQY9Mq4qDe0ZQ/edit#gid=1644155102,,,,,,,,
+Updated 10-06-2020 EMQ Note that only the motor cortex currently has cell types and biomarkers,,,,,,,,
+Pertinent negatives/comments/numbering convention  https://portal.brain-map.org/explore/classes/nomenclature,,,,,,,,
+flattened table verified and formatting adjusted to match ASCT-B reporter requirements by Ellen M. Quardokus (Indiana University),,,,,,,,
+"This is for Adult human brain structure-based anatomy only;  cell types will map to these spatial designations.  Based on Allen Brain Atlas, CCF (3D), annotated by Song-Lin Ding ",,,,,,,,
+Cell Types for M1 mapped by Jeremy Miller (draft version),,,,,,,,
+,,,,,,,,
+Structure/Region,Structure/Region,Structure/Region,Structure/Region,Structure/Region,Structure/Region,Cell type Class,specific cell type,BioMarker subset
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,LAMP5 class GABAergic neuron,Inh L1 LAMP5 PVRL2,"CBLN4, HS3ST5, RELN, TRPC3"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,LAMP5 class GABAergic neuron,Inh L1 LAMP5 RAB11FIP1,"ADAMTS20, FREM1, MYH11"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,LAMP5 class GABAergic neuron,Inh L1-6 LAMP5 AARD,"FBXL7, FREM1, KIT, PRELID2"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,LAMP5 class GABAergic neuron,Inh L1-6 LAMP5 NES,"EPHA3, EYA4, KIT, NTNG1, RO"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,LAMP5 class GABAergic neuron,Inh L1-6 LAMP5 CA1,"HS3ST4, NOS1"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,LAMP5 class GABAergic neuron,Inh L5-6 LAMP5 CRABP1,"LOC105379168, PDGFD"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,LAMP5 class GABAergic neuron,Inh L3-6 PAX6 LINC01497,"PALMD, RELN"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,LAMP5 class GABAergic neuron,Inh L1 PAX6 MIR101-1,"RELN, TGFBR2"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,LAMP5 class GABAergic neuron,Inh L1 LAMP5 BMP2,"COL5A2, FREM1"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,LAMP5 class GABAergic neuron,Inh L1 LAMP5 NMBR,"PCDH18, RELN"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SNCG class GABAergic neuron,Inh L1 PAX6 CHRFAM7A,"CHRNA7, CNR1, LINC01539"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SNCG class GABAergic neuron,Inh L1-6 VIP SLC7A6OS,"CNR1, PBX3"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SNCG class GABAergic neuron,Inh L2 PAX6 FREM2,"CILP2, IGFBP7"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SNCG class GABAergic neuron,Inh L1-2 VIP HTR3A,"HTR3A, LOC105373642"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SNCG class GABAergic neuron,Inh L1-2 VIP WNT4,"LOC105379064, SYT9"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SNCG class GABAergic neuron,Inh L1 PVALB SST ASIC4,"ADAM33, NCKAP5, PRELID2"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SNCG class GABAergic neuron,Inh L1 SST P4HA3,"ARHGAP42, FOXO1, ST8SIA6"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SNCG class GABAergic neuron,Inh L1 SST DEFB108B,"NDST4, SYT10"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L1-3 VIP CBLN1,"HTR2C, LOC284825, TAC3"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L1-2 VIP EXPH5,"SCTR, ST18"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L1-3 VIP HSPB6,"CCNG2, IGFBP5"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L1-2 VIP PTGER3,"KCNH8, PARD3B, SYT10"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L1-2 VIP SCML4,"ABI3BP, KCNH8, LOC100506497"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L1-3 VIP FNDC1,"KCNH8, LOC101927286, LOC101928842"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L1-3 VIP CHRNA2,"EYA4, LOC105373642, PPP1R1C"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L2 VIP SLC6A16,"KCNT2, LOC105370456"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L1 VIP KLHDC8B,"ITGBL1, SLITRK4"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L3-5 VIP IGDCC3,"EREG, NOX4"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L1-5 VIP SMOC1,"ANGPT1, SMOC1, VIP"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L3-5 VIP HS3ST3A1,"ABI3BP, IQGAP2, SLC22A3"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L5-6 VIP COL4A3,"ABI3BP, KCTD12, PARD3B"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L1-5 VIP CD27-AS1,"ANKFN1, EGFEM1P, IQGAP2"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L2-5 VIP BSPRY,"LOC101927078, PDE3A, ST18"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L2-5 VIP SOX11,"ADAMTSL1, HTR2C, THSD7B"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L3-6 VIP ZIM2-AS1,"CXCL14, PENK"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L1-5 VIP PHLDB3,"EGF, THSD7B"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L1-5 VIP LINC01013,"DACH2, SRGAP1, THSD7B"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L3-6 VIP UG0898H09,"GALNT10, LINC01411, LOC105373454"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,VIP class GABAergic neuron,Inh L3-5 VIP TAC3,"COL19A1, SOX2_OT, TSHZ2"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SST class GABAergic neuron,Inh L1-6 SST NPY (Sset Chodl),NPY
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SST class GABAergic neuron,Inh L3-5 SST CDH3,"FREM1, NPNT, QRFPR"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SST class GABAergic neuron,Inh L5 SST RPL35AP11,"EDNRA, FREM1, TRHDE"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SST class GABAergic neuron,Inh L5-6 SST ISX,"COL19A1, TRPM3"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SST class GABAergic neuron,Inh L5-6 PVALB SST CRHR2,"HPGD, RGS5, SPON1"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SST class GABAergic neuron,Inh L3-5 SST OR5AH1P,"ADAMTS5, FBXL7, SST"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SST class GABAergic neuron,Inh L3-5 SST GGTLC3,"EYS, RELN"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SST class GABAergic neuron,Inh L2-3 SST NMU,"HPSE2, NOS1, PIEZO2"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SST class GABAergic neuron,Inh L5-6 SST PAWR,"EPB41L4A, NDST4, TRHDE"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SST class GABAergic neuron,Inh L5-6 SST PIK3CD,"KLHL14, LOC100996671"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SST class GABAergic neuron,Inh L1-2 SST CCNJL,"CALB1, SPHKAP, TMEM132C"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SST class GABAergic neuron,Inh L1-3 SST FAM20A,"PCSK5, TAC1"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SST class GABAergic neuron,Inh L1-2 SST PRRT4,"LOC101927843, LOC101929028"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SST class GABAergic neuron,Inh L5-6 SST BEAN1,"ADAMTSL1, SEMA5A, THSD7B, TRHDE"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SST class GABAergic neuron,Inh L5-6 SST DNAJC14,"HGF, ITGA1, STON2"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SST class GABAergic neuron,Inh L5-6 SST C4orf26,"ADAMTS20, PENK, SPON1"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SST class GABAergic neuron,Inh L5-6 SST FBN2,"HCRTR2, KLHL1"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SST class GABAergic neuron,Inh L5-6 SST KLHL1,"KLHL14, NDST4, SLC17A8"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,SST class GABAergic neuron,Inh L6 SST TH,"LOC100128108, TH"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,PVALB class GABAergic neuron,Inh L5-6 PVALB KCNIP2,"GPC5, NPFFR2, VAV3"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,PVALB class GABAergic neuron,Inh L5-6 PVALB ZFPM2-AS1,"PCDH15, SEMA6D, ZFPM2_AS1"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,PVALB class GABAergic neuron,Inh L3-5 PVALB ISG20,"LOC101926942, LOC105377862, SV2C"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,PVALB class GABAergic neuron,Inh L5 PVALB LRIG3,"CDH6, GPC5, PLCE1"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,PVALB class GABAergic neuron,Inh L2-5 PVALB HHIPL1,"ADAMTS17, ADAMTS20, MDFIC"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,PVALB class GABAergic neuron,Inh L2-5 PVALB RPH3AL,"ARHGAP42, MYO5B, POSTN, WIF1"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,PVALB class GABAergic neuron,Inh L3 PVALB SAMD13,"LOC101928964, SULF1"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,PVALB class GABAergic neuron,Inh L1-2 PVALB CDK20,"ADAMTS12, SYT10, TMEM132C"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,PVALB class GABAergic neuron,Inh L2 PVALB FRZB,"CBLN4, RGS5, SLC9A9"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,PVALB class GABAergic neuron,Inh L1-2 SST CLIC6,"ARHGAP42, NEDD4, TAC1"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,PVALB class GABAergic neuron,Inh L5-6 PVALB GAPDHP60,"GPC5, MYBPC1, SEMA3C"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,PVALB class GABAergic neuron,Inh L5-6 PVALB FAM150B,"FAM150B, MYBPC1, TNC"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,PVALB class GABAergic neuron,Inh L5-6 PVALB MEPE,"MEPE, MYBPC1, SVIL"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,PVALB class GABAergic neuron,Inh L1-6 PVALB COL15A1 (Chandelier),"COL15A1, NPNT"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 2-3 glutamatergic neuron with presumptive intratelencephalic projections,Exc L2 LAMP5 KCNG3,"FAM163A, LOC101927668, SAMD3"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 2-3 glutamatergic neuron with presumptive intratelencephalic projections,Exc L2 LINC00507 ATP7B,"ACVR1C, LOC105377209"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 2-3 glutamatergic neuron with presumptive intratelencephalic projections,Exc L2 LINC00507 GLRA3,"LINC01378, LOC101928278, SERPINE2"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 2-3 glutamatergic neuron with presumptive intratelencephalic projections,Exc L2-3 RORB RTKN2,"LOC101927745, LOC105376987, PLCH1, RMST"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 2-3 glutamatergic neuron with presumptive intratelencephalic projections,Exc L2-3 LINC00507 DSG3,"BDNF, BMPR1B, LOC105379003"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 2-3 glutamatergic neuron with presumptive intratelencephalic projections,Exc L3 LAMP5 CARM1P1,"EPB41L4A, SV2C, SYT2"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 2-3 glutamatergic neuron with presumptive intratelencephalic projections,Exc L2-3 RORB CCDC68,"COBLL1, COL5A2, PRSS12"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 2-3 glutamatergic neuron with presumptive intratelencephalic projections,Exc L2-3 RORB PTPN3,"COL5A2, LOC105370610, LOC105378334, RORB"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5 glutamatergic neuron with presumptive intratelencephalic projections,Exc L3 THEMIS ENPEP,"FAP, LAMA2, LOC101928964, LOC105376081"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5 glutamatergic neuron with presumptive intratelencephalic projections,Exc L3-5 RORB TNNT2,"FSHR, LOC100507562, LOC105376081"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5 glutamatergic neuron with presumptive intratelencephalic projections,Exc L3-5 RORB LAMA4,"KCNH8, LOC100128497, LOC101927281, LOC105376081, TRP"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5 glutamatergic neuron with presumptive intratelencephalic projections,Exc L5 THEMIS VILL,"DACH1, LOC101927389, TNC"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5 glutamatergic neuron with presumptive intratelencephalic projections,Exc L3 RORB OTOGL,"COL22A1, RMST"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5 glutamatergic neuron with presumptive intratelencephalic projections,Exc L3-5 RORB LINC01202,"LOC101927874, LOC105374971, LOC105376081, LOC105377703"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5 glutamatergic neuron with presumptive intratelencephalic projections,Exc L5 THEMIS SLC22A18,"BTNL9, CCBE1, LOC401134, SLC7A11"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5 glutamatergic neuron with presumptive intratelencephalic projections,Exc L5-6 THEMIS TNFAIP6,"LOC105373893, LOC105378031, LTBP1, TSHZ2"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5 glutamatergic neuron with presumptive intratelencephalic projections,Exc L3-5 RORB LNX2,"LOC105374971, LOC105377703, TRABD2A"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5 glutamatergic neuron with presumptive intratelencephalic projections,Exc L3-5 RORB RPRM,"LOC105374971, LOC105374973, RPRM"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5 glutamatergic neuron with presumptive intratelencephalic projections,Exc L5 RORB MED8,"COL22A1, LOC401134, NPFFR2"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5 glutamatergic neuron with presumptive intratelencephalic projections,Exc L5 THEMIS FGF10,"BDNF, CRH, NPFFR2"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 6 glutamatergic neuron with presumptive intratelencephalic projections,Exc L6 THEMIS LINC00343,"ANKRD30B, LINC00299, LINC00343"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 6 glutamatergic neuron with presumptive intratelencephalic projections,Exc L6 THEMIS SLN,"FAM163A, LOC105371832, LOC105374524"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 6 glutamatergic neuron with presumptive intratelencephalic projections,Exc L6 THEMIS SNTG2,"LOC101927389, LOC105371310"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 6 glutamatergic neuron with presumptive intratelencephalic projections,Exc L5-6 THEMIS SMYD1 (L6 IT Car3),"ATP10A, TRPC5"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 6 glutamatergic neuron with presumptive corticothalamic projections,Exc L5-6 FEZF2 OR1L8,"LGR6, LOC101927439, LOC105374392, LOC105377183"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 6 glutamatergic neuron with presumptive corticothalamic projections,Exc L5 THEMIS LINC01116,"LOC105369890, LOC105371663"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 6 glutamatergic neuron with presumptive corticothalamic projections,Exc L5 THEMIS RGPD6,"DDR2, LOC105371663, THEMIS"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 6 glutamatergic neuron with presumptive corticothalamic projections,Exc L5-6 FEZF2 C9orf135-AS1,"EGFEM1P, FOXP2, SEMA5A"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 6 glutamatergic neuron with presumptive corticothalamic projections,Exc L5-6 FEZF2 FILIP1L,"LOC100128497, MCTP2, SEC16B, SULF1"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 6 glutamatergic neuron with presumptive corticothalamic projections,Exc L5-6 FEZF2 SH2D1B,"ADAMTSL1, MEIS2, NLGN4Y, PAPSS2"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 6b glutamatergic neuron,Exc L6 FEZF2 PDYN,"GBP2, PDYN"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 6b glutamatergic neuron,Exc L6 FEZF2 FFAR4,"FER1L6_AS2, LOC105378486"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 6b glutamatergic neuron,Exc L6 FEZF2 PROKR2,"LOC105371310, SLITRK6"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 6b glutamatergic neuron,Exc L5-6 FEZF2 CFTR,"LOC105374392, NR4A2, SEMA3D"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 6b glutamatergic neuron,Exc L6 FEZF2 KLK7,"LOC101927439, MDFIC"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 6b glutamatergic neuron,Exc L6 FEZF2 POGK,"ADD3_AS1, LOC100132891, PCOLCE2"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5 glutamatergic neuron with presumptive extratelencephalic projections,Exc L5 FEZF2 CSN1S1,"LOC105373592, OPN4, VAT1L"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5 glutamatergic neuron with presumptive extratelencephalic projections,Exc L3-5 FEZF2 ASGR2,"LOC105376457, OR51E2"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5 glutamatergic neuron with presumptive extratelencephalic projections,Exc L3-5 FEZF2 LINC01107,"BTNL9, EDNRB"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5-6 glutamatergic neuron without presumptive long-range projections (near projecting),Exc L5 FEZF2 PKD2L1,"NPSR1_AS1, VGLL3"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5-6 glutamatergic neuron without presumptive long-range projections (near projecting),Exc L5 FEZF2 NREP-AS1,"ADAMTS12, CD36, LOC105370315"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5-6 glutamatergic neuron without presumptive long-range projections (near projecting),Exc L5 FEZF2 RNF144A-AS1,"CD36, LOC105369818, LOC105370019"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5-6 glutamatergic neuron without presumptive long-range projections (near projecting),Exc L5-6 FEZF2 IFNG-AS1,"LOC105369818, NPSR1_AS1"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Layer 5-6 glutamatergic neuron without presumptive long-range projections (near projecting),Exc L5-6 FEZF2 LPO,"LOC101928114, LOC105376372"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Oligodendrocyte precursor cell,OPC L1-6 PDGFRA COL20A1,"FAM222A, KIF25, TGFA"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Oligodendrocyte,Oligo L2-6 OPALIN MAP6D1,"ENPP2, LOC101927459"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Oligodendrocyte,Oligo L3-6 OPALIN ENPP6,"ENPP2, LINC01378, MBP, ST18"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Oligodendrocyte,Oligo L2-6 OPALIN FTH1P3,"STK32A, VCAN"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Oligodendrocyte,Oligo L5-6 OPALIN LDLRAP1,"LOC105376917, OPALIN, RNF219_AS1"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Astrocyte,Astro L1-6 FGFR3 AQP1,TNC
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Astrocyte,Astro L1 FGFR3 SERPINI2,"CFAP47, WDR49"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Astrocyte,Astro L1-6 FGFR3 PLCG1,"COL5A3, LOC105376917"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Endothelial cell,Endo L2-5 NOSTRIN SRGN,CLDN5
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Vascular leptomeningeal cells,VLMC L1-5 PDGFRA COLEC12,"COL1A2, COLEC12"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Microglia,Micro L1-6 TYROBP CD74,"APBB1IP, P2RY12"
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Pericyte,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,precentral gyrus,Primary motor cortex,Vascular smooth muscle cell,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,superior frontal gyrus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,middle frontal gyrus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,inferior frontal gyrus,"inferior frontal gyrus, triangular part",,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,inferior frontal gyrus,"inferior frontal gyrus, opercular part",,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,inferior frontal gyrus,"inferior frontal gyrus, orbital part",,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,gyrus rectus (straight gyrus),,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,medial orbital gyrus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,anterior intermediate orbital gyrus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,posterior intermediate orbital gyrus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,lateral orbital gyrus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,"paracentral lobule, rostral part",,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,paracingulate gyrus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,frontal operculum,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,orbital operculum,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,rostral gyrus,superior rostral gyrus,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,rostral gyrus,inferior rostral gyrus,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,lateral olfactory gyrus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,frontomarginal gyrus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,frontal lobe,frontal pole,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,parietal lobe,postcentral gyrus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,parietal lobe,supraparietal lobule,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,parietal lobe,inferior parietal lobule,supramarginal gyrus,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,parietal lobe,inferior parietal lobule,angular gyrus,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,parietal lobe,precuneus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,parietal lobe,"paracentral lobule, caudal part",,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,parietal lobe,parietal operculum,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,temporal lobe,superior temporal gyrus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,temporal lobe,middle temporal gyrus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,temporal lobe,inferior temporal gyrus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,temporal lobe,"occipitotemporal (fusiform) gyrus, temporal part",perirhinal gyrus ( rostral part of FuGt),,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,temporal lobe,transverse temporal gyrus (Heschl's gyrus),rostral (anterior) transverse temporal gyrus,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,temporal lobe,transverse temporal gyrus (Heschl's gyrus),caudal (posterior) transverse temporal gyrus,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,temporal lobe,planum temporale,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,temporal lobe,temporal pole,perirhinal lobule,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,temporal lobe,planum polare,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,occipital lobe,occipital pole,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,occipital lobe,occipitoparietal transition region,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,occipital lobe,occipitotemporal transition region,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,occipital lobe,cuneus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,occipital lobe,lingual gyrus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,occipital lobe,"occipitotemporal (fusiform) gyrus, occipital part",,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,occipital lobe,inferior occipital gyrus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,occipital lobe,superior occipital gyrus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,insular lobe,long insular gyri,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,insular lobe,short insular gyri,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,limbic lobe,cingulate gyrus,"cingulate gyrus, rostral (anterior) part",,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,limbic lobe,cingulate gyrus,"cingulate gyrus, caudal (posterior) part",,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,limbic lobe,cingulate gyrus,"cingulate gyrus, retrospleninal part",,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,limbic lobe,cingulo-parahippocampal isthmus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,limbic lobe,subcallosal gyrus (parolfactory gyrus),,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,limbic lobe,paraterminal gyrus,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,limbic lobe,parahippocampal gyrus,anterior parahippocampal gyrus,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,limbic lobe,parahippocampal gyrus,posterior parahippocampal gyrus,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,limbic lobe,parahippocampal gyrus,uncus of parahippocampal gyrus,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,limbic lobe,hippocampal gyrus (formation),head of hippocampus,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,limbic lobe,hippocampal gyrus (formation),body of hippocampus,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,limbic lobe,hippocampal gyrus (formation),subicular complex,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,limbic lobe,prepiriform region,,,,
+forebrain (prosencephalon),gray matter of forebrain,cerebral cortex,limbic lobe,Olfactory bulb,,,,
+forebrain (prosencephalon),gray matter of forebrain,amygdaloid complex,anterior amygdalar area,,,,,
+forebrain (prosencephalon),gray matter of forebrain,amygdaloid complex,anterior cortical nucleus,,,,,
+forebrain (prosencephalon),gray matter of forebrain,amygdaloid complex,posterior cortical nucleus,,,,,
+forebrain (prosencephalon),gray matter of forebrain,amygdaloid complex,medial nucleus,,,,,
+forebrain (prosencephalon),gray matter of forebrain,amygdaloid complex,lateral nucleus,,,,,
+forebrain (prosencephalon),gray matter of forebrain,amygdaloid complex,basolateral nucleus,,,,,
+forebrain (prosencephalon),gray matter of forebrain,amygdaloid complex,basomedial nucleus,,,,,
+forebrain (prosencephalon),gray matter of forebrain,amygdaloid complex,central nuclear group,,,,,
+forebrain (prosencephalon),gray matter of forebrain,amygdaloid complex,amygdalohippocampal area,,,,,
+forebrain (prosencephalon),gray matter of forebrain,amygdaloid complex,bed nucleus of stria terminalis,,,,,
+forebrain (prosencephalon),gray matter of forebrain,basal nuclei (basal ganglia),caudate nucleus,,,,,
+forebrain (prosencephalon),gray matter of forebrain,basal nuclei (basal ganglia),putamen,,,,,
+forebrain (prosencephalon),gray matter of forebrain,basal nuclei (basal ganglia),mucleus accumbens,,,,,
+forebrain (prosencephalon),gray matter of forebrain,basal nuclei (basal ganglia),"globus pallidus, internal",,,,,
+forebrain (prosencephalon),gray matter of forebrain,basal nuclei (basal ganglia),"globus pallidus, external",,,,,
+forebrain (prosencephalon),gray matter of forebrain,claustrum,,,,,,
+forebrain (prosencephalon),gray matter of forebrain,basal forebrain,septal nuclei,,,,,
+forebrain (prosencephalon),gray matter of forebrain,basal forebrain,substantia Innominata,,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,dorsal thalamus,anterior nuclear complex,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,dorsal thalamus,mediodorsal nucleus of thalamus,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,dorsal thalamus,reunions nucleus of thalamus,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,dorsal thalamus,lateral posterior nucleus,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,dorsal thalamus,pulvinar of thalamus,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,dorsal thalamus,ventral anterior nucleus,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,dorsal thalamus,ventral lateral nucleus,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,dorsal thalamus,ventral posterior medial nucleus,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,dorsal thalamus,ventral posterior lateral nucleus,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,dorsal thalamus,lateral geniculate nuclei,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,dorsal thalamus,medial geniculate nuclei,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,dorsal thalamus,parafascicular nucleus,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,dorsal thalamus,centromedian nucleus,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,dorsal thalamus,midline nuclear complex,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,ventral thalamus,zona Incerta,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,epithalamus,habenular nuclei,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,epithalamus,paraventricular nucleus of thalamus,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,epithalamus,pineal body,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,reticular formation of thalamus,,,,,
+forebrain (prosencephalon),gray matter of forebrain,thalamus,subthalamic nucleus (subthalamus),,,,,
+forebrain (prosencephalon),gray matter of forebrain,hypothalamus,preoptic region,,,,,
+forebrain (prosencephalon),gray matter of forebrain,hypothalamus,supraoptic region,,,,,
+forebrain (prosencephalon),gray matter of forebrain,hypothalamus,tuberal region,,,,,
+forebrain (prosencephalon),gray matter of forebrain,hypothalamus,mammillary region,mammillary nucleus,,,,
+forebrain (prosencephalon),white matter of forebrain,anterior commissure,,,,,,
+forebrain (prosencephalon),white matter of forebrain,corpus callosum (midline portion),,,,,,
+forebrain (prosencephalon),white matter of forebrain,fornix,,,,,,
+forebrain (prosencephalon),white matter of forebrain,internal capsule,,,,,,
+forebrain (prosencephalon),white matter of forebrain,mammillothalamic tract,,,,,,
+forebrain (prosencephalon),white matter of forebrain,olfactory tract,,,,,,
+forebrain (prosencephalon),white matter of forebrain,optic radiation,,,,,,
+forebrain (prosencephalon),white matter of forebrain,optic tract,,,,,,
+forebrain (prosencephalon),ventricle of forebrain,lateral ventricles,anterior horn of lateral ventricle,,,,,
+forebrain (prosencephalon),ventricle of forebrain,lateral ventricles,body of lateral ventricle,,,,,
+forebrain (prosencephalon),ventricle of forebrain,lateral ventricles,atrium of lateral ventricle,,,,,
+forebrain (prosencephalon),ventricle of forebrain,lateral ventricles,posterior horn of lateral ventricle,,,,,
+forebrain (prosencephalon),ventricle of forebrain,lateral ventricles,inferior horn of lateral ventricle,,,,,
+forebrain (prosencephalon),ventricle of forebrain,third ventricle,,,,,,
+midbrain (mesencephalon),gray matter of midbrain,Pretectal region,,,,,,
+midbrain (mesencephalon),gray matter of midbrain,midbrain tegmentum,,,,,,
+midbrain (mesencephalon),gray matter of midbrain,periaqueductal gray substance,,,,,,
+midbrain (mesencephalon),gray matter of midbrain,red nucleus,,,,,,
+midbrain (mesencephalon),gray matter of midbrain,substantia nigra,,,,,,
+midbrain (mesencephalon),gray matter of midbrain,superior colliculus,,,,,,
+midbrain (mesencephalon),gray matter of midbrain,inferior colliculus,,,,,,
+midbrain (mesencephalon),white matter of midbrain,cerebral peduncle,,,,,,
+midbrain (mesencephalon),ventricle of midbrain (cerebral aqueduct),,,,,,,
+hindbrain (rhombencephalon),gray matter of hindbrain,cerebellum,cerebellar cortex,,,,,
+hindbrain (rhombencephalon),gray matter of hindbrain,cerebellum,paravermis of cerebellum,,,,,
+hindbrain (rhombencephalon),gray matter of hindbrain,cerebellum,lateral hemisphere of cerebellum,,,,,
+hindbrain (rhombencephalon),gray matter of hindbrain,cerebellum,cerebellar vermis,,,,,
+hindbrain (rhombencephalon),gray matter of hindbrain,cerebellum,cerebellar deep nuclei,,,,,
+hindbrain (rhombencephalon),gray matter of hindbrain,pons,pontine tegmentum,vestibular nuclei,,,,
+hindbrain (rhombencephalon),gray matter of hindbrain,pons,pontine tegmentum,parabrachial nuclei,,,,
+hindbrain (rhombencephalon),gray matter of hindbrain,pons,basilar part of pons (Pontine nuclei),,,,,
+hindbrain (rhombencephalon),gray matter of hindbrain,medulla oblongata,tegmentum of the medulla,spinal trigeminal nucleus,,,,
+hindbrain (rhombencephalon),gray matter of hindbrain,medulla oblongata,tegmentum of the medulla,inferior olive,,,,
+hindbrain (rhombencephalon),white matter of hindbrain,pyramidal tract,,,,,,
+hindbrain (rhombencephalon),white matter of hindbrain,superior cerebellar peduncle,,,,,,
+hindbrain (rhombencephalon),white matter of hindbrain,middle cerebellar peduncle,,,,,,
+hindbrain (rhombencephalon),white matter of hindbrain,inferior cerebellar peduncle,,,,,,
+hindbrain (rhombencephalon),ventricles of hindbrain,fourth ventricle,,,,,,
+hindbrain (rhombencephalon),ventricles of hindbrain,central canal of medulla oblongata,,,,,,
