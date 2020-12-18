@@ -55,12 +55,11 @@ export class TreeService {
     this.tree$.subscribe(state => {
       this.height = state.height;
       this.screenWidth = state.screenWidth;
-
       const view = state.view;
+      
       if (Object.keys(view).length) {
         const search = state.search;
         console.log(search)
-        view.data('search', search);
         view.runAsync();
       }
     });
