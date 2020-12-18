@@ -14,13 +14,13 @@ export class LoadingComponent implements OnInit {
 
   @Select(UIState) loadingText$: Observable<any>;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: string, private dialog: MatDialog) { 
+  constructor(@Inject(MAT_DIALOG_DATA) public data: string, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
     this.loadingText$.subscribe(l => {
       this.data = l.loadingText;
-    })
+    });
   }
 
 }

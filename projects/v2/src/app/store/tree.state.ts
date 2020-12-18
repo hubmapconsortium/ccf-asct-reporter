@@ -1,15 +1,14 @@
 import { SheetService } from '../services/sheet.service';
 import {State, Action, StateContext, Selector, Select} from '@ngxs/store';
-import { Sheet, Data } from "../models/sheet.model";
-import { Error, Response } from "../models/response.model";
+import { Sheet, Data } from '../models/sheet.model';
+import { Error, Response } from '../models/response.model';
 
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { Spec, View } from 'vega'
+import { Spec, View } from 'vega';
 import { Injectable } from '@angular/core';
-import { updateVegaSpec, updateVegaView, updateBimodal, UpdateBimodalConfig } from '../actions/tree.actions';
-import { fetchSheetData } from '../actions/sheet.actions';
+import { UpdateVegaSpec, UpdateVegaView, UpdateBimodal, UpdateBimodalConfig } from '../actions/tree.actions';
 import { TNode } from '../models/tree.model';
 import { BMNode, Link, BimodalConfig } from '../models/bimodal.model';
 
@@ -40,18 +39,18 @@ export class TreeStateModel {
     screenWidth:  document.getElementsByTagName('body')[0].clientWidth,
     bimodal: {nodes: [], links: [], config: {BM: {sort: 'Alphabetically', size: 'None'}, CT: {sort: 'Alphabetically', size: 'None'}}},
     completed: false,
-    
+
   }
 })
 @Injectable()
 export class TreeState {
-  
+
   constructor() {
   }
-  
+
   @Selector()
   static getBimodalConfig(state: TreeStateModel) {
-    return state.bimodal.config
+    return state.bimodal.config;
   }
 
   @Selector()
@@ -61,61 +60,61 @@ export class TreeState {
 
   @Selector()
   static getTreeData(state: TreeStateModel) {
-    return state.treeData
+    return state.treeData;
   }
 
   @Selector()
   static getVegaView(state: TreeStateModel) {
-    return state.view
+    return state.view;
   }
 
   @Select()
   static getBimodal(state: TreeStateModel) {
-    return state.bimodal
+    return state.bimodal;
   }
 
 
-  @Action(updateBimodal)
-  updateBimodal({getState, setState}: StateContext<TreeStateModel>, {nodes, links}: updateBimodal) {
-    const state = getState()
+  @Action(UpdateBimodal)
+  updateBimodal({getState, setState}: StateContext<TreeStateModel>, {nodes, links}: UpdateBimodal) {
+    const state = getState();
     setState({
       ...state,
-      bimodal: {nodes: nodes, links: links, config: state.bimodal.config}
-    })
+      bimodal: {nodes, links, config: state.bimodal.config}
+    });
   }
 
-  @Action(updateVegaView)
-  updateVegaView({getState, patchState}: StateContext<TreeStateModel>, {view}: updateVegaView) {
+  @Action(UpdateVegaView)
+  updateVegaView({getState, patchState}: StateContext<TreeStateModel>, {view}: UpdateVegaView) {
     const state = getState();
     patchState({
-      view: view,
+      view,
       treeData: view.data('tree'),
       width: view._viewWidth
-    })
+    });
   }
-  
 
-  @Action(updateVegaSpec)
-  updateVegaSpec({patchState}: StateContext<TreeStateModel>, {spec}: updateVegaSpec) {
+
+  @Action(UpdateVegaSpec)
+  updateVegaSpec({patchState}: StateContext<TreeStateModel>, {spec}: UpdateVegaSpec) {
     patchState({
-      spec: spec
-    })
+      spec
+    });
   }
 
   @Action(UpdateBimodalConfig)
   updateBimodalConfig({getState, setState}: StateContext<TreeStateModel>, {config}: UpdateBimodalConfig) {
-    const state = getState()
+    const state = getState();
     const nodes = state.bimodal.nodes;
     const links = state.bimodal.links;
 
     setState({
       ...state,
       bimodal: {
-        nodes: nodes,
-        links: links,
-        config: config
+        nodes,
+        links,
+        config
       }
-    })
+    });
   }
 
 }

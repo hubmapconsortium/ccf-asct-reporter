@@ -4,7 +4,7 @@ import {  } from './tree.service';
 import { BMNode } from '../../models/bimodal.model';
 import { makeCellDegree, makeMarkerDegree, makeCellTypes, makeAS, makeBioMarkers} from './tree.functions';
 import { CT_BLUE, B_GREEN } from '../../models/tree.model';
-import { updateBimodal } from '../../actions/tree.actions';
+import { UpdateBimodal } from '../../actions/tree.actions';
 import { CloseLoading } from '../../actions/ui.actions';
 
 @Injectable({
@@ -293,23 +293,23 @@ export class BimodalService {
       }
     });
 
-    
-    this.store.dispatch(new updateBimodal(nodes, links)).subscribe(newData => {
-      const view  = newData.treeState.view
-      const nodes =  newData.treeState.bimodal.nodes
-      const links = newData.treeState.bimodal.links
 
-      this.updateBimodalData(view, nodes, links)
-    })
+    this.store.dispatch(new UpdateBimodal(nodes, links)).subscribe(newData => {
+      const view  = newData.treeState.view;
+      const u_nodes =  newData.treeState.bimodal.nodes;
+      const u_links = newData.treeState.bimodal.links;
+
+      this.updateBimodalData(view, u_nodes, u_links);
+    });
   }
 
   updateBimodalData(view, nodes, links) {
       view._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
       view._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
       view._runtime.signals.targets__click.value = [];
-      view.data('nodes', nodes).data('edges', links).resize().runAsync()
+      view.data('nodes', nodes).data('edges', links).resize().runAsync();
 
       this.store.dispatch(new CloseLoading('Visualization Rendered'));
-      
+
   }
 }

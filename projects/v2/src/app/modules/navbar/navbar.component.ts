@@ -5,7 +5,7 @@ import { SheetState, SheetStateModel } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
 import { Sheet } from '../../models/sheet.model';
 import { Router } from '@angular/router';
-import { fetchSheetData } from '../../actions/sheet.actions';
+import { FetchSheetData } from '../../actions/sheet.actions';
 
 
 @Component({
@@ -27,17 +27,17 @@ export class NavbarComponent implements OnInit {
     this.sheet$.subscribe(sheet => {
       this.currentSheet = sheet.sheet;
       this.selectedSheetOption = sheet.sheet.display;
-    }) 
+    });
 
   }
 
   getSheetSelection(sheet, event) {
     const selectedSheet = SHEET_OPTIONS.find(s => s.title === sheet);
-    this.router.navigate(['/vis'], {queryParams: {sheet: selectedSheet.sheet}})
+    this.router.navigate(['/vis'], {queryParams: {sheet: selectedSheet.sheet}});
   }
 
   refreshData() {
-    this.store.dispatch(new fetchSheetData(this.currentSheet));
+    this.store.dispatch(new FetchSheetData(this.currentSheet));
   }
 
 }

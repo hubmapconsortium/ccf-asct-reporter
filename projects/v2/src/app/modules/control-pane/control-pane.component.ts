@@ -11,8 +11,8 @@ import { ToggleControlPane } from '../../actions/ui.actions';
   styleUrls: ['./control-pane.component.scss']
 })
 export class ControlPaneComponent implements OnInit {
-  constructor(public store: Store) { 
-    
+  constructor(public store: Store) {
+
   }
 
   ngOnInit(): void {
@@ -20,7 +20,7 @@ export class ControlPaneComponent implements OnInit {
   }
 
   togglePane() {
-    this.store.dispatch(new ToggleControlPane())
+    this.store.dispatch(new ToggleControlPane());
   }
 
   sendMail() {

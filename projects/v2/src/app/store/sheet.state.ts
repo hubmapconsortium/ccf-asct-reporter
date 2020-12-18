@@ -1,15 +1,15 @@
 import { SheetService } from '../services/sheet.service';
 import {State, Action, StateContext, Selector, Select, Store} from '@ngxs/store';
-import { Sheet, Data } from "../models/sheet.model";
-import { Error, Response } from "../models/response.model";
+import { Sheet, Data } from '../models/sheet.model';
+import { Error, Response } from '../models/response.model';
 
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { HEADER_COUNT } from "../static/config";
+import { HEADER_COUNT } from '../static/config';
 import { Injectable } from '@angular/core';
-import { parse } from "papaparse";
-import { fetchSheetData } from '../actions/sheet.actions';
+import { parse } from 'papaparse';
+import { FetchSheetData } from '../actions/sheet.actions';
 import { OpenLoading, CloseLoading, UpdateLoadingText } from '../actions/ui.actions';
 
 export class SheetStateModel {
@@ -48,10 +48,10 @@ export class SheetStateModel {
 })
 @Injectable()
 export class SheetState {
-  
+
   constructor(private sheetService: SheetService, private store: Store) {
   }
-  
+
   // @Selector()
   // static getLoading(state: SheetStateModel) {
   //   return state.loading;
@@ -66,11 +66,11 @@ export class SheetState {
   static getSheet(state: SheetStateModel) {
     return state.sheet;
   }
-  
-  @Action(fetchSheetData) 
-  fetchSheetData({getState, setState, patchState}: StateContext<SheetStateModel>, {sheet}:fetchSheetData) {
+
+  @Action(FetchSheetData)
+  fetchSheetData({getState, setState, patchState}: StateContext<SheetStateModel>, {sheet}: FetchSheetData) {
     const state = getState();
-    this.store.dispatch(new OpenLoading('Fetching data..'))
+    this.store.dispatch(new OpenLoading('Fetching data..'));
 
     return this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).pipe(
       tap((res) => {
@@ -82,14 +82,14 @@ export class SheetState {
         setState({
           ...state,
           data: parsedData.data,
-          sheet: sheet,
+          sheet,
           error: {}
-        })
+        });
 
-        this.store.dispatch(new UpdateLoadingText('Fetch data successful. Building Visualization..'))
-        
+        this.store.dispatch(new UpdateLoadingText('Fetch data successful. Building Visualization..'));
+
       })
-    )
+    );
   }
 
 

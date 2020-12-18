@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { VegaService } from './vega.service';
-import {AS_RED, TNode} from './../../models/tree.model'
+import {AS_RED, TNode} from './../../models/tree.model';
 import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { Observable } from 'rxjs';
 
@@ -51,11 +51,11 @@ export class TreeService {
   @Select(TreeState) tree$: Observable<TreeStateModel>;
 
   constructor(public store: Store, public vs: VegaService) {
-    
+
     this.tree$.subscribe(state => {
       this.height = state.height;
       this.screenWidth = state.screenWidth;
-    })
+    });
 
    }
 
@@ -76,7 +76,7 @@ export class TreeService {
       const tree = new Tree(id);
       const uberon_col = currentSheet.uberon_col;
 
-      const root = new TNode(id, currentSheet.body, 0, 0,AS_RED);
+      const root = new TNode(id, currentSheet.body, 0, 0, AS_RED);
       delete root.parent; delete root.uberonId;
       tree.append(root);
 
@@ -145,14 +145,14 @@ export class TreeService {
           }
         }
       }
-      
-      const spec = this.vs.makeVegaConfig(currentSheet, currentSheet.config.bimodal_distance, this.height, this.screenWidth - 200, tree.nodes, linkData)
+
+      const spec = this.vs.makeVegaConfig(currentSheet, currentSheet.config.bimodal_distance, this.height, this.screenWidth - 200, tree.nodes, linkData);
       // this.store.dispatch(new updateVegaSpec(spec))
-      this.vs.renderGraph(spec)
-      
+      this.vs.renderGraph(spec);
+
       // const bimodal = this.makeASCTData()
 
-      
+
   }
 
 }

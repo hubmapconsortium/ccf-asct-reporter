@@ -7,7 +7,7 @@ import { Error } from '../../models/response.model';
   styleUrls: ['./error.component.scss']
 })
 export class ErrorComponent implements OnInit {
-  @Input() error: Error
+  @Input() error: Error;
 
   constructor() { }
 

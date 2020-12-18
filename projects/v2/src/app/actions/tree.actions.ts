@@ -5,17 +5,17 @@ export class UpdateGraphWidth{
   constructor(width: number) {}
 }
 
-export class updateVegaSpec {
+export class UpdateVegaSpec {
   static readonly type = '[UPDATE] Vega Spec';
   constructor(public spec: any) {}
 }
 
-export class updateVegaView {
+export class UpdateVegaView {
   static readonly type = '[UPDATE] Vega View';
   constructor(public view: any) {}
 }
 
-export class updateBimodal {
+export class UpdateBimodal {
   static readonly type = '[UPDATE] Bimodal Network';
   constructor(public nodes: any, public links: any) {}
 }

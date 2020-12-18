@@ -7,11 +7,11 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./tree.component.scss']
 })
 export class TreeComponent implements OnInit {
-  
+
   @Input() spec;
 
-  constructor() { 
-    
+  constructor() {
+
   }
 
   async ngOnInit() {

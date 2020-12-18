@@ -9,7 +9,7 @@ import { Data } from './spec/data';
 import { Scales } from './spec/scales';
 import { Legends } from './spec/legends';
 import { Marks } from './spec/marks';
-import { updateVegaView } from '../../actions/tree.actions';
+import { UpdateVegaView } from '../../actions/tree.actions';
 import { BimodalService } from './bimodal.service';
 
 @Injectable({
@@ -21,7 +21,7 @@ export class VegaService {
 
   async renderGraph(config) {
     const runtime: vega.Runtime = vega.parse(config, {});
-    let treeView:any = new vega.View(runtime)
+    const treeView: any = new vega.View(runtime)
       .renderer('svg')
       .initialize('#vis')
       .hover();
@@ -30,35 +30,21 @@ export class VegaService {
     treeView.runAsync();
 
     const updatedTreeData = treeView.data('tree');
-    
-    const treeWidth = treeView._runtime.group.context.data.asTree.values.value[0].bounds.x2;
-    
 
-    this.store.dispatch(new updateVegaView(treeView)).subscribe(states => {
-      const data = states.sheetState.data
-      const sheet = states.sheetState.sheet
-      const treeData = states.treeState.treeData
-      const bimodalConfig = states.treeState.bimodal.config
-      
+    const treeWidth = treeView._runtime.group.context.data.asTree.values.value[0].bounds.x2;
+
+
+    this.store.dispatch(new UpdateVegaView(treeView)).subscribe(states => {
+      const data = states.sheetState.data;
+      const sheet = states.sheetState.sheet;
+      const treeData = states.treeState.treeData;
+      const bimodalConfig = states.treeState.bimodal.config;
+
 
       if (data.length) {
-        this.bm.makeBimodalData(data, treeData, bimodalConfig, sheet, [])
-      } 
-    })
-
-    // this.treeView.addSignalListener('node__hover', (name, value) => {
-
-    //   if (value != null){
-    //     this.ga.eventEmitter( 'tree', 'hover',  `${this.asctData.nodes.find(i => i.id === value).name},${this.asctData.nodes.find(i => i.id === value).x},${this.asctData.nodes.find(i => i.id === value).y}`, 1);
-    //   }
-    //  });
-
-    // this.treeView.addSignalListener('node__click', (name, value) => {
-    //   if (value != null){
-    //    this.ga.eventEmitter('tree', 'click',  `${this.asctData.nodes.find(i => i.id === value).name},${this.asctData.nodes.find(i => i.id === value).x},${this.asctData.nodes.find(i => i.id === value).y}`, 1);
-    //   }
-    //  });
-
+        this.bm.makeBimodalData(data, treeData, bimodalConfig, sheet, []);
+      }
+    });
   }
 
   makeVegaConfig(currentSheet, bimodalDistance, height, width, treeData, multiParentLinksData) {
@@ -77,8 +63,8 @@ export class VegaService {
       legends: new Legends(),
       marks: new Marks(),
     };
-  
+
     return config;
   }
-  
+
 }

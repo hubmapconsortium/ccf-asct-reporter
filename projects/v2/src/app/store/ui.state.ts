@@ -1,17 +1,13 @@
 import { SheetService } from '../services/sheet.service';
 import {State, Action, StateContext, Selector, Select} from '@ngxs/store';
-import { Sheet, Data } from "../models/sheet.model";
-import { Error, Response, SnackbarType } from "../models/response.model";
+import { Sheet, Data } from '../models/sheet.model';
+import { Error, Response, SnackbarType } from '../models/response.model';
 import { patch } from '@ngxs/store/operators';
 
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { Spec, View } from 'vega'
 import { Injectable } from '@angular/core';
-import { updateVegaSpec, updateVegaView, updateBimodal } from '../actions/tree.actions';
-import { fetchSheetData } from '../actions/sheet.actions';
-import { TNode } from '../models/tree.model';
 import { ToggleControlPane, OpenLoading, CloseLoading, UpdateLoadingText, HasError, OpenSnackbar, CloseSnackbar } from '../actions/ui.actions';
 import { Snackbar } from '../models/ui.model';
 
@@ -20,7 +16,7 @@ export class UIStateModel {
   loading: boolean;
   loadingText: string;
   error: Error;
-  snackbar: Snackbar
+  snackbar: Snackbar;
 }
 
 
@@ -36,7 +32,7 @@ export class UIStateModel {
 })
 @Injectable()
 export class UIState {
-  
+
   constructor() {
   }
 
@@ -65,7 +61,7 @@ export class UIState {
   static getError(state: UIStateModel) {
     return {
       error: state.error
-    }
+    };
   }
 
   @Action(OpenSnackbar)
@@ -73,8 +69,8 @@ export class UIState {
     const state = getState();
     setState({
       ...state,
-      snackbar: {opened: true, text: text, type: type}
-    })
+      snackbar: {opened: true, text, type}
+    });
   }
 
   @Action(CloseSnackbar)
@@ -85,7 +81,7 @@ export class UIState {
       snackbar: {
         opened: false, text: '', type: SnackbarType.success
       }
-    })
+    });
   }
 
 
@@ -95,7 +91,7 @@ export class UIState {
     setState({
       ...state,
       controlPaneOpen: !state.controlPaneOpen
-    })
+    });
   }
 
   @Action(OpenLoading)
@@ -106,7 +102,7 @@ export class UIState {
       loadingText: text,
       loading: true,
       error: {}
-    })
+    });
   }
 
   @Action(UpdateLoadingText)
@@ -115,7 +111,7 @@ export class UIState {
     setState({
       ...state,
       loadingText: text,
-    })
+    });
   }
 
   @Action(CloseLoading)
@@ -125,20 +121,20 @@ export class UIState {
       ...state,
       loading: false,
       loadingText: '',
-      snackbar: {opened: true, text: text, type: SnackbarType.success}
-    })
+      snackbar: {opened: true, text, type: SnackbarType.success}
+    });
   }
 
   @Action(HasError)
   hasError({getState, setState}: StateContext<UIStateModel>, {error}: HasError) {
-    const state = getState()
+    const state = getState();
     setState({
       ...state,
-      error: error,
+      error,
       loading: false,
       loadingText: '',
       snackbar: {opened: true, text: error.msg, type: SnackbarType.error}
-    })
+    });
   }
 
 }

@@ -71,9 +71,9 @@ export interface BimodalConfig {
   CT: {
     sort: string,
     size: string
-  },
+  };
   BM: {
     sort: string,
     size: string
-  }
+  };
 }
