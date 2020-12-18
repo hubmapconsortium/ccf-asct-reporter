@@ -23,5 +23,12 @@ export class ControlPaneComponent implements OnInit {
     this.store.dispatch(new ToggleControlPane())
   }
 
+  sendMail() {
+    const subject = `Problem with ASCT+B Reporter`;
+    const mailText = `mailto:infoccf@indiana.edu?subject=${subject}`;
+    window.location.href = mailText;
+    // this.ga.eventEmitter( 'report', 'click',  'Report Problem' , 1);
+  }
+
 
 }

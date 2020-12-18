@@ -1,0 +1,31 @@
+/* CARD STYLES */
+.card {
+  border: none;
+  border-radius: 0;
+}
+
+.card-header {
+  background-color: transparent;
+  border-bottom: 0;
+}
+
+.card-footer {
+  border-top: 0;
+  background-color: transparent;
+}
+
+.card-body {
+  overflow-y: auto;
+}
+
+/* REPORT */
+.report {
+  border: 1px solid  rgba(245, 159, 61);
+  border-radius: 8px !important;
+  color: black;
+  transition: all 0.3s;
+}
+
+.report:hover {
+  background-color: rgb(245, 159, 61);
+}
