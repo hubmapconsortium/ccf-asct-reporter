@@ -26,7 +26,14 @@
           *ngFor="let structures of filteredstructuresMulti | async"
           [value]="structures"
         >
-          {{ structures.name }}
+         <div style="display: flex; justify-content: space-between;">
+           <div>
+            {{ structures.name }}
+           </div>
+           <div style="font-size: 8pt;">
+            <i>{{ structures.groupName }}</i>
+           </div>
+         </div>
         </mat-option>
       </mat-select>
     </button>
