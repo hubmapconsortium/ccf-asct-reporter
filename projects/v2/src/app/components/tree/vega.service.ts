@@ -57,6 +57,7 @@ export class VegaService {
         bottom: 20,
         left: 30,
       },
+      width: width,
       signals: new Signals(),
       data: new Data(currentSheet, bimodalDistance, height, width, treeData, multiParentLinksData),
       scales: new Scales(),

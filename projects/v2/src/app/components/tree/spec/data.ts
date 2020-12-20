@@ -52,7 +52,7 @@ export class Data implements VegaData {
           method: 'cluster',
           size: [
             { signal: height + currentSheet.config.height_offset },
-            { signal: width - bimodalDistance * 2 - 200 },
+            { signal: width - bimodalDistance * 2 },
           ],
           separation: { value: false },
           as: ['y', 'x', 'depth', 'children'],
