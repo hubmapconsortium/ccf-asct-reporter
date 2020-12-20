@@ -40,7 +40,6 @@ export class NavbarComponent implements OnInit {
   }
 
   refreshData() {
-    // this.store.dispatch(new RefreshData());
     this.store.dispatch(new FetchSheetData(this.currentSheet));
   }
 
