@@ -46,6 +46,7 @@ export class IndentedListComponent implements OnInit {
   // @Input() dataVersion=this.sc.VERSIONS[0].folder;
   @Input() dataVersion;
   @Input() currentSheet: any;
+  @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
   @ViewChild('indentTree') indentTree;
 
@@ -90,8 +91,8 @@ export class IndentedListComponent implements OnInit {
     
   }
 
-  close() {
-
+  cc(e) {
+    console.log('erererer', e)
   }
 
 

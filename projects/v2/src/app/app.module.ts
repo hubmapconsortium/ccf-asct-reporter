@@ -28,6 +28,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NgxsResetPluginModule } from 'ngxs-reset-plugin';
 import { IndentedListComponent } from './components/indented-list/indented-list.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { SidenavHeaderComponent } from './components/sidenav-header/sidenav-header.component';
 
 
 
@@ -43,7 +44,8 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
     FunctionsComponent,
     SearchComponent,
     IndentedListComponent,
-    SidenavComponent
+    SidenavComponent,
+    SidenavHeaderComponent
   ],
   imports: [
     BrowserModule,

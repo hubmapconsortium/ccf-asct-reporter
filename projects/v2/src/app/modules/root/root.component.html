@@ -5,7 +5,7 @@
     </mat-drawer>
 
     <mat-drawer #indentListDrawer class="indent-list" mode="over" [opened]="il$ | async" position="end" (closedStart)="toggleIndentList()">
-      <app-indent></app-indent>
+      <app-indent (close)="indentListDrawer.close()"></app-indent>
     </mat-drawer>
 
     <div id="content">
