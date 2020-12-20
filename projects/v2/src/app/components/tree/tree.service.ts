@@ -4,6 +4,8 @@ import { VegaService } from './vega.service';
 import {AS_RED, TNode} from './../../models/tree.model';
 import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { Observable } from 'rxjs';
+import { validateWidth } from '../../static/util';
+import { UIState, UIStateModel } from '../../store/ui.state';
 
 // Used in the tree visualization
 export class Tree {
@@ -47,8 +49,10 @@ export class Tree {
 export class TreeService {
   height: number;
   screenWidth: number;
+  controlPaneOpen: boolean;
 
   @Select(TreeState) tree$: Observable<TreeStateModel>;
+  @Select(UIState) uiState$: Observable<UIStateModel>;
 
   constructor(public store: Store, public vs: VegaService) {
 
@@ -63,6 +67,10 @@ export class TreeService {
         view.runAsync();
       }
     });
+
+    this.uiState$.subscribe(state => {
+      this.controlPaneOpen = state.controlPaneOpen;
+    })
 
    }
 
@@ -153,13 +161,8 @@ export class TreeService {
         }
       }
 
-      const spec = this.vs.makeVegaConfig(currentSheet, currentSheet.config.bimodal_distance, this.height, this.screenWidth - 200, tree.nodes, linkData);
-      // this.store.dispatch(new updateVegaSpec(spec))
+      const spec = this.vs.makeVegaConfig(currentSheet, currentSheet.config.bimodal_distance, this.height, validateWidth(this.screenWidth, this.controlPaneOpen), tree.nodes, linkData);
       this.vs.renderGraph(spec);
-
-      // const bimodal = this.makeASCTData()
-
-
   }
 
 }

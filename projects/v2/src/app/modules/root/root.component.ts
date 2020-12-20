@@ -13,7 +13,8 @@ import { Error } from '../../models/response.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { MatSnackBar, MatSnackBarRef, MatSnackBarConfig } from '@angular/material/snack-bar';
-
+import { validateWidth } from '../../static/util';
+import { UpdateGraphWidth } from '../../actions/tree.actions';
 
 
 @Component({
@@ -29,6 +30,8 @@ export class RootComponent implements OnInit {
   hasError: boolean;
   error: Error;
   snackbarRef: any;
+  isControlPaneOpen: boolean;
+  screenWidth = document.getElementsByTagName('body')[0].clientWidth;
 
   // Sheet Observables
   // @Select(SheetState.getLoading) loading$: Observable<boolean>;
@@ -45,10 +48,13 @@ export class RootComponent implements OnInit {
   @Select(UIState.getLoading) loading$: Observable<any>;
   @Select(UIState.getLoadingText) loadingText$: Observable<any>;
   @Select(UIState) uiState$: Observable<any>;
+  @Select(TreeState.getScreenWidth) screenWidth$: Observable<number>;
+  @Select(UIState.getControlPaneState) controlPane$: Observable<boolean>;
+
 
 
   constructor(public store: Store, public ts: TreeService, public route: ActivatedRoute, public dialog: MatDialog, private snackbar: MatSnackBar) {
-
+    
     this.data$.subscribe(data => {
       if (data.length) {
         this.data = data;
@@ -81,6 +87,8 @@ export class RootComponent implements OnInit {
     });
 
     this.uiState$.subscribe(state => {
+      this.isControlPaneOpen = state.controlPaneOpen;
+
       const sb = state.snackbar;
       if (sb.opened)  {
         const config: MatSnackBarConfig = {
@@ -93,6 +101,13 @@ export class RootComponent implements OnInit {
         this.snackbarRef.afterDismissed().subscribe(s => { store.dispatch(new CloseSnackbar()); });
       }
     });
+
+
+    this.controlPane$.subscribe(value => {
+      if (this.data)
+        ts.makeTreeData(this.sheet, this.data, []);
+    })
+
 
   }
 

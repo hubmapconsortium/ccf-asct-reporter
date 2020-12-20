@@ -8,9 +8,11 @@ import { of } from 'rxjs';
 
 import { Spec, View } from 'vega';
 import { Injectable } from '@angular/core';
-import { UpdateVegaSpec, UpdateVegaView, UpdateBimodal, UpdateBimodalConfig, DoSearch } from '../actions/tree.actions';
+import { UpdateVegaSpec, UpdateVegaView, UpdateBimodal, UpdateBimodalConfig, DoSearch, UpdateGraphWidth } from '../actions/tree.actions';
 import { TNode, SearchStructure } from '../models/tree.model';
 import { BMNode, Link, BimodalConfig } from '../models/bimodal.model';
+
+import { validateWidth } from "../static/util";
 
 export class TreeStateModel {
   spec: Spec;
@@ -28,7 +30,6 @@ export class TreeStateModel {
   completed: boolean;
 }
 
-
 @State<TreeStateModel>({
   name: 'treeState',
   defaults: {
@@ -37,7 +38,7 @@ export class TreeStateModel {
     view: {},
     width: 0,
     height: document.getElementsByTagName('body')[0].clientHeight,
-    screenWidth:  document.getElementsByTagName('body')[0].clientWidth,
+    screenWidth: validateWidth(document.getElementsByTagName('body')[0].clientWidth),
     bimodal: {nodes: [], links: [], config: {BM: {sort: 'Alphabetically', size: 'None'}, CT: {sort: 'Alphabetically', size: 'None'}}},
     completed: false,
     search: []
@@ -72,6 +73,11 @@ export class TreeState {
   @Select()
   static getBimodal(state: TreeStateModel) {
     return state.bimodal;
+  }
+
+  @Select()
+  static getScreenWidth(state: TreeStateModel) {
+    return state.screenWidth;
   }
 
 
@@ -127,4 +133,12 @@ export class TreeState {
     })
   }
 
+  @Action(UpdateGraphWidth)
+  updateWidth({getState, setState}: StateContext<TreeStateModel>, {width}: UpdateGraphWidth) {
+    const state = getState();
+    setState({
+      ...state,
+      screenWidth: validateWidth(width)
+    })
+  }
 }

@@ -55,7 +55,7 @@ export const SHEET_CONFIG = [
     indent_cols: [0, 1, 2],
     body: 'Kidney',
     config: {
-      bimodal_distance: 350,
+      bimodal_distance: 250,
       width: 700,
       width_offset: 600,
       height_offset: 200,
@@ -76,7 +76,7 @@ export const SHEET_CONFIG = [
     indent_cols: [0, 1, 2, 3],
     body: 'Liver',
     config: {
-      bimodal_distance: 360,
+      bimodal_distance: 260,
       width: 800,
       width_offset: 600,
       height_offset: 200,
@@ -97,7 +97,7 @@ export const SHEET_CONFIG = [
     indent_cols: [0, 1, 2, 3, 4],
     body: 'Lymph Nodes',
     config: {
-      bimodal_distance: 350,
+      bimodal_distance: 250,
       width: 1200,
       width_offset: 350,
       height_offset: 200,
@@ -118,7 +118,7 @@ export const SHEET_CONFIG = [
     indent_cols: [0, 3, 6],
     body: 'Heart',
     config: {
-      bimodal_distance: 400,
+      bimodal_distance: 300,
       width: 800,
       width_offset: 550,
       height_offset: 200,
@@ -160,7 +160,7 @@ export const SHEET_CONFIG = [
     indent_cols: [0, 1, 2, 3, 4],
     body: 'Large Intestine',
     config: {
-      bimodal_distance: 360,
+      bimodal_distance: 260,
       width: 1200,
       width_offset: 0,
       height_offset: 200,
@@ -181,7 +181,7 @@ export const SHEET_CONFIG = [
     indent_cols: [0, 1, 2, 3],
     body: 'Skin',
     config: {
-      bimodal_distance: 350,
+      bimodal_distance: 250,
       width: 800,
       width_offset: 650,
       height_offset: 200,
@@ -202,7 +202,7 @@ export const SHEET_CONFIG = [
     indent_cols: [0, 1],
     body: 'Lung',
     config: {
-      bimodal_distance: 350,
+      bimodal_distance: 250,
       width: 800,
       width_offset: 650,
       height_offset: 200,
@@ -223,7 +223,7 @@ export const SHEET_CONFIG = [
     indent_cols: [0, 1, 2, 3, 4, 5],
     body: 'Brain',
     config: {
-      bimodal_distance: 350,
+      bimodal_distance: 250,
       width: 800,
       width_offset: 1000,
       height_offset: 4000,

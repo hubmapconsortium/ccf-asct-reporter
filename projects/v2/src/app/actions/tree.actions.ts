@@ -3,7 +3,7 @@ import { SearchStructure } from '../models/tree.model';
 
 export class UpdateGraphWidth{
   static readonly type = '[UPDATE WIDTH] Update Graph Width';
-  constructor(width: number) {}
+  constructor(public width: number) {}
 }
 
 export class UpdateVegaSpec {
@@ -30,3 +30,4 @@ export class DoSearch {
   static readonly type = '[SEARCH] Update Search List';
   constructor(public searchStructures: SearchStructure[]) {}
 }
+ 
