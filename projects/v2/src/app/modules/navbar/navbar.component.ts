@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SHEET_OPTIONS, VERSION } from '../../static/config';
+import { SHEET_OPTIONS, VERSION, MORE_OPTIONS } from '../../static/config';
 import { Store, Select } from '@ngxs/store';
 import { SheetState, SheetStateModel } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
@@ -18,6 +18,8 @@ import { UIState, UIStateModel } from '../../store/ui.state';
 export class NavbarComponent implements OnInit {
   SHEET_OPTIONS = SHEET_OPTIONS;
   VERSIONS = VERSION;
+  MORE_OPTIONS = MORE_OPTIONS;
+  window: Window = window;
 
   selectedSheetOption: string;
   selectedVersion: string;

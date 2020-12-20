@@ -293,3 +293,15 @@ export const VERSION  = [
     folder: 'v101'
   }
 ];
+
+export const MORE_OPTIONS = [
+  {
+    name: 'Data Tables',
+    url:
+      'https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1268820100',
+  },
+  {
+    name: 'Github',
+    url: 'https://github.com/hubmapconsortium/ccf-asct-reporter',
+  },
+];

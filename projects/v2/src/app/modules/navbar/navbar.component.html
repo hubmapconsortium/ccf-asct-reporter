@@ -102,5 +102,26 @@
         >format_list_bulleted</mat-icon
       >
     </button>
+
+    <div>
+      <button
+          mat-icon-button
+          #tooltip="matTooltip"
+          matTooltip="Menu"
+          matTooltipPosition="below"
+          [matMenuTriggerFor]="menu"
+        >
+          <mat-icon style="margin-bottom: 5px !important">more_vert </mat-icon>
+          <mat-menu #menu="matMenu">
+            <button
+              mat-menu-item
+              *ngFor="let option of MORE_OPTIONS"
+              (click)="window.open(option.url, '_blank')"
+            >
+              {{ option.name }}
+            </button>
+          </mat-menu>
+        </button>
+    </div>
   </div>
 </mat-toolbar>
