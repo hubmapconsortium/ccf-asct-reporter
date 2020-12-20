@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {SHEET_CONFIG, VERSION} from './../../static/config';
 import { SheetState } from './../../store/sheet.state';
 import { TreeState } from './../../store/tree.state';
@@ -16,6 +16,8 @@ import { MatSnackBar, MatSnackBarRef, MatSnackBarConfig } from '@angular/materia
 import { validateWidth } from '../../static/util';
 import { UpdateGraphWidth } from '../../actions/tree.actions';
 import { IndentedListService } from '../../components/indented-list/indented-list.service';
+import { StateReset } from 'ngxs-reset-plugin';
+import { Snackbar } from '../../models/ui.model';
 
 
 @Component({
@@ -23,7 +25,7 @@ import { IndentedListService } from '../../components/indented-list/indented-lis
   templateUrl: './root.component.html',
   styleUrls: ['./root.component.scss']
 })
-export class RootComponent implements OnInit {
+export class RootComponent implements OnInit, OnDestroy{
   data: any;
   loading: boolean;
   view: any;
@@ -46,12 +48,14 @@ export class RootComponent implements OnInit {
   // Control Pane Observables
   @Select(UIState.getControlPaneState) pane$: Observable<boolean>;
   @Select(UIState.getIndentList) il$: Observable<boolean>;
+
   // UI Observables
   @Select(UIState.getError) error$: Observable<any>;
   @Select(UIState.getLoading) loading$: Observable<any>;
   @Select(UIState.getLoadingText) loadingText$: Observable<any>;
   @Select(UIState) uiState$: Observable<any>;
   @Select(TreeState.getScreenWidth) screenWidth$: Observable<number>;
+  @Select(UIState.getSnackbar) snack$: Observable<Snackbar>;
 
   constructor(
     public store: Store, 
@@ -62,18 +66,19 @@ export class RootComponent implements OnInit {
     public indent: IndentedListService
   ) {
     
-    this.data$.subscribe(data => {
-      if (data.length) {
-        this.data = data;
-        try {
-          indent.makeIndentData(this.sheet, data)
-          ts.makeTreeData(this.sheet, data, []);
-        } catch (err) {
-          store.dispatch(new HasError({hasError: true, msg: err, status: 400}))
-        }
+    // this.data$.subscribe(data => {
+    //   if (data.length) {
+    //     this.data = data;
+    //     try {
+    //       indent.makeIndentData(this.sheet, data)
+    //       ts.makeTreeData(this.sheet, data, []);
+    //     } catch (err) {
+    //       console.log(err)
+    //       // store.dispatch(new HasError({hasError: true, msg: err, status: 400}))
+    //     }
         
-      }
-    });
+    //   }
+    // });
 
     this.error$.subscribe(err => {
       this.error = err.error;
@@ -85,7 +90,9 @@ export class RootComponent implements OnInit {
 
       if (version === 'latest') {
         store.dispatch(new FetchSheetData(this.sheet)).subscribe(
-          () => {},
+          (states) => {
+            this.create(states)
+          },
           (error) => {
             const err: Error = {
               msg: error.statusText,
@@ -118,8 +125,9 @@ export class RootComponent implements OnInit {
 
     this.uiState$.subscribe(state => {
       this.isControlPaneOpen = state.controlPaneOpen;
+    });
 
-      const sb = state.snackbar;
+    this.snack$.subscribe(sb => {
       if (sb.opened)  {
         const config: MatSnackBarConfig = {
           duration: 1500,
@@ -130,7 +138,7 @@ export class RootComponent implements OnInit {
         this.snackbarRef = this.snackbar.open(sb.text, 'Dismiss', config);
         this.snackbarRef.afterDismissed().subscribe(s => { store.dispatch(new CloseSnackbar()); });
       }
-    });
+    })
 
 
     this.pane$.subscribe(value => {
@@ -142,6 +150,20 @@ export class RootComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(new StateReset(SheetState));
+  }
+
+  create(states: any) {
+    try {
+      const data = states.sheetState.data;
+      this.ts.makeTreeData(this.sheet, data, []);
+      this.indent.makeIndentData(this.sheet, data);
+    } catch (err) {
+      this.store.dispatch(new HasError({hasError: true, msg: err, status: 400}))
+    }
   }
 
   openLoading(text?: string) {

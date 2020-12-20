@@ -128,8 +128,9 @@ export class UIState {
       ...state,
       loading: false,
       loadingText: '',
-      snackbar: {opened: true, text, type: SnackbarType.success}
     });
+
+    dispatch(new OpenSnackbar(text, SnackbarType.success))
   }
 
   @Action(HasError)

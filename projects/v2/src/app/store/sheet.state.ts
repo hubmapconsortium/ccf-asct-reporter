@@ -96,6 +96,7 @@ export class SheetState {
     const state = getState();
     this.store.dispatch(new OpenLoading('Fetching data from assets..'));
     dispatch(new StateReset(TreeState));
+    // dispatch(new StateReset(SheetState));
 
     console.log('VERSION:', version)
     return this.sheetService.fetchDataFromAssets(version, sheet).pipe(
