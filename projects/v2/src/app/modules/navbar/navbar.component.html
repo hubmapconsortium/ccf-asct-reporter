@@ -1,50 +1,65 @@
 <mat-toolbar
-    color="secondary"
-    style="
-      /* padding-left: 50px !important; */
-      padding-right: 50px !important;
-      display: flex;
-      align-items: center;
-      border-bottom: 3px solid #444a6510;
-      width: 100%;
-      background-color: white;
-    "
-  >
+  color="secondary"
+  style="
+    /* padding-left: 50px !important; */
+    padding-right: 50px !important;
+    display: flex;
+    align-items: center;
+    border-bottom: 3px solid #444a6510;
+    width: 100%;
+    background-color: white;
+  "
+>
   <div class="nav-wrapper">
-    <div class="logo">
-      <app-search></app-search>
-    </div> 
-    <div class="actions">
-      <mat-form-field style="margin-right: 25px; margin-bottom: 0;">
-        <button
-          class="secondary select-border"
-          mat-flat-button
-          style="width: 100%;"
-          #tooltip="matTooltip"
-          matTooltip="Select Organ Set"
-          matTooltipPosition="below"
-        >
-          <mat-select
-              (selectionChange)="getSheetSelection(selectedSheetOption, $event)"
-              [(ngModel)]="selectedSheetOption"
-          >
-            <mat-option *ngFor="let option of SHEET_OPTIONS" [value]="option.title">
-              {{ option.title }}
-            </mat-option>
-          </mat-select>
-        </button>
-      </mat-form-field>
-
-      <button
-          mat-icon-button
-          (click)="refreshData()" 
-          #tooltip="matTooltip"
-          matTooltip="Refresh Data"
-          matTooltipPosition="below"
-        >
-          <mat-icon style="font-weight: bold;">refresh</mat-icon>
-        </button>
+    <div *ngIf="!(ui$ | async).controlPaneOpen">
+      <img src="./../../../assets/logo2.png" alt="" class="w-100">
     </div>
-  </div>
+    <button
+      *ngIf="!(ui$ | async).controlPaneOpen"
+      (click)="togglePane()"
+      mat-icon-button
+      #tooltip="matTooltip"
+      matTooltip="Show Control Pane"
+      matTooltipPosition="below"
+      style="background-color: #f5f5f5"
+    >
+      <mat-icon style="margin-bottom: 5px !important">menu</mat-icon>
+    </button>
+    <app-search></app-search>
+    <mat-form-field style="margin-right: 25px; margin-bottom: 0">
+      <button
+        class="secondary select-border"
+        mat-flat-button
+        style="width: 100%"
+        #tooltip="matTooltip"
+        matTooltip="Select Organ Set"
+        matTooltipPosition="below"
+      >
+        <mat-select
+          (selectionChange)="getSheetSelection(selectedSheetOption, $event)"
+          [(ngModel)]="selectedSheetOption"
+        >
+          <mat-option
+            *ngFor="let option of SHEET_OPTIONS"
+            [value]="option.title"
+          >
+            {{ option.title }}
+          </mat-option>
+        </mat-select>
+      </button>
+    </mat-form-field>
 
+    <button
+      mat-icon-button
+      (click)="refreshData()"
+      #tooltip="matTooltip"
+      matTooltip="Refresh Data"
+      matTooltipPosition="below"
+      style="background-color: #f5f5f5"
+    >
+      <mat-icon style="font-weight: bold; margin-bottom: 5px !important"
+        >refresh</mat-icon
+      >
+    </button>
+  </div>
 </mat-toolbar>

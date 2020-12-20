@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { Sheet } from '../../models/sheet.model';
 import { Router } from '@angular/router';
 import { FetchSheetData } from '../../actions/sheet.actions';
+import { ToggleControlPane } from '../../actions/ui.actions';
+import { UIState, UIStateModel } from '../../store/ui.state';
 
 
 @Component({
@@ -20,6 +22,7 @@ export class NavbarComponent implements OnInit {
   currentSheet: Sheet;
 
   @Select(SheetState) sheet$: Observable<SheetStateModel>;
+  @Select(UIState) ui$: Observable<UIStateModel>;
 
   constructor(public store: Store, public router: Router) { }
 
@@ -38,6 +41,10 @@ export class NavbarComponent implements OnInit {
 
   refreshData() {
     this.store.dispatch(new FetchSheetData(this.currentSheet));
+  }
+
+  togglePane() {
+    this.store.dispatch(new ToggleControlPane());
   }
 
 }

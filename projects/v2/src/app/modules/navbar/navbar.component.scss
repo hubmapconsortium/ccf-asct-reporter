@@ -1,14 +1,13 @@
 .nav-wrapper {
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     width: 100%;
     align-items: center;
 }
 
 
-.logo {
-    // padding: 20px;
-    flex-basis:40%;
+.nav-wrapper > * {
+    margin-right: 20px;;
 }
 // remove underline from mat-select
 ::ng-deep .mat-form-field-underline {
