@@ -66,9 +66,14 @@ export class RootComponent implements OnInit {
     
     this.data$.subscribe(data => {
       if (data.length) {
-        indent.makeIndentData(this.sheet, data)
         this.data = data;
-        ts.makeTreeData(this.sheet, data, []);
+        try {
+          indent.makeIndentData(this.sheet, data)
+          ts.makeTreeData(this.sheet, data, []);
+        } catch (err) {
+          store.dispatch(new HasError({hasError: true, msg: err, status: 400}))
+        }
+        
       }
     });
 

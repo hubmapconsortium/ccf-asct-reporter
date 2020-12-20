@@ -137,7 +137,7 @@ export class UIState {
     const state = getState();
     setState({
       ...state,
-      error,
+      error: error,
       loading: false,
       loadingText: '',
       snackbar: {opened: true, text: error.msg, type: SnackbarType.error}
