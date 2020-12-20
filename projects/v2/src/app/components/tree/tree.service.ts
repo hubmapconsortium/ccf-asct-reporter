@@ -59,7 +59,7 @@ export class TreeService {
       
       if (Object.keys(view).length) {
         const search = state.search;
-        console.log(search)
+        view.data('search', search);
         view.runAsync();
       }
     });
