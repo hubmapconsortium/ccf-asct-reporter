@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SHEET_OPTIONS } from '../../static/config';
+import { SHEET_OPTIONS, VERSION } from '../../static/config';
 import { Store, Select } from '@ngxs/store';
 import { SheetState, SheetStateModel } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
@@ -17,8 +17,10 @@ import { UIState, UIStateModel } from '../../store/ui.state';
 })
 export class NavbarComponent implements OnInit {
   SHEET_OPTIONS = SHEET_OPTIONS;
+  VERSIONS = VERSION;
 
   selectedSheetOption: string;
+  selectedVersion: string;
   currentSheet: Sheet;
 
   @Select(SheetState) sheet$: Observable<SheetStateModel>;
@@ -30,13 +32,20 @@ export class NavbarComponent implements OnInit {
     this.sheet$.subscribe(sheet => {
       this.currentSheet = sheet.sheet;
       this.selectedSheetOption = sheet.sheet.display;
+      this.selectedVersion = this.VERSIONS.find(s => s.folder === sheet.version).display;
     });
 
   }
 
   getSheetSelection(sheet, event) {
     const selectedSheet = SHEET_OPTIONS.find(s => s.title === sheet);
-    this.router.navigate(['/vis'], {queryParams: {sheet: selectedSheet.sheet}});
+    this.router.navigate(['/vis'], {queryParams: {sheet: selectedSheet.sheet}, queryParamsHandling: 'merge'});
+  }
+
+  getVersionSelection(version, event) {
+    console.log('here: ', version)
+    const selectedVersion = this.VERSIONS.find(s => s.display === version);
+    this.router.navigate(['/vis'], {queryParams: {version: selectedVersion.folder}, queryParamsHandling: 'merge'});
   }
 
   refreshData() {

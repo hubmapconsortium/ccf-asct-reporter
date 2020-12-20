@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {SHEET_CONFIG} from './../../static/config';
+import {SHEET_CONFIG, VERSION} from './../../static/config';
 import { SheetState } from './../../store/sheet.state';
 import { TreeState } from './../../store/tree.state';
 import {Select, Store} from '@ngxs/store';
 import { Observable, combineLatest } from 'rxjs';
-import { FetchSheetData } from './../../actions/sheet.actions';
+import { FetchSheetData, FetchDataFromAssets } from './../../actions/sheet.actions';
 import { TreeService } from '../../components/tree/tree.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UIState } from '../../store/ui.state';
@@ -77,24 +77,38 @@ export class RootComponent implements OnInit {
     });
 
     this.route.queryParamMap.subscribe(query => {
-      const newSheet =  SHEET_CONFIG.find(i => i.name === query.get('sheet'));
-
-      if (this.sheet === newSheet) {
-        console.log('hi')
-      }
+      const version = query.get('version');
       this.sheet =  SHEET_CONFIG.find(i => i.name === query.get('sheet'));
+
+      if (version === 'latest') {
+        store.dispatch(new FetchSheetData(this.sheet)).subscribe(
+          () => {},
+          (error) => {
+            const err: Error = {
+              msg: error.statusText,
+              status: error.status,
+              hasError: true
+            };
+            store.dispatch(new HasError(err));
+          }
+        );
+      } else {
+        store.dispatch(new FetchDataFromAssets(version, this.sheet)).subscribe(
+          () => {},
+          (error) => {
+            const err: Error = {
+              msg: error.statusText,
+              status: error.status,
+              hasError: true
+            };
+            store.dispatch(new HasError(err));
+          }
+        );
+      }
+      // store.dispatch(new FetchDataFromAssets(this.version, this.sheet))
+      
       // this.showIndent = 
-      store.dispatch(new FetchSheetData(this.sheet)).subscribe(
-        () => {},
-        (error) => {
-          const err: Error = {
-            msg: error.statusText,
-            status: error.status,
-            hasError: true
-          };
-          store.dispatch(new HasError(err));
-        }
-      );
+      
     });
 
     this.loading$.subscribe(l => {

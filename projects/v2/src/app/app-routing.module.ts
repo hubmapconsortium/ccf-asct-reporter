@@ -15,7 +15,7 @@ const routes: Routes = [
     component: RootComponent
   },
   {
-    path: 'vis/:sheet',
+    path: 'vis/:sheet/:version',
     component: RootComponent
   }
 ];
