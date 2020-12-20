@@ -8,7 +8,7 @@ import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { Injectable } from '@angular/core';
-import { ToggleControlPane, OpenLoading, CloseLoading, UpdateLoadingText, HasError, OpenSnackbar, CloseSnackbar } from '../actions/ui.actions';
+import { ToggleControlPane, OpenLoading, CloseLoading, UpdateLoadingText, HasError, OpenSnackbar, CloseSnackbar, ToggleIndentList } from '../actions/ui.actions';
 import { Snackbar } from '../models/ui.model';
 
 export class UIStateModel {
@@ -17,6 +17,7 @@ export class UIStateModel {
   loadingText: string;
   error: Error;
   snackbar: Snackbar;
+  indentListOpen: boolean;
 }
 
 
@@ -27,7 +28,8 @@ export class UIStateModel {
     loading: true,
     loadingText: '',
     error: {},
-    snackbar: {opened: false, text: '', type: SnackbarType.success}
+    snackbar: {opened: false, text: '', type: SnackbarType.success},
+    indentListOpen: false
   }
 })
 @Injectable()
@@ -62,6 +64,11 @@ export class UIState {
     return {
       error: state.error
     };
+  }
+
+  @Selector()
+  static getIndentList(state: UIStateModel) {
+    return state.indentListOpen;
   }
 
   @Action(OpenSnackbar)
@@ -135,6 +142,15 @@ export class UIState {
       loadingText: '',
       snackbar: {opened: true, text: error.msg, type: SnackbarType.error}
     });
+  }
+
+  @Action(ToggleIndentList)
+  toggleIndentList({getState, setState}: StateContext<UIStateModel>) {
+    const state = getState();
+    setState({
+      ...state,
+      indentListOpen: !state.indentListOpen
+    })
   }
 
 }

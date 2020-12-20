@@ -26,6 +26,7 @@ import { FunctionsComponent } from './modules/functions/functions.component';
 import { SearchComponent } from './modules/search/search.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NgxsResetPluginModule } from 'ngxs-reset-plugin';
+import { IndentedListComponent } from './components/indented-list/indented-list.component';
 
 
 
@@ -39,7 +40,8 @@ import { NgxsResetPluginModule } from 'ngxs-reset-plugin';
     ControlPaneComponent,
     ErrorComponent,
     FunctionsComponent,
-    SearchComponent
+    SearchComponent,
+    IndentedListComponent
   ],
   imports: [
     BrowserModule,

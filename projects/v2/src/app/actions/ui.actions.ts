@@ -38,3 +38,8 @@ export class CloseSnackbar {
   static readonly type = '[CLOSE] Snackbar';
   constructor() {}
 }
+
+export class ToggleIndentList {
+  static readonly type = '[TOGGLE] Indent List';
+  constructor() {}
+}

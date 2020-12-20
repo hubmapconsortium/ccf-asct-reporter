@@ -1,7 +1,11 @@
 <div class="h-100 w-100" >
   <mat-drawer-container class="control-pane-container" autosize class="h-100">
-    <mat-drawer #drawer class="control-pane" mode="side" [opened]="pane$ | async">
+    <mat-drawer #controlPaneDrawer class="control-pane" mode="side" [opened]="pane$ | async">
      <app-control-pane></app-control-pane>
+    </mat-drawer>
+
+    <mat-drawer #indentListDrawer class="indent-list" mode="over" [opened]="il$ | async" position="end" (closedStart)="toggleIndentList()">
+      <app-indent></app-indent>
     </mat-drawer>
 
     <div id="content">

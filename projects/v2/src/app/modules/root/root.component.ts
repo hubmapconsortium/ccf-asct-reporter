@@ -8,13 +8,14 @@ import { FetchSheetData } from './../../actions/sheet.actions';
 import { TreeService } from '../../components/tree/tree.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UIState } from '../../store/ui.state';
-import { HasError, CloseSnackbar } from '../../actions/ui.actions';
+import { HasError, CloseSnackbar, ToggleIndentList } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { MatSnackBar, MatSnackBarRef, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { validateWidth } from '../../static/util';
 import { UpdateGraphWidth } from '../../actions/tree.actions';
+import { IndentedListService } from '../../components/indented-list/indented-list.service';
 
 
 @Component({
@@ -33,6 +34,8 @@ export class RootComponent implements OnInit {
   isControlPaneOpen: boolean;
   screenWidth = document.getElementsByTagName('body')[0].clientWidth;
 
+  showIndent = false;
+
   // Sheet Observables
   // @Select(SheetState.getLoading) loading$: Observable<boolean>;
   @Select(SheetState.getData) data$: Observable<any>;
@@ -42,21 +45,28 @@ export class RootComponent implements OnInit {
 
   // Control Pane Observables
   @Select(UIState.getControlPaneState) pane$: Observable<boolean>;
-
+  @Select(UIState.getIndentList) il$: Observable<boolean>;
   // UI Observables
   @Select(UIState.getError) error$: Observable<any>;
   @Select(UIState.getLoading) loading$: Observable<any>;
   @Select(UIState.getLoadingText) loadingText$: Observable<any>;
   @Select(UIState) uiState$: Observable<any>;
   @Select(TreeState.getScreenWidth) screenWidth$: Observable<number>;
-  @Select(UIState.getControlPaneState) controlPane$: Observable<boolean>;
 
 
 
-  constructor(public store: Store, public ts: TreeService, public route: ActivatedRoute, public dialog: MatDialog, private snackbar: MatSnackBar) {
+  constructor(
+    public store: Store, 
+    public ts: TreeService, 
+    public route: ActivatedRoute, 
+    public dialog: MatDialog, 
+    private snackbar: MatSnackBar,
+    public indent: IndentedListService
+  ) {
     
     this.data$.subscribe(data => {
       if (data.length) {
+        indent.makeIndentData(this.sheet, data)
         this.data = data;
         ts.makeTreeData(this.sheet, data, []);
       }
@@ -67,7 +77,13 @@ export class RootComponent implements OnInit {
     });
 
     this.route.queryParamMap.subscribe(query => {
+      const newSheet =  SHEET_CONFIG.find(i => i.name === query.get('sheet'));
+
+      if (this.sheet === newSheet) {
+        console.log('hi')
+      }
       this.sheet =  SHEET_CONFIG.find(i => i.name === query.get('sheet'));
+      // this.showIndent = 
       store.dispatch(new FetchSheetData(this.sheet)).subscribe(
         () => {},
         (error) => {
@@ -103,7 +119,7 @@ export class RootComponent implements OnInit {
     });
 
 
-    this.controlPane$.subscribe(value => {
+    this.pane$.subscribe(value => {
       if (this.data)
         ts.makeTreeData(this.sheet, this.data, []);
     })
@@ -128,6 +144,10 @@ export class RootComponent implements OnInit {
   closeLoading() {
     const loadingDialog = this.dialog.getDialogById('LoadingDialog');
     loadingDialog.close();
+  }
+
+  toggleIndentList() {
+    this.store.dispatch(new ToggleIndentList())
   }
 
 }
