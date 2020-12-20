@@ -1,4 +1,36 @@
-<div class="py-3 h-100">
+<app-sidenav>
+  <div header>
+    <div class="w-100 text-center pt-3">
+      <img src="./../../../assets/logo.png" alt="" class="w-100" />
+    </div>
+  </div>
+
+  <div body>
+    <div class="">
+      <button
+        mat-icon-button
+        style="border-radius: 8px"
+        #tooltip="matTooltip"
+        (click)="togglePane()"
+        matTooltip="Toggle Control Pane"
+        matTooltipPosition="below"
+        class="w-100 br-0 secondary"
+      >
+        <mat-icon style="font-weight: bold">keyboard_arrow_left</mat-icon>
+      </button>
+    </div>
+
+    <div class="">
+      <app-functions></app-functions>
+    </div>
+  </div>
+
+  <div footer>
+    <button mat-stroked-button class="w-100 report" (click)="sendMail()">Report Problem</button>
+  </div>
+</app-sidenav>
+
+<!-- <div class="py-3 h-100">
   <div class="card h-100 px-0">
     <div class="card-header pt-0 text-center">
       <img src="./../../../assets/logo.png" alt="" class="w-100">
@@ -26,4 +58,4 @@
       <button mat-stroked-button class="w-100 report" (click)="sendMail()">Report Problem</button>
     </div>
   </div>
-</div>
+</div> -->

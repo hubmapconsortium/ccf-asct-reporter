@@ -1,1 +1,11 @@
-<p>sidenav works!</p>
+<div class="card h-100">
+  <div class="card-header pt-0">
+    <ng-content select="[header]"></ng-content>
+  </div>
+  <div class="card-body px-3 pt-0">
+    <ng-content select="[body]"></ng-content>
+  </div>
+  <div class="card-footer text-muted pt-2">
+    <ng-content select="[footer]"></ng-content>
+  </div>
+</div>

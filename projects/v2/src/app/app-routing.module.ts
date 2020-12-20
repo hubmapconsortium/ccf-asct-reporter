@@ -15,7 +15,7 @@ const routes: Routes = [
     component: RootComponent
   },
   {
-    path: 'vis/:sheet/:indent',
+    path: 'vis/:sheet',
     component: RootComponent
   }
 ];
