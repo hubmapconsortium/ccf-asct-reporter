@@ -85,7 +85,7 @@
             <mat-menu #menu="matMenu" class="organMenu">
               <button mat-menu-item *ngFor="let option of SHEET_OPTIONS" style="width: 100%;" 
               routerLink="/vis"
-              [queryParams]="{sheet: option.sheet, dataVersion: dataVersion}">
+              [queryParams]="{sheet: option.sheet, version: dataVersion}">
                 <span>{{option.title}}</span>
               </button>
             </mat-menu>          

@@ -12,15 +12,10 @@ import { SHEET_OPTIONS } from '../../static/config';
 export class HomeComponent implements OnInit {
   window = window;
   screenWidth = document.getElementsByTagName('body')[0].clientWidth;
-  dataVersion: string;
+  dataVersion: string = 'latest';
   SHEET_OPTIONS = SHEET_OPTIONS;
 
   constructor() {
-    if (environment.production) {
-      this.dataVersion = 'latest';
-    } else {
-      // this.dataVersion = this.sc.VERSIONS[this.sc.VERSIONS.length - 1].folder;
-    }
   }
 
   ngOnInit(): void {}

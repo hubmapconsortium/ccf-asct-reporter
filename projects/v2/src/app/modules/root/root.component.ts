@@ -53,8 +53,6 @@ export class RootComponent implements OnInit {
   @Select(UIState) uiState$: Observable<any>;
   @Select(TreeState.getScreenWidth) screenWidth$: Observable<number>;
 
-
-
   constructor(
     public store: Store, 
     public ts: TreeService, 
