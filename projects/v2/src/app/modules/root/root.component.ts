@@ -108,10 +108,7 @@ export class RootComponent implements OnInit {
           }
         );
       }
-      // store.dispatch(new FetchDataFromAssets(this.version, this.sheet))
-      
-      // this.showIndent = 
-      
+
     });
 
     this.loading$.subscribe(l => {

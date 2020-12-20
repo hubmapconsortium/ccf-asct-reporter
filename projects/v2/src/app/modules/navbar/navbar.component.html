@@ -103,6 +103,58 @@
       >
     </button>
 
+    <button
+      mat-icon-button
+      (click)="toggleIndentedList()"
+      #tooltip="matTooltip"
+      matTooltip="Compare"
+      matTooltipPosition="below"
+      style="background-color: #f5f5f5"
+    >
+      <mat-icon style="margin-bottom: 5px !important"
+        >compare_arrows</mat-icon
+      >
+    </button>
+
+    <button
+      mat-icon-button
+      (click)="toggleIndentedList()"
+      #tooltip="matTooltip"
+      matTooltip="Report"
+      matTooltipPosition="below"
+      style="background-color: #f5f5f5"
+    >
+      <mat-icon style="margin-bottom: 5px !important"
+        >show_chart</mat-icon
+      >
+    </button>
+
+    <button
+      mat-icon-button
+      (click)="toggleIndentedList()"
+      #tooltip="matTooltip"
+      matTooltip="Debug Log"
+      matTooltipPosition="below"
+      style="background-color: #f5f5f5"
+    >
+      <mat-icon style="margin-bottom: 5px !important"
+        >bug_report</mat-icon
+      >
+    </button>
+
+    <button
+      mat-icon-button
+      (click)="toggleIndentedList()"
+      #tooltip="matTooltip"
+      matTooltip="Export"
+      matTooltipPosition="below"
+      style="background-color: #f5f5f5"
+    >
+      <mat-icon style="margin-bottom: 5px !important"
+        >get_app</mat-icon
+      >
+    </button>
+
     <div>
       <button
           mat-icon-button
@@ -111,7 +163,7 @@
           matTooltipPosition="below"
           [matMenuTriggerFor]="menu"
         >
-          <mat-icon style="margin-bottom: 5px !important">more_vert </mat-icon>
+          <mat-icon style="margin-bottom: 5px !important">more_vert</mat-icon>
           <mat-menu #menu="matMenu">
             <button
               mat-menu-item
