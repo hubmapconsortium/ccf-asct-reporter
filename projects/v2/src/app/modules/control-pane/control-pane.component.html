@@ -1,7 +1,14 @@
 <app-sidenav>
   <div header>
     <div class="w-100 text-center pt-3">
-      <img src="./../../../assets/logo.png" alt="" class="w-100" />
+      <img
+        src="./../../../assets/logo.png"
+        alt=""
+        class="w-100 logo-link"
+        routerLink="/"
+        matTooltip="Home Page"
+        matTooltipPosition="below"
+      />
     </div>
   </div>
 
@@ -26,7 +33,9 @@
   </div>
 
   <div footer>
-    <button mat-stroked-button class="w-100 report" (click)="sendMail()">Report Problem</button>
+    <button mat-stroked-button class="w-100 report" (click)="sendMail()">
+      Report Problem
+    </button>
   </div>
 </app-sidenav>
 

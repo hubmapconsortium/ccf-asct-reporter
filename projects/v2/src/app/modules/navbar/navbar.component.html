@@ -12,7 +12,14 @@
 >
   <div class="nav-wrapper">
     <div *ngIf="!(ui$ | async).controlPaneOpen">
-      <img src="./../../../assets/logo2.png" alt="" class="w-100">
+      <img
+        src="./../../../assets/logo2.png"
+        alt=""
+        class="w-100 logo-link"
+        routerLink="/"
+        matTooltip="Home Page"
+        matTooltipPosition="below"
+      />
     </div>
     <button
       *ngIf="!(ui$ | async).controlPaneOpen"
@@ -41,10 +48,7 @@
           (selectionChange)="getVersionSelection(selectedVersion, $event)"
           [(ngModel)]="selectedVersion"
         >
-          <mat-option
-            *ngFor="let option of VERSIONS"
-            [value]="option.display"
-          >
+          <mat-option *ngFor="let option of VERSIONS" [value]="option.display">
             {{ option.display }}
           </mat-option>
         </mat-select>
@@ -81,7 +85,7 @@
       matTooltipPosition="below"
       style="background-color: #f5f5f5"
     >
-      <mat-icon style="font-weight: bold; margin-bottom: 5px !important"
+      <mat-icon style="margin-bottom: 5px !important"
         >refresh</mat-icon
       >
     </button>
@@ -90,11 +94,11 @@
       mat-icon-button
       (click)="toggleIndentedList()"
       #tooltip="matTooltip"
-      matTooltip="Refresh Data"
+      matTooltip="Indented List"
       matTooltipPosition="below"
       style="background-color: #f5f5f5"
     >
-      <mat-icon style="font-weight: bold; margin-bottom: 5px !important"
+      <mat-icon style="margin-bottom: 5px !important"
         >format_list_bulleted</mat-icon
       >
     </button>
