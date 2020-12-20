@@ -25,6 +25,7 @@ import { ErrorComponent } from './components/error/error.component';
 import { FunctionsComponent } from './modules/functions/functions.component';
 import { SearchComponent } from './modules/search/search.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { NgxsResetPluginModule } from 'ngxs-reset-plugin';
 
 
 
@@ -49,6 +50,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     NgxsDataPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
+    NgxsResetPluginModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,

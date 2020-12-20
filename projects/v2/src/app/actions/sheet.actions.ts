@@ -5,3 +5,7 @@ export class FetchSheetData {
   constructor(public sheet: Sheet) {}
 }
 
+export class RefreshData {
+  static readonly type = '[FETCH] Refresh';
+  constructor() {}
+}

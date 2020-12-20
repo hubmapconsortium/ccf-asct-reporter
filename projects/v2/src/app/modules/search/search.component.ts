@@ -13,8 +13,9 @@ import { take, takeUntil } from 'rxjs/operators';
 import { BimodalService } from '../../components/tree/bimodal.service';
 import { Store, Select, NgxsOnInit } from '@ngxs/store';
 import { TreeState, TreeStateModel } from '../../store/tree.state';
-import { SearchStructure } from '../../models/tree.model';
+import { SearchStructure, TNode } from '../../models/tree.model';
 import { DoSearch } from '../../actions/tree.actions';
+import { BMNode } from '../../models/bimodal.model';
 
 
 @Component({
@@ -42,19 +43,31 @@ export class SearchComponent implements OnInit {
 
   @Select(TreeState) tree$: Observable<TreeStateModel>;
 
+  treeData: TNode[];
+  nodes: BMNode[];
+
   constructor(
     // private dialogRef: MatDialogRef<SearchComponent>,
     public bms: BimodalService,
     public store: Store
   ) {
-    this.structuresMultiCtrl.setValue([])
+    
     this.tree$.subscribe(tree => {
-      const treeData = tree.treeData;
-      const nodes = tree.bimodal.nodes;
+      this.structuresMultiCtrl.setValue(tree.search)
+      this.treeData = tree.treeData;
+      this.nodes = tree.bimodal.nodes;
+    })
+  }
 
-      let searchSet = new Set<SearchStructure>();
 
-      for (const node of treeData) {
+  ngOnInit() {
+    
+  }
+
+  createSearchList() {
+    let searchSet = new Set<SearchStructure>();
+
+      for (const node of this.treeData) {
         if (node.children !== 0) {
           searchSet.add({
             id: node.id,
@@ -67,7 +80,7 @@ export class SearchComponent implements OnInit {
 
       }
 
-      for (const node of nodes) {
+      for (const node of this.nodes) {
         searchSet.add({
           id: node.id,
           name: node.name,
@@ -79,13 +92,6 @@ export class SearchComponent implements OnInit {
 
       this.structures = [...searchSet];
       this.filteredstructuresMulti.next(this.structures.slice());
-    })
-
-  }
-
-
-  ngOnInit() {
-    
   }
 
   ngAfterViewInit() {

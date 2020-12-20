@@ -9,8 +9,11 @@ import { of } from 'rxjs';
 import { HEADER_COUNT } from '../static/config';
 import { Injectable } from '@angular/core';
 import { parse } from 'papaparse';
-import { FetchSheetData } from '../actions/sheet.actions';
+import { FetchSheetData, RefreshData } from '../actions/sheet.actions';
 import { OpenLoading, CloseLoading, UpdateLoadingText } from '../actions/ui.actions';
+import { StateClear, StateReset } from 'ngxs-reset-plugin';
+import { UIState } from './ui.state';
+import { TreeState } from './tree.state';
 
 export class SheetStateModel {
   data: Array<string[]>;
@@ -68,10 +71,10 @@ export class SheetState {
   }
 
   @Action(FetchSheetData)
-  fetchSheetData({getState, setState, patchState}: StateContext<SheetStateModel>, {sheet}: FetchSheetData) {
+  fetchSheetData({getState, setState, patchState, dispatch}: StateContext<SheetStateModel>, {sheet}: FetchSheetData) {
     const state = getState();
     this.store.dispatch(new OpenLoading('Fetching data..'));
-
+    dispatch(new StateReset(TreeState))
     return this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).pipe(
       tap((res) => {
 
@@ -90,6 +93,14 @@ export class SheetState {
 
       })
     );
+  }
+
+  @Action(RefreshData)
+  refreshData({dispatch}: StateContext<SheetStateModel>) {
+    // dispatch(new StateReset(TreeState)).subscribe(s => {
+    //   dispatch(new FetchSheetData(s.sheetState.sheet))
+    // })
+
   }
 
 

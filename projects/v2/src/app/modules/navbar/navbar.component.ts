@@ -5,7 +5,7 @@ import { SheetState, SheetStateModel } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
 import { Sheet } from '../../models/sheet.model';
 import { Router } from '@angular/router';
-import { FetchSheetData } from '../../actions/sheet.actions';
+import { FetchSheetData, RefreshData } from '../../actions/sheet.actions';
 import { ToggleControlPane } from '../../actions/ui.actions';
 import { UIState, UIStateModel } from '../../store/ui.state';
 
@@ -40,6 +40,7 @@ export class NavbarComponent implements OnInit {
   }
 
   refreshData() {
+    // this.store.dispatch(new RefreshData());
     this.store.dispatch(new FetchSheetData(this.currentSheet));
   }
 
