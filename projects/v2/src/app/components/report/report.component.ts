@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ReportService } from './report.service';
 import { Report } from '../../models/report.model';
 import { Sheet } from '../../models/sheet.model';
@@ -9,15 +9,26 @@ import { Sheet } from '../../models/sheet.model';
   styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
-  reportData: Report;
-  sheet: Sheet;
+  reportData: Report = {
+    anatomicalStructures: [],
+    cellTypes: [],
+    biomarkers: [],
+    ASWithNoLink: [],
+    CTWithNoLink: [],
+    BWithNoLink: []
+  };
+
+  @Input() sheetData: any;
+  @Input() currentSheet: Sheet;
+
   constructor(public reportService: ReportService) { }
 
   ngOnInit(): void {
     this.reportService.reportData$.subscribe(data => {
       this.reportData = data.data;
-      this.sheet = data.sheet;
     })
+
+    this.reportService.makeReportData(this.currentSheet, this.sheetData);
   }
 
 }

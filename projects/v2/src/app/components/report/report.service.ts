@@ -17,7 +17,7 @@ export class ReportService {
 
   constructor() { }
 
-  async makeReportData(data, currentSheet: Sheet) {
+  async makeReportData( currentSheet: Sheet, data: any) {
     let output: Report = {
       anatomicalStructures: [],
       cellTypes: [],

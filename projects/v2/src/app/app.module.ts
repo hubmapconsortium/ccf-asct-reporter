@@ -6,6 +6,7 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
+import { OrderModule } from 'ngx-order-pipe';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -62,7 +63,8 @@ import { ReportComponent } from './components/report/report.component';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    OrderModule
   ],
   providers: [],
   bootstrap: [AppComponent]

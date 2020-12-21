@@ -1,1 +1,324 @@
-REPORT STUFF
+<app-sidenav >
+  <div header>
+    <app-sidenav-header [title]="'Report for ' + currentSheet.display"></app-sidenav-header>
+  </div>
+
+  <div body class="report">
+    <mat-tab-group mat-stretch-tabs class="tabs px-3" >
+      <mat-tab [label]="'Main Sheet'">
+        <div class="content">
+          <br />
+          <div class="title1">Overview</div>
+  
+          <div class="overview">
+            <div class="i1">
+              <span>Unique anatomical structures: </span>
+              <span class="number">{{ reportData.anatomicalStructures.length }}</span>
+            </div>
+            <div class="i1">
+              <span>Unique cell types: </span>
+              <span class="number">{{ reportData.cellTypes.length }}</span>
+            </div>
+            <div class="i1">
+              <span>Unique biomarkers: </span>
+              <span class="number">{{ reportData.biomarkers.length }}</span>
+            </div>
+            <br />
+  
+            <div class="i1">
+              <span>Anatomical structures with no Uberon link: </span>
+              <span class="number">{{ reportData.ASWithNoLink.length }}</span>
+            </div>
+            <div class="i1">
+              <span>Cells with no CL link: </span>
+              <span class="number">{{ reportData.CTWithNoLink.length }}</span>
+            </div>
+            <div class="i1">
+              <span>Biomarkers with no Go/UniProt link: </span>
+              <span class="number">{{ reportData.BWithNoLink.length }}</span>
+            </div>
+            <br />
+          </div>
+  
+          <br />
+          <div class="title1">Details</div>
+  
+          <div class="details">
+            <div class="title2">Alphabetically sorted listings of all ASCT+B</div>
+  
+            <mat-expansion-panel [expanded]="false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <div style="font-weight: 400; font-size: 13pt;">
+                    Unique anatomical structures (AS)
+                  </div>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+  
+              <div class="as-details">
+                <div
+                  *ngFor="let a of reportData.anatomicalStructures | orderBy: 'structure'"
+                  class="i1"
+                >
+                  {{ a.structure }}
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <br />
+  
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <div style="font-weight: 400; font-size: 13pt;">
+                    Unique cell types (CT)
+                  </div>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+  
+              <div class="as-details">
+                <div
+                  *ngFor="let a of reportData.cellTypes | orderBy: 'structure'"
+                  class="i1"
+                >
+                  {{ a.structure }}
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <br />
+  
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <div style="font-weight: 400; font-size: 13pt;">
+                    Unique biomarkers (B)
+                  </div>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+  
+              <div class="as-details">
+                <div
+                  *ngFor="let a of reportData.biomarkers | orderBy: 'structure'"
+                  class="i1"
+                >
+                  {{ a.structure }}
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <br />
+            <div class="title2">Missing Ontology Links</div>
+  
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <div style="font-weight: 400; font-size: 13pt;">
+                    AS with no Uberon link
+                  </div>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+  
+              <div class="as-details">
+                <div
+                  *ngFor="let a of reportData.ASWithNoLink | orderBy: 'structure'"
+                  class="i1"
+                >
+                  {{ a.structure }}
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <br />
+  
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <div style="font-weight: 400; font-size: 13pt;">
+                    CT with no CL link
+                  </div>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+  
+              <div class="as-details">
+                <div
+                  *ngFor="let a of reportData.CTWithNoLink | orderBy: 'structure'"
+                  class="i1"
+                >
+                  {{ a.structure }}
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <br />
+  
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <div style="font-weight: 400; font-size: 13pt;">
+                    Biomarkers with no links
+                  </div>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+  
+              <div class="as-details">
+                <div
+                  *ngFor="let a of reportData.BWithNoLink | orderBy: 'structure'"
+                  class="i1"
+                >
+                  {{ a.structure }}
+                </div>
+              </div>
+            </mat-expansion-panel>
+  
+            <br />
+          </div>
+          <br />
+        </div>
+      </mat-tab>
+      <mat-tab label="Derived Sheet(s)">
+        <!-- <div *ngIf="compareData.length === 0"> -->
+          <div>
+          <p class="i2">
+            You have not linked any sheets. Click on the button below to link a
+            sheet to compare!
+          </p>
+          <div style="width: 100%; display: flex; justify-content: center;">
+            <button mat-flat-button style="background-color: rgb(77, 155, 103); color: white;">
+              Compare Sheet
+            </button>
+          </div>
+        </div>
+        <!-- <div *ngIf="compareData.length > 0">
+          <br />
+          <div *ngFor="let sheet of compareDataStats; let i = index">
+            <mat-expansion-panel hideToggle="true" [disabled]="clickButton" (click)="clickButton=false">
+              <mat-expansion-panel-header
+                [style.backgroundColor]="sheet.color"
+                class="compare"
+              >
+                <mat-panel-title>
+                  <div style="font-weight: 400; font-size: 13pt; color:white;">
+                    {{sheet.title}}
+                  </div>
+                  
+                </mat-panel-title>
+                <mat-panel-description>
+                  <button mat-icon-button (click)="downloadReport(i)" style="color: white">
+                    <mat-icon>get_app</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="deleteCompareSheetReport(i)" style="margin-left: 4px; margin-top: -3px; color: white">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+  
+              <div class="pt-2">
+                <p style="color:grey; font-style: italic;" class="pt-2">
+                  {{sheet.description}}
+                </p>
+                <div class="title2">Overview</div>
+  
+                <div class="overview">
+                  <div class="i1">
+                    <span>Identical anatomical structures: </span>
+                    <span class="number">{{ sheet.identicalAS.length }}</span>
+                  </div>
+                  <div class="i1">
+                    <span>Identical cell types: </span>
+                    <span class="number">{{ sheet.identicalCT.length }}</span>
+                  </div>
+                  <div class="i1">
+                    <span>Identical biomarkers: </span>
+                    <span class="number">{{ sheet.identicalB.length }}</span>
+                  </div>
+                  <br />
+  
+                  <div class="i1">
+                    <span>New anatomical structures: </span>
+                    <span class="number">{{ sheet.newAS.length }}</span>
+                  </div>
+                  <div class="i1">
+                    <span>New cell types: </span>
+                    <span class="number">{{ sheet.newCT.length }}</span>
+                  </div>
+                  <div class="i1">
+                    <span>New biomarkers: </span>
+                    <span class="number">{{ sheet.newB.length }}</span>
+                  </div>
+                  <br />
+                </div>
+  
+                <div class="title2">Details</div>
+  
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header class="mb-2">
+                    <div style="font-weight: 400; font-size: 12pt;">
+                      Identical Anatomical Structures
+                    </div>
+                  </mat-expansion-panel-header>
+                  <div class="i2" *ngFor="let ia of sheet.identicalAS">
+                    {{ ia }}
+                  </div>
+                </mat-expansion-panel>
+  
+                <mat-expansion-panel class="mt-2">
+                  <mat-expansion-panel-header class="mb-2">
+                    <div style="font-weight: 400; font-size: 12pt;">
+                      Identical Cell Types
+                    </div>
+                  </mat-expansion-panel-header>
+                  <div class="i2" *ngFor="let ia of sheet.identicalCT">
+                    {{ ia }}
+                  </div>
+                </mat-expansion-panel>
+  
+                <mat-expansion-panel class="mt-2">
+                  <mat-expansion-panel-header class="mb-2">
+                    <div style="font-weight: 400; font-size: 12pt;">
+                      Identical Biomarkers
+                    </div>
+                  </mat-expansion-panel-header>
+                  <div class="i2" *ngFor="let ia of sheet.identicalB">
+                    {{ ia }}
+                  </div>
+                </mat-expansion-panel>
+  
+                <mat-expansion-panel class="mt-2">
+                  <mat-expansion-panel-header class="mb-2">
+                    <div style="font-weight: 400; font-size: 12pt;">
+                      New Anatomical Structures
+                    </div>
+                  </mat-expansion-panel-header>
+                  <div class="i2" *ngFor="let ia of sheet.newAS">
+                    {{ ia }}
+                  </div>
+                </mat-expansion-panel>
+  
+                <mat-expansion-panel class="mt-2">
+                  <mat-expansion-panel-header class="mb-2">
+                    <div style="font-weight: 400; font-size: 12pt;">
+                      New Cell Types
+                    </div>
+                  </mat-expansion-panel-header>
+                  <div class="i2" *ngFor="let ia of sheet.newCT">
+                    {{ ia }}
+                  </div>
+                </mat-expansion-panel>
+  
+                <mat-expansion-panel class="mt-2">
+                  <mat-expansion-panel-header class="mb-2">
+                    <div style="font-weight: 400; font-size: 12pt;">
+                      New Biomarkers
+                    </div>
+                  </mat-expansion-panel-header>
+                  <div class="i2" *ngFor="let ia of sheet.newB">
+                    {{ ia }}
+                  </div>
+                </mat-expansion-panel>
+              </div>
+            </mat-expansion-panel>
+  
+            <br />
+          </div>
+        </div> -->
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</app-sidenav>

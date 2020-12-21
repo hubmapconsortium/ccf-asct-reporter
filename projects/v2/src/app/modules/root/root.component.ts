@@ -142,19 +142,6 @@ export class RootComponent implements OnInit, OnDestroy{
         ts.makeTreeData(this.sheet, this.data, []);
     })
 
-    this.report$.subscribe(value => {
-      if (value) {
-        // report.makeReportData(this.data, this.sheet);
-      }
-    })
-
-    this.il$.subscribe(value => {
-      if (value) {
-        this.indent.makeIndentData(this.sheet, this.data)
-      }
-    })
-
-
   }
 
   ngOnInit(): void {

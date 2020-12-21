@@ -76,7 +76,6 @@ export class IndentedListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    // console.log('here', this.currentSheet, this.sheetData)
 
     this.indentService.indentData$.subscribe(data => {
       this.initializeTree(data.data);
@@ -94,7 +93,6 @@ export class IndentedListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public initializeTree(data) {
-    console.log(data)
     this.treeFlattener = new MatTreeFlattener(
       this.transformer,
       (node) => node.level,

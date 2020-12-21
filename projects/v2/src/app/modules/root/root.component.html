@@ -5,7 +5,7 @@
     </mat-drawer>
 
       <mat-drawer #rightDrawer class="indent-list" mode="over" [opened]="(il$ | async) || (report$ | async)" position="end" (closedStart)="toggleSideNav()">
-        <app-report (close)="rightDrawer.close()" *ngIf="report$ | async"></app-report>
+        <app-report (close)="rightDrawer.close()" *ngIf="report$ | async" [sheetData]="data" [currentSheet]="sheet"></app-report>
         <app-indent (close)="rightDrawer.close()" *ngIf="il$ | async" [sheetData]="data" [currentSheet]="sheet"></app-indent>
       </mat-drawer>
 
