@@ -1,7 +1,16 @@
-<div class="d-flex justify-content-between align-items-center h-100 py-2 mw">
+<div class="d-flex justify-content-between align-items-center h-100 py-3 mw">
   <h1 class="m-0 font-weight-normal pt-2">{{title}}</h1>
- <button mat-icon-button (click)="close.emit()">
-  <mat-icon>close</mat-icon>
- </button>
+ <div>
+  <div style="display: inline-block;" *ngIf="download">
+    <button mat-icon-button (click)="downloadFn.emit()" class="mr-2" >
+      <mat-icon>get_app</mat-icon>
+    </button>
+  </div>
+  <div style="display: inline-block;">
+    <button mat-icon-button (click)="close.emit()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+ </div>
 </div>
 <hr class="m-0 mt-1">

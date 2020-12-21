@@ -8,14 +8,15 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class SidenavHeaderComponent implements OnInit {
   
   @Input() title: string;
+  @Input() download: boolean = false;
   @Output() close: EventEmitter<any> =  new EventEmitter<any>();
+  @Output() downloadFn: EventEmitter<any> =  new EventEmitter<any>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
   
-  cc() {
-     this.close.emit('close')
-  }
+  
+
 }

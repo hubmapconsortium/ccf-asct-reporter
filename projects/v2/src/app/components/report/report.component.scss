@@ -154,3 +154,15 @@
   height: 75px;
   text-align: center;
 }
+
+.dbtn {
+  border: 1px solid #444a65;
+  border-radius: 8px;
+  width: 100%;
+  transition: all 0.3s;
+}
+
+.dbtn:hover {
+  background-color: #444a65;
+  color: white;
+}

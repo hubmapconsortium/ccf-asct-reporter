@@ -1,10 +1,10 @@
 <app-sidenav >
   <div header>
-    <app-sidenav-header [title]="'Report for ' + currentSheet.display"></app-sidenav-header>
+    <app-sidenav-header [title]="'Report for ' + currentSheet.display" [download]="true" (downloadFn)="downloadReport()"></app-sidenav-header>
   </div>
 
   <div body class="report">
-    <mat-tab-group mat-stretch-tabs class="tabs px-3" >
+    <mat-tab-group mat-stretch-tabs class="tabs px-4 mt-4" >
       <mat-tab [label]="'Main Sheet'">
         <div class="content">
           <br />
