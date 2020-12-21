@@ -5,7 +5,7 @@ import { TreeState } from '../../store/tree.state';
 import { Observable } from 'rxjs';
 import { MatSelectChange } from '@angular/material/select';
 import { UpdateBimodalConfig } from '../../actions/tree.actions';
-import { BimodalService } from '../../components/tree/bimodal.service';
+import { BimodalService } from '../../modules/tree/bimodal.service';
 
 
 @Component({

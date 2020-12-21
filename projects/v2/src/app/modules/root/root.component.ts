@@ -5,7 +5,7 @@ import { TreeState } from './../../store/tree.state';
 import {Select, Store} from '@ngxs/store';
 import { Observable, combineLatest } from 'rxjs';
 import { FetchSheetData, FetchDataFromAssets } from './../../actions/sheet.actions';
-import { TreeService } from '../../components/tree/tree.service';
+import { TreeService } from './../tree/tree.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UIState } from '../../store/ui.state';
 import { HasError, CloseSnackbar, ToggleIndentList } from '../../actions/ui.actions';

@@ -16,7 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RootComponent } from './modules/root/root.component';
-import { TreeComponent } from './components/tree/tree.component';
+import { TreeComponent } from './modules/tree/tree.component';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './modules/navbar/navbar.component';
 import { ControlPaneComponent } from './modules/control-pane/control-pane.component';

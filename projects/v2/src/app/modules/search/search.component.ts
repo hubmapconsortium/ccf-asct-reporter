@@ -10,7 +10,7 @@ import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { BimodalService } from '../../components/tree/bimodal.service';
+import { BimodalService } from '../../modules/tree/bimodal.service';
 import { Store, Select, NgxsOnInit } from '@ngxs/store';
 import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { SearchStructure, TNode } from '../../models/tree.model';
