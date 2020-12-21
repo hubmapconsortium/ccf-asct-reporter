@@ -4,9 +4,10 @@
      <app-control-pane></app-control-pane>
     </mat-drawer>
 
-    <mat-drawer #indentListDrawer class="indent-list" mode="over" [opened]="il$ | async" position="end" (closedStart)="toggleIndentList()">
-      <app-indent (close)="indentListDrawer.close()"></app-indent>
-    </mat-drawer>
+      <mat-drawer #rightDrawer class="indent-list" mode="over" [opened]="(il$ | async) || (report$ | async)" position="end" (closedStart)="toggleSideNav()">
+        <app-report (close)="rightDrawer.close()" *ngIf="report$ | async"></app-report>
+        <app-indent (close)="rightDrawer.close()" *ngIf="il$ | async" [sheetData]="data" [currentSheet]="sheet"></app-indent>
+      </mat-drawer>
 
     <div id="content">
       <app-navbar></app-navbar>

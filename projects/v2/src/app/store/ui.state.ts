@@ -8,28 +8,32 @@ import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { Injectable } from '@angular/core';
-import { ToggleControlPane, OpenLoading, CloseLoading, UpdateLoadingText, HasError, OpenSnackbar, CloseSnackbar, ToggleIndentList } from '../actions/ui.actions';
+import { ToggleControlPane, OpenLoading, CloseLoading, UpdateLoadingText, HasError, OpenSnackbar, CloseSnackbar, ToggleIndentList, ToggleReport, CloseRightSideNav } from '../actions/ui.actions';
 import { Snackbar } from '../models/ui.model';
 
 export class UIStateModel {
+  rightSideNavOpen: boolean;
   controlPaneOpen: boolean;
   loading: boolean;
   loadingText: string;
   error: Error;
   snackbar: Snackbar;
   indentListOpen: boolean;
+  reportOpen: boolean;
 }
 
 
 @State<UIStateModel>({
   name: 'uiState',
   defaults: {
+    rightSideNavOpen: false,
     controlPaneOpen: true,
     loading: true,
     loadingText: '',
     error: {},
     snackbar: {opened: false, text: '', type: SnackbarType.success},
-    indentListOpen: false
+    indentListOpen: false,
+    reportOpen: false
   }
 })
 @Injectable()
@@ -69,6 +73,16 @@ export class UIState {
   @Selector()
   static getIndentList(state: UIStateModel) {
     return state.indentListOpen;
+  }
+
+  @Selector()
+  static getReport(state: UIStateModel) {
+    return state.reportOpen;
+  }
+
+  @Selector()
+  static getRightSideNav(state: UIStateModel) {
+    return state.rightSideNavOpen;
   }
 
   @Action(OpenSnackbar)
@@ -154,4 +168,23 @@ export class UIState {
     })
   }
 
+  @Action(ToggleReport)
+  toggleReport({getState, setState}: StateContext<UIStateModel>) {
+    const state = getState();
+    setState({
+      ...state,
+      reportOpen: !state.reportOpen
+    })
+  }
+
+  @Action(CloseRightSideNav)
+  closeRightSideNav({getState, setState}: StateContext<UIStateModel>) {
+    const state = getState();
+    const rsn = !state.rightSideNavOpen
+    setState({
+      ...state,
+      indentListOpen: false,
+      reportOpen: false
+    })
+  }
 }

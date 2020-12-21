@@ -29,6 +29,7 @@ import { NgxsResetPluginModule } from 'ngxs-reset-plugin';
 import { IndentedListComponent } from './components/indented-list/indented-list.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { SidenavHeaderComponent } from './components/sidenav-header/sidenav-header.component';
+import { ReportComponent } from './components/report/report.component';
 
 
 
@@ -45,7 +46,8 @@ import { SidenavHeaderComponent } from './components/sidenav-header/sidenav-head
     SearchComponent,
     IndentedListComponent,
     SidenavComponent,
-    SidenavHeaderComponent
+    SidenavHeaderComponent,
+    ReportComponent
   ],
   imports: [
     BrowserModule,

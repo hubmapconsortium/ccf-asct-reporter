@@ -39,7 +39,18 @@ export class CloseSnackbar {
   constructor() {}
 }
 
+
 export class ToggleIndentList {
   static readonly type = '[TOGGLE] Indent List';
+  constructor() {}
+}
+
+export class ToggleReport {
+  static readonly type = '[TOGGLE] Report';
+  constructor() {}
+}
+
+export class CloseRightSideNav {
+  static readonly type = '[CLOSE] Right Side Nav';
   constructor() {}
 }

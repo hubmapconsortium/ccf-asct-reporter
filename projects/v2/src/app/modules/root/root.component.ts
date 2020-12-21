@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {SHEET_CONFIG, VERSION} from './../../static/config';
-import { SheetState } from './../../store/sheet.state';
+import { SheetState, SheetStateModel } from './../../store/sheet.state';
 import { TreeState } from './../../store/tree.state';
 import {Select, Store} from '@ngxs/store';
 import { Observable, combineLatest } from 'rxjs';
@@ -8,7 +8,7 @@ import { FetchSheetData, FetchDataFromAssets } from './../../actions/sheet.actio
 import { TreeService } from './../tree/tree.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UIState } from '../../store/ui.state';
-import { HasError, CloseSnackbar, ToggleIndentList } from '../../actions/ui.actions';
+import { HasError, CloseSnackbar, CloseRightSideNav } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LoadingComponent } from '../../components/loading/loading.component';
@@ -18,6 +18,7 @@ import { UpdateGraphWidth } from '../../actions/tree.actions';
 import { IndentedListService } from '../../components/indented-list/indented-list.service';
 import { StateReset } from 'ngxs-reset-plugin';
 import { Snackbar } from '../../models/ui.model';
+import { ReportService } from '../../components/report/report.service';
 
 
 @Component({
@@ -56,6 +57,8 @@ export class RootComponent implements OnInit, OnDestroy{
   @Select(UIState) uiState$: Observable<any>;
   @Select(TreeState.getScreenWidth) screenWidth$: Observable<number>;
   @Select(UIState.getSnackbar) snack$: Observable<Snackbar>;
+  @Select(UIState.getReport) report$: Observable<boolean>;
+  @Select(UIState.getRightSideNav) rsn$: Observable<boolean>;
 
   constructor(
     public store: Store, 
@@ -63,22 +66,15 @@ export class RootComponent implements OnInit, OnDestroy{
     public route: ActivatedRoute, 
     public dialog: MatDialog, 
     private snackbar: MatSnackBar,
-    public indent: IndentedListService
+    public indent: IndentedListService,
+    public report: ReportService
   ) {
     
-    // this.data$.subscribe(data => {
-    //   if (data.length) {
-    //     this.data = data;
-    //     try {
-    //       indent.makeIndentData(this.sheet, data)
-    //       ts.makeTreeData(this.sheet, data, []);
-    //     } catch (err) {
-    //       console.log(err)
-    //       // store.dispatch(new HasError({hasError: true, msg: err, status: 400}))
-    //     }
-        
-    //   }
-    // });
+    this.data$.subscribe(data => {
+      if (data.length) {
+        this.data = data;
+      }
+    });
 
     this.error$.subscribe(err => {
       this.error = err.error;
@@ -146,6 +142,18 @@ export class RootComponent implements OnInit, OnDestroy{
         ts.makeTreeData(this.sheet, this.data, []);
     })
 
+    this.report$.subscribe(value => {
+      if (value) {
+        // report.makeReportData(this.data, this.sheet);
+      }
+    })
+
+    this.il$.subscribe(value => {
+      if (value) {
+        this.indent.makeIndentData(this.sheet, this.data)
+      }
+    })
+
 
   }
 
@@ -159,8 +167,10 @@ export class RootComponent implements OnInit, OnDestroy{
   create(states: any) {
     try {
       const data = states.sheetState.data;
-      this.ts.makeTreeData(this.sheet, data, []);
-      this.indent.makeIndentData(this.sheet, data);
+      const sheet = states.sheetState.sheet;
+      this.ts.makeTreeData(sheet, data, []);
+      // this.indent.makeIndentData(sheet, data);
+      // this.report.makeReportData(data, this.sheet);
     } catch (err) {
       this.store.dispatch(new HasError({hasError: true, msg: err, status: 400}))
     }
@@ -182,8 +192,8 @@ export class RootComponent implements OnInit, OnDestroy{
     loadingDialog.close();
   }
 
-  toggleIndentList() {
-    this.store.dispatch(new ToggleIndentList())
+  toggleSideNav() {
+    this.store.dispatch(new CloseRightSideNav());
   }
 
 }

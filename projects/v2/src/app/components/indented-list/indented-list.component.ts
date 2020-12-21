@@ -6,6 +6,9 @@ import {
   Output,
   EventEmitter,
   OnChanges,
+  OnDestroy,
+  AfterViewInit
+  
 } from '@angular/core';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import {
@@ -14,6 +17,7 @@ import {
 } from '@angular/material/tree';
 // import { ReportService } from '../report/report.service';
 import { IndentedListService } from './indented-list.service';
+import { Sheet } from '../../models/sheet.model';
 
 interface Node {
   name: string;
@@ -33,19 +37,18 @@ interface FlatNode {
   templateUrl: './indented-list.component.html',
   styleUrls: ['./indented-list.component.scss'],
 })
-export class IndentedListComponent implements OnInit {
-  constructor(
-    public indentService: IndentedListService
-  ) {}
+export class IndentedListComponent implements OnInit, OnDestroy, AfterViewInit {
+  
 
-  sheetData;
   indentData = [];
   activateNode;
   treeFlattener;
   dataSource;
+  visible = false;
   // @Input() dataVersion=this.sc.VERSIONS[0].folder;
   @Input() dataVersion;
-  @Input() currentSheet: any;
+  @Input() currentSheet: Sheet;
+  @Input() sheetData: any;
   @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
   @ViewChild('indentTree') indentTree;
@@ -66,16 +69,32 @@ export class IndentedListComponent implements OnInit {
     };
   }
 
-  ngOnInit(): void {
-    this.initializeTree();
-    this.indentService.indentData$.subscribe(data => {
-      this.dataSource.data = [data.data];
-      this.currentSheet = data.sheet;
-      this.indentTree.treeControl.expandAll();
-    })
+  constructor(
+    public indentService: IndentedListService
+  ) { 
+
   }
 
-  public initializeTree() {
+  ngOnInit(): void {
+    // console.log('here', this.currentSheet, this.sheetData)
+
+    this.indentService.indentData$.subscribe(data => {
+      this.initializeTree(data.data);
+    })
+
+    this.indentService.makeIndentData(this.currentSheet, this.sheetData);
+  }
+
+  ngAfterViewInit(): void {
+    this.indentTree.treeControl.expandAll()
+  }
+
+  ngOnDestroy() {
+    this.visible = false;
+  }
+
+  public initializeTree(data) {
+    console.log(data)
     this.treeFlattener = new MatTreeFlattener(
       this.transformer,
       (node) => node.level,
@@ -87,12 +106,9 @@ export class IndentedListComponent implements OnInit {
       this.treeControl,
       this.treeFlattener
     );
-    this.hasChild = (_: number, node: FlatNode) => node.expandable;
     
-  }
-
-  cc(e) {
-    console.log('erererer', e)
+    this.hasChild = (_: number, node: FlatNode) => node.expandable;
+    this.dataSource.data = [data];    
   }
 
 
