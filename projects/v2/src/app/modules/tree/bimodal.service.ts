@@ -308,7 +308,7 @@ export class BimodalService {
       view._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
       view._runtime.signals.targets__click.value = [];
       view.data('nodes', nodes).data('edges', links).resize().runAsync();
-
+      console.log('here')
       this.store.dispatch(new CloseLoading('Visualization Rendered'));
 
   }

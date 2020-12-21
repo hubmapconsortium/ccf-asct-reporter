@@ -73,6 +73,11 @@ export class RootComponent implements OnInit, OnDestroy{
     this.data$.subscribe(data => {
       if (data.length) {
         this.data = data;
+        try {
+          this.ts.makeTreeData(this.sheet, data, []);
+        } catch (err) {
+          this.store.dispatch(new HasError({hasError: true, msg: err, status: 400}))
+        }
       }
     });
 
@@ -152,15 +157,15 @@ export class RootComponent implements OnInit, OnDestroy{
   }
 
   create(states: any) {
-    try {
-      const data = states.sheetState.data;
-      const sheet = states.sheetState.sheet;
-      this.ts.makeTreeData(sheet, data, []);
-      // this.indent.makeIndentData(sheet, data);
-      // this.report.makeReportData(data, this.sheet);
-    } catch (err) {
-      this.store.dispatch(new HasError({hasError: true, msg: err, status: 400}))
-    }
+    // try {
+    //   const data = states.sheetState.data;
+    //   const sheet = states.sheetState.sheet;
+    //   this.ts.makeTreeData(sheet, data, []);
+    //   // this.indent.makeIndentData(sheet, data);
+    //   // this.report.makeReportData(data, this.sheet);
+    // } catch (err) {
+    //   this.store.dispatch(new HasError({hasError: true, msg: err, status: 400}))
+    // }
   }
 
   openLoading(text?: string) {
