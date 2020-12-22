@@ -1,5 +1,5 @@
 import { SheetService } from '../services/sheet.service';
-import {State, Action, StateContext, Selector, Select} from '@ngxs/store';
+import { State, Action, StateContext, Selector, Select } from '@ngxs/store';
 import { Sheet, Data } from '../models/sheet.model';
 import { Error, Response, SnackbarType } from '../models/response.model';
 import { patch } from '@ngxs/store/operators';
@@ -32,7 +32,7 @@ export class UIStateModel {
     loading: true,
     loadingText: '',
     error: {},
-    snackbar: {opened: false, text: '', type: SnackbarType.success},
+    snackbar: { opened: false, text: '', type: SnackbarType.success },
     indentListOpen: false,
     reportOpen: false,
     debugLogOpen: false
@@ -93,16 +93,16 @@ export class UIState {
   }
 
   @Action(OpenSnackbar)
-  openSnackbar({getState, setState}: StateContext<UIStateModel>, {text, type}: OpenSnackbar) {
+  openSnackbar({ getState, setState }: StateContext<UIStateModel>, { text, type }: OpenSnackbar) {
     const state = getState();
     setState({
       ...state,
-      snackbar: {opened: true, text, type}
+      snackbar: { opened: true, text, type }
     });
   }
 
   @Action(CloseSnackbar)
-  closeSnackbar({getState, setState}: StateContext<UIStateModel>) {
+  closeSnackbar({ getState, setState }: StateContext<UIStateModel>) {
     const state = getState();
     setState({
       ...state,
@@ -114,7 +114,7 @@ export class UIState {
 
 
   @Action(ToggleControlPane)
-  toggleControlPane({getState, setState}: StateContext<UIStateModel>) {
+  toggleControlPane({ getState, setState }: StateContext<UIStateModel>) {
     const state = getState();
     setState({
       ...state,
@@ -123,7 +123,7 @@ export class UIState {
   }
 
   @Action(OpenLoading)
-  openLoading({getState, setState}: StateContext<UIStateModel>, {text}: OpenLoading) {
+  openLoading({ getState, setState }: StateContext<UIStateModel>, { text }: OpenLoading) {
     const state = getState();
     setState({
       ...state,
@@ -134,7 +134,7 @@ export class UIState {
   }
 
   @Action(UpdateLoadingText)
-  UpdateLoadingText({getState, setState}: StateContext<UIStateModel>, {text}: UpdateLoadingText) {
+  UpdateLoadingText({ getState, setState }: StateContext<UIStateModel>, { text }: UpdateLoadingText) {
     const state = getState();
     setState({
       ...state,
@@ -143,7 +143,7 @@ export class UIState {
   }
 
   @Action(CloseLoading)
-  closeLoading({getState, setState, dispatch}: StateContext<UIStateModel>, {text}: CloseLoading) {
+  closeLoading({ getState, setState, dispatch }: StateContext<UIStateModel>, { text }: CloseLoading) {
     const state = getState();
     setState({
       ...state,
@@ -155,19 +155,19 @@ export class UIState {
   }
 
   @Action(HasError)
-  hasError({getState, setState}: StateContext<UIStateModel>, {error}: HasError) {
+  hasError({ getState, setState }: StateContext<UIStateModel>, { error }: HasError) {
     const state = getState();
     setState({
       ...state,
       error: error,
       loading: false,
       loadingText: '',
-      snackbar: {opened: true, text: error.msg, type: SnackbarType.error}
+      snackbar: { opened: true, text: error.msg, type: SnackbarType.error }
     });
   }
 
   @Action(ToggleIndentList)
-  toggleIndentList({getState, setState}: StateContext<UIStateModel>) {
+  toggleIndentList({ getState, setState }: StateContext<UIStateModel>) {
     const state = getState();
     setState({
       ...state,
@@ -176,7 +176,7 @@ export class UIState {
   }
 
   @Action(ToggleReport)
-  toggleReport({getState, setState}: StateContext<UIStateModel>) {
+  toggleReport({ getState, setState }: StateContext<UIStateModel>) {
     const state = getState();
     setState({
       ...state,
@@ -185,7 +185,7 @@ export class UIState {
   }
 
   @Action(CloseRightSideNav)
-  closeRightSideNav({getState, setState}: StateContext<UIStateModel>) {
+  closeRightSideNav({ getState, setState }: StateContext<UIStateModel>) {
     const state = getState();
     const rsn = !state.rightSideNavOpen
     setState({
@@ -197,7 +197,7 @@ export class UIState {
   }
 
   @Action(ToggleDebugLogs)
-  toggleDebugLogs({getState, setState}: StateContext<UIStateModel>) {
+  toggleDebugLogs({ getState, setState }: StateContext<UIStateModel>) {
     const state = getState();
     setState({
       ...state,

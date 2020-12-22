@@ -14,6 +14,8 @@ import { OpenLoading, CloseLoading, UpdateLoadingText } from '../actions/ui.acti
 import { StateClear, StateReset } from 'ngxs-reset-plugin';
 import { UIState } from './ui.state';
 import { TreeState } from './tree.state';
+import { ReportLog } from '../actions/logs.actions';
+import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
 
 export class SheetStateModel {
   data: Array<string[]>;
@@ -69,8 +71,10 @@ export class SheetState {
   @Action(FetchSheetData)
   fetchSheetData({getState, setState, patchState, dispatch}: StateContext<SheetStateModel>, {sheet}: FetchSheetData) {
     const state = getState();
-    this.store.dispatch(new OpenLoading('Fetching data..'));
-    dispatch(new StateReset(TreeState))
+    dispatch(new OpenLoading('Fetching data..'));
+    dispatch(new StateReset(TreeState));
+    dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
+
     return this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).pipe(
       tap((res) => {
 
@@ -84,8 +88,9 @@ export class SheetState {
           version: 'latest',
           sheet: sheet
         });
-
-        this.store.dispatch(new UpdateLoadingText('Fetch data successful. Building Visualization..'));
+        
+        dispatch(new ReportLog(LOG_TYPES.MSG,`${sheet.display} data successfully fetched.`, LOG_ICONS.success));
+        dispatch(new UpdateLoadingText('Fetch data successful. Building Visualization..'));
 
       })
     );
@@ -94,11 +99,10 @@ export class SheetState {
   @Action(FetchDataFromAssets)
   fetchDataFromAssets({getState, setState, dispatch}: StateContext<SheetStateModel>, {version, sheet}:FetchDataFromAssets) {
     const state = getState();
-    this.store.dispatch(new OpenLoading('Fetching data from assets..'));
+    dispatch(new OpenLoading('Fetching data from assets..'));
     dispatch(new StateReset(TreeState));
-    // dispatch(new StateReset(SheetState));
+    dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file, version));
 
-    console.log('VERSION:', version)
     return this.sheetService.fetchDataFromAssets(version, sheet).pipe(
       tap((res) => {
 
@@ -112,20 +116,10 @@ export class SheetState {
           data: parsedData.data,
           sheet: sheet,
         });
-
-        this.store.dispatch(new UpdateLoadingText('Fetch data successful. Building Visualization..'));
+        dispatch(new ReportLog(LOG_TYPES.MSG,`${sheet.display} data successfully fetched from assets.`, LOG_ICONS.success, version));
+        dispatch(new UpdateLoadingText('Fetch data successful. Building Visualization..'));
 
       })
     );
   }
-
-  @Action(RefreshData)
-  refreshData({dispatch}: StateContext<SheetStateModel>) {
-    // dispatch(new StateReset(TreeState)).subscribe(s => {
-    //   dispatch(new FetchSheetData(s.sheetState.sheet))
-    // })
-
-  }
-
-
 }

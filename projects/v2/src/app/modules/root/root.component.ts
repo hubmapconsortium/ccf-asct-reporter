@@ -19,6 +19,8 @@ import { IndentedListService } from '../../components/indented-list/indented-lis
 import { StateReset } from 'ngxs-reset-plugin';
 import { Snackbar } from '../../models/ui.model';
 import { ReportService } from '../../components/report/report.service';
+import { ReportLog } from '../../actions/logs.actions';
+import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
 
 
 @Component({
@@ -100,10 +102,12 @@ export class RootComponent implements OnInit, OnDestroy{
               status: error.status,
               hasError: true
             };
+            store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data', LOG_ICONS.error))
             store.dispatch(new HasError(err));
           }
         );
       } else {
+        
         store.dispatch(new FetchDataFromAssets(version, this.sheet)).subscribe(
           () => {},
           (error) => {
@@ -112,6 +116,7 @@ export class RootComponent implements OnInit, OnDestroy{
               status: error.status,
               hasError: true
             };
+            store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data from assets', LOG_ICONS.error, version))
             store.dispatch(new HasError(err));
           }
         );

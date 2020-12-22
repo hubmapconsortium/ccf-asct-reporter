@@ -6,6 +6,8 @@ import { makeCellDegree, makeMarkerDegree, makeCellTypes, makeAS, makeBioMarkers
 import { CT_BLUE, B_GREEN } from '../../models/tree.model';
 import { UpdateBimodal } from '../../actions/tree.actions';
 import { CloseLoading } from '../../actions/ui.actions';
+import { ReportLog } from '../../actions/logs.actions';
+import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
 
 @Injectable({
   providedIn: 'root'
@@ -308,8 +310,8 @@ export class BimodalService {
       view._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
       view._runtime.signals.targets__click.value = [];
       view.data('nodes', nodes).data('edges', links).resize().runAsync();
-      console.log('here')
       this.store.dispatch(new CloseLoading('Visualization Rendered'));
+      this.store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Visualization successfully rendered', LOG_ICONS.success))
 
   }
 }

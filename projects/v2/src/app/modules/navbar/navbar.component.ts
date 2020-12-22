@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { FetchSheetData, RefreshData } from '../../actions/sheet.actions';
 import { ToggleControlPane, ToggleIndentList, ToggleReport, ToggleDebugLogs } from '../../actions/ui.actions';
 import { UIState, UIStateModel } from '../../store/ui.state';
+import { ClearSheetLogs } from '../../actions/logs.actions';
 
 
 @Component({
@@ -41,11 +42,11 @@ export class NavbarComponent implements OnInit {
 
   getSheetSelection(sheet, event) {
     const selectedSheet = SHEET_OPTIONS.find(s => s.title === sheet);
+    this.store.dispatch(new ClearSheetLogs());
     this.router.navigate(['/vis'], {queryParams: {sheet: selectedSheet.sheet}, queryParamsHandling: 'merge'});
   }
 
   getVersionSelection(version, event) {
-    console.log('here: ', version)
     const selectedVersion = this.VERSIONS.find(s => s.display === version);
     this.router.navigate(['/vis'], {queryParams: {version: selectedVersion.folder}, queryParamsHandling: 'merge'});
   }

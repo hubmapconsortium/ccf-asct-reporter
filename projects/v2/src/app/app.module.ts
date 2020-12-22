@@ -32,6 +32,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { SidenavHeaderComponent } from './components/sidenav-header/sidenav-header.component';
 import { ReportComponent } from './components/report/report.component';
 import { DebugLogsComponent } from './components/debug-logs/debug-logs.component';
+import { LogsState } from './store/logs.state';
 
 
 
@@ -57,7 +58,7 @@ import { DebugLogsComponent } from './components/debug-logs/debug-logs.component
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxsModule.forRoot([SheetState, TreeState, UIState]),
+    NgxsModule.forRoot([SheetState, TreeState, UIState, LogsState]),
     NgxsDataPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
