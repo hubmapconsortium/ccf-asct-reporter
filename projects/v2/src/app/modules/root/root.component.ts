@@ -58,7 +58,7 @@ export class RootComponent implements OnInit, OnDestroy{
   @Select(TreeState.getScreenWidth) screenWidth$: Observable<number>;
   @Select(UIState.getSnackbar) snack$: Observable<Snackbar>;
   @Select(UIState.getReport) report$: Observable<boolean>;
-  @Select(UIState.getRightSideNav) rsn$: Observable<boolean>;
+  @Select(UIState.getDebugLog) dl$: Observable<boolean>;
 
   constructor(
     public store: Store, 

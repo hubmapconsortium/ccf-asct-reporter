@@ -50,6 +50,11 @@ export class ToggleReport {
   constructor() {}
 }
 
+export class ToggleDebugLogs {
+  static readonly type = '[TOGGLE] Debug Logs';
+  constructor() {}
+}
+
 export class CloseRightSideNav {
   static readonly type = '[CLOSE] Right Side Nav';
   constructor() {}

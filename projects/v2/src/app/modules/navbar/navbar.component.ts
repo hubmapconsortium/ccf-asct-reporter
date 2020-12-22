@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Sheet } from '../../models/sheet.model';
 import { Router } from '@angular/router';
 import { FetchSheetData, RefreshData } from '../../actions/sheet.actions';
-import { ToggleControlPane, ToggleIndentList, ToggleReport } from '../../actions/ui.actions';
+import { ToggleControlPane, ToggleIndentList, ToggleReport, ToggleDebugLogs } from '../../actions/ui.actions';
 import { UIState, UIStateModel } from '../../store/ui.state';
 
 
@@ -63,7 +63,11 @@ export class NavbarComponent implements OnInit {
   }
 
   toggleReport() {
-    this.store.dispatch(new ToggleReport())
+    this.store.dispatch(new ToggleReport());
+  }
+
+  toggleDebugLogs() {
+    this.store.dispatch(new ToggleDebugLogs());
   }
 
 }

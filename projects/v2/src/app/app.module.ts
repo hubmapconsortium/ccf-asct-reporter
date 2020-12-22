@@ -31,6 +31,7 @@ import { IndentedListComponent } from './components/indented-list/indented-list.
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { SidenavHeaderComponent } from './components/sidenav-header/sidenav-header.component';
 import { ReportComponent } from './components/report/report.component';
+import { DebugLogsComponent } from './components/debug-logs/debug-logs.component';
 
 
 
@@ -48,7 +49,8 @@ import { ReportComponent } from './components/report/report.component';
     IndentedListComponent,
     SidenavComponent,
     SidenavHeaderComponent,
-    ReportComponent
+    ReportComponent,
+    DebugLogsComponent
   ],
   imports: [
     BrowserModule,

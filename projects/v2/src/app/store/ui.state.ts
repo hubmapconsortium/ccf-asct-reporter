@@ -8,7 +8,7 @@ import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { Injectable } from '@angular/core';
-import { ToggleControlPane, OpenLoading, CloseLoading, UpdateLoadingText, HasError, OpenSnackbar, CloseSnackbar, ToggleIndentList, ToggleReport, CloseRightSideNav } from '../actions/ui.actions';
+import { ToggleControlPane, OpenLoading, CloseLoading, UpdateLoadingText, HasError, OpenSnackbar, CloseSnackbar, ToggleIndentList, ToggleReport, CloseRightSideNav, ToggleDebugLogs } from '../actions/ui.actions';
 import { Snackbar } from '../models/ui.model';
 
 export class UIStateModel {
@@ -20,6 +20,7 @@ export class UIStateModel {
   snackbar: Snackbar;
   indentListOpen: boolean;
   reportOpen: boolean;
+  debugLogOpen: boolean;
 }
 
 
@@ -33,7 +34,8 @@ export class UIStateModel {
     error: {},
     snackbar: {opened: false, text: '', type: SnackbarType.success},
     indentListOpen: false,
-    reportOpen: false
+    reportOpen: false,
+    debugLogOpen: false
   }
 })
 @Injectable()
@@ -83,6 +85,11 @@ export class UIState {
   @Selector()
   static getRightSideNav(state: UIStateModel) {
     return state.rightSideNavOpen;
+  }
+
+  @Selector()
+  static getDebugLog(state: UIStateModel) {
+    return state.debugLogOpen;
   }
 
   @Action(OpenSnackbar)
@@ -184,7 +191,17 @@ export class UIState {
     setState({
       ...state,
       indentListOpen: false,
-      reportOpen: false
+      reportOpen: false,
+      debugLogOpen: false
+    })
+  }
+
+  @Action(ToggleDebugLogs)
+  toggleDebugLogs({getState, setState}: StateContext<UIStateModel>) {
+    const state = getState();
+    setState({
+      ...state,
+      debugLogOpen: !state.debugLogOpen
     })
   }
 }
