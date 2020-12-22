@@ -6,6 +6,8 @@ import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { Observable } from 'rxjs';
 import { validateWidth } from '../../static/util';
 import { UIState, UIStateModel } from '../../store/ui.state';
+import { ReportLog } from '../../actions/logs.actions';
+import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
 
 // Used in the tree visualization
 export class Tree {
@@ -118,6 +120,7 @@ export class TreeService {
                   if (searchedNode.problem) {
                     if (currentSheet.name !== 'ao') {
                       if (!searchedNode.parents.includes(searchedNode.id)) {
+                        this.store.dispatch(new ReportLog(LOG_TYPES.MULTI_IN_LINKS, searchedNode.name, LOG_ICONS.warning))
                         // this.report.reportLog(`Nodes with multiple in-links`, 'warning', 'multi', searchedNode.name);
                       }
                     }
@@ -151,6 +154,7 @@ export class TreeService {
         if (node.problem) {
           for (const p of node.parents) {
             if (p === node.id) {
+              this.store.dispatch(new ReportLog(LOG_TYPES.SELF_LINKS, node.name, LOG_ICONS.warning))
               // this.report.reportLog(`Nodes with self-links`, 'warning', 'multi', node.name);
             }
             linkData.push({

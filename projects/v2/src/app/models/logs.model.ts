@@ -1,15 +1,9 @@
-
-export enum LOG_MSG {
-  NO_OUT_LINKS = 'Nodes with no out-links',
-  NO_IN_LINKS = 'Nodes with no in-links',
-  MULTI_IN_LINKS = 'Nodes with multiple in-links'
-}
-
 export enum LOG_TYPES {
   MSG = 'MSG',
   NO_OUT_LINKS = 'NO_OUT_LINKS',
   NO_IN_LINKS = 'NO_IN_LINKS',
-  MULTI_IN_LINKS = 'MULTI_IN_LINKS'
+  MULTI_IN_LINKS = 'MULTI_IN_LINKS',
+  SELF_LINKS = 'SELF_LINKS'
 }
 
 export enum LOG_ICONS {
@@ -26,6 +20,7 @@ export interface Log {
   NO_OUT_LINKS: string[];
   NO_IN_LINKS: string [];
   MULTI_IN_LINKS: string[];
+  SELF_LINKS: string[];
 }
 
 export interface LogEntry {

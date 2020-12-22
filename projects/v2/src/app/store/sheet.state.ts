@@ -122,4 +122,14 @@ export class SheetState {
       })
     );
   }
+
+  @Action(RefreshData)
+  refreshData({dispatch}: StateContext<SheetStateModel>) {
+    // dispatch(new StateReset(TreeState)).subscribe(s => {
+    //   dispatch(new FetchSheetData(s.sheetState.sheet))
+    // })
+
+  }
+
+
 }

@@ -111,6 +111,8 @@ export class BimodalService {
         if (idx !== -1) {
           c.nodeSize = tempCellTypes[idx].parents.length * 75;
         } else {
+          this.store.dispatch(new ReportLog(LOG_TYPES.MSG, `Parent not found for cell - ${c.structure}`, LOG_ICONS.warning));
+          
           // this.report.reportLog(
           //   `Parent not found for cell - ${c.structure}`,
           //   'warning',
@@ -175,6 +177,7 @@ export class BimodalService {
         if (idx !== -1) {
           b.nodeSize = tempBiomarkers[idx].parents.length * 75;
         } else {
+          this.store.dispatch(new ReportLog(LOG_TYPES.MSG, `Parent not found for biomarker - ${b.structure}`, LOG_ICONS.warning));
           // this.report.reportLog(
           //   `Parent not found for biomarker - ${b.structure}`,
           //   'warning',
@@ -313,5 +316,21 @@ export class BimodalService {
       this.store.dispatch(new CloseLoading('Visualization Rendered'));
       this.store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Visualization successfully rendered', LOG_ICONS.success))
 
+  }
+
+  checkLinks(data) {
+    data.forEach(node => {
+      if (node.targets.length === 0 && node.group === 2) {
+        this.store.dispatch(new ReportLog(LOG_TYPES.NO_OUT_LINKS, node.name, LOG_ICONS.warning))
+      }
+
+      if (node.sources.length === 0 && node.group === 2) {
+        this.store.dispatch(new ReportLog(LOG_TYPES.NO_IN_LINKS, node.name, LOG_ICONS.warning))
+      }
+
+      if (node.sources.length === 0 && node.group === 3) {
+        this.store.dispatch(new ReportLog(LOG_TYPES.NO_IN_LINKS, node.name, LOG_ICONS.warning))
+      }
+    });
   }
 }

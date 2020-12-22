@@ -21,8 +21,8 @@ export class LogsStateModel {
   name: 'logsState',
   defaults: {
     id: 0,
-    sheetLogs: {id: 0, messages: [], NO_IN_LINKS: [], NO_OUT_LINKS: [], MULTI_IN_LINKS: []},
-    allLogs: [{id: 0, messages: [], NO_IN_LINKS: [], NO_OUT_LINKS: [], MULTI_IN_LINKS: []}]
+    sheetLogs: {id: 0, messages: [], NO_IN_LINKS: [], NO_OUT_LINKS: [], MULTI_IN_LINKS: [], SELF_LINKS: []},
+    allLogs: [{id: 0, messages: [], NO_IN_LINKS: [], NO_OUT_LINKS: [], MULTI_IN_LINKS: [], SELF_LINKS: []}]
   }
 })
 @Injectable()
@@ -37,7 +37,7 @@ export class LogsState {
     const allLogs = state.allLogs;
     const sheetLogs = state.sheetLogs;
     const id = state.id;
-
+    console.log('TYPE: ', type)
     switch (type) {
       case 'MSG':
         const newLog: LogEntry = { text: message, icon: icon, version: version };
@@ -64,6 +64,13 @@ export class LogsState {
         const foundMILLLog = allLogs.find(l => l.id === id);
         foundMILLLog.MULTI_IN_LINKS.push(message);
         break;
+
+      case 'SELF_LINKS':
+        console.log('SELF-LINK: ', message)
+        sheetLogs.SELF_LINKS.push(message);
+        const foundSLLog = allLogs.find(l => l.id === id);
+        foundSLLog.SELF_LINKS.push(message);
+        break;
       
     }
     
@@ -87,11 +94,11 @@ export class LogsState {
     const allLogs = state.allLogs;
     
     const id = state.id + 1;
-    allLogs.push({id: id, messages: [], NO_IN_LINKS: [], NO_OUT_LINKS: [], MULTI_IN_LINKS: []})
+    allLogs.push({id: id, messages: [], NO_IN_LINKS: [], NO_OUT_LINKS: [], MULTI_IN_LINKS: [], SELF_LINKS: []})
     setState({
       ...state,
       id: id ,
-      sheetLogs: {id: id, messages: [], NO_IN_LINKS: [], NO_OUT_LINKS: [], MULTI_IN_LINKS: []},
+      sheetLogs: {id: id, messages: [], NO_IN_LINKS: [], NO_OUT_LINKS: [], MULTI_IN_LINKS: [], SELF_LINKS: []},
       allLogs: allLogs
     })
   }
