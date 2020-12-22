@@ -7,6 +7,11 @@
     </button>
   </div>
   <div style="display: inline-block;">
+    <button mat-icon-button #tooltip="matTooltip" [matTooltip]="tooltipString">
+      <mat-icon style="color: grey;">help_outline</mat-icon>
+  </button>
+  </div>
+  <div style="display: inline-block;">
     <button mat-icon-button (click)="close.emit()">
       <mat-icon>close</mat-icon>
     </button>

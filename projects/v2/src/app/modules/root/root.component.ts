@@ -21,6 +21,7 @@ import { Snackbar } from '../../models/ui.model';
 import { ReportService } from '../../components/report/report.service';
 import { ReportLog } from '../../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
+import { LogsState } from '../../store/logs.state';
 
 
 @Component({
@@ -62,6 +63,9 @@ export class RootComponent implements OnInit, OnDestroy{
   @Select(UIState.getReport) report$: Observable<boolean>;
   @Select(UIState.getDebugLog) dl$: Observable<boolean>;
 
+  // Logs Oberservables
+  @Select(LogsState) logs$: Observable<any>;
+
   constructor(
     public store: Store, 
     public ts: TreeService, 
@@ -93,9 +97,7 @@ export class RootComponent implements OnInit, OnDestroy{
 
       if (version === 'latest') {
         store.dispatch(new FetchSheetData(this.sheet)).subscribe(
-          (states) => {
-            this.create(states)
-          },
+          (states) => { },
           (error) => {
             const err: Error = {
               msg: error.statusText,
@@ -152,6 +154,13 @@ export class RootComponent implements OnInit, OnDestroy{
         ts.makeTreeData(this.sheet, this.data, []);
     })
 
+    // this.logs$.subscribe(logs => {
+    //   const sheetLogs = logs.sheetLogs;
+    //   const allLogs = logs.allLogs;
+
+    //   console.log("LOGS: ", sheetLogs, allLogs)
+    // })
+
   }
 
   ngOnInit(): void {
@@ -159,18 +168,6 @@ export class RootComponent implements OnInit, OnDestroy{
 
   ngOnDestroy() {
     this.store.dispatch(new StateReset(SheetState));
-  }
-
-  create(states: any) {
-    // try {
-    //   const data = states.sheetState.data;
-    //   const sheet = states.sheetState.sheet;
-    //   this.ts.makeTreeData(sheet, data, []);
-    //   // this.indent.makeIndentData(sheet, data);
-    //   // this.report.makeReportData(data, this.sheet);
-    // } catch (err) {
-    //   this.store.dispatch(new HasError({hasError: true, msg: err, status: 400}))
-    // }
   }
 
   openLoading(text?: string) {

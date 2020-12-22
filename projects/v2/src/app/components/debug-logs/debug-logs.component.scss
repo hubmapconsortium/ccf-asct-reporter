@@ -1,0 +1,31 @@
+.debug-log {
+  min-width: 500px;
+}
+
+.logsList .mat-list-item {
+  height: auto;
+  width: 100%;
+}
+
+::ng-deep .mat-list-item-content {
+  padding: 0 !important;
+}
+
+.i2 {
+  font-size: 12pt;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-weight: 300;
+}
+
+.check_circle {
+  color: #66BB6A !important;
+} 
+
+.error {
+  color : #FFCA28 !important;
+}
+
+.cancel {
+  color: #FF5722 !important;
+}

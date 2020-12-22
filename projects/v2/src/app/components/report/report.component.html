@@ -1,6 +1,6 @@
 <app-sidenav >
   <div header>
-    <app-sidenav-header [title]="'Report for ' + currentSheet.display" [download]="true" (downloadFn)="downloadReport()"></app-sidenav-header>
+    <app-sidenav-header [title]="'Report for ' + currentSheet.display" [download]="true" (downloadFn)="downloadReport()" [tooltipString]="'Various statistics caldualted from the data'"></app-sidenav-header>
   </div>
 
   <div body class="report">

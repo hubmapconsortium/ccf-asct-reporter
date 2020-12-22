@@ -31,13 +31,22 @@ export class LogsState {
   constructor() {
   }
 
+  @Selector()
+  static getLogs(state: LogsStateModel) {
+    return {
+      sheetLogs: state.sheetLogs,
+      allLogs: state.allLogs
+    }
+  }
+
+
   @Action(ReportLog)
   reportLog({getState, setState}: StateContext<LogsStateModel>, {type, message, icon, version}: ReportLog) {
     const state = getState();
     const allLogs = state.allLogs;
     const sheetLogs = state.sheetLogs;
     const id = state.id;
-    console.log('TYPE: ', type)
+
     switch (type) {
       case 'MSG':
         const newLog: LogEntry = { text: message, icon: icon, version: version };
@@ -66,7 +75,6 @@ export class LogsState {
         break;
 
       case 'SELF_LINKS':
-        console.log('SELF-LINK: ', message)
         sheetLogs.SELF_LINKS.push(message);
         const foundSLLog = allLogs.find(l => l.id === id);
         foundSLLog.SELF_LINKS.push(message);

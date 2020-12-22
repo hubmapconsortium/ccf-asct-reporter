@@ -1,1 +1,25 @@
-<p>debug-logs works!</p>
+<app-sidenav >
+  <div header>
+    <app-sidenav-header [title]="'Debug Log'" [tooltipString]="'Displays important messages about problems that occurerd during the creation of the visualization(s).'"></app-sidenav-header>
+  </div>
+
+  <div body class="debug-log">
+    <mat-tab-group mat-stretch-tabs class="tabs px-4" >
+      <mat-tab [label]="currentSheet.display">
+        <div class="content">
+          <mat-list style="padding: 0;" class="logsList mt-2">
+            <mat-list-item style="padding-left: 0;" *ngFor="let l of logs.sheetLogs.messages" class="py-2">
+              <mat-icon mat-list-icon style="color: grey;" [ngClass]="l.icon">{{l.icon}}</mat-icon>
+              <div mat-line style="width: 100%; display: flex; justify-content: space-between;">
+                <span class="i2" [innerHTML]="l.text"></span>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </mat-tab>
+      <mat-tab label="All Logs">
+        
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</app-sidenav>

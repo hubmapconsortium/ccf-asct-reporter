@@ -1,6 +1,6 @@
 <app-sidenav>
   <div header>
-    <app-sidenav-header [title]="currentSheet.display + ' Indented List'" (close)="close.emit(); visible = false;"></app-sidenav-header>
+    <app-sidenav-header [title]="currentSheet.display + ' Indented List'" (close)="close.emit(); visible = false;" [tooltipString]="'Traditional Indented List view of the data'"></app-sidenav-header>
   </div>
   
   <div body>
