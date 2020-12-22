@@ -11,6 +11,10 @@
   padding: 0 !important;
 }
 
+:host ::ng-deep .mat-list-base .mat-list-item .mat-list-item-content {
+  align-items: flex-start;
+}
+
 .i2 {
   font-size: 12pt;
   margin-top: 5px;
