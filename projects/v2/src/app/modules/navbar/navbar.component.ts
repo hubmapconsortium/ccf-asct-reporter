@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { SHEET_OPTIONS, VERSION, MORE_OPTIONS } from '../../static/config';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { SHEET_OPTIONS, VERSION, MORE_OPTIONS, IMG_OPTIONS } from '../../static/config';
 import { Store, Select } from '@ngxs/store';
 import { SheetState, SheetStateModel } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
@@ -20,6 +20,7 @@ export class NavbarComponent implements OnInit {
   SHEET_OPTIONS = SHEET_OPTIONS;
   VERSIONS = VERSION;
   MORE_OPTIONS = MORE_OPTIONS;
+  IMG_OPTIONS = IMG_OPTIONS;
   window: Window = window;
 
   selectedSheetOption: string;
@@ -28,6 +29,8 @@ export class NavbarComponent implements OnInit {
 
   @Select(SheetState) sheet$: Observable<SheetStateModel>;
   @Select(UIState) ui$: Observable<UIStateModel>;
+  
+  @Output() export: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(public store: Store, public router: Router) { }
 
@@ -70,5 +73,4 @@ export class NavbarComponent implements OnInit {
   toggleDebugLogs() {
     this.store.dispatch(new ToggleDebugLogs());
   }
-
 }

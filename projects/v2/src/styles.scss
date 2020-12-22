@@ -12,6 +12,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
  cursor: pointer;
 }
 
+button:focus {
+  outline: 0 !important;
+}
+
 /* SCROLL BAR */
 ::-webkit-scrollbar {
   width: 2px;

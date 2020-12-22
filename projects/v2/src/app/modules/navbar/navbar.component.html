@@ -143,16 +143,26 @@
     </button>
 
     <button
+      autofocus="false"
       mat-icon-button
-      (click)="toggleIndentedList()"
       #tooltip="matTooltip"
       matTooltip="Export"
       matTooltipPosition="below"
       style="background-color: #f5f5f5"
+      [matMenuTriggerFor]="downloadMenu"
     >
       <mat-icon style="margin-bottom: 5px !important"
         >get_app</mat-icon
       >
+      <mat-menu #downloadMenu="matMenu" >
+        <button
+          mat-menu-item
+          *ngFor="let option of IMG_OPTIONS"
+          (click)="export.emit(option)"
+        >
+          {{ option }}
+        </button>
+      </mat-menu>
     </button>
 
     <div>

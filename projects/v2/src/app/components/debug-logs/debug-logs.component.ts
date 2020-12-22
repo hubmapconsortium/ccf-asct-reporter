@@ -14,8 +14,6 @@ export class DebugLogsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-    console.log(this.logs)
-  }
+  ngOnInit(): void { }
 
 }

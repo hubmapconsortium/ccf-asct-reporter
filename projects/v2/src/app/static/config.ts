@@ -1,5 +1,7 @@
 export const HEADER_COUNT = 11;
 
+export const IMG_OPTIONS = ['PNG', 'SVG', 'Vega Spec'];
+
 export const SHEET_CONFIG = [
   {
     name: 'ao',
