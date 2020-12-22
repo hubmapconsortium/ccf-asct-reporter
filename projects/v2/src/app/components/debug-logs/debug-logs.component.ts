@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Sheet } from '../../models/sheet.model';
 
 @Component({
@@ -10,6 +10,7 @@ export class DebugLogsComponent implements OnInit {
   
   @Input() currentSheet: Sheet;
   @Input() logs: any;
+  @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() { }
 

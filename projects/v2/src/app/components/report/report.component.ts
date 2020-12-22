@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ReportService } from './report.service';
 import { Report } from '../../models/report.model';
 import { Sheet } from '../../models/sheet.model';
@@ -23,6 +23,7 @@ export class ReportComponent implements OnInit {
 
   @Input() sheetData: any;
   @Input() currentSheet: Sheet;
+  @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(public reportService: ReportService) { }
 

@@ -1,6 +1,6 @@
 <app-sidenav >
   <div header>
-    <app-sidenav-header [title]="'Debug Log'" [tooltipString]="'Displays important messages about problems that occurerd during the creation of the visualization(s).'"></app-sidenav-header>
+    <app-sidenav-header [title]="'Debug Log'" [tooltipString]="'Displays important messages about problems that occurerd during the creation of the visualization(s).'" (close)="close.emit()"></app-sidenav-header>
   </div>
 
   <div body class="debug-log">
