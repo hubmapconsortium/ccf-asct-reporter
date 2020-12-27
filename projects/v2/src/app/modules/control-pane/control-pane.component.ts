@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Select, Store } from '@ngxs/store';
 import { UIState } from '../../store/ui.state';
 import { Observable } from 'rxjs';
 import { ToggleControlPane } from '../../actions/ui.actions';
+import { Error } from '../../models/response.model';
 
 @Component({
   selector: 'app-control-pane',
@@ -11,6 +12,8 @@ import { ToggleControlPane } from '../../actions/ui.actions';
   styleUrls: ['./control-pane.component.scss']
 })
 export class ControlPaneComponent implements OnInit {
+  @Input() error: Error;
+  
   constructor(public store: Store) {
 
   }

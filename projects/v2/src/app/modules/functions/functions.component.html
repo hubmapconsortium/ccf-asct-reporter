@@ -1,5 +1,5 @@
 <div>
-  <mat-expansion-panel class="mepNoPadding mt-5" expanded>
+  <mat-expansion-panel class="mepNoPadding mt-5" [expanded]="!error.hasError">
     <mat-expansion-panel-header [expandedHeight]="'50px'">
       <mat-panel-title>
         <div>
@@ -19,6 +19,7 @@
           <mat-icon>sort_by_alpha</mat-icon>
         </div>
         <button
+          [disabled]="error.hasError"
           mat-flat-button
           style="
             width: 100%;
@@ -31,6 +32,7 @@
           class="pt-2 w-100"
         >
           <mat-select
+            [disabled]="error.hasError"
             (selectionChange)="changeOptions('CT', 'sort', $event)"
             [value]="(config$ | async).CT.sort"
           >
@@ -51,6 +53,7 @@
           <mat-icon>bubble_chart</mat-icon>
         </div>
         <button
+          [disabled]="error.hasError"
           mat-flat-button
           style="
             width: 100%;
@@ -63,6 +66,7 @@
           class="pt-2"
         >
           <mat-select
+            [disabled]="error.hasError"
             (selectionChange)="changeOptions('CT', 'size', $event)"
             [value]="(config$ | async).CT.size"
           >
@@ -75,7 +79,7 @@
     </div>
   </mat-expansion-panel>
 
-  <mat-expansion-panel class="mepNoPadding mt-4" expanded>
+  <mat-expansion-panel class="mepNoPadding mt-4" [expanded]="!error.hasError">
     <mat-expansion-panel-header [expandedHeight]="'50px'">
       <mat-panel-title>
         <div>
@@ -94,26 +98,28 @@
           <mat-icon>sort_by_alpha</mat-icon>
         </div>
         <button
-        mat-flat-button
-        style="
-          width: 100%;
-          background-color: #f5f5f5;
-          padding: 0 10px 0 10px !important;
-        "
-        #tooltip="matTooltip"
-        matTooltip="Select Order"
-        matTooltipPosition="below"
-        class="pt-2"
-      >
-        <mat-select
-          (selectionChange)="changeOptions('BM', 'sort', $event)"
-          [value]="(config$ | async).BM.sort"
+          [disabled]="error.hasError"
+          mat-flat-button
+          style="
+            width: 100%;
+            background-color: #f5f5f5;
+            padding: 0 10px 0 10px !important;
+          "
+          #tooltip="matTooltip"
+          matTooltip="Select Order"
+          matTooltipPosition="below"
+          class="pt-2"
         >
-          <mat-option *ngFor="let option of sortOptions" [value]="option">
-            {{ option }}
-          </mat-option>
-        </mat-select>
-      </button>
+          <mat-select
+            [disabled]="error.hasError"
+            (selectionChange)="changeOptions('BM', 'sort', $event)"
+            [value]="(config$ | async).BM.sort"
+          >
+            <mat-option *ngFor="let option of sortOptions" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-select>
+        </button>
       </div>
     </div>
     <div class="pt-3">
@@ -126,12 +132,12 @@
           <mat-icon>bubble_chart</mat-icon>
         </div>
         <button
+          [disabled]="error.hasError"
           mat-flat-button
           style="
             width: 100%;
             background-color: #f5f5f5;
             padding: 0 10px 0 10px !important;
-
           "
           #tooltip="matTooltip"
           matTooltip="Select Sizing"
@@ -139,6 +145,7 @@
           class="pt-2"
         >
           <mat-select
+            [disabled]="error.hasError"
             (selectionChange)="changeOptions('BM', 'size', $event)"
             [value]="(config$ | async).BM.size"
           >
@@ -149,8 +156,6 @@
         </button>
       </div>
     </div>
-    <div>
-      
-    </div>
+    <div></div>
   </mat-expansion-panel>
 </div>

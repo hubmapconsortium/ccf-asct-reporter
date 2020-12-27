@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { bimodalCTSizeOptions, bimodalBSizeOptions, bimodalSortOptions, BimodalConfig } from '../../models/bimodal.model';
 import { TreeState } from '../../store/tree.state';
@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { MatSelectChange } from '@angular/material/select';
 import { UpdateBimodalConfig } from '../../actions/tree.actions';
 import { BimodalService } from '../../modules/tree/bimodal.service';
-
+import { Error } from '../../models/response.model';
 
 @Component({
   selector: 'app-functions',
@@ -20,13 +20,14 @@ export class FunctionsComponent implements OnInit {
   ctSizeOptions = bimodalCTSizeOptions;
   bimodalConfig: BimodalConfig;
 
+  @Input() error: Error;
+
   @Select(TreeState.getBimodalConfig) config$: Observable<BimodalConfig>;
 
   constructor(public store: Store, public bms: BimodalService) {
     this.config$.subscribe(config => {
       this.bimodalConfig = config;
     });
-
   }
 
   ngOnInit(): void {

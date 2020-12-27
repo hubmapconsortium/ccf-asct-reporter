@@ -1,7 +1,7 @@
 <div class="h-100 w-100" >
   <mat-drawer-container class="control-pane-container" autosize class="h-100" >
     <mat-drawer #controlPaneDrawer class="control-pane" mode="side" [opened]="pane$ | async">
-     <app-control-pane></app-control-pane>
+     <app-control-pane [error]="error"></app-control-pane>
     </mat-drawer>
 
       <mat-drawer #rightDrawer class="right-sidenav" mode="over" [opened]="(il$ | async) || (report$ | async)|| (dl$ | async)" position="end" (closedStart)="toggleSideNav()" autoFocus="false">
