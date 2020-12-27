@@ -1,28 +1,31 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="627.805" height="536.467" viewBox="0 0 627.805 536.467">
-  <g id="Group_95" data-name="Group 95" transform="translate(-311.016 -148)" opacity="0.998">
-    <g id="Group_39" data-name="Group 39" transform="translate(311.016 148)">
-      <g id="Group_12" data-name="Group 12" transform="translate(0 0)">
-        <g id="asct_b_vis_1_" data-name="asct+b vis (1)" transform="translate(52.936 27.474)" opacity="0.5">
-          <g id="Group_11" data-name="Group 11" transform="translate(0 0)">
-            <g id="Group_9" data-name="Group 9" transform="translate(282.64)">
-              <path id="Path_38" data-name="Path 38" d="M-93.5,108.5C27.279,108.5,27.279-11.7,148.449-11.7" transform="translate(93.5 11.7)" fill="none" stroke="#727272" stroke-miterlimit="10" stroke-width="6"/>
-              <path id="Path_39" data-name="Path 39" d="M-93.5,32.9c120.779,0,120.779,120.2,241.949,120.2" transform="translate(93.5 87.296)" fill="none" stroke="#727272" stroke-miterlimit="10" stroke-width="6"/>
-              <path id="Path_40" data-name="Path 40" d="M-93.5,122.4c120.779,0,120.779,120.2,241.949,120.2" transform="translate(93.5 238.998)" fill="none" stroke="#727272" stroke-miterlimit="10" stroke-width="6"/>
-              <line id="Line_1" data-name="Line 1" transform="translate(16.026 362.206)" fill="none" stroke="#727272" stroke-miterlimit="10" stroke-width="6"/>
-            </g>
-            <g id="Group_10" data-name="Group 10" transform="translate(0 121.005)">
-              <path id="Path_41" data-name="Path 41" d="M-172.7,153.4C-51.921,153.4-51.921,33.2,69.249,33.2" transform="translate(172.7 -33.2)" fill="none" stroke="#727272" stroke-miterlimit="10" stroke-width="6"/>
-              <path id="Path_42" data-name="Path 42" d="M-172.7,77.8C-51.921,77.8-51.921,198,69.249,198" transform="translate(172.7 42.396)" fill="none" stroke="#727272" stroke-miterlimit="10" stroke-width="6"/>
-            </g>
-          </g>
-        </g>
-        <path id="Icon_metro-cross" data-name="Icon metro-cross" d="M55.192,45.492h0l-16.11-16.45,16.11-16.45h0a1.686,1.686,0,0,0,.379-.6,1.72,1.72,0,0,0-.38-1.791l-7.61-7.771a1.641,1.641,0,0,0-2.346,0h0L29.123,18.874,13.013,2.423h0a1.641,1.641,0,0,0-2.346,0l-7.61,7.771a1.72,1.72,0,0,0-.38,1.791,1.689,1.689,0,0,0,.379.6h0l16.111,16.45L3.056,45.492h0a1.692,1.692,0,0,0-.379.6,1.719,1.719,0,0,0,.38,1.791l7.61,7.771a1.641,1.641,0,0,0,2.346,0h0l16.11-16.45,16.11,16.45h0a1.64,1.64,0,0,0,2.346,0l7.61-7.771a1.72,1.72,0,0,0,.38-1.791,1.689,1.689,0,0,0-.379-.6Z" transform="translate(572.129 -1.928)" fill="#b1b1b1"/>
-        <path id="Icon_metro-cross-2" data-name="Icon metro-cross" d="M55.192,45.492h0l-16.11-16.45,16.11-16.45h0a1.686,1.686,0,0,0,.379-.6,1.72,1.72,0,0,0-.38-1.791l-7.61-7.771a1.641,1.641,0,0,0-2.346,0h0L29.123,18.874,13.013,2.423h0a1.641,1.641,0,0,0-2.346,0l-7.61,7.771a1.72,1.72,0,0,0-.38,1.791,1.689,1.689,0,0,0,.379.6h0l16.111,16.45L3.056,45.492h0a1.692,1.692,0,0,0-.379.6,1.719,1.719,0,0,0,.38,1.791l7.61,7.771a1.641,1.641,0,0,0,2.346,0h0l16.11-16.45,16.11,16.45h0a1.64,1.64,0,0,0,2.346,0l7.61-7.771a1.72,1.72,0,0,0,.38-1.791,1.689,1.689,0,0,0-.379-.6Z" transform="translate(572.129 480.313)" fill="#b1b1b1"/>
-        <path id="Icon_metro-cross-3" data-name="Icon metro-cross" d="M55.192,45.492h0l-16.11-16.45,16.11-16.45h0a1.686,1.686,0,0,0,.379-.6,1.72,1.72,0,0,0-.38-1.791l-7.61-7.771a1.641,1.641,0,0,0-2.346,0h0L29.123,18.874,13.013,2.423h0a1.641,1.641,0,0,0-2.346,0l-7.61,7.771a1.72,1.72,0,0,0-.38,1.791,1.689,1.689,0,0,0,.379.6h0l16.111,16.45L3.056,45.492h0a1.692,1.692,0,0,0-.379.6,1.719,1.719,0,0,0,.38,1.791l7.61,7.771a1.641,1.641,0,0,0,2.346,0h0l16.11-16.45,16.11,16.45h0a1.64,1.64,0,0,0,2.346,0l7.61-7.771a1.72,1.72,0,0,0,.38-1.791,1.689,1.689,0,0,0-.379-.6Z" transform="translate(-2.571 239.103)" fill="#b1b1b1"/>
-        <path id="Icon_metro-cross-4" data-name="Icon metro-cross" d="M55.192,45.492h0l-16.11-16.45,16.11-16.45h0a1.686,1.686,0,0,0,.379-.6,1.72,1.72,0,0,0-.38-1.791l-7.61-7.771a1.641,1.641,0,0,0-2.346,0h0L29.123,18.874,13.013,2.423h0a1.641,1.641,0,0,0-2.346,0l-7.61,7.771a1.72,1.72,0,0,0-.38,1.791,1.689,1.689,0,0,0,.379.6h0l16.111,16.45L3.056,45.492h0a1.692,1.692,0,0,0-.379.6,1.719,1.719,0,0,0,.38,1.791l7.61,7.771a1.641,1.641,0,0,0,2.346,0h0l16.11-16.45,16.11,16.45h0a1.64,1.64,0,0,0,2.346,0l7.61-7.771a1.72,1.72,0,0,0,.38-1.791,1.689,1.689,0,0,0-.379-.6Z" transform="translate(285.855 117.488)" fill="#b1b1b1"/>
-        <path id="Icon_metro-cross-5" data-name="Icon metro-cross" d="M55.192,45.492h0l-16.11-16.45,16.11-16.45h0a1.686,1.686,0,0,0,.379-.6,1.72,1.72,0,0,0-.38-1.791l-7.61-7.771a1.641,1.641,0,0,0-2.346,0h0L29.123,18.874,13.013,2.423h0a1.641,1.641,0,0,0-2.346,0l-7.61,7.771a1.72,1.72,0,0,0-.38,1.791,1.689,1.689,0,0,0,.379.6h0l16.111,16.45L3.056,45.492h0a1.692,1.692,0,0,0-.379.6,1.719,1.719,0,0,0,.38,1.791l7.61,7.771a1.641,1.641,0,0,0,2.346,0h0l16.11-16.45,16.11,16.45h0a1.64,1.64,0,0,0,2.346,0l7.61-7.771a1.72,1.72,0,0,0,.38-1.791,1.689,1.689,0,0,0-.379-.6Z" transform="translate(572.129 239.103)" fill="#b1b1b1"/>
-      </g>
-    </g>
-    <path id="Icon_metro-cross-6" data-name="Icon metro-cross" d="M55.192,45.492h0l-16.11-16.45,16.11-16.45h0a1.686,1.686,0,0,0,.379-.6,1.72,1.72,0,0,0-.38-1.791l-7.61-7.771a1.641,1.641,0,0,0-2.346,0h0L29.123,18.874,13.013,2.423h0a1.641,1.641,0,0,0-2.346,0l-7.61,7.771a1.72,1.72,0,0,0-.38,1.791,1.689,1.689,0,0,0,.379.6h0l16.111,16.45L3.056,45.492h0a1.692,1.692,0,0,0-.379.6,1.719,1.719,0,0,0,.38,1.791l7.61,7.771a1.641,1.641,0,0,0,2.346,0h0l16.11-16.45,16.11,16.45h0a1.64,1.64,0,0,0,2.346,0l7.61-7.771a1.72,1.72,0,0,0,.38-1.791,1.689,1.689,0,0,0-.379-.6Z" transform="translate(596.895 507.569)" fill="#b1b1b1"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="424" height="367" viewBox="0 0 424 367">
+  <g id="Group_96" data-name="Group 96" transform="translate(-387 -357)">
+    <circle id="Ellipse_6" data-name="Ellipse 6" cx="13" cy="13" r="13" transform="translate(493 507)" fill="#4eaf4a"/>
+    <circle id="Ellipse_7" data-name="Ellipse 7" cx="13" cy="13" r="13" transform="translate(606 416)" fill="#e41b1b"/>
+    <circle id="Ellipse_8" data-name="Ellipse 8" cx="13" cy="13" r="13" transform="translate(519 422)" fill="#387eb8"/>
+    <circle id="Ellipse_9" data-name="Ellipse 9" cx="13" cy="13" r="13" transform="translate(580 596)" fill="#4eaf4a"/>
+    <circle id="Ellipse_10" data-name="Ellipse 10" cx="13" cy="13" r="13" transform="translate(667 605)" fill="#e41b1b"/>
+    <circle id="Ellipse_11" data-name="Ellipse 11" cx="13" cy="13" r="13" transform="translate(519 656)" fill="#387eb8"/>
+    <circle id="Ellipse_12" data-name="Ellipse 12" cx="13" cy="13" r="13" transform="translate(715 483)" fill="#4eaf4a"/>
+    <circle id="Ellipse_13" data-name="Ellipse 13" cx="13" cy="13" r="13" transform="translate(654 481)" fill="#e41b1b"/>
+    <circle id="Ellipse_14" data-name="Ellipse 14" cx="13" cy="13" r="13" transform="translate(654 543)" fill="#387eb8"/>
+    <circle id="Ellipse_15" data-name="Ellipse 15" cx="13" cy="13" r="13" transform="translate(506 582)" fill="#4eaf4a"/>
+    <circle id="Ellipse_16" data-name="Ellipse 16" cx="13" cy="13" r="13" transform="translate(580 522)" fill="#e41b1b"/>
+    <circle id="Ellipse_17" data-name="Ellipse 17" cx="13" cy="13" r="13" transform="translate(426 569)" fill="#387eb8"/>
+    <circle id="Ellipse_18" data-name="Ellipse 18" cx="13" cy="13" r="13" transform="translate(741 556)" fill="#4eaf4a"/>
+    <circle id="Ellipse_19" data-name="Ellipse 19" cx="13" cy="13" r="13" transform="translate(615 654)" fill="#e41b1b"/>
+    <circle id="Ellipse_20" data-name="Ellipse 20" cx="13" cy="13" r="13" transform="translate(689 383)" fill="#387eb8"/>
+    <circle id="Ellipse_21" data-name="Ellipse 21" cx="13" cy="13" r="13" transform="translate(439 455)" fill="#387eb8"/>
+    <circle id="Ellipse_22" data-name="Ellipse 22" cx="13" cy="13" r="13" transform="translate(465 390)" fill="#387eb8"/>
+    <circle id="Ellipse_23" data-name="Ellipse 23" cx="13" cy="13" r="13" transform="translate(554 357)" fill="#387eb8"/>
+    <circle id="Ellipse_24" data-name="Ellipse 24" cx="13" cy="13" r="13" transform="translate(452 643)" fill="#4eaf4a"/>
+    <circle id="Ellipse_25" data-name="Ellipse 25" cx="13" cy="13" r="13" transform="translate(387 507)" fill="#4eaf4a"/>
+    <circle id="Ellipse_26" data-name="Ellipse 26" cx="13" cy="13" r="13" transform="translate(641 357)" fill="#4eaf4a"/>
+    <circle id="Ellipse_27" data-name="Ellipse 27" cx="13" cy="13" r="13" transform="translate(555 470)" fill="#4eaf4a"/>
+    <circle id="Ellipse_28" data-name="Ellipse 28" cx="13" cy="13" r="13" transform="translate(697 667)" fill="#4eaf4a"/>
+    <circle id="Ellipse_29" data-name="Ellipse 29" cx="13" cy="13" r="13" transform="translate(580 698)" fill="#4eaf4a"/>
+    <circle id="Ellipse_30" data-name="Ellipse 30" cx="13" cy="13" r="13" transform="translate(754 429)" fill="#4eaf4a"/>
+    <circle id="Ellipse_31" data-name="Ellipse 31" cx="13" cy="13" r="13" transform="translate(785 522)" fill="#387eb8"/>
+    <circle id="Ellipse_32" data-name="Ellipse 32" cx="13" cy="13" r="13" transform="translate(754 628)" fill="#387eb8"/>
   </g>
 </svg>
