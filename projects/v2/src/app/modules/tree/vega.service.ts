@@ -31,7 +31,7 @@ export class VegaService {
 
     const updatedTreeData = treeView.data('tree');
 
-    const treeWidth = treeView._runtime.group.context.data.asTree.values.value[0].bounds.x2;
+    // const treeWidth = treeView._runtime.group.context.data.asTree.values.value[0].bounds.x2;
 
 
     this.store.dispatch(new UpdateVegaView(treeView)).subscribe(states => {
@@ -42,7 +42,8 @@ export class VegaService {
 
 
       if (data.length) {
-        this.bm.makeBimodalData(data, treeData, bimodalConfig, sheet, []);
+        try {this.bm.makeBimodalData(data, treeData, bimodalConfig, sheet, []);}
+        catch(err){console.log('err', err)}
       }
     });
   }

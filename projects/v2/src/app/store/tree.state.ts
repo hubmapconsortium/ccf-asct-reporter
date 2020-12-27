@@ -104,7 +104,7 @@ export class TreeState {
   @Action(UpdateVegaSpec)
   updateVegaSpec({patchState}: StateContext<TreeStateModel>, {spec}: UpdateVegaSpec) {
     patchState({
-      spec
+      spec: spec
     });
   }
 

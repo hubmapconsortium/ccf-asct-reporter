@@ -8,6 +8,7 @@ import { validateWidth } from '../../static/util';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { ReportLog } from '../../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
+import { UpdateVegaSpec } from '../../actions/tree.actions';
 
 // Used in the tree visualization
 export class Tree {
@@ -165,8 +166,14 @@ export class TreeService {
         }
       }
 
-      const spec = this.vs.makeVegaConfig(currentSheet, currentSheet.config.bimodal_distance, this.height, validateWidth(this.screenWidth, this.controlPaneOpen), tree.nodes, linkData);
-      this.vs.renderGraph(spec);
+      try {
+        const spec = this.vs.makeVegaConfig(currentSheet, currentSheet.config.bimodal_distance, this.height, validateWidth(this.screenWidth, this.controlPaneOpen), tree.nodes, linkData);
+        this.vs.renderGraph(spec);
+      } catch(err) {
+        console.log(err)
+      }
+      
+      
   }
 
 }

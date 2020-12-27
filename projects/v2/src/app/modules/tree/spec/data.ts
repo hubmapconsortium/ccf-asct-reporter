@@ -38,6 +38,7 @@ export class Data implements VegaData {
   }
 
   makeASTreeData(currentSheet, bimodalDistance, height, width, treeData) {
+    // const bimodalDistance = currentSheet.config.bimodal_distance
     return {
       name: 'tree',
       values: treeData,
