@@ -10,6 +10,8 @@ import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { ToggleControlPane, OpenLoading, CloseLoading, UpdateLoadingText, HasError, OpenSnackbar, CloseSnackbar, ToggleIndentList, ToggleReport, CloseRightSideNav, ToggleDebugLogs } from '../actions/ui.actions';
 import { Snackbar } from '../models/ui.model';
+import { ReportLog } from '../actions/logs.actions';
+import { LOG_TYPES, LOG_ICONS } from '../models/logs.model';
 
 export class UIStateModel {
   rightSideNavOpen: boolean;
@@ -155,7 +157,8 @@ export class UIState {
   }
 
   @Action(HasError)
-  hasError({ getState, setState }: StateContext<UIStateModel>, { error }: HasError) {
+  hasError({ getState, setState, dispatch }: StateContext<UIStateModel>, { error }: HasError) {
+    dispatch(new ReportLog(LOG_TYPES.MSG, error.msg, LOG_ICONS.error))
     const state = getState();
     setState({
       ...state,

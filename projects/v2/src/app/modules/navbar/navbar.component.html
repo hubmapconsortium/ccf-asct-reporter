@@ -91,7 +91,7 @@
     </button>
 
     <button
-
+      [disabled]="(ui$ | async).error.hasError"
       mat-icon-button
       (click)="toggleIndentedList()"
       #tooltip="matTooltip"
@@ -133,7 +133,6 @@
     </button>
 
     <button
-      [disabled]="(ui$ | async).error.hasError"
       mat-icon-button
       (click)="toggleDebugLogs()"
       #tooltip="matTooltip"

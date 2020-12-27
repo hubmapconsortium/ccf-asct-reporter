@@ -96,32 +96,9 @@ export class RootComponent implements OnInit, OnDestroy{
       this.sheet =  SHEET_CONFIG.find(i => i.name === query.get('sheet'));
 
       if (version === 'latest') {
-        store.dispatch(new FetchSheetData(this.sheet)).subscribe(
-          (states) => { },
-          (error) => {
-            const err: Error = {
-              msg: error.statusText,
-              status: error.status,
-              hasError: true
-            };
-            store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data', LOG_ICONS.error))
-            store.dispatch(new HasError(err));
-          }
-        );
+        store.dispatch(new FetchSheetData(this.sheet))
       } else {
-        
-        store.dispatch(new FetchDataFromAssets(version, this.sheet)).subscribe(
-          () => {},
-          (error) => {
-            const err: Error = {
-              msg: error.statusText,
-              status: error.status,
-              hasError: true
-            };
-            store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data from assets', LOG_ICONS.error, version))
-            store.dispatch(new HasError(err));
-          }
-        );
+        store.dispatch(new FetchDataFromAssets(version, this.sheet))
       }
 
     });

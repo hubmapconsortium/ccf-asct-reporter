@@ -10,7 +10,7 @@ import { HEADER_COUNT } from '../static/config';
 import { Injectable } from '@angular/core';
 import { parse } from 'papaparse';
 import { FetchSheetData, RefreshData, FetchDataFromAssets } from '../actions/sheet.actions';
-import { OpenLoading, CloseLoading, UpdateLoadingText } from '../actions/ui.actions';
+import { OpenLoading, CloseLoading, UpdateLoadingText, HasError } from '../actions/ui.actions';
 import { StateClear, StateReset } from 'ngxs-reset-plugin';
 import { UIState } from './ui.state';
 import { TreeState } from './tree.state';
@@ -92,6 +92,17 @@ export class SheetState {
         dispatch(new ReportLog(LOG_TYPES.MSG,`${sheet.display} data successfully fetched.`, LOG_ICONS.success));
         dispatch(new UpdateLoadingText('Fetch data successful. Building Visualization..'));
 
+      }),
+      catchError((error) => {
+        console.log(error)
+        const err: Error = {
+          msg: `${error.name} (Status: ${error.status})`,
+          status: error.status,
+          hasError: true
+        };
+        dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data', LOG_ICONS.error))
+        dispatch(new HasError(err))
+        return of('')
       })
     );
   }
@@ -119,6 +130,16 @@ export class SheetState {
         dispatch(new ReportLog(LOG_TYPES.MSG,`${sheet.display} data successfully fetched from assets.`, LOG_ICONS.success, version));
         dispatch(new UpdateLoadingText('Fetch data successful. Building Visualization..'));
 
+      }),
+      catchError((error) => {
+        const err: Error = {
+          msg: `${error.name} (Status: ${error.status})`,
+          status: error.status,
+          hasError: true
+        };
+        dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data from assets.', LOG_ICONS.error))
+        dispatch(new HasError(err))
+        return of('')
       })
     );
   }
