@@ -8,7 +8,7 @@ import {
   OnChanges,
   OnDestroy,
   AfterViewInit
-  
+
 } from '@angular/core';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import {
@@ -18,6 +18,7 @@ import {
 // import { ReportService } from '../report/report.service';
 import { IndentedListService } from './indented-list.service';
 import { Sheet } from '../../models/sheet.model';
+import { catchError } from 'rxjs/operators';
 
 interface Node {
   name: string;
@@ -38,7 +39,7 @@ interface FlatNode {
   styleUrls: ['./indented-list.component.scss'],
 })
 export class IndentedListComponent implements OnInit, OnDestroy, AfterViewInit {
-  
+
 
   indentData = [];
   activateNode;
@@ -71,21 +72,28 @@ export class IndentedListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     public indentService: IndentedListService
-  ) { 
+  ) {
 
   }
 
   ngOnInit(): void {
 
-    this.indentService.indentData$.subscribe(data => {
-      this.initializeTree(data.data);
-    })
+    this.indentService.indentData$.subscribe(
+      (data) => {
+        if (data.data) {
+          this.initializeTree(data.data);
+          this.visible = true;
+        } else {
+          this.visible = false;
+        }
+      }
+    )
 
     this.indentService.makeIndentData(this.currentSheet, this.sheetData);
   }
 
   ngAfterViewInit(): void {
-    this.indentTree.treeControl.expandAll()
+    if (this.indentTree) this.indentTree.treeControl.expandAll();
   }
 
   ngOnDestroy() {
@@ -104,9 +112,9 @@ export class IndentedListComponent implements OnInit, OnDestroy, AfterViewInit {
       this.treeControl,
       this.treeFlattener
     );
-    
+
     this.hasChild = (_: number, node: FlatNode) => node.expandable;
-    this.dataSource.data = [data];    
+    this.dataSource.data = [data];
   }
 
 

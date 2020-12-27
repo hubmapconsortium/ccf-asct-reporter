@@ -25,6 +25,8 @@ import { BMNode } from '../../models/bimodal.model';
 })
 export class SearchComponent implements OnInit {
 
+  @Input() disabled = false;
+
   protected structures: SearchStructure[] = [];
 
   /** control for the selected structures for multi-selection */

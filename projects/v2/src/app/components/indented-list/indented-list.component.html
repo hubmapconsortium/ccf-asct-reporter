@@ -1,63 +1,73 @@
 <app-sidenav>
   <div header>
-    <app-sidenav-header [title]="currentSheet.display + ' Indented List'" (close)="close.emit(); visible = false;" [tooltipString]="'Traditional Indented List view of the data'"></app-sidenav-header>
+    <app-sidenav-header
+      [title]="currentSheet.display + ' Indented List'"
+      (close)="close.emit(); visible = false"
+      [tooltipString]="'Traditional Indented List view of the data'"
+    ></app-sidenav-header>
   </div>
-  
-  <div body>
-     <mat-tree
-    [dataSource]="dataSource"
-    [treeControl]="treeControl"
-    #indentTree
-    style="
-      padding: 20px !important;
-      width: fit-content;
-      background-color: transparent;
-    "
-  >
-    <mat-tree-node
-      *matTreeNodeDef="let node;"
-      matTreeNodePadding
-      [ngClass]="{ 'background-highlight': activateNode === node }"
-      (click)="activateNode = node"
+
+  <div body *ngIf="visible">
+    <mat-tree
+      [dataSource]="dataSource"
+      [treeControl]="treeControl"
+      #indentTree
+      style="
+        padding: 20px !important;
+        width: fit-content;
+        background-color: transparent;
+      "
     >
-      <button mat-icon-button disabled></button><span>{{ node.name }}</span>
-    </mat-tree-node>
-    <mat-tree-node
-      *matTreeNodeDef="let node; when: hasChild"
-      matTreeNodePadding
-      [ngClass]="{ 'background-highlight': activateNode === node }"
-      (click)="activateNode = node"
-    >
-      <button
-        mat-icon-button
-        matTreeNodeToggle
-        [attr.aria-label]="'toggle' + node.name"
-        style="background-color: rgb(215, 215, 215); transform: scale(0.7)"
+      <mat-tree-node
+        *matTreeNodeDef="let node"
+        matTreeNodePadding
+        [ngClass]="{ 'background-highlight': activateNode === node }"
+        (click)="activateNode = node"
       >
-        <mat-icon
-          class="mat-icon-rtl-mirror"
-          style="
-            font-size: 20pt;
-            color: white;
-            height: 24px !important;
-            width: 24px !important;
-            font-size: 18pt !important;
-          "
-        >
-          {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
-        </mat-icon>
-      </button>
-      <span
-        ><span style="font-weight: 500">{{ node.name }} </span
-        ><span
-          style="font-size: 12pt; color: grey; padding-left: 10px"
-          *ngIf="node.uberon"
-        >
-          ({{ node.uberon }})</span
-        ></span
+        <button mat-icon-button disabled></button><span>{{ node.name }}</span>
+      </mat-tree-node>
+      <mat-tree-node
+        *matTreeNodeDef="let node; when: hasChild"
+        matTreeNodePadding
+        [ngClass]="{ 'background-highlight': activateNode === node }"
+        (click)="activateNode = node"
       >
-    </mat-tree-node>
-  </mat-tree> 
+        <button
+          mat-icon-button
+          matTreeNodeToggle
+          [attr.aria-label]="'toggle' + node.name"
+          style="background-color: rgb(215, 215, 215); transform: scale(0.7)"
+        >
+          <mat-icon
+            class="mat-icon-rtl-mirror"
+            style="
+              font-size: 20pt;
+              color: white;
+              height: 24px !important;
+              width: 24px !important;
+              font-size: 18pt !important;
+            "
+          >
+            {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
+          </mat-icon>
+        </button>
+        <span
+          ><span style="font-weight: 500">{{ node.name }} </span
+          ><span
+            style="font-size: 12pt; color: grey; padding-left: 10px"
+            *ngIf="node.uberon"
+          >
+            ({{ node.uberon }})</span
+          ></span
+        >
+      </mat-tree-node>
+    </mat-tree>
+  </div>
+
+  <div body *ngIf="!visible">
+    <div class="px-4">
+      <h3>Indent List not created yet.</h3>
+    </div>
   </div>
 </app-sidenav>
 

@@ -10,7 +10,7 @@
         <app-debug-logs (close)="rightDrawer.close()" *ngIf="dl$ | async" [currentSheet]="sheet" [logs]="logs$ | async"></app-debug-logs>
       </mat-drawer>
 
-    <div id="content">
+    <div id="content" class="h-100 w-100">
       <app-navbar></app-navbar>
       <app-error *ngIf="error.hasError" [error]="error"></app-error>
       <div class="tree-div">

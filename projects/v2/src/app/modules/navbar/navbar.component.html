@@ -33,7 +33,7 @@
       <mat-icon style="margin-bottom: 5px !important">menu</mat-icon>
     </button>
     <div class="search">
-      <app-search></app-search>
+      <app-search [disabled]="(ui$ | async).error.hasError"></app-search>
     </div>
     <mat-form-field style="margin-bottom: 0">
       <button
@@ -91,6 +91,7 @@
     </button>
 
     <button
+
       mat-icon-button
       (click)="toggleIndentedList()"
       #tooltip="matTooltip"
@@ -104,6 +105,7 @@
     </button>
 
     <button
+      [disabled]="(ui$ | async).error.hasError"
       mat-icon-button
       (click)="toggleIndentedList()"
       #tooltip="matTooltip"
@@ -117,6 +119,7 @@
     </button>
 
     <button
+      [disabled]="(ui$ | async).error.hasError"
       mat-icon-button
       (click)="toggleReport()"
       #tooltip="matTooltip"
@@ -130,6 +133,7 @@
     </button>
 
     <button
+      [disabled]="(ui$ | async).error.hasError"
       mat-icon-button
       (click)="toggleDebugLogs()"
       #tooltip="matTooltip"
@@ -143,6 +147,7 @@
     </button>
 
     <button
+      [disabled]="(ui$ | async).error.hasError"
       autofocus="false"
       mat-icon-button
       #tooltip="matTooltip"
