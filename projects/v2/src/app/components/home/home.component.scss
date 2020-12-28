@@ -21,6 +21,14 @@ a {
   color: rgb(147, 147, 147);
 }
 
+.linker {
+  color: white; font-weight: 500;
+  cursor: pointer;
+}
+.linker:hover {
+  text-decoration: underline;
+}
+
 .title-desc {
   text-align: justify;
   text-justify: inter-word;
