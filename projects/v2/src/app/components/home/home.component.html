@@ -1,9 +1,9 @@
-<div style="width: 100%; height: 100%;" (window:resize)="onResize($event)">
+<div style="width: 100%; height: 100%" (window:resize)="onResize($event)">
   <!-- NAVBAR -->
-  <div style="width: 100%; border-bottom: 3px solid #444a6510; z-index: 2;">
+  <!-- <div style="width: 100%; border-bottom: 3px solid #444a6510; z-index: 2;">
     <mat-toolbar style="background-color: white; color: #444a65;" class="container" no-shadow>
       <div class="navbar-logo">
-        <img src="./../../../assets/logo2.png" alt="" class="w-100 logo-link" routerLink="/" />
+        <img src="./../../../assets/logo.svg" alt="" class="w-100 logo-link" routerLink="/" />
       </div>
       <span class="example-spacer"></span>
       <button
@@ -39,10 +39,85 @@
         </a>
       </div>
     </mat-toolbar>
+  </div> -->
+
+  <div class="container w-100 pt-2">
+    <div class="d-flex justify-content-between align-items-center w-100">
+      <div class="navbar-logo">
+        <img
+          src="./../../../assets/logo-light.svg"
+          alt=""
+          class="w-100 logo-link"
+          routerLink="/"
+        />
+      </div>
+      <div>
+        <a (click)="openData()" class="a-nav"> Tables </a>
+        <a class (click)="openGithub()" class="a-nav"> GitHub </a>
+        <a class (click)="openDocs()" class="a-nav"> Documentation </a>
+      </div>
+    </div>
+  </div>
+  <div id="background"></div>
+
+  <div class="container w-100">
+    <div
+      class="d-flex justify-content-center align-items-center w-100 flex-column"
+    >
+      <div class="title1 mt-5 pt-5">ASCT+B REPORTER</div>
+      <div class="desc pt-4 text-center">
+        The CCF ASCT+B Reporter is a visualization tool for displaying
+        anatomical structures, cell types, and biomarker (ASCT+B) tables for
+        different human organs developed by domain experts. The tables are used
+        to develop a common coordinate framework (CCF) of the healthy human
+        body, see also
+        <span
+          style="color: white; font-weight: 500"
+          (click)="
+            window.open('https://hubmapconsortium.github.io/ccf', '_blank')
+          "
+          >Hubmap Consortium</span
+        >.
+      </div>
+      <div class="title-btn mt-4 pt-2">
+        <button
+          mat-flat-button
+          style="
+            padding: 20px;
+            font-size: 20pt;
+            background-color: #444a65;
+            color: rgb(249, 249, 249);
+          "
+          [matMenuTriggerFor]="menu"
+        >
+          Go to Visualization
+        </button>
+        <mat-menu #menu="matMenu" class="organMenu">
+          <button
+            mat-menu-item
+            *ngFor="let option of SHEET_OPTIONS"
+            style="width: 100%"
+            routerLink="/vis"
+            [queryParams]="{ sheet: option.sheet, version: dataVersion }"
+          >
+            <span>{{ option.title }}</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="container d-flex justify-content-center align-items-center w-100 h-100 mt-4 pt-3"
+  >
+    <div class="laptop">
+      <img src="./../../../assets/homepage/laptop.svg" alt="" class="l" />
+      <img src="./../../../assets/homepage/img.svg" alt="" class="i" />
+    </div>
   </div>
 
   <!-- TITLE AND VIDEO -->
-  <div style="height: 80%;" class="container">
+  <!-- <div style="height: 80%;" class="container">
     <div class="row" style="height: 100%; display: flex; align-items: center;">
       <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
         <div class="title">ASCT+B REPORTER</div>
@@ -107,10 +182,10 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- FEATURES -->
-  <div style="background-color: #444a5612;">
+  <!-- <div style="background-color: #444a5612;">
     <div class="container">
       <br />
       <div
@@ -251,10 +326,10 @@
       </div>
       <br />
     </div>
-  </div>
+  </div> -->
 
   <!-- CONTRIBUTORS -->
-  <div style="background-color: #444a65;">
+  <!-- <div style="background-color: #444a65;">
     <div class="container">
       <br />
       <div
@@ -321,10 +396,10 @@
       </div>
       <br />
     </div>
-  </div>
+  </div> -->
 
   <!-- AFFILIATIONS -->
-  <div style="background-color: #fcfcfc;">
+  <!-- <div style="background-color: #fcfcfc;">
     <div class="container">
       <br />
       <div
@@ -367,10 +442,10 @@
       </div>
       <br />
     </div>
-  </div>
+  </div> -->
 
   <!-- FOOTER -->
-  <div style="background-color: #444a5612; padding: 20px;">
+  <!-- <div style="background-color: #444a5612; padding: 20px;">
     <div class="container">
       <div style="display: flex; justify-content: space-between; width: 100%;">
         <div>
@@ -415,5 +490,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>

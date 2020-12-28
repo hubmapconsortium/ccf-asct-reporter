@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1022.159" height="598.488" viewBox="0 0 1022.159 598.488">
+  <defs>
+    <filter id="Rectangle_347" x="14.172" y="410.488" width="994" height="188" filterUnits="userSpaceOnUse">
+      <feOffset dy="30" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="30" result="blur"/>
+      <feFlood flood-opacity="0.373"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_108" data-name="Group 108" transform="translate(-448.828 -488.512)">
+    <g id="Group_105" data-name="Group 105" transform="translate(359.626 220.898)">
+      <path id="Exclusion_1" data-name="Exclusion 1" d="M-4685.042,6817.417h-3.7l-831.726,0-3.654,0v-1.112h3.232V6378.974c0-9.855,9.817-17.873,21.885-17.873h788.8c12.068,0,21.886,8.018,21.886,17.873v437.332h3.275v1.111ZM-5505.676,6387v406.625h802.138V6387Z" transform="translate(5708.6 -6092.987)" fill="#fafafa" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+      <g id="Ellipse_34" data-name="Ellipse 34" transform="translate(598.374 279.102)" fill="#707070" stroke="#707070" stroke-width="1">
+        <circle cx="2" cy="2" r="2" stroke="none"/>
+        <circle cx="2" cy="2" r="1.5" fill="none"/>
+      </g>
+    </g>
+    <g id="Group_107" data-name="Group 107" transform="translate(453.6 945.116)">
+      <g transform="matrix(1, 0, 0, 1, -4.77, -456.6)" filter="url(#Rectangle_347)">
+        <rect id="Rectangle_347-2" data-name="Rectangle 347" width="814" height="8" transform="translate(104.17 470.49)" fill="#fff"/>
+      </g>
+      <g id="Group_102" data-name="Group 102" transform="translate(0)">
+        <g id="Group_100" data-name="Group 100" transform="translate(0 0.212)">
+          <rect id="Rectangle_341" data-name="Rectangle 341" width="457.808" height="12.915" transform="translate(0 0.644)" fill="#f0f0f0" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+          <rect id="Rectangle_342" data-name="Rectangle 342" width="1012.615" height="0.644" fill="#f0f0f0" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+          <rect id="Rectangle_343" data-name="Rectangle 343" width="457.808" height="12.915" transform="translate(554.807 0.644)" fill="#f0f0f0" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+        </g>
+        <g id="Group_101" data-name="Group 101" transform="translate(0 0.856)">
+          <rect id="Rectangle_344" data-name="Rectangle 344" width="457.808" height="12.152" fill="#f0f0f0" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+          <rect id="Rectangle_345" data-name="Rectangle 345" width="457.808" height="12.152" transform="translate(554.807)" fill="#f0f0f0" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+        </g>
+        <path id="Path_228" data-name="Path 228" d="M572.532,702.205a9.507,9.507,0,0,1-3.11,6.991,10.968,10.968,0,0,1-7.5,2.9H452.811c-5.856,0-10.6-4.432-10.6-9.89Z" transform="translate(-1.063 -701.99)" fill="#f0f0f0" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+        <rect id="Rectangle_346" data-name="Rectangle 346" width="133.049" height="12.403" transform="translate(439.783)" fill="#f0f0f0" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+      </g>
+      <path id="Path_229" data-name="Path 229" d="M93.974,715.1a532.128,532.128,0,0,0,109.978,11.381h792.66A532.129,532.129,0,0,0,1106.59,715.1H93.974Z" transform="translate(-93.974 -701.334)" fill="#eaeaea" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+    </g>
+  </g>
+</svg>

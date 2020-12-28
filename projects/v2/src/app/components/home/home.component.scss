@@ -7,12 +7,13 @@ a {
 }
 
 .a-nav {
-  color: #444a65;
+  // color: #444a65;
   margin-left: 30px;
   cursor: pointer;
-  font-weight: 400;
   transition: all 0.5s;
   text-decoration: none !important;
+  font-size: 14px;
+  color: white;
 }
 
 .a-nav:hover {
@@ -57,9 +58,11 @@ a {
 }
 
 .title1 {
-  font-size: 50px;
+  font-size: 90px;
   line-height: 80px;
-  color: #444a65;
+  color: white;
+  font-weight: bolder;
+  letter-spacing: 8px;
 }
 
 .title2 {
@@ -68,6 +71,7 @@ a {
   color: #4e5366;
   font-weight: 400;
   hyphens: auto;
+  letter-spacing: 10px;
 }
 
 .title3 {
@@ -100,13 +104,14 @@ a {
 }
 
 .desc {
-  font-size: 1rem;
+  font-size: 12pt;
   font-weight: 400;
-  text-align: justify;
+  // text-align: justify;
   hyphens: auto;
   overflow: auto;
-  color: rgba(52, 52, 52, 0.591);
-  max-height: 300px;
+  color: white;
+  // color: rgba(52, 52, 52, 0.591);
+  max-width: 780px;
 }
 
 .logo1 {
@@ -140,4 +145,33 @@ a {
 ::ng-deep .organMenu {
   width: 300px !important;
   height: 200px !important;
+}
+
+#background {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 80%;
+  width: 100%;
+  background-color: #262626;
+  z-index: -1;
+}
+
+.laptop {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.l {
+  position: absolute;
+  width: 100%;
+}
+
+.i {
+  position: absolute;
+  width: 80%;
+  left: 123px;
+  top: 28px;
+  z-index: -1;
 }
