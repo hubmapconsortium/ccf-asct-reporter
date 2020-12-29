@@ -35,7 +35,7 @@
     <div class="search">
       <app-search [disabled]="(ui$ | async).error.hasError"></app-search>
     </div>
-    <mat-form-field style="margin-bottom: 0">
+    <!-- <mat-form-field style="margin-bottom: 0">
       <button
         class="secondary select-border"
         mat-flat-button
@@ -53,7 +53,7 @@
           </mat-option>
         </mat-select>
       </button>
-    </mat-form-field>
+    </mat-form-field> -->
     <mat-form-field style="margin-bottom: 0">
       <button
         class="secondary select-border"
@@ -79,15 +79,24 @@
 
     <button
       mat-icon-button
+      (click)="window.open('https://docs.google.com/spreadsheets/u/1/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1268820100','_blank')"
+      #tooltip="matTooltip"
+      matTooltip="Master Data Tables"
+      matTooltipPosition="below"
+      style="background-color: #f5f5f5;"
+    >
+      <mat-icon style="margin-bottom: 5px !important">table_view</mat-icon>
+    </button>
+
+    <button
+      mat-icon-button
       (click)="refreshData()"
       #tooltip="matTooltip"
       matTooltip="Refresh Data"
       matTooltipPosition="below"
       style="background-color: #f5f5f5"
     >
-      <mat-icon style="margin-bottom: 5px !important"
-        >refresh</mat-icon
-      >
+      <mat-icon style="margin-bottom: 5px !important">refresh</mat-icon>
     </button>
 
     <button
@@ -113,9 +122,7 @@
       matTooltipPosition="below"
       style="background-color: #f5f5f5"
     >
-      <mat-icon style="margin-bottom: 5px !important"
-        >compare_arrows</mat-icon
-      >
+      <mat-icon style="margin-bottom: 5px !important">compare_arrows</mat-icon>
     </button>
 
     <button
@@ -127,9 +134,7 @@
       matTooltipPosition="below"
       style="background-color: #f5f5f5"
     >
-      <mat-icon style="margin-bottom: 5px !important"
-        >show_chart</mat-icon
-      >
+      <mat-icon style="margin-bottom: 5px !important">show_chart</mat-icon>
     </button>
 
     <button
@@ -138,11 +143,9 @@
       #tooltip="matTooltip"
       matTooltip="Debug Log"
       matTooltipPosition="below"
-      style="background-color: #f5f5f5"
+      style="background-color: #f5f5f5; color: #6d6d6d"
     >
-      <mat-icon style="margin-bottom: 5px !important"
-        >bug_report</mat-icon
-      >
+      <mat-icon style="margin-bottom: 5px !important">bug_report</mat-icon>
     </button>
 
     <button
@@ -155,10 +158,8 @@
       style="background-color: #f5f5f5"
       [matMenuTriggerFor]="downloadMenu"
     >
-      <mat-icon style="margin-bottom: 5px !important"
-        >get_app</mat-icon
-      >
-      <mat-menu #downloadMenu="matMenu" >
+      <mat-icon style="margin-bottom: 5px !important">get_app</mat-icon>
+      <mat-menu #downloadMenu="matMenu">
         <button
           mat-menu-item
           *ngFor="let option of IMG_OPTIONS"
@@ -169,25 +170,44 @@
       </mat-menu>
     </button>
 
-    <div>
-      <button
-          mat-icon-button
-          #tooltip="matTooltip"
-          matTooltip="Menu"
-          matTooltipPosition="below"
-          [matMenuTriggerFor]="menu"
+    <button
+      mat-icon-button
+      style="background-color: #f5f5f5"
+      #tooltip="matTooltip"
+      matTooltip="Select Version"
+      matTooltipPosition="below"
+      [matMenuTriggerFor]="versionMenu"
+    >
+      <mat-icon style="margin-bottom: 5px !important">restore</mat-icon>
+      <mat-menu #versionMenu="matMenu">
+        <button
+          [ngStyle]="{'color': selectedVersion === option.display ? '#3f51b5' : 'black'}"
+          mat-menu-item
+          *ngFor="let option of VERSIONS"
+          (click)="getVersionSelection(option.display, $event)"
         >
-          <mat-icon style="margin-bottom: 5px !important">more_vert</mat-icon>
-          <mat-menu #menu="matMenu">
-            <button
-              mat-menu-item
-              *ngFor="let option of MORE_OPTIONS"
-              (click)="window.open(option.url, '_blank')"
-            >
-              {{ option.name }}
-            </button>
-          </mat-menu>
+          {{ option.display }}
         </button>
-    </div>
+      </mat-menu>
+    </button>
+
+    <button
+      mat-icon-button
+      #tooltip="matTooltip"
+      matTooltip="Menu"
+      matTooltipPosition="below"
+      [matMenuTriggerFor]="menu"
+    >
+      <mat-icon style="margin-bottom: 5px !important">more_vert</mat-icon>
+      <mat-menu #menu="matMenu">
+        <button
+          mat-menu-item
+          *ngFor="let option of MORE_OPTIONS"
+          (click)="window.open(option.url, '_blank')"
+        >
+          {{ option.name }}
+        </button>
+      </mat-menu>
+    </button>
   </div>
 </mat-toolbar>

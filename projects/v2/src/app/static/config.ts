@@ -303,7 +303,7 @@ export const MORE_OPTIONS = [
       'https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1268820100',
   },
   {
-    name: 'Github',
+    name: 'GitHub',
     url: 'https://github.com/hubmapconsortium/ccf-asct-reporter',
   },
 ];
