@@ -54,13 +54,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
     
     this.videoRef.pause();
     this.videoRef.currentTime = s;
-    this.videoRef.play();
-    // var timer = setInterval(function() {
-    //   if (this.videoRef.paused && this.videoRef.readyState ==4 || !this.videoRef.paused) {
-    //       this.videoRef.play();
-    //       clearInterval(timer);
-    //   }       
-    // }, 50);
+    if (this.videoRef.paused && this.videoRef.readyState ==4 || !this.videoRef.paused) {
+      this.videoRef.play();
+    }
+    
   }
 
   openGithub(event?: Event) {

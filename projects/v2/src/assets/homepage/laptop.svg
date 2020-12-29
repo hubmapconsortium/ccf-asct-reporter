@@ -22,18 +22,18 @@
       </g>
       <g id="Group_102" data-name="Group 102" transform="translate(0)">
         <g id="Group_100" data-name="Group 100" transform="translate(0 0.212)">
-          <rect id="Rectangle_341" data-name="Rectangle 341" width="457.808" height="12.915" transform="translate(0 0.644)" fill="#f0f0f0" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
-          <rect id="Rectangle_342" data-name="Rectangle 342" width="1012.615" height="0.644" fill="#f0f0f0" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
-          <rect id="Rectangle_343" data-name="Rectangle 343" width="457.808" height="12.915" transform="translate(554.807 0.644)" fill="#f0f0f0" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+          <rect id="Rectangle_341" data-name="Rectangle 341" width="457.808" height="12.915" transform="translate(0 0.644)" fill="#eaeaea" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+          <rect id="Rectangle_342" data-name="Rectangle 342" width="1012.615" height="0.644" fill="#eaeaea" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+          <rect id="Rectangle_343" data-name="Rectangle 343" width="457.808" height="12.915" transform="translate(554.807 0.644)" fill="#eaeaea" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
         </g>
         <g id="Group_101" data-name="Group 101" transform="translate(0 0.856)">
-          <rect id="Rectangle_344" data-name="Rectangle 344" width="457.808" height="12.152" fill="#f0f0f0" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
-          <rect id="Rectangle_345" data-name="Rectangle 345" width="457.808" height="12.152" transform="translate(554.807)" fill="#f0f0f0" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+          <rect id="Rectangle_344" data-name="Rectangle 344" width="457.808" height="12.152" fill="#eaeaea" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+          <rect id="Rectangle_345" data-name="Rectangle 345" width="457.808" height="12.152" transform="translate(554.807)" fill="#eaeaea" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
         </g>
-        <path id="Path_228" data-name="Path 228" d="M572.532,702.205a9.507,9.507,0,0,1-3.11,6.991,10.968,10.968,0,0,1-7.5,2.9H452.811c-5.856,0-10.6-4.432-10.6-9.89Z" transform="translate(-1.063 -701.99)" fill="#f0f0f0" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
-        <rect id="Rectangle_346" data-name="Rectangle 346" width="133.049" height="12.403" transform="translate(439.783)" fill="#f0f0f0" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+        <path id="Path_228" data-name="Path 228" d="M572.532,702.205a9.507,9.507,0,0,1-3.11,6.991,10.968,10.968,0,0,1-7.5,2.9H452.811c-5.856,0-10.6-4.432-10.6-9.89Z" transform="translate(-1.063 -701.99)" fill="#eaeaea" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+        <rect id="Rectangle_346" data-name="Rectangle 346" width="133.049" height="12.403" transform="translate(439.783)" fill="#eaeaea" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
       </g>
-      <path id="Path_229" data-name="Path 229" d="M93.974,715.1a532.128,532.128,0,0,0,109.978,11.381h792.66A532.129,532.129,0,0,0,1106.59,715.1H93.974Z" transform="translate(-93.974 -701.334)" fill="#eaeaea" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+      <path id="Path_229" data-name="Path 229" d="M93.974,715.1a532.128,532.128,0,0,0,109.978,11.381h792.66A532.129,532.129,0,0,0,1106.59,715.1H93.974Z" transform="translate(-93.974 -701.334)" fill="#e3e3e3" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
     </g>
   </g>
 </svg>

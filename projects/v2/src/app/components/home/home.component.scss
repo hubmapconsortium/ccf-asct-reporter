@@ -85,9 +85,8 @@ p {
   font-size: 50px;
   line-height: 60px;
   color: #262626;
-  font-weight: 500;
+  font-weight: 400;
   hyphens: auto;
-  font-weight: bolder;
   letter-spacing: 4px;
 }
 
@@ -237,18 +236,18 @@ p {
   padding: 10px 10px 10px 10px;
   border-left-width: 15px;
   background-color: white;
-  transition: all 0.3s;
+  transition: all 0.2s;
 }
 
-.section-selector:hover {
-  border-color: #444a65;
+.section-selector:not(.active):hover {
+  border-color: #444a6590;
 }
 .section-selector:active {
   transform: scale(0.99);
 }
 
 .section-selected {
-  border-color: #444a65;
+  border-color: #444a65 !important;
 }
 
 .ss-header {
