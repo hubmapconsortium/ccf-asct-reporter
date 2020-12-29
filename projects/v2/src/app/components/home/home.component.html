@@ -1,4 +1,7 @@
-<div style="width: 100%; height: 100%" (window:resize)="onResize($event)">
+<div
+  style="width: 100%; height: 100%; position: relative"
+  (window:resize)="onResize($event)"
+>
   <!-- NAVBAR -->
   <!-- <div style="width: 100%; border-bottom: 3px solid #444a6510; z-index: 2;">
     <mat-toolbar style="background-color: white; color: #444a65;" class="container" no-shadow>
@@ -41,7 +44,7 @@
     </mat-toolbar>
   </div> -->
 
-  <div class="container w-100 pt-2">
+  <div class="w-100 pt-2 px-5">
     <div class="d-flex justify-content-between align-items-center w-100">
       <div class="navbar-logo">
         <img
@@ -107,12 +110,59 @@
     </div>
   </div>
 
-  <div
-    class="container d-flex justify-content-center align-items-center w-100 h-100 mt-4 pt-3"
-  >
-    <div class="laptop">
-      <img src="./../../../assets/homepage/laptop.svg" alt="" class="l" />
-      <img src="./../../../assets/homepage/img.svg" alt="" class="i" />
+  <div class="container d-block">
+    <div
+      class="d-flex justify-content-center align-items-center w-100 mt-4 pt-3"
+    >
+      <div class="laptop" id="laptop">
+        <img
+          src="./../../../assets/homepage/laptop.svg"
+          alt=""
+          class="l"
+          id="cover"
+        />
+        <img src="./../../../assets/homepage/img.svg" alt="" class="i" />
+      </div>
+    </div>
+  </div>
+
+  <div class="w-100 mt-5 pt-5 px-5" style="position: relative" id="about">
+    <span class="title2">ABOUT</span>
+    <p class="mt-3 desc text-secondary">
+      The ASCT+B Reporter is a state-of-the-art visualization tool. The video
+      gives an overview of the functionalities listed below. Please use the
+      selectors below to skip to any section you’d want to specifically know
+      about.
+    </p>
+    <div class="pt-5"></div>
+    <div class="row">
+      <div class="col-xl-5 col-md-4 col-sm-6">
+      <div id="actionsHeight" class="pr-3 pl-1">
+        <div *ngFor="let va of VIDEO_ACTIONS; let i = index;">
+          <button class="section-selector w-100 my-2" (click)="seekVideo(va.sec, i)" [ngClass]="{'section-selected': i === videoSectionSelected}">
+            <p class="ss-header">{{va.header}}</p>
+            <p class="ss-desc">{{va.desc}}</p>
+          </button>
+       </div>
+      </div>
+
+      
+      </div>
+      <div class="col-xl-7 col-md-8 col-sm-6">
+        <video
+            id="tutorialVideo"
+            class="w-100"
+            controls
+            style="
+              box-shadow: 5px 20px 30px #e1e1e1;
+              border-radius: 10px;
+              outline: none;
+            "
+            poster="assets/homeviewposter.png"
+          >
+            <source src="assets/video.mp4" />
+          </video>
+      </div>
     </div>
   </div>
 
@@ -445,16 +495,17 @@
   </div> -->
 
   <!-- FOOTER -->
-  <!-- <div style="background-color: #444a5612; padding: 20px;">
+  <div class="mt-5 pt-5"></div>
+  <div style="background-color: #444a5612; padding: 20px" class="mt-5">
     <div class="container">
-      <div style="display: flex; justify-content: space-between; width: 100%;">
+      <div style="display: flex; justify-content: space-between; width: 100%">
         <div>
-          <p style="color: #444a65;">
+          <p style="color: #444a65">
             Copyright © 2020, Cyberinfrastructure for Network Science Center,
             Indiana University
           </p>
 
-          <ul style="color: #444a65;" class="pl-3">
+          <ul style="color: #444a65" class="pl-3">
             <li>
               <a (click)="window.open('https://www.indiana.edu', '_blank')"
                 >Indiana University</a
@@ -477,7 +528,7 @@
         </div>
         <div>
           <a
-            style="color: #444a65; cursor: pointer;"
+            style="color: #444a65; cursor: pointer"
             (click)="
               window.open(
                 'https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/LICENSE',
@@ -490,5 +541,5 @@
         </div>
       </div>
     </div>
-  </div> -->
+  </div>
 </div>

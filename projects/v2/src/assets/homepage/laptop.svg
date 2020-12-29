@@ -10,7 +10,7 @@
   </defs>
   <g id="Group_108" data-name="Group 108" transform="translate(-448.828 -488.512)">
     <g id="Group_105" data-name="Group 105" transform="translate(359.626 220.898)">
-      <path id="Exclusion_1" data-name="Exclusion 1" d="M-4685.042,6817.417h-3.7l-831.726,0-3.654,0v-1.112h3.232V6378.974c0-9.855,9.817-17.873,21.885-17.873h788.8c12.068,0,21.886,8.018,21.886,17.873v437.332h3.275v1.111ZM-5505.676,6387v406.625h802.138V6387Z" transform="translate(5708.6 -6092.987)" fill="#fafafa" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+      <path id="Exclusion_1" data-name="Exclusion 1" d="M-4685.042,6817.417h-3.7l-831.726,0-3.654,0v-1.112h3.232V6378.974c0-9.855,9.817-17.873,21.885-17.873h788.8c12.068,0,21.886,8.018,21.886,17.873v437.332h3.275v1.111ZM-5505.676,6387v406.625h802.138V6387Z" transform="translate(5708.6 -6092.987)" fill="#f0f0f0" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
       <g id="Ellipse_34" data-name="Ellipse 34" transform="translate(598.374 279.102)" fill="#707070" stroke="#707070" stroke-width="1">
         <circle cx="2" cy="2" r="2" stroke="none"/>
         <circle cx="2" cy="2" r="1.5" fill="none"/>

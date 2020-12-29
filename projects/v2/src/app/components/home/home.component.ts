@@ -1,24 +1,55 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 // import { SconfigService } from '../services/sconfig.service';
 import { environment } from '../../../environments/environment';
 import { SHEET_OPTIONS } from '../../static/config';
 // import {GaService} from '../services/ga.service';
+import { VIDEO_ACTIONS } from "../../static/home";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   window = window;
   screenWidth = document.getElementsByTagName('body')[0].clientWidth;
   dataVersion: string = 'latest';
   SHEET_OPTIONS = SHEET_OPTIONS;
+  VIDEO_ACTIONS = VIDEO_ACTIONS
+  videoSectionSelected = 0;
+  videoRef: HTMLVideoElement;
 
   constructor() {
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+    
+  }
+
+  ngAfterViewInit(): void {
+    let actionsDiv = document.getElementById('actionsHeight');
+    this.videoRef = <HTMLVideoElement>document.getElementById('tutorialVideo')
+    console.log(this.videoRef.offsetHeight);
+    actionsDiv.style.maxHeight = `${this.videoRef.offsetHeight + 50}px`;
+    actionsDiv.style.overflowY = 'auto';
+
+  }
+
+  seekVideo(s: number, id: number) {
+    this.videoSectionSelected = id;
+   
+    
+    this.videoRef.pause();
+    this.videoRef.currentTime = s;
+    this.videoRef.play();
+    // var timer = setInterval(function() {
+    //   if (this.videoRef.paused && this.videoRef.readyState ==4 || !this.videoRef.paused) {
+    //       this.videoRef.play();
+    //       clearInterval(timer);
+    //   }       
+    // }, 50);
+  }
 
   openGithub(event?: Event) {
     window.open(
