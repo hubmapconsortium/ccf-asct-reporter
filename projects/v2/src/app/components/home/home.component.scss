@@ -17,15 +17,14 @@ p {
   // color: #444a65;
   margin-left: 30px;
   cursor: pointer;
-  transition: all 0.5s;
+  transition: all 0.2s;
   text-decoration: none !important;
   font-size: 14px;
   color: white;
 }
 
 .a-nav:hover {
-  transition: all 0.5s;
-  color: rgb(147, 147, 147);
+  color: #377EB8;
 }
 
 .linker {
@@ -84,26 +83,28 @@ p {
 .title2 {
   font-family: 'Poppins', sans-serif;
   font-size: 50px;
-  line-height: 30px;
+  line-height: 60px;
   color: #262626;
-  font-weight: 400;
+  font-weight: 500;
   hyphens: auto;
   font-weight: bolder;
   letter-spacing: 4px;
 }
 
 .title3 {
+  font-family: 'Poppins', sans-serif;
   font-size: 30px;
   line-height: 30px;
-  color: #4e5366;
-  font-weight: 400;
+  color: #262626;
+  font-weight: 600;
 }
 
 .title4 {
+  font-family: 'Poppins', sans-serif;
   font-size: 20px;
   line-height: 20px;
-  color: #4e5366;
-  font-weight: 400;
+  color: #262626;
+  font-weight: 500;
 }
 
 .subtitle {
@@ -235,11 +236,11 @@ p {
 .section-selector {
   text-align: left;
   outline: none;
-  border: 1px solid #eaeaea;
+  border: 2px solid #eaeaea;
   border-radius: 8px;
   padding: 10px 10px 10px 10px;
   border-left-width: 15px;
-  background-color: #fcfcfc;
+  background-color: white;
   transition: all 0.3s;
 }
 
@@ -264,4 +265,32 @@ p {
 
 .ss-desc {
   color: grey;
+}
+
+.card-img-top {
+  max-height: 10vh; /*not want to take all vertical space*/
+  object-fit: cover;/*show all image, autosized, no cut, in available space*/
+}
+
+.contributors-img {
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #eaeaea;
+}
+
+.con-card {
+  box-shadow: none !important;
+  border: 2px solid #eaeaea;
+  border-top-width: 15px;
+  border-radius: 10px;
+  padding: 10px;
+  height: 520px;
+}
+
+.icon-btn {
+  height: 50px;
+  width: 50px;
+  font-size: 25px;
+  line-height: 30px;
+  color: #262626;
 }

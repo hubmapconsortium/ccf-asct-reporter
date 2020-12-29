@@ -2,48 +2,6 @@
   style="width: 100%; height: 100%; position: relative"
   (window:resize)="onResize($event)"
 >
-  <!-- NAVBAR -->
-  <!-- <div style="width: 100%; border-bottom: 3px solid #444a6510; z-index: 2;">
-    <mat-toolbar style="background-color: white; color: #444a65;" class="container" no-shadow>
-      <div class="navbar-logo">
-        <img src="./../../../assets/logo.svg" alt="" class="w-100 logo-link" routerLink="/" />
-      </div>
-      <span class="example-spacer"></span>
-      <button
-        mat-icon-button
-        #tooltip="matTooltip"
-        matTooltip="Refresh Data"
-        matTooltipPosition="below"
-        [matMenuTriggerFor]="hamMenu"
-        *ngIf="screenWidth <= 700"
-      >
-        <mat-icon style="color: #444a65; font-weight: bold;">menu</mat-icon>
-        <mat-menu #hamMenu="matMenu">
-          <button (click)="openData()" mat-menu-item>
-            Tables
-          </button>
-          <button class (click)="openGithub()" mat-menu-item>
-            GitHub
-          </button>
-          <button class (click)="openDocs()" mat-menu-item>
-            Documentation
-          </button>
-        </mat-menu>
-      </button>
-      <div *ngIf="screenWidth > 700">
-        <a (click)="openData()" class="a-nav">
-          Tables
-        </a>
-        <a class (click)="openGithub()" class="a-nav">
-          GitHub
-        </a>
-        <a class (click)="openDocs()" class="a-nav">
-          Documentation
-        </a>
-      </div>
-    </mat-toolbar>
-  </div> -->
-
   <div class="w-100 pt-2 px-5">
     <div class="d-flex justify-content-between align-items-center w-100">
       <div class="navbar-logo">
@@ -55,9 +13,8 @@
         />
       </div>
       <div>
-        <a (click)="openData()" class="a-nav"> Tables </a>
+        <a (click)="openData()" class="a-nav"> Master Tables </a>
         <a class (click)="openGithub()" class="a-nav"> GitHub </a>
-        <a class (click)="openDocs()" class="a-nav"> Documentation </a>
       </div>
     </div>
   </div>
@@ -110,7 +67,7 @@
     </div>
   </div>
 
-  <div class="container d-block">
+  <div class="container">
     <div
       class="d-flex justify-content-center align-items-center w-100 mt-4 pt-3"
     >
@@ -126,327 +83,131 @@
     </div>
   </div>
 
-  <div class="w-100 mt-5 pt-5 px-5" style="position: relative" id="about">
-    <span class="title2">ABOUT</span>
-    <p class="mt-3 desc text-secondary">
-      The ASCT+B Reporter is a state-of-the-art visualization tool. The video
-      gives an overview of the functionalities listed below. Please use the
-      selectors below to skip to any section you’d want to specifically know
-      about.
-    </p>
-    <div class="pt-5"></div>
+  <div class="w-100 text-center">
+    <!-- <hr class="w-25"> -->
+  </div>
+
+  <div class="w-100 my-5 py-5 px-5" style="position: relative" id="about">
+    <div class="text-center container">
+      <span class="title2">ABOUT</span>
+      <p class="mt-3 text-secondary">
+        The ASCT+B Reporter is a state-of-the-art visualization tool. The video
+        gives an overview of the functionalities listed below. Please use the
+        selectors below to skip to any section you’d want to specifically know
+        about.
+      </p>
+    </div>
+    <div class="pt-5 mt-3"></div>
     <div class="row">
       <div class="col-xl-5 col-md-4 col-sm-6">
-      <div id="actionsHeight" class="pr-3 pl-1">
-        <div *ngFor="let va of VIDEO_ACTIONS; let i = index;">
-          <button class="section-selector w-100 my-2" (click)="seekVideo(va.sec, i)" [ngClass]="{'section-selected': i === videoSectionSelected}">
-            <p class="ss-header">{{va.header}}</p>
-            <p class="ss-desc">{{va.desc}}</p>
-          </button>
-       </div>
-      </div>
-
-      
+        <div id="actionsHeight" class="pr-3 pl-1">
+          <div *ngFor="let va of VIDEO_ACTIONS; let i = index">
+            <button
+              class="section-selector w-100 my-2"
+              (click)="seekVideo(va.sec, i)"
+              [ngClass]="{ 'section-selected': i === videoSectionSelected }"
+            >
+              <p class="ss-header">{{ va.header }}</p>
+              <p class="ss-desc">{{ va.desc }}</p>
+            </button>
+          </div>
+        </div>
       </div>
       <div class="col-xl-7 col-md-8 col-sm-6">
         <video
-            id="tutorialVideo"
-            class="w-100"
-            controls
-            style="
-              box-shadow: 5px 20px 30px #e1e1e1;
-              border-radius: 10px;
-              outline: none;
-            "
-            poster="assets/homeviewposter.png"
-          >
-            <source src="assets/video.mp4" />
-          </video>
+          id="tutorialVideo"
+          class="w-100"
+          controls
+          style="
+            box-shadow: 5px 20px 30px #e1e1e1;
+            border-radius: 10px;
+            outline: none;
+          "
+          poster="assets/homeviewposter.png"
+        >
+          <source src="assets/video.mp4" />
+        </video>
       </div>
     </div>
   </div>
 
-  <!-- TITLE AND VIDEO -->
-  <!-- <div style="height: 80%;" class="container">
-    <div class="row" style="height: 100%; display: flex; align-items: center;">
-      <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-        <div class="title">ASCT+B REPORTER</div>
-        <br />
-        <div class="title-desc">
-          <span>
-            The CCF ASCT+B Reporter is a visualization tool for displaying
-            anatomical structures, cell types, and biomarker (ASCT+B) tables for
-            different human organs developed by domain experts. The tables are
-            used to develop a common coordinate framework (CCF) of the healthy
-            human body, see also
+  <div class="w-100 mt-5 pt-5">
+    <!-- <hr class="w-25"> -->
+  </div>
 
-            <span
-              style="color: rgb(96, 116, 167);"
-              (click)="
-                window.open('https://hubmapconsortium.github.io/ccf', '_blank')
-              "
-            >
-              Hubmap Consortium.
-            </span>
-          </span>
-        </div>
-        <br />
-        <br />
-        <div class="title-btn">
-          <button
-            mat-flat-button
-            style="
-              padding: 20px;
-              font-size: 20pt;
-              background-color: rgb(77, 155, 103);
-              color: rgb(249, 249, 249);
-            "
-            [matMenuTriggerFor]="menu" 
-            
-          >
-            Go to Visualization
-          </button>
-            <mat-menu #menu="matMenu" class="organMenu">
-              <button mat-menu-item *ngFor="let option of SHEET_OPTIONS" style="width: 100%;" 
-              routerLink="/vis"
-              [queryParams]="{sheet: option.sheet, version: dataVersion}">
-                <span>{{option.title}}</span>
-              </button>
-            </mat-menu>          
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-        <div class="svg-wrapper" style="padding: 20px;">
-          <video
-            width="490"
-            controls
-            style="
-              box-shadow: 5px 20px 30px #e1e1e1;
-              border-radius: 10px;
-              outline: none;
-            "
-            poster="assets/homeviewposter.png"
-          >
-            <source src="assets/video.mp4" />
-          </video>
+  <div class="w-100 my-5 py-5 px-5">
+    <div class="text-center container">
+      <p class="title2">CONTRIBUTORS</p>
+      <p class="mt-3 text-secondary">
+        Along with various members from the MC-IU Team as well as doctors,
+        researchers and SMEs from various consortia, below listed are the members
+        of the core team working on building the ASCT+B Reporter
+      </p>
+    </div>
+    <div class="pt-5 mt-3">
+      <div class="row">
+        <div
+          class="col-xl-3 col-md-6 col-sm-6 col-lg-3 px-3"
+          *ngFor="let con of CONTIRBUTORS; let i = index"
+        >
+          <div class="card text-center con-card">
+            <div class="card-header">
+              <img
+                class="contributors-img"
+                [src]="con.img"
+                alt="sans"
+                width="200px"
+                height="200px"
+              />
+            </div>
+            <div class="card-body">
+              <p class="title3">{{ con.name }}</p>
+              <p class="desc text-secondary mt-3">
+                {{ con.desc }}
+              </p>
+              <p class="desc text-muted mt-4">
+                <a class="text-info" [href]="'mailto:' + con.mail">{{
+                  con.mail
+                }}</a>
+              </p>
+            </div>
+            <div class="card-footer border-top">
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="mr-2">
+                  <button
+                    mat-icon-button
+                    class="icon-btn"
+                    (click)="window.open(con.link, '_blank')"
+                  >
+                    <fa-icon [icon]="faGlobe"></fa-icon>
+                  </button>
+                </div>
+                <div class="mr-2" *ngIf="con.linkedin">
+                  <button
+                    mat-icon-button
+                    class="icon-btn"
+                    (click)="window.open(con.linkedin, '_blank')"
+                  >
+                    <fa-icon [icon]="faLinkedin"></fa-icon>
+                  </button>
+                </div>
+                <div *ngIf="con.github">
+                  <button
+                    mat-icon-button
+                    class="icon-btn"
+                    (click)="window.open(con.github, '_blank')"
+                  >
+                    <fa-icon [icon]="faGithub"></fa-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div> -->
+  </div>
 
-  <!-- FEATURES -->
-  <!-- <div style="background-color: #444a5612;">
-    <div class="container">
-      <br />
-      <div
-        class="title1"
-        style="width: 100%; display: flex; justify-content: center;"
-      >
-        Features
-      </div>
-      <hr width="5%" color="#ededed" class="mt-1" />
-      <div style="width: 100%; text-align: center;" class="pl-5 pr-5 pb-5">
-        <div class="row">
-          <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-5">
-            <div class="card px-4 py-3" style="width: 100%; height: 335px;">
-              <div class="card-body">
-                <h5 class="title2">Tree Vis</h5>
-                <hr width="50%" color="#ededed" />
-                <p class="card-text desc">
-                  The ASCT+B Reporter combines two different types of Angular
-                  visualizations to form a tree visualization: A partonomy tree
-                  of anatomical structures interlinked via a bimodal network to
-                  cell types and biomarkers.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-5">
-            <div class="card px-4 py-3" style="width: 100%; height: 335px;">
-              <div class="card-body">
-                <h5 class="title2">Indented List</h5>
-                <hr width="50%" color="#ededed" />
-                <p class="card-text desc">
-                  The ASCT+B Reporter also provides a list of the anatomical
-                  partonomy for a hierarchical view.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-5">
-            <div class="card px-4 py-3" style="width: 100%; height: 335px;">
-              <div class="card-body">
-                <h5 class="title2">Report Generator</h5>
-                <hr width="50%" color="#ededed" />
-                <p class="card-text desc">
-                  The ASCT+B Reporter computes various statistics of anatomical
-                  structures, cell types, and biomarker sets. Reports can be
-                  downloaded.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-5">
-            <div class="card px-4 py-3" style="width: 100%; height: 335px;">
-              <div class="card-body">
-                <h5 class="title2">Debug Log</h5>
-                <hr width="50%" color="#ededed" />
-                <p class="card-text desc">
-                  The Debug Log lists warnings and errors that occurred during
-                  data parsing and visualization creation—for individual organs
-                  and for all organs.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-5">
-            <div class="card px-4 py-3" style="width: 100%; height: 335px;">
-              <div class="card-body">
-                <h5 class="title2">Compare Sheets</h5>
-                <hr width="50%" color="#ededed" />
-                <p class="card-text desc">
-                  This features lets the user to compare their own data on Google Sheets
-                  with the Master Tables.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-5">
-            <div class="card px-4 py-3" style="width: 100%; height: 335px;">
-              <div class="card-body">
-                <h5 class="title2">Search</h5>
-                <hr width="50%" color="#ededed" />
-                <p class="card-text desc">
-                  The Reporter is equipped with an efficient search functionality
-                  that allows the user to browser though hundreds of structure names, and highlight
-                  them via an autocomplete text field.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-5">
-            <div
-              class="card px-4 py-3"
-              style="width: 100%; height: 335px; hyphens: auto;"
-            >
-              <div class="card-body">
-                <h5 class="title2">Visualization Controls</h5>
-                <hr width="50%" color="#ededed" />
-                <p class="card-text desc">
-                  Properties like the height can be controlled and changed on the fly to make the visualization 
-                  more cleaner and more receptive though the Visualization Control Panel.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-5">
-            <div
-              class="card px-4 py-3"
-              style="width: 100%; height: 335px; hyphens: auto;"
-            >
-              <div class="card-body">
-                <h5 class="title2">Functions</h5>
-                <hr width="50%" color="#ededed" />
-                <p class="card-text desc">
-                  The nodes in the bimodal networks can be size-coded by their
-                  number of links (in degree, out degree, and total degree).
-                  They can be sorted by node degree and alphabetically by node
-                  label.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-5">
-            <div
-              class="card px-4 py-3"
-              style="width: 100%; height: 335px; hyphens: auto;"
-            >
-              <div class="card-body">
-                <h5 class="title2">Exports</h5>
-                <hr width="50%" color="#ededed" />
-                <p class="card-text desc">
-                  The ASCT+B Reporter visualization can be saved out in PNG
-                  (Portable Network Graphics) and SVG (Scalable Vector Graphics
-                  File) format but also as Vega Specification.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <br />
-    </div>
-  </div> -->
-
-  <!-- CONTRIBUTORS -->
-  <!-- <div style="background-color: #444a65;">
-    <div class="container">
-      <br />
-      <div
-        class="title1"
-        style="
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          color: rgb(249, 249, 249);
-        "
-      >
-        Contributors
-      </div>
-      <hr width="5%" color="#ededed" class="mt-1" />
-      <div style="width: 100%; text-align: center;" class="pl-5 pr-5 pb-5">
-        <div class="row">
-          <div class="col-lg-4 col-md-4 mt-5">
-            <img src="assets/contributors/paul.jpg" height="100" class="pro" />
-            <div
-              class="title2 mt-4"
-              (click)="
-                window.open('https://hrishikeshpaul.github.io', '_blank')
-              "
-              style="color: rgb(249, 249, 249); cursor: pointer;"
-            >
-              Hrishikesh Paul
-            </div>
-            <div class="pt-2">
-              <span class="subtitle">
-                Data Visualization Implementation and Testing
-              </span>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4 mt-5">
-            <img src="assets/contributors/katy.png" height="100" class="pro" />
-            <div
-              class="title2 mt-4"
-              (click)="
-                window.open('https://info.sice.indiana.edu/~katy/', '_blank')
-              "
-              style="color: rgb(249, 249, 249); cursor: pointer;"
-            >
-              Katy Börner
-            </div>
-            <div class="pt-2">
-              <span class="subtitle">
-                Initial Visualization, Design Mockup and Biomedical Use Cases
-              </span>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4 mt-5">
-            <img src="assets/contributors/bruce.jpg" height="100" class="pro" />
-            <div class="title2 mt-4" style="color: rgb(249, 249, 249);">
-              Bruce W Herr II
-            </div>
-            <div class="pt-2">
-              <span class="subtitle"
-                >System Architecture and Design Advice</span
-              >
-            </div>
-          </div>
-          <br />
-        </div>
-      </div>
-      <br />
-    </div>
-  </div> -->
 
   <!-- AFFILIATIONS -->
   <!-- <div style="background-color: #fcfcfc;">

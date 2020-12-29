@@ -33,6 +33,7 @@ import { SidenavHeaderComponent } from './components/sidenav-header/sidenav-head
 import { ReportComponent } from './components/report/report.component';
 import { DebugLogsComponent } from './components/debug-logs/debug-logs.component';
 import { LogsState } from './store/logs.state';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 
@@ -67,7 +68,8 @@ import { LogsState } from './store/logs.state';
     ReactiveFormsModule,
     MaterialModule,
     NgxMatSelectSearchModule,
-    OrderModule
+    OrderModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -3,7 +3,10 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { SHEET_OPTIONS } from '../../static/config';
 // import {GaService} from '../services/ga.service';
-import { VIDEO_ACTIONS } from "../../static/home";
+import { VIDEO_ACTIONS, CONTIRBUTORS } from "../../static/home";
+import { faLinkedin, faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faGlobe } from "@fortawesome/free-solid-svg-icons";
+
 
 @Component({
   selector: 'app-home',
@@ -15,9 +18,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
   screenWidth = document.getElementsByTagName('body')[0].clientWidth;
   dataVersion: string = 'latest';
   SHEET_OPTIONS = SHEET_OPTIONS;
-  VIDEO_ACTIONS = VIDEO_ACTIONS
+  VIDEO_ACTIONS = VIDEO_ACTIONS;
+  CONTIRBUTORS = CONTIRBUTORS;
   videoSectionSelected = 0;
   videoRef: HTMLVideoElement;
+
+  faLinkedin = faLinkedin;
+  faGlobe = faGlobe;
+  faGithub = faGithub;
+
 
   constructor() {
   }

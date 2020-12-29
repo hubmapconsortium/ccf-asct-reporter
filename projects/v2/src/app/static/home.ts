@@ -30,3 +30,42 @@ export const VIDEO_ACTIONS = [
     sec: 168
   }
 ]
+
+export const CONTIRBUTORS = [
+  {
+    img: 'assets/contributors/paul.jpg',
+    name: 'Hrishikesh Paul',
+    desc: 'Reporter Design, Implementation and Deployment',
+    mail: 'hrpaul@iu.edu',
+    link: 'https://hrishikeshpaul.github.io',
+    linkedin: 'https://www.linkedin.com/in/hrishikeshpaul/',
+    github: 'https://github.com/hrishikeshpaul'
+  },
+  {
+    img: 'assets/contributors/katy.png',
+    name: 'Katy Börner',
+    desc: 'Initial Visualization, Design Mockup and Biomedical Use Cases',
+    mail: 'katy@indiana.edu',
+    link: 'https://info.sice.indiana.edu/~katy/',
+    linkedin: 'https://www.linkedin.com/in/katy-border-a03837/',
+    github: ''
+  },
+  {
+    img: 'assets/contributors/bruce.jpg',
+    name: 'Bruce W Herr II',
+    desc: 'System Architecture, Design Advice and Project Management',
+    mail: 'bherr@indiana.edu',
+    link: 'https://cns.iu.edu/current_team/bio/bruce-herr.html',
+    linkedin: 'https://www.linkedin.com/in/bruceherr/',
+    github: 'https://github.com/bherr2'
+  },
+  {
+    img: 'assets/contributors/kasturi.jpg',
+    name: 'Kasturi Nikharge',
+    desc: 'Reporter implementation, Analytics and Testing',
+    mail: 'knikharg@iu.edu',
+    link: 'https://cns.iu.edu/current_team/bio/nikharge-kasturi.html',
+    linkedin: 'https://www.linkedin.com/in/kasturi-nikharge/',
+    github: 'https://github.com/knikharg'
+  }
+]
