@@ -123,14 +123,10 @@ p {
 }
 
 .desc {
-  font-size: 12pt;
+  font-size: 14pt;
   font-weight: 400;
-  // text-align: justify;
-  hyphens: auto;
-  overflow: auto;
   color: white;
-  // color: rgba(52, 52, 52, 0.591);
-  max-width: 780px;
+  line-height: 25px;
 }
 
 .logo1 {
@@ -170,7 +166,7 @@ p {
   position: absolute;
   top: 0px;
   left: 0px;
-  height: 80%;
+  height: 75%;
   width: 100%;
   background-color: #262626;
   z-index: -1;
@@ -284,7 +280,7 @@ p {
   border-top-width: 15px;
   border-radius: 10px;
   padding: 10px;
-  height: 520px;
+  height: 550px;
 }
 
 .icon-btn {
@@ -293,4 +289,8 @@ p {
   font-size: 25px;
   line-height: 30px;
   color: #262626;
+}
+
+.text-info {
+  color: #444a65 !important;
 }
