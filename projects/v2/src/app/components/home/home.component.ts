@@ -5,7 +5,8 @@ import { SHEET_OPTIONS } from '../../static/config';
 // import {GaService} from '../services/ga.service';
 import { VIDEO_ACTIONS, CONTIRBUTORS } from "../../static/home";
 import { faLinkedin, faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faGlobe } from "@fortawesome/free-solid-svg-icons";
+import { faGlobe, faPhone } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 
 
 @Component({
@@ -26,6 +27,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   faLinkedin = faLinkedin;
   faGlobe = faGlobe;
   faGithub = faGithub;
+  faPhone = faPhone;
+  faEnvelope = faEnvelope;
 
 
   constructor() {
