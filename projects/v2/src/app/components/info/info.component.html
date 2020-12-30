@@ -25,8 +25,25 @@
   
   
   <ng-template #infoBlock>
-    <div *ngIf="!error.hasError" class="pt-3 info">
-      {{info.iri}}
+    <div *ngIf="!error.hasError" class="py-3 info">
+      <label><b>Description</b></label>
+      <div>
+        {{info.desc}}
+      </div>
+
+      <div class="pt-3"></div>
+      
+      <label><b>Ontology Id</b></label>
+      <div>
+        {{data.uberonId}}
+      </div>
+
+      <div class="pt-3"></div>
+
+      <label><b>IRI</b></label>
+      <div>
+        <a [href]="info.iri" target="_blank" class="text-info">{{info.iri}}</a>
+      </div>
     </div>
   </ng-template>
 </div>

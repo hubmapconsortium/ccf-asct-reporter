@@ -38,7 +38,13 @@ export class InfoComponent implements OnInit {
         (res) => {
           console.log(res)
           this.loading = false;
-          this.info = res._embedded.terms[0];
+          const r = res._embedded.terms[0]
+          this.info = {
+            iri: r.iri,
+            label: r.label,
+            desc: r.description[0]
+          };
+          // iri, label, description[0], 
           this.changeDetectorRef.detectChanges();
         },
         (err) => {
