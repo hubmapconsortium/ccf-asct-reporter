@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ExportVega } from '../../models/response.model';
 // import embed from 'vega-embed';
 
 @Component({
@@ -8,7 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class TreeComponent implements OnInit {
 
-  @Input() spec;
+  @Input() export: ExportVega;
 
   constructor() {
 
@@ -16,5 +17,7 @@ export class TreeComponent implements OnInit {
 
   async ngOnInit() {
   }
+
+  
 
 }

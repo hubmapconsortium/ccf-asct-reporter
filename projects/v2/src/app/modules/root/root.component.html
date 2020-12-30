@@ -11,7 +11,7 @@
       </mat-drawer>
 
     <div id="content" class="h-100 w-100">
-      <app-navbar></app-navbar>
+      <app-navbar (export)="exportVis($event)"></app-navbar>
       <app-error *ngIf="error.hasError" [error]="error"></app-error>
       <div class="tree-div">
         <app-tree *ngIf="!error.hasError" ></app-tree>

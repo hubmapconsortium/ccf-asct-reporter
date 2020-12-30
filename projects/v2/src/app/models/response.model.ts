@@ -15,3 +15,8 @@ export enum SnackbarType {
   error = 'error',
   warning = 'warning'
 }
+
+export interface ExportVega {
+  option: string;
+  spec?: any;
+}

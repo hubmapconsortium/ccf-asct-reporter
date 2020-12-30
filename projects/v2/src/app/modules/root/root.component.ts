@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import {SHEET_CONFIG, VERSION} from './../../static/config';
 import { SheetState, SheetStateModel } from './../../store/sheet.state';
-import { TreeState } from './../../store/tree.state';
+import { TreeState, TreeStateModel } from './../../store/tree.state';
 import {Select, Store} from '@ngxs/store';
 import { Observable, combineLatest } from 'rxjs';
 import { FetchSheetData, FetchDataFromAssets } from './../../actions/sheet.actions';
@@ -13,15 +13,12 @@ import { Error } from '../../models/response.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { MatSnackBar, MatSnackBarRef, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { validateWidth } from '../../static/util';
-import { UpdateGraphWidth } from '../../actions/tree.actions';
 import { IndentedListService } from '../../components/indented-list/indented-list.service';
 import { StateReset } from 'ngxs-reset-plugin';
 import { Snackbar } from '../../models/ui.model';
 import { ReportService } from '../../components/report/report.service';
-import { ReportLog } from '../../actions/logs.actions';
-import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
 import { LogsState } from '../../store/logs.state';
+import * as moment from 'moment';
 
 
 @Component({
@@ -40,7 +37,7 @@ export class RootComponent implements OnInit, OnDestroy{
   isControlPaneOpen: boolean;
   screenWidth = document.getElementsByTagName('body')[0].clientWidth;
 
-  showIndent = false;
+  @Output() export: EventEmitter<any> = new EventEmitter<any>();
 
   // Sheet Observables
   // @Select(SheetState.getLoading) loading$: Observable<boolean>;
@@ -131,12 +128,6 @@ export class RootComponent implements OnInit, OnDestroy{
         ts.makeTreeData(this.sheet, this.data, []);
     })
 
-    // this.logs$.subscribe(logs => {
-    //   const sheetLogs = logs.sheetLogs;
-    //   const allLogs = logs.allLogs;
-
-    //   console.log("LOGS: ", sheetLogs, allLogs)
-    // })
 
   }
 
@@ -147,6 +138,7 @@ export class RootComponent implements OnInit, OnDestroy{
     this.store.dispatch(new StateReset(SheetState));
   }
 
+
   openLoading(text?: string) {
     const config = new MatDialogConfig();
     config.disableClose = true;
@@ -155,7 +147,7 @@ export class RootComponent implements OnInit, OnDestroy{
     config.data = text;
     config.width = '300px';
 
-    const loadingDialog = this.dialog.open(LoadingComponent, config);
+    this.dialog.open(LoadingComponent, config);
   }
 
   closeLoading() {
@@ -165,6 +157,45 @@ export class RootComponent implements OnInit, OnDestroy{
 
   toggleSideNav() {
     this.store.dispatch(new CloseRightSideNav());
+  }
+
+  exportVis(option: string) {
+    const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
+    const sn = this.sheet.display.toLowerCase().replace(' ', '_');
+    const formatType = option.toLowerCase();
+
+    if (option === 'Vega Spec') {
+      const spec = this.store.selectSnapshot(TreeState.getVegaSpec);
+      const dataStr =
+        'data:text/json;charset=utf-8,' +
+        encodeURIComponent(JSON.stringify(spec, null, 4));
+      const downloadAnchorNode = document.createElement('a');
+      downloadAnchorNode.setAttribute('href', dataStr);
+      downloadAnchorNode.setAttribute(
+        'download',
+        `asct+b_${sn}_${dt}` + '.json'
+      );
+      document.body.appendChild(downloadAnchorNode);
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+    } else {
+      const view = this.store.selectSnapshot(TreeState.getVegaView);
+      const fileName = `asct+b_${sn}_${dt}.${formatType}`;
+      view.background('#fafafa');
+      view
+        .toImageURL(formatType)
+        .then((url: string) => {
+          const link = document.createElement('a');
+          link.setAttribute('href', url);
+          link.setAttribute('target', '_blank');
+          link.setAttribute('download', fileName);
+          link.dispatchEvent(new MouseEvent('click'));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  
   }
 
 }

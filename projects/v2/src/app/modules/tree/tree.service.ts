@@ -168,14 +168,12 @@ export class TreeService {
 
       try {
         const spec = this.vs.makeVegaConfig(currentSheet, currentSheet.config.bimodal_distance, this.height, validateWidth(this.screenWidth, this.controlPaneOpen), tree.nodes, linkData);
+        this.store.dispatch(new UpdateVegaSpec(spec));
         this.vs.renderGraph(spec);
       } catch(err) {
         console.log(err)
       }
-      
-      
   }
-
 }
 
 

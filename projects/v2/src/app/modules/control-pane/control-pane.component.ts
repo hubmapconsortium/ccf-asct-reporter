@@ -33,6 +33,4 @@ export class ControlPaneComponent implements OnInit {
     window.location.href = mailText;
     // this.ga.eventEmitter( 'report', 'click',  'Report Problem' , 1);
   }
-
-
 }

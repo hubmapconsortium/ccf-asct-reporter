@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { } from './tree.service';
-import { BMNode } from '../../models/bimodal.model';
+import { BMNode, Link } from '../../models/bimodal.model';
 import { makeCellDegree, makeMarkerDegree, makeCellTypes, makeAS, makeBioMarkers } from './tree.functions';
 import { CT_BLUE, B_GREEN } from '../../models/tree.model';
-import { UpdateBimodal } from '../../actions/tree.actions';
+import { UpdateBimodal, UpdateVegaSpec } from '../../actions/tree.actions';
 import { CloseLoading, HasError } from '../../actions/ui.actions';
 import { ReportLog } from '../../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
@@ -305,8 +305,9 @@ export class BimodalService {
         const view = newData.treeState.view;
         const u_nodes = newData.treeState.bimodal.nodes;
         const u_links = newData.treeState.bimodal.links;
-
-        this.updateBimodalData(view, u_nodes, u_links);
+        const spec = newData.treeState.spec;
+        
+        this.updateBimodalData(view, spec, u_nodes, u_links);
       });
     } catch(err) {
       console.log(err)
@@ -320,14 +321,28 @@ export class BimodalService {
     }
   }
 
-  updateBimodalData(view, nodes, links) {
+  updateBimodalData(view, spec, nodes, links) {
     view._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
     view._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
     view._runtime.signals.targets__click.value = [];
     view.data('nodes', nodes).data('edges', links).resize().runAsync();
+
+    this.updateSpec(spec, nodes, links);
+    
     this.store.dispatch(new CloseLoading('Visualization Rendered'));
     this.store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Visualization successfully rendered', LOG_ICONS.success))
 
+  }
+
+  updateSpec(spec: any, nodes: BMNode[], links: Link[]) {
+    spec.data[
+      spec.data.findIndex((i) => i.name === 'nodes')
+    ].values = nodes;
+    spec.data[
+      spec.data.findIndex((i) => i.name === 'edges')
+    ].values = links;
+
+    this.store.dispatch(new UpdateVegaSpec(spec));
   }
 
   checkLinks(data) {
