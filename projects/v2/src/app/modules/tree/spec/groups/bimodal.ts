@@ -251,6 +251,16 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
           baseline: { value: 'middle' },
           text: { field: 'name' },
           fontSize: { field: 'fontSize' },
+          cursor: {value: 'pointer'},
+          fill: [
+            {
+              test: 'datum === bimodal_text__hover',
+              value: 'steelblue'
+            },
+            {
+              value: 'black'
+            }
+          ],
           fontWeight: [
             {
               test: 'indata(\'targets_clicked_array\', \'id\', datum.id)',

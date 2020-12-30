@@ -2,6 +2,11 @@ export const AS_RED = '#E41A1C';
 export const CT_BLUE = '#377EB8';
 export const B_GREEN = '#4DAF4A';
 
+export enum NODE_TYPE {
+  AS = 'AS',
+  BM = 'BM'
+}
+
 export class TNode {
   id: any;
   name: string;
@@ -17,6 +22,7 @@ export class TNode {
   children: number;
   x: number;
   y: number;
+  type: string;
 
   constructor(id, name, parent, uId, color = '#808080') {
     this.id = id;
@@ -29,6 +35,7 @@ export class TNode {
     this.isNew = false;
     this.pathColor = '#ccc';
     this.parents = [];
+    this.type = NODE_TYPE.AS;
   }
 }
 

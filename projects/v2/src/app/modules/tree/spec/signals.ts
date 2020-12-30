@@ -15,13 +15,40 @@ export class Signals implements VegaSignals {
       this.makeBimodalNodeTargetsHoverStateSignal(),
       this.makeBimodalTargetsClickStateSignal(),
       this.makeBimodalSourcesClickStateSignal(),
-      {
-        name: 'search_signal',
-        value: [],
-      },
+      this.makeSearchSignal(),
+      this.makeBimodalTextClickSignal(),
+      this.makeBimodalTextHoverSignal()
     ];
 
     return this.signals;
+  }
+
+  makeBimodalTextClickSignal() {
+    return {
+      name: 'bimodal_text__click',
+      value: null,
+      on: [
+        {
+          "events": "@textmark:click, @astextmark:click",
+          "update": "datum.type === 'AS' && datum.children ? datum : datum.type === 'BM' ? datum : null"
+        },
+        { "events": "click[!event.item]", "update": "null" }
+      ]
+    }
+  }
+
+  makeBimodalTextHoverSignal() {
+    return {
+      name: 'bimodal_text__hover',
+      value: null,
+      on: [
+        {
+          "events": "@textmark:mouseover, @astextmark:mouseover",
+          "update": "datum"
+        },
+        { "events": "mouseover[!event.item]", "update": "null" }
+      ]
+    }
   }
 
   /**
@@ -140,6 +167,13 @@ export class Signals implements VegaSignals {
         { events: 'click[!event.item]', update: '[]' },
       ],
     };
+  }
+
+  makeSearchSignal() {
+    return {
+      name: 'search_signal',
+      value: [],
+    }
   }
 
 }

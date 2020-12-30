@@ -139,12 +139,21 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
           fontSize: { value: 14 },
           baseline: { value: 'middle' },
           fontWeight: { value: 400 },
-
+          cursor: {signal: 'datum.children ? "pointer" : "null"'}
         },
         update: {
           x: { field: 'x' },
           y: { field: 'y' },
           dx: { signal: 'datum.children ? 15: -15' },
+          fill: [
+            {
+              test: 'datum === bimodal_text__hover',
+              value: 'steelblue'
+            },
+            {
+              value: 'black'
+            }
+          ],
           opacity: [
             {
               test: '!datum.children',

@@ -321,18 +321,21 @@ export class BimodalService {
     }
   }
 
-  updateBimodalData(view, spec, nodes, links) {
+  updateBimodalData(view: any, spec: any, nodes: BMNode[], links: Link[]) {
     view._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
     view._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
     view._runtime.signals.targets__click.value = [];
     view.data('nodes', nodes).data('edges', links).resize().runAsync();
 
     this.updateSpec(spec, nodes, links);
+    // this.addSignalListeners(view);
     
     this.store.dispatch(new CloseLoading('Visualization Rendered'));
     this.store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Visualization successfully rendered', LOG_ICONS.success))
 
   }
+
+  
 
   updateSpec(spec: any, nodes: BMNode[], links: Link[]) {
     spec.data[

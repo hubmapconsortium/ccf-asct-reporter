@@ -11,11 +11,17 @@ import { Legends } from './spec/legends';
 import { Marks } from './spec/marks';
 import { UpdateVegaView } from '../../actions/tree.actions';
 import { BimodalService } from './bimodal.service';
+import { Subject } from 'rxjs';
+import { BMNode } from '../../models/bimodal.model';
+import { TNode } from '../../models/tree.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VegaService {
+
+  private textSignal = new Subject<any>();
+  textSignal$ = this.textSignal.asObservable();
 
   constructor(public store: Store, public bm: BimodalService) { }
 
@@ -32,7 +38,7 @@ export class VegaService {
     const updatedTreeData = treeView.data('tree');
 
     // const treeWidth = treeView._runtime.group.context.data.asTree.values.value[0].bounds.x2;
-
+    this.addSignalListeners(treeView);
 
     this.store.dispatch(new UpdateVegaView(treeView)).subscribe(states => {
       const data = states.sheetState.data;
@@ -46,6 +52,12 @@ export class VegaService {
         catch(err){console.log('err', err)}
       }
     });
+  }
+
+  addSignalListeners(view: any) {
+    view.addSignalListener('bimodal_text__click', (signal, value) => {
+      this.textSignal.next(value) 
+    })
   }
 
   makeVegaConfig(currentSheet, bimodalDistance, height, width, treeData, multiParentLinksData) {

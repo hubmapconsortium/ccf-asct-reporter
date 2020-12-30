@@ -34,6 +34,7 @@ import { ReportComponent } from './components/report/report.component';
 import { DebugLogsComponent } from './components/debug-logs/debug-logs.component';
 import { LogsState } from './store/logs.state';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { InfoComponent } from './components/info/info.component';
 
 
 
@@ -52,7 +53,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     SidenavComponent,
     SidenavHeaderComponent,
     ReportComponent,
-    DebugLogsComponent
+    DebugLogsComponent,
+    InfoComponent
   ],
   imports: [
     BrowserModule,

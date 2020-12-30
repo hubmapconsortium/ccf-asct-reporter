@@ -22,6 +22,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+
 
 const MatModules = [
   MatToolbarModule,
@@ -43,7 +45,8 @@ const MatModules = [
   MatFormFieldModule,
   MatChipsModule,
   MatCheckboxModule,
-  MatSliderModule
+  MatSliderModule,
+  MatBottomSheetModule
 ];
 
 @NgModule({

@@ -1,3 +1,5 @@
+import { NODE_TYPE } from './tree.model';
+
 const groupNameMapper = {
   1: 'Anatomical Structures',
   2: 'Cell Types',
@@ -20,6 +22,7 @@ export class BMNode {
   problem: boolean;
   pathColor: string;
   isNew: boolean;
+  type: string;
 
   constructor(
     name,
@@ -44,6 +47,7 @@ export class BMNode {
     this.uberonId = uberonId;
     this.pathColor = '#ccc';
     this.isNew = false;
+    this.type = NODE_TYPE.BM;
   }
 }
 
