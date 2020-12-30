@@ -12,14 +12,19 @@
   
   <div *ngIf="loading;else resultBlock">
     <div class="text-center">
-      <img src="../../../assets/loading.svg" alt="" class="w-25">
+      <img src="../../../assets/loading.svg" alt="" style="width: 10%;">
       <p class="text-muted">Please wait while the data loads...</p>
     </div>
   </div>
   
   <ng-template #resultBlock>
     <div *ngIf="error.hasError; else infoBlock" class="pt-3">
-      Could not fetch data for <b>{{data.name}}</b>.
+      Could not fetch data for <b>{{data.name}}</b>. This could be because,
+      <ul class="pl-3 pt-2">
+        <li>Structure does not have an ontology ID.</li>
+        <li>Structure has an invalid ontology ID.</li>
+        <li>Broken network connection.</li>
+      </ul>
     </div>
   </ng-template>
   

@@ -25,18 +25,21 @@ export class InfoComponent implements OnInit {
 
 
   ngOnInit(): void {
-    setTimeout(() => {
+    if (this.data.uberonId) {
       this.getInfo(this.data.uberonId);
-    }, 2000);
+    } else  {
+      this.loading = false;
+      this.error = {hasError: true};
+    }
   }
 
   getInfo(id: string) {
+    console.log('HERE?')
     this.loading = true;
     this.error = { hasError: false };
     this.http.get<any>(getInformation(id))
       .subscribe(
         (res) => {
-          console.log(res)
           this.loading = false;
           const r = res._embedded.terms[0]
           this.info = {
@@ -44,7 +47,6 @@ export class InfoComponent implements OnInit {
             label: r.label,
             desc: r.description[0]
           };
-          // iri, label, description[0], 
           this.changeDetectorRef.detectChanges();
         },
         (err) => {
