@@ -8,8 +8,8 @@ import { of } from 'rxjs';
 
 import { Spec, View } from 'vega';
 import { Injectable } from '@angular/core';
-import { UpdateVegaSpec, UpdateVegaView, UpdateBimodal, UpdateBimodalConfig, DoSearch, UpdateGraphWidth } from '../actions/tree.actions';
-import { TNode, SearchStructure } from '../models/tree.model';
+import { UpdateVegaSpec, UpdateVegaView, UpdateBimodal, UpdateBimodalConfig, DoSearch, UpdateGraphWidth, UpdateBottomSheetData } from '../actions/tree.actions';
+import { TNode, SearchStructure, BottomSheetData } from '../models/tree.model';
 import { BMNode, Link, BimodalConfig } from '../models/bimodal.model';
 
 import { validateWidth } from "../static/util";
@@ -28,6 +28,7 @@ export class TreeStateModel {
   };
   search: SearchStructure[];
   completed: boolean;
+  bottomSheetData: {};
 }
 
 @State<TreeStateModel>({
@@ -41,7 +42,8 @@ export class TreeStateModel {
     screenWidth: validateWidth(document.getElementsByTagName('body')[0].clientWidth),
     bimodal: {nodes: [], links: [], config: {BM: {sort: 'Alphabetically', size: 'None'}, CT: {sort: 'Alphabetically', size: 'None'}}},
     completed: false,
-    search: []
+    search: [],
+    bottomSheetData: {}
   }
 })
 @Injectable()
@@ -78,6 +80,11 @@ export class TreeState {
   @Select()
   static getScreenWidth(state: TreeStateModel) {
     return state.screenWidth;
+  }
+
+  @Selector()
+  static getBottomSheetData(state: TreeStateModel) {
+    return state.bottomSheetData;
   }
 
 
@@ -143,4 +150,14 @@ export class TreeState {
       screenWidth: validateWidth(width)
     })
   }
+
+  @Action(UpdateBottomSheetData)
+  updateBottomSheetData({getState, setState}: StateContext<TreeStateModel>, {data}: UpdateBottomSheetData) {
+    const state = getState();
+    setState({
+      ...state,
+      bottomSheetData: data
+    })
+  }
+  
 }

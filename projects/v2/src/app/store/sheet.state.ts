@@ -10,7 +10,7 @@ import { HEADER_COUNT } from '../static/config';
 import { Injectable } from '@angular/core';
 import { parse } from 'papaparse';
 import { FetchSheetData, RefreshData, FetchDataFromAssets } from '../actions/sheet.actions';
-import { OpenLoading, CloseLoading, UpdateLoadingText, HasError } from '../actions/ui.actions';
+import { OpenLoading, CloseLoading, UpdateLoadingText, HasError, CloseBottomSheet } from '../actions/ui.actions';
 import { StateClear, StateReset } from 'ngxs-reset-plugin';
 import { UIState } from './ui.state';
 import { TreeState } from './tree.state';
@@ -73,6 +73,7 @@ export class SheetState {
     const state = getState();
     dispatch(new OpenLoading('Fetching data..'));
     dispatch(new StateReset(TreeState));
+    dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
 
     return this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).pipe(
@@ -112,6 +113,7 @@ export class SheetState {
     const state = getState();
     dispatch(new OpenLoading('Fetching data from assets..'));
     dispatch(new StateReset(TreeState));
+    dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file, version));
 
     return this.sheetService.fetchDataFromAssets(version, sheet).pipe(

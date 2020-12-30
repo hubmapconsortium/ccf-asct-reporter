@@ -30,4 +30,9 @@ export class DoSearch {
   static readonly type = '[SEARCH] Update Search List';
   constructor(public searchStructures: SearchStructure[]) {}
 }
+
+export class UpdateBottomSheetData {
+  static readonly type = '[UPDATE] Bottom Sheet Data';
+  constructor(public data: any) {}
+}
  

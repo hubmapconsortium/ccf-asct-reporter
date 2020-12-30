@@ -59,3 +59,18 @@ export class CloseRightSideNav {
   static readonly type = '[CLOSE] Right Side Nav';
   constructor() {}
 }
+
+export class ToggleBottomSheet {
+  static readonly type = '[TOGGLE] Bottom Sheet';
+  constructor() {}
+}
+
+export class OpenBottomSheet {
+  static readonly type = '[OPEN] Bottom Sheet';
+  constructor(public data: any) {}
+}
+
+export class CloseBottomSheet {
+  static readonly type = '[CLOSE] Bottom Sheet';
+  constructor() {}
+}

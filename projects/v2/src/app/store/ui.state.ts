@@ -8,10 +8,11 @@ import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { Injectable } from '@angular/core';
-import { ToggleControlPane, OpenLoading, CloseLoading, UpdateLoadingText, HasError, OpenSnackbar, CloseSnackbar, ToggleIndentList, ToggleReport, CloseRightSideNav, ToggleDebugLogs } from '../actions/ui.actions';
+import { ToggleControlPane, OpenLoading, CloseLoading, UpdateLoadingText, HasError, OpenSnackbar, CloseSnackbar, ToggleIndentList, ToggleReport, CloseRightSideNav, ToggleDebugLogs, ToggleBottomSheet, OpenBottomSheet, CloseBottomSheet } from '../actions/ui.actions';
 import { Snackbar } from '../models/ui.model';
 import { ReportLog } from '../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../models/logs.model';
+import { UpdateBottomSheetData } from '../actions/tree.actions';
 
 export class UIStateModel {
   rightSideNavOpen: boolean;
@@ -23,6 +24,7 @@ export class UIStateModel {
   indentListOpen: boolean;
   reportOpen: boolean;
   debugLogOpen: boolean;
+  bottomSheetOpen: boolean;
 }
 
 
@@ -37,7 +39,8 @@ export class UIStateModel {
     snackbar: { opened: false, text: '', type: SnackbarType.success },
     indentListOpen: false,
     reportOpen: false,
-    debugLogOpen: false
+    debugLogOpen: false,
+    bottomSheetOpen: false
   }
 })
 @Injectable()
@@ -92,6 +95,11 @@ export class UIState {
   @Selector()
   static getDebugLog(state: UIStateModel) {
     return state.debugLogOpen;
+  }
+
+  @Selector()
+  static getBottomSheet(state: UIStateModel) {
+    return state.bottomSheetOpen;
   }
 
   @Action(OpenSnackbar)
@@ -205,6 +213,30 @@ export class UIState {
     setState({
       ...state,
       debugLogOpen: !state.debugLogOpen
+    })
+  }
+
+  @Action(OpenBottomSheet)
+  openBottomSheet({getState, setState, patchState, dispatch}: StateContext<UIStateModel>, {data}: OpenBottomSheet) {
+    const state = getState();
+    dispatch(new CloseBottomSheet())
+    dispatch(new UpdateBottomSheetData(data)).subscribe(_ => {
+      setState({
+        ...state,
+        bottomSheetOpen: true
+      })
+    })
+    
+  }
+
+  @Action(CloseBottomSheet)
+  closeBottomSheet({getState, setState, dispatch}: StateContext<UIStateModel>) {
+    const state = getState();
+    dispatch(new UpdateBottomSheetData({}));
+
+    setState({
+      ...state,
+      bottomSheetOpen: false
     })
   }
 }

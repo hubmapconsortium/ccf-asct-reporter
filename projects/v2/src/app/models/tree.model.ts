@@ -121,3 +121,9 @@ export interface SearchStructure {
   x: number;
   y: number;
 }
+
+export interface BottomSheetData {
+  status: string;
+  text: any;
+  data: any;
+}

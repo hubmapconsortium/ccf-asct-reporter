@@ -14,16 +14,20 @@ import { BimodalService } from './bimodal.service';
 import { Subject } from 'rxjs';
 import { BMNode } from '../../models/bimodal.model';
 import { TNode } from '../../models/tree.model';
+import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { InfoComponent } from '../../components/info/info.component';
+import { OpenBottomSheet, CloseBottomSheet } from '../../actions/ui.actions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VegaService {
 
-  private textSignal = new Subject<any>();
-  textSignal$ = this.textSignal.asObservable();
+  // private textSignal = new Subject<any>();
+  // textSignal$ = this.textSignal.asObservable();
+  infoSheetRef: MatBottomSheetRef;
 
-  constructor(public store: Store, public bm: BimodalService) { }
+  constructor(public store: Store, public bm: BimodalService, private infoSheet: MatBottomSheet) { }
 
   async renderGraph(config) {
     const runtime: vega.Runtime = vega.parse(config, {});
@@ -55,8 +59,12 @@ export class VegaService {
   }
 
   addSignalListeners(view: any) {
-    view.addSignalListener('bimodal_text__click', (signal, value) => {
-      this.textSignal.next(value) 
+    view.addSignalListener('bimodal_text__click', (signal, text) => {
+      if (text) {
+        this.store.dispatch(new OpenBottomSheet(text))
+      } else {
+        this.store.dispatch(new CloseBottomSheet())
+      }
     })
   }
 

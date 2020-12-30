@@ -8,7 +8,7 @@ import { FetchSheetData, FetchDataFromAssets } from './../../actions/sheet.actio
 import { TreeService } from './../tree/tree.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UIState } from '../../store/ui.state';
-import { HasError, CloseSnackbar, CloseRightSideNav } from '../../actions/ui.actions';
+import { HasError, CloseSnackbar, CloseRightSideNav, CloseBottomSheet } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LoadingComponent } from '../../components/loading/loading.component';
@@ -19,6 +19,9 @@ import { Snackbar } from '../../models/ui.model';
 import { ReportService } from '../../components/report/report.service';
 import { LogsState } from '../../store/logs.state';
 import * as moment from 'moment';
+import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { InfoComponent } from '../../components/info/info.component';
+import { BMNode } from '../../models/bimodal.model';
 
 
 @Component({
@@ -36,6 +39,7 @@ export class RootComponent implements OnInit, OnDestroy{
   snackbarRef: any;
   isControlPaneOpen: boolean;
   screenWidth = document.getElementsByTagName('body')[0].clientWidth;
+  infoSheetRef: MatBottomSheetRef;
 
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
 
@@ -45,6 +49,7 @@ export class RootComponent implements OnInit, OnDestroy{
 
   // Tree Observables
   @Select(TreeState.getTreeData) treeData$: Observable<any>;
+  @Select(TreeState.getBottomSheetData) bsd$: Observable<any>;
 
   // Control Pane Observables
   @Select(UIState.getControlPaneState) pane$: Observable<boolean>;
@@ -59,6 +64,7 @@ export class RootComponent implements OnInit, OnDestroy{
   @Select(UIState.getSnackbar) snack$: Observable<Snackbar>;
   @Select(UIState.getReport) report$: Observable<boolean>;
   @Select(UIState.getDebugLog) dl$: Observable<boolean>;
+  @Select(UIState.getBottomSheet) bs$: Observable<boolean>;
 
   // Logs Oberservables
   @Select(LogsState) logs$: Observable<any>;
@@ -70,7 +76,8 @@ export class RootComponent implements OnInit, OnDestroy{
     public dialog: MatDialog, 
     private snackbar: MatSnackBar,
     public indent: IndentedListService,
-    public report: ReportService
+    public report: ReportService,
+    private infoSheet: MatBottomSheet
   ) {
     
     this.data$.subscribe(data => {
@@ -128,10 +135,26 @@ export class RootComponent implements OnInit, OnDestroy{
         ts.makeTreeData(this.sheet, this.data, []);
     })
 
+    this.bs$.subscribe(value => {
+      if (value) {
+        const bsd = store.selectSnapshot(TreeState.getBottomSheetData);
+        this.infoSheetRef = this.infoSheet.open(InfoComponent, {
+          disableClose: false,
+          hasBackdrop: false,
+          autoFocus: false,
+          panelClass: 'bottom-sheet-style',
+          data: bsd
+        })
+      } else {
+        if (this.infoSheetRef) this.infoSheetRef.dismiss();
+      }
+    })
+
 
   }
 
   ngOnInit(): void {
+    
   }
 
   ngOnDestroy() {
