@@ -28,10 +28,11 @@ class Structure {
   rdfs_label?: string;
   b_type?: BM_TYPE;
 
-  constructor() {
+  constructor(name: string) {
+    this.name = name;
     this.id = '';
     this.rdfs_label = '';
-    this.name = '';
+    
   }
 }
 
@@ -47,9 +48,10 @@ class Row {
   }
 }
 
-let  headerMap: any = {
+let headerMap: any = {
  'AS':'anatomical_structures', 'CT': 'cell_types', 'BG': 'biomarkers', 'BP': 'biomarkers'
 }
+
 
 let ids = '0123456789'
 
@@ -77,7 +79,7 @@ app.get("/v2/:sheetid/:gid", async (req:any, res:any) => {
         let key = headerMap[rowHeader[0]]
 
         if (rowHeader.length === 2 && Number(rowHeader[1])) {
-          let s: Structure = {name: data[i][j]}
+          let s = new Structure(data[i][j])
           if (rowHeader[0] === 'BG') s.b_type = BM_TYPE.G
           if (rowHeader[0] === 'BP') s.b_type = BM_TYPE.P
           newRow[key].push(s)
@@ -101,12 +103,7 @@ app.get("/v2/:sheetid/:gid", async (req:any, res:any) => {
       code: 500
     })
   }
-  
-//   fs.writeFile("../src/app/tree/output.json", JSON.stringify({data: rows}), function(err:any) {
-//     if (err) throw err;
-//     console.log('complete');
-//     }
-// );
+
   return res.send(rows)
 
 })

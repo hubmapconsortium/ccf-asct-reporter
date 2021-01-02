@@ -86,6 +86,7 @@ export class RootComponent implements OnInit, OnDestroy{
         try {
           this.ts.makeTreeData(this.sheet, data, []);
         } catch (err) {
+          console.log(err)
           this.store.dispatch(new HasError({hasError: true, msg: err, status: 400}))
         }
       }

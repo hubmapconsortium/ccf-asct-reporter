@@ -11,7 +11,7 @@ export class SheetService {
   constructor(private http: HttpClient) { }
 
   fetchSheetData(sheetId: string, gid: string) {
-    return this.http.get(`${URL}/${sheetId}/${gid}`, { responseType: 'text' });
+    return this.http.get(`${URL}/${sheetId}/${gid}`);
   }
 
   fetchDataFromAssets(dataVersion: string, currentSheet: any) {

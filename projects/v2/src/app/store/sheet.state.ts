@@ -77,15 +77,16 @@ export class SheetState {
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
 
     return this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).pipe(
-      tap((res) => {
+      tap((res: Array<any>) => {
 
-        const parsedData = parse(res, {skipEmptyLines: true, });
-        parsedData.data.splice(0, HEADER_COUNT);
-        parsedData.data.map(i => {i.push(false); i.push('#ccc'); });
+
+        // const parsedData = parse(res, {skipEmptyLines: true, });
+        // parsedData.data.splice(0, HEADER_COUNT);
+        // parsedData.data.map(i => {i.push(false); i.push('#ccc'); });
 
         setState({
           ...state,
-          data: parsedData.data,
+          data: res,
           version: 'latest',
           sheet: sheet
         });

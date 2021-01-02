@@ -101,7 +101,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
         update: {
           x: { field: 'x' },
           y: { field: 'y' },
-          tooltip: { signal: '{"Ontology Link": datum.uberonId}' },
+          tooltip: { signal: '{"Ontology Link": datum.ontology_id}' },
           opacity: [
             {
               test: 'node__click === null && node__hover === null',

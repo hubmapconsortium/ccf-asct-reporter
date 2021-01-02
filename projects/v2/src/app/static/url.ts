@@ -1,4 +1,4 @@
-export const URL = `http://localhost:5000`;
+export const URL = `http://localhost:5000/v2`;
 
 export function getAssetsURL(dataVersion, currentSheet) {
   return `assets/data/${dataVersion}/${currentSheet.name}.csv`

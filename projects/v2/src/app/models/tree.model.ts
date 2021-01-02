@@ -4,14 +4,15 @@ export const B_GREEN = '#4DAF4A';
 
 export enum NODE_TYPE {
   AS = 'AS',
-  BM = 'BM'
+  BM = 'BM',
+  R = 'root'
 }
 
 export class TNode {
   id: any;
   name: string;
   parent: string;
-  uberonId: string;
+  ontology_id: string;
   color: string;
   problem: boolean;
   found: boolean;
@@ -23,12 +24,13 @@ export class TNode {
   x: number;
   y: number;
   type: string;
+  comparator: string;
 
   constructor(id, name, parent, uId, color = '#808080') {
     this.id = id;
     this.name = name;
     this.parent = parent;
-    this.uberonId = uId;
+    this.ontology_id = uId;
     this.color = color;
     this.problem = false;
     this.groupName = 'Multi-parent Nodes';
@@ -36,6 +38,7 @@ export class TNode {
     this.pathColor = '#ccc';
     this.parents = [];
     this.type = NODE_TYPE.AS;
+    this.comparator = ''
   }
 }
 
