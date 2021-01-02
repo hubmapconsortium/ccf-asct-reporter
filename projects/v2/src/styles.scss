@@ -91,5 +91,15 @@ button:focus {
 .bottom-sheet-style {
   // max-height: 300px;
   // overflow: auto;
+  border: 3px solid #ececec;
   max-width: 300px !important;
+  box-shadow: none !important;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+}
+
+// SIDE NAV
+
+::ng-deep .mat-drawer-backdrop .ng-star-inserted .mat-drawer-shown {
+  background-color: green !important;
 }
