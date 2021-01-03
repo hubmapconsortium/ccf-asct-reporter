@@ -210,6 +210,9 @@ export class BimodalService {
           links.push({s: nodes[foundIndex].id,t: node.id})
         }) 
       }
+    })
+
+    nodes.forEach((node, i) => {
       if (node.group == 2) {
         node.outdegree.forEach(str => {
           let tt = nodes.map((val, idx) => ({val, idx})).filter(({val, idx})=> `${val.name}${val.ontology_id}` === str).map(({val, idx}) => idx)
@@ -238,6 +241,8 @@ export class BimodalService {
         })
       }
     })
+
+    console.log(nodes)
     
   this.store.dispatch(new UpdateBimodal(nodes, links)).subscribe(newData => {
         const view = newData.treeState.view;

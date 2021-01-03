@@ -16,7 +16,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
     return {
       type: 'group',
       signals: [
-        {name: 'bgoffset', value: 8}
+        { name: 'bgoffset', value: 8 }
       ],
       name: 'bimodal-network',
       marks: [
@@ -33,15 +33,15 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
     return {
       name: 'rectmark',
       type: 'rect',
-      from: {data: 'textmark'},
+      from: { data: 'textmark' },
       encode: {
         enter: {
-          x: {field: 'bounds.x1', round: true, offset: {signal: '-bgoffset'}},
-          x2: {field: 'bounds.x2', round: true, offset: {signal: 'bgoffset'}},
-          y: {field: 'bounds.y1', round: true, offset: {signal: '-bgoffset'}},
-          y2: {field: 'bounds.y2', round: true, offset: {signal: 'bgoffset'}},
-          fill: {value: 'aliceblue'},
-          stroke: {value: 'steelblue'}
+          x: { field: 'bounds.x1', round: true, offset: { signal: '-bgoffset' } },
+          x2: { field: 'bounds.x2', round: true, offset: { signal: 'bgoffset' } },
+          y: { field: 'bounds.y1', round: true, offset: { signal: '-bgoffset' } },
+          y2: { field: 'bounds.y2', round: true, offset: { signal: 'bgoffset' } },
+          fill: { value: 'aliceblue' },
+          stroke: { value: 'steelblue' }
         },
         update: {
           opacity: [
@@ -50,9 +50,9 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
               value: 1
             },
             {
-             value: '0'
+              value: '0'
             }
-           ]
+          ]
         }
       }
     };
@@ -236,7 +236,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
     };
   }
 
-    makeBiomodalTextLinkMarks() {
+  makeBiomodalTextLinkMarks() {
     return {
       type: 'text',
       name: 'textlinkmark',
@@ -248,16 +248,12 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
           x: { field: 'x' },
           y: { field: 'y', offset: 5 },
           dx: { value: 20 },
-          dy: {value: 10},
+          dy: { value: 10 },
           align: { value: 'left' },
           baseline: { value: 'middle' },
           text: { field: 'ontology_id' },
-          fontSize: { value: 11},
+          fontSize: { value: 11 },
           fill: [
-            {
-              test: 'datum === bimodal_text__hover',
-              value: 'steelblue'
-            },
             {
               value: 'grey'
             }
@@ -326,12 +322,12 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
           x: { field: 'x' },
           y: { field: 'y', offset: 5 },
           dx: { value: 20 },
-          dy: {value: -8},
+          dy: { value: -8 },
           align: { value: 'left' },
           baseline: { value: 'middle' },
           text: { field: 'name' },
           fontSize: { field: 'fontSize' },
-          cursor: {value: 'pointer'},
+          cursor: { value: 'pointer' },
           fill: [
             {
               test: 'datum === bimodal_text__hover',
