@@ -23,7 +23,8 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
         this.makeBimodalPathMarks(),
         this.makeBimodalSymbolMarks(),
         this.makeBiomodalTextMarks(),
-        this.makeBimodalTextSearchMarks()
+        this.makeBimodalTextSearchMarks(),
+        this.makeBiomodalTextLinkMarks()
       ]
     };
   }
@@ -201,7 +202,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
           cursor: { value: 'pointer' },
           tooltip: {
             signal:
-              '{\'Name\': datum.name, \'Degree\': datum.group === 1 ? length(datum.sources) + length(datum.targets) + 1 : length(datum.sources) + length(datum.targets), "Indegree": datum.group == 1 ? 1 : length(datum.sources), "Outdegree": length(datum.targets), "Ontology ID": datum.uberonId}',
+              '{\'Name\': datum.name, \'Degree\': datum.group === 1 ? length(datum.sources) + length(datum.targets) + 1 : length(datum.sources) + length(datum.targets), "Indegree": datum.group == 1 ? 1 : length(datum.sources), "Outdegree": length(datum.targets), "Ontology ID": datum.ontology_id}',
           },
         },
         update: {
@@ -235,6 +236,84 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
     };
   }
 
+    makeBiomodalTextLinkMarks() {
+    return {
+      type: 'text',
+      name: 'textlinkmark',
+      zindex: 5,
+      dx: 5,
+      from: { data: 'nodes' },
+      encode: {
+        update: {
+          x: { field: 'x' },
+          y: { field: 'y', offset: 5 },
+          dx: { value: 20 },
+          dy: {value: 10},
+          align: { value: 'left' },
+          baseline: { value: 'middle' },
+          text: { field: 'ontology_id' },
+          fontSize: { value: 11},
+          fill: [
+            {
+              test: 'datum === bimodal_text__hover',
+              value: 'steelblue'
+            },
+            {
+              value: 'grey'
+            }
+          ],
+          fontWeight: [
+            {
+              test: 'indata(\'targets_clicked_array\', \'id\', datum.id)',
+              value: 'bold',
+            },
+            {
+              test: 'datum.id === node__click',
+              value: 'bold',
+            },
+            {
+              test: 'indata(\'sources_clicked_array\', \'id\', datum.id)',
+              value: 'bold',
+            },
+            {
+              test:
+                'indata(\'targets_of_targets__click\', \'targets\', datum.id)',
+              value: 'bold',
+            },
+            {
+              test:
+                'indata(\'sources_of_sources__click\', \'sources\', datum.id)  && datum.group !== 2 && datum.group !== 3',
+              value: 'bold',
+            },
+          ],
+          opacity: [
+            {
+              test: 'node__click === null && node__hover === null',
+              value: 1
+            },
+            {
+              test: 'indata(\'view_mode__click\', \'id\', datum.id) || indata(\'targets_of_targets__click\', \'targets\', datum.id) || (indata(\'sources_of_sources__click\', \'sources\', datum.id) && datum.group !== 2 && datum.group !== 3)',
+              value: 1
+            },
+            {
+              test: 'node__hover !== null && indata(\'view_mode__hover\', \'id\', datum.id) || indata(\'targets_of_targets__hover\', \'targets\', datum.id) || (indata(\'sources_of_sources__hover\', \'sources\', datum.id) && datum.group !== 2 && datum.group !== 3)',
+              value: 1
+            },
+            {
+              test: 'node__hover !== null && datum.id !== node__hover && node__click === null',
+              value: 0.5
+            },
+            {
+              value: 0.1
+            }
+          ],
+          limit: { signal: 'node__click === datum.id || node__hover === datum.id || indata(\'view_mode__click\', \'id\', datum.id) || indata(\'view_mode__hover\', \'id\', datum.id) || indata(\'targets_of_targets__click\', \'targets\', datum.id) || indata(\'sources_of_sources__click\', \'sources\', datum.id) || indata(\'targets_of_targets__hover\', \'targets\', datum.id) || indata(\'sources_of_sources__hover\', \'sources\', datum.id)? null : 150' },
+        },
+      },
+    };
+  }
+
+
   makeBiomodalTextMarks() {
     return {
       type: 'text',
@@ -247,6 +326,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
           x: { field: 'x' },
           y: { field: 'y', offset: 5 },
           dx: { value: 20 },
+          dy: {value: -8},
           align: { value: 'left' },
           baseline: { value: 'middle' },
           text: { field: 'name' },

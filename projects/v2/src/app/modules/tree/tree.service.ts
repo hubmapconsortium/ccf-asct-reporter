@@ -152,7 +152,7 @@ export class TreeService {
       // const uberon_col = currentSheet.uberon_col;
 
       // const root = new TNode(id, currentSheet.body, 0, 0, AS_RED);
-      // delete root.parent; delete root.uberonId;
+      // delete root.parent; delete root.ontology_id;
       // tree.append(root);
 
       // try {

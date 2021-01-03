@@ -41,13 +41,13 @@ export class BimodalService {
     treeData.forEach((td) => {
       if (td.children === 0) {
         const leaf = td.name;
-        const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.uberonId);
+        const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.ontology_id);
         newLeaf.id = id;
         newLeaf.problem = td.problem;
         newLeaf.pathColor = td.pathColor;
         newLeaf.isNew = td.isNew;
         newLeaf.color = td.color;
-        newLeaf.uberonId = anatomicalStructuresData.find(a => a.structure === leaf).uberon
+        newLeaf.ontology_id = anatomicalStructuresData.find(a => a.structure === leaf).uberon
         newLeaf.indegree = anatomicalStructuresData.find(a => a.structure === leaf).indegree
         newLeaf.outdegree = anatomicalStructuresData.find(a => a.structure === leaf).outdegree
         newLeaf.label = anatomicalStructuresData.find(a => a.structure === leaf).label
@@ -57,7 +57,6 @@ export class BimodalService {
       }
     });
     
-    console.log(nodes)
 
     // adding x distance to build the next layer of bimodal
     treeX += distance;
@@ -105,7 +104,6 @@ export class BimodalService {
 
     }
     
-    console.log(cellTypes)
 
     cellTypes.forEach((cell) => {
       const newNode = new BMNode(
@@ -129,11 +127,11 @@ export class BimodalService {
         newNode.color = cell.color;
       }
       nodes.push(newNode);
-      treeY += 50;
+      treeY += 60;
       id += 1;
     });
 
-    treeY = 50;
+    treeY = 60;
     treeX += distance;
 
     biomarkers = await makeBioMarkers(sheetData, {
@@ -190,7 +188,7 @@ export class BimodalService {
         newNode.color = marker.color;
       }
       nodes.push(newNode);
-      treeY += 40;
+      treeY += 50;
       id += 1;
     });
 
@@ -199,7 +197,7 @@ export class BimodalService {
       if (node.group == 1) {
         node.sources = [];
         node.outdegree.forEach(str => {
-          let foundIndex = nodes.findIndex(i => `${i.name}${i.uberonId}` === str)
+          let foundIndex = nodes.findIndex(i => `${i.name}${i.ontology_id}` === str)
           node.targets.push(nodes[foundIndex].id)
           links.push({s: node.id, t: nodes[foundIndex].id})
         })
@@ -212,12 +210,9 @@ export class BimodalService {
           links.push({s: nodes[foundIndex].id,t: node.id})
         }) 
       }
-    })
-
-    nodes.forEach((node, i) => {
       if (node.group == 2) {
         node.outdegree.forEach(str => {
-          let tt = nodes.map((val, idx) => ({val, idx})).filter(({val, idx})=> `${val.name}${val.uberonId}` === str).map(({val, idx}) => idx)
+          let tt = nodes.map((val, idx) => ({val, idx})).filter(({val, idx})=> `${val.name}${val.ontology_id}` === str).map(({val, idx}) => idx)
           let targets =[]
           tt.forEach(s => {targets.push(nodes[s].id)})
           
@@ -232,7 +227,7 @@ export class BimodalService {
          // make sources only if there is a link from AS to CT
         node.indegree.forEach(str => {
 
-          let ss = nodes.map((val, idx) => ({val, idx})).filter(({val, idx})=>`${val.name}${val.uberonId}`=== str).map(({val, idx}) => idx)
+          let ss = nodes.map((val, idx) => ({val, idx})).filter(({val, idx})=>`${val.name}${val.ontology_id}`=== str).map(({val, idx}) => idx)
           let sources =[]
           ss.forEach(s => {sources.push(nodes[s].id)})
           sources.forEach(s => {
@@ -272,7 +267,7 @@ export class BimodalService {
     //   treeData.forEach((td) => {
     //     if (td.children === 0) {
     //       const leaf = td.name;
-    //       const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.uberonId);
+    //       const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.ontology_id);
     //       newLeaf.id = id;
     //       newLeaf.problem = td.problem;
     //       newLeaf.pathColor = td.pathColor;

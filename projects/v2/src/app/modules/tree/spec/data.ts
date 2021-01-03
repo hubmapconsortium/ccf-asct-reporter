@@ -52,7 +52,7 @@ export class Data implements VegaData {
           type: 'tree',
           method: 'cluster',
           size: [
-            { signal: height + currentSheet.config.height_offset },
+            { signal: height + currentSheet.config.height_offset + 500 },
             { signal: width - bimodalDistance * 2 },
           ],
           separation: { value: false },

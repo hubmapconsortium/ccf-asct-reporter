@@ -25,8 +25,8 @@ export class InfoComponent implements OnInit {
 
 
   ngOnInit(): void {
-    if (this.data.uberonId) {
-      this.getInfo(this.data.uberonId);
+    if (this.data.ontology_id) {
+      this.getInfo(this.data.ontology_id);
     } else  {
       this.loading = false;
       this.error = {hasError: true};

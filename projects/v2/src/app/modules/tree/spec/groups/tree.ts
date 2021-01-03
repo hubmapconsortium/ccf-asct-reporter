@@ -25,6 +25,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
         this.makeTreeSymbolMarks(),
         this.makeTreeTextMarks(),
         this.makeBimodalTextSearchMarks(),
+        this.makeTreeTextLinkMarks()
       ],
     };
   }
@@ -126,6 +127,54 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
     };
   }
 
+  makeTreeTextLinkMarks() {
+    return {
+      type: 'text',
+      name: 'aslinktextmark',
+      from: { data: 'tree' },
+      zindex: 5,
+      encode: {
+        enter: {
+          text: { field: 'ontology_id' },
+          limit: { value: 180 },
+          fontSize: { value: 11 },
+          baseline: { value: 'middle' },
+          fontWeight: { value: 600 },
+        },
+        update: {
+          x: { field: 'x' },
+          y: { field: 'y' },
+          dy: {value: 8},
+          dx: { signal: 'datum.children ? 15: -15' },
+          fill: [
+            {
+              value: 'grey'
+            }
+          ],
+          opacity: [
+            {
+              test: '!datum.children',
+              value: 0
+            },
+            {
+              test: 'node__click !== null',
+              value: 0.1
+            },
+            {
+              test: 'node__click === null && node__hover === null',
+              value: 1
+            },
+            {
+              test: 'node__hover !== null && node__click === null',
+              value: 0.5
+            },
+          ],
+          align: { signal: 'datum.children ? \'left\' : \'right\'' },
+        },
+      },
+    };
+  }
+
   makeTreeTextMarks() {
     return {
       type: 'text',
@@ -144,6 +193,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
         update: {
           x: { field: 'x' },
           y: { field: 'y' },
+          dy: {value: -8},
           dx: { signal: 'datum.children ? 15: -15' },
           fill: [
             {

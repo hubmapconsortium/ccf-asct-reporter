@@ -8,7 +8,7 @@ const groupNameMapper = {
 
 export class BMNode {
   name: string;
-  uberonId: string;
+  ontology_id: string;
   group: number;
   groupName: string;
   fontSize: number;
@@ -35,7 +35,7 @@ export class BMNode {
     x,
     y,
     fontSize,
-    uberonId = '',
+    ontology_id = '',
     color = '#E41A1C',
     nodeSize = 300
   ) {
@@ -49,7 +49,7 @@ export class BMNode {
     this.targets = [];
     this.sources = [];
     this.groupName = groupNameMapper[group];
-    this.uberonId = uberonId;
+    this.ontology_id = ontology_id;
     this.pathColor = '#ccc';
     this.isNew = false;
     this.type = NODE_TYPE.BM;
