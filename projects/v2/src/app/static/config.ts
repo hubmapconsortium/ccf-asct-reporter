@@ -25,8 +25,10 @@ export const SHEET_CONFIG = [
   {
     name: 'spleen',
     display: 'Spleen',
-    sheetId: '1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI',
-    gid: '1283919854',
+    // sheetId: '1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI',
+    // gid: '1283919854',
+    sheetId: '18lJe-9fq5fHWr-9HuFTzhWnmfygeuXs2bbsXO8vh1FU',
+    gid: '1584559242',
     header_count: 11,
     cell_col: 15,
     marker_col: 18,
@@ -173,8 +175,8 @@ export const SHEET_CONFIG = [
   {
     name: 'skin',
     display: 'Skin',
-    sheetId: '1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI',
-    gid: '1268820100',
+    sheetId: '18lJe-9fq5fHWr-9HuFTzhWnmfygeuXs2bbsXO8vh1FU',
+    gid: '1867953125',
     header_count: 11,
     cell_col: 3,
     marker_col: 4,

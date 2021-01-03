@@ -43,20 +43,20 @@ export class VegaService {
 
     // const treeWidth = treeView._runtime.group.context.data.asTree.values.value[0].bounds.x2;
     this.addSignalListeners(treeView);
-    this.store.dispatch(new CloseLoading('Visualization Rendered'));
+    // this.store.dispatch(new CloseLoading('Visualization Rendered'));
 
-    // this.store.dispatch(new UpdateVegaView(treeView)).subscribe(states => {
-    //   const data = states.sheetState.data;
-    //   const sheet = states.sheetState.sheet;
-    //   const treeData = states.treeState.treeData;
-    //   const bimodalConfig = states.treeState.bimodal.config;
+    this.store.dispatch(new UpdateVegaView(treeView)).subscribe(states => {
+      const data = states.sheetState.data;
+      const sheet = states.sheetState.sheet;
+      const treeData = states.treeState.treeData;
+      const bimodalConfig = states.treeState.bimodal.config;
 
 
-    //   if (data.length) {
-    //     try {this.bm.makeBimodalData(data, treeData, bimodalConfig, sheet, []);}
-    //     catch(err){console.log('err', err)}
-    //   }
-    // });
+      if (data.length) {
+        try {this.bm.makeBimodalData(data, treeData, bimodalConfig, sheet, []);}
+        catch(err){console.log('err', err)}
+      }
+    });
   }
 
   addSignalListeners(view: any) {

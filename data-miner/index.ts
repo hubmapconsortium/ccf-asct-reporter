@@ -87,12 +87,17 @@ app.get("/v2/:sheetid/:gid", async (req:any, res:any) => {
         
   
         if (rowHeader.length === 3 && rowHeader[2] === 'ID') {
-          newRow[key][parseInt(rowHeader[1]) - 1].id = data[i][j]
+          let n = newRow[key][parseInt(rowHeader[1]) - 1]
+          if (n)
+          n.id = data[i][j]
         } else if(rowHeader.length === 3 && rowHeader[2] === 'LABEL') {
-          newRow[key][parseInt(rowHeader[1]) - 1].rdfs_label = data[i][j]
+          let n = newRow[key][parseInt(rowHeader[1]) - 1];
+          if (n)
+          n.rdfs_label = data[i][j]
         }
         
       }
+      console.log(newRow)
       rows.push(newRow)
       
     }

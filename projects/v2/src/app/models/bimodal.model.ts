@@ -8,6 +8,7 @@ const groupNameMapper = {
 
 export class BMNode {
   name: string;
+  uberonId: string;
   group: number;
   groupName: string;
   fontSize: number;
@@ -18,11 +19,15 @@ export class BMNode {
   nodeSize: number;
   targets: Array<number>;
   sources: Array<number>;
-  uberonId: string;
+ 
   problem: boolean;
   pathColor: string;
   isNew: boolean;
   type: string;
+  degree?: number;
+  indegree?: any;
+  outdegree?: any;
+  label?: string;
 
   constructor(
     name,
@@ -48,6 +53,7 @@ export class BMNode {
     this.pathColor = '#ccc';
     this.isNew = false;
     this.type = NODE_TYPE.BM;
+    this.label = '';
   }
 }
 

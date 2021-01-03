@@ -48,9 +48,16 @@ export class TreeAndMultiParent {
 
 }
 
-export interface AS {
+export interface Base {
+  comparator?: string;
+}
+
+export interface AS extends Base {
   structure: string;
   uberon: string;
+  indegree?: Set<string>;
+  outdegree?: Set<string>;
+  label?: string;
 }
 
 export interface ASCTBConfig {
@@ -60,20 +67,27 @@ export interface ASCTBConfig {
   uberon_col?: number;
 }
 
-export interface CT {
+export interface CT extends Base{
   structure: string;
   link: string;
-  nodeSize: number;
+  nodeSize?: number;
   isNew: boolean;
   color: string;
+  label?: string;
+  indegree?: Set<string>;
+  outdegree?: Set<string>;
 }
 
-export interface B {
+export interface B extends Base{
   structure: string;
   link: string;
   isNew: boolean;
   color: string;
+  indegree?: Set<string>;
+  outdegree?: Set<string>;
+  nodeSize?: number;
 }
+
 
 export class Cell {
   structure: string;

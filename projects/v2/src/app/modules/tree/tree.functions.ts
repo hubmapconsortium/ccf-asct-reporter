@@ -162,56 +162,54 @@ export async function makeCellDegree(
    * @returns - Array of anatomical structures
    *
    */
-export async function makeAS(
-    data: Array<Array<string>>,
-    config: ASCTBConfig = {
-      report_cols: this.sheet.report_cols,
-      cell_col: this.sheet.cell_col,
-      marker_col: this.sheet.marker_col,
-      uberon_col: this.sheet.uberon_col,
-    }
-  ): Promise<Array<AS>> {
-    return new Promise((res, rej) => {
-      const anatomicalStructures = [];
-      const cols = config.report_cols;
-      data.forEach((row) => {
-        for (const col in cols) {
-          if (
-            cols[col] !== config.cell_col &&
-            cols[col] !== config.marker_col
-          ) {
-            const structure = row[cols[col]];
-            if (structure.startsWith('//')) {
-              continue;
-            }
+export function makeAS(
+  data: any,
+  config?
+): Promise<Array<AS>> {
+  return new Promise((res, rej) => {
+    const anatomicalStructures: Array<AS> = [];
+    // const cols = config.report_cols;
 
-            if (structure !== '') {
-              if (
-                !anatomicalStructures.some(
-                  (i) => i.structure.toLowerCase() === structure.toLowerCase()
-                )
-              ) {
-                anatomicalStructures.push({
-                  structure,
-                  uberon:
-                    row[cols[col] + config.uberon_col].toLowerCase() !==
-                      structure.toLowerCase()
-                      ? row[cols[col] + config.uberon_col]
-                      : '',
-                });
-              }
-            }
+    // let newData = outputData.data
+    data.forEach(row => {
+      row.anatomical_structures.forEach((str, i) => {
+        let foundIndex = anatomicalStructures.findIndex(i => i.comparator === str.name + str.id);
+        let newStructure: AS;
+        if (foundIndex === -1) {
+          newStructure = {
+            structure: str.name,
+            uberon: str.id,
+            outdegree: new Set(),
+            indegree: new Set(),
+            comparator: str.name + str.id,
+            label: str.rdfs_label
+          }
+
+          newStructure.outdegree.add(`${row.cell_types[0].name}${row.cell_types[0].id}`);
+          if (i > 0) {
+            // needed for the first element to not throw an error
+            newStructure.indegree.add(row.anatomical_structures[i - 1].name);
+          }
+          
+          anatomicalStructures.push(newStructure)
+        } else {
+          anatomicalStructures[foundIndex].outdegree.add(`${row.cell_types[0].name}${row.cell_types[0].id}`)
+          if (i > 0) {
+            anatomicalStructures[foundIndex].indegree.add(row.anatomical_structures[i - 1].name);
           }
         }
-      });
+      })
+    })
+    
+    // console.log('origin: ', anatomicalStructures)
+    if (anatomicalStructures.length > 0) {
+      res(anatomicalStructures);
+    } else {
+      rej(['Could not process anatomical structures.']);
+    }
+  });
+}
 
-      if (anatomicalStructures.length > 0) {
-        res(anatomicalStructures);
-      } else {
-        rej(['Could not process anatomical structures.']);
-      }
-    });
-  }
 
   /**
    * Function to compute the Cell Types from the given Data Table.
@@ -223,42 +221,68 @@ export async function makeAS(
    *
    * @returns - Array of cell types
    */
-export async function makeCellTypes(
-    data: Array<Array<string>>,
-    config: ASCTBConfig
-  ): Promise<Array<CT>> {
-    const cellTypes = [];
-    return new Promise((res, rej) => {
-      data.forEach((row) => {
-        const cells = row[config.cell_col].trim().split(',');
-        for (const i in cells) {
-          if (cells[i] !== '' && !cells[i].startsWith('//')) {
-            if (!cellTypes.some((c) => c.structure.trim().toLowerCase() === cells[i].trim().toLowerCase())) {
+export   async function makeCellTypes(
+  data: any,
+  config: ASCTBConfig
+): Promise<Array<CT>> {
+  const cellTypes = []
+  
+  return new Promise((res, rej) => {
 
-              // console.log(`name: ${cells[i].trim()}, color: ${row[config.marker_col + 3]}, isNew: ${row[config.marker_col + 2]}`)
-              cellTypes.push({
-                structure: cells[i].trim(),
-                link:
-                  row[config.cell_col + config.uberon_col] !== cells[i].trim()
-                    ? row[config.cell_col + config.uberon_col]
-                    : 'NONE',
-                isNew: row[row.length - 2],
-                color: row[row.length - 1]
-              });
-            }
+    // let newData = outputData.data
+    data.forEach(row => {
+      row.cell_types.forEach(str => {
+        let foundIndex = cellTypes.findIndex(cell => cell.comparator === (str.name + str.id))
+        let newStructure: CT;
+        if (foundIndex === -1) {
+          newStructure = {
+            structure: str.name,
+            link: str.id,
+            isNew: false,
+            color: '#ccc',
+            outdegree: new Set(),
+            indegree: new Set(),
+            comparator: `${str.name}${str.id}`,
+            label: str.rdfs_label
           }
+
+          if (row.anatomical_structures.length > 0) {
+            let sn = row.anatomical_structures[row.anatomical_structures.length - 1].name;
+            let sid = row.anatomical_structures[row.anatomical_structures.length - 1].id;
+            newStructure.indegree.add(sn+sid)
+          }
+          
+          // calculate outdegree (CT -> B)
+          row.biomarkers.forEach(marker => {
+            newStructure.outdegree.add(marker.name+marker.id)
+          })
+          cellTypes.push(newStructure)
+        } else {
+          row.biomarkers.forEach(marker => {
+            cellTypes[foundIndex].outdegree.add(marker.name + marker.id)
+            
+          })
+          let sn = row.anatomical_structures[row.anatomical_structures.length - 1].name;
+          let sid = row.anatomical_structures[row.anatomical_structures.length - 1].id;
+
+          cellTypes[foundIndex].indegree.add(`${sn}${sid}`)
+          // newStructure.indegree.add(row.anatomical_structures[row.anatomical_structures.length - 1].id)
         }
-      });
 
+        
+      })
+      
+    })
 
-      if (cellTypes.length > 0) {
-        res(cellTypes);
-      } else {
-        rej('Could not process cell types');
-      }
-    });
-  }
-
+    
+    // console.log(cellTypes)
+    if (cellTypes.length > 0) {
+      res(cellTypes);
+    } else {
+      rej('Could not process cell types');
+    }
+  });
+}
   /**
    * Function to compute the Cell Types from the given Data Table.
    *
@@ -269,33 +293,42 @@ export async function makeCellTypes(
    * @returns - Array of biomarkers
    */
 export async function makeBioMarkers(
-    data: Array<Array<string>>,
-    config: ASCTBConfig
-  ): Promise<Array<B>> {
-    return new Promise((res, rej) => {
-      const bioMarkers = [];
-      data.forEach((row) => {
-        const markers = row[config.marker_col].split(',');
+  data:any,
+  config: ASCTBConfig
+): Promise<Array<B>> {
+  return new Promise((res, rej) => {
+    const bioMarkers = [];
 
-        for (let i = 0 ; i < markers.length; i ++) {
-          if (markers[i] !== '' && !markers[i].startsWith('//')) {
-            if (!bioMarkers.some((b) => b.structure.toLowerCase() === markers[i].trim().toLowerCase())) {
-              bioMarkers.push({
-                structure: markers[i].trim(),
-                link:  config.uberon_col !== 0
-                ? row[config.marker_col + (config.uberon_col * (i + 1))] : 'NONE',
-                isNew: row[row.length - 2],
-                color: row[row.length - 1]
-              });
-            }
+    // let newData = outputData.data
+    data.forEach(row => {
+      row.biomarkers.forEach(str => {
+        let foundIndex = bioMarkers.findIndex(i => i.structure === str.name)
+        let newStructure: B;
+        if (foundIndex === -1) {
+          newStructure = {
+            structure: str.name,
+            link: str.id,
+            isNew: false,
+            color: '#ccc',
+            outdegree: new Set(),
+            indegree: new Set(),
+            nodeSize: 300
           }
-        }
-      });
 
-      if (bioMarkers.length > 0) {
-        res(bioMarkers);
-      } else {
-        rej('Could not process biomarkers');
-      }
-    });
-  }
+          newStructure.indegree.add(row.cell_types[0].name) 
+
+          bioMarkers.push(newStructure)
+        } else {
+          bioMarkers[foundIndex].indegree.add(row.cell_types[0].name)
+        }
+      })
+    })
+    
+    // console.log('origin: ', bioMarkers)
+    if (bioMarkers.length > 0) {
+      res(bioMarkers);
+    } else {
+      rej('Could not process biomarkers');
+    }
+  });
+}
