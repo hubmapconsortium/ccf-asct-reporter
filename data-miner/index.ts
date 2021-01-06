@@ -66,8 +66,6 @@ app.get("/v2/:sheetid/:gid", async (req:any, res:any) => {
     let headerRow = 11
     let dataLength = data.length
   
-    
-    
 
     for (let i = headerRow ; i < dataLength; i ++ ) {
       let newRow: {[key: string]: any} = new Row()
@@ -75,8 +73,10 @@ app.get("/v2/:sheetid/:gid", async (req:any, res:any) => {
       for (let j = 0 ; j < data[0].length; j ++) {
         if (data[i][j] === '') continue;
   
-        let rowHeader = data[headerRow - 1][j].split('/')
+        let rowHeader = data[headerRow - 1][j].split('/');
         let key = headerMap[rowHeader[0]]
+        
+        if (key === undefined) continue;
 
         if (rowHeader.length === 2 && Number(rowHeader[1])) {
           let s = new Structure(data[i][j])
@@ -97,7 +97,6 @@ app.get("/v2/:sheetid/:gid", async (req:any, res:any) => {
         }
         
       }
-      console.log(newRow)
       rows.push(newRow)
       
     }

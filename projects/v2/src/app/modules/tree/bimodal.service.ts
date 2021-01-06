@@ -242,7 +242,7 @@ export class BimodalService {
       }
     })
 
-    console.log(nodes)
+  console.log(nodes, links)
     
   this.store.dispatch(new UpdateBimodal(nodes, links)).subscribe(newData => {
         const view = newData.treeState.view;

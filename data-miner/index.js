@@ -47,27 +47,39 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/')));
+var BM_TYPE;
+(function (BM_TYPE) {
+    BM_TYPE["G"] = "gene";
+    BM_TYPE["P"] = "protein";
+})(BM_TYPE || (BM_TYPE = {}));
+var Structure = /** @class */ (function () {
+    function Structure(name) {
+        this.name = name;
+        this.id = '';
+        this.rdfs_label = '';
+    }
+    return Structure;
+}());
 var Row = /** @class */ (function () {
     function Row() {
-        this.organ = {};
         this.anatomical_structures = [];
-        this.tissue_type = {};
-        this.cell_type = {};
+        this.cell_types = [];
         this.biomarkers = [];
     }
     return Row;
 }());
 var headerMap = {
-    'Organ Name': 'organ', 'Anatomical Structure': 'anatomical_structures', 'Tissue Type': 'tissue_type', 'Cell Type': 'cell_type', 'Biomarker': 'biomarkers'
+    'AS': 'anatomical_structures', 'CT': 'cell_types', 'BG': 'biomarkers', 'BP': 'biomarkers'
 };
 var ids = '0123456789';
-app.get("/new/:sheetid/:gid", function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var f1, f2, response, data, headerRow, headerLength, dataLength, rows, i, newRow, j, rowHeader, key, s, err_1;
+app.get("/v2/:sheetid/:gid", function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+    var f1, f2, rows, response, data, headerRow, dataLength, i, newRow, j, rowHeader, key, s, n, n, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 f1 = req.params.sheetid;
                 f2 = req.params.gid;
+                rows = [];
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
@@ -76,53 +88,45 @@ app.get("/new/:sheetid/:gid", function (req, res) { return __awaiter(_this, void
                 response = _a.sent();
                 data = papa.parse(response.data).data;
                 headerRow = 11;
-                headerLength = data[headerRow].length;
-                dataLength = data.length - headerRow;
-                rows = [];
-                for (i = headerRow; i < dataLength + headerRow; i++) {
+                dataLength = data.length;
+                for (i = headerRow; i < dataLength; i++) {
                     newRow = new Row();
                     for (j = 0; j < data[0].length; j++) {
                         if (data[i][j] === '')
                             continue;
                         rowHeader = data[headerRow - 1][j].split('/');
                         key = headerMap[rowHeader[0]];
-                        if (rowHeader.length === 1) {
-                            newRow[key].name = data[i][j];
-                        }
                         if (rowHeader.length === 2 && Number(rowHeader[1])) {
-                            s = { name: data[i][j] };
+                            s = new Structure(data[i][j]);
+                            if (rowHeader[0] === 'BG')
+                                s.b_type = BM_TYPE.G;
+                            if (rowHeader[0] === 'BP')
+                                s.b_type = BM_TYPE.P;
                             newRow[key].push(s);
                         }
-                        if (rowHeader.length === 2 && rowHeader[1] == 'ID') {
-                            newRow[key].id = data[i][j];
-                        }
-                        if (rowHeader.length === 2 && rowHeader[1] == 'LABEL')
-                            newRow[key].rdfs_label = data[i][j];
                         if (rowHeader.length === 3 && rowHeader[2] === 'ID') {
-                            newRow[key][parseInt(rowHeader[1]) - 1].id = data[i][j];
+                            n = newRow[key][parseInt(rowHeader[1]) - 1];
+                            if (n)
+                                n.id = data[i][j];
                         }
                         else if (rowHeader.length === 3 && rowHeader[2] === 'LABEL') {
-                            newRow[key][parseInt(rowHeader[1]) - 1].rdfs_label = data[i][j];
+                            n = newRow[key][parseInt(rowHeader[1]) - 1];
+                            if (n)
+                                n.rdfs_label = data[i][j];
                         }
                     }
+                    console.log(newRow);
                     rows.push(newRow);
                 }
                 return [3 /*break*/, 4];
             case 3:
                 err_1 = _a.sent();
-                res.status(500).send({
-                    msg: 'Please check the table format or the sheet access',
-                    code: 500
-                });
-                return [3 /*break*/, 4];
-            case 4:
-                fs.writeFile("../src/app/tree/output.json", JSON.stringify({ data: rows }), function (err) {
-                    if (err)
-                        throw err;
-                    console.log('complete');
-                });
-                res.send(rows);
-                return [2 /*return*/];
+                console.log(err_1);
+                return [2 /*return*/, res.status(500).send({
+                        msg: 'Please check the table format or the sheet access',
+                        code: 500
+                    })];
+            case 4: return [2 /*return*/, res.send(rows)];
         }
     });
 }); });

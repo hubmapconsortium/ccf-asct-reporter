@@ -185,7 +185,7 @@ export function makeAS(
             label: str.rdfs_label
           }
 
-          newStructure.outdegree.add(`${row.cell_types[0].name}${row.cell_types[0].id}`);
+          if (row.cell_types.length) newStructure.outdegree.add(`${row.cell_types[0].name}${row.cell_types[0].id}`);
           if (i > 0) {
             // needed for the first element to not throw an error
             newStructure.indegree.add(row.anatomical_structures[i - 1].name);
@@ -193,6 +193,7 @@ export function makeAS(
           
           anatomicalStructures.push(newStructure)
         } else {
+          if (row.cell_types.length)
           anatomicalStructures[foundIndex].outdegree.add(`${row.cell_types[0].name}${row.cell_types[0].id}`)
           if (i > 0) {
             anatomicalStructures[foundIndex].indegree.add(row.anatomical_structures[i - 1].name);
@@ -314,21 +315,18 @@ export async function makeBioMarkers(
             indegree: new Set(),
             nodeSize: 300
           }
-
-          newStructure.indegree.add(row.cell_types[0].name) 
+          
+          if (row.cell_types.length)
+            newStructure.indegree.add(row.cell_types[0].name) 
 
           bioMarkers.push(newStructure)
         } else {
+          if (row.cell_types.length)
           bioMarkers[foundIndex].indegree.add(row.cell_types[0].name)
         }
       })
     })
     
-    // console.log('origin: ', bioMarkers)
-    if (bioMarkers.length > 0) {
-      res(bioMarkers);
-    } else {
-      rej('Could not process biomarkers');
-    }
+    res(bioMarkers)
   });
 }
