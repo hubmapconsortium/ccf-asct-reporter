@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Sheet } from '../../models/sheet.model';
 import { Router } from '@angular/router';
 import { FetchSheetData, RefreshData } from '../../actions/sheet.actions';
-import { ToggleControlPane, ToggleIndentList, ToggleReport, ToggleDebugLogs } from '../../actions/ui.actions';
+import { ToggleControlPane, ToggleIndentList, ToggleReport, ToggleDebugLogs, OpenCompare } from '../../actions/ui.actions';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { ClearSheetLogs } from '../../actions/logs.actions';
 
@@ -73,5 +73,9 @@ export class NavbarComponent implements OnInit {
 
   toggleDebugLogs() {
     this.store.dispatch(new ToggleDebugLogs());
+  }
+
+  toggleCompare() {
+    this.store.dispatch(new OpenCompare());
   }
 }

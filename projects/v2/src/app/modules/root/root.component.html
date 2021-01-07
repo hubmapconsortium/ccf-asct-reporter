@@ -4,10 +4,11 @@
      <app-control-pane [error]="error"></app-control-pane>
     </mat-drawer>
 
-      <mat-drawer #rightDrawer class="right-sidenav" mode="over" [opened]="(il$ | async) || (report$ | async)|| (dl$ | async)" position="end" (closedStart)="toggleSideNav()" autoFocus="false">
+      <mat-drawer #rightDrawer class="right-sidenav" mode="over" [opened]="(il$ | async) || (report$ | async) || (dl$ | async) || (c$ | async)" position="end" (closedStart)="toggleSideNav()" autoFocus="false">
         <app-report (close)="rightDrawer.close()" *ngIf="report$ | async" [sheetData]="data" [currentSheet]="sheet"></app-report>
         <app-indent (close)="rightDrawer.close()" *ngIf="il$ | async" [sheetData]="data" [currentSheet]="sheet"></app-indent>
         <app-debug-logs (close)="rightDrawer.close()" *ngIf="dl$ | async" [currentSheet]="sheet" [logs]="logs$ | async"></app-debug-logs>
+        <app-comapre (close)="rightDrawer.close()" *ngIf="c$ | async" class="compare-sidenav"></app-comapre>
       </mat-drawer>
 
     <div id="content" class="h-100 w-100">

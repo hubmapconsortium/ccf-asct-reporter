@@ -74,3 +74,13 @@ export class CloseBottomSheet {
   static readonly type = '[CLOSE] Bottom Sheet';
   constructor() {}
 }
+
+export class OpenCompare {
+  static readonly type = '[OPEN] Compare';
+  constructor() {}
+}
+
+export class CloseCompare {
+  static readonly type = '[CLOSE] Compare';
+  constructor() {}
+}

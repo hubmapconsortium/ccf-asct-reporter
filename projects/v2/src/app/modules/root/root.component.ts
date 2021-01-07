@@ -65,6 +65,7 @@ export class RootComponent implements OnInit, OnDestroy{
   @Select(UIState.getReport) report$: Observable<boolean>;
   @Select(UIState.getDebugLog) dl$: Observable<boolean>;
   @Select(UIState.getBottomSheet) bs$: Observable<boolean>;
+  @Select(UIState.getCompareState) c$: Observable<boolean>;
 
   // Logs Oberservables
   @Select(LogsState) logs$: Observable<any>;

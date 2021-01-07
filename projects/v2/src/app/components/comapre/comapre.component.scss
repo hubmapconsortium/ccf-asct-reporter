@@ -1,0 +1,25 @@
+// .cc {
+//   border-radius: 8px;
+//   box-shadow: 3px 3px 40px 30px #ececec;
+// }
+
+.link-input-field {
+  width: 100%;
+}
+
+input[type="color"] {
+	-webkit-appearance: none;
+  border: none;
+  outline: none;
+}
+::ng-deep input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+	border: none;
+}
+
+.content {
+  flex: 1 1;
+  overflow: auto;
+}

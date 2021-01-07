@@ -116,7 +116,7 @@
     <button
       [disabled]="(ui$ | async).error.hasError"
       mat-icon-button
-      (click)="toggleIndentedList()"
+      (click)="toggleCompare()"
       #tooltip="matTooltip"
       matTooltip="Compare"
       matTooltipPosition="below"

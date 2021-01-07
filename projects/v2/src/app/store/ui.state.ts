@@ -8,7 +8,7 @@ import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { Injectable } from '@angular/core';
-import { ToggleControlPane, OpenLoading, CloseLoading, UpdateLoadingText, HasError, OpenSnackbar, CloseSnackbar, ToggleIndentList, ToggleReport, CloseRightSideNav, ToggleDebugLogs, ToggleBottomSheet, OpenBottomSheet, CloseBottomSheet } from '../actions/ui.actions';
+import { ToggleControlPane, OpenLoading, CloseLoading, UpdateLoadingText, HasError, OpenSnackbar, CloseSnackbar, ToggleIndentList, ToggleReport, CloseRightSideNav, ToggleDebugLogs, ToggleBottomSheet, OpenBottomSheet, CloseBottomSheet, OpenCompare, CloseCompare } from '../actions/ui.actions';
 import { Snackbar } from '../models/ui.model';
 import { ReportLog } from '../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../models/logs.model';
@@ -25,6 +25,7 @@ export class UIStateModel {
   reportOpen: boolean;
   debugLogOpen: boolean;
   bottomSheetOpen: boolean;
+  compareOpen: boolean;
 }
 
 
@@ -40,7 +41,8 @@ export class UIStateModel {
     indentListOpen: false,
     reportOpen: false,
     debugLogOpen: false,
-    bottomSheetOpen: false
+    bottomSheetOpen: false,
+    compareOpen: false
   }
 })
 @Injectable()
@@ -100,6 +102,11 @@ export class UIState {
   @Selector()
   static getBottomSheet(state: UIStateModel) {
     return state.bottomSheetOpen;
+  }
+
+  @Selector()
+  static getCompareState(state: UIStateModel) {
+    return state.compareOpen;
   }
 
   @Action(OpenSnackbar)
@@ -203,7 +210,8 @@ export class UIState {
       ...state,
       indentListOpen: false,
       reportOpen: false,
-      debugLogOpen: false
+      debugLogOpen: false,
+      compareOpen: false
     })
   }
 
@@ -237,6 +245,24 @@ export class UIState {
     setState({
       ...state,
       bottomSheetOpen: false
+    })
+  }
+
+  @Action(OpenCompare)
+  openCompare({getState, setState}: StateContext<UIStateModel>) {
+    const state = getState();
+    setState({
+      ...state,
+      compareOpen: true
+    })
+  }
+
+  @Action(CloseCompare)
+  closeCompare({getState, setState}: StateContext<UIStateModel>) {
+    const state = getState();
+    setState({
+      ...state,
+      compareOpen: false
     })
   }
 }
