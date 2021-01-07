@@ -23,3 +23,15 @@ input[type="color"]::-webkit-color-swatch {
   flex: 1 1;
   overflow: auto;
 }
+
+.mat-expansion-panel:not([class*="mat-elevation-z"]) {
+  box-shadow: none;
+}
+
+.mat-expansion-panel-header:not(.compare) {
+  background: rgb(228, 228, 228) !important;
+}
+
+.mat-expansion-panel-header:hover {
+  opacity: 0.85 !important;
+}

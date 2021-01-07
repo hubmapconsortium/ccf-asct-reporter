@@ -205,7 +205,6 @@ export class UIState {
   @Action(CloseRightSideNav)
   closeRightSideNav({ getState, setState }: StateContext<UIStateModel>) {
     const state = getState();
-    const rsn = !state.rightSideNavOpen
     setState({
       ...state,
       indentListOpen: false,
