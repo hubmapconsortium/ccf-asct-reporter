@@ -6,7 +6,7 @@ export const SHEET_ID = '1U8-3BMJgCI-vaZDQjdQdTY6Rp48LoBys'
 
 export const SHEET_CONFIG = [
   {
-    name: 'ao',
+    name: 'all',
     display: 'All Organs',
     body: 'Body',
     config: {
@@ -15,6 +15,7 @@ export const SHEET_CONFIG = [
       width_offset: 750,
       height_offset: 4500,
     },
+    
     title: 'Organs',
   },
   {

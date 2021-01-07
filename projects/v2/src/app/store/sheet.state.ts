@@ -1,21 +1,22 @@
 import { SheetService } from '../services/sheet.service';
 import {State, Action, StateContext, Selector, Select, Store} from '@ngxs/store';
-import { Sheet, Data, Row } from '../models/sheet.model';
+import { Sheet, Data, Row, Structure} from '../models/sheet.model';
 import { Error, Response } from '../models/response.model';
 
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { HEADER_COUNT } from '../static/config';
+import { HEADER_COUNT, SHEET_CONFIG } from '../static/config';
 import { Injectable } from '@angular/core';
 import { parse } from 'papaparse';
-import { FetchSheetData, RefreshData, FetchDataFromAssets } from '../actions/sheet.actions';
+import { FetchSheetData, RefreshData, FetchDataFromAssets, FetchAllOrganData } from '../actions/sheet.actions';
 import { OpenLoading, CloseLoading, UpdateLoadingText, HasError, CloseBottomSheet } from '../actions/ui.actions';
 import { StateClear, StateReset } from 'ngxs-reset-plugin';
 import { UIState } from './ui.state';
 import { TreeState } from './tree.state';
 import { ReportLog } from '../actions/logs.actions';
 import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
+import { patch } from '@ngxs/store/operators';
 
 export class SheetStateModel {
   data: Row[];
@@ -68,6 +69,62 @@ export class SheetState {
     return state.sheet;
   }
 
+  @Action(FetchAllOrganData)
+  async fetchAllOrganData({getState, setState, dispatch, patchState}:StateContext<SheetStateModel>, {sheet}: FetchAllOrganData) {
+    const state = getState();
+    
+
+    dispatch(new OpenLoading('Fetching data..'));
+    dispatch(new StateReset(TreeState));
+    dispatch(new CloseBottomSheet());
+    // dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
+    
+    let data: Data[];
+    patchState({
+      sheet: sheet,
+      version: 'latest',
+      data: []
+    })
+
+
+    for await (const s of SHEET_CONFIG) {
+      if (s.name !== 'all') {
+        this.sheetService.fetchSheetData(s.sheetId, s.gid).subscribe(
+          (res: Row[]) => {
+            for(const d of res) {
+              let ns: Structure = {
+                name: 'Body',
+                id: '',
+                rdfs_label: 'NONE',
+              }
+              d.anatomical_structures.unshift(ns)
+              d.anatomical_structures.splice(2, d.anatomical_structures.length - (2))
+            }
+            let currentData = getState().data;
+            patchState({
+              data: [...currentData, ...res],
+            })
+          },
+          (error) => {
+            console.log(error)
+            const err: Error = {
+              msg: `${error.name} (Status: ${error.status})`,
+              status: error.status,
+              hasError: true
+            };
+            dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data', LOG_ICONS.error))
+            dispatch(new HasError(err))
+            return of('')
+          }
+        )
+      }
+    }
+
+    console.log('done')
+    
+
+  }
+
   @Action(FetchSheetData)
   fetchSheetData({getState, setState, patchState, dispatch}: StateContext<SheetStateModel>, {sheet}: FetchSheetData) {
     const state = getState();
@@ -78,11 +135,6 @@ export class SheetState {
 
     return this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).pipe(
       tap((res: Array<any>) => {
-
-
-        // const parsedData = parse(res, {skipEmptyLines: true, });
-        // parsedData.data.splice(0, HEADER_COUNT);
-        // parsedData.data.map(i => {i.push(false); i.push('#ccc'); });
 
         setState({
           ...state,

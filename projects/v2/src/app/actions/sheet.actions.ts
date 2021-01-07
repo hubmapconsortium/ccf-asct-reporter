@@ -14,3 +14,8 @@ export class FetchDataFromAssets {
   static readonly type = '[FETCH] Data from Assets';
   constructor(public version: string, public sheet: Sheet) {}
 }
+
+export class FetchAllOrganData {
+  static readonly type = '[FETCH] All Organ Data';
+  constructor(public sheet: Sheet) {}
+}

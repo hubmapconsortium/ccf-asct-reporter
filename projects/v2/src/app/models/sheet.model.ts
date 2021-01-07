@@ -3,7 +3,7 @@ enum BM_TYPE {
   P = 'protein'
 }
 
-interface Structure {
+export interface Structure {
   name?: string;
   id?: string;
   rdfs_label?: string;

@@ -4,7 +4,7 @@ import { SheetState, SheetStateModel } from './../../store/sheet.state';
 import { TreeState, TreeStateModel } from './../../store/tree.state';
 import {Select, Store} from '@ngxs/store';
 import { Observable, combineLatest } from 'rxjs';
-import { FetchSheetData, FetchDataFromAssets } from './../../actions/sheet.actions';
+import { FetchSheetData, FetchDataFromAssets, FetchAllOrganData } from './../../actions/sheet.actions';
 import { TreeService } from './../tree/tree.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UIState } from '../../store/ui.state';
@@ -84,6 +84,7 @@ export class RootComponent implements OnInit, OnDestroy{
       if (data.length) {
         this.data = data;
         try {
+          console.log(this.sheet)
           this.ts.makeTreeData(this.sheet, data, []);
         } catch (err) {
           console.log(err)
@@ -99,9 +100,12 @@ export class RootComponent implements OnInit, OnDestroy{
     this.route.queryParamMap.subscribe(query => {
       const version = query.get('version');
       this.sheet =  SHEET_CONFIG.find(i => i.name === query.get('sheet'));
-
+  
       if (version === 'latest') {
-        store.dispatch(new FetchSheetData(this.sheet))
+        if (this.sheet.name === 'all') {
+          store.dispatch(new FetchAllOrganData(this.sheet))
+        } else store.dispatch(new FetchSheetData(this.sheet))
+        
       } else {
         store.dispatch(new FetchDataFromAssets(version, this.sheet))
       }

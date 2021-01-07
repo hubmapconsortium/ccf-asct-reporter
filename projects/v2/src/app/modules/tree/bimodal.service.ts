@@ -25,6 +25,8 @@ export class BimodalService {
     compareData = []
   ) {
 
+    console.log("BMS: ", currentSheet)
+
     
     // this.partonomyTreeData = treeData;
     let anatomicalStructuresData = await makeAS(sheetData)
@@ -245,8 +247,8 @@ export class BimodalService {
       }
     })
 
-  console.log('AS-CT', AS_CT_LINKS)
-  console.log('CT-B', CT_BM_LINKS)
+  // console.log('AS-CT', AS_CT_LINKS)
+  // console.log('CT-B', CT_BM_LINKS)
     
   this.store.dispatch(new UpdateBimodal(nodes, links)).subscribe(newData => {
         const view = newData.treeState.view;
