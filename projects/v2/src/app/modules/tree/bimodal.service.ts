@@ -33,6 +33,8 @@ export class BimodalService {
     const nodes = [];
     let treeX = 0;
     let treeY = 50;
+    let AS_CT_LINKS = 0;
+    let CT_BM_LINKS = 0;
     const distance = currentSheet.config.bimodal_distance;
     let id = treeData.length + 1;
     let biomarkers = [];
@@ -92,7 +94,6 @@ export class BimodalService {
       case 'None':
         break;
       case 'Degree':
-        console.log('here')
         cellTypes.forEach(c => {console.log(c); c.nodeSize = (c.indegree.size + c.outdegree.size) * 25 })
         break;
       case 'Indegree':
@@ -222,6 +223,7 @@ export class BimodalService {
           // make targets only if there is a link from CT to B
           targets.forEach(s => {
             if (links.some(i => i.s === node.id && i.t === s)) {
+              CT_BM_LINKS += 1;
               node.targets.push(s)
             }
           })
@@ -235,6 +237,7 @@ export class BimodalService {
           ss.forEach(s => {sources.push(nodes[s].id)})
           sources.forEach(s => {
             if (links.some(i => i.s === s && i.t === node.id)) {
+              AS_CT_LINKS += 1;
               node.sources.push(s)
             }
           })
@@ -242,7 +245,8 @@ export class BimodalService {
       }
     })
 
-  console.log(nodes, links)
+  console.log('AS-CT', AS_CT_LINKS)
+  console.log('CT-B', CT_BM_LINKS)
     
   this.store.dispatch(new UpdateBimodal(nodes, links)).subscribe(newData => {
         const view = newData.treeState.view;

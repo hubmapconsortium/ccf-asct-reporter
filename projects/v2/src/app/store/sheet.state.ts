@@ -1,6 +1,6 @@
 import { SheetService } from '../services/sheet.service';
 import {State, Action, StateContext, Selector, Select, Store} from '@ngxs/store';
-import { Sheet, Data } from '../models/sheet.model';
+import { Sheet, Data, Row } from '../models/sheet.model';
 import { Error, Response } from '../models/response.model';
 
 import { tap, catchError } from 'rxjs/operators';
@@ -18,7 +18,7 @@ import { ReportLog } from '../actions/logs.actions';
 import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
 
 export class SheetStateModel {
-  data: Array<string[]>;
+  data: Row[];
   sheet: Sheet;
   version: string;
 }
