@@ -13,38 +13,33 @@ export class IndentedListService {
 
 
   public makeIndentData(currentSheet, data) {
-    const cols = currentSheet.indent_cols;
-    const root = new ILNode(currentSheet.body, [], '');
-    delete root.uberon;
+    let root = new ILNode(data[0].anatomical_structures[0].name, [], data[0].anatomical_structures[0].id);
+    root.comparator = root.name + root.ontology_id
+    root.type = 'root';
 
-    let parent;
+    let parent: ILNode;
 
     try {
       data.forEach(row => {
         parent = root;
-        for (const col in cols) {
-          if (row[cols[col]] === '') {
-            continue;
+
+        row.anatomical_structures.forEach(structure => {
+          let s = parent.children.findIndex(i => i.type !== 'root' && i.comparator === (parent.comparator + structure.name + structure.id));
+          if (s === -1) {
+            const newNode = new ILNode(structure.name, [], structure.id)
+            newNode.comparator = parent.comparator + newNode.name + newNode.ontology_id;
+            parent.children.push(newNode)
+            parent = newNode;
+
+          } else {
+            parent = parent.children[s]
           }
-  
-          const foundNodes = row[cols[col]].trim().split(',');
-  
-          for (const i in foundNodes) {
-            if (foundNodes[i] !== '') {
-              const searchedNode = parent.search(foundNodes[i]);
-  
-              if (Object.keys(searchedNode).length !== 0) {
-                parent = searchedNode;
-              } else {
-                const newNode = new ILNode(foundNodes[i], [], row[cols[col] + currentSheet.uberon_col]);
-                parent.children.push(newNode);
-                parent = newNode;
-              }
-            }
-          }
-        }
-      });
-  
+        })
+
+      })
+
+      root = root.children[0]; // reassign to avoid diuplicate parent
+      console.log(root)
       this.indentData.next({
         data: root,
         sheet: currentSheet.display

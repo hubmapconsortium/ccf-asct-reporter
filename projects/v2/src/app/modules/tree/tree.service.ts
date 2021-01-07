@@ -11,41 +11,6 @@ import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
 import { UpdateVegaSpec } from '../../actions/tree.actions';
 import { Sheet } from '../../models/sheet.model';
 
-// Used in the tree visualization
-// export class Tree {
-//   nodes: Array<TNode>;
-//   id: any;
-
-//   constructor(id) {
-//     this.nodes = [];
-//     this.id = id;
-//   }
-
-//   public append(node) {
-//     this.nodes.push(node);
-//   }
-
-//   public search(name, nodeParent) {
-//     for (const i in this.nodes) {
-//       if (this.nodes[i].name === name) {
-//         const parent = this.nodes.findIndex(n => n.name === nodeParent.name);
-//         if (this.nodes[parent].id !== this.nodes[i].parent) {
-//           if (!this.nodes[i].parents.includes(this.nodes[parent].id) && this.nodes[parent].id !== 1) {
-//             this.nodes[i].parents.push(this.nodes[parent].id);
-//           }
-
-//           this.nodes[i].problem = true;
-//         }
-//         this.nodes[i].found = true;
-//         return this.nodes[i];
-//       }
-//     }
-//     const emptyNode = new TNode(0, '', 0, '');
-//     emptyNode.found = false;
-//     return emptyNode;
-//   }
-// }
-
 
 @Injectable({
   providedIn: 'root'
@@ -85,7 +50,7 @@ export class TreeService {
     const linkData = [];
     let parent: TNode;
     const nodes = []
-    const root = new TNode(id, data[0].anatomical_structures[0].name, 0, '', AS_RED);
+    const root = new TNode(id, data[0].anatomical_structures[0].name, 0, data[0].anatomical_structures[0].id, AS_RED);
     root.comparator = root.name + root.ontology_id
     root.type = NODE_TYPE.R;
     delete root.parent;

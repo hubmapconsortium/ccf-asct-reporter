@@ -1,14 +1,18 @@
 export class ILNode {
   name: string;
-  uberon: string;
+  ontology_id: string;
   children?: ILNode[];
   color: string;
+  comparator: string;
+  type: string;
 
-  constructor(name, children, uberon, color = '#808080') {
+  constructor(name, children, ontology_id, color = '#808080') {
     this.name = name;
     this.children = children;
-    this.uberon = uberon;
+    this.ontology_id = ontology_id;
     this.color = color;
+    this.comparator = '';
+    this.type = '';
   }
 
   public search(name) {
