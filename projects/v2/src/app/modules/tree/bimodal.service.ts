@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { } from './tree.service';
 import { BMNode, Link } from '../../models/bimodal.model';
-import { makeCellDegree, makeMarkerDegree, makeCellTypes, makeAS, makeBioMarkers } from './tree.functions';
+import {  makeCellTypes, makeAS, makeBioMarkers } from './tree.functions';
 import { CT_BLUE, B_GREEN } from '../../models/tree.model';
 import { UpdateBimodal, UpdateVegaSpec } from '../../actions/tree.actions';
 import { CloseLoading, HasError } from '../../actions/ui.actions';
@@ -25,12 +25,9 @@ export class BimodalService {
     compareData = []
   ) {
 
-    console.log("BMS: ", currentSheet)
 
     
-    // this.partonomyTreeData = treeData;
     let anatomicalStructuresData = await makeAS(sheetData)
-    // let ASCTGraphData: ASCTD;
     const links = [];
     const nodes = [];
     let treeX = 0;
@@ -208,7 +205,8 @@ export class BimodalService {
 
       if (node.group == 3) {
         node.indegree.forEach(str => {
-          let foundIndex = nodes.findIndex(i => i.name === str)
+          
+          let foundIndex = nodes.findIndex(i => `${i.name}${i.ontology_id}` === str)
           node.sources.push(nodes[foundIndex].id)
           links.push({s: nodes[foundIndex].id,t: node.id})
         }) 

@@ -124,7 +124,6 @@ export class TreeService {
     delete nodes[0].parent
     
     try {
-      console.log('TS:', currentSheet)
         const spec = this.vs.makeVegaConfig(currentSheet, currentSheet.config.bimodal_distance, this.height, validateWidth(this.screenWidth, this.controlPaneOpen), nodes, linkData);
         this.store.dispatch(new UpdateVegaSpec(spec));
         this.vs.renderGraph(spec);

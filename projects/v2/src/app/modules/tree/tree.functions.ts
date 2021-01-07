@@ -1,153 +1,5 @@
 import { Marker, Cell, AS, ASCTBConfig, CT, B } from '../../models/tree.model';
 
-export async function makeMarkerDegree(data: any, currentSheet: any) {
-  const markerDegrees = [];
-
-  data.forEach((row) => {
-    const markers = row[currentSheet.marker_col].split(',');
-    const cells = row[currentSheet.cell_col]
-      .split(',')
-      .map((str) => str.trim())
-      .filter((c) => c !== '');
-
-    for (const i in markers) {
-      if (markers[i] !== '' && !markers[i].startsWith('//')) {
-        const foundMarker = markerDegrees.findIndex(
-          (r) =>
-            r.structure.toLowerCase().trim() ===
-            markers[i].toLowerCase().trim()
-        );
-        if (foundMarker === -1) {
-          const nm = new Marker(markers[i].trim(), cells.length);
-          nm.parents.push(...cells.map((cell) => cell.toLowerCase()));
-          nm.isNew = row[row.length - 2];
-          nm.color = row[row.length - 1];
-          markerDegrees.push(nm);
-        } else {
-          const m = markerDegrees[foundMarker];
-          for (const c in cells) {
-            if (cells[c] !== '' && !cells[c].startsWith('//')) {
-              if (!m.parents.includes(cells[c].toLowerCase())) {
-                m.count += 1;
-                m.parents.push(cells[c].toLowerCase());
-              }
-            }
-          }
-        }
-      }
-    }
-  });
-
-  markerDegrees.sort((a, b) => b.parents.length - a.parents.length);
-  return markerDegrees;
-}
-
-/**
- * Returns the array of cell types that are sorted have their degrees calculated.
- * @param data - Sheet data
- * @param treeData - Data from the tree visualization.
- * @param degree - Degree configuration. Can be Degree, Indegree and Outdegree
- */
-export async function makeCellDegree(
-  data,
-  treeData,
-  degree,
-  currentSheet: any
-): Promise<Array<Cell>> {
-  return new Promise((res, rej) => {
-    const cellDegrees: Array<Cell> = [];
-
-    // calculating in degree (AS -> CT)
-    if (degree === 'Degree' || degree === 'Indegree') {
-      treeData.forEach((td) => {
-        if (td.children === 0) {
-          const leaf = td.name;
-
-          data.forEach((row) => {
-            let parent;
-            for (const i in row) {
-              if (typeof row[i] === 'string' && row[i] !== '') {
-                if (row[i].toLowerCase() === leaf.toLowerCase()) {
-                  parent = i;
-                }
-              }
-            }
-
-            if (parent) {
-              const cells = row[currentSheet.cell_col].split(',');
-              for (const i in cells) {
-                if (cells[i] !== '' && !cells[i].startsWith('//')) {
-                  const foundCell = cellDegrees.findIndex(
-                    (c) =>
-                      c.structure.toLowerCase().trim() ===
-                      cells[i].toLowerCase().trim()
-                  );
-                  if (foundCell === -1) {
-                    const nc = new Cell(
-                      cells[i].trim(),
-                      row[currentSheet.cell_col + currentSheet.uberon_col]
-                    );
-                    nc.isNew = row[row.length - 2];
-                    nc.color = row[row.length - 1];
-                    nc.parents.push(parent.toLowerCase());
-                    cellDegrees.push(nc);
-                  } else {
-                    const c = cellDegrees[foundCell];
-                    if (!c.parents.includes(parent.toLowerCase())) {
-                      c.parents.push(parent.toLowerCase());
-                    }
-                  }
-                }
-              }
-            }
-          });
-        }
-      });
-    }
-
-    // calculating out degree (CT -> B)
-    if (degree === 'Degree' || degree === 'Outdegree') {
-      data.forEach((row) => {
-        const markers = row[currentSheet.marker_col]
-          .split(',')
-          .map((str) => str.trim().toLowerCase())
-          .filter((c) => c !== '');
-        const cells = row[currentSheet.cell_col]
-          .split(',')
-          .map((str) => str.trim())
-          .filter((c) => c !== '');
-
-        for (const c in cells) {
-          if (cells[c] !== '' && !cells[c].startsWith('//')) {
-            const cd = cellDegrees.findIndex(
-              (i) => i.structure.toLowerCase() === cells[c].toLowerCase()
-            );
-            if (cd !== -1) {
-              for (const m in markers) {
-                if (
-                  !cellDegrees[cd].parents.includes(markers[m].toLowerCase())
-                ) {
-                  cellDegrees[cd].parents.push(markers[m]);
-                }
-              }
-            } else {
-              const nc = new Cell(
-                cells[c].trim(),
-                row[currentSheet.cell_col + currentSheet.uberon_col]
-              );
-              nc.isNew = row[row.length - 2];
-              nc.color = row[row.length - 1];
-              nc.parents.push(...markers);
-              cellDegrees.push(nc);
-            }
-          }
-        }
-      });
-    }
-    cellDegrees.sort((a, b) => b.parents.length - a.parents.length);
-    res(cellDegrees);
-  });
-}
 
   /**
    * Function to compute the Anatomical Structures from the given Data Table.
@@ -317,12 +169,12 @@ export async function makeBioMarkers(
           }
           
           if (row.cell_types.length)
-            newStructure.indegree.add(row.cell_types[0].name) 
+            newStructure.indegree.add(`${row.cell_types[0].name}${row.cell_types[0].id}`) 
 
           bioMarkers.push(newStructure)
         } else {
           if (row.cell_types.length)
-          bioMarkers[foundIndex].indegree.add(row.cell_types[0].name)
+          bioMarkers[foundIndex].indegree.add(`${row.cell_types[0].name}${row.cell_types[0].id}`)
         }
       })
     })
