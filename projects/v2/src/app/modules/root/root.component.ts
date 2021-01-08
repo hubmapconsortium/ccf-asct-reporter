@@ -47,6 +47,7 @@ export class RootComponent implements OnInit, OnDestroy{
   // Sheet Observables
   // @Select(SheetState.getLoading) loading$: Observable<boolean>;
   @Select(SheetState.getData) data$: Observable<any>;
+  @Select(SheetState.getCompareSheets) compareSheets$: Observable<CompareData[]>;
 
   // Tree Observables
   @Select(TreeState.getTreeData) treeData$: Observable<any>;
@@ -86,7 +87,6 @@ export class RootComponent implements OnInit, OnDestroy{
       if (data.length) {
         this.data = data;
         try {
-          console.log(this.sheet)
           this.ts.makeTreeData(this.sheet, data, []);
         } catch (err) {
           console.log(err)
@@ -156,8 +156,6 @@ export class RootComponent implements OnInit, OnDestroy{
         if (this.infoSheetRef) this.infoSheetRef.dismiss();
       }
     })
-
-
   }
 
   ngOnInit(): void {

@@ -1,6 +1,7 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { CompareData } from '../../models/sheet.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-comapre',
@@ -12,16 +13,28 @@ export class ComapreComponent implements OnInit {
   @Output() close: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() compareData: EventEmitter<any> = new EventEmitter<any>();
 
+  @Input() compareSheets: Observable<CompareData[]>;
+
   formGroup: FormGroup;
   formSheets: FormArray;
 
   constructor(public fb: FormBuilder) { }
 
   ngOnInit(): void {
+
     this.formGroup = this.fb.group({
-      sheets: this.fb.array([this.createCompareForm()])
+      sheets: this.fb.array([])
     })
     this.formSheets = this.formGroup.get('sheets') as FormArray;
+
+    this.compareSheets.subscribe(sheets => {
+      if (sheets.length ) {
+        for(const source of sheets) this.formSheets.push(this.createCompareForm(source.link, source.color, source.title, source.description))
+      } else {
+        this.formSheets.push(this.createCompareForm())
+      }
+    })
+    
   }
 
   compare() {

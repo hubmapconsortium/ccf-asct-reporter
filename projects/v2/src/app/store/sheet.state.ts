@@ -22,7 +22,8 @@ export class SheetStateModel {
   data: Row[];
   sheet: Sheet;
   version: string;
-  compareData: CompareData[];
+  compareSheets: CompareData[];
+  compareData: Row[];
 }
 
 @State<SheetStateModel>({
@@ -51,6 +52,7 @@ export class SheetStateModel {
       },
       title: '',
     },
+    compareSheets: [],
     compareData: []
   }
 })
@@ -65,9 +67,14 @@ export class SheetState {
     return state.data;
   }
 
-  @Select()
+  @Selector()
   static getSheet(state: SheetStateModel) {
     return state.sheet;
+  }
+
+  @Selector()
+  static getCompareSheets(state: SheetStateModel) {
+    return state.compareSheets;
   }
 
   @Action(FetchCompareData)
@@ -75,14 +82,17 @@ export class SheetState {
     const state = getState();
     dispatch(new OpenLoading('Fetching data..'));
     dispatch(new CloseBottomSheet());
-    console.log('CD: ', compareData)
 
-    const organ = state.data[0].anatomical_structures[0]
+    patchState({
+      compareData: [],
+      compareSheets: []
+    })
+
+    // const organ = state.data[0].anatomical_structures[0]
 
     for await (const [idx, sheet] of compareData.entries()) {
       this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).subscribe(
         (res: Row[]) => {
-          console.log('RES: ', res)
           for(const row of res) {
             for (const i in row.anatomical_structures) {
               row.anatomical_structures[i]['isNew'] = true
@@ -102,10 +112,12 @@ export class SheetState {
           }
 
           let currentData = getState().data;
-          let currentCompare = getState().compareData;
+          let currentCompare = getState().compareSheets;
+          let currentCompareData = getState().compareData;
           patchState({
             data: [...currentData, ...res],
-            compareData: [...currentCompare, ...[sheet]]
+            compareSheets: [...currentCompare, ...[sheet]],
+            compareData: [...currentCompareData, ...res]
           })
         },
         (error) => {
