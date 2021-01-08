@@ -1,6 +1,6 @@
 import { SheetService } from '../services/sheet.service';
 import {State, Action, StateContext, Selector, Select, Store} from '@ngxs/store';
-import { Sheet, Data, Row, Structure} from '../models/sheet.model';
+import { Sheet, Data, Row, Structure, CompareData} from '../models/sheet.model';
 import { Error, Response } from '../models/response.model';
 
 import { tap, catchError } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 import { HEADER_COUNT, SHEET_CONFIG } from '../static/config';
 import { Injectable } from '@angular/core';
 import { parse } from 'papaparse';
-import { FetchSheetData, RefreshData, FetchDataFromAssets, FetchAllOrganData } from '../actions/sheet.actions';
+import { FetchSheetData, RefreshData, FetchDataFromAssets, FetchAllOrganData, FetchCompareData } from '../actions/sheet.actions';
 import { OpenLoading, CloseLoading, UpdateLoadingText, HasError, CloseBottomSheet } from '../actions/ui.actions';
 import { StateClear, StateReset } from 'ngxs-reset-plugin';
 import { UIState } from './ui.state';
@@ -22,6 +22,7 @@ export class SheetStateModel {
   data: Row[];
   sheet: Sheet;
   version: string;
+  compareData: CompareData[];
 }
 
 @State<SheetStateModel>({
@@ -50,7 +51,7 @@ export class SheetStateModel {
       },
       title: '',
     },
-    
+    compareData: []
   }
 })
 @Injectable()
@@ -69,11 +70,58 @@ export class SheetState {
     return state.sheet;
   }
 
+  @Action(FetchCompareData)
+  async fetchCompareData({getState, setState, dispatch, patchState}: StateContext<SheetStateModel>, {compareData}: FetchCompareData) {
+    const state = getState();
+    dispatch(new OpenLoading('Fetching data..'));
+    dispatch(new CloseBottomSheet());
+    console.log('CD: ', compareData)
+
+    const organ = state.data[0].anatomical_structures[0]
+
+    for await (const [idx, sheet] of compareData.entries()) {
+      this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).subscribe(
+        (res: Row[]) => {
+          console.log('RES: ', res)
+          for(const row of res) {
+            for (const i in row.anatomical_structures) {
+              row.anatomical_structures[i]['isNew'] = true
+              row.anatomical_structures[i]['color'] = sheet.color;
+            }
+            // row.anatomical_structures.unshift(organ)
+
+            for (const i in row.cell_types) {
+              row.cell_types[i]['isNew'] = true
+              row.cell_types[i]['color'] = sheet.color;
+            }
+
+            for (const i in row.biomarkers) {
+              row.biomarkers[i]['isNew'] = true
+              row.biomarkers[i]['color'] = sheet.color;
+            }
+          }
+
+          let currentData = getState().data;
+          let currentCompare = getState().compareData;
+          patchState({
+            data: [...currentData, ...res],
+            compareData: [...currentCompare, ...[sheet]]
+          })
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+    }
+
+  }
+
+
+
   @Action(FetchAllOrganData)
   async fetchAllOrganData({getState, setState, dispatch, patchState}:StateContext<SheetStateModel>, {sheet}: FetchAllOrganData) {
     const state = getState();
     
-
     dispatch(new OpenLoading('Fetching data..'));
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
@@ -119,10 +167,6 @@ export class SheetState {
         )
       }
     }
-
-    console.log('done')
-    
-
   }
 
   @Action(FetchSheetData)
@@ -135,7 +179,7 @@ export class SheetState {
 
     return this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).pipe(
       tap((res: Array<any>) => {
-
+        
         setState({
           ...state,
           data: res,

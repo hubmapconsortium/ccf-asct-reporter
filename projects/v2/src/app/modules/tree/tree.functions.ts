@@ -1,4 +1,4 @@
-import { Marker, Cell, AS, ASCTBConfig, CT, B } from '../../models/tree.model';
+import { Marker, Cell, AS, ASCTBConfig, CT, B, AS_RED, CT_BLUE, B_GREEN } from '../../models/tree.model';
 
 
   /**
@@ -31,10 +31,12 @@ export function makeAS(
           newStructure = {
             structure: str.name,
             uberon: str.id,
+            isNew: "isNew" in str ? true : false,
+            color: "isNew" in str ? str.color : AS_RED,
             outdegree: new Set(),
             indegree: new Set(),
             comparator: str.name + str.id,
-            label: str.rdfs_label
+            label: str.rdfs_label,
           }
 
           if (row.cell_types.length) newStructure.outdegree.add(`${row.cell_types[0].name}${row.cell_types[0].id}`);
@@ -91,8 +93,8 @@ export   async function makeCellTypes(
           newStructure = {
             structure: str.name,
             link: str.id,
-            isNew: false,
-            color: '#ccc',
+            isNew: "isNew" in str ? true : false,
+            color: "isNew" in str ? str.color : CT_BLUE,
             outdegree: new Set(),
             indegree: new Set(),
             comparator: `${str.name}${str.id}`,
@@ -111,9 +113,12 @@ export   async function makeCellTypes(
           })
           cellTypes.push(newStructure)
         } else {
+          if ('isNew' in str) {
+            cellTypes[foundIndex].color = str.color;
+            cellTypes[foundIndex].pathColor = str.color;
+          }
           row.biomarkers.forEach(marker => {
             cellTypes[foundIndex].outdegree.add(marker.name + marker.id)
-            
           })
           let sn = row.anatomical_structures[row.anatomical_structures.length - 1].name;
           let sid = row.anatomical_structures[row.anatomical_structures.length - 1].id;
@@ -161,8 +166,8 @@ export async function makeBioMarkers(
           newStructure = {
             structure: str.name,
             link: str.id,
-            isNew: false,
-            color: '#ccc',
+            isNew: "isNew" in str ? true : false,
+            color: "isNew" in str ? str.color : B_GREEN,
             outdegree: new Set(),
             indegree: new Set(),
             nodeSize: 300
@@ -173,6 +178,10 @@ export async function makeBioMarkers(
 
           bioMarkers.push(newStructure)
         } else {
+          if ('isNew' in str) {
+            bioMarkers[foundIndex].color = str.color;
+            bioMarkers[foundIndex].pathColor = str.color;
+          }
           if (row.cell_types.length)
           bioMarkers[foundIndex].indegree.add(`${row.cell_types[0].name}${row.cell_types[0].id}`)
         }

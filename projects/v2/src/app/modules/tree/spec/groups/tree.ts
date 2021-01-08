@@ -68,7 +68,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
       encode: {
         update: {
           path: { field: 'path' },
-          stroke: { signal: 'datum.source.pathColor' },
+          stroke: { signal: 'datum.source.pathColor === datum.target.pathColor ? datum.source.pathColor : "#ccc"' },
           opacity: [
             {
               test: 'node__click !== null',
@@ -102,7 +102,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
         update: {
           x: { field: 'x' },
           y: { field: 'y' },
-          tooltip: { signal: '{"Ontology Link": datum.ontology_id}' },
+          tooltip: { signal: '{"Ontology ID": datum.ontology_id}' },
           opacity: [
             {
               test: 'node__click === null && node__hover === null',

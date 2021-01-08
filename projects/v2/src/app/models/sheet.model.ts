@@ -41,3 +41,12 @@ export interface Sheet {
   };
   title: string;
 }
+
+export interface CompareData {
+  link: string;
+  title: string;
+  description: string;
+  color: string;
+  sheetId: string;
+  gid: string;
+}

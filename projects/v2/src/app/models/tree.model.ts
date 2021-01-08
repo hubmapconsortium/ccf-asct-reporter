@@ -58,6 +58,8 @@ export interface AS extends Base {
   indegree?: Set<string>;
   outdegree?: Set<string>;
   label?: string;
+  isNew?: boolean;
+  color?: string;
 }
 
 export interface ASCTBConfig {

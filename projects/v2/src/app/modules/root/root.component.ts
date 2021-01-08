@@ -4,11 +4,11 @@ import { SheetState, SheetStateModel } from './../../store/sheet.state';
 import { TreeState, TreeStateModel } from './../../store/tree.state';
 import {Select, Store} from '@ngxs/store';
 import { Observable, combineLatest } from 'rxjs';
-import { FetchSheetData, FetchDataFromAssets, FetchAllOrganData } from './../../actions/sheet.actions';
+import { FetchSheetData, FetchDataFromAssets, FetchAllOrganData, FetchCompareData } from './../../actions/sheet.actions';
 import { TreeService } from './../tree/tree.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UIState } from '../../store/ui.state';
-import { HasError, CloseSnackbar, CloseRightSideNav, CloseBottomSheet } from '../../actions/ui.actions';
+import { HasError, CloseSnackbar, CloseRightSideNav, CloseBottomSheet, CloseCompare } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LoadingComponent } from '../../components/loading/loading.component';
@@ -22,6 +22,7 @@ import * as moment from 'moment';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { InfoComponent } from '../../components/info/info.component';
 import { BMNode } from '../../models/bimodal.model';
+import { CompareData } from '../../models/sheet.model';
 
 
 @Component({
@@ -186,6 +187,11 @@ export class RootComponent implements OnInit, OnDestroy{
 
   toggleSideNav() {
     this.store.dispatch(new CloseRightSideNav());
+  }
+
+  compareData(data: CompareData[]) {
+    this.store.dispatch(new CloseCompare())
+    this.store.dispatch(new FetchCompareData(data))
   }
 
   exportVis(option: string) {

@@ -8,7 +8,7 @@
         <app-report (close)="rightDrawer.close()" *ngIf="report$ | async" [sheetData]="data" [currentSheet]="sheet"></app-report>
         <app-indent (close)="rightDrawer.close()" *ngIf="il$ | async" [sheetData]="data" [currentSheet]="sheet"></app-indent>
         <app-debug-logs (close)="rightDrawer.close()" *ngIf="dl$ | async" [currentSheet]="sheet" [logs]="logs$ | async"></app-debug-logs>
-        <app-comapre (close)="rightDrawer.close()" *ngIf="c$ | async" class="compare-sidenav"></app-comapre>
+        <app-comapre (close)="rightDrawer.close()" *ngIf="c$ | async" class="compare-sidenav" (compareData)="compareData($event)"></app-comapre>
       </mat-drawer>
 
     <div id="content" class="h-100 w-100">

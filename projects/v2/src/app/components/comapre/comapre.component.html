@@ -3,13 +3,13 @@
     <app-sidenav-header
       [title]="'Compare Sheets'"
       (close)="close.emit()"
-      [tooltipString]="'Traditional Indented List view of the data'"
+      [tooltipString]="'Link your own data to compare it with the Master Data Tables'"
     ></app-sidenav-header>
   </div>
 
   <div body>
     <div class="px-3">
-      <mat-expansion-panel [expanded]="false" class="mepNoPadding">
+      <mat-expansion-panel [expanded]="true" class="mepNoPadding">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <div style="font-weight: 600; font-size: 10pt">
@@ -54,7 +54,7 @@
                     <mat-label>Title</mat-label>
                     <input
                       matInput
-                      placeholder="Sheet 1"
+                      [placeholder]="'Sheet ' + (i + 1)"
                       formControlName="title"
                     />
                     <mat-hint>A title for your sheet</mat-hint>
@@ -140,7 +140,7 @@
       class="mt-2"
       style="width: 100%; justify-content: space-between; display: flex"
     >
-      <button mat-flat-button color="primary" [disabled]="doesFormHaveError()">
+      <button mat-flat-button color="primary" [disabled]="doesFormHaveError()" (click)="compare()">
         Compare
       </button>
       <button

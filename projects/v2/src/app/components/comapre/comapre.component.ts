@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { CompareData } from '../../models/sheet.model';
 
 @Component({
   selector: 'app-comapre',
@@ -9,7 +10,7 @@ import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 export class ComapreComponent implements OnInit {
   
   @Output() close: EventEmitter<boolean> = new EventEmitter<boolean>();
-  
+  @Output() compareData: EventEmitter<any> = new EventEmitter<any>();
 
   formGroup: FormGroup;
   formSheets: FormArray;
@@ -21,6 +22,32 @@ export class ComapreComponent implements OnInit {
       sheets: this.fb.array([this.createCompareForm()])
     })
     this.formSheets = this.formGroup.get('sheets') as FormArray;
+  }
+
+  compare() {
+    let data: CompareData[] = [];
+    for (const [idx, sheet] of this.formGroup.value.sheets.entries()) {
+      data.push(
+        {
+          ...sheet,
+          sheetId: this.checkLinkFormat(sheet.link).sheetID,
+          gid: this.checkLinkFormat(sheet.link).gid
+        }
+      )
+    }
+
+    this.compareData.emit(data);
+  }
+
+  checkLinkFormat(url: string) {
+    const matches = /\/([\w-_]{15,})\/(.*?gid=(\d+))?/.exec(url);
+
+    if (matches) {
+      return {
+        sheetID: matches[1],
+        gid: matches[3],
+      };
+    }
   }
 
   createCompareForm(link= '', color?: string, title= '', description= ''): FormGroup {

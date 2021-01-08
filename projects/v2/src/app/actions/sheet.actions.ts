@@ -1,4 +1,4 @@
-import {Sheet} from './../models/sheet.model';
+import {Sheet, CompareData} from './../models/sheet.model';
 
 export class FetchSheetData {
   static readonly type = '[FETCH] Sheet Data';
@@ -18,4 +18,9 @@ export class FetchDataFromAssets {
 export class FetchAllOrganData {
   static readonly type = '[FETCH] All Organ Data';
   constructor(public sheet: Sheet) {}
+}
+
+export class FetchCompareData {
+  static readonly type = '[FETCH] Compare Data';
+  constructor(public compareData: CompareData[]) {}
 }

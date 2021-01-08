@@ -25,238 +25,245 @@ export class BimodalService {
     compareData = []
   ) {
 
+try  {
 
     
-    let anatomicalStructuresData = await makeAS(sheetData)
-    const links = [];
-    const nodes = [];
-    let treeX = 0;
-    let treeY = 50;
-    let AS_CT_LINKS = 0;
-    let CT_BM_LINKS = 0;
-    const distance = currentSheet.config.bimodal_distance;
-    let id = treeData.length + 1;
-    let biomarkers = [];
+  let anatomicalStructuresData = await makeAS(sheetData)
+  const links = [];
+  const nodes = [];
+  let treeX = 0;
+  let treeY = 50;
+  let AS_CT_LINKS = 0;
+  let CT_BM_LINKS = 0;
+  const distance = currentSheet.config.bimodal_distance;
+  let id = treeData.length + 1;
+  let biomarkers = [];
 
 
-    treeData.forEach((td) => {
-      if (td.children === 0) {
-        const leaf = td.name;
-        const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.ontology_id);
-        newLeaf.id = id;
-        newLeaf.problem = td.problem;
-        newLeaf.pathColor = td.pathColor;
-        newLeaf.isNew = td.isNew;
-        newLeaf.color = td.color;
-        newLeaf.ontology_id = anatomicalStructuresData.find(a => a.structure === leaf).uberon
-        newLeaf.indegree = anatomicalStructuresData.find(a => a.structure === leaf).indegree
-        newLeaf.outdegree = anatomicalStructuresData.find(a => a.structure === leaf).outdegree
-        newLeaf.label = anatomicalStructuresData.find(a => a.structure === leaf).label
-        nodes.push(newLeaf);
-        id += 1;
-        treeX = td.x;
-      }
-    });
-    
-
-    // adding x distance to build the next layer of bimodal
-    treeX += distance;
-
-    // making group 2: cell type
-    let cellTypes  = await makeCellTypes(sheetData, {
-          report_cols: currentSheet.report_cols,
-          cell_col: currentSheet.cell_col,
-          uberon_col: currentSheet.uberon_col,
-          marker_col: currentSheet.marker_col,
-        });
-
-    switch (bimodalConfig.CT.sort) {
-      case 'Alphabetically':
-        cellTypes.sort((a, b) => {
-          return a.structure.toLowerCase() > b.structure.toLowerCase()
-            ? 1
-            : b.structure.toLowerCase() > a.structure.toLowerCase()
-              ? -1
-              : 0;
-        });
-        break;
-      
-      case 'Degree':
-        cellTypes.sort((a,b) => {
-          return  (b.outdegree.size + b.indegree.size) - (a.outdegree.size + a.indegree.size)
-        })
-      break;
-    }
-
-
-    switch(bimodalConfig.CT.size) {
-      case 'None':
-        break;
-      case 'Degree':
-        cellTypes.forEach(c => {console.log(c); c.nodeSize = (c.indegree.size + c.outdegree.size) * 25 })
-        break;
-      case 'Indegree':
-        cellTypes.forEach(c => {c.nodeSize = (c.indegree.size) * 25})
-        break;
-      case 'Outdegree':
-        cellTypes.forEach(c => {c.nodeSize = (c.outdegree.size) * 25})
-        break;
-
-    }
-    
-
-    cellTypes.forEach((cell) => {
-      const newNode = new BMNode(
-        cell.structure,
-        2,
-        treeX,
-        treeY,
-        14,
-        cell.link,
-        CT_BLUE,
-        cell.nodeSize
-      );
-      newNode.id = id;
-      newNode.isNew = cell.isNew;
-      newNode.pathColor = cell.color;
-      newNode.indegree = cell.indegree;
-      newNode.outdegree = cell.outdegree;
-      newNode.label = cell.label;
-
-      if (newNode.isNew) {
-        newNode.color = cell.color;
-      }
-      nodes.push(newNode);
-      treeY += 60;
+  treeData.forEach((td) => {
+    if (td.children === 0) {
+      const leaf = td.name;
+      const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.ontology_id);
+      newLeaf.id = id;
+      newLeaf.problem = td.problem;
+      newLeaf.pathColor = td.pathColor;
+      newLeaf.isNew = td.isNew;
+      newLeaf.color = td.color;
+      newLeaf.ontology_id = anatomicalStructuresData.find(a => a.structure === leaf).uberon
+      newLeaf.indegree = anatomicalStructuresData.find(a => a.structure === leaf).indegree
+      newLeaf.outdegree = anatomicalStructuresData.find(a => a.structure === leaf).outdegree
+      newLeaf.label = anatomicalStructuresData.find(a => a.structure === leaf).label
+      nodes.push(newLeaf);
       id += 1;
-    });
-
-    treeY = 60;
-    treeX += distance;
-
-    biomarkers = await makeBioMarkers(sheetData, {
-      marker_col: currentSheet.marker_col,
-      uberon_col: currentSheet.uberon_col
-    });
-
-    switch (bimodalConfig.BM.sort) {
-      case 'Alphabetically':
-        biomarkers.sort((a, b) => {
-          return a.structure.toLowerCase() > b.structure.toLowerCase()
-            ? 1
-            : b.structure.toLowerCase() > a.structure.toLowerCase()
-              ? -1
-              : 0;
-        });
-        break;
-      
-      case 'Degree':
-        biomarkers.sort((a,b) => {
-          return  b.indegree.size - a.indegree.size
-        })
-      break;
+      treeX = td.x;
     }
+  });
+  
 
-    switch(bimodalConfig.BM.size) {
-      case 'None':
-        break;
-      case 'Degree':
-        biomarkers.forEach(b => {b.nodeSize += (b.indegree.size + b.outdegree.size) * 25})
-        break;
-    }
+  // adding x distance to build the next layer of bimodal
+  treeX += distance;
 
-
-    // making group 3: bio markers
-    biomarkers.forEach((marker, i) => {
-      const newNode = new BMNode(
-        marker.structure,
-        3,
-        treeX,
-        treeY,
-        14,
-        marker.link,
-        B_GREEN,
-        marker.nodeSize
-      );
-      newNode.id = id;
-      newNode.isNew = marker.isNew;
-      newNode.pathColor = marker.color;
-      newNode.indegree = marker.indegree;
-      newNode.outdegree = marker.outdegree;
-
-      if (newNode.isNew) {
-        newNode.color = marker.color;
-      }
-      nodes.push(newNode);
-      treeY += 50;
-      id += 1;
-    });
-
-
-    nodes.forEach((node, i) => {
-      if (node.group == 1) {
-        node.sources = [];
-        node.outdegree.forEach(str => {
-          let foundIndex = nodes.findIndex(i => `${i.name}${i.ontology_id}` === str)
-          node.targets.push(nodes[foundIndex].id)
-          links.push({s: node.id, t: nodes[foundIndex].id})
-        })
-      }
-
-      if (node.group == 3) {
-        node.indegree.forEach(str => {
-          
-          let foundIndex = nodes.findIndex(i => `${i.name}${i.ontology_id}` === str)
-          node.sources.push(nodes[foundIndex].id)
-          links.push({s: nodes[foundIndex].id,t: node.id})
-        }) 
-      }
-    })
-
-    nodes.forEach((node, i) => {
-      if (node.group == 2) {
-        node.outdegree.forEach(str => {
-          let tt = nodes.map((val, idx) => ({val, idx})).filter(({val, idx})=> `${val.name}${val.ontology_id}` === str).map(({val, idx}) => idx)
-          let targets =[]
-          tt.forEach(s => {targets.push(nodes[s].id)})
-          
-          // make targets only if there is a link from CT to B
-          targets.forEach(s => {
-            if (links.some(i => i.s === node.id && i.t === s)) {
-              CT_BM_LINKS += 1;
-              node.targets.push(s)
-            }
-          })
-        })
-          
-         // make sources only if there is a link from AS to CT
-        node.indegree.forEach(str => {
-
-          let ss = nodes.map((val, idx) => ({val, idx})).filter(({val, idx})=>`${val.name}${val.ontology_id}`=== str).map(({val, idx}) => idx)
-          let sources =[]
-          ss.forEach(s => {sources.push(nodes[s].id)})
-          sources.forEach(s => {
-            if (links.some(i => i.s === s && i.t === node.id)) {
-              AS_CT_LINKS += 1;
-              node.sources.push(s)
-            }
-          })
-        })
-      }
-    })
-
-  // console.log('AS-CT', AS_CT_LINKS)
-  // console.log('CT-B', CT_BM_LINKS)
-    
-  this.store.dispatch(new UpdateBimodal(nodes, links)).subscribe(newData => {
-        const view = newData.treeState.view;
-        const u_nodes = newData.treeState.bimodal.nodes;
-        const u_links = newData.treeState.bimodal.links;
-        const spec = newData.treeState.spec;
-        
-        this.updateBimodalData(view, spec, u_nodes, u_links);
+  // making group 2: cell type
+  let cellTypes  = await makeCellTypes(sheetData, {
+        report_cols: currentSheet.report_cols,
+        cell_col: currentSheet.cell_col,
+        uberon_col: currentSheet.uberon_col,
+        marker_col: currentSheet.marker_col,
       });
 
+  switch (bimodalConfig.CT.sort) {
+    case 'Alphabetically':
+      cellTypes.sort((a, b) => {
+        return a.structure.toLowerCase() > b.structure.toLowerCase()
+          ? 1
+          : b.structure.toLowerCase() > a.structure.toLowerCase()
+            ? -1
+            : 0;
+      });
+      break;
+    
+    case 'Degree':
+      cellTypes.sort((a,b) => {
+        return  (b.outdegree.size + b.indegree.size) - (a.outdegree.size + a.indegree.size)
+      })
+    break;
+  }
+
+
+  switch(bimodalConfig.CT.size) {
+    case 'None':
+      break;
+    case 'Degree':
+      cellTypes.forEach(c => {console.log(c); c.nodeSize = (c.indegree.size + c.outdegree.size) * 25 })
+      break;
+    case 'Indegree':
+      cellTypes.forEach(c => {c.nodeSize = (c.indegree.size) * 25})
+      break;
+    case 'Outdegree':
+      cellTypes.forEach(c => {c.nodeSize = (c.outdegree.size) * 25})
+      break;
+
+  }
+  
+
+  cellTypes.forEach((cell) => {
+    const newNode = new BMNode(
+      cell.structure,
+      2,
+      treeX,
+      treeY,
+      14,
+      cell.link,
+      CT_BLUE,
+      cell.nodeSize
+    );
+    newNode.id = id;
+    newNode.isNew = cell.isNew;
+    newNode.pathColor = cell.color;
+    newNode.color = cell.color;
+    newNode.indegree = cell.indegree;
+    newNode.outdegree = cell.outdegree;
+    newNode.label = cell.label;
+
+    nodes.push(newNode);
+    treeY += 60;
+    id += 1;
+  });
+
+  treeY = 60;
+  treeX += distance;
+
+  biomarkers = await makeBioMarkers(sheetData, {
+    marker_col: currentSheet.marker_col,
+    uberon_col: currentSheet.uberon_col
+  });
+
+  switch (bimodalConfig.BM.sort) {
+    case 'Alphabetically':
+      biomarkers.sort((a, b) => {
+        return a.structure.toLowerCase() > b.structure.toLowerCase()
+          ? 1
+          : b.structure.toLowerCase() > a.structure.toLowerCase()
+            ? -1
+            : 0;
+      });
+      break;
+    
+    case 'Degree':
+      biomarkers.sort((a,b) => {
+        return  b.indegree.size - a.indegree.size
+      })
+    break;
+  }
+
+  switch(bimodalConfig.BM.size) {
+    case 'None':
+      break;
+    case 'Degree':
+      biomarkers.forEach(b => {b.nodeSize += (b.indegree.size + b.outdegree.size) * 25})
+      break;
+  }
+
+
+  // making group 3: bio markers
+  biomarkers.forEach((marker, i) => {
+    const newNode = new BMNode(
+      marker.structure,
+      3,
+      treeX,
+      treeY,
+      14,
+      marker.link,
+      B_GREEN,
+      marker.nodeSize
+    );
+    newNode.id = id;
+    newNode.isNew = marker.isNew;
+    newNode.pathColor = marker.color;
+    newNode.color = marker.color;
+    newNode.indegree = marker.indegree;
+    newNode.outdegree = marker.outdegree;
+
+    nodes.push(newNode);
+    treeY += 50;
+    id += 1;
+  });
+
+
+  nodes.forEach((node, i) => {
+    if (node.group == 1) {
+      node.sources = [];
+      node.outdegree.forEach(str => {
+        let foundIndex = nodes.findIndex(i => `${i.name}${i.ontology_id}` === str)
+        node.targets.push(nodes[foundIndex].id)
+        links.push({s: node.id, t: nodes[foundIndex].id})
+      })
+    }
+
+    if (node.group == 3) {
+      node.indegree.forEach(str => {
+        
+        let foundIndex = nodes.findIndex(i => `${i.name}${i.ontology_id}` === str)
+        node.sources.push(nodes[foundIndex].id)
+        links.push({s: nodes[foundIndex].id,t: node.id})
+      }) 
+    }
+  })
+
+  nodes.forEach((node, i) => {
+    if (node.group == 2) {
+      node.outdegree.forEach(str => {
+        let tt = nodes.map((val, idx) => ({val, idx})).filter(({val, idx})=> `${val.name}${val.ontology_id}` === str).map(({val, idx}) => idx)
+        let targets =[]
+        tt.forEach(s => {targets.push(nodes[s].id)})
+        
+        // make targets only if there is a link from CT to B
+        targets.forEach(s => {
+          if (links.some(i => i.s === node.id && i.t === s)) {
+            CT_BM_LINKS += 1;
+            node.targets.push(s)
+          }
+        })
+      })
+        
+       // make sources only if there is a link from AS to CT
+      node.indegree.forEach(str => {
+
+        let ss = nodes.map((val, idx) => ({val, idx})).filter(({val, idx})=>`${val.name}${val.ontology_id}`=== str).map(({val, idx}) => idx)
+        let sources =[]
+        ss.forEach(s => {sources.push(nodes[s].id)})
+        sources.forEach(s => {
+          if (links.some(i => i.s === s && i.t === node.id)) {
+            AS_CT_LINKS += 1;
+            node.sources.push(s)
+          }
+        })
+      })
+    }
+  })
+
+// console.log('AS-CT', AS_CT_LINKS)
+// console.log('CT-B', CT_BM_LINKS)
+  
+this.store.dispatch(new UpdateBimodal(nodes, links)).subscribe(newData => {
+      const view = newData.treeState.view;
+      const u_nodes = newData.treeState.bimodal.nodes;
+      const u_links = newData.treeState.bimodal.links;
+      const spec = newData.treeState.spec;
+      
+      this.updateBimodalData(view, spec, u_nodes, u_links);
+    });
+
+} catch(error) {
+  console.log(error)
+      const err: Error = {
+        msg: `${error.name} (Status: ${error.status})`,
+        status: error.status,
+        hasError: true
+      };
+      this.store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to create Tree', LOG_ICONS.error))
+      this.store.dispatch(new HasError(err))
+}
     // try {
     //   const links = [];
     //   const nodes = [];
