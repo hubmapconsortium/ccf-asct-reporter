@@ -50,7 +50,6 @@ export class NavbarComponent implements OnInit {
   }
 
   getVersionSelection(version, event) {
-    console.log(version)
     const selectedVersion = this.VERSIONS.find(s => s.display === version);
     this.router.navigate(['/vis'], {queryParams: {version: selectedVersion.folder}, queryParamsHandling: 'merge'});
   }

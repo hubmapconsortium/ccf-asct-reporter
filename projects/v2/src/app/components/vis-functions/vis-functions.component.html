@@ -1,0 +1,54 @@
+<mat-expansion-panel class="mepNoPadding mt-5" [expanded]="!error.hasError">
+  <mat-expansion-panel-header [expandedHeight]="'50px'">
+    <mat-panel-title>
+      <div>
+        <b> Vis Functions </b>
+      </div>
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <div class="py-1">
+    <div class="d-flex justify-content-between align-items-center w-100 h-100">
+      <div class="w-50">
+        <b>Tree Width</b>
+      </div>
+      <div class="text-right w-50">
+        <b>{{ config.width }}</b>
+      </div>
+      <div></div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center w-100 h-100">
+      <mat-slider
+        class="min p-0 w-100"
+        thumbLabel
+        [(ngModel)]="config.width"
+        tickInterval="100"
+        min="100"
+        max="1000"
+        (change)="changeWidth()"
+      ></mat-slider>
+    </div>
+  </div>
+  <div class="py-1">
+    <div class="d-flex justify-content-between align-items-center w-100 h-100">
+      <div class="w-50">
+        <b>Tree Height</b>
+      </div>
+      <div class="text-right w-50">
+        <b>{{ config.height }}</b>
+      </div>
+      <div></div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center w-100 h-100">
+      <mat-slider
+        class="min p-0 w-100"
+        thumbLabel
+        [(ngModel)]="config.height"
+        tickInterval="100" 
+        min="100"
+        max="4000"
+        (change)="changeHeight()"
+      ></mat-slider>
+    </div>
+  </div>
+</mat-expansion-panel>

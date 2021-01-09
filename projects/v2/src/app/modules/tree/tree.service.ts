@@ -9,10 +9,11 @@ import { UIState, UIStateModel } from '../../store/ui.state';
 import { ReportLog } from '../../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
 import { UpdateVegaSpec } from '../../actions/tree.actions';
-import { Sheet } from '../../models/sheet.model';
+import { Sheet, SheetConfig } from '../../models/sheet.model';
 import { HasError } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
-
+import { SheetState } from '../../store/sheet.state';
+import { Row } from "../../models/sheet.model";
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +22,11 @@ export class TreeService {
   height: number;
   screenWidth: number;
   controlPaneOpen: boolean;
+  sheetConfig: SheetConfig;
 
   @Select(TreeState) tree$: Observable<TreeStateModel>;
   @Select(UIState) uiState$: Observable<UIStateModel>;
+  @Select(SheetState.getSheetConfig) sc$: Observable<SheetConfig>;
 
   constructor(public store: Store, public vs: VegaService) {
 
@@ -43,9 +46,13 @@ export class TreeService {
       this.controlPaneOpen = state.controlPaneOpen;
     })
 
+    this.sc$.subscribe(config => {
+      this.sheetConfig = config;
+    })
+
   }
 
-  public makeTreeData(currentSheet: Sheet, data, compareData?: any) {
+  public makeTreeData(currentSheet: Sheet, data: Row[], compareData?: any) {
     try {
       let id = 1;
       const linkData = [];
@@ -91,7 +98,7 @@ export class TreeService {
       delete nodes[0].parent
 
 
-      const spec = this.vs.makeVegaConfig(currentSheet, nodes);
+      const spec = this.vs.makeVegaConfig(currentSheet, nodes, this.sheetConfig);
       this.store.dispatch(new UpdateVegaSpec(spec));
       this.vs.renderGraph(spec);
     } catch (error) {

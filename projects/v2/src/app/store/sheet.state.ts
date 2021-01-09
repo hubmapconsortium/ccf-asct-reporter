@@ -1,6 +1,6 @@
 import { SheetService } from '../services/sheet.service';
 import {State, Action, StateContext, Selector, Select, Store} from '@ngxs/store';
-import { Sheet, Data, Row, Structure, CompareData} from '../models/sheet.model';
+import { Sheet, Data, Row, Structure, CompareData, SheetConfig} from '../models/sheet.model';
 import { Error, Response } from '../models/response.model';
 
 import { tap, catchError } from 'rxjs/operators';
@@ -24,6 +24,7 @@ export class SheetStateModel {
   version: string;
   compareSheets: CompareData[];
   compareData: Row[];
+  sheetConfig: SheetConfig;
 }
 
 @State<SheetStateModel>({
@@ -46,6 +47,12 @@ export class SheetStateModel {
       },
       title: '',
     },
+    sheetConfig: {
+      bimodal_distance_x: 0,
+      bimodal_distance_y: 0,
+      width: 0,
+      height: 0
+    },
     compareSheets: [],
     compareData: []
   }
@@ -64,6 +71,11 @@ export class SheetState {
   @Selector()
   static getSheet(state: SheetStateModel) {
     return state.sheet;
+  }
+
+  @Selector()
+  static getSheetConfig(state: SheetStateModel) {
+    return state.sheetConfig;
   }
 
   @Selector()
@@ -136,6 +148,7 @@ export class SheetState {
     let data: Data[];
     patchState({
       sheet: sheet,
+      sheetConfig: {...sheet.config},
       version: 'latest',
       data: []
     })
@@ -190,7 +203,8 @@ export class SheetState {
           ...state,
           data: res,
           version: 'latest',
-          sheet: sheet
+          sheet: sheet,
+          sheetConfig: {...sheet.config},
         });
         
         dispatch(new ReportLog(LOG_TYPES.MSG,`${sheet.display} data successfully fetched.`, LOG_ICONS.success));
@@ -231,6 +245,7 @@ export class SheetState {
           version: version,
           data: parsedData.data,
           sheet: sheet,
+          sheetConfig: sheet.config,
         });
         dispatch(new ReportLog(LOG_TYPES.MSG,`${sheet.display} data successfully fetched from assets.`, LOG_ICONS.success, version));
         dispatch(new UpdateLoadingText('Fetch data successful. Building Visualization..'));
@@ -248,14 +263,5 @@ export class SheetState {
       })
     );
   }
-
-  @Action(RefreshData)
-  refreshData({dispatch}: StateContext<SheetStateModel>) {
-    // dispatch(new StateReset(TreeState)).subscribe(s => {
-    //   dispatch(new FetchSheetData(s.sheetState.sheet))
-    // })
-
-  }
-
 
 }

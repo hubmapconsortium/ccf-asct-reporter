@@ -1,4 +1,5 @@
 import { Signal } from 'vega';
+import { Sheet, SheetConfig } from '../../../models/sheet.model';
 
 interface VegaSignals {
   signals: Array<Signal>;
@@ -7,7 +8,7 @@ interface VegaSignals {
 export class Signals implements VegaSignals {
   signals: any;
 
-  constructor() {
+  constructor(config: SheetConfig) {
     this.signals = [
       this.makeBimodalNodeClickStateSignal(),
       this.makeBimodalNodeHoverStateSignal(),
@@ -17,10 +18,26 @@ export class Signals implements VegaSignals {
       this.makeBimodalSourcesClickStateSignal(),
       this.makeSearchSignal(),
       this.makeBimodalTextClickSignal(),
-      this.makeBimodalTextHoverSignal()
+      this.makeBimodalTextHoverSignal(),
+      this.makeASTreeWidthSignal(config.width),
+      this.makeASTreeHeightSignal(config.height)
     ];
 
     return this.signals;
+  }
+
+  makeASTreeWidthSignal(width: number) {
+    return {
+      name: 'as_width',
+      value: width,
+    }
+  }
+
+  makeASTreeHeightSignal(height: number) {
+    return {
+      name: 'as_height',
+      value: height,
+    }
   }
 
   makeBimodalTextClickSignal() {

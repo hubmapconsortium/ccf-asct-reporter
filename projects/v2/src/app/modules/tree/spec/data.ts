@@ -1,6 +1,6 @@
 import { Data as VegaDataInterface } from 'vega';
 import { TNode } from '../../../models/tree.model';
-import { Sheet } from '../../../models/sheet.model';
+import { Sheet, SheetConfig } from '../../../models/sheet.model';
 
 interface VegaData {
   data: Array<VegaDataInterface>;
@@ -9,9 +9,9 @@ interface VegaData {
 export class Data implements VegaData {
   data: any;
 
-  constructor(currentSheet:Sheet, treeData: TNode[], multiParentLinksData?: any) {
+  constructor(currentSheet:Sheet, treeData: TNode[], sheetConfig: SheetConfig, multiParentLinksData?: any) {
     this.data = [
-      this.makeASTreeData(currentSheet, treeData),
+      this.makeASTreeData(currentSheet, treeData, sheetConfig),
       this.makeASTreeLinksData(),
       // this.makeASMultiParentEdgesData(multiParentLinksData),
       this.makeBimodalNodesData(),
@@ -39,10 +39,7 @@ export class Data implements VegaData {
     };
   }
 
-  makeASTreeData(currentSheet: Sheet, treeData: TNode[]) {
-    const bimodalDistance = currentSheet.config.bimodal_distance_x
-    const height = currentSheet.config.height;
-    const width = currentSheet.config.width;
+  makeASTreeData(currentSheet: Sheet, treeData: TNode[], config: SheetConfig) {
     return {
       name: 'tree',
       values: treeData,
@@ -56,8 +53,8 @@ export class Data implements VegaData {
           type: 'tree',
           method: 'cluster',
           size: [
-            { signal: height  },
-            { signal: width - bimodalDistance * 2 },
+            { signal: "as_height"  },
+            { signal: "as_width" },
           ],
           separation: { value: false },
           as: ['y', 'x', 'depth', 'children'],

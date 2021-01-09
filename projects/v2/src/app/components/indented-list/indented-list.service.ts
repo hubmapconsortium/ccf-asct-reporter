@@ -39,7 +39,6 @@ export class IndentedListService {
       })
 
       root = root.children[0]; // reassign to avoid diuplicate parent
-      console.log(root)
       this.indentData.next({
         data: root,
         sheet: currentSheet.display

@@ -5,6 +5,12 @@ import { UIState } from '../../store/ui.state';
 import { Observable } from 'rxjs';
 import { ToggleControlPane } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
+import { SheetState } from '../../store/sheet.state';
+import { Sheet, SheetConfig } from '../../models/sheet.model';
+import { TreeState } from '../../store/tree.state';
+import { TNode } from '../../models/tree.model';
+import { VegaService } from '../tree/vega.service';
+import { UpdateVegaSpec } from '../../actions/tree.actions';
 
 @Component({
   selector: 'app-control-pane',
@@ -13,13 +19,29 @@ import { Error } from '../../models/response.model';
 })
 export class ControlPaneComponent implements OnInit {
   @Input() error: Error;
+
+  @Select(SheetState.getSheetConfig) config$: Observable<SheetConfig>;
+  @Select(TreeState.getVegaView) view$: Observable<TNode[]>;
+
+  view: any;
   
-  constructor(public store: Store) {
+  constructor(public store: Store, public vs: VegaService) {
 
   }
 
   ngOnInit(): void {
+    this.view$.subscribe(data => {
+      this.view = data;
+    })
+  }
 
+  updateConfigInSheet(prop) {
+    switch(prop.property) {
+      case 'width':  this.view.signal('as_width', prop.config.width).runAsync(); break;
+      case 'height': this.view.signal('as_height', prop.config.height).runAsync(); break;
+    }
+   
+      
   }
 
   togglePane() {

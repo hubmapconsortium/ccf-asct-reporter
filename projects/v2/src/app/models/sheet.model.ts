@@ -28,12 +28,7 @@ export interface Sheet {
   gid: string;
   display: string;
   body: string;
-  config: {
-    bimodal_distance_y: number,
-    bimodal_distance_x: number,
-    width: number,
-    height: number
-  };
+  config: SheetConfig;
   title: string;
 }
 
@@ -44,4 +39,11 @@ export interface CompareData {
   color: string;
   sheetId: string;
   gid: string;
+}
+
+export interface SheetConfig {
+  bimodal_distance_y: number;
+  bimodal_distance_x: number;
+  width: number;
+  height: number;
 }

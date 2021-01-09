@@ -87,7 +87,7 @@ export const SHEET_CONFIG = [
     config: {
       bimodal_distance_x: 300,
       bimodal_distance_y: 60,
-      width: 1200,
+      width: 500,
       height: 1400
     },
     title: 'Anatomical Structures',

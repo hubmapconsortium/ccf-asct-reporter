@@ -17,7 +17,7 @@ import { OpenBottomSheet, CloseBottomSheet, CloseLoading, HasError } from '../..
 import { Error } from '../../models/response.model';
 import { ReportLog } from '../../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
-import { Sheet } from '../../models/sheet.model';
+import { Sheet, SheetConfig } from '../../models/sheet.model';
 import { TNode } from '../../models/tree.model';
 import { Signal } from 'vega';
 
@@ -27,6 +27,7 @@ import { Signal } from 'vega';
 export class VegaService {
 
   infoSheetRef: MatBottomSheetRef;
+  sheetConfig: SheetConfig;
 
   constructor(public store: Store, public bm: BimodalService, private infoSheet: MatBottomSheet) { }
 
@@ -41,25 +42,11 @@ export class VegaService {
       vegaTooltip(treeView, { theme: 'custom' });
       treeView.runAsync();
 
-      // const treeWidth = treeView._runtime.group.context.data.asTree.values.value[0].bounds.x2;
+      const treeWidth = treeView._runtime.group.context.data.asTree.values.value[0].bounds.x2;
       this.addSignalListeners(treeView);
-      // this.store.dispatch(new CloseLoading('Visualization Rendered'));
+      this.store.dispatch(new CloseLoading('Visualization Rendered'));
 
-      this.store.dispatch(new UpdateVegaView(treeView)).subscribe(states => {
-        const data = states.sheetState.data;
-        const sheet = states.sheetState.sheet;
-        const treeData = states.treeState.treeData;
-        const bimodalConfig = states.treeState.bimodal.config;
-
-
-        if (data.length) {
-          try {
-            this.bm.makeBimodalData(data, treeData, bimodalConfig, sheet);
-          } catch (err) {
-            console.log('HELLO:', err)
-          }
-        }
-      });
+      this.makeBimodal(treeView)
 
     } catch (error) {
       console.log(error)
@@ -76,15 +63,41 @@ export class VegaService {
   addSignalListeners(view: any) {
     view.addSignalListener('bimodal_text__click', (signal: Signal, text: any) => {
       if (text) {
-
         this.store.dispatch(new OpenBottomSheet(text))
       } else {
         this.store.dispatch(new CloseBottomSheet())
       }
     })
+
+    view.addSignalListener('as_width', (signal: Signal, value: any) => {
+      if(value) this.makeBimodal(view);
+    })
+
+    view.addSignalListener('as_height', (signal: Signal, value: any) => {
+      if(value) this.makeBimodal(view);
+    })
+      
   }
 
-  makeVegaConfig(currentSheet: Sheet, treeData: TNode[], multiParentLinksData?: []) {
+  makeBimodal(view: any) {
+    this.store.dispatch(new UpdateVegaView(view)).subscribe(states => {
+      const data = states.sheetState.data;
+      const sheet = states.sheetState.sheet;
+      const treeData = states.treeState.treeData;
+      const bimodalConfig = states.treeState.bimodal.config;
+
+
+      if (data.length) {
+        try {
+          this.bm.makeBimodalData(data, treeData, bimodalConfig, sheet);
+        } catch (err) {
+          console.log(err)
+        }
+      }
+    });
+  }
+
+  makeVegaConfig(currentSheet: Sheet, treeData: TNode[], sheetConfig: SheetConfig, multiParentLinksData?: []) {
     const config: any = {
       $schema: 'https://vega.github.io/schema/vega/v5.json',
       autosize: 'pad',
@@ -94,13 +107,12 @@ export class VegaService {
         bottom: 20,
         left: 30,
       },
-      signals: new Signals(),
-      data: new Data(currentSheet, treeData),
+      signals: new Signals(sheetConfig),
+      data: new Data(currentSheet, treeData, sheetConfig),
       scales: new Scales(),
       legends: new Legends(),
       marks: new Marks(),
     };
-
     return config;
   }
 

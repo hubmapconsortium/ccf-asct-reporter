@@ -34,7 +34,6 @@ export class InfoComponent implements OnInit {
   }
 
   getInfo(id: string) {
-    console.log('HERE?')
     this.loading = true;
     this.error = { hasError: false };
     this.http.get<any>(getInformation(id))

@@ -30,6 +30,10 @@
     <div class="px-3">
       <app-functions [error]="error"></app-functions>
     </div>
+
+    <div class="px-3 mt-4">
+      <app-vis-functions [config]="config$ | async" [error]="error" (updatedSheet)="updateConfigInSheet($event)"></app-vis-functions>
+    </div>
   </div>
 
   <div footer>
@@ -46,33 +50,3 @@
     </div>
   </div>
 </app-sidenav>
-
-<!-- <div class="py-3 h-100">
-  <div class="card h-100 px-0">
-    <div class="card-header pt-0 text-center">
-      <img src="./../../../assets/logo.png" alt="" class="w-100">
-    </div>
-    <div class="card-body px-3 pt-0">
-      <div class="mt-4">
-        <button
-        mat-icon-button
-        style="border-radius: 8px;"
-        #tooltip="matTooltip"
-        (click)="togglePane()"
-        matTooltip="Toggle Control Pane"
-        matTooltipPosition="below"
-        class="w-100 br-0 secondary"
-      >
-        <mat-icon style="font-weight: bold;">keyboard_arrow_left</mat-icon>
-      </button>
-      </div>
-    
-      <div class="">
-        <app-functions></app-functions>
-      </div>
-    </div>
-    <div class="card-footer text-muted p5-2">
-      <button mat-stroked-button class="w-100 report" (click)="sendMail()">Report Problem</button>
-    </div>
-  </div>
-</div> -->

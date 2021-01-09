@@ -90,7 +90,7 @@ export class BimodalService {
         case 'None':
           break;
         case 'Degree':
-          cellTypes.forEach(c => { console.log(c); c.nodeSize = (c.indegree.size + c.outdegree.size) * 25 })
+          cellTypes.forEach(c => { c.nodeSize = (c.indegree.size + c.outdegree.size) * 25 })
           break;
         case 'Indegree':
           cellTypes.forEach(c => { c.nodeSize = (c.indegree.size) * 25 })

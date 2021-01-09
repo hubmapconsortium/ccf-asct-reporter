@@ -1,0 +1,35 @@
+@import './../../../assets/stylesheets/colors.scss';
+
+.mat-expansion-panel:not([class*="mat-elevation-z"]) {
+  box-shadow: none;
+}
+
+.mat-expansion-panel-header:not(.compare) {
+  border-top-left-radius: 8px !important;
+  border-top-right-radius: 8px !important;
+}
+
+.mat-expansion-panel-header {
+  transition: all 0.3s;
+  background-color: $secondary !important;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+  border-top-left-radius: 8px !important;
+  border-top-right-radius: 8px !important;
+}
+
+.mat-expansion-panel-header:hover {
+  background-color: darken($color: $secondary, $amount: 8%) !important;
+}
+
+:host ::ng-deep .min .mat-slider-thumb {
+  background-color: #444a65;
+}
+
+:host ::ng-deep .min .mat-slider-thumb-label {
+  background-color: #444a65;
+}
+
+:host ::ng-deep .min .mat-slider-track-fill {
+  background-color: #444a65;
+}
