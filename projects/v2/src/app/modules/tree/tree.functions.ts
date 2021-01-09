@@ -14,10 +14,7 @@ import { Marker, Cell, AS, ASCTBConfig, CT, B, AS_RED, CT_BLUE, B_GREEN } from '
    * @returns - Array of anatomical structures
    *
    */
-export function makeAS(
-  data: any,
-  config?
-): Promise<Array<AS>> {
+export function makeAS(data: any): Promise<Array<AS>> {
   return new Promise((res, rej) => {
     const anatomicalStructures: Array<AS> = [];
     // const cols = config.report_cols;
@@ -77,8 +74,7 @@ export function makeAS(
    * @returns - Array of cell types
    */
 export   async function makeCellTypes(
-  data: any,
-  config: ASCTBConfig
+  data: any
 ): Promise<Array<CT>> {
   const cellTypes = []
   
@@ -150,10 +146,7 @@ export   async function makeCellTypes(
    *
    * @returns - Array of biomarkers
    */
-export async function makeBioMarkers(
-  data:any,
-  config: ASCTBConfig
-): Promise<Array<B>> {
+export async function makeBioMarkers(data:any): Promise<Array<B>> {
   return new Promise((res, rej) => {
     const bioMarkers = [];
 

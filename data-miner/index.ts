@@ -40,6 +40,8 @@ class Row {
   anatomical_structures: Array<Structure>;
   cell_types: Array<Structure>;
   biomarkers: Array<Structure>;
+  color?: string;
+  isNew?: boolean;
 
   constructor() {
     this.anatomical_structures = []

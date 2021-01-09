@@ -56,7 +56,7 @@ export class VegaService {
   
         if (data.length) {
           try {
-            this.bm.makeBimodalData(data, treeData, bimodalConfig, sheet, []);
+            this.bm.makeBimodalData(data, treeData, bimodalConfig, sheet);
           }catch(err){
             console.log('HELLO:', err)
             }
@@ -83,7 +83,7 @@ export class VegaService {
         this.store.dispatch(new CloseBottomSheet())
       }
     })
-  }
+  } 
 
   makeVegaConfig(currentSheet, bimodalDistance, height, width, treeData, multiParentLinksData) {
     const config: any = {

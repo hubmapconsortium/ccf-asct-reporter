@@ -10,6 +10,8 @@ export const SHEET_CONFIG = [
     display: 'All Organs',
     body: 'Body',
     config: {
+      bimodal_distance_x: 350,
+      bimodal_distance_y: 60,
       bimodal_distance: 350,
       width: 700,
       width_offset: 750,
@@ -25,6 +27,8 @@ export const SHEET_CONFIG = [
     gid: '1195641392',
     body: 'Spleen',
     config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
       bimodal_distance: 250,
       width: 1000,
       width_offset: 550,
@@ -38,6 +42,8 @@ export const SHEET_CONFIG = [
     sheetId: SHEET_ID,
     gid: '1459184913',
     config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
       bimodal_distance: 250,
       width: 700,
       width_offset: 600,
@@ -72,6 +78,8 @@ export const SHEET_CONFIG = [
     sheetId: SHEET_ID,
     gid: '1412289765',
     config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
       bimodal_distance: 250,
       width: 1200,
       width_offset: 350,
@@ -85,6 +93,8 @@ export const SHEET_CONFIG = [
     sheetId: SHEET_ID,
     gid: '667925588',
     config: {
+      bimodal_distance_x: 300,
+      bimodal_distance_y: 60,
       bimodal_distance: 300,
       width: 800,
       width_offset: 550,

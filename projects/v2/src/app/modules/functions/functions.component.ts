@@ -47,7 +47,7 @@ export class FunctionsComponent implements OnInit {
 
 
       if (data.length) {
-        this.bms.makeBimodalData(data, treeData, bimodalConfig, sheet, []);
+        this.bms.makeBimodalData(data, treeData, bimodalConfig, sheet);
       }
     });
   }

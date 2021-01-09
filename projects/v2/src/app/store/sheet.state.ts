@@ -36,15 +36,11 @@ export class SheetStateModel {
       display: '',
       sheetId: '',
       gid: '',
-      header_count: 0,
-      cell_col: 0,
-      marker_col: 0,
-      uberon_col: 0,
-      report_cols: [],
-      tree_cols: [],
-      indent_cols: [],
+
       body: '',
       config: {
+        bimodal_distance_x: 0,
+        bimodal_distance_y: 0,
         bimodal_distance: 0,
         width: 0,
         width_offset: 0,
