@@ -32,7 +32,7 @@
     </div>
 
     <div class="px-3 mt-4">
-      <app-vis-functions [config]="config$ | async" [error]="error" (updatedSheet)="updateConfigInSheet($event)"></app-vis-functions>
+      <app-vis-controls [config]="config$ | async" [error]="error" (updatedSheet)="updateConfigInSheet($event)"></app-vis-controls>
     </div>
   </div>
 

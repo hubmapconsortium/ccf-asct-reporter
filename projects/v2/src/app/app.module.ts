@@ -36,7 +36,7 @@ import { LogsState } from './store/logs.state';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { InfoComponent } from './components/info/info.component';
 import { ComapreComponent } from './components/comapre/comapre.component';
-import { VisFunctionsComponent } from './components/vis-functions/vis-functions.component';
+import { VisControlsComponent } from './components/controls/vis-controls.component';
 
 
 
@@ -58,7 +58,7 @@ import { VisFunctionsComponent } from './components/vis-functions/vis-functions.
     DebugLogsComponent,
     InfoComponent,
     ComapreComponent,
-    VisFunctionsComponent
+    VisControlsComponent
   ],
   imports: [
     BrowserModule,

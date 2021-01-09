@@ -3,11 +3,11 @@ import { Sheet, SheetConfig } from '../../models/sheet.model';
 import { Error } from '../../models/response.model';
 
 @Component({
-  selector: 'app-vis-functions',
-  templateUrl: './vis-functions.component.html',
-  styleUrls: ['./vis-functions.component.scss']
+  selector: 'app-vis-controls',
+  templateUrl: './vis-controls.component.html',
+  styleUrls: ['./vis-controls.component.scss']
 })
-export class VisFunctionsComponent implements OnInit {
+export class VisControlsComponent implements OnInit {
   
   @Input() config: SheetConfig;
   @Input() error: Error;
