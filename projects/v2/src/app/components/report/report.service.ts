@@ -28,24 +28,9 @@ export class ReportService {
     }
 
     try {
-      output.anatomicalStructures = await makeAS(data, {
-        report_cols: currentSheet.report_cols,
-        cell_col: currentSheet.cell_col,
-        marker_col: currentSheet.marker_col,
-        uberon_col: currentSheet.uberon_col,
-      });
-
-      output.cellTypes = await makeCellTypes(data, {
-        report_cols: currentSheet.report_cols,
-        cell_col: currentSheet.cell_col,
-        uberon_col: currentSheet.uberon_col,
-        marker_col: currentSheet.marker_col
-      });
-
-      output.biomarkers = await makeBioMarkers(data, {
-        marker_col: currentSheet.marker_col,
-        uberon_col: currentSheet.uberon_col
-      });
+      output.anatomicalStructures = makeAS(data);
+      output.cellTypes = makeCellTypes(data);
+      output.biomarkers = makeBioMarkers(data);
 
     
       let organName: AS = {

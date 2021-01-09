@@ -8,6 +8,8 @@ export interface Structure {
   id?: string;
   rdfs_label?: string;
   b_type?: BM_TYPE;
+  isNew?: boolean;
+  color?: string;
 }
 
 export interface Row {
