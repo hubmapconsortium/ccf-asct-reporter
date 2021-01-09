@@ -17,7 +17,7 @@ export class MultiParentMarkGroup implements VegaMultiParentMarkGroup {
       type: 'group',
       name: 'multiParent',
       marks: [
-        this.makeMultiParentPathMarks()
+        // this.makeMultiParentPathMarks()
       ],
     };
   }

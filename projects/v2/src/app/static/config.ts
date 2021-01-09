@@ -12,7 +12,6 @@ export const SHEET_CONFIG = [
     config: {
       bimodal_distance_x: 350,
       bimodal_distance_y: 60,
-      bimodal_distance: 350,
       width: 700,
       width_offset: 750,
       height_offset: 4500,
@@ -29,7 +28,6 @@ export const SHEET_CONFIG = [
     config: {
       bimodal_distance_x: 250,
       bimodal_distance_y: 60,
-      bimodal_distance: 250,
       width: 1000,
       width_offset: 550,
       height_offset: 200,
@@ -44,7 +42,6 @@ export const SHEET_CONFIG = [
     config: {
       bimodal_distance_x: 250,
       bimodal_distance_y: 60,
-      bimodal_distance: 250,
       width: 700,
       width_offset: 600,
       height_offset: 200,
@@ -80,7 +77,6 @@ export const SHEET_CONFIG = [
     config: {
       bimodal_distance_x: 250,
       bimodal_distance_y: 60,
-      bimodal_distance: 250,
       width: 1200,
       width_offset: 350,
       height_offset: 200,
@@ -95,7 +91,6 @@ export const SHEET_CONFIG = [
     config: {
       bimodal_distance_x: 300,
       bimodal_distance_y: 60,
-      bimodal_distance: 300,
       width: 800,
       width_offset: 550,
       height_offset: 200,

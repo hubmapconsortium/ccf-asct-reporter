@@ -29,7 +29,6 @@ export interface Sheet {
   config: {
     bimodal_distance_y: number,
     bimodal_distance_x: number,
-    bimodal_distance: number,
     width: number,
     width_offset: number,
     height_offset: number,

@@ -41,7 +41,6 @@ export class SheetStateModel {
       config: {
         bimodal_distance_x: 0,
         bimodal_distance_y: 0,
-        bimodal_distance: 0,
         width: 0,
         width_offset: 0,
         height_offset: 0,
@@ -133,7 +132,7 @@ export class SheetState {
     dispatch(new OpenLoading('Fetching data..'));
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
-    // dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
+    dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
     
     let data: Data[];
     patchState({

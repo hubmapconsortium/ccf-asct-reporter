@@ -1,4 +1,6 @@
 import { Data as VegaDataInterface } from 'vega';
+import { TNode } from '../../../models/tree.model';
+import { Sheet } from '../../../models/sheet.model';
 
 interface VegaData {
   data: Array<VegaDataInterface>;
@@ -7,11 +9,11 @@ interface VegaData {
 export class Data implements VegaData {
   data: any;
 
-  constructor(currentSheet, bimodalDistance, height, width, treeData, multiParentLinksData) {
+  constructor(currentSheet:Sheet, height: number, width:number, treeData: TNode[], multiParentLinksData?: any) {
     this.data = [
-      this.makeASTreeData(currentSheet, bimodalDistance, height, width, treeData),
+      this.makeASTreeData(currentSheet, height, width, treeData),
       this.makeASTreeLinksData(),
-      this.makeASMultiParentEdgesData(multiParentLinksData),
+      // this.makeASMultiParentEdgesData(multiParentLinksData),
       this.makeBimodalNodesData(),
       this.makeBimodalEdgesData(),
       this.makeSourcesClickData(),
@@ -37,8 +39,8 @@ export class Data implements VegaData {
     };
   }
 
-  makeASTreeData(currentSheet, bimodalDistance, height, width, treeData) {
-    // const bimodalDistance = currentSheet.config.bimodal_distance
+  makeASTreeData(currentSheet, height: number, width:number, treeData: TNode[]) {
+    const bimodalDistance = currentSheet.config.bimodal_distance_x
     return {
       name: 'tree',
       values: treeData,
