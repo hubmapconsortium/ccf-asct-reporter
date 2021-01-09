@@ -13,8 +13,7 @@ export const SHEET_CONFIG = [
       bimodal_distance_x: 350,
       bimodal_distance_y: 60,
       width: 700,
-      width_offset: 750,
-      height_offset: 4500,
+      height: 5000
     },
     
     title: 'Organs',
@@ -29,8 +28,7 @@ export const SHEET_CONFIG = [
       bimodal_distance_x: 250,
       bimodal_distance_y: 60,
       width: 1000,
-      width_offset: 550,
-      height_offset: 200,
+      height: 1400
     },
     title: 'Anatomical Structures',
   },
@@ -43,8 +41,7 @@ export const SHEET_CONFIG = [
       bimodal_distance_x: 250,
       bimodal_distance_y: 60,
       width: 700,
-      width_offset: 600,
-      height_offset: 200,
+      height: 1400
     },
     title: 'Anatomical Structures',
   },
@@ -78,8 +75,7 @@ export const SHEET_CONFIG = [
       bimodal_distance_x: 250,
       bimodal_distance_y: 60,
       width: 1200,
-      width_offset: 350,
-      height_offset: 200,
+      height: 1400
     },
     title: 'Anatomical Structures',
   },
@@ -91,9 +87,8 @@ export const SHEET_CONFIG = [
     config: {
       bimodal_distance_x: 300,
       bimodal_distance_y: 60,
-      width: 800,
-      width_offset: 550,
-      height_offset: 200,
+      width: 1200,
+      height: 1400
     },
     title: 'Anatomical Structures',
   },

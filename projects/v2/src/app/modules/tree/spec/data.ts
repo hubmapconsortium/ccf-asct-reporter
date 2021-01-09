@@ -9,9 +9,9 @@ interface VegaData {
 export class Data implements VegaData {
   data: any;
 
-  constructor(currentSheet:Sheet, height: number, width:number, treeData: TNode[], multiParentLinksData?: any) {
+  constructor(currentSheet:Sheet, treeData: TNode[], multiParentLinksData?: any) {
     this.data = [
-      this.makeASTreeData(currentSheet, height, width, treeData),
+      this.makeASTreeData(currentSheet, treeData),
       this.makeASTreeLinksData(),
       // this.makeASMultiParentEdgesData(multiParentLinksData),
       this.makeBimodalNodesData(),
@@ -39,8 +39,10 @@ export class Data implements VegaData {
     };
   }
 
-  makeASTreeData(currentSheet, height: number, width:number, treeData: TNode[]) {
+  makeASTreeData(currentSheet: Sheet, treeData: TNode[]) {
     const bimodalDistance = currentSheet.config.bimodal_distance_x
+    const height = currentSheet.config.height;
+    const width = currentSheet.config.width;
     return {
       name: 'tree',
       values: treeData,
@@ -54,7 +56,7 @@ export class Data implements VegaData {
           type: 'tree',
           method: 'cluster',
           size: [
-            { signal: height + currentSheet.config.height_offset + 500 },
+            { signal: height  },
             { signal: width - bimodalDistance * 2 },
           ],
           separation: { value: false },

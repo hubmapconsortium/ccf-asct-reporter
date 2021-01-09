@@ -42,8 +42,7 @@ export class SheetStateModel {
         bimodal_distance_x: 0,
         bimodal_distance_y: 0,
         width: 0,
-        width_offset: 0,
-        height_offset: 0,
+        height: 0
       },
       title: '',
     },

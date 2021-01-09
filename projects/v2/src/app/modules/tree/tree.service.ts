@@ -91,7 +91,7 @@ export class TreeService {
       delete nodes[0].parent
 
 
-      const spec = this.vs.makeVegaConfig(currentSheet, this.height, validateWidth(this.screenWidth, this.controlPaneOpen), nodes);
+      const spec = this.vs.makeVegaConfig(currentSheet, nodes);
       this.store.dispatch(new UpdateVegaSpec(spec));
       this.vs.renderGraph(spec);
     } catch (error) {

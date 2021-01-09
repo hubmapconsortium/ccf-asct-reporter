@@ -84,7 +84,7 @@ export class VegaService {
     })
   }
 
-  makeVegaConfig(currentSheet: Sheet, height: number, width: number, treeData: TNode[], multiParentLinksData?: []) {
+  makeVegaConfig(currentSheet: Sheet, treeData: TNode[], multiParentLinksData?: []) {
     const config: any = {
       $schema: 'https://vega.github.io/schema/vega/v5.json',
       autosize: 'pad',
@@ -94,9 +94,8 @@ export class VegaService {
         bottom: 20,
         left: 30,
       },
-      width: width,
       signals: new Signals(),
-      data: new Data(currentSheet, height, width, treeData),
+      data: new Data(currentSheet, treeData),
       scales: new Scales(),
       legends: new Legends(),
       marks: new Marks(),

@@ -30,8 +30,7 @@ export interface Sheet {
     bimodal_distance_y: number,
     bimodal_distance_x: number,
     width: number,
-    width_offset: number,
-    height_offset: number,
+    height: number
   };
   title: string;
 }
