@@ -23,6 +23,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 
 
 const MatModules = [
@@ -46,7 +48,8 @@ const MatModules = [
   MatChipsModule,
   MatCheckboxModule,
   MatSliderModule,
-  MatBottomSheetModule
+  MatBottomSheetModule,
+  MatSlideToggleModule
 ];
 
 @NgModule({

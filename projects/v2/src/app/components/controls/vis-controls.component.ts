@@ -32,4 +32,12 @@ export class VisControlsComponent implements OnInit {
     })
   }
 
+  changeShowOntology() {
+    this.config.show_ontology = !this.config.show_ontology;
+    this.updatedSheet.emit({
+      property: 'so',
+      config: this.config
+    })
+  }
+
 }

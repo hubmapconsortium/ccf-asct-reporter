@@ -36,9 +36,11 @@ export class ControlPaneComponent implements OnInit {
   }
 
   updateConfigInSheet(prop) {
+    console.log(prop)
     switch(prop.property) {
       case 'width':  this.view.signal('as_width', prop.config.width).runAsync(); break;
       case 'height': this.view.signal('as_height', prop.config.height).runAsync(); break;
+      case 'so': this.view.signal('show_ontology', prop.config.show_ontology).runAsync(); break;
     }
    
       

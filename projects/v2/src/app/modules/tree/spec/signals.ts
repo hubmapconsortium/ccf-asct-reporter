@@ -20,10 +20,18 @@ export class Signals implements VegaSignals {
       this.makeBimodalTextClickSignal(),
       this.makeBimodalTextHoverSignal(),
       this.makeASTreeWidthSignal(config.width),
-      this.makeASTreeHeightSignal(config.height)
+      this.makeASTreeHeightSignal(config.height),
+      this.makeShowOntologyIDSignal(config.show_ontology)
     ];
 
     return this.signals;
+  }
+  
+  makeShowOntologyIDSignal(value: boolean) {
+    return {
+      name: 'show_ontology',
+      value: value
+    }
   }
 
   makeASTreeWidthSignal(width: number) {

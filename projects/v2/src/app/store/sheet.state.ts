@@ -43,7 +43,8 @@ export class SheetStateModel {
         bimodal_distance_x: 0,
         bimodal_distance_y: 0,
         width: 0,
-        height: 0
+        height: 0,
+        show_ontology: true
       },
       title: '',
     },
@@ -51,7 +52,8 @@ export class SheetStateModel {
       bimodal_distance_x: 0,
       bimodal_distance_y: 0,
       width: 0,
-      height: 0
+      height: 0,
+      show_ontology: true
     },
     compareSheets: [],
     compareData: []
@@ -148,7 +150,7 @@ export class SheetState {
     let data: Data[];
     patchState({
       sheet: sheet,
-      sheetConfig: {...sheet.config},
+      sheetConfig: {...sheet.config, show_ontology: true},
       version: 'latest',
       data: []
     })
@@ -204,7 +206,7 @@ export class SheetState {
           data: res,
           version: 'latest',
           sheet: sheet,
-          sheetConfig: {...sheet.config},
+          sheetConfig: {...sheet.config, show_ontology: true},
         });
         
         dispatch(new ReportLog(LOG_TYPES.MSG,`${sheet.display} data successfully fetched.`, LOG_ICONS.success));
@@ -245,7 +247,7 @@ export class SheetState {
           version: version,
           data: parsedData.data,
           sheet: sheet,
-          sheetConfig: sheet.config,
+          sheetConfig: {...sheet.config, show_ontology: true},
         });
         dispatch(new ReportLog(LOG_TYPES.MSG,`${sheet.display} data successfully fetched from assets.`, LOG_ICONS.success, version));
         dispatch(new UpdateLoadingText('Fetch data successful. Building Visualization..'));

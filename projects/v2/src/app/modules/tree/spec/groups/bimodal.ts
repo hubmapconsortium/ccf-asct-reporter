@@ -284,6 +284,10 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
           ],
           opacity: [
             {
+              test: "!show_ontology",
+              value: 0
+            },
+            {
               test: 'node__click === null && node__hover === null',
               value: 1
             },
@@ -322,7 +326,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
           x: { field: 'x' },
           y: { field: 'y', offset: 5 },
           dx: { value: 20 },
-          dy: { value: -8 },
+          dy: { signal: "show_ontology ? -8 : 0" },
           align: { value: 'left' },
           baseline: { value: 'middle' },
           text: { field: 'name' },

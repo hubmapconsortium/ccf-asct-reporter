@@ -46,4 +46,5 @@ export interface SheetConfig {
   bimodal_distance_x: number;
   width: number;
   height: number;
+  show_ontology?: boolean;
 }

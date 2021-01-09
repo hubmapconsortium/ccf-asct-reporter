@@ -7,6 +7,12 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
 
+  <div class="py-1 pb-4">
+    <mat-slide-toggle [checked]="config.show_ontology" color="primary" (change)="changeShowOntology()">
+      <span style="font-weight: 500;">Show Ontology IDs</span>
+    </mat-slide-toggle>
+  </div>
+
   <div class="py-1">
     <div class="d-flex justify-content-between align-items-center w-100 h-100">
       <div class="w-50">
