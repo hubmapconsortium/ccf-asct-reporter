@@ -250,7 +250,7 @@ export class BimodalService {
     } catch (error) {
       console.log(error)
       const err: Error = {
-        msg: `${error.name} (Status: ${error.status})`,
+        msg: `${error} (Status: ${error.status})`,
         status: error.status,
         hasError: true
       };

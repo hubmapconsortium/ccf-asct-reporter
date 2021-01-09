@@ -27,6 +27,8 @@ class Structure {
   id?: string;
   rdfs_label?: string;
   b_type?: BM_TYPE;
+  isNew?: boolean;
+  color?: string;
 
   constructor(name: string) {
     this.name = name;
@@ -40,8 +42,6 @@ class Row {
   anatomical_structures: Array<Structure>;
   cell_types: Array<Structure>;
   biomarkers: Array<Structure>;
-  color?: string;
-  isNew?: boolean;
 
   constructor() {
     this.anatomical_structures = []
