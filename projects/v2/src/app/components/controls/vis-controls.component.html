@@ -2,24 +2,24 @@
   <mat-expansion-panel-header [expandedHeight]="'50px'">
     <mat-panel-title>
       <div>
-        <b> Config Controls </b>
+        <b> Controls </b>
       </div>
     </mat-panel-title>
   </mat-expansion-panel-header>
 
   <div class="py-1 pb-4">
-    <mat-slide-toggle [checked]="config.show_ontology" color="primary" (change)="changeShowOntology()">
-      <span style="font-weight: 500;">Show Ontology IDs</span>
+    <mat-slide-toggle [checked]="config.show_ontology" color="primary" (change)="changeShowOntology()" matTooltip="Toggle Visibility of Ontology Links" matTooltipPosition="below">
+      <span style="font-weight: 500;">Ontology IDs</span>
     </mat-slide-toggle>
   </div>
 
-  <div class="py-1">
+  <div class="py-1" matTooltip="Change width of AS Tree" matTooltipPosition="below">
     <div class="d-flex justify-content-between align-items-center w-100 h-100">
       <div class="w-50">
         <span style="font-weight: 500;">Tree Width</span>
       </div>
       <div class="text-right w-50">
-        <b>{{ config.width }}</b>
+        <b><input [(ngModel)]="config.width" type="number" matInput (change)="changeWidth()" class="numberInput" /></b>
       </div>
       <div></div>
     </div>
@@ -35,13 +35,14 @@
       ></mat-slider>
     </div>
   </div>
-  <div class="py-1">
+
+  <div class="py-1" matTooltip="Change width of AS Tree" matTooltipPosition="below">
     <div class="d-flex justify-content-between align-items-center w-100 h-100">
       <div class="w-50">
-        <span style="font-weight: 500;">Tree Width</span>
+        <span style="font-weight: 500;">Tree Height</span>
       </div>
       <div class="text-right w-50">
-        <b>{{ config.height }}</b>
+        <b><input [(ngModel)]="config.height" type="number" matInput (change)="changeHeight()" class="numberInput" /></b>
       </div>
       <div></div>
     </div>
