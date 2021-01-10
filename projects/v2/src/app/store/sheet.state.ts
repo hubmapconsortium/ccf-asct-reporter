@@ -142,15 +142,15 @@ export class SheetState {
 
   @Action(FetchAllOrganData)
   async fetchAllOrganData({getState, setState, dispatch, patchState}:StateContext<SheetStateModel>, {sheet}: FetchAllOrganData) {
-    const state = getState();
+    
     
     dispatch(new OpenLoading('Fetching data..'));
     dispatch(new StateReset(TreeState));
     dispatch(new StateReset(SheetState))
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
-    
-    let data: Data[];
+    const state = getState();
+
     patchState({
       sheet: sheet,
       sheetConfig: {...sheet.config, show_ontology: state.sheetConfig.show_ontology, show_all_AS: state.sheetConfig.show_all_AS},

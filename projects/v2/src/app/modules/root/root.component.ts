@@ -180,7 +180,7 @@ export class RootComponent implements OnInit, OnDestroy{
 
   closeLoading() {
     const loadingDialog = this.dialog.getDialogById('LoadingDialog');
-    loadingDialog.close();
+    if (loadingDialog) loadingDialog.close();
   }
 
   toggleSideNav() {

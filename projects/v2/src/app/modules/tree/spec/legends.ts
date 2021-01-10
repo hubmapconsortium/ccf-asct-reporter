@@ -9,8 +9,8 @@ export class Legends implements VegaLegend {
 
   constructor() {
     this.legends = [
-      this.makeBimodalLegend(),
-      this.makeTreeLegend()
+      // this.makeBimodalLegend(),
+      // this.makeTreeLegend()
     ];
 
     return this.legends;
