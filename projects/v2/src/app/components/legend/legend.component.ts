@@ -5,6 +5,7 @@ import { TNode } from '../../models/tree.model';
 import { BMNode } from '../../models/bimodal.model';
 import { Observable } from 'rxjs';
 import { CompareData } from '../../models/sheet.model';
+import { Error } from '../../models/response.model';
 
 @Component({
   selector: 'app-legend',
@@ -18,6 +19,7 @@ export class LegendComponent implements OnInit, OnChanges {
   @Input() treeData: TNode[];
   @Input() bimodalData: any;
   @Input() compareData: CompareData[];
+  @Input() error: Error;
 
   constructor(public ls: LegendService) { }
 
@@ -30,9 +32,10 @@ export class LegendComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    if(this.treeData.length && this.bimodalData.nodes.length) {
-      this.ls.makeLegendData(this.treeData, this.bimodalData.nodes, this.compareData);
-    }
+    if(this.treeData && this.bimodalData)
+      if(this.treeData.length && this.bimodalData.nodes.length) {
+        this.ls.makeLegendData(this.treeData, this.bimodalData.nodes, this.compareData);
+      }
   }
 
   
