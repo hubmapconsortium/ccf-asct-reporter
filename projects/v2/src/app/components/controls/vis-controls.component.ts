@@ -11,6 +11,7 @@ export class VisControlsComponent implements OnInit {
   
   @Input() config: SheetConfig;
   @Input() error: Error;
+  @Input() currentSheet: Sheet;
 
   @Output() updatedConfig: EventEmitter<any>  = new EventEmitter<any>();
   constructor() { }
@@ -35,7 +36,7 @@ export class VisControlsComponent implements OnInit {
   changeShowOntology() {
     this.config.show_ontology = !this.config.show_ontology;
     this.updatedConfig.emit({
-      property: 'so',
+      property: 'show-ontology',
       config: this.config
     })
   }
@@ -50,6 +51,13 @@ export class VisControlsComponent implements OnInit {
   changeBimodalDistanceY() {
     this.updatedConfig.emit({
       property: 'bm-y',
+      config: this.config
+    })
+  }
+
+  changeShowAS() {
+    this.updatedConfig.emit({
+      property: 'show-as',
       config: this.config
     })
   }

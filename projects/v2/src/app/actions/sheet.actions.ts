@@ -29,3 +29,8 @@ export class UpdateConfig {
   static readonly type = '[UPDATE] Sheet Config';
   constructor(public config: SheetConfig) {}
 }
+
+export class Toggleshow_all_AS {
+  static readonly type = "[SHOW ALL AS]"
+  constructor() {}
+}

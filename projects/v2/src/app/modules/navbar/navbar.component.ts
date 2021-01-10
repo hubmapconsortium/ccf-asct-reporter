@@ -5,7 +5,7 @@ import { SheetState, SheetStateModel } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
 import { Sheet } from '../../models/sheet.model';
 import { Router } from '@angular/router';
-import { FetchSheetData, RefreshData } from '../../actions/sheet.actions';
+import { FetchSheetData, RefreshData, FetchAllOrganData } from '../../actions/sheet.actions';
 import { ToggleControlPane, ToggleIndentList, ToggleReport, ToggleDebugLogs, OpenCompare } from '../../actions/ui.actions';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { ClearSheetLogs } from '../../actions/logs.actions';
@@ -55,7 +55,8 @@ export class NavbarComponent implements OnInit {
   }
 
   refreshData() {
-    this.store.dispatch(new FetchSheetData(this.currentSheet));
+    if (this.currentSheet.name === 'all') this.store.dispatch(new FetchAllOrganData(this.currentSheet))
+    else this.store.dispatch(new FetchSheetData(this.currentSheet));
   }
 
   togglePane() {

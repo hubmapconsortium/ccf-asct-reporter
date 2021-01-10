@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 import { HEADER_COUNT, SHEET_CONFIG } from '../static/config';
 import { Injectable } from '@angular/core';
 import { parse } from 'papaparse';
-import { FetchSheetData, RefreshData, FetchDataFromAssets, FetchAllOrganData, FetchCompareData, UpdateConfig } from '../actions/sheet.actions';
+import { FetchSheetData, RefreshData, FetchDataFromAssets, FetchAllOrganData, FetchCompareData, UpdateConfig, Toggleshow_all_AS } from '../actions/sheet.actions';
 import { OpenLoading, CloseLoading, UpdateLoadingText, HasError, CloseBottomSheet } from '../actions/ui.actions';
 import { StateClear, StateReset } from 'ngxs-reset-plugin';
 import { UIState } from './ui.state';
@@ -55,7 +55,7 @@ export class SheetStateModel {
       width: 0,
       height: 0,
       show_ontology: true,
-      showAllAS: false
+      show_all_AS: false
     },
     compareSheets: [],
     compareData: []
@@ -152,12 +152,12 @@ export class SheetState {
     let data: Data[];
     patchState({
       sheet: sheet,
-      sheetConfig: {...sheet.config, show_ontology: true},
+      sheetConfig: {...sheet.config, show_ontology: state.sheetConfig.show_ontology, show_all_AS: state.sheetConfig.show_all_AS},
       version: 'latest',
       data: []
     })
 
-
+    console.log(SHEET_CONFIG)
     for await (const s of SHEET_CONFIG) {
       if (s.name !== 'all') {
         this.sheetService.fetchSheetData(s.sheetId, s.gid).subscribe(
@@ -169,7 +169,9 @@ export class SheetState {
                 rdfs_label: 'NONE',
               }
               d.anatomical_structures.unshift(ns)
-              // d.anatomical_structures.splice(2, d.anatomical_structures.length - (2))
+              if(!state.sheetConfig.show_all_AS) {
+                d.anatomical_structures.splice(2, d.anatomical_structures.length - (2))
+              }
             }
             let currentData = getState().data;
             patchState({
@@ -274,6 +276,16 @@ export class SheetState {
     setState({
       ...state,
       sheetConfig: config
+    })
+  }
+
+  @Action(Toggleshow_all_AS)
+  toggleshow_all_AS({getState, setState, dispatch}: StateContext<SheetStateModel>) {
+    const state = getState();
+    const config = state.sheetConfig;
+    setState({
+      ...state,
+      sheetConfig: {...config, show_all_AS: !state.sheetConfig.show_all_AS}
     })
   }
 

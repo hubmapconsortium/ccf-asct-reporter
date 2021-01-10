@@ -7,6 +7,12 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
 
+  <div class="py-1 pb-4" *ngIf="currentSheet.name === 'all'">
+    <mat-slide-toggle [checked]="config.show_all_AS" color="primary" (change)="changeShowAS()" matTooltip="Toggle Visibility of Ontology Links" matTooltipPosition="below">
+      <span style="font-weight: 500;">Show all AS</span>
+    </mat-slide-toggle>
+  </div>
+
   <div class="py-1 pb-4">
     <mat-slide-toggle [checked]="config.show_ontology" color="primary" (change)="changeShowOntology()" matTooltip="Toggle Visibility of Ontology Links" matTooltipPosition="below">
       <span style="font-weight: 500;">Ontology IDs</span>
@@ -53,7 +59,7 @@
         [(ngModel)]="config.height"
         tickInterval="100" 
         min="100"
-        max="4000"
+        max="7000"
         (change)="changeHeight()"
       ></mat-slider>
     </div>

@@ -11,7 +11,7 @@ import { TreeState } from '../../store/tree.state';
 import { TNode } from '../../models/tree.model';
 import { VegaService } from '../tree/vega.service';
 import { UpdateVegaSpec } from '../../actions/tree.actions';
-import { UpdateConfig } from '../../actions/sheet.actions';
+import { UpdateConfig, Toggleshow_all_AS, FetchAllOrganData } from '../../actions/sheet.actions';
 import { BimodalService } from '../tree/bimodal.service';
 
 @Component({
@@ -23,6 +23,7 @@ export class ControlPaneComponent implements OnInit {
   @Input() error: Error;
 
   @Select(SheetState.getSheetConfig) config$: Observable<SheetConfig>;
+  @Select(SheetState.getSheet) sheet$: Observable<Sheet>;
   @Select(TreeState.getVegaView) view$: Observable<TNode[]>;
 
   view: any;
@@ -41,13 +42,18 @@ export class ControlPaneComponent implements OnInit {
     switch (prop.property) {
       case 'width': this.view.signal('as_width', prop.config.width).runAsync(); break;
       case 'height': this.view.signal('as_height', prop.config.height).runAsync(); break;
-      case 'so': this.view.signal('show_ontology', prop.config.show_ontology).runAsync(); break;
+      case 'show-ontology': this.view.signal('show_ontology', prop.config.show_ontology).runAsync(); break;
       case 'bm-x': this.updateBimodal(prop.config); break;
       case 'bm-y': this.updateBimodal(prop.config); break;
-
+      case 'show-as': this.showAllAS(); break;
     }
+  }
 
-
+  showAllAS() {
+    this.store.dispatch(new Toggleshow_all_AS()).subscribe(states => {
+      const sheet = states.sheetState.sheet;
+      this.store.dispatch(new FetchAllOrganData(sheet))
+    })
   }
 
   updateBimodal(config: SheetConfig) {
