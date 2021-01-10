@@ -12,21 +12,21 @@ export class VisControlsComponent implements OnInit {
   @Input() config: SheetConfig;
   @Input() error: Error;
 
-  @Output() updatedSheet: EventEmitter<any>  = new EventEmitter<any>();
+  @Output() updatedConfig: EventEmitter<any>  = new EventEmitter<any>();
   constructor() { }
 
   ngOnInit(): void {
   }
 
   changeWidth() {
-    this.updatedSheet.emit({
+    this.updatedConfig.emit({
       property: 'width',
       config: this.config
     })
   }
 
   changeHeight() {
-    this.updatedSheet.emit({
+    this.updatedConfig.emit({
       property: 'height',
       config: this.config
     })
@@ -34,8 +34,22 @@ export class VisControlsComponent implements OnInit {
 
   changeShowOntology() {
     this.config.show_ontology = !this.config.show_ontology;
-    this.updatedSheet.emit({
+    this.updatedConfig.emit({
       property: 'so',
+      config: this.config
+    })
+  }
+
+  changeBimodalDistanceX() {
+    this.updatedConfig.emit({
+      property: 'bm-x',
+      config: this.config
+    })
+  }
+
+  changeBimodalDistanceY() {
+    this.updatedConfig.emit({
+      property: 'bm-y',
       config: this.config
     })
   }

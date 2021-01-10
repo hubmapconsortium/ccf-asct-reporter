@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 import { HEADER_COUNT, SHEET_CONFIG } from '../static/config';
 import { Injectable } from '@angular/core';
 import { parse } from 'papaparse';
-import { FetchSheetData, RefreshData, FetchDataFromAssets, FetchAllOrganData, FetchCompareData } from '../actions/sheet.actions';
+import { FetchSheetData, RefreshData, FetchDataFromAssets, FetchAllOrganData, FetchCompareData, UpdateConfig } from '../actions/sheet.actions';
 import { OpenLoading, CloseLoading, UpdateLoadingText, HasError, CloseBottomSheet } from '../actions/ui.actions';
 import { StateClear, StateReset } from 'ngxs-reset-plugin';
 import { UIState } from './ui.state';
@@ -17,6 +17,7 @@ import { TreeState } from './tree.state';
 import { ReportLog } from '../actions/logs.actions';
 import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
 import { patch } from '@ngxs/store/operators';
+import { UpdateBimodalConfig } from '../actions/tree.actions';
 
 export class SheetStateModel {
   data: Row[];
@@ -83,6 +84,11 @@ export class SheetState {
   @Selector()
   static getCompareSheets(state: SheetStateModel) {
     return state.compareSheets;
+  }
+
+  @Selector()
+  static getConfigBimodalX(state: SheetStateModel) {
+    return state.sheetConfig.bimodal_distance_x;
   }
 
   @Action(FetchCompareData)
@@ -264,6 +270,15 @@ export class SheetState {
         return of('')
       })
     );
+  }
+
+  @Action(UpdateConfig)
+  updateConfig({getState, setState, dispatch}: StateContext<SheetStateModel>, {config}: UpdateConfig) {
+    const state = getState();
+    setState({
+      ...state,
+      sheetConfig: config
+    })
   }
 
 }

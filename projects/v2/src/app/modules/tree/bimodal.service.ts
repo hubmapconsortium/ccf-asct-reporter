@@ -9,7 +9,7 @@ import { CloseLoading, HasError } from '../../actions/ui.actions';
 import { ReportLog } from '../../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
 import { Error } from '../../models/response.model';
-import { Row, Sheet } from '../../models/sheet.model';
+import { Row, Sheet, SheetConfig } from '../../models/sheet.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,7 @@ export class BimodalService {
     treeData: TNode[],
     bimodalConfig: BimodalConfig,
     currentSheet: Sheet,
+    sheetConfig?: SheetConfig
   ) {
 
     try {
@@ -35,8 +36,8 @@ export class BimodalService {
       let treeY = 50;
       let AS_CT_LINKS = 0;
       let CT_BM_LINKS = 0;
-      const distance = currentSheet.config.bimodal_distance_x;
-      const distance_y = currentSheet.config.bimodal_distance_y;
+      const distance = sheetConfig.bimodal_distance_x;
+      const distance_y = sheetConfig.bimodal_distance_y;
       let id = treeData.length + 1;
       let biomarkers = [];
 
