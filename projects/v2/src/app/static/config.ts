@@ -263,12 +263,15 @@ export const VERSION  = [
 
 export const MORE_OPTIONS = [
   {
-    name: 'Data Tables',
-    url:
-      'https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1268820100',
-  },
-  {
     name: 'GitHub',
     url: 'https://github.com/hubmapconsortium/ccf-asct-reporter',
   },
+  {
+    name: 'T&C',
+    url: 'https://hubmapconsortium.org/wp-content/uploads/2020/06/DUA_FINAL_2020_02_03_for_Signature.pdf'
+  }, 
+  {
+    name: "Policy",
+    url: 'https://hubmapconsortium.org/policies/'
+  }
 ];
