@@ -32,14 +32,6 @@ export class ReportService {
       output.cellTypes = makeCellTypes(data);
       output.biomarkers = makeBioMarkers(data);
 
-    
-      let organName: AS = {
-        structure: currentSheet.name,
-        uberon: 'NONE'
-      }
-
-      output.anatomicalStructures.unshift(organName);
-
       output.ASWithNoLink = this.getASWithNoLink(output.anatomicalStructures);
       output.CTWithNoLink = this.getCTWithNoLink(output.cellTypes);
       output.BWithNoLink = this.getBMWithNoLink(output.biomarkers);
@@ -47,14 +39,7 @@ export class ReportService {
       this.reportData.next({
         data: output,
         sheet: currentSheet
-      })
-
-
-      // if (this.compareData.length) {
-      //   this.makeCompareData();
-      // }
-
-      // this.isVisible = true;
+      });
 
     } catch (err) {
       console.log(err);

@@ -52,6 +52,7 @@ export class RootComponent implements OnInit, OnDestroy{
   // Tree Observables
   @Select(TreeState.getTreeData) treeData$: Observable<any>;
   @Select(TreeState.getBottomSheetData) bsd$: Observable<any>;
+  @Select(TreeState.getLinksData) links$: Observable<any>;
 
   // Control Pane Observables
   @Select(UIState.getControlPaneState) pane$: Observable<boolean>;

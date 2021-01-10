@@ -5,7 +5,7 @@
     </mat-drawer>
 
       <mat-drawer #rightDrawer class="right-sidenav" mode="over" [opened]="(il$ | async) || (report$ | async) || (dl$ | async) || (c$ | async)" position="end" (closedStart)="toggleSideNav()" autoFocus="false">
-        <app-report (close)="rightDrawer.close()" *ngIf="report$ | async" [sheetData]="data" [currentSheet]="sheet"></app-report>
+        <app-report (close)="rightDrawer.close()" *ngIf="report$ | async" [sheetData]="data" [currentSheet]="sheet" [linksData]="links$ | async"></app-report>
         <app-indent (close)="rightDrawer.close()" *ngIf="il$ | async" [sheetData]="data" [currentSheet]="sheet"></app-indent>
         <app-debug-logs (close)="rightDrawer.close()" *ngIf="dl$ | async" [currentSheet]="sheet" [logs]="logs$ | async"></app-debug-logs>
         <app-comapre (close)="rightDrawer.close()" *ngIf="c$ | async" class="compare-sidenav" (compareData)="compareData($event)" [compareSheets]="compareSheets$"></app-comapre>

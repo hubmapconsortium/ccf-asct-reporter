@@ -146,13 +146,14 @@ export class SheetState {
     
     dispatch(new OpenLoading('Fetching data..'));
     dispatch(new StateReset(TreeState));
-    dispatch(new StateReset(SheetState))
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
     const state = getState();
 
     patchState({
       sheet: sheet,
+      compareData: [],
+      compareSheets: [],
       sheetConfig: {...sheet.config, show_ontology: state.sheetConfig.show_ontology, show_all_AS: state.sheetConfig.show_all_AS},
       version: 'latest',
       data: []

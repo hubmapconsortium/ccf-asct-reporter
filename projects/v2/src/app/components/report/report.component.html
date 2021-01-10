@@ -37,6 +37,15 @@
               <span>Biomarkers with no Go/UniProt link: </span>
               <span class="number">{{ reportData.BWithNoLink.length }}</span>
             </div>
+            <br>
+            <div class="i1">
+              <span>AS to CT Links: </span>
+              <span class="number">{{ linksData.AS_CT }}</span>
+            </div>
+            <div class="i1">
+              <span>CT to B Links: </span>
+              <span class="number">{{ linksData.CT_B }}</span>
+            </div>
             <br />
           </div>
   
@@ -171,18 +180,17 @@
           <br />
         </div>
       </mat-tab>
-      <mat-tab label="Derived Sheet(s)">
+      <mat-tab label="Compare Sheets">
         <!-- <div *ngIf="compareData.length === 0"> -->
           <div>
           <p class="i2">
-            You have not linked any sheets. Click on the button below to link a
-            sheet to compare!
+            You have not linked any sheets to compare yet.
           </p>
-          <div style="width: 100%; display: flex; justify-content: center;">
+          <!-- <div style="width: 100%; display: flex; justify-content: center;">
             <button mat-flat-button style="background-color: rgb(77, 155, 103); color: white;">
               Compare Sheet
             </button>
-          </div>
+          </div> -->
         </div>
         <!-- <div *ngIf="compareData.length > 0">
           <br />

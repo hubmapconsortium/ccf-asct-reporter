@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 
 import { Spec, View } from 'vega';
 import { Injectable } from '@angular/core';
-import { UpdateVegaSpec, UpdateVegaView, UpdateBimodal, UpdateBimodalConfig, DoSearch, UpdateGraphWidth, UpdateBottomSheetData } from '../actions/tree.actions';
+import { UpdateVegaSpec, UpdateVegaView, UpdateBimodal, UpdateBimodalConfig, DoSearch, UpdateGraphWidth, UpdateBottomSheetData, UpdateLinksData } from '../actions/tree.actions';
 import { TNode, SearchStructure, BottomSheetData } from '../models/tree.model';
 import { BMNode, Link, BimodalConfig } from '../models/bimodal.model';
 
@@ -29,6 +29,10 @@ export class TreeStateModel {
   search: SearchStructure[];
   completed: boolean;
   bottomSheetData: {};
+  links: {
+    AS_CT: number;
+    CT_B: number;
+  }
 }
 
 @State<TreeStateModel>({
@@ -43,7 +47,8 @@ export class TreeStateModel {
     bimodal: {nodes: [], links: [], config: {BM: {sort: 'Alphabetically', size: 'None'}, CT: {sort: 'Alphabetically', size: 'None'}}},
     completed: false,
     search: [],
-    bottomSheetData: {}
+    bottomSheetData: {},
+    links: {AS_CT: 0, CT_B: 0}
   }
 })
 @Injectable()
@@ -85,6 +90,11 @@ export class TreeState {
   @Selector()
   static getBottomSheetData(state: TreeStateModel) {
     return state.bottomSheetData;
+  }
+
+  @Selector()
+  static getLinksData(state: TreeStateModel) {
+    return state.links;
   }
 
 
@@ -157,6 +167,15 @@ export class TreeState {
     setState({
       ...state,
       bottomSheetData: data
+    })
+  }
+
+  @Action(UpdateLinksData)
+  updateLinksData({getState, setState}: StateContext<TreeStateModel>, {AS_CT, CT_B}: UpdateLinksData) {
+    const state = getState();
+    setState({
+      ...state,
+      links: {AS_CT: AS_CT, CT_B: CT_B}
     })
   }
   

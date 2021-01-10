@@ -23,6 +23,7 @@ export class ReportComponent implements OnInit {
 
   @Input() sheetData: any;
   @Input() currentSheet: Sheet;
+  @Input() linksData: any;
   @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(public reportService: ReportService) { }

@@ -4,7 +4,7 @@ import { } from './tree.service';
 import { BMNode, Link, BimodalConfig } from '../../models/bimodal.model';
 import { makeCellTypes, makeAS, makeBioMarkers } from './tree.functions';
 import { CT_BLUE, B_GREEN, TNode } from '../../models/tree.model';
-import { UpdateBimodal, UpdateVegaSpec } from '../../actions/tree.actions';
+import { UpdateBimodal, UpdateVegaSpec, UpdateLinksData } from '../../actions/tree.actions';
 import { CloseLoading, HasError } from '../../actions/ui.actions';
 import { ReportLog } from '../../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
@@ -238,6 +238,8 @@ export class BimodalService {
 
       // console.log('AS-CT', AS_CT_LINKS)
       // console.log('CT-B', CT_BM_LINKS)
+
+      this.store.dispatch(new UpdateLinksData(AS_CT_LINKS, CT_BM_LINKS));
 
       this.store.dispatch(new UpdateBimodal(nodes, links)).subscribe(newData => {
         const view = newData.treeState.view;
