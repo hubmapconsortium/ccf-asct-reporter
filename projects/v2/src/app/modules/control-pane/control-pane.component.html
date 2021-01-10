@@ -10,10 +10,7 @@
         matTooltipPosition="below"
       />
     </div>
-  </div>
-
-  <div body>
-    <div class="px-3">
+    <div class="mt-2">
       <button
         mat-icon-button
         style="border-radius: 8px"
@@ -26,8 +23,16 @@
         <mat-icon style="font-weight: bold">keyboard_arrow_left</mat-icon>
       </button>
     </div>
+  </div>
 
-    <div class="px-3">
+  <div body>
+    
+
+    <div class="px-3 mt-4">
+      <app-legend [treeData]="td$ | async" [bimodalData]="bm$ | async" [compareData]="cs$ | async"></app-legend>
+    </div>
+
+    <div class="px-3 mt-4">
       <app-functions [error]="error"></app-functions>
     </div>
 

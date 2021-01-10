@@ -1,0 +1,26 @@
+<div>
+  <mat-expansion-panel class="mepNoPadding mt-5" expanded>
+    <mat-expansion-panel-header [expandedHeight]="'50px'">
+      <mat-panel-title>
+        <div>
+          <b> Legend </b>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="py-1 legend-div">
+      <div *ngFor="let l of legends | orderBy: 'name'" class="py-1">
+        <div class="d-flex align-items-center">
+          <div
+            [ngStyle]="{
+              'background-color': l.style === 'stroke' ? 'transparent' : l.color,
+              'border': l.style === 'stroke' ? '3px solid ' + l.color : 'none',
+              'border-style': l.style === 'stroke' ? 'dotted' : 'none'
+            }"
+            class="mr-2 circle"
+          ></div>
+          <span>{{ l.name }}</span>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</div>

@@ -6,13 +6,14 @@ import { Observable } from 'rxjs';
 import { ToggleControlPane } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { SheetState } from '../../store/sheet.state';
-import { Sheet, SheetConfig } from '../../models/sheet.model';
+import { Sheet, SheetConfig, CompareData } from '../../models/sheet.model';
 import { TreeState } from '../../store/tree.state';
 import { TNode } from '../../models/tree.model';
 import { VegaService } from '../tree/vega.service';
 import { UpdateVegaSpec } from '../../actions/tree.actions';
 import { UpdateConfig, Toggleshow_all_AS, FetchAllOrganData } from '../../actions/sheet.actions';
 import { BimodalService } from '../tree/bimodal.service';
+import { BMNode } from '../../models/bimodal.model';
 
 @Component({
   selector: 'app-control-pane',
@@ -24,18 +25,23 @@ export class ControlPaneComponent implements OnInit {
 
   @Select(SheetState.getSheetConfig) config$: Observable<SheetConfig>;
   @Select(SheetState.getSheet) sheet$: Observable<Sheet>;
-  @Select(TreeState.getVegaView) view$: Observable<TNode[]>;
+  @Select(TreeState.getVegaView) view$: Observable<any>;
+
+  @Select(TreeState.getTreeData) td$: Observable<TNode[]>;
+  @Select(TreeState.getBimodal) bm$: Observable<any>;
+  @Select(SheetState.getCompareSheets) cs$: Observable<CompareData[]>;
 
   view: any;
 
   constructor(public store: Store, public bm: BimodalService) {
-
   }
 
   ngOnInit(): void {
     this.view$.subscribe(data => {
       this.view = data;
     })
+
+    
   }
 
   updateConfigInSheet(prop) {

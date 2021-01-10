@@ -146,6 +146,7 @@ export class SheetState {
     
     dispatch(new OpenLoading('Fetching data..'));
     dispatch(new StateReset(TreeState));
+    dispatch(new StateReset(SheetState))
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
     
@@ -157,7 +158,6 @@ export class SheetState {
       data: []
     })
 
-    console.log(SHEET_CONFIG)
     for await (const s of SHEET_CONFIG) {
       if (s.name !== 'all') {
         this.sheetService.fetchSheetData(s.sheetId, s.gid).subscribe(
@@ -196,12 +196,13 @@ export class SheetState {
 
   @Action(FetchSheetData)
   fetchSheetData({getState, setState, patchState, dispatch}: StateContext<SheetStateModel>, {sheet}: FetchSheetData) {
-    const state = getState();
+    
     dispatch(new OpenLoading('Fetching data..'));
+    dispatch(new StateReset(SheetState))
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
-
+    const state = getState();
     return this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).pipe(
       tap((res: Array<any>) => {
         

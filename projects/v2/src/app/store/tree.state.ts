@@ -72,12 +72,12 @@ export class TreeState {
     return state.view;
   }
 
-  @Select()
+  @Selector()
   static getBimodal(state: TreeStateModel) {
     return state.bimodal;
   }
 
-  @Select()
+  @Selector()
   static getScreenWidth(state: TreeStateModel) {
     return state.screenWidth;
   }
