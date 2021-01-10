@@ -42,7 +42,6 @@ export class VegaService {
       vegaTooltip(treeView, { theme: 'custom' });
       treeView.runAsync();
 
-      const treeWidth = treeView._runtime.group.context.data.asTree.values.value[0].bounds.x2;
       this.addSignalListeners(treeView);
       this.store.dispatch(new CloseLoading('Visualization Rendered'));
 
