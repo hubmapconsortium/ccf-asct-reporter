@@ -12,8 +12,13 @@
       </mat-drawer>
 
     <div id="content" class="h-100 w-100">
+       
       <app-navbar (export)="exportVis($event)"></app-navbar>
       <app-error *ngIf="error.hasError" [error]="error"></app-error>
+      <div style="position: absolute; width: 250px; left: 10px; margin-top: 20px;" *ngIf="!(pane$ | async)">
+        <app-legend [treeData]="treeData$ | async" [bimodalData]="bm$ | async" [compareData]="compareSheets$ | async" [error]="error"></app-legend>
+      </div>
+      
       <div class="tree-div">
         <app-tree *ngIf="!error.hasError" ></app-tree>
       </div>
