@@ -47,4 +47,5 @@ export interface SheetConfig {
   width: number;
   height: number;
   show_ontology?: boolean;
+  showAllAS?: boolean;
 }

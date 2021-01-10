@@ -54,7 +54,8 @@ export class SheetStateModel {
       bimodal_distance_y: 0,
       width: 0,
       height: 0,
-      show_ontology: true
+      show_ontology: true,
+      showAllAS: false
     },
     compareSheets: [],
     compareData: []
@@ -84,11 +85,6 @@ export class SheetState {
   @Selector()
   static getCompareSheets(state: SheetStateModel) {
     return state.compareSheets;
-  }
-
-  @Selector()
-  static getConfigBimodalX(state: SheetStateModel) {
-    return state.sheetConfig.bimodal_distance_x;
   }
 
   @Action(FetchCompareData)
@@ -173,7 +169,7 @@ export class SheetState {
                 rdfs_label: 'NONE',
               }
               d.anatomical_structures.unshift(ns)
-              d.anatomical_structures.splice(2, d.anatomical_structures.length - (2))
+              // d.anatomical_structures.splice(2, d.anatomical_structures.length - (2))
             }
             let currentData = getState().data;
             patchState({
