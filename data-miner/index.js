@@ -96,6 +96,8 @@ app.get("/v2/:sheetid/:gid", function (req, res) { return __awaiter(_this, void 
                             continue;
                         rowHeader = data[headerRow - 1][j].split('/');
                         key = headerMap[rowHeader[0]];
+                        if (key === undefined)
+                            continue;
                         if (rowHeader.length === 2 && Number(rowHeader[1])) {
                             s = new Structure(data[i][j]);
                             if (rowHeader[0] === 'BG')
@@ -115,7 +117,6 @@ app.get("/v2/:sheetid/:gid", function (req, res) { return __awaiter(_this, void 
                                 n.rdfs_label = data[i][j];
                         }
                     }
-                    console.log(newRow);
                     rows.push(newRow);
                 }
                 return [3 /*break*/, 4];
