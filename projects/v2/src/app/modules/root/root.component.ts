@@ -4,7 +4,7 @@ import { SheetState, SheetStateModel } from './../../store/sheet.state';
 import { TreeState, TreeStateModel } from './../../store/tree.state';
 import {Select, Store} from '@ngxs/store';
 import { Observable, combineLatest } from 'rxjs';
-import { FetchSheetData, FetchDataFromAssets, FetchAllOrganData, FetchCompareData } from './../../actions/sheet.actions';
+import { FetchSheetData, FetchDataFromAssets, FetchAllOrganData, FetchCompareData, UpdateReport, DeleteCompareSheet } from './../../actions/sheet.actions';
 import { TreeService } from './../tree/tree.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UIState } from '../../store/ui.state';
@@ -22,7 +22,7 @@ import * as moment from 'moment';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { InfoComponent } from '../../components/info/info.component';
 import { BMNode } from '../../models/bimodal.model';
-import { CompareData } from '../../models/sheet.model';
+import { CompareData, Row } from '../../models/sheet.model';
 
 
 @Component({
@@ -45,10 +45,12 @@ export class RootComponent implements OnInit, OnDestroy{
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
 
   // Sheet Observables
-  // @Select(SheetState.getLoading) loading$: Observable<boolean>;
   @Select(SheetState.getData) data$: Observable<any>;
   @Select(SheetState.getCompareSheets) compareSheets$: Observable<CompareData[]>;
-
+  @Select(SheetState.getReportdata) rd$: Observable<any>;
+  @Select(SheetState.getCompareData) compareData$: Observable<Row[]>;
+  @Select(SheetState.getAllCompareData) allCompareData$: Observable<any>;
+  
   // Tree Observables
   @Select(TreeState.getTreeData) treeData$: Observable<any>;
   @Select(TreeState.getBottomSheetData) bsd$: Observable<any>;
@@ -166,6 +168,14 @@ export class RootComponent implements OnInit, OnDestroy{
 
   ngOnDestroy() {
     this.store.dispatch(new StateReset(SheetState));
+  }
+
+  updateReport(data: any) {
+    this.store.dispatch(new UpdateReport(data));
+  }
+
+  deleteSheet(i: number) {
+    this.store.dispatch(new DeleteCompareSheet(i));
   }
 
 

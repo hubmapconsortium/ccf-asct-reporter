@@ -9,15 +9,14 @@ import { of } from 'rxjs';
 import { HEADER_COUNT, SHEET_CONFIG } from '../static/config';
 import { Injectable } from '@angular/core';
 import { parse } from 'papaparse';
-import { FetchSheetData, RefreshData, FetchDataFromAssets, FetchAllOrganData, FetchCompareData, UpdateConfig, Toggleshow_all_AS } from '../actions/sheet.actions';
+import { FetchSheetData, RefreshData, FetchDataFromAssets, FetchAllOrganData, FetchCompareData, UpdateConfig, Toggleshow_all_AS, UpdateReport, DeleteCompareSheet } from '../actions/sheet.actions';
 import { OpenLoading, CloseLoading, UpdateLoadingText, HasError, CloseBottomSheet } from '../actions/ui.actions';
 import { StateClear, StateReset } from 'ngxs-reset-plugin';
 import { UIState } from './ui.state';
 import { TreeState } from './tree.state';
 import { ReportLog } from '../actions/logs.actions';
 import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
-import { patch } from '@ngxs/store/operators';
-import { UpdateBimodalConfig } from '../actions/tree.actions';
+
 
 export class SheetStateModel {
   data: Row[];
@@ -26,6 +25,7 @@ export class SheetStateModel {
   compareSheets: CompareData[];
   compareData: Row[];
   sheetConfig: SheetConfig;
+  reportData: any
 }
 
 @State<SheetStateModel>({
@@ -58,7 +58,8 @@ export class SheetStateModel {
       show_all_AS: false
     },
     compareSheets: [],
-    compareData: []
+    compareData: [],
+    reportData: {}
   }
 })
 @Injectable()
@@ -85,6 +86,48 @@ export class SheetState {
   @Selector()
   static getCompareSheets(state: SheetStateModel) {
     return state.compareSheets;
+  }
+
+  @Selector()
+  static getCompareData(state: SheetStateModel) {
+    return state.compareData;
+  }
+
+  @Selector()
+  static getReportdata(state: SheetStateModel) {
+    return state.reportData;
+  }
+
+  @Selector()
+  static getAllCompareData(state: SheetStateModel) {
+    return {
+      data: state.compareData,
+      sheets: state.compareSheets
+    }
+  }
+
+  @Action(DeleteCompareSheet)
+  deleteCompareSheet({getState, setState, dispatch, patchState}: StateContext<SheetStateModel>, {i}: DeleteCompareSheet) {
+    let state = getState();
+    let sheets = state.compareSheets;
+    sheets.splice(i, 1);
+    
+    setState({
+      ...state,
+      compareSheets: sheets
+    })
+
+    state = getState();
+    if(state.compareSheets.length)  
+      dispatch(new FetchCompareData(state.compareSheets));
+    else {
+      setState({
+        ...state,
+        compareData: []
+      })
+      // when comparing for all organs, make sure this is checked
+      dispatch(new FetchSheetData(state.sheet));
+    }
   }
 
   @Action(FetchCompareData)
@@ -288,6 +331,15 @@ export class SheetState {
     setState({
       ...state,
       sheetConfig: {...config, show_all_AS: !state.sheetConfig.show_all_AS}
+    })
+  }
+
+  @Action(UpdateReport)
+  updateReport({getState, setState}: StateContext<SheetStateModel>, {reportData}: UpdateReport) {
+    const state = getState();
+    setState({
+      ...state,
+      reportData: reportData
     })
   }
 

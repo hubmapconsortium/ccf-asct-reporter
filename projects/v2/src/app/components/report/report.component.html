@@ -182,7 +182,7 @@
       </mat-tab>
       <mat-tab label="Compare Sheets">
         <!-- <div *ngIf="compareData.length === 0"> -->
-          <div>
+          <div *ngIf="(compareData | async).data.length === 0">
           <p class="i2">
             You have not linked any sheets to compare yet.
           </p>
@@ -192,9 +192,9 @@
             </button>
           </div> -->
         </div>
-        <!-- <div *ngIf="compareData.length > 0">
+        <div *ngIf="(compareData | async).data.length > 0">
           <br />
-          <div *ngFor="let sheet of compareDataStats; let i = index">
+          <div *ngFor="let sheet of compareReport; let i = index">
             <mat-expansion-panel hideToggle="true" [disabled]="clickButton" (click)="clickButton=false">
               <mat-expansion-panel-header
                 [style.backgroundColor]="sheet.color"
@@ -325,7 +325,7 @@
   
             <br />
           </div>
-        </div> -->
+        </div>
       </mat-tab>
     </mat-tab-group>
   </div>

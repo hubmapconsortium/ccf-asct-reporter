@@ -1,26 +1,77 @@
-<div class="h-100 w-100" >
+<div class="h-100 w-100">
   <mat-drawer-container class="control-pane-container h-100" autosize>
-    <mat-drawer #controlPaneDrawer class="control-pane" mode="side" [opened]="pane$ | async">
-     <app-control-pane [error]="error"></app-control-pane>
+    <mat-drawer
+      #controlPaneDrawer
+      class="control-pane"
+      mode="side"
+      [opened]="pane$ | async"
+    >
+      <app-control-pane [error]="error"></app-control-pane>
     </mat-drawer>
 
-      <mat-drawer #rightDrawer class="right-sidenav" mode="over" [opened]="(il$ | async) || (report$ | async) || (dl$ | async) || (c$ | async)" position="end" (closedStart)="toggleSideNav()" autoFocus="false">
-        <app-report (close)="rightDrawer.close()" *ngIf="report$ | async" [sheetData]="data" [currentSheet]="sheet" [linksData]="links$ | async"></app-report>
-        <app-indent (close)="rightDrawer.close()" *ngIf="il$ | async" [sheetData]="data" [currentSheet]="sheet"></app-indent>
-        <app-debug-logs (close)="rightDrawer.close()" *ngIf="dl$ | async" [currentSheet]="sheet" [logs]="logs$ | async"></app-debug-logs>
-        <app-comapre (close)="rightDrawer.close()" *ngIf="c$ | async" class="compare-sidenav" (compareData)="compareData($event)" [compareSheets]="compareSheets$"></app-comapre>
-      </mat-drawer>
+    <mat-drawer
+      #rightDrawer
+      class="right-sidenav"
+      mode="over"
+      [opened]="
+        (il$ | async) || (report$ | async) || (dl$ | async) || (c$ | async)
+      "
+      position="end"
+      (closedStart)="toggleSideNav()"
+      autoFocus="false"
+    >
+      <app-report
+      (deleteSheet)="deleteSheet($event)"
+        [compareData]="allCompareData$"
+        [inputReportData]="rd$"
+        (close)="rightDrawer.close()"
+        *ngIf="report$ | async"
+        [sheetData]="data"
+        [currentSheet]="sheet"
+        [linksData]="links$ | async"
+        (computedReport)="updateReport($event)"
+      ></app-report>
+
+      <app-indent
+        (close)="rightDrawer.close()"
+        *ngIf="il$ | async"
+        [sheetData]="data"
+        [currentSheet]="sheet"
+      ></app-indent>
+
+      <app-debug-logs
+        (close)="rightDrawer.close()"
+        *ngIf="dl$ | async"
+        [currentSheet]="sheet"
+        [logs]="logs$ | async"
+      ></app-debug-logs>
+
+      <app-comapre
+        (close)="rightDrawer.close()"
+        *ngIf="c$ | async"
+        class="compare-sidenav"
+        (compareData)="compareData($event)"
+        [compareSheets]="compareSheets$"
+      ></app-comapre>
+    </mat-drawer>
 
     <div id="content" class="h-100 w-100">
-       
       <app-navbar (export)="exportVis($event)"></app-navbar>
       <app-error *ngIf="error.hasError" [error]="error"></app-error>
-      <div style="position: absolute; width: 250px; left: 10px; margin-top: 20px;" *ngIf="!(pane$ | async)">
-        <app-legend [treeData]="treeData$ | async" [bimodalData]="bm$ | async" [compareData]="compareSheets$ | async" [error]="error"></app-legend>
+      <div
+        style="position: absolute; width: 250px; left: 10px; margin-top: 20px"
+        *ngIf="!(pane$ | async)"
+      >
+        <app-legend
+          [treeData]="treeData$ | async"
+          [bimodalData]="bm$ | async"
+          [compareData]="compareSheets$ | async"
+          [error]="error"
+        ></app-legend>
       </div>
-      
+
       <div class="tree-div">
-        <app-tree *ngIf="!error.hasError" ></app-tree>
+        <app-tree *ngIf="!error.hasError"></app-tree>
       </div>
     </div>
   </mat-drawer-container>

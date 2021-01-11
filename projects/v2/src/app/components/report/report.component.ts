@@ -5,6 +5,7 @@ import { Sheet } from '../../models/sheet.model';
 
 import * as XLSX from 'xlsx';
 import * as moment from 'moment';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-report',
@@ -20,20 +21,45 @@ export class ReportComponent implements OnInit {
     CTWithNoLink: [],
     BWithNoLink: []
   };
-
+  compareReport: any;
+  comapreDataAndSheets: any;
+  clickButton = false; // for mat expansion panel download button
+  
+  @Input() compareSheets: any;
   @Input() sheetData: any;
   @Input() currentSheet: Sheet;
   @Input() linksData: any;
+  @Input() inputReportData: Observable<any>;
+  @Input() compareData: Observable<any>;
   @Output() close: EventEmitter<any> = new EventEmitter<any>();
+  @Output() computedReport: EventEmitter<any> = new EventEmitter<any>();
+  @Output() deleteSheet: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(public reportService: ReportService) { }
 
   ngOnInit(): void {
     this.reportService.reportData$.subscribe(data => {
       this.reportData = data.data;
+      this.computedReport.emit(data.data);
+    });
+
+    this.reportService.compareData$.subscribe(data => {
+      this.compareReport = data.data;
+    })
+
+    this.compareData.subscribe(data => {
+      if(data.sheets.length && data.data.length) {
+        this.reportService.makeCompareData(this.reportData, data.data, data.sheets);
+      }
     })
 
     this.reportService.makeReportData(this.currentSheet, this.sheetData);
+  }
+  
+  deleteCompareSheetReport(i) {
+    this.clickButton = true;
+    this.compareReport.splice(i, 1);
+    this.deleteSheet.emit(i);
   }
 
   downloadData() {
@@ -100,14 +126,14 @@ export class ReportComponent implements OnInit {
     if (i === -1) {
       allReport.push(this.downloadData());
 
-      // for (const [sheet, ele] of this.compareDataStats.entries()) {
-      //   allReport.push(this.downloadCompareSheetReport(sheet));
-      // }
+      for (const [sheet, ele] of this.compareReport.entries()) {
+        allReport.push(this.downloadCompareSheetReport(sheet));
+      }
     } else {
       /**
        * When a single compare sheet report needs to be downloaded
        */
-      // allReport.push(this.downloadCompareSheetReport(i));
+      allReport.push(this.downloadCompareSheetReport(i));
     }
 
     for (const book of allReport) {
@@ -117,50 +143,50 @@ export class ReportComponent implements OnInit {
     XLSX.writeFile(wb, allReport[0].name);
   }
 
-  // downloadCompareSheetReport(i: number) {
-  //   // this.clickButton = true;
-  //   const totalRows = 6;
-  //   // const sheet = this.compareDataStats[i];
-  //   const keyMapper = {
-  //     identicalAS: 'Identical Anatomical Structures',
-  //     newAS: 'New Anatomical Structres',
-  //     identicalCT: 'Identical Cell Types',
-  //     newCT: 'New Cell Types',
-  //     identicalB: 'Identical Biomarkers',
-  //     newB: 'New Biomarkers'
-  //   };
-  //   const download = [];
-  //   const keys = Object.keys(this.compareDataStats[i]);
+  downloadCompareSheetReport(i: number) {
+    this.clickButton = true;
+    const totalRows = 6;
+    const sheet = this.compareReport[i];
+    const keyMapper = {
+      identicalAS: 'Identical Anatomical Structures',
+      newAS: 'New Anatomical Structres',
+      identicalCT: 'Identical Cell Types',
+      newCT: 'New Cell Types',
+      identicalB: 'Identical Biomarkers',
+      newB: 'New Biomarkers'
+    };
+    const download = [];
+    const keys = Object.keys(this.compareReport[i]);
 
-  //   for (const key of keys)  {
-  //     if (typeof sheet[key] === 'object') {
-  //       for (const [idx, value] of sheet[key].entries()) {
-  //         const t = {};
-  //         t[keyMapper[key]] = value;
+    for (const key of keys)  {
+      if (typeof sheet[key] === 'object') {
+        for (const [idx, value] of sheet[key].entries()) {
+          const t = {};
+          t[keyMapper[key]] = value;
 
-  //         if (!!download[idx]) {
-  //           download[idx] = {...download[idx], ...t};
-  //         } else {
-  //           download.push(t);
-  //         }
-  //       }
-  //     }
-  //   }
+          if (!!download[idx]) {
+            download[idx] = {...download[idx], ...t};
+          } else {
+            download.push(t);
+          }
+        }
+      }
+    }
 
-  //   const sheetWS = XLSX.utils.json_to_sheet(download);
+    const sheetWS = XLSX.utils.json_to_sheet(download);
 
-  //   sheetWS['!cols'] = [];
-  //   for (let j = 0; j < totalRows; j++) {
-  //     sheetWS['!cols'].push({ wch: 30 });
-  //   }
-  //   const wb = XLSX.utils.book_new();
-  //   const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
-  //   const sn = sheet.title.toLowerCase().replace(' ', '_');
-  //   return {
-  //     sheet: sheetWS,
-  //     sheetName: sheet.title,
-  //     name:  `ASCT+B-Reporter_Derived_${sn}_${dt}_Report.xlsx`
-  //   };
-  // }
+    sheetWS['!cols'] = [];
+    for (let j = 0; j < totalRows; j++) {
+      sheetWS['!cols'].push({ wch: 30 });
+    }
+    const wb = XLSX.utils.book_new();
+    const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
+    const sn = sheet.title.toLowerCase().replace(' ', '_');
+    return {
+      sheet: sheetWS,
+      sheetName: sheet.title,
+      name:  `ASCT+B-Reporter_Derived_${sn}_${dt}_Report.xlsx`
+    };
+  }
 
 }
