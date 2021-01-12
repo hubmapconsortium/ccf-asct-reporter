@@ -23,6 +23,7 @@ import { ReportLog } from '../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../models/logs.model';
 import { UpdateBottomSheetData } from '../actions/tree.actions';
 
+/** Interface to keep track of all UI elements */
 export class UIStateModel {
   rightSideNavOpen: boolean;
   controlPaneOpen: boolean;
