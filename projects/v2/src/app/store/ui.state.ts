@@ -25,16 +25,49 @@ import { UpdateBottomSheetData } from '../actions/tree.actions';
 
 /** Interface to keep track of all UI elements */
 export class UIStateModel {
+  /** 
+   * Keep track of the right sidebar 
+   * */
   rightSideNavOpen: boolean;
+  /** 
+   * Keep track of the control pane on the left
+   * */
   controlPaneOpen: boolean;
+  /** 
+   * Is the UI in loading state
+   * */
   loading: boolean;
+  /** 
+   * Store the loading state
+   * */
   loadingText: string;
+  /** 
+   * Store UI in error state 
+   * */
   error: Error;
+  /** 
+   * Sotre snackbar state
+   * */
   snackbar: Snackbar;
+  /** 
+   * Keep track of the indented list sidebar
+   * */
   indentListOpen: boolean;
+  /** 
+   * Keep track of the report sidebar
+   * */
   reportOpen: boolean;
+  /** 
+   * Keep track of the debug log sidebar
+   * */
   debugLogOpen: boolean;
+  /** 
+   * Keep track of the bottom sheet that shows info
+   * */
   bottomSheetOpen: boolean;
+  /** 
+   * Keep track of the compare sidebar
+   * */
   compareOpen: boolean;
 }
 
