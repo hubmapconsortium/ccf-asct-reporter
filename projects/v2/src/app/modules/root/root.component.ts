@@ -39,7 +39,6 @@ export class RootComponent implements OnInit, OnDestroy{
   error: Error;
   snackbarRef: any;
   isControlPaneOpen: boolean;
-  screenWidth = document.getElementsByTagName('body')[0].clientWidth;
   infoSheetRef: MatBottomSheetRef;
 
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
@@ -66,7 +65,6 @@ export class RootComponent implements OnInit, OnDestroy{
   @Select(UIState.getLoading) loading$: Observable<any>;
   @Select(UIState.getLoadingText) loadingText$: Observable<any>;
   @Select(UIState) uiState$: Observable<any>;
-  @Select(TreeState.getScreenWidth) screenWidth$: Observable<number>;
   @Select(UIState.getSnackbar) snack$: Observable<Snackbar>;
   @Select(UIState.getReport) report$: Observable<boolean>;
   @Select(UIState.getDebugLog) dl$: Observable<boolean>;

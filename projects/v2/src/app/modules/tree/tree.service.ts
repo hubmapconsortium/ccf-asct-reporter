@@ -20,7 +20,6 @@ import { Row } from '../../models/sheet.model';
 })
 export class TreeService {
   height: number;
-  screenWidth: number;
   controlPaneOpen: boolean;
   sheetConfig: SheetConfig;
 
@@ -32,7 +31,6 @@ export class TreeService {
 
     this.tree$.subscribe(state => {
       this.height = state.height;
-      this.screenWidth = state.screenWidth;
       const view = state.view;
 
       if (Object.keys(view).length) {

@@ -16,7 +16,6 @@ import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 })
 export class HomeComponent implements OnInit, AfterViewInit {
   window = window;
-  screenWidth = document.getElementsByTagName('body')[0].clientWidth;
   dataVersion = 'latest';
   SHEET_OPTIONS = SHEET_OPTIONS;
   VIDEO_ACTIONS = VIDEO_ACTIONS;
@@ -88,6 +87,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   onResize(e) {
-    this.screenWidth = e.target.innerWidth;
+    console.log(e)
   }
 }
