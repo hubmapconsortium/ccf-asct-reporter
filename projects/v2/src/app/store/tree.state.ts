@@ -13,7 +13,7 @@ import {
 import { TNode, SearchStructure } from '../models/tree.model';
 import { BMNode, Link, BimodalConfig } from '../models/bimodal.model';
 
-/** Class to keep track of all the visualization elements */
+/** Class to keep track of all data and events related to the visualization */
 export class TreeStateModel {
   /** 
    * Stores the Vega Specification

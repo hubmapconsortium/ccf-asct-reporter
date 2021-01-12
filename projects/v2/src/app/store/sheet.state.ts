@@ -42,14 +42,35 @@ import { TreeState } from './tree.state';
 import { ReportLog } from '../actions/logs.actions';
 import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
 
-
+/** Class to keep track of the sheet */
 export class SheetStateModel {
+  /** 
+   * Stores the data from Google Sheets
+   * */
   data: Row[];
+  /** 
+   * Stores the currently selected sheet
+   * */
   sheet: Sheet;
+  /** 
+   * Stores the current version
+   * */
   version: string;
+  /** 
+   * Stores the compare data input by the user
+   * */
   compareSheets: CompareData[];
+  /** 
+   * Stores the compare data from the server
+   * */
   compareData: Row[];
+  /** 
+   * Stores the configuration for a sheet such as width, height etc.
+   * */
   sheetConfig: SheetConfig;
+  /** 
+   * Stores the data from the report
+   * */
   reportData: any;
 }
 

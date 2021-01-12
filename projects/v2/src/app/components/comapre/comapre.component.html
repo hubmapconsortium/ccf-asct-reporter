@@ -3,7 +3,9 @@
     <app-sidenav-header
       [title]="'Compare Data'"
       (closeSideNav)="closeCompare.emit()"
-      [tooltipString]="'Link your own data to compare it with the Master Data Tables'"
+      [tooltipString]="
+        'Link your own data to compare it with the Master Data Tables'
+      "
     ></app-sidenav-header>
   </div>
 
@@ -12,17 +14,31 @@
       <mat-expansion-panel [expanded]="true" class="mepNoPadding">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <div style="font-weight: 600; font-size: 10pt">
-                Instructions
-            </div>
+            <div style="font-weight: 600; font-size: 10pt">Instructions</div>
           </mat-panel-title>
         </mat-expansion-panel-header>
 
         <div class="mt-1 text-muted">
-           <ul class="pl-3">
-               <li> Through this feature, you can compare your own data by pasting the Google Sheet link of your data in the fields mentioned below. Multiple data sources can be added by clicking on the '+ Add' button at the bottom. In roder to successfuly link your sheet, make sure the sheet has <b>public access (Anyone with the link can view).</b></li>
-               <li>Please make sure your data follows the appropriate data format. You can visit <a href="https://docs.google.com/spreadsheets/d/1bsA-HngthTD7NtzAfab8t3EVjFFT439-Pc-mp_mdZUU/edit#gid=0" target="_blank">this</a> link to get data table format.</li>
-           </ul>
+          <ul class="pl-3">
+            <li>
+              Through this feature, you can compare your own data by pasting the
+              Google Sheet link of your data in the fields mentioned below.
+              Multiple data sources can be added by clicking on the '+ Add'
+              button at the bottom. In roder to successfuly link your sheet,
+              make sure the sheet has
+              <b>public access (Anyone with the link can view).</b>
+            </li>
+            <li>
+              Please make sure your data follows the appropriate data format.
+              You can visit
+              <a
+                href="https://docs.google.com/spreadsheets/d/1bsA-HngthTD7NtzAfab8t3EVjFFT439-Pc-mp_mdZUU/edit#gid=0"
+                target="_blank"
+                >this</a
+              >
+              link to get data table format.
+            </li>
+          </ul>
         </div>
       </mat-expansion-panel>
     </div>
@@ -140,12 +156,22 @@
       class="mt-2"
       style="width: 100%; justify-content: space-between; display: flex"
     >
-      <button mat-flat-button color="primary" [disabled]="doesFormHaveError()" (click)="compare()" style="border-radius: 8px !important;">
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="doesFormHaveError()"
+        (click)="compare()"
+        style="border-radius: 8px !important"
+      >
         Compare
       </button>
       <button
         mat-flat-button
-        style="border: 1px solid rgb(196, 196, 196); color: grey; border-radius: 8px !important;"
+        style="
+          border: 1px solid rgb(196, 196, 196);
+          color: grey;
+          border-radius: 8px !important;
+        "
         (click)="addCompareSheetRow()"
       >
         <mat-icon>add</mat-icon>
