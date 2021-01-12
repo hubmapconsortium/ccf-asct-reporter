@@ -37,7 +37,7 @@ export class BimodalService {
       let AS_CT_LINKS = 0;
       let CT_BM_LINKS = 0;
       const distance = sheetConfig.bimodal_distance_x;
-      const distance_y = sheetConfig.bimodal_distance_y;
+      const distanceY = sheetConfig.bimodal_distance_y;
       let id = treeData.length + 1;
       let biomarkers = [];
 
@@ -45,13 +45,13 @@ export class BimodalService {
       treeData.forEach((td) => {
         if (td.children === 0) {
           const leaf = td.name;
-          const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.ontology_id);
+          const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.ontologyId);
           newLeaf.id = id;
           newLeaf.problem = td.problem;
           newLeaf.pathColor = td.pathColor;
           newLeaf.isNew = td.isNew;
           newLeaf.color = td.color;
-          newLeaf.ontology_id = anatomicalStructuresData.find(a => a.structure === leaf).uberon;
+          newLeaf.ontologyId = anatomicalStructuresData.find(a => a.structure === leaf).uberon;
           newLeaf.indegree = anatomicalStructuresData.find(a => a.structure === leaf).indegree;
           newLeaf.outdegree = anatomicalStructuresData.find(a => a.structure === leaf).outdegree;
           newLeaf.label = anatomicalStructuresData.find(a => a.structure === leaf).label;
@@ -123,11 +123,11 @@ export class BimodalService {
         newNode.label = cell.label;
 
         nodes.push(newNode);
-        treeY += distance_y;
+        treeY += distanceY;
         id += 1;
       });
 
-      treeY = distance_y;
+      treeY = distanceY;
       treeX += distance;
 
       biomarkers = await makeBioMarkers(sheetData);
@@ -179,25 +179,25 @@ export class BimodalService {
         newNode.outdegree = marker.outdegree;
 
         nodes.push(newNode);
-        treeY += distance_y;
+        treeY += distanceY;
         id += 1;
       });
 
 
       nodes.forEach((node, i) => {
-        if (node.group == 1) {
+        if (node.group === 1) {
           node.sources = [];
           node.outdegree.forEach(str => {
-            const foundIndex = nodes.findIndex(i => `${i.name}${i.ontology_id}` === str);
+            const foundIndex = nodes.findIndex(n => `${n.name}${n.ontologyId}` === str);
             node.targets.push(nodes[foundIndex].id);
             links.push({ s: node.id, t: nodes[foundIndex].id });
           });
         }
 
-        if (node.group == 3) {
+        if (node.group === 3) {
           node.indegree.forEach(str => {
 
-            const foundIndex = nodes.findIndex(i => `${i.name}${i.ontology_id}` === str);
+            const foundIndex = nodes.findIndex(n => `${n.name}${n.ontologyId}` === str);
             node.sources.push(nodes[foundIndex].id);
             links.push({ s: nodes[foundIndex].id, t: node.id });
           });
@@ -205,15 +205,20 @@ export class BimodalService {
       });
 
       nodes.forEach((node, i) => {
-        if (node.group == 2) {
-          node.outdegree.forEach(str => {
-            const tt = nodes.map((val, idx) => ({ val, idx })).filter(({ val, idx }) => `${val.name}${val.ontology_id}` === str).map(({ val, idx }) => idx);
+        if (node.group === 2) {
+          node.outdegree.forEach((str) => {
+            const tt = nodes
+              .map((val, idx) => ({ val, idx }))
+              .filter(({ val, idx }) => `${val.name}${val.ontologyId}` === str)
+              .map(({ val, idx }) => idx);
             const targets = [];
-            tt.forEach(s => { targets.push(nodes[s].id); });
+            tt.forEach((s) => {
+              targets.push(nodes[s].id);
+            });
 
             // make targets only if there is a link from CT to B
-            targets.forEach(s => {
-              if (links.some(i => i.s === node.id && i.t === s)) {
+            targets.forEach((s) => {
+              if (links.some((l) => l.s === node.id && l.t === s)) {
                 CT_BM_LINKS += 1;
                 node.targets.push(s);
               }
@@ -221,13 +226,17 @@ export class BimodalService {
           });
 
           // make sources only if there is a link from AS to CT
-          node.indegree.forEach(str => {
-
-            const ss = nodes.map((val, idx) => ({ val, idx })).filter(({ val, idx }) => `${val.name}${val.ontology_id}` === str).map(({ val, idx }) => idx);
+          node.indegree.forEach((str) => {
+            const ss = nodes
+              .map((val, idx) => ({ val, idx }))
+              .filter(({ val, idx }) => `${val.name}${val.ontologyId}` === str)
+              .map(({ val, idx }) => idx);
             const sources = [];
-            ss.forEach(s => { sources.push(nodes[s].id); });
-            sources.forEach(s => {
-              if (links.some(i => i.s === s && i.t === node.id)) {
+            ss.forEach((s) => {
+              sources.push(nodes[s].id);
+            });
+            sources.forEach((s) => {
+              if (links.some((l) => l.s === s && l.t === node.id)) {
                 AS_CT_LINKS += 1;
                 node.sources.push(s);
               }
@@ -243,11 +252,11 @@ export class BimodalService {
 
       this.store.dispatch(new UpdateBimodal(nodes, links)).subscribe(newData => {
         const view = newData.treeState.view;
-        const u_nodes = newData.treeState.bimodal.nodes;
-        const u_links = newData.treeState.bimodal.links;
+        const updatedNodes = newData.treeState.bimodal.nodes;
+        const updatedLinks = newData.treeState.bimodal.links;
         const spec = newData.treeState.spec;
 
-        this.updateBimodalData(view, spec, u_nodes, u_links);
+        this.updateBimodalData(view, spec, updatedNodes, updatedLinks);
       });
 
     } catch (error) {

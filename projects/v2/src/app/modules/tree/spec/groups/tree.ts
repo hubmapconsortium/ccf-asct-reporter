@@ -102,7 +102,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
         update: {
           x: { field: 'x' },
           y: { field: 'y' },
-          tooltip: { signal: '{"Ontology ID": datum.ontology_id}' },
+          tooltip: { signal: '{"Ontology ID": datum.ontologyId}' },
           opacity: [
             {
               test: 'node__click === null && node__hover === null',
@@ -135,7 +135,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
       zindex: 5,
       encode: {
         enter: {
-          text: { field: 'ontology_id' },
+          text: { field: 'ontologyId' },
           limit: { value: 180 },
           fontSize: { value: 11 },
           baseline: { value: 'middle' },

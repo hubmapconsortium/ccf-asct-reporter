@@ -12,7 +12,7 @@ export class TNode {
   id: any;
   name: string;
   parent: string;
-  ontology_id: string;
+  ontologyId: string;
   color: string;
   problem: boolean;
   found: boolean;
@@ -30,7 +30,7 @@ export class TNode {
     this.id = id;
     this.name = name;
     this.parent = parent;
-    this.ontology_id = uId;
+    this.ontologyId = uId;
     this.color = color;
     this.problem = false;
     this.groupName = 'Multi-parent Nodes';

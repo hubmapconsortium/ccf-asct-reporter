@@ -59,7 +59,7 @@ export class TreeService {
       let parent: TNode;
       const nodes = [];
       const root = new TNode(id, data[0].anatomical_structures[0].name, 0, data[0].anatomical_structures[0].id, AS_RED);
-      root.comparator = root.name + root.ontology_id;
+      root.comparator = root.name + root.ontologyId;
       root.type = NODE_TYPE.R;
       delete root.parent;
       nodes.push(root);
@@ -73,7 +73,7 @@ export class TreeService {
           if (s === -1) {
             id += 1;
             const newNode = new TNode(id, structure.name, parent.id, structure.id, AS_RED);
-            newNode.comparator = parent.comparator + newNode.name + newNode.ontology_id;
+            newNode.comparator = parent.comparator + newNode.name + newNode.ontologyId;
             if ('isNew' in structure) {
               newNode.isNew = true;
               newNode.color = structure.color;

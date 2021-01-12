@@ -60,7 +60,7 @@
       <app-error *ngIf="error.hasError" [error]="error"></app-error>
       <div
         style="position: absolute; width: 250px; left: 10px; margin-top: 20px"
-        *ngIf="!(pane$ | async)"
+        *ngIf="(pane$ | async) === false"
       >
         <app-legend
           [treeData]="treeData$ | async"

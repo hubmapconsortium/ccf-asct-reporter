@@ -132,9 +132,9 @@ export class ReportService {
     });
   }
 
-  getASWithNoLink(AS) {
+  getASWithNoLink(anatomicalStructures) {
     const noLinks = [];
-    AS.forEach((ele) => {
+    anatomicalStructures.forEach((ele) => {
       if (!ele.uberon.includes('UBERON')) {
         noLinks.push(ele);
       }
@@ -142,18 +142,18 @@ export class ReportService {
     return noLinks;
   }
 
-  getCTWithNoLink(CT) {
+  getCTWithNoLink(cellTypes) {
     const noLinks = [];
-    CT.forEach((ele) => {
+    cellTypes.forEach((ele) => {
       if (!ele.link.includes('CL')) {
         noLinks.push(ele);
       }
     });
     return noLinks;
   }
-  getBMWithNoLink(B) {
+  getBMWithNoLink(biomarkers) {
     const noLinks = [];
-    B.forEach((ele) => {
+    biomarkers.forEach((ele) => {
       if (!ele.link.includes('HGNC')) {
         noLinks.push(ele);
       }

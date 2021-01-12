@@ -1,7 +1,19 @@
 import { SheetService } from '../services/sheet.service';
-import {State, Action, StateContext, Selector, Select, Store} from '@ngxs/store';
-import { Sheet, Data, Row, Structure, CompareData, SheetConfig} from '../models/sheet.model';
-import { Error, Response } from '../models/response.model';
+import {
+  State,
+  Action,
+  StateContext,
+  Selector,
+  Store,
+} from '@ngxs/store';
+import {
+  Sheet,
+  Row,
+  Structure,
+  CompareData,
+  SheetConfig,
+} from '../models/sheet.model';
+import { Error } from '../models/response.model';
 
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -9,10 +21,23 @@ import { of } from 'rxjs';
 import { HEADER_COUNT, SHEET_CONFIG } from '../static/config';
 import { Injectable } from '@angular/core';
 import { parse } from 'papaparse';
-import { FetchSheetData, RefreshData, FetchDataFromAssets, FetchAllOrganData, FetchCompareData, UpdateConfig, ToggleShowAllAS, UpdateReport, DeleteCompareSheet } from '../actions/sheet.actions';
-import { OpenLoading, CloseLoading, UpdateLoadingText, HasError, CloseBottomSheet } from '../actions/ui.actions';
-import { StateClear, StateReset } from 'ngxs-reset-plugin';
-import { UIState } from './ui.state';
+import {
+  FetchSheetData,
+  FetchDataFromAssets,
+  FetchAllOrganData,
+  FetchCompareData,
+  UpdateConfig,
+  ToggleShowAllAS,
+  UpdateReport,
+  DeleteCompareSheet,
+} from '../actions/sheet.actions';
+import {
+  OpenLoading,
+  UpdateLoadingText,
+  HasError,
+  CloseBottomSheet,
+} from '../actions/ui.actions';
+import { StateReset } from 'ngxs-reset-plugin';
 import { TreeState } from './tree.state';
 import { ReportLog } from '../actions/logs.actions';
 import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
@@ -148,20 +173,20 @@ export class SheetState {
       this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).subscribe(
         (res: Row[]) => {
           for (const row of res) {
-            for (const i in row.anatomical_structures) {
-              row.anatomical_structures[i].isNew = true;
-              row.anatomical_structures[i].color = sheet.color;
+            for (const i of row.anatomical_structures) {
+              i.isNew = true;
+              i.color = sheet.color;
             }
             // row.anatomical_structures.unshift(organ)
 
-            for (const i in row.cell_types) {
-              row.cell_types[i].isNew = true;
-              row.cell_types[i].color = sheet.color;
+            for (const i of row.cell_types) {
+              i.isNew = true;
+              i.color = sheet.color;
             }
 
-            for (const i in row.biomarkers) {
-              row.biomarkers[i].isNew = true;
-              row.biomarkers[i].color = sheet.color;
+            for (const i of row.biomarkers) {
+              i.isNew = true;
+              i.color = sheet.color;
             }
           }
 

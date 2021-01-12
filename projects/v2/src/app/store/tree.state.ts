@@ -1,7 +1,16 @@
-import {State, Action, StateContext, Selector} from '@ngxs/store';
+import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Spec } from 'vega';
 import { Injectable } from '@angular/core';
-import { UpdateVegaSpec, UpdateVegaView, UpdateBimodal, UpdateBimodalConfig, DoSearch, UpdateGraphWidth, UpdateBottomSheetData, UpdateLinksData } from '../actions/tree.actions';
+import {
+  UpdateVegaSpec,
+  UpdateVegaView,
+  UpdateBimodal,
+  UpdateBimodalConfig,
+  DoSearch,
+  UpdateGraphWidth,
+  UpdateBottomSheetData,
+  UpdateLinksData,
+} from '../actions/tree.actions';
 import { TNode, SearchStructure } from '../models/tree.model';
 import { BMNode, Link, BimodalConfig } from '../models/bimodal.model';
 

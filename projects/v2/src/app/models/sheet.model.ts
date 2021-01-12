@@ -18,9 +18,9 @@ export interface Row {
   biomarkers: Array<Structure>;
 }
 
-export interface Data {
+// export interface Data {
 
-}
+// }
 
 export interface Sheet {
   name: string;

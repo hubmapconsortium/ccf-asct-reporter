@@ -1,15 +1,9 @@
-import { SheetService } from '../services/sheet.service';
-import { State, Action, StateContext, Selector, Select } from '@ngxs/store';
-import { Sheet, Data } from '../models/sheet.model';
-import { Error, Response } from '../models/response.model';
 
-import { tap, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { State, Action, StateContext, Selector } from '@ngxs/store';
 
 import { Injectable } from '@angular/core';
-import { ReportLog, ReportMultiLog, ClearSheetLogs } from '../actions/logs.actions';
-import { Log, LOG_ICONS, LOG_TYPES, LogEntry } from '../models/logs.model';
-import * as moment from 'moment';
+import { ReportLog, ClearSheetLogs } from '../actions/logs.actions';
+import { Log, LogEntry } from '../models/logs.model';
 
 export class LogsStateModel {
   id: number;

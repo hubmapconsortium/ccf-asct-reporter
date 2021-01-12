@@ -202,7 +202,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
           cursor: { value: 'pointer' },
           tooltip: {
             signal:
-              '{\'Name\': datum.name, \'Degree\': datum.group === 1 ? length(datum.sources) + length(datum.targets) + 1 : length(datum.sources) + length(datum.targets), "Indegree": datum.group == 1 ? 1 : length(datum.sources), "Outdegree": length(datum.targets), "Ontology ID": datum.ontology_id}',
+              '{\'Name\': datum.name, \'Degree\': datum.group === 1 ? length(datum.sources) + length(datum.targets) + 1 : length(datum.sources) + length(datum.targets), "Indegree": datum.group == 1 ? 1 : length(datum.sources), "Outdegree": length(datum.targets), "Ontology ID": datum.ontologyId}',
           },
         },
         update: {
@@ -251,7 +251,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
           dy: { value: 10 },
           align: { value: 'left' },
           baseline: { value: 'middle' },
-          text: { field: 'ontology_id' },
+          text: { field: 'ontologyId' },
           fontSize: { value: 11 },
           fill: [
             {

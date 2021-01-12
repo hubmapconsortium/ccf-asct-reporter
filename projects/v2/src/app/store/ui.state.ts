@@ -1,7 +1,23 @@
 import { State, Action, StateContext, Selector, Select } from '@ngxs/store';
 import { Error, SnackbarType } from '../models/response.model';
 import { Injectable } from '@angular/core';
-import { ToggleControlPane, OpenLoading, CloseLoading, UpdateLoadingText, HasError, OpenSnackbar, CloseSnackbar, ToggleIndentList, ToggleReport, CloseRightSideNav, ToggleDebugLogs, ToggleBottomSheet, OpenBottomSheet, CloseBottomSheet, OpenCompare, CloseCompare } from '../actions/ui.actions';
+import {
+  ToggleControlPane,
+  OpenLoading,
+  CloseLoading,
+  UpdateLoadingText,
+  HasError,
+  OpenSnackbar,
+  CloseSnackbar,
+  ToggleIndentList,
+  ToggleReport,
+  CloseRightSideNav,
+  ToggleDebugLogs,
+  OpenBottomSheet,
+  CloseBottomSheet,
+  OpenCompare,
+  CloseCompare,
+} from '../actions/ui.actions';
 import { Snackbar } from '../models/ui.model';
 import { ReportLog } from '../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../models/logs.model';

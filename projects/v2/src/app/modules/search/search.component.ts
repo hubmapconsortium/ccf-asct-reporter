@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input, ViewChild, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, Input, ViewChild, EventEmitter, AfterViewInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -23,7 +23,7 @@ import { BMNode } from '../../models/bimodal.model';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, AfterViewInit {
 
   @Input() disabled = false;
 
@@ -41,7 +41,7 @@ export class SearchComponent implements OnInit {
   @ViewChild('multiSelect', { static: true }) multiSelect: MatSelect;
 
   /** Subject that emits when the component has been destroyed. */
-  protected _onDestroy = new Subject<void>();
+  protected subjectOnDestroy = new Subject<void>();
 
   @Select(TreeState) tree$: Observable<TreeStateModel>;
 
@@ -99,13 +99,13 @@ export class SearchComponent implements OnInit {
   ngAfterViewInit() {
     // listen for search field value changes
     this.structuresMultiFilterCtrl.valueChanges
-      .pipe(takeUntil(this._onDestroy))
+      .pipe(takeUntil(this.subjectOnDestroy))
       .subscribe((r) => {
         this.store.dispatch(new DoSearch(this.structuresMultiCtrl.value));
         this.filterstructuressMulti();
       });
     this.filteredstructuresMulti
-      .pipe(take(1), takeUntil(this._onDestroy))
+      .pipe(take(1), takeUntil(this.subjectOnDestroy))
       .subscribe(() => {
         this.multiSelect.compareWith = (a: SearchStructure, b: SearchStructure) => a && b && a.id === b.id;
       });

@@ -8,7 +8,7 @@ const groupNameMapper = {
 
 export class BMNode {
   name: string;
-  ontology_id: string;
+  ontologyId: string;
   group: number;
   groupName: string;
   fontSize: number;
@@ -35,7 +35,7 @@ export class BMNode {
     x,
     y,
     fontSize,
-    ontology_id = '',
+    ontologyId = '',
     color = '#E41A1C',
     nodeSize = 300
   ) {
@@ -49,7 +49,7 @@ export class BMNode {
     this.targets = [];
     this.sources = [];
     this.groupName = groupNameMapper[group];
-    this.ontology_id = ontology_id;
+    this.ontologyId = ontologyId;
     this.pathColor = '#ccc';
     this.isNew = false;
     this.type = NODE_TYPE.BM;
@@ -73,9 +73,9 @@ export interface ASCTD {
   searchIds?: Array<number>;
 }
 
-export const bimodalSortOptions = ['Alphabetically', 'Degree'],
-             bimodalBSizeOptions = ['None', 'Degree'],
-             bimodalCTSizeOptions = ['None', 'Degree', 'Indegree', 'Outdegree'];
+export const bimodalSortOptions = ['Alphabetically', 'Degree'];
+export const bimodalBSizeOptions = ['None', 'Degree'];
+export const bimodalCTSizeOptions = ['None', 'Degree', 'Indegree', 'Outdegree'];
 
 export interface BimodalConfig {
   CT: {
