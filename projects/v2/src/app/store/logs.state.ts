@@ -14,7 +14,7 @@ import * as moment from 'moment';
 export class LogsStateModel {
   id: number;
   sheetLogs: Log;
-  allLogs: Log[]
+  allLogs: Log[];
 }
 
 @State<LogsStateModel>({
@@ -36,7 +36,7 @@ export class LogsState {
     return {
       sheetLogs: state.sheetLogs,
       allLogs: state.allLogs
-    }
+    };
   }
 
 
@@ -49,7 +49,7 @@ export class LogsState {
 
     switch (type) {
       case 'MSG':
-        const newLog: LogEntry = { text: message, icon: icon, version: version };
+        const newLog: LogEntry = { text: message, icon, version };
         sheetLogs.messages.push(newLog);
 
         const foundLog = allLogs.find(l => l.id === id);
@@ -79,9 +79,9 @@ export class LogsState {
         const foundSLLog = allLogs.find(l => l.id === id);
         foundSLLog.SELF_LINKS.push(message);
         break;
-      
+
     }
-    
+
     // const time = new Date();
     // if (!reporterLogs.some(i => i.message === message && i.time === moment(time).format('hh:mm:ss'))) {
     //   const newLog = new Log(id, message, icon, moment(time).format('hh:mm:ss'), LOG_TYPES.MSG);
@@ -93,22 +93,22 @@ export class LogsState {
     //     sheetLogs: reportedLogsForSheet,
     //     allLogs: reporterLogs
     //   })
-    // }    
+    // }
   }
 
   @Action(ClearSheetLogs)
   clearSheetLogs({getState, setState}: StateContext<LogsStateModel>) {
     const state = getState();
     const allLogs = state.allLogs;
-    
+
     const id = state.id + 1;
-    allLogs.push({id: id, messages: [], NO_IN_LINKS: [], NO_OUT_LINKS: [], MULTI_IN_LINKS: [], SELF_LINKS: []})
+    allLogs.push({id, messages: [], NO_IN_LINKS: [], NO_OUT_LINKS: [], MULTI_IN_LINKS: [], SELF_LINKS: []});
     setState({
       ...state,
-      id: id ,
-      sheetLogs: {id: id, messages: [], NO_IN_LINKS: [], NO_OUT_LINKS: [], MULTI_IN_LINKS: [], SELF_LINKS: []},
-      allLogs: allLogs
-    })
+      id ,
+      sheetLogs: {id, messages: [], NO_IN_LINKS: [], NO_OUT_LINKS: [], MULTI_IN_LINKS: [], SELF_LINKS: []},
+      allLogs
+    });
   }
 
   // @Action(ReportMultiLog)
@@ -131,7 +131,7 @@ export class LogsState {
   //     }
 
   // }
-  
+
 
 
 }

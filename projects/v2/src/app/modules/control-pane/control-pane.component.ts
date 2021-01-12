@@ -11,7 +11,7 @@ import { TreeState } from '../../store/tree.state';
 import { TNode } from '../../models/tree.model';
 import { VegaService } from '../tree/vega.service';
 import { UpdateVegaSpec } from '../../actions/tree.actions';
-import { UpdateConfig, Toggleshow_all_AS, FetchAllOrganData } from '../../actions/sheet.actions';
+import { UpdateConfig, ToggleShowAllAS, FetchAllOrganData } from '../../actions/sheet.actions';
 import { BimodalService } from '../tree/bimodal.service';
 import { BMNode } from '../../models/bimodal.model';
 
@@ -39,9 +39,9 @@ export class ControlPaneComponent implements OnInit {
   ngOnInit(): void {
     this.view$.subscribe(data => {
       this.view = data;
-    })
+    });
 
-    
+
   }
 
   updateConfigInSheet(prop) {
@@ -56,10 +56,10 @@ export class ControlPaneComponent implements OnInit {
   }
 
   showAllAS() {
-    this.store.dispatch(new Toggleshow_all_AS()).subscribe(states => {
+    this.store.dispatch(new ToggleShowAllAS()).subscribe(states => {
       const sheet = states.sheetState.sheet;
-      this.store.dispatch(new FetchAllOrganData(sheet))
-    })
+      this.store.dispatch(new FetchAllOrganData(sheet));
+    });
   }
 
   updateBimodal(config: SheetConfig) {
@@ -74,7 +74,7 @@ export class ControlPaneComponent implements OnInit {
         try {
           this.bm.makeBimodalData(data, treeData, bimodalConfig, sheet, config);
         } catch (err) {
-          console.log(err)
+          console.log(err);
         }
       }
     });

@@ -14,11 +14,11 @@ export class TreeComponent implements OnInit {
   CT_BLUE = CT_BLUE;
   AS_RED = AS_RED;
   B_GREEN = B_GREEN;
-  
+
   @Select(SheetState.getSheetConfig) config$: Observable<SheetConfig>;
 
   constructor() {
-    
+
   }
 
   ngOnInit() {

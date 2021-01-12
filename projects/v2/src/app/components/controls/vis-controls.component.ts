@@ -8,7 +8,7 @@ import { Error } from '../../models/response.model';
   styleUrls: ['./vis-controls.component.scss']
 })
 export class VisControlsComponent implements OnInit {
-  
+
   @Input() config: SheetConfig;
   @Input() error: Error;
   @Input() currentSheet: Sheet;
@@ -23,14 +23,14 @@ export class VisControlsComponent implements OnInit {
     this.updatedConfig.emit({
       property: 'width',
       config: this.config
-    })
+    });
   }
 
   changeHeight() {
     this.updatedConfig.emit({
       property: 'height',
       config: this.config
-    })
+    });
   }
 
   changeShowOntology() {
@@ -38,28 +38,28 @@ export class VisControlsComponent implements OnInit {
     this.updatedConfig.emit({
       property: 'show-ontology',
       config: this.config
-    })
+    });
   }
 
   changeBimodalDistanceX() {
     this.updatedConfig.emit({
       property: 'bm-x',
       config: this.config
-    })
+    });
   }
 
   changeBimodalDistanceY() {
     this.updatedConfig.emit({
       property: 'bm-y',
       config: this.config
-    })
+    });
   }
 
   changeShowAS() {
     this.updatedConfig.emit({
       property: 'show-as',
       config: this.config
-    })
+    });
   }
 
 }

@@ -50,7 +50,7 @@ export class IndentedListComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() dataVersion;
   @Input() currentSheet: Sheet;
   @Input() sheetData: any;
-  @Output() close: EventEmitter<any> = new EventEmitter<any>();
+  @Output() closeIL: EventEmitter<any> = new EventEmitter<any>();
 
   @ViewChild('indentTree') indentTree;
 
@@ -87,13 +87,13 @@ export class IndentedListComponent implements OnInit, OnDestroy, AfterViewInit {
           this.visible = false;
         }
       }
-    )
+    );
 
     this.indentService.makeIndentData(this.currentSheet, this.sheetData);
   }
 
   ngAfterViewInit(): void {
-    if (this.indentTree) this.indentTree.treeControl.expandAll();
+    if (this.indentTree) { this.indentTree.treeControl.expandAll(); }
   }
 
   ngOnDestroy() {

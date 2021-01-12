@@ -1,9 +1,9 @@
 export const URL = `http://localhost:5000/v2`;
 
 export function getAssetsURL(dataVersion, currentSheet) {
-  return `assets/data/${dataVersion}/${currentSheet.name}.csv`
+  return `assets/data/${dataVersion}/${currentSheet.name}.csv`;
 }
 
 export function getInformation(id: string, group = 1) {
-  return `https://www.ebi.ac.uk/ols/api/ontologies/uberon/terms?iri=http://purl.obolibrary.org/obo/${id.replace(":", "_")}`
+  return `https://www.ebi.ac.uk/ols/api/ontologies/uberon/terms?iri=http://purl.obolibrary.org/obo/${id.replace(':', '_')}`;
 }

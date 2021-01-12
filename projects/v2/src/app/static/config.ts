@@ -2,7 +2,7 @@ export const HEADER_COUNT = 11;
 
 export const IMG_OPTIONS = ['PNG', 'SVG', 'Vega Spec'];
 
-export const SHEET_ID = '1U8-3BMJgCI-vaZDQjdQdTY6Rp48LoBys'
+export const SHEET_ID = '1U8-3BMJgCI-vaZDQjdQdTY6Rp48LoBys';
 
 export const SHEET_CONFIG = [
   {
@@ -15,7 +15,7 @@ export const SHEET_CONFIG = [
       width: 700,
       height: 5000
     },
-    
+
     title: 'Organs',
   },
   {
@@ -269,9 +269,9 @@ export const MORE_OPTIONS = [
   {
     name: 'T&C',
     url: 'https://hubmapconsortium.org/wp-content/uploads/2020/06/DUA_FINAL_2020_02_03_for_Signature.pdf'
-  }, 
+  },
   {
-    name: "Policy",
+    name: 'Policy',
     url: 'https://hubmapconsortium.org/policies/'
   }
 ];

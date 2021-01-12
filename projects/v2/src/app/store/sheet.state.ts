@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 import { HEADER_COUNT, SHEET_CONFIG } from '../static/config';
 import { Injectable } from '@angular/core';
 import { parse } from 'papaparse';
-import { FetchSheetData, RefreshData, FetchDataFromAssets, FetchAllOrganData, FetchCompareData, UpdateConfig, Toggleshow_all_AS, UpdateReport, DeleteCompareSheet } from '../actions/sheet.actions';
+import { FetchSheetData, RefreshData, FetchDataFromAssets, FetchAllOrganData, FetchCompareData, UpdateConfig, ToggleShowAllAS, UpdateReport, DeleteCompareSheet } from '../actions/sheet.actions';
 import { OpenLoading, CloseLoading, UpdateLoadingText, HasError, CloseBottomSheet } from '../actions/ui.actions';
 import { StateClear, StateReset } from 'ngxs-reset-plugin';
 import { UIState } from './ui.state';
@@ -25,7 +25,7 @@ export class SheetStateModel {
   compareSheets: CompareData[];
   compareData: Row[];
   sheetConfig: SheetConfig;
-  reportData: any
+  reportData: any;
 }
 
 @State<SheetStateModel>({
@@ -103,28 +103,29 @@ export class SheetState {
     return {
       data: state.compareData,
       sheets: state.compareSheets
-    }
+    };
   }
 
   @Action(DeleteCompareSheet)
   deleteCompareSheet({getState, setState, dispatch, patchState}: StateContext<SheetStateModel>, {i}: DeleteCompareSheet) {
     let state = getState();
-    let sheets = state.compareSheets;
+    const sheets = state.compareSheets;
     sheets.splice(i, 1);
-    
+
     setState({
       ...state,
       compareSheets: sheets
-    })
+    });
 
     state = getState();
-    if(state.compareSheets.length)  
+    if (state.compareSheets.length) {
       dispatch(new FetchCompareData(state.compareSheets));
+    }
     else {
       setState({
         ...state,
         compareData: []
-      })
+      });
       // when comparing for all organs, make sure this is checked
       dispatch(new FetchSheetData(state.sheet));
     }
@@ -139,44 +140,44 @@ export class SheetState {
     patchState({
       compareData: [],
       compareSheets: []
-    })
+    });
 
     // const organ = state.data[0].anatomical_structures[0]
 
     for await (const [idx, sheet] of compareData.entries()) {
       this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).subscribe(
         (res: Row[]) => {
-          for(const row of res) {
+          for (const row of res) {
             for (const i in row.anatomical_structures) {
-              row.anatomical_structures[i]['isNew'] = true
-              row.anatomical_structures[i]['color'] = sheet.color;
+              row.anatomical_structures[i].isNew = true;
+              row.anatomical_structures[i].color = sheet.color;
             }
             // row.anatomical_structures.unshift(organ)
 
             for (const i in row.cell_types) {
-              row.cell_types[i]['isNew'] = true
-              row.cell_types[i]['color'] = sheet.color;
+              row.cell_types[i].isNew = true;
+              row.cell_types[i].color = sheet.color;
             }
 
             for (const i in row.biomarkers) {
-              row.biomarkers[i]['isNew'] = true
-              row.biomarkers[i]['color'] = sheet.color;
+              row.biomarkers[i].isNew = true;
+              row.biomarkers[i].color = sheet.color;
             }
           }
 
-          let currentData = getState().data;
-          let currentCompare = getState().compareSheets;
-          let currentCompareData = getState().compareData;
+          const currentData = getState().data;
+          const currentCompare = getState().compareSheets;
+          const currentCompareData = getState().compareData;
           patchState({
             data: [...currentData, ...res],
             compareSheets: [...currentCompare, ...[sheet]],
             compareData: [...currentCompareData, ...res]
-          })
+          });
         },
         (error) => {
-          console.log(error)
+          console.log(error);
         }
-      )
+      );
     }
 
   }
@@ -184,9 +185,9 @@ export class SheetState {
 
 
   @Action(FetchAllOrganData)
-  async fetchAllOrganData({getState, setState, dispatch, patchState}:StateContext<SheetStateModel>, {sheet}: FetchAllOrganData) {
-    
-    
+  async fetchAllOrganData({getState, setState, dispatch, patchState}: StateContext<SheetStateModel>, {sheet}: FetchAllOrganData) {
+
+
     dispatch(new OpenLoading('Fetching data..'));
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
@@ -194,90 +195,90 @@ export class SheetState {
     const state = getState();
 
     patchState({
-      sheet: sheet,
+      sheet,
       compareData: [],
       compareSheets: [],
       sheetConfig: {...sheet.config, show_ontology: state.sheetConfig.show_ontology, show_all_AS: state.sheetConfig.show_all_AS},
       version: 'latest',
       data: []
-    })
+    });
 
     for await (const s of SHEET_CONFIG) {
       if (s.name !== 'all') {
         this.sheetService.fetchSheetData(s.sheetId, s.gid).subscribe(
           (res: Row[]) => {
-            for(const d of res) {
-              let ns: Structure = {
+            for (const d of res) {
+              const ns: Structure = {
                 name: 'Body',
                 id: '',
                 rdfs_label: 'NONE',
-              }
-              d.anatomical_structures.unshift(ns)
-              if(!state.sheetConfig.show_all_AS) {
-                d.anatomical_structures.splice(2, d.anatomical_structures.length - (2))
+              };
+              d.anatomical_structures.unshift(ns);
+              if (!state.sheetConfig.show_all_AS) {
+                d.anatomical_structures.splice(2, d.anatomical_structures.length - (2));
               }
             }
-            let currentData = getState().data;
+            const currentData = getState().data;
             patchState({
               data: [...currentData, ...res],
-            })
+            });
           },
           (error) => {
-            console.log(error)
+            console.log(error);
             const err: Error = {
               msg: `${error.name} (Status: ${error.status})`,
               status: error.status,
               hasError: true
             };
-            dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data', LOG_ICONS.error))
-            dispatch(new HasError(err))
-            return of('')
+            dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data', LOG_ICONS.error));
+            dispatch(new HasError(err));
+            return of('');
           }
-        )
+        );
       }
     }
   }
 
   @Action(FetchSheetData)
   fetchSheetData({getState, setState, patchState, dispatch}: StateContext<SheetStateModel>, {sheet}: FetchSheetData) {
-    
+
     dispatch(new OpenLoading('Fetching data..'));
-    dispatch(new StateReset(SheetState))
+    dispatch(new StateReset(SheetState));
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
     const state = getState();
     return this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).pipe(
       tap((res: Array<any>) => {
-        
+
         setState({
           ...state,
           data: res,
           version: 'latest',
-          sheet: sheet,
+          sheet,
           sheetConfig: {...sheet.config, show_ontology: true},
         });
-        
-        dispatch(new ReportLog(LOG_TYPES.MSG,`${sheet.display} data successfully fetched.`, LOG_ICONS.success));
+
+        dispatch(new ReportLog(LOG_TYPES.MSG, `${sheet.display} data successfully fetched.`, LOG_ICONS.success));
         dispatch(new UpdateLoadingText('Fetch data successful. Building Visualization..'));
 
       }),
       catchError((error) => {
-        console.log(error)
+        console.log(error);
         const err: Error = {
           msg: `${error.name} (Status: ${error.status})`,
           status: error.status,
           hasError: true
         };
-        dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data', LOG_ICONS.error))
-        dispatch(new HasError(err))
-        return of('')
+        dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data', LOG_ICONS.error));
+        dispatch(new HasError(err));
+        return of('');
       })
     );
   }
 
   @Action(FetchDataFromAssets)
-  fetchDataFromAssets({getState, setState, dispatch}: StateContext<SheetStateModel>, {version, sheet}:FetchDataFromAssets) {
+  fetchDataFromAssets({getState, setState, dispatch}: StateContext<SheetStateModel>, {version, sheet}: FetchDataFromAssets) {
     const state = getState();
     dispatch(new OpenLoading('Fetching data from assets..'));
     dispatch(new StateReset(TreeState));
@@ -293,12 +294,12 @@ export class SheetState {
 
         setState({
           ...state,
-          version: version,
+          version,
           data: parsedData.data,
-          sheet: sheet,
+          sheet,
           sheetConfig: {...sheet.config, show_ontology: true},
         });
-        dispatch(new ReportLog(LOG_TYPES.MSG,`${sheet.display} data successfully fetched from assets.`, LOG_ICONS.success, version));
+        dispatch(new ReportLog(LOG_TYPES.MSG, `${sheet.display} data successfully fetched from assets.`, LOG_ICONS.success, version));
         dispatch(new UpdateLoadingText('Fetch data successful. Building Visualization..'));
 
       }),
@@ -308,9 +309,9 @@ export class SheetState {
           status: error.status,
           hasError: true
         };
-        dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data from assets.', LOG_ICONS.error))
-        dispatch(new HasError(err))
-        return of('')
+        dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data from assets.', LOG_ICONS.error));
+        dispatch(new HasError(err));
+        return of('');
       })
     );
   }
@@ -321,17 +322,17 @@ export class SheetState {
     setState({
       ...state,
       sheetConfig: config
-    })
+    });
   }
 
-  @Action(Toggleshow_all_AS)
-  toggleshow_all_AS({getState, setState, dispatch}: StateContext<SheetStateModel>) {
+  @Action(ToggleShowAllAS)
+  ToggleShowAllAS({getState, setState, dispatch}: StateContext<SheetStateModel>) {
     const state = getState();
     const config = state.sheetConfig;
     setState({
       ...state,
       sheetConfig: {...config, show_all_AS: !state.sheetConfig.show_all_AS}
-    })
+    });
   }
 
   @Action(UpdateReport)
@@ -339,8 +340,8 @@ export class SheetState {
     const state = getState();
     setState({
       ...state,
-      reportData: reportData
-    })
+      reportData
+    });
   }
 
 }

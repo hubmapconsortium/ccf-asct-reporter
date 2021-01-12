@@ -29,7 +29,7 @@ export class BimodalService {
     try {
 
 
-      let anatomicalStructuresData = await makeAS(sheetData)
+      const anatomicalStructuresData = await makeAS(sheetData);
       const links = [];
       const nodes = [];
       let treeX = 0;
@@ -51,10 +51,10 @@ export class BimodalService {
           newLeaf.pathColor = td.pathColor;
           newLeaf.isNew = td.isNew;
           newLeaf.color = td.color;
-          newLeaf.ontology_id = anatomicalStructuresData.find(a => a.structure === leaf).uberon
-          newLeaf.indegree = anatomicalStructuresData.find(a => a.structure === leaf).indegree
-          newLeaf.outdegree = anatomicalStructuresData.find(a => a.structure === leaf).outdegree
-          newLeaf.label = anatomicalStructuresData.find(a => a.structure === leaf).label
+          newLeaf.ontology_id = anatomicalStructuresData.find(a => a.structure === leaf).uberon;
+          newLeaf.indegree = anatomicalStructuresData.find(a => a.structure === leaf).indegree;
+          newLeaf.outdegree = anatomicalStructuresData.find(a => a.structure === leaf).outdegree;
+          newLeaf.label = anatomicalStructuresData.find(a => a.structure === leaf).label;
           nodes.push(newLeaf);
           id += 1;
           treeX = td.x;
@@ -66,7 +66,7 @@ export class BimodalService {
       treeX += distance;
 
       // making group 2: cell type
-      let cellTypes = await makeCellTypes(sheetData);
+      const cellTypes = await makeCellTypes(sheetData);
 
       switch (bimodalConfig.CT.sort) {
         case 'Alphabetically':
@@ -81,8 +81,8 @@ export class BimodalService {
 
         case 'Degree':
           cellTypes.sort((a, b) => {
-            return (b.outdegree.size + b.indegree.size) - (a.outdegree.size + a.indegree.size)
-          })
+            return (b.outdegree.size + b.indegree.size) - (a.outdegree.size + a.indegree.size);
+          });
           break;
       }
 
@@ -91,13 +91,13 @@ export class BimodalService {
         case 'None':
           break;
         case 'Degree':
-          cellTypes.forEach(c => { c.nodeSize = (c.indegree.size + c.outdegree.size) * 25 })
+          cellTypes.forEach(c => { c.nodeSize = (c.indegree.size + c.outdegree.size) * 25; });
           break;
         case 'Indegree':
-          cellTypes.forEach(c => { c.nodeSize = (c.indegree.size) * 25 })
+          cellTypes.forEach(c => { c.nodeSize = (c.indegree.size) * 25; });
           break;
         case 'Outdegree':
-          cellTypes.forEach(c => { c.nodeSize = (c.outdegree.size) * 25 })
+          cellTypes.forEach(c => { c.nodeSize = (c.outdegree.size) * 25; });
           break;
 
       }
@@ -145,8 +145,8 @@ export class BimodalService {
 
         case 'Degree':
           biomarkers.sort((a, b) => {
-            return b.indegree.size - a.indegree.size
-          })
+            return b.indegree.size - a.indegree.size;
+          });
           break;
       }
 
@@ -154,7 +154,7 @@ export class BimodalService {
         case 'None':
           break;
         case 'Degree':
-          biomarkers.forEach(b => { b.nodeSize += (b.indegree.size + b.outdegree.size) * 25 })
+          biomarkers.forEach(b => { b.nodeSize += (b.indegree.size + b.outdegree.size) * 25; });
           break;
       }
 
@@ -188,53 +188,53 @@ export class BimodalService {
         if (node.group == 1) {
           node.sources = [];
           node.outdegree.forEach(str => {
-            let foundIndex = nodes.findIndex(i => `${i.name}${i.ontology_id}` === str)
-            node.targets.push(nodes[foundIndex].id)
-            links.push({ s: node.id, t: nodes[foundIndex].id })
-          })
+            const foundIndex = nodes.findIndex(i => `${i.name}${i.ontology_id}` === str);
+            node.targets.push(nodes[foundIndex].id);
+            links.push({ s: node.id, t: nodes[foundIndex].id });
+          });
         }
 
         if (node.group == 3) {
           node.indegree.forEach(str => {
 
-            let foundIndex = nodes.findIndex(i => `${i.name}${i.ontology_id}` === str)
-            node.sources.push(nodes[foundIndex].id)
-            links.push({ s: nodes[foundIndex].id, t: node.id })
-          })
+            const foundIndex = nodes.findIndex(i => `${i.name}${i.ontology_id}` === str);
+            node.sources.push(nodes[foundIndex].id);
+            links.push({ s: nodes[foundIndex].id, t: node.id });
+          });
         }
-      })
+      });
 
       nodes.forEach((node, i) => {
         if (node.group == 2) {
           node.outdegree.forEach(str => {
-            let tt = nodes.map((val, idx) => ({ val, idx })).filter(({ val, idx }) => `${val.name}${val.ontology_id}` === str).map(({ val, idx }) => idx)
-            let targets = []
-            tt.forEach(s => { targets.push(nodes[s].id) })
+            const tt = nodes.map((val, idx) => ({ val, idx })).filter(({ val, idx }) => `${val.name}${val.ontology_id}` === str).map(({ val, idx }) => idx);
+            const targets = [];
+            tt.forEach(s => { targets.push(nodes[s].id); });
 
             // make targets only if there is a link from CT to B
             targets.forEach(s => {
               if (links.some(i => i.s === node.id && i.t === s)) {
                 CT_BM_LINKS += 1;
-                node.targets.push(s)
+                node.targets.push(s);
               }
-            })
-          })
+            });
+          });
 
           // make sources only if there is a link from AS to CT
           node.indegree.forEach(str => {
 
-            let ss = nodes.map((val, idx) => ({ val, idx })).filter(({ val, idx }) => `${val.name}${val.ontology_id}` === str).map(({ val, idx }) => idx)
-            let sources = []
-            ss.forEach(s => { sources.push(nodes[s].id) })
+            const ss = nodes.map((val, idx) => ({ val, idx })).filter(({ val, idx }) => `${val.name}${val.ontology_id}` === str).map(({ val, idx }) => idx);
+            const sources = [];
+            ss.forEach(s => { sources.push(nodes[s].id); });
             sources.forEach(s => {
               if (links.some(i => i.s === s && i.t === node.id)) {
                 AS_CT_LINKS += 1;
-                node.sources.push(s)
+                node.sources.push(s);
               }
-            })
-          })
+            });
+          });
         }
-      })
+      });
 
       // console.log('AS-CT', AS_CT_LINKS)
       // console.log('CT-B', CT_BM_LINKS)
@@ -251,14 +251,14 @@ export class BimodalService {
       });
 
     } catch (error) {
-      console.log(error)
+      console.log(error);
       const err: Error = {
         msg: `${error} (Status: ${error.status})`,
         status: error.status,
         hasError: true
       };
-      this.store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to create Tree', LOG_ICONS.error))
-      this.store.dispatch(new HasError(err))
+      this.store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to create Tree', LOG_ICONS.error));
+      this.store.dispatch(new HasError(err));
     }
 
   }
@@ -273,7 +273,7 @@ export class BimodalService {
     // this.addSignalListeners(view);
 
     this.store.dispatch(new CloseLoading('Visualization Rendered'));
-    this.store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Visualization successfully rendered', LOG_ICONS.success))
+    this.store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Visualization successfully rendered', LOG_ICONS.success));
 
   }
 
@@ -293,15 +293,15 @@ export class BimodalService {
   checkLinks(data) {
     data.forEach(node => {
       if (node.targets.length === 0 && node.group === 2) {
-        this.store.dispatch(new ReportLog(LOG_TYPES.NO_OUT_LINKS, node.name, LOG_ICONS.warning))
+        this.store.dispatch(new ReportLog(LOG_TYPES.NO_OUT_LINKS, node.name, LOG_ICONS.warning));
       }
 
       if (node.sources.length === 0 && node.group === 2) {
-        this.store.dispatch(new ReportLog(LOG_TYPES.NO_IN_LINKS, node.name, LOG_ICONS.warning))
+        this.store.dispatch(new ReportLog(LOG_TYPES.NO_IN_LINKS, node.name, LOG_ICONS.warning));
       }
 
       if (node.sources.length === 0 && node.group === 3) {
-        this.store.dispatch(new ReportLog(LOG_TYPES.NO_IN_LINKS, node.name, LOG_ICONS.warning))
+        this.store.dispatch(new ReportLog(LOG_TYPES.NO_IN_LINKS, node.name, LOG_ICONS.warning));
       }
     });
   }

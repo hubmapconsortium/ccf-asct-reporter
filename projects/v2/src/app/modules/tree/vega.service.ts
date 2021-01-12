@@ -45,37 +45,37 @@ export class VegaService {
       this.addSignalListeners(treeView);
       this.store.dispatch(new CloseLoading('Visualization Rendered'));
 
-      this.makeBimodal(treeView)
+      this.makeBimodal(treeView);
 
     } catch (error) {
-      console.log(error)
+      console.log(error);
       const err: Error = {
         msg: `${error.name} (Status: ${error.status})`,
         status: error.status,
         hasError: true
       };
-      this.store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to create Tree', LOG_ICONS.error))
-      this.store.dispatch(new HasError(err))
+      this.store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to create Tree', LOG_ICONS.error));
+      this.store.dispatch(new HasError(err));
     }
   }
 
   addSignalListeners(view: any) {
     view.addSignalListener('bimodal_text__click', (signal: Signal, text: any) => {
       if (text) {
-        this.store.dispatch(new OpenBottomSheet(text))
+        this.store.dispatch(new OpenBottomSheet(text));
       } else {
-        this.store.dispatch(new CloseBottomSheet())
+        this.store.dispatch(new CloseBottomSheet());
       }
-    })
+    });
 
     view.addSignalListener('as_width', (signal: Signal, value: any) => {
-      if(value) this.makeBimodal(view);
-    })
+      if (value) { this.makeBimodal(view); }
+    });
 
     view.addSignalListener('as_height', (signal: Signal, value: any) => {
-      if(value) this.makeBimodal(view);
-    })
-      
+      if (value) { this.makeBimodal(view); }
+    });
+
   }
 
   makeBimodal(view: any) {
@@ -84,14 +84,14 @@ export class VegaService {
       const sheet = states.sheetState.sheet;
       const treeData = states.treeState.treeData;
       const bimodalConfig = states.treeState.bimodal.config;
-      const sheetConfig = states.sheetState.sheetConfig
+      const sheetConfig = states.sheetState.sheetConfig;
 
 
       if (data.length) {
         try {
           this.bm.makeBimodalData(data, treeData, bimodalConfig, sheet, sheetConfig);
         } catch (err) {
-          console.log(err)
+          console.log(err);
         }
       }
     });

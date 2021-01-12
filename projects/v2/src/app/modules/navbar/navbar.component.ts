@@ -29,7 +29,7 @@ export class NavbarComponent implements OnInit {
 
   @Select(SheetState) sheet$: Observable<SheetStateModel>;
   @Select(UIState) ui$: Observable<UIStateModel>;
-  
+
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(public store: Store, public router: Router) { }
@@ -55,8 +55,8 @@ export class NavbarComponent implements OnInit {
   }
 
   refreshData() {
-    if (this.currentSheet.name === 'all') this.store.dispatch(new FetchAllOrganData(this.currentSheet))
-    else this.store.dispatch(new FetchSheetData(this.currentSheet));
+    if (this.currentSheet.name === 'all') { this.store.dispatch(new FetchAllOrganData(this.currentSheet)); }
+    else { this.store.dispatch(new FetchSheetData(this.currentSheet)); }
   }
 
   togglePane() {

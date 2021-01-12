@@ -13,7 +13,7 @@ import { Sheet, SheetConfig } from '../../models/sheet.model';
 import { HasError } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { SheetState } from '../../store/sheet.state';
-import { Row } from "../../models/sheet.model";
+import { Row } from '../../models/sheet.model';
 
 @Injectable({
   providedIn: 'root'
@@ -44,11 +44,11 @@ export class TreeService {
 
     this.uiState$.subscribe(state => {
       this.controlPaneOpen = state.controlPaneOpen;
-    })
+    });
 
     this.sc$.subscribe(config => {
       this.sheetConfig = config;
-    })
+    });
 
   }
 
@@ -57,9 +57,9 @@ export class TreeService {
       let id = 1;
       const linkData = [];
       let parent: TNode;
-      const nodes = []
+      const nodes = [];
       const root = new TNode(id, data[0].anatomical_structures[0].name, 0, data[0].anatomical_structures[0].id, AS_RED);
-      root.comparator = root.name + root.ontology_id
+      root.comparator = root.name + root.ontology_id;
       root.type = NODE_TYPE.R;
       delete root.parent;
       nodes.push(root);
@@ -69,9 +69,9 @@ export class TreeService {
 
         row.anatomical_structures.forEach(structure => {
 
-          let s = nodes.findIndex(i => i.type !== 'root' && i.comparator === (parent.comparator + structure.name + structure.id));
+          const s = nodes.findIndex(i => i.type !== 'root' && i.comparator === (parent.comparator + structure.name + structure.id));
           if (s === -1) {
-            id += 1
+            id += 1;
             const newNode = new TNode(id, structure.name, parent.id, structure.id, AS_RED);
             newNode.comparator = parent.comparator + newNode.name + newNode.ontology_id;
             if ('isNew' in structure) {
@@ -83,33 +83,33 @@ export class TreeService {
             nodes.push(newNode);
             parent = newNode;
           } else {
-            let node = nodes[s];
+            const node = nodes[s];
             if ('isNew' in structure) {
               node.color = structure.color;
-              node.pathColor= structure.color;
+              node.pathColor = structure.color;
             }
             parent = node;
           }
-        })
+        });
       });
 
       // delete duplicate organ element
-      nodes.shift()
-      delete nodes[0].parent
+      nodes.shift();
+      delete nodes[0].parent;
 
 
       const spec = this.vs.makeVegaConfig(currentSheet, nodes, this.sheetConfig);
       this.store.dispatch(new UpdateVegaSpec(spec));
       this.vs.renderGraph(spec);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       const err: Error = {
         msg: `${error.name} (Status: ${error.status})`,
         status: error.status,
         hasError: true
       };
-      this.store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to create Tree', LOG_ICONS.error))
-      this.store.dispatch(new HasError(err))
+      this.store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to create Tree', LOG_ICONS.error));
+      this.store.dispatch(new HasError(err));
     }
   }
 }

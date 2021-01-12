@@ -30,13 +30,13 @@ export class UpdateConfig {
   constructor(public config: SheetConfig) {}
 }
 
-export class Toggleshow_all_AS {
-  static readonly type = "[SHOW ALL AS]"
+export class ToggleShowAllAS {
+  static readonly type = '[SHOW ALL AS]';
   constructor() {}
 }
 
 export class UpdateReport {
-  static readonly type = "[Update] Report Statistics";
+  static readonly type = '[Update] Report Statistics';
   constructor(public reportData: any) {}
 }
 

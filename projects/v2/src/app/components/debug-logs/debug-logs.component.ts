@@ -7,10 +7,10 @@ import { Sheet } from '../../models/sheet.model';
   styleUrls: ['./debug-logs.component.scss']
 })
 export class DebugLogsComponent implements OnInit {
-  
+
   @Input() currentSheet: Sheet;
   @Input() logs: any;
-  @Output() close: EventEmitter<any> = new EventEmitter<any>();
+  @Output() closeDebug: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() { }
 

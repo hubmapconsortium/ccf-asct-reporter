@@ -29,7 +29,7 @@ export const VIDEO_ACTIONS = [
     desc: 'See how you can sort and size different nodes.',
     sec: 168
   }
-]
+];
 
 export const CONTIRBUTORS = [
   {
@@ -68,4 +68,4 @@ export const CONTIRBUTORS = [
     linkedin: 'https://www.linkedin.com/in/kasturi-nikharge/',
     github: 'https://github.com/knikharg'
   }
-]
+];

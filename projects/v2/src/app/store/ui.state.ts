@@ -44,8 +44,8 @@ export class UIState {
   }
 
   /**
-   * Select the snackbar state 
-   * 
+   * Select the snackbar state
+   *
    * @param state - UI State Model
    */
   @Selector()
@@ -55,27 +55,27 @@ export class UIState {
 
   /**
    * Select the loading state
-   * 
+   *
    * @param state - UI State Model
    */
   @Selector()
   static getLoading(state: UIStateModel) {
     return state.loading;
   }
-  
+
   /**
    * Select the loading text
-   * 
+   *
    * @param state - UI State Model
    */
   @Select()
   static getLoadingText(state: UIStateModel) {
     return state.loadingText;
   }
-  
+
   /**
    * Select control pane state
-   * 
+   *
    * @param state - UI State Model
    */
   @Selector()
@@ -85,7 +85,7 @@ export class UIState {
 
   /**
    * Select the error state
-   * 
+   *
    * @param state - UI State Model
    */
   @Selector()
@@ -94,69 +94,69 @@ export class UIState {
       error: state.error
     };
   }
-  
+
   /**
    * Select indented list sidenav state
-   * 
+   *
    * @param state - UI State Model
    */
   @Selector()
   static getIndentList(state: UIStateModel) {
     return state.indentListOpen;
   }
-  
+
   /**
    * Select the report sidenav state
-   * 
+   *
    * @param state - UI State Model
    */
   @Selector()
   static getReport(state: UIStateModel) {
     return state.reportOpen;
   }
-  
+
   /**
    * Select the right sidenav state
-   * 
+   *
    * @param state - UI State Model
    */
   @Selector()
   static getRightSideNav(state: UIStateModel) {
     return state.rightSideNavOpen;
   }
-  
+
   /**
    * Select the debug sidenav state
-   * 
+   *
    * @param state - UI State Model
    */
   @Selector()
   static getDebugLog(state: UIStateModel) {
     return state.debugLogOpen;
   }
-  
+
   /**
    * Select the bottom sheet state
-   * 
+   *
    * @param state - UI State Model
    */
   @Selector()
   static getBottomSheet(state: UIStateModel) {
     return state.bottomSheetOpen;
   }
-  
+
   /**
-   * Select the compare sidenav state 
-   * 
+   * Select the compare sidenav state
+   *
    * @param state - UI State Model
    */
   @Selector()
   static getCompareState(state: UIStateModel) {
     return state.compareOpen;
-  } 
+  }
 
   /**
-   * Action to open snackbar. Update the UI State by setting the 
+   * Action to open snackbar. Update the UI State by setting the
    * snackbar state to true and text
    */
   @Action(OpenSnackbar)
@@ -167,9 +167,9 @@ export class UIState {
       snackbar: { opened: true, text, type }
     });
   }
-  
+
   /**
-   * Action to close snackbar. Update the UI State by setting the 
+   * Action to close snackbar. Update the UI State by setting the
    * snackbar state to false and success state
    */
   @Action(CloseSnackbar)
@@ -185,7 +185,7 @@ export class UIState {
 
   /**
    * Action to toggle control pane by inverting the current state
-   */  
+   */
   @Action(ToggleControlPane)
   toggleControlPane({ getState, setState }: StateContext<UIStateModel>) {
     const state = getState();
@@ -194,7 +194,7 @@ export class UIState {
       controlPaneOpen: !state.controlPaneOpen
     });
   }
-  
+
   /**
    * Action to open loading. Set loading to true and text to text
    */
@@ -208,9 +208,9 @@ export class UIState {
       error: {}
     });
   }
-  
+
   /**
-   * Action to update loading text 
+   * Action to update loading text
    */
   @Action(UpdateLoadingText)
   UpdateLoadingText({ getState, setState }: StateContext<UIStateModel>, { text }: UpdateLoadingText) {
@@ -220,7 +220,7 @@ export class UIState {
       loadingText: text,
     });
   }
-  
+
   /**
    * Action to close loading. Set loading to false and clear loading text
    */
@@ -233,26 +233,26 @@ export class UIState {
       loadingText: '',
     });
 
-    dispatch(new OpenSnackbar(text, SnackbarType.success))
+    dispatch(new OpenSnackbar(text, SnackbarType.success));
   }
-  
+
   /**
    * Action to update error state.
    * Close loading and open snackbar with appropriate message and type
    */
   @Action(HasError)
   hasError({ getState, setState, dispatch }: StateContext<UIStateModel>, { error }: HasError) {
-    dispatch(new ReportLog(LOG_TYPES.MSG, error.msg, LOG_ICONS.error))
+    dispatch(new ReportLog(LOG_TYPES.MSG, error.msg, LOG_ICONS.error));
     const state = getState();
     setState({
       ...state,
-      error: error,
+      error,
       loading: false,
       loadingText: '',
       snackbar: { opened: true, text: error.msg, type: SnackbarType.error }
     });
   }
-  
+
   /**
    * Action to toggle Indent list sidebar
    */
@@ -262,9 +262,9 @@ export class UIState {
     setState({
       ...state,
       indentListOpen: !state.indentListOpen
-    })
+    });
   }
-  
+
   /**
    * Action to toggle Report sidebar
    */
@@ -274,8 +274,8 @@ export class UIState {
     setState({
       ...state,
       reportOpen: !state.reportOpen
-    })
-  } 
+    });
+  }
 
   /**
    * Action to close right side. Set Report, IL, Debug Log, Compare to false.
@@ -289,9 +289,9 @@ export class UIState {
       reportOpen: false,
       debugLogOpen: false,
       compareOpen: false
-    })
+    });
   }
-  
+
   /**
    * Action to toggle debug logs sidebar
    */
@@ -301,9 +301,9 @@ export class UIState {
     setState({
       ...state,
       debugLogOpen: !state.debugLogOpen
-    })
+    });
   }
-  
+
   /**
    * Action to open bottom sheet. Accept the data (name of structure)
    * First close the bottom sheet, incase it is open.
@@ -312,16 +312,16 @@ export class UIState {
   @Action(OpenBottomSheet)
   openBottomSheet({ getState, setState, patchState, dispatch }: StateContext<UIStateModel>, { data }: OpenBottomSheet) {
     const state = getState();
-    dispatch(new CloseBottomSheet())
+    dispatch(new CloseBottomSheet());
     dispatch(new UpdateBottomSheetData(data)).subscribe(_ => {
       setState({
         ...state,
         bottomSheetOpen: true
-      })
-    })
+      });
+    });
 
   }
-  
+
   /**
    * Action to close bottom sheet.
    * Empty the bottom sheet data from the state
@@ -335,9 +335,9 @@ export class UIState {
     setState({
       ...state,
       bottomSheetOpen: false
-    })
+    });
   }
-  
+
   /**
    * Action to open compare sidenav
    */
@@ -347,9 +347,9 @@ export class UIState {
     setState({
       ...state,
       compareOpen: true
-    })
+    });
   }
-  
+
   /**
    * Action to close compare sidenav
    */
@@ -359,6 +359,6 @@ export class UIState {
     setState({
       ...state,
       compareOpen: false
-    })
+    });
   }
 }

@@ -8,7 +8,7 @@ export enum LOG_TYPES {
 
 export enum LOG_ICONS {
   error = 'cancel',
-  warning ='error',
+  warning = 'error',
   success = 'check_circle',
   file = 'next_plan'
 }

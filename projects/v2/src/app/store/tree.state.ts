@@ -1,18 +1,11 @@
-import { SheetService } from '../services/sheet.service';
-import {State, Action, StateContext, Selector, Select} from '@ngxs/store';
-import { Sheet, Data } from '../models/sheet.model';
-import { Error, Response } from '../models/response.model';
-
-import { tap, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
-
-import { Spec, View } from 'vega';
+import {State, Action, StateContext, Selector} from '@ngxs/store';
+import { Spec } from 'vega';
 import { Injectable } from '@angular/core';
 import { UpdateVegaSpec, UpdateVegaView, UpdateBimodal, UpdateBimodalConfig, DoSearch, UpdateGraphWidth, UpdateBottomSheetData, UpdateLinksData } from '../actions/tree.actions';
-import { TNode, SearchStructure, BottomSheetData } from '../models/tree.model';
+import { TNode, SearchStructure } from '../models/tree.model';
 import { BMNode, Link, BimodalConfig } from '../models/bimodal.model';
 
-import { validateWidth } from "../static/util";
+import { validateWidth } from '../static/util';
 
 export class TreeStateModel {
   spec: Spec;
@@ -32,7 +25,7 @@ export class TreeStateModel {
   links: {
     AS_CT: number;
     CT_B: number;
-  }
+  };
 }
 
 @State<TreeStateModel>({
@@ -123,7 +116,7 @@ export class TreeState {
     const state = getState();
     setState({
       ...state,
-      spec: spec
+      spec
     });
   }
 
@@ -149,7 +142,7 @@ export class TreeState {
     setState({
       ...state,
       search: searchStructures
-    })
+    });
   }
 
   @Action(UpdateGraphWidth)
@@ -158,7 +151,7 @@ export class TreeState {
     setState({
       ...state,
       screenWidth: validateWidth(width)
-    })
+    });
   }
 
   @Action(UpdateBottomSheetData)
@@ -167,7 +160,7 @@ export class TreeState {
     setState({
       ...state,
       bottomSheetData: data
-    })
+    });
   }
 
   @Action(UpdateLinksData)
@@ -175,8 +168,8 @@ export class TreeState {
     const state = getState();
     setState({
       ...state,
-      links: {AS_CT: AS_CT, CT_B: CT_B}
-    })
+      links: {AS_CT, CT_B}
+    });
   }
-  
+
 }

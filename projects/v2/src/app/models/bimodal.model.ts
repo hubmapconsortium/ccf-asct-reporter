@@ -19,7 +19,7 @@ export class BMNode {
   nodeSize: number;
   targets: Array<number>;
   sources: Array<number>;
- 
+
   problem: boolean;
   pathColor: string;
   isNew: boolean;

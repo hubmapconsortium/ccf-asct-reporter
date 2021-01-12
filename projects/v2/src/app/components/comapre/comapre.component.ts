@@ -9,8 +9,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./comapre.component.scss']
 })
 export class ComapreComponent implements OnInit {
-  
-  @Output() close: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Output() closeCompare: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() compareData: EventEmitter<any> = new EventEmitter<any>();
 
   @Input() compareSheets: Observable<CompareData[]>;
@@ -23,31 +23,40 @@ export class ComapreComponent implements OnInit {
   ngOnInit(): void {
 
     this.formGroup = this.fb.group({
-      sheets: this.fb.array([])
-    })
+      sheets: this.fb.array([]),
+    });
     this.formSheets = this.formGroup.get('sheets') as FormArray;
 
-    this.compareSheets.subscribe(sheets => {
-      if (sheets.length ) {
-        for(const source of sheets) this.formSheets.push(this.createCompareForm(source.link, source.color, source.title, source.description))
+    this.compareSheets.subscribe((sheets) => {
+      if (sheets.length) {
+        for (const source of sheets) {
+          this.formSheets.push(
+            this.createCompareForm(
+              source.link,
+              source.color,
+              source.title,
+              source.description
+            )
+          );
+        }
       } else {
-        this.formSheets.push(this.createCompareForm())
+        this.formSheets.push(this.createCompareForm());
       }
-    })
-    
+    });
+
   }
 
   compare() {
-    let data: CompareData[] = [];
+    const data: CompareData[] = [];
     for (const [idx, sheet] of this.formGroup.value.sheets.entries()) {
-      if (sheet.title === '') sheet.title = 'Sheet '+ (idx + 1);
+      if (sheet.title === '') { sheet.title = 'Sheet ' + (idx + 1); }
       data.push(
         {
           ...sheet,
           sheetId: this.checkLinkFormat(sheet.link).sheetID,
           gid: this.checkLinkFormat(sheet.link).gid
         }
-      )
+      );
     }
 
     this.compareData.emit(data);
@@ -93,7 +102,7 @@ export class ComapreComponent implements OnInit {
   }
 
   addCompareSheetRow() {
-    let sheet = this.createCompareForm()
+    const sheet = this.createCompareForm();
     this.formSheets.push(sheet);
   }
 

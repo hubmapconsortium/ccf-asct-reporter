@@ -13,7 +13,7 @@ import { Error } from '../../models/response.model';
   styleUrls: ['./legend.component.scss']
 })
 export class LegendComponent implements OnInit, OnChanges {
-  
+
   legends: Legend[];
 
   @Input() treeData: TNode[];
@@ -28,16 +28,17 @@ export class LegendComponent implements OnInit, OnChanges {
       if (data.length) {
         this.legends = data;
       }
-    })
+    });
   }
 
   ngOnChanges() {
-    if(this.treeData && this.bimodalData)
-      if(this.treeData.length && this.bimodalData.nodes.length) {
+    if (this.treeData && this.bimodalData) {
+      if (this.treeData.length && this.bimodalData.nodes.length) {
         this.ls.makeLegendData(this.treeData, this.bimodalData.nodes, this.compareData);
       }
+    }
   }
 
-  
+
 
 }

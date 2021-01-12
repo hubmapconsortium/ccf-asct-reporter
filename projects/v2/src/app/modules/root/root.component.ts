@@ -50,7 +50,7 @@ export class RootComponent implements OnInit, OnDestroy{
   @Select(SheetState.getReportdata) rd$: Observable<any>;
   @Select(SheetState.getCompareData) compareData$: Observable<Row[]>;
   @Select(SheetState.getAllCompareData) allCompareData$: Observable<any>;
-  
+
   // Tree Observables
   @Select(TreeState.getTreeData) treeData$: Observable<any>;
   @Select(TreeState.getBottomSheetData) bsd$: Observable<any>;
@@ -77,24 +77,24 @@ export class RootComponent implements OnInit, OnDestroy{
   @Select(LogsState) logs$: Observable<any>;
 
   constructor(
-    public store: Store, 
-    public ts: TreeService, 
-    public route: ActivatedRoute, 
-    public dialog: MatDialog, 
+    public store: Store,
+    public ts: TreeService,
+    public route: ActivatedRoute,
+    public dialog: MatDialog,
     private snackbar: MatSnackBar,
     public indent: IndentedListService,
     public report: ReportService,
     private infoSheet: MatBottomSheet
   ) {
-    
+
     this.data$.subscribe(data => {
       if (data.length) {
         this.data = data;
         try {
           this.ts.makeTreeData(this.sheet, data, []);
         } catch (err) {
-          console.log(err)
-          this.store.dispatch(new HasError({hasError: true, msg: err, status: 400}))
+          console.log(err);
+          this.store.dispatch(new HasError({hasError: true, msg: err, status: 400}));
         }
       }
     });
@@ -106,14 +106,14 @@ export class RootComponent implements OnInit, OnDestroy{
     this.route.queryParamMap.subscribe(query => {
       const version = query.get('version');
       this.sheet =  SHEET_CONFIG.find(i => i.name === query.get('sheet'));
-  
+
       if (version === 'latest') {
         if (this.sheet.name === 'all') {
-          store.dispatch(new FetchAllOrganData(this.sheet))
-        } else store.dispatch(new FetchSheetData(this.sheet))
-        
+          store.dispatch(new FetchAllOrganData(this.sheet));
+        } else { store.dispatch(new FetchSheetData(this.sheet)); }
+
       } else {
-        store.dispatch(new FetchDataFromAssets(version, this.sheet))
+        store.dispatch(new FetchDataFromAssets(version, this.sheet));
       }
 
     });
@@ -138,13 +138,14 @@ export class RootComponent implements OnInit, OnDestroy{
         this.snackbarRef = this.snackbar.open(sb.text, 'Dismiss', config);
         this.snackbarRef.afterDismissed().subscribe(s => { store.dispatch(new CloseSnackbar()); });
       }
-    })
+    });
 
 
     this.pane$.subscribe(value => {
-      if (this.data)
+      if (this.data) {
         ts.makeTreeData(this.sheet, this.data, []);
-    })
+      }
+    });
 
     this.bs$.subscribe(value => {
       if (value) {
@@ -155,15 +156,15 @@ export class RootComponent implements OnInit, OnDestroy{
           autoFocus: false,
           panelClass: 'bottom-sheet-style',
           data: bsd
-        })
+        });
       } else {
-        if (this.infoSheetRef) this.infoSheetRef.dismiss();
+        if (this.infoSheetRef) { this.infoSheetRef.dismiss(); }
       }
-    })
+    });
   }
 
   ngOnInit(): void {
-    
+
   }
 
   ngOnDestroy() {
@@ -192,7 +193,7 @@ export class RootComponent implements OnInit, OnDestroy{
 
   closeLoading() {
     const loadingDialog = this.dialog.getDialogById('LoadingDialog');
-    if (loadingDialog) loadingDialog.close();
+    if (loadingDialog) { loadingDialog.close(); }
   }
 
   toggleSideNav() {
@@ -200,8 +201,8 @@ export class RootComponent implements OnInit, OnDestroy{
   }
 
   compareData(data: CompareData[]) {
-    this.store.dispatch(new CloseCompare())
-    this.store.dispatch(new FetchCompareData(data))
+    this.store.dispatch(new CloseCompare());
+    this.store.dispatch(new FetchCompareData(data));
   }
 
   exportVis(option: string) {
@@ -240,7 +241,7 @@ export class RootComponent implements OnInit, OnDestroy{
           console.log(error);
         });
     }
-  
+
   }
 
 }

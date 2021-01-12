@@ -20,14 +20,14 @@ export class ReportService {
   constructor() { }
 
   async makeReportData(currentSheet: Sheet, data: any) {
-    let output: Report = {
+    const output: Report = {
       anatomicalStructures: [],
       cellTypes: [],
       biomarkers: [],
       ASWithNoLink: [],
       CTWithNoLink: [],
       BWithNoLink: []
-    }
+    };
 
     try {
       output.anatomicalStructures = makeAS(data);
@@ -51,7 +51,7 @@ export class ReportService {
 
   async makeCompareData(reportdata: Report, compareData: Row[], compareSheets: CompareData[]) {
 
-    let compareDataStats = [];
+    const compareDataStats = [];
     for (const sheet of compareSheets) {
       const newEntry: any = {};
       let compareAS;
@@ -129,9 +129,9 @@ export class ReportService {
 
     this.compareData.next({
       data: compareDataStats
-    })
+    });
   }
-  
+
   getASWithNoLink(AS) {
     const noLinks = [];
     AS.forEach((ele) => {

@@ -24,7 +24,7 @@
       (deleteSheet)="deleteSheet($event)"
         [compareData]="allCompareData$"
         [inputReportData]="rd$"
-        (close)="rightDrawer.close()"
+        (closeReport)="rightDrawer.close()"
         *ngIf="report$ | async"
         [sheetData]="data"
         [currentSheet]="sheet"
@@ -33,21 +33,21 @@
       ></app-report>
 
       <app-indent
-        (close)="rightDrawer.close()"
+        (closeIL)="rightDrawer.close()"
         *ngIf="il$ | async"
         [sheetData]="data"
         [currentSheet]="sheet"
       ></app-indent>
 
       <app-debug-logs
-        (close)="rightDrawer.close()"
+        (closeDebug)="rightDrawer.close()"
         *ngIf="dl$ | async"
         [currentSheet]="sheet"
         [logs]="logs$ | async"
       ></app-debug-logs>
 
       <app-comapre
-        (close)="rightDrawer.close()"
+        (closeCompare)="rightDrawer.close()"
         *ngIf="c$ | async"
         class="compare-sidenav"
         (compareData)="compareData($event)"

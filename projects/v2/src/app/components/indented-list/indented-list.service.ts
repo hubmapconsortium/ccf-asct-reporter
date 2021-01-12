@@ -14,7 +14,7 @@ export class IndentedListService {
 
   public makeIndentData(currentSheet, data) {
     let root = new ILNode(data[0].anatomical_structures[0].name, [], data[0].anatomical_structures[0].id);
-    root.comparator = root.name + root.ontology_id
+    root.comparator = root.name + root.ontology_id;
     root.type = 'root';
 
     let parent: ILNode;
@@ -24,26 +24,26 @@ export class IndentedListService {
         parent = root;
 
         row.anatomical_structures.forEach(structure => {
-          let s = parent.children.findIndex(i => i.type !== 'root' && i.comparator === (parent.comparator + structure.name + structure.id));
+          const s = parent.children.findIndex(i => i.type !== 'root' && i.comparator === (parent.comparator + structure.name + structure.id));
           if (s === -1) {
-            const newNode = new ILNode(structure.name, [], structure.id)
+            const newNode = new ILNode(structure.name, [], structure.id);
             newNode.comparator = parent.comparator + newNode.name + newNode.ontology_id;
-            parent.children.push(newNode)
+            parent.children.push(newNode);
             parent = newNode;
 
           } else {
-            parent = parent.children[s]
+            parent = parent.children[s];
           }
-        })
+        });
 
-      })
+      });
 
       root = root.children[0]; // reassign to avoid diuplicate parent
       this.indentData.next({
         data: root,
         sheet: currentSheet.display
       });
-      
+
       return {
         data: root,
         sheet: currentSheet.display
@@ -57,6 +57,6 @@ export class IndentedListService {
   }
 
   getIndentData(): Observable<any> {
-    return this.indentData.asObservable()
+    return this.indentData.asObservable();
   }
 }

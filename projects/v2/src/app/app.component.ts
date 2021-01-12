@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { MatIconRegistry } from "@angular/material/icon";
-import { DomSanitizer } from "@angular/platform-browser";
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -14,8 +14,8 @@ export class AppComponent {
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer) {
       this.matIconRegistry.addSvgIcon(
-        "debug",
-        this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/debug.svg")
+        'debug',
+        this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/debug.svg')
       );
   }
 }

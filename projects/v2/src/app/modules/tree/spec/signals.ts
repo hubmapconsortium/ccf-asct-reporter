@@ -26,26 +26,26 @@ export class Signals implements VegaSignals {
 
     return this.signals;
   }
-  
+
   makeShowOntologyIDSignal(value: boolean) {
     return {
       name: 'show_ontology',
-      value: value
-    }
+      value
+    };
   }
 
   makeASTreeWidthSignal(width: number) {
     return {
       name: 'as_width',
       value: width,
-    }
+    };
   }
 
   makeASTreeHeightSignal(height: number) {
     return {
       name: 'as_height',
       value: height,
-    }
+    };
   }
 
   makeBimodalTextClickSignal() {
@@ -54,12 +54,12 @@ export class Signals implements VegaSignals {
       value: null,
       on: [
         {
-          "events": "@textmark:click, @astextmark:click",
-          "update": "datum.type === 'AS' && datum.children ? datum : datum.type === 'BM' ? datum : null"
+          events: '@textmark:click, @astextmark:click',
+          update: 'datum.type === \'AS\' && datum.children ? datum : datum.type === \'BM\' ? datum : null'
         },
-        { "events": "click[!event.item]", "update": "null" }
+        { events: 'click[!event.item]', update: 'null' }
       ]
-    }
+    };
   }
 
   makeBimodalTextHoverSignal() {
@@ -68,12 +68,12 @@ export class Signals implements VegaSignals {
       value: null,
       on: [
         {
-          "events": "@textmark:mouseover, @astextmark:mouseover",
-          "update": "datum"
+          events: '@textmark:mouseover, @astextmark:mouseover',
+          update: 'datum'
         },
-        { "events": "mouseover[!event.item]", "update": "null" }
+        { events: 'mouseover[!event.item]', update: 'null' }
       ]
-    }
+    };
   }
 
   /**
@@ -198,7 +198,7 @@ export class Signals implements VegaSignals {
     return {
       name: 'search_signal',
       value: [],
-    }
+    };
   }
 
 }

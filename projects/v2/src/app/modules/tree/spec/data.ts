@@ -9,7 +9,7 @@ interface VegaData {
 export class Data implements VegaData {
   data: any;
 
-  constructor(currentSheet:Sheet, treeData: TNode[], sheetConfig: SheetConfig, multiParentLinksData?: any) {
+  constructor(currentSheet: Sheet, treeData: TNode[], sheetConfig: SheetConfig, multiParentLinksData?: any) {
     this.data = [
       this.makeASTreeData(currentSheet, treeData, sheetConfig),
       this.makeASTreeLinksData(),
@@ -53,8 +53,8 @@ export class Data implements VegaData {
           type: 'tree',
           method: 'cluster',
           size: [
-            { signal: "as_height"  },
-            { signal: "as_width" },
+            { signal: 'as_height'  },
+            { signal: 'as_width' },
           ],
           separation: { value: false },
           as: ['y', 'x', 'depth', 'children'],

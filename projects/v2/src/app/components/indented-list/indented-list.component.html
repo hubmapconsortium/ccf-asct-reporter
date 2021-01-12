@@ -2,7 +2,7 @@
   <div header>
     <app-sidenav-header
       [title]="currentSheet.display + ' Indented List'"
-      (close)="close.emit(); visible = false"
+      (closeSideNav)="closeIL.emit(); visible = false"
       [tooltipString]="'Traditional Indented List view of the data'"
     ></app-sidenav-header>
   </div>

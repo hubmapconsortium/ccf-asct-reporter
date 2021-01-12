@@ -24,14 +24,14 @@ export class ReportComponent implements OnInit {
   compareReport: any;
   comapreDataAndSheets: any;
   clickButton = false; // for mat expansion panel download button
-  
+
   @Input() compareSheets: any;
   @Input() sheetData: any;
   @Input() currentSheet: Sheet;
   @Input() linksData: any;
   @Input() inputReportData: Observable<any>;
   @Input() compareData: Observable<any>;
-  @Output() close: EventEmitter<any> = new EventEmitter<any>();
+  @Output() closeReport: EventEmitter<any> = new EventEmitter<any>();
   @Output() computedReport: EventEmitter<any> = new EventEmitter<any>();
   @Output() deleteSheet: EventEmitter<any> = new EventEmitter<any>();
 
@@ -45,17 +45,17 @@ export class ReportComponent implements OnInit {
 
     this.reportService.compareData$.subscribe(data => {
       this.compareReport = data.data;
-    })
+    });
 
     this.compareData.subscribe(data => {
-      if(data.sheets.length && data.data.length) {
+      if (data.sheets.length && data.data.length) {
         this.reportService.makeCompareData(this.reportData, data.data, data.sheets);
       }
-    })
+    });
 
     this.reportService.makeReportData(this.currentSheet, this.sheetData);
   }
-  
+
   deleteCompareSheetReport(i) {
     this.clickButton = true;
     this.compareReport.splice(i, 1);
@@ -65,11 +65,24 @@ export class ReportComponent implements OnInit {
   downloadData() {
     const download = [];
     const totalRows = 6;
-    for (let i = 0; i < Math.max(this.reportData.anatomicalStructures.length, this.reportData.cellTypes.length, this.reportData.biomarkers.length); i++) {
+    for (
+      let i = 0;
+      i <
+      Math.max(
+        this.reportData.anatomicalStructures.length,
+        this.reportData.cellTypes.length,
+        this.reportData.biomarkers.length
+      );
+      i++
+    ) {
       const row = {};
       if (i < this.reportData.anatomicalStructures.length) {
-        row['Unique Anatomical Structures'] = this.reportData.anatomicalStructures[i].structure;
-        if (!this.reportData.anatomicalStructures[i].uberon.includes('UBERON')) {
+        row[
+          'Unique Anatomical Structures'
+        ] = this.reportData.anatomicalStructures[i].structure;
+        if (
+          !this.reportData.anatomicalStructures[i].uberon.includes('UBERON')
+        ) {
           row['AS with no Uberon Link'] = this.reportData.anatomicalStructures[
             i
           ].structure;
@@ -83,7 +96,9 @@ export class ReportComponent implements OnInit {
       }
       if (i < this.reportData.biomarkers.length) {
         row['Unique Biomarkers'] = this.reportData.biomarkers[i].structure;
-        row['Biomarkers with no links'] = this.reportData.biomarkers[i].structure;
+        row['Biomarkers with no links'] = this.reportData.biomarkers[
+          i
+        ].structure;
       }
 
       // if (i < this.similarAS.length) {

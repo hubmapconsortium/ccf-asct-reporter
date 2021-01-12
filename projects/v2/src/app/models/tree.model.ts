@@ -38,7 +38,7 @@ export class TNode {
     this.pathColor = '#ccc';
     this.parents = [];
     this.type = NODE_TYPE.AS;
-    this.comparator = ''
+    this.comparator = '';
   }
 }
 

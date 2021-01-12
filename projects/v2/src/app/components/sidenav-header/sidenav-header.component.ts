@@ -6,19 +6,19 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./sidenav-header.component.scss']
 })
 export class SidenavHeaderComponent implements OnInit {
-  
+
   @Input() title: string;
-  @Input() download: boolean = false;
-  @Input() tooltipString: string = 'Hello';
-  @Output() close: EventEmitter<any> =  new EventEmitter<any>();
+  @Input() download = false;
+  @Input() tooltipString = 'Hello';
+  @Output() closeSideNav: EventEmitter<any> =  new EventEmitter<any>();
   @Output() downloadFn: EventEmitter<any> =  new EventEmitter<any>();
 
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.tooltipString)
+    console.log(this.tooltipString);
   }
-  
-  
+
+
 
 }

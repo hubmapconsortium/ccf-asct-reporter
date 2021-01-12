@@ -153,7 +153,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
           ],
           opacity: [
             {
-              test: "!show_ontology",
+              test: '!show_ontology',
               value: 0
             },
             {
@@ -197,7 +197,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
         update: {
           x: { field: 'x' },
           y: { field: 'y' },
-          dy: {signal: "show_ontology ? -8 : 0"},
+          dy: {signal: 'show_ontology ? -8 : 0'},
           dx: { signal: 'datum.children ? 15: -15' },
           fill: [
             {
