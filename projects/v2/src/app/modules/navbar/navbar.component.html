@@ -100,6 +100,17 @@
     </button>
 
     <button
+      mat-icon-button
+      (click)="refreshData()"
+      #tooltip="matTooltip"
+      matTooltip="Playground"
+      matTooltipPosition="below"
+      style="background-color: #f5f5f5"
+    >
+      <mat-icon style="margin-bottom: 5px !important">sports_esports</mat-icon>
+    </button>
+
+    <button
       [disabled]="(ui$ | async).error.hasError"
       mat-icon-button
       (click)="toggleIndentedList()"

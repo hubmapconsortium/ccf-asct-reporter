@@ -12,6 +12,7 @@ import {
   Structure,
   CompareData,
   SheetConfig,
+  ResponseData,
 } from '../models/sheet.model';
 import { Error } from '../models/response.model';
 
@@ -45,6 +46,10 @@ import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
 /** Class to keep track of the sheet */
 export class SheetStateModel {
   /** 
+   * Stores the data csv string from teh response
+   * */
+  csv: string;
+  /** 
    * Stores the data from Google Sheets
    * */
   data: Row[];
@@ -77,6 +82,7 @@ export class SheetStateModel {
 @State<SheetStateModel>({
   name: 'sheetState',
   defaults: {
+    csv: '',
     data: [],
     version: 'latest',
     sheet: {
@@ -192,8 +198,8 @@ export class SheetState {
 
     for await (const [idx, sheet] of compareData.entries()) {
       this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).subscribe(
-        (res: Row[]) => {
-          for (const row of res) {
+        (res: ResponseData) => {
+          for (const row of res.data) {
             for (const i of row.anatomical_structures) {
               i.isNew = true;
               i.color = sheet.color;
@@ -215,9 +221,9 @@ export class SheetState {
           const currentCompare = getState().compareSheets;
           const currentCompareData = getState().compareData;
           patchState({
-            data: [...currentData, ...res],
+            data: [...currentData, ...res.data],
             compareSheets: [...currentCompare, ...[sheet]],
-            compareData: [...currentCompareData, ...res]
+            compareData: [...currentCompareData, ...res.data]
           });
         },
         (error) => {
@@ -252,8 +258,8 @@ export class SheetState {
     for await (const s of SHEET_CONFIG) {
       if (s.name !== 'all') {
         this.sheetService.fetchSheetData(s.sheetId, s.gid).subscribe(
-          (res: Row[]) => {
-            for (const d of res) {
+          (res: ResponseData) => {
+            for (const d of res.data) {
               const ns: Structure = {
                 name: 'Body',
                 id: '',
@@ -266,7 +272,7 @@ export class SheetState {
             }
             const currentData = getState().data;
             patchState({
-              data: [...currentData, ...res],
+              data: [...currentData, ...res.data],
             });
           },
           (error) => {
@@ -295,11 +301,12 @@ export class SheetState {
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
     const state = getState();
     return this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).pipe(
-      tap((res: Array<any>) => {
+      tap((res: ResponseData) => {
 
         setState({
           ...state,
-          data: res,
+          csv: res.csv,
+          data: res.data,
           version: 'latest',
           sheet,
           sheetConfig: {...sheet.config, show_ontology: true},

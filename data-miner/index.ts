@@ -102,6 +102,12 @@ app.get("/v2/:sheetid/:gid", async (req:any, res:any) => {
       rows.push(newRow)
       
     }
+
+    console.log(response.data)
+    return res.send({
+      data: rows,
+      csv: response.data
+    })
   } catch(err) {
     console.log(err)
     return res.status(500).send({
@@ -110,7 +116,7 @@ app.get("/v2/:sheetid/:gid", async (req:any, res:any) => {
     })
   }
 
-  return res.send(rows)
+  
 
 })
 app.get("/", (req:any, res:any) => {
