@@ -39,7 +39,6 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.sheet$.subscribe(sheet => {
       if (sheet.sheet) {
-        console.log(sheet)
         this.currentSheet = sheet.sheet;
         this.selectedSheetOption = sheet.sheet.display;
         this.selectedVersion = this.VERSIONS.find(s => s.folder === sheet.version).display;

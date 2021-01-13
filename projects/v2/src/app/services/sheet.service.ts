@@ -24,6 +24,9 @@ export class SheetService {
 
   fetchPlaygroundData(data?: string) {
     return this.http.get(`${URL}/playground`);
-    
+  }
+
+  updatePlaygroundData(data: string[][]) {
+    return this.http.post(`${URL}/playground`, {data: data})
   }
 }

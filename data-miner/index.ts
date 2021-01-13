@@ -101,6 +101,23 @@ app.get("/v2/playground", async (req: any, res: any) => {
   }
 })
 
+app.post('/v2/playground', async (req: any, res: any) => {
+  const csv = papa.unparse(req.body);
+  try {
+    const data = await makeASCTBData(req.body.data);
+    res.send({
+      data: data,
+      parsed: req.body,
+      csv: csv
+    })
+  } catch(err) {
+    console.log(err)
+    return res.status(500).send({
+      msg: JSON.stringify(err),
+      code: 500
+    })
+  }
+})
 
 app.get("/", (req:any, res:any) => {
   res.sendFile('views/home.html', {root: __dirname});
@@ -129,13 +146,14 @@ app.get("/:sheetid/:gid", async (req: any, res: any) => {
   }
 });
 
+
+
 function makeASCTBData(data: any) {
   return new Promise((res, rej) => {
     let rows = [];
     let headerRow = 11
     let dataLength = data.length
   
-
     try {
       for (let i = headerRow ; i < dataLength; i ++ ) {
         let newRow: {[key: string]: any} = new Row()

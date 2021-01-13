@@ -64,3 +64,8 @@ export class FetchInitialPlaygroundData {
   static readonly type = '[FETCH] Initial Playground Data';
   constructor() {}
 }
+
+export class UpdatePlaygroundData {
+  static readonly type = '[UPDATE] Playground Data';
+  constructor(public data: string[][]) {}
+}

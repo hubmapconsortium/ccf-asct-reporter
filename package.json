@@ -36,6 +36,7 @@
     "@ngxs/store": "^3.6.2-dev.master-eaa5d86",
     "bootstrap": "^4.5.3",
     "font-awesome": "^4.7.0",
+    "jexcel": "^4.5.2",
     "moment": "^2.29.1",
     "ngx-mat-select-search": "^3.2.0",
     "ngx-order-pipe": "^2.1.1",

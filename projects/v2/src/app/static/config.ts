@@ -1,7 +1,7 @@
 export const HEADER_COUNT = 11;
 
 export const IMG_OPTIONS = ['PNG', 'SVG', 'Vega Spec'];
- 
+
 export const SHEET_ID = '1U8-3BMJgCI-vaZDQjdQdTY6Rp48LoBys';
 
 export const SHEET_CONFIG = [
@@ -13,7 +13,7 @@ export const SHEET_CONFIG = [
       bimodal_distance_x: 350,
       bimodal_distance_y: 60,
       width: 700,
-      height: 5000
+      height: 5000,
     },
 
     title: 'Organs',
@@ -28,7 +28,7 @@ export const SHEET_CONFIG = [
       bimodal_distance_x: 250,
       bimodal_distance_y: 60,
       width: 1000,
-      height: 1400
+      height: 1400,
     },
     title: 'Anatomical Structures',
   },
@@ -41,7 +41,7 @@ export const SHEET_CONFIG = [
       bimodal_distance_x: 250,
       bimodal_distance_y: 60,
       width: 700,
-      height: 1400
+      height: 1400,
     },
     title: 'Anatomical Structures',
   },
@@ -75,7 +75,7 @@ export const SHEET_CONFIG = [
       bimodal_distance_x: 250,
       bimodal_distance_y: 60,
       width: 1200,
-      height: 1400
+      height: 1400,
     },
     title: 'Anatomical Structures',
   },
@@ -88,24 +88,24 @@ export const SHEET_CONFIG = [
       bimodal_distance_x: 300,
       bimodal_distance_y: 60,
       width: 500,
-      height: 1400
+      height: 1400,
     },
     title: 'Anatomical Structures',
+  },
+  {
+    name: 'example',
+    display: 'Example',
+    sheetId: '',
+    gid: '',
+    config: {
+      bimodal_distance_x: 200,
+      bimodal_distance_y: 50,
+      width: 500,
+      height: 500,
     },
-    {
-      name: 'example',
-      display: 'Example',
-      sheetId: '',
-      gid: '',
-      config: {
-        bimodal_distance_x: 300,
-        bimodal_distance_y: 60,
-        width: 500,
-        height: 1400
-      },
-      title: 'Anatomical Structures',
-      data: ''
-      },
+    title: 'Anatomical Structures',
+    data: '',
+  },
   // {
   //   name: 'small_intestine',
   //   display: 'Small Intestine',
@@ -215,73 +215,73 @@ export const SHEET_CONFIG = [
 export const PLAYGROUND_SHEET_OPTIONS = [
   {
     title: 'All Organs',
-    sheet: 'all'
+    sheet: 'all',
   },
   {
-    title: 'Example', 
-    sheet: 'example'
-  }
-]
+    title: 'Example',
+    sheet: 'example',
+  },
+];
 export const SHEET_OPTIONS = [
   {
     title: 'All Organs',
-    sheet: 'all'
+    sheet: 'all',
   },
   {
     title: 'Brain',
-    sheet: 'brain'
+    sheet: 'brain',
   },
   {
     title: 'Heart',
-    sheet: 'heart'
+    sheet: 'heart',
   },
   {
     title: 'Kidney',
-    sheet: 'kidney'
+    sheet: 'kidney',
   },
   {
     title: 'Large Intestine',
-    sheet: 'large_intestine'
+    sheet: 'large_intestine',
   },
   {
     title: 'Liver',
-    sheet: 'liver'
+    sheet: 'liver',
   },
   {
     title: 'Lung',
-    sheet: 'lung'
+    sheet: 'lung',
   },
   {
     title: 'Lymph Nodes',
-    sheet: 'lymph_nodes'
+    sheet: 'lymph_nodes',
   },
   {
     title: 'Skin',
-    sheet: 'skin'
+    sheet: 'skin',
   },
   {
     title: 'Small Intestine',
-    sheet: 'small_intestine'
+    sheet: 'small_intestine',
   },
   {
     title: 'Spleen',
-    sheet: 'spleen'
-  }
+    sheet: 'spleen',
+  },
 ];
 
-export const VERSION  = [
+export const VERSION = [
   {
     display: 'Latest',
-    folder: 'latest'
+    folder: 'latest',
   },
   {
     display: 'v1.0.0',
-    folder: 'v100'
+    folder: 'v100',
   },
   {
     display: 'v1.0.1',
-    folder: 'v101'
-  }
+    folder: 'v101',
+  },
 ];
 
 export const MORE_OPTIONS = [
@@ -291,10 +291,11 @@ export const MORE_OPTIONS = [
   },
   {
     name: 'T&C',
-    url: 'https://hubmapconsortium.org/wp-content/uploads/2020/06/DUA_FINAL_2020_02_03_for_Signature.pdf'
+    url:
+      'https://hubmapconsortium.org/wp-content/uploads/2020/06/DUA_FINAL_2020_02_03_for_Signature.pdf',
   },
   {
     name: 'Policy',
-    url: 'https://hubmapconsortium.org/policies/'
-  }
+    url: 'https://hubmapconsortium.org/policies/',
+  },
 ];

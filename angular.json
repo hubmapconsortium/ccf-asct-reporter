@@ -29,7 +29,8 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "projects/v2/src/styles.scss"
+              "projects/v2/src/styles.scss",
+              "./node_modules/jexcel/dist/jexcel.css"
             ],
             "scripts": []
           },

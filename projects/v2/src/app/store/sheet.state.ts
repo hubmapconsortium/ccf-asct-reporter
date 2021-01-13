@@ -35,6 +35,7 @@ import {
   UpdateMode,
   UpdateSheet,
   FetchInitialPlaygroundData,
+  UpdatePlaygroundData,
 } from '../actions/sheet.actions';
 import {
   OpenLoading,
@@ -88,7 +89,7 @@ export class SheetStateModel {
   /** 
    * Stores the parsed data
    * */
-  parsed: string[];
+  parsed: string[][];
 }
 
 @State<SheetStateModel>({
@@ -450,7 +451,6 @@ export class SheetState {
     
     return this.sheetService.fetchPlaygroundData().pipe(
       tap((res: any) => {
-        console.log(res)
         setState({
           ...state,
           parsed: res.parsed,
@@ -473,6 +473,40 @@ export class SheetState {
       })
     )
 
+  }
+
+  @Action(UpdatePlaygroundData)
+  updatePlaygroundData({getState, setState, dispatch}: StateContext<SheetStateModel>, {data}:UpdatePlaygroundData) {
+    const state = getState()
+    dispatch(new OpenLoading('Fetching data from assets..'));
+    dispatch(new StateReset(TreeState));
+    dispatch(new CloseBottomSheet());
+    dispatch(new ReportLog(LOG_TYPES.MSG, 'Updated Playground Data', LOG_ICONS.file, 'latest'));
+
+    return this.sheetService.updatePlaygroundData(data).pipe(
+      tap((res: any) => {
+        console.log(res)
+        setState({
+          ...state,
+          parsed: res.parsed,
+          csv: res.csv,
+          data: res.data,
+          version: 'latest',
+          sheetConfig: {...state.sheet.config, show_ontology: true},
+        });
+      }),
+      catchError((error) => {
+        console.log(error);
+        const err: Error = {
+          msg: `${error.name} (Status: ${error.status})`,
+          status: error.status,
+          hasError: true
+        };
+        dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data', LOG_ICONS.error));
+        dispatch(new HasError(err));
+        return of('');
+      })
+    )
   }
 
 }
