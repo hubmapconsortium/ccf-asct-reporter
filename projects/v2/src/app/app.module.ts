@@ -13,6 +13,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { HttpClientModule } from '@angular/common/http';
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,6 +40,7 @@ import { InfoComponent } from './components/info/info.component';
 import { ComapreComponent } from './components/comapre/comapre.component';
 import { VisControlsComponent } from './components/controls/vis-controls.component';
 import { LegendComponent } from './components/legend/legend.component';
+import { PlaygroundComponent } from './modules/playground/playground.component';
 
 
 
@@ -60,7 +63,8 @@ import { LegendComponent } from './components/legend/legend.component';
     InfoComponent,
     ComapreComponent,
     VisControlsComponent,
-    LegendComponent
+    LegendComponent,
+    PlaygroundComponent
   ],
   imports: [
     BrowserModule,

@@ -67,8 +67,15 @@
           (selectionChange)="getSheetSelection(selectedSheetOption, $event)"
           [(ngModel)]="selectedSheetOption"
         >
+
           <mat-option
             *ngFor="let option of SHEET_OPTIONS"
+            [value]="option.title"
+          >
+            {{ option.title }}
+          </mat-option>
+          <mat-option
+            *ngFor="let option of "
             [value]="option.title"
           >
             {{ option.title }}
@@ -101,13 +108,13 @@
 
     <button
       mat-icon-button
-      (click)="refreshData()"
+      (click)="toggleMode()"
       #tooltip="matTooltip"
       matTooltip="Playground"
       matTooltipPosition="below"
       style="background-color: #f5f5f5"
     >
-      <mat-icon style="margin-bottom: 5px !important">sports_esports</mat-icon>
+      <mat-icon style="margin-bottom: 5px !important">{{(mode$ | async) === 'vis' ? 'sports_esports': 'exit_to_app'}}</mat-icon>
     </button>
 
     <button

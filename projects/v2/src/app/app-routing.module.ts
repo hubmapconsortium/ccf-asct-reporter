@@ -15,7 +15,11 @@ const routes: Routes = [
     component: RootComponent
   },
   {
-    path: 'vis/:sheet/:version',
+    path: 'playground',
+    component: RootComponent
+  },
+  {
+    path: 'vis/:sheet/:version/:playground',
     component: RootComponent
   }
 ];

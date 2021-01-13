@@ -103,7 +103,6 @@ app.get("/v2/:sheetid/:gid", async (req:any, res:any) => {
       
     }
 
-    console.log(response.data)
     return res.send({
       data: rows,
       csv: response.data

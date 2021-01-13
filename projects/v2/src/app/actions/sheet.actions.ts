@@ -44,3 +44,18 @@ export class DeleteCompareSheet {
   static readonly type = '[DELETE] Compare Sheet';
   constructor(public i: number) {}
 }
+
+export class UpdateMode {
+  static readonly type = '[UPDATE] Mode';
+  constructor(public mode: string) {}
+}
+
+export class UpdatePrevSheet {
+  static readonly type = '[UPDATE] Previous Sheet';
+  constructor(public sheet: string) {}
+}
+
+export class UpdateSheet {
+  static readonly type = '[UPDATE] Sheet';
+  constructor(public sheet: any) {}
+}

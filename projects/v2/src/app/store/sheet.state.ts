@@ -5,6 +5,7 @@ import {
   StateContext,
   Selector,
   Store,
+  Select,
 } from '@ngxs/store';
 import {
   Sheet,
@@ -31,6 +32,8 @@ import {
   ToggleShowAllAS,
   UpdateReport,
   DeleteCompareSheet,
+  UpdateMode,
+  UpdateSheet,
 } from '../actions/sheet.actions';
 import {
   OpenLoading,
@@ -77,6 +80,10 @@ export class SheetStateModel {
    * Stores the data from the report
    * */
   reportData: any;
+  /** 
+   * Stores the mode: vis or playground
+   * */
+  mode: string;
 }
 
 @State<SheetStateModel>({
@@ -111,7 +118,8 @@ export class SheetStateModel {
     },
     compareSheets: [],
     compareData: [],
-    reportData: {}
+    reportData: {},
+    mode: 'vis'
   }
 })
 @Injectable()
@@ -156,6 +164,11 @@ export class SheetState {
       data: state.compareData,
       sheets: state.compareSheets
     };
+  }
+
+  @Selector()
+  static getMode(state: SheetStateModel) {
+    return state.mode;
   }
 
   @Action(DeleteCompareSheet)
@@ -308,7 +321,7 @@ export class SheetState {
           csv: res.csv,
           data: res.data,
           version: 'latest',
-          sheet,
+          sheet: sheet,
           sheetConfig: {...sheet.config, show_ontology: true},
         });
 
@@ -395,6 +408,25 @@ export class SheetState {
       ...state,
       reportData
     });
+  }
+
+  @Action(UpdateMode)
+  updateMode({getState, setState}: StateContext<SheetStateModel>, {mode}: UpdateMode) {
+    const state = getState();
+    setState({
+      ...state,
+      mode: mode
+    })
+  }
+
+  @Action(UpdateSheet)
+  updateSheet({getState, setState}: StateContext<SheetStateModel>, {sheet}: UpdateSheet) {
+    const state = getState();
+    setState({
+      ...state,
+      sheet: sheet,
+      sheetConfig: {...sheet.config, show_ontology: true},
+    })
   }
 
 }

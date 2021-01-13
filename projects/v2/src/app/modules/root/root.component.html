@@ -70,8 +70,12 @@
         ></app-legend>
       </div>
 
-      <div class="tree-div">
+      <div class="tree-div" *ngIf="(mode$ | async) === 'vis'">
         <app-tree *ngIf="!error.hasError"></app-tree>
+      </div>
+
+      <div class="playground-dig" *ngIf="(mode$ | async) === 'playground'">
+        <app-playground></app-playground>
       </div>
     </div>
   </mat-drawer-container>

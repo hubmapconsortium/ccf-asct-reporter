@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { SHEET_OPTIONS, VERSION, MORE_OPTIONS, IMG_OPTIONS } from '../../static/config';
+import { SHEET_OPTIONS, VERSION, MORE_OPTIONS, IMG_OPTIONS, PLAYGROUND_SHEET_OPTIONS } from '../../static/config';
 import { Store, Select } from '@ngxs/store';
 import { SheetState, SheetStateModel } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
@@ -17,7 +17,6 @@ import { ClearSheetLogs } from '../../actions/logs.actions';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  SHEET_OPTIONS = SHEET_OPTIONS;
   VERSIONS = VERSION;
   MORE_OPTIONS = MORE_OPTIONS;
   IMG_OPTIONS = IMG_OPTIONS;
@@ -26,9 +25,12 @@ export class NavbarComponent implements OnInit {
   selectedSheetOption: string;
   selectedVersion: string;
   currentSheet: Sheet;
+  mode: string;
+  SHEET_OPTIONS = SHEET_OPTIONS 
 
   @Select(SheetState) sheet$: Observable<SheetStateModel>;
   @Select(UIState) ui$: Observable<UIStateModel>;
+  @Select(SheetState.getMode) mode$: Observable<string>;
 
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
 
@@ -36,11 +38,20 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.sheet$.subscribe(sheet => {
-      this.currentSheet = sheet.sheet;
-      this.selectedSheetOption = sheet.sheet.display;
-      this.selectedVersion = this.VERSIONS.find(s => s.folder === sheet.version).display;
+      if (sheet.sheet) {
+        console.log(sheet)
+        this.currentSheet = sheet.sheet;
+        this.selectedSheetOption = sheet.sheet.display;
+        this.selectedVersion = this.VERSIONS.find(s => s.folder === sheet.version).display;
+      }
     });
-
+    
+    this.mode$.subscribe(mode => {
+      this.mode = mode;
+      if (mode === 'playground')
+        this.SHEET_OPTIONS = PLAYGROUND_SHEET_OPTIONS
+      if(mode === 'vis') this.SHEET_OPTIONS = SHEET_OPTIONS
+    })
   }
 
   getSheetSelection(sheet, event) {
@@ -77,5 +88,13 @@ export class NavbarComponent implements OnInit {
 
   toggleCompare() {
     this.store.dispatch(new OpenCompare());
+  }
+
+  toggleMode() {
+    if (this.mode === 'vis') {
+      this.router.navigate(['/vis'], {queryParams: {sheet: 'example', playground: true}, queryParamsHandling: 'merge'});
+    } else if (this.mode === 'playground') {
+      this.router.navigate(['/vis'], {queryParams: {sheet: localStorage.getItem('sheet'),  playground: false}, queryParamsHandling: 'merge'});
+    }
   }
 }

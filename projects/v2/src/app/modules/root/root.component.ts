@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
-import {SHEET_CONFIG, VERSION} from './../../static/config';
+import {SHEET_CONFIG, VERSION, SHEET_OPTIONS} from './../../static/config';
 import { SheetState, SheetStateModel } from './../../store/sheet.state';
 import { TreeState, TreeStateModel } from './../../store/tree.state';
 import {Select, Store} from '@ngxs/store';
 import { Observable, combineLatest } from 'rxjs';
-import { FetchSheetData, FetchDataFromAssets, FetchAllOrganData, FetchCompareData, UpdateReport, DeleteCompareSheet } from './../../actions/sheet.actions';
+import { FetchSheetData, FetchDataFromAssets, FetchAllOrganData, FetchCompareData, UpdateReport, DeleteCompareSheet, UpdateMode, UpdateSheet } from './../../actions/sheet.actions';
 import { TreeService } from './../tree/tree.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UIState } from '../../store/ui.state';
-import { HasError, CloseSnackbar, CloseRightSideNav, CloseBottomSheet, CloseCompare } from '../../actions/ui.actions';
+import { HasError, CloseSnackbar, CloseRightSideNav, CloseBottomSheet, CloseCompare, CloseLoading } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LoadingComponent } from '../../components/loading/loading.component';
@@ -40,6 +40,7 @@ export class RootComponent implements OnInit, OnDestroy{
   snackbarRef: any;
   isControlPaneOpen: boolean;
   infoSheetRef: MatBottomSheetRef;
+  mode: string = 'vis';
 
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
 
@@ -49,6 +50,7 @@ export class RootComponent implements OnInit, OnDestroy{
   @Select(SheetState.getReportdata) rd$: Observable<any>;
   @Select(SheetState.getCompareData) compareData$: Observable<Row[]>;
   @Select(SheetState.getAllCompareData) allCompareData$: Observable<any>;
+  @Select(SheetState.getMode) mode$: Observable<string>;
 
   // Tree Observables
   @Select(TreeState.getTreeData) treeData$: Observable<any>;
@@ -102,17 +104,29 @@ export class RootComponent implements OnInit, OnDestroy{
     });
 
     this.route.queryParamMap.subscribe(query => {
-      const version = query.get('version');
-      this.sheet =  SHEET_CONFIG.find(i => i.name === query.get('sheet'));
+      let version = query.get('version');
+      let sheet = query.get('sheet');
+      let playground = query.get('playground');
 
-      if (version === 'latest') {
-        if (this.sheet.name === 'all') {
-          store.dispatch(new FetchAllOrganData(this.sheet));
-        } else { store.dispatch(new FetchSheetData(this.sheet)); }
-
+      if (playground === 'true') {
+        store.dispatch(new UpdateMode('playground'));
+        this.sheet = SHEET_CONFIG.find(i => i.name === 'example')
+        store.dispatch(new UpdateSheet(this.sheet));
+        store.dispatch(new CloseLoading())
       } else {
-        store.dispatch(new FetchDataFromAssets(version, this.sheet));
+        store.dispatch(new UpdateMode('vis'));
+        this.sheet =  SHEET_CONFIG.find(i => i.name === sheet);
+        localStorage.setItem('sheet', this.sheet.name);
+          if (version === 'latest') {
+            if (this.sheet.name === 'all') {
+              store.dispatch(new FetchAllOrganData(this.sheet));
+            } else { store.dispatch(new FetchSheetData(this.sheet)); }
+    
+          } else {
+            store.dispatch(new FetchDataFromAssets(version, this.sheet));
+          }
       }
+      
 
     });
 
@@ -134,7 +148,8 @@ export class RootComponent implements OnInit, OnDestroy{
           panelClass: [`${sb.type}-snackbar`]
         };
         this.snackbarRef = this.snackbar.open(sb.text, 'Dismiss', config);
-        this.snackbarRef.afterDismissed().subscribe(s => { store.dispatch(new CloseSnackbar()); });
+        this.snackbarRef.afterDismissed()
+        // store.dispatch(new CloseSnackbar()); 
       }
     });
 

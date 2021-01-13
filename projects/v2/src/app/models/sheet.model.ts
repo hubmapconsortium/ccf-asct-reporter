@@ -31,6 +31,7 @@ export interface Sheet {
   body: string;
   config: SheetConfig;
   title: string;
+  data?: string;
 }
 
 export interface CompareData {

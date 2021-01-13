@@ -1,7 +1,7 @@
 export const HEADER_COUNT = 11;
 
 export const IMG_OPTIONS = ['PNG', 'SVG', 'Vega Spec'];
-
+ 
 export const SHEET_ID = '1U8-3BMJgCI-vaZDQjdQdTY6Rp48LoBys';
 
 export const SHEET_CONFIG = [
@@ -91,7 +91,21 @@ export const SHEET_CONFIG = [
       height: 1400
     },
     title: 'Anatomical Structures',
-  },
+    },
+    {
+      name: 'example',
+      display: 'Example',
+      sheetId: '',
+      gid: '',
+      config: {
+        bimodal_distance_x: 300,
+        bimodal_distance_y: 60,
+        width: 500,
+        height: 1400
+      },
+      title: 'Anatomical Structures',
+      data: ''
+      },
   // {
   //   name: 'small_intestine',
   //   display: 'Small Intestine',
@@ -198,7 +212,16 @@ export const SHEET_CONFIG = [
   //   title: 'Anatomical Structures',
   // },
 ];
-
+export const PLAYGROUND_SHEET_OPTIONS = [
+  {
+    title: 'All Organs',
+    sheet: 'all'
+  },
+  {
+    title: 'Example', 
+    sheet: 'example'
+  }
+]
 export const SHEET_OPTIONS = [
   {
     title: 'All Organs',
