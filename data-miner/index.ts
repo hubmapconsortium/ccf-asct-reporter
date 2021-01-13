@@ -54,9 +54,6 @@ let headerMap: any = {
  'AS':'anatomical_structures', 'CT': 'cell_types', 'BG': 'biomarkers', 'BP': 'biomarkers'
 }
 
-
-let ids = '0123456789'
-
 app.get("/v2/:sheetid/:gid", async (req:any, res:any) => {
   console.log(req.protocol + "://" + req.headers.host + req.originalUrl)
 
@@ -65,11 +62,14 @@ app.get("/v2/:sheetid/:gid", async (req:any, res:any) => {
   
   try {
     const response = await axios.get(`https://docs.google.com/spreadsheets/d/${f1}/export?format=csv&gid=${f2}`);
-    const data = await makeASCTBData(response);
+    let data = papa.parse(response.data).data
+
+    const asctbData = await makeASCTBData(data);
 
     return res.send({
-      data: data,
-      csv: response.data
+      data: asctbData,
+      csv: response.data,
+      parsed: data
     })
   } catch(err) {
     console.log(err)
@@ -84,10 +84,13 @@ app.get("/v2/playground", async (req: any, res: any) => {
   console.log(req.protocol + "://" + req.headers.host + req.originalUrl)
 
   try {
-    const data = await makeASCTBData({data: PLAYGROUND_CSV});
+    const parsed = papa.parse(PLAYGROUND_CSV).data
+    const data = await makeASCTBData(parsed);
     return res.send({
       data: data,
-      csv: PLAYGROUND_CSV
+      csv: PLAYGROUND_CSV,
+      parsed: parsed
+      
     })
   } catch(err) {
     console.log(err)
@@ -126,11 +129,9 @@ app.get("/:sheetid/:gid", async (req: any, res: any) => {
   }
 });
 
-function makeASCTBData(response: any) {
+function makeASCTBData(data: any) {
   return new Promise((res, rej) => {
-    console.log(response.data)
     let rows = [];
-    let data = papa.parse(response.data).data
     let headerRow = 11
     let dataLength = data.length
   

@@ -85,6 +85,10 @@ export class SheetStateModel {
    * Stores the mode: vis or playground
    * */
   mode: string;
+  /** 
+   * Stores the parsed data
+   * */
+  parsed: string[];
 }
 
 @State<SheetStateModel>({
@@ -120,7 +124,8 @@ export class SheetStateModel {
     compareSheets: [],
     compareData: [],
     reportData: {},
-    mode: 'vis'
+    mode: 'vis',
+    parsed: []
   }
 })
 @Injectable()
@@ -157,6 +162,11 @@ export class SheetState {
   @Selector()
   static getReportdata(state: SheetStateModel) {
     return state.reportData;
+  }
+
+  @Selector()
+  static getParsedData(state: SheetStateModel) {
+    return state.parsed;
   }
 
   @Selector()
@@ -443,6 +453,7 @@ export class SheetState {
         console.log(res)
         setState({
           ...state,
+          parsed: res.parsed,
           csv: res.csv,
           data: res.data,
           version: 'latest',

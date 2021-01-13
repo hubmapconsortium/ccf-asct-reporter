@@ -1,1 +1,14 @@
-<app-tree></app-tree>
+
+<mat-tab-group>
+  <mat-tab label="Visualization"> 
+    <app-tree></app-tree>
+ </mat-tab>
+  <mat-tab label="Table">
+    <tbody>
+      <tr *ngFor="let row of data$|async">
+         <td *ngFor="let item of row" contenteditable='true' style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">{{item}}</td>
+      </tr>
+   </tbody> 
+ </mat-tab>
+  <mat-tab label="Upload"> Content 3 </mat-tab>
+</mat-tab-group>
