@@ -30,8 +30,6 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    
-   
     this.data$.subscribe(data => {
       if (data.length) {
         this.spreadSheetData = data;

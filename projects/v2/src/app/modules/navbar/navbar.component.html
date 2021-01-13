@@ -5,10 +5,10 @@
     padding-right: 50px !important;
     display: flex;
     align-items: center;
-    border-bottom: 3px solid #444a6510;
     width: 100%;
     background-color: white;
   "
+    [ngStyle]="{'border-bottom': (mode$ | async) === 'vis' ?'3px solid #444a6510' : 'none'}"
 >
   <div class="nav-wrapper">
     <div *ngIf="!(ui$ | async).controlPaneOpen">
