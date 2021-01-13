@@ -4,7 +4,7 @@ import { SheetState, SheetStateModel } from './../../store/sheet.state';
 import { TreeState, TreeStateModel } from './../../store/tree.state';
 import {Select, Store} from '@ngxs/store';
 import { Observable, combineLatest } from 'rxjs';
-import { FetchSheetData, FetchDataFromAssets, FetchAllOrganData, FetchCompareData, UpdateReport, DeleteCompareSheet, UpdateMode, UpdateSheet } from './../../actions/sheet.actions';
+import { FetchSheetData, FetchDataFromAssets, FetchAllOrganData, FetchCompareData, UpdateReport, DeleteCompareSheet, UpdateMode, UpdateSheet, FetchInitialPlaygroundData } from './../../actions/sheet.actions';
 import { TreeService } from './../tree/tree.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UIState } from '../../store/ui.state';
@@ -112,6 +112,7 @@ export class RootComponent implements OnInit, OnDestroy{
         store.dispatch(new UpdateMode('playground'));
         this.sheet = SHEET_CONFIG.find(i => i.name === 'example')
         store.dispatch(new UpdateSheet(this.sheet));
+        this.store.dispatch(new FetchInitialPlaygroundData())
         store.dispatch(new CloseLoading())
       } else {
         store.dispatch(new UpdateMode('vis'));

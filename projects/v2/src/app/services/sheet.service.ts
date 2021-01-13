@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { URL, getAssetsURL, getInformation } from './../static/url';
+import { URL, getAssetsURL, getInformation, PLAYGROUND } from './../static/url';
 
 
 @Injectable({
@@ -20,5 +20,10 @@ export class SheetService {
 
   fetchBottomSheetData(id: string) {
     return this.http.get(getInformation(id));
+  }
+
+  fetchPlaygroundData(data?: string) {
+    return this.http.get(`${URL}/playground`);
+    
   }
 }

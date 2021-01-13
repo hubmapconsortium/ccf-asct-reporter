@@ -6,6 +6,8 @@ var path = require('path');
 var papa = require('papaparse');
 var fs = require('fs');
 
+import { PLAYGROUND_CSV } from './const'
+
 
 const app = express();
 app.use(cors());
@@ -27,8 +29,6 @@ class Structure {
   id?: string;
   rdfs_label?: string;
   b_type?: BM_TYPE;
-  isNew?: boolean;
-  color?: string;
 
   constructor(name: string) {
     this.name = name;
@@ -58,53 +58,17 @@ let headerMap: any = {
 let ids = '0123456789'
 
 app.get("/v2/:sheetid/:gid", async (req:any, res:any) => {
+  console.log(req.protocol + "://" + req.headers.host + req.originalUrl)
+
   let f1 = req.params.sheetid;
   let f2 = req.params.gid;
-  let rows = [];
-
+  
   try {
     const response = await axios.get(`https://docs.google.com/spreadsheets/d/${f1}/export?format=csv&gid=${f2}`);
-    let data = papa.parse(response.data).data
-    let headerRow = 11
-    let dataLength = data.length
-  
-
-    for (let i = headerRow ; i < dataLength; i ++ ) {
-      let newRow: {[key: string]: any} = new Row()
-
-      for (let j = 0 ; j < data[0].length; j ++) {
-        if (data[i][j] === '') continue;
-  
-        let rowHeader = data[headerRow - 1][j].split('/');
-        let key = headerMap[rowHeader[0]]
-        
-        if (key === undefined) continue;
-
-        if (rowHeader.length === 2 && Number(rowHeader[1])) {
-          let s = new Structure(data[i][j])
-          if (rowHeader[0] === 'BG') s.b_type = BM_TYPE.G
-          if (rowHeader[0] === 'BP') s.b_type = BM_TYPE.P
-          newRow[key].push(s)
-        } 
-        
-  
-        if (rowHeader.length === 3 && rowHeader[2] === 'ID') {
-          let n = newRow[key][parseInt(rowHeader[1]) - 1]
-          if (n)
-          n.id = data[i][j]
-        } else if(rowHeader.length === 3 && rowHeader[2] === 'LABEL') {
-          let n = newRow[key][parseInt(rowHeader[1]) - 1];
-          if (n)
-          n.rdfs_label = data[i][j]
-        }
-        
-      }
-      rows.push(newRow)
-      
-    }
+    const data = await makeASCTBData(response);
 
     return res.send({
-      data: rows,
+      data: data,
       csv: response.data
     })
   } catch(err) {
@@ -114,10 +78,27 @@ app.get("/v2/:sheetid/:gid", async (req:any, res:any) => {
       code: 500
     })
   }
-
-  
-
 })
+
+app.get("/v2/playground", async (req: any, res: any) => {
+  console.log(req.protocol + "://" + req.headers.host + req.originalUrl)
+
+  try {
+    const data = await makeASCTBData({data: PLAYGROUND_CSV});
+    return res.send({
+      data: data,
+      csv: PLAYGROUND_CSV
+    })
+  } catch(err) {
+    console.log(err)
+    return res.status(500).send({
+      msg: JSON.stringify(err),
+      code: 500
+    })
+  }
+})
+
+
 app.get("/", (req:any, res:any) => {
   res.sendFile('views/home.html', {root: __dirname});
 });
@@ -144,5 +125,56 @@ app.get("/:sheetid/:gid", async (req: any, res: any) => {
     res.status(500).end();
   }
 });
+
+function makeASCTBData(response: any) {
+  return new Promise((res, rej) => {
+    console.log(response.data)
+    let rows = [];
+    let data = papa.parse(response.data).data
+    let headerRow = 11
+    let dataLength = data.length
+  
+
+    try {
+      for (let i = headerRow ; i < dataLength; i ++ ) {
+        let newRow: {[key: string]: any} = new Row()
+  
+        for (let j = 0 ; j < data[0].length; j ++) {
+          if (data[i][j] === '') continue;
+    
+          let rowHeader = data[headerRow - 1][j].split('/');
+          let key = headerMap[rowHeader[0]]
+          
+          if (key === undefined) continue;
+  
+          if (rowHeader.length === 2 && Number(rowHeader[1])) {
+            let s = new Structure(data[i][j])
+            if (rowHeader[0] === 'BG') s.b_type = BM_TYPE.G
+            if (rowHeader[0] === 'BP') s.b_type = BM_TYPE.P
+            newRow[key].push(s)
+          } 
+          
+    
+          if (rowHeader.length === 3 && rowHeader[2] === 'ID') {
+            let n = newRow[key][parseInt(rowHeader[1]) - 1]
+            if (n)
+            n.id = data[i][j]
+          } else if(rowHeader.length === 3 && rowHeader[2] === 'LABEL') {
+            let n = newRow[key][parseInt(rowHeader[1]) - 1];
+            if (n)
+            n.rdfs_label = data[i][j]
+          }
+          
+        }
+        rows.push(newRow)
+        
+      } 
+      res(rows)
+    } catch(err) {
+      rej(err)
+    }
+
+  })
+}
 
 app.listen(process.env.PORT || 5000)

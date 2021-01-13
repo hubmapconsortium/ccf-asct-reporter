@@ -34,6 +34,7 @@ import {
   DeleteCompareSheet,
   UpdateMode,
   UpdateSheet,
+  FetchInitialPlaygroundData,
 } from '../actions/sheet.actions';
 import {
   OpenLoading,
@@ -427,6 +428,40 @@ export class SheetState {
       sheet: sheet,
       sheetConfig: {...sheet.config, show_ontology: true},
     })
+  }
+
+  @Action(FetchInitialPlaygroundData)
+  fetchInitialPlaygroundData({getState, setState, dispatch}: StateContext<SheetStateModel>) {
+    const state = getState();
+    dispatch(new OpenLoading('Fetching data from assets..'));
+    dispatch(new StateReset(TreeState));
+    dispatch(new CloseBottomSheet());
+    dispatch(new ReportLog(LOG_TYPES.MSG, 'Example', LOG_ICONS.file, 'latest'));
+    
+    return this.sheetService.fetchPlaygroundData().pipe(
+      tap((res: any) => {
+        console.log(res)
+        setState({
+          ...state,
+          csv: res.csv,
+          data: res.data,
+          version: 'latest',
+          sheetConfig: {...state.sheet.config, show_ontology: true},
+        });
+      }),
+      catchError((error) => {
+        console.log(error);
+        const err: Error = {
+          msg: `${error.name} (Status: ${error.status})`,
+          status: error.status,
+          hasError: true
+        };
+        dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data', LOG_ICONS.error));
+        dispatch(new HasError(err));
+        return of('');
+      })
+    )
+
   }
 
 }

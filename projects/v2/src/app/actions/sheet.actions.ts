@@ -59,3 +59,8 @@ export class UpdateSheet {
   static readonly type = '[UPDATE] Sheet';
   constructor(public sheet: any) {}
 }
+
+export class FetchInitialPlaygroundData {
+  static readonly type = '[FETCH] Initial Playground Data';
+  constructor() {}
+}
