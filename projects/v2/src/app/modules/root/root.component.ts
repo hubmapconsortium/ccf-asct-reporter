@@ -142,6 +142,7 @@ export class RootComponent implements OnInit, OnDestroy{
 
     this.snack$.subscribe(sb => {
       if (sb.opened)  {
+        console.log('SNACKBAR:')
         const config: MatSnackBarConfig = {
           duration: 1500,
           verticalPosition: 'bottom',
@@ -150,7 +151,7 @@ export class RootComponent implements OnInit, OnDestroy{
         };
         this.snackbarRef = this.snackbar.open(sb.text, 'Dismiss', config);
         this.snackbarRef.afterDismissed()
-        // store.dispatch(new CloseSnackbar()); 
+        store.dispatch(new CloseSnackbar()); 
       }
     });
 

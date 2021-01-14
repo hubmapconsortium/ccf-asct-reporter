@@ -217,16 +217,6 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
             });
         }
 
-        // About
-        if (obj.options.about) {
-            items.push({
-                title:obj.options.text.about,
-                onclick:function() {
-                    alert(obj.options.about);
-                }
-            });
-        }
-
         return items;
     },
       columns: [...this.generateColumns(data[0].length)],
