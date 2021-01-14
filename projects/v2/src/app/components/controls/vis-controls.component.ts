@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Sheet, SheetConfig } from '../../models/sheet.model';
 import { Error } from '../../models/response.model';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-vis-controls',
@@ -12,9 +13,10 @@ export class VisControlsComponent implements OnInit {
   @Input() config: SheetConfig;
   @Input() error: Error;
   @Input() currentSheet: Sheet;
+  
 
   @Output() updatedConfig: EventEmitter<any>  = new EventEmitter<any>();
-  constructor() { }
+  constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
   }
@@ -60,6 +62,18 @@ export class VisControlsComponent implements OnInit {
       property: 'show-as',
       config: this.config
     });
+  }
+
+  exportControls(event: any) {
+    event.stopPropagation();
+    var sJson = JSON.stringify(this.config);
+    var element = document.createElement('a');
+    element.setAttribute('href', "data:text/json;charset=UTF-8," + encodeURIComponent(sJson));
+    element.setAttribute('download', "asct-b-graph-config.json");
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click(); // simulate click
+    document.body.removeChild(element);
   }
 
 }

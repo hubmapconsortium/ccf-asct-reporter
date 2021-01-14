@@ -1,10 +1,16 @@
 <mat-expansion-panel class="mepNoPadding" [expanded]="!error.hasError">
-  <mat-expansion-panel-header [expandedHeight]="'50px'">
+  <mat-expansion-panel-header [expandedHeight]="'50px'" class="controls">
     <mat-panel-title>
       <div>
         <b> Controls </b>
+        
       </div>
     </mat-panel-title>
+    <mat-panel-description>
+      <button mat-icon-button class="mr-2" (click)="exportControls($event)"> 
+      <mat-icon>get_app</mat-icon>
+    </button>
+    </mat-panel-description>
   </mat-expansion-panel-header>
 
   <div class="py-1 pb-4" *ngIf="currentSheet.name === 'all'">

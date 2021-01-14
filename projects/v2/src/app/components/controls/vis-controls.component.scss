@@ -46,3 +46,20 @@
   background-color: #fafafa !important;
   border-radius: 4px !important;
 }
+
+.controls .mat-expansion-panel-header-description {
+  justify-content: flex-end !important;
+  align-items: center;
+  margin-right: 0 !important;
+}
+
+
+.controls .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.controls .mat-expansion-panel-header-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
