@@ -156,7 +156,6 @@ app.get("/:sheetid/:gid", async (req: any, res: any) => {
 
 function makeASCTBData(data: any) {
   return new Promise((res, rej) => {
-    console.log(data)
     let rows = [];
     let headerRow = 11
     let dataLength = data.length

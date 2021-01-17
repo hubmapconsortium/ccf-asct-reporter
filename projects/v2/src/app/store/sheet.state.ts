@@ -264,7 +264,6 @@ export class SheetState {
   @Action(FetchAllOrganData)
   async fetchAllOrganData({getState, setState, dispatch, patchState}: StateContext<SheetStateModel>, {sheet}: FetchAllOrganData) {
 
-
     dispatch(new OpenLoading('Fetching data..'));
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
@@ -281,7 +280,9 @@ export class SheetState {
     });
 
     for await (const s of SHEET_CONFIG) {
-      if (s.name !== 'all') {
+      if (s.name === 'all' || s.name === 'example') {
+        continue;
+      } else {
         this.sheetService.fetchSheetData(s.sheetId, s.gid).subscribe(
           (res: ResponseData) => {
             for (const d of res.data) {

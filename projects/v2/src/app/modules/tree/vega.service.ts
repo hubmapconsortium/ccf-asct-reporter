@@ -12,7 +12,6 @@ import { Marks } from './spec/marks';
 import { UpdateVegaView } from '../../actions/tree.actions';
 import { BimodalService } from './bimodal.service';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { InfoComponent } from '../../components/info/info.component';
 import { OpenBottomSheet, CloseBottomSheet, CloseLoading, HasError } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { ReportLog } from '../../actions/logs.actions';
@@ -86,8 +85,6 @@ export class VegaService {
       const bimodalConfig = states.treeState.bimodal.config;
       const sheetConfig = states.sheetState.sheetConfig;
       
-      console.log('HERE: ', sheetConfig)
-
       if (data.length) {
         try {
           this.bm.makeBimodalData(data, treeData, bimodalConfig, sheet, sheetConfig);

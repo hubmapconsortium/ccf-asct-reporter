@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angula
 import { Select, Store } from '@ngxs/store';
 import { SheetState } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
+import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import * as jexcel from "jexcel";
 import { UpdatePlaygroundData, FetchSheetData } from '../../actions/sheet.actions';
@@ -26,15 +27,20 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
   currentSheet: Sheet;
   tabIndex: number;
 
-  constructor(public store: Store) { 
+  formGroup: FormGroup;
+  formSheets: FormArray;
+
+  linkFormControl = new FormControl('', [Validators.compose([Validators.required, Validators.pattern(/\/([\w-_]{15,})\/(.*?gid=(\d+))?/)])])
+
+  constructor(public store: Store, public fb: FormBuilder) { 
     this.sheet$.subscribe(sheet => {
         this.currentSheet = sheet;
     })
   }    
 
   ngOnInit(): void {
-    
   }
+
 
   ngAfterViewInit() {
     this.data$.subscribe(data => {
@@ -241,7 +247,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
   }
 
   upload() {
-      let data = this.checkLinkFormat(this.link)
+      let data = this.checkLinkFormat(this.linkFormControl.value)
       let sheet = JSON.parse(JSON.stringify(this.currentSheet))
       sheet.gid = data.gid;
       sheet.sheetId = data.sheetID;

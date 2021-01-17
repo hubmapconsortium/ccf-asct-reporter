@@ -28,8 +28,6 @@ export class BimodalService {
 
     try {
       
-      console.log('CONFIG: ', sheetConfig)
-
       const anatomicalStructuresData = await makeAS(sheetData);
       const links = [];
       const nodes = [];
@@ -245,9 +243,6 @@ export class BimodalService {
           });
         }
       });
-
-      // console.log('AS-CT', AS_CT_LINKS)
-      // console.log('CT-B', CT_BM_LINKS)
 
       this.store.dispatch(new UpdateLinksData(AS_CT_LINKS, CT_BM_LINKS));
 

@@ -89,7 +89,6 @@ export class RootComponent implements OnInit, OnDestroy{
 
     this.data$.subscribe(data => {
       if (data.length) {
-        console.log('AMIHERE?')
         this.data = data;
         try {
           this.ts.makeTreeData(this.sheet, data, []);
@@ -143,7 +142,6 @@ export class RootComponent implements OnInit, OnDestroy{
 
     this.snack$.subscribe(sb => {
       if (sb.opened)  {
-        console.log('SNACKBAR:')
         const config: MatSnackBarConfig = {
           duration: 1500,
           verticalPosition: 'bottom',

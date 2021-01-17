@@ -215,10 +215,6 @@ export const SHEET_CONFIG = [
 ];
 export const PLAYGROUND_SHEET_OPTIONS = [
   {
-    title: 'All Organs',
-    sheet: 'all',
-  },
-  {
     title: 'Example',
     sheet: 'example',
   },
