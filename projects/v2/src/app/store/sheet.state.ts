@@ -318,9 +318,9 @@ export class SheetState {
 
   @Action(FetchSheetData)
   fetchSheetData({getState, setState, patchState, dispatch}: StateContext<SheetStateModel>, {sheet}: FetchSheetData) {
-
+    const mode = getState().mode;
     dispatch(new OpenLoading('Fetching data..'));
-    dispatch(new StateReset(SheetState));
+    // dispatch(new StateReset(SheetState));
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
@@ -334,6 +334,8 @@ export class SheetState {
           data: res.data,
           version: 'latest',
           sheet: sheet,
+          parsed: res.parsed,
+          mode: mode,
           sheetConfig: {...sheet.config, show_ontology: true},
         });
 
@@ -443,12 +445,14 @@ export class SheetState {
 
   @Action(FetchInitialPlaygroundData)
   fetchInitialPlaygroundData({getState, setState, dispatch}: StateContext<SheetStateModel>) {
-    const state = getState();
+    const sheet = SHEET_CONFIG.find(i => i.name === 'example');
+
     dispatch(new OpenLoading('Fetching data from assets..'));
+    dispatch(new StateReset(SheetState));
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, 'Example', LOG_ICONS.file, 'latest'));
-    
+    const state = getState();
     return this.sheetService.fetchPlaygroundData().pipe(
       tap((res: any) => {
         setState({

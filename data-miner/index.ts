@@ -61,7 +61,13 @@ app.get("/v2/:sheetid/:gid", async (req:any, res:any) => {
   let f2 = req.params.gid;
   
   try {
-    const response = await axios.get(`https://docs.google.com/spreadsheets/d/${f1}/export?format=csv&gid=${f2}`);
+    let response: any;
+
+    if (f1 === '0' && f2 === '0') {
+      response = {data: PLAYGROUND_CSV}
+    } else {
+      response = await axios.get(`https://docs.google.com/spreadsheets/d/${f1}/export?format=csv&gid=${f2}`);
+    }
     let data = papa.parse(response.data).data
 
     const asctbData = await makeASCTBData(data);
@@ -150,6 +156,7 @@ app.get("/:sheetid/:gid", async (req: any, res: any) => {
 
 function makeASCTBData(data: any) {
   return new Promise((res, rej) => {
+    console.log(data)
     let rows = [];
     let headerRow = 11
     let dataLength = data.length

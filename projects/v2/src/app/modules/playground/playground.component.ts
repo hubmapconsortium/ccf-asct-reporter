@@ -4,8 +4,9 @@ import { SheetState } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
 
 import * as jexcel from "jexcel";
-import { UpdatePlaygroundData } from '../../actions/sheet.actions';
+import { UpdatePlaygroundData, FetchSheetData } from '../../actions/sheet.actions';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { Sheet } from '../../models/sheet.model';
 
 @Component({
   selector: 'app-playground',
@@ -16,14 +17,20 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
   @ViewChild("spreadsheet") spreadsheet: ElementRef;
   
   @Select(SheetState.getParsedData) data$: Observable<string[][]>;
+  @Select(SheetState.getSheet) sheet$: Observable<Sheet>;
 
   spreadSheetData: Array<string[]>;
   table: any;
   prevTab = 0;
+  link: any;
+  currentSheet: Sheet;
+  tabIndex: number;
 
   constructor(public store: Store) { 
-    
-  }
+    this.sheet$.subscribe(sheet => {
+        this.currentSheet = sheet;
+    })
+  }    
 
   ngOnInit(): void {
     
@@ -45,12 +52,12 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
     })
   }
 
-  generateColumns(len) {
+  generateColumns(len: number) {
     let columns = []
     for(let i = 0; i < len; i ++) {
       columns.push({
         type: 'text',
-        width: 120
+        width: 125
       })
     }
     return columns;
@@ -226,16 +233,33 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
     });
   }
 
-
-  addRow() {
-
-  }
-
   tabChange(tab: MatTabChangeEvent) {
      if (this.prevTab === 1 && tab.index === 0) {
       this.store.dispatch(new UpdatePlaygroundData(this.spreadSheetData));
-     }
+     } 
       this.prevTab = tab.index
+  }
+
+  upload() {
+      let data = this.checkLinkFormat(this.link)
+      let sheet = JSON.parse(JSON.stringify(this.currentSheet))
+      sheet.gid = data.gid;
+      sheet.sheetId = data.sheetID;
+      this.tabIndex = 0;
+      sheet.config.height = 1400;
+      this.store.dispatch(new FetchSheetData(sheet));
+      
+  }
+
+  checkLinkFormat(url: string) {
+    const matches = /\/([\w-_]{15,})\/(.*?gid=(\d+))?/.exec(url);
+    console.log(matches)
+    if (matches) {
+      return {
+        sheetID: matches[1],
+        gid: matches[3],
+      };
+    }
   }
 
 }

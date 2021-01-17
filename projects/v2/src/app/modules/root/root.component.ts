@@ -89,6 +89,7 @@ export class RootComponent implements OnInit, OnDestroy{
 
     this.data$.subscribe(data => {
       if (data.length) {
+        console.log('AMIHERE?')
         this.data = data;
         try {
           this.ts.makeTreeData(this.sheet, data, []);
@@ -111,8 +112,8 @@ export class RootComponent implements OnInit, OnDestroy{
       if (playground === 'true') {
         store.dispatch(new UpdateMode('playground'));
         this.sheet = SHEET_CONFIG.find(i => i.name === 'example')
-        store.dispatch(new UpdateSheet(this.sheet));
-        this.store.dispatch(new FetchInitialPlaygroundData())
+        // store.dispatch(new UpdateSheet(this.sheet));
+        this.store.dispatch(new FetchSheetData(this.sheet))
         store.dispatch(new CloseLoading())
       } else {
         store.dispatch(new UpdateMode('vis'));

@@ -62,10 +62,15 @@ export class UpdateSheet {
 
 export class FetchInitialPlaygroundData {
   static readonly type = '[FETCH] Initial Playground Data';
-  constructor() {}
+  constructor(public sheet?: Sheet) {}
 }
 
 export class UpdatePlaygroundData {
   static readonly type = '[UPDATE] Playground Data';
+  constructor(public data: string[][]) {}
+}
+
+export class FetchPlaygroundUploadData {
+  static readonly type = '[FETCH] Playground Upload Data';
   constructor(public data: string[][]) {}
 }

@@ -21,6 +21,7 @@ export interface Row {
 export interface ResponseData {
   csv: string;
   data: Row[];
+  parsed: [];
 }
 
 export interface Sheet {

@@ -72,7 +72,7 @@ export class VisControlsComponent implements OnInit {
     element.setAttribute('download', "asct-b-graph-config.json");
     element.style.display = 'none';
     document.body.appendChild(element);
-    element.click(); // simulate click
+    element.click();
     document.body.removeChild(element);
   }
 

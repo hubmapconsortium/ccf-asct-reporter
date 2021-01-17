@@ -69,7 +69,7 @@ export class NavbarComponent implements OnInit {
       if (this.currentSheet.name === 'all') { this.store.dispatch(new FetchAllOrganData(this.currentSheet)); }
       else { this.store.dispatch(new FetchSheetData(this.currentSheet)); }
     } else {
-      this.store.dispatch(new FetchInitialPlaygroundData());
+      this.store.dispatch(new FetchSheetData(this.currentSheet));
     }
     
   }

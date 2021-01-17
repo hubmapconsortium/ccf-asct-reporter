@@ -92,11 +92,12 @@ export const SHEET_CONFIG = [
     },
     title: 'Anatomical Structures',
   },
+
   {
     name: 'example',
     display: 'Example',
-    sheetId: '',
-    gid: '',
+    sheetId: '0',
+    gid: '0',
     config: {
       bimodal_distance_x: 200,
       bimodal_distance_y: 50,
