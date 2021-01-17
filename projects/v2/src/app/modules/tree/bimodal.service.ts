@@ -27,7 +27,8 @@ export class BimodalService {
   ) {
 
     try {
-
+      
+      console.log('CONFIG: ', sheetConfig)
 
       const anatomicalStructuresData = await makeAS(sheetData);
       const links = [];

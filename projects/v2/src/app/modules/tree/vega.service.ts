@@ -85,7 +85,8 @@ export class VegaService {
       const treeData = states.treeState.treeData;
       const bimodalConfig = states.treeState.bimodal.config;
       const sheetConfig = states.sheetState.sheetConfig;
-
+      
+      console.log('HERE: ', sheetConfig)
 
       if (data.length) {
         try {

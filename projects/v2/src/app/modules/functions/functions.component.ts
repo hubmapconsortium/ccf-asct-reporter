@@ -44,10 +44,11 @@ export class FunctionsComponent implements OnInit {
       const sheet = states.sheetState.sheet;
       const treeData = states.treeState.treeData;
       const bimodalConfig = states.treeState.bimodal.config;
+      const sheetConfig = states.sheetState.sheetConfig;
 
 
       if (data.length) {
-        this.bms.makeBimodalData(data, treeData, bimodalConfig, sheet);
+        this.bms.makeBimodalData(data, treeData, bimodalConfig, sheet, sheetConfig);
       }
     });
   }
