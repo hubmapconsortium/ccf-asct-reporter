@@ -22,6 +22,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+
 
 // Importing required Material Modules
 
@@ -47,7 +49,8 @@ const MatModules = [
   MatCheckboxModule,
   MatSliderModule,
   MatBottomSheetModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  DragDropModule
 ];
 
 @NgModule({
