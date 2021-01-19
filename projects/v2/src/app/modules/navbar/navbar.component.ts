@@ -42,7 +42,6 @@ export class NavbarComponent implements OnInit {
         this.currentSheet = sheet.sheet;
         this.selectedSheetOption = sheet.sheet.display;
         this.selectedVersion = this.VERSIONS.find(s => s.folder === sheet.version).display;
-        console.log("SSO: ", this.selectedSheetOption)
       }
     });
     
