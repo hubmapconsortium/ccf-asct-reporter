@@ -12,7 +12,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy:miner": "git subtree push --prefix data-miner miner master",
+    "deploy:miner": "tsc data-miner/index.ts && git add . && git commit -m 'generated index.js file' && git subtree push --prefix data-miner miner master",
     "deploy:v2:staging": "cd dist/v2 && touch .nojekyll && touch 404.html && cat index.html >> 404.html && cd ../.. &&gh-pages -f -b staging -d dist/v2"
   },
   "private": true,
