@@ -9,7 +9,7 @@ var fs = require('fs');
 import { PLAYGROUND_CSV } from './const'
 
 
-const app = express();
+export const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -202,4 +202,6 @@ function makeASCTBData(data: any) {
   })
 }
 
-app.listen(process.env.PORT || 5000)
+
+
+app.listen(process.env.PORT || 5000);
