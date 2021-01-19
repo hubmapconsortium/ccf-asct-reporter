@@ -58,14 +58,5 @@ export const CONTIRBUTORS = [
     link: 'https://cns.iu.edu/current_team/bio/bruce-herr.html',
     linkedin: 'https://www.linkedin.com/in/bruceherr/',
     github: 'https://github.com/bherr2'
-  },
-  {
-    img: 'assets/contributors/kasturi.jpg',
-    name: 'Kasturi Nikharge',
-    desc: 'Traffic Data Analytics, Refactoring and Testing',
-    mail: 'knikharg@iu.edu',
-    link: 'https://cns.iu.edu/current_team/bio/nikharge-kasturi.html',
-    linkedin: 'https://www.linkedin.com/in/kasturi-nikharge/',
-    github: 'https://github.com/knikharg'
   }
 ];
