@@ -1,0 +1,22 @@
+.mat-tree-node {
+    min-height: 2em !important;
+    height: 2em;
+    font-size: 14pt;
+    cursor: pointer;
+}
+
+.mat-tree-node:hover {
+    color: #1976D2;
+}
+
+.background-highlight {
+    color: #1976D2;
+}
+
+::ng-deep .mat-icon {
+    height: 24px !important;
+    width: 24px !important;
+    font-size: 18pt !important;
+    font-weight: bold;
+    color: white;
+}

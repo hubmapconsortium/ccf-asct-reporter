@@ -1,0 +1,82 @@
+<div style="width: 100%; ">
+    <div class="wrapper">
+        <div class="header">
+            <span style="margin: 0; font-weight: 300;" class="title">Input Derived Data Table</span>
+            <div>
+                <button mat-icon-button #tooltip="matTooltip" matTooltip="Please provide the URL of Google Sheets from your browser. Please make sure that the the table's structure EXACTLY matches that of the master tables and that the sheet is PUBLIC.">
+                    <mat-icon style="color: grey;">help_outline</mat-icon>
+                </button>
+                <button mat-icon-button (click)="close()" #tooltip="matTooltip" matTooltip="Close">
+                    <mat-icon style="color: grey;">close</mat-icon>
+                </button>
+            </div>
+            
+        </div>
+        <div class="content mt-1">
+            <form [formGroup]="formGroup">
+                <div formArrayName="sheets">
+                    <div *ngFor="let sheet of CSControls.controls; let i=index">
+                        <div [formGroupName]="i">
+                            <div class=" w-100" style="display: flex; align-items: center; justify-content: space-between;">
+                                <div class='w-50'>
+                                    <mat-form-field [floatLabel]="'always'" class="link-input-field">
+                                        <mat-label>Title</mat-label>
+                                        <input matInput placeholder="Sheet 1" formControlName="title">
+                                        <mat-hint>A title for your sheet</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <div class='w-50'>
+                                    <mat-form-field [floatLabel]="'always'" class="link-input-field">
+                                        <mat-label>Description</mat-label>
+                                        <input matInput placeholder="This data maps amazing structures!" formControlName="description">
+                                        <mat-hint>A suitable description</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                
+                            </div>
+                            <div class=" w-100 mt-3" style="display: flex; align-items: center; justify-content: space-between;">
+                                <div class='w-75'>
+                                    <mat-form-field [floatLabel]="'always'" class="link-input-field">
+                                        <mat-label>Google Sheets Link</mat-label>
+                                        <input matInput placeholder="Enter link..." formControlName="link" required>
+                                        <mat-hint>Please enter your Google Sheet Link</mat-hint>
+                                        <mat-error *ngIf="sheet.get('link').hasError('required') || sheet.get('link').hasError('pattern')">Invalid link</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div style="width: 15%; margin-top: -15px;">
+                                    <mat-label style="font-size: 10px; color:grey">Pick Color</mat-label>
+                                    <input 
+                                        type="color" 
+                                        class="w-100 form-control" 
+                                        style="height: 30px; margin-top: 4px;" 
+                                        formControlName="color"
+                                        [style.backgroundColor]="sheet.get('color').value"
+                                    >
+                                </div>
+                                <div class="mt-1 ml-2">
+                                    <button mat-icon-button [disabled]="formGroup.value.sheets.length === 1" (click)="removeCompareSheetRow(i)">
+                                        <mat-icon color="red">delete</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="mt-1">
+            <span style="font-size: 10px; color:gray;">* required field</span>
+        </div>
+    </div>
+    
+    <div class="mt-2" style="width: 100%; justify-content: space-between; display: flex;">
+        
+        <button mat-flat-button color="primary" (click)="getData()" [disabled]="doesFormHaveError()">Compare</button>
+        <button mat-flat-button
+            style="border: 1px solid rgb(196, 196, 196); color: grey;" (click)="addCompareSheetRow()">
+            <mat-icon>add</mat-icon>
+            Add
+        </button>
+    </div>
+</div>

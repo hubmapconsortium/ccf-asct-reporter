@@ -1,0 +1,15 @@
+<div>
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" #indentTree style="padding: 20px !important; width: fit-content; background-color: transparent;">
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding [ngClass]="{ 'background-highlight': activateNode === node }" (click)="activateNode = node">
+            <button mat-icon-button disabled></button><span>{{node.name}}</span>
+        </mat-tree-node>
+        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding [ngClass]="{ 'background-highlight': activateNode === node }" (click)="activateNode = node">
+            <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle' + node.name" style="background-color:rgb(215, 215, 215); transform: scale(0.7);">
+                <mat-icon class="mat-icon-rtl-mirror" style="font-size: 20pt;">
+                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                </mat-icon>
+            </button>
+            <span><span style="font-weight: 500;">{{node.name}} </span><span style="font-size: 12pt; color: grey; padding-left: 10px;" *ngIf="node.uberon"> ({{node.uberon}})</span></span>
+        </mat-tree-node>
+    </mat-tree>
+</div>

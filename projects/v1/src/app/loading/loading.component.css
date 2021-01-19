@@ -1,0 +1,11 @@
+:host ::ng-deep .mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: #444a65;
+}
+
+.loadingSVG {
+  display: block;
+  width: 150px;
+  height: 75px;
+  text-align: center;
+}
