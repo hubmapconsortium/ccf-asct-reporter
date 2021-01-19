@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,7 +35,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var _this = this;
+exports.__esModule = true;
+exports.app = void 0;
 var express = require("express");
 var bodyParser = require("body-parser");
 var axios = require("axios");
@@ -42,11 +44,12 @@ var cors = require("cors");
 var path = require('path');
 var papa = require('papaparse');
 var fs = require('fs');
-var app = express();
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '/')));
+var const_1 = require("./const");
+exports.app = express();
+exports.app.use(cors());
+exports.app.use(bodyParser.urlencoded({ extended: false }));
+exports.app.use(bodyParser.json());
+exports.app.use(express.static(path.join(__dirname, '/')));
 var BM_TYPE;
 (function (BM_TYPE) {
     BM_TYPE["G"] = "gene";
@@ -71,71 +74,109 @@ var Row = /** @class */ (function () {
 var headerMap = {
     'AS': 'anatomical_structures', 'CT': 'cell_types', 'BG': 'biomarkers', 'BP': 'biomarkers'
 };
-var ids = '0123456789';
-app.get("/v2/:sheetid/:gid", function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var f1, f2, rows, response, data, headerRow, dataLength, i, newRow, j, rowHeader, key, s, n, n, err_1;
+exports.app.get("/v2/:sheetid/:gid", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var f1, f2, response, data, asctbData, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                console.log(req.protocol + "://" + req.headers.host + req.originalUrl);
                 f1 = req.params.sheetid;
                 f2 = req.params.gid;
-                rows = [];
                 _a.label = 1;
             case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, axios.get("https://docs.google.com/spreadsheets/d/" + f1 + "/export?format=csv&gid=" + f2)];
-            case 2:
-                response = _a.sent();
-                data = papa.parse(response.data).data;
-                headerRow = 11;
-                dataLength = data.length;
-                for (i = headerRow; i < dataLength; i++) {
-                    newRow = new Row();
-                    for (j = 0; j < data[0].length; j++) {
-                        if (data[i][j] === '')
-                            continue;
-                        rowHeader = data[headerRow - 1][j].split('/');
-                        key = headerMap[rowHeader[0]];
-                        if (key === undefined)
-                            continue;
-                        if (rowHeader.length === 2 && Number(rowHeader[1])) {
-                            s = new Structure(data[i][j]);
-                            if (rowHeader[0] === 'BG')
-                                s.b_type = BM_TYPE.G;
-                            if (rowHeader[0] === 'BP')
-                                s.b_type = BM_TYPE.P;
-                            newRow[key].push(s);
-                        }
-                        if (rowHeader.length === 3 && rowHeader[2] === 'ID') {
-                            n = newRow[key][parseInt(rowHeader[1]) - 1];
-                            if (n)
-                                n.id = data[i][j];
-                        }
-                        else if (rowHeader.length === 3 && rowHeader[2] === 'LABEL') {
-                            n = newRow[key][parseInt(rowHeader[1]) - 1];
-                            if (n)
-                                n.rdfs_label = data[i][j];
-                        }
-                    }
-                    rows.push(newRow);
-                }
+                _a.trys.push([1, 6, , 7]);
+                response = void 0;
+                if (!(f1 === '0' && f2 === '0')) return [3 /*break*/, 2];
+                response = { data: const_1.PLAYGROUND_CSV };
                 return [3 /*break*/, 4];
+            case 2: return [4 /*yield*/, axios.get("https://docs.google.com/spreadsheets/d/" + f1 + "/export?format=csv&gid=" + f2)];
             case 3:
+                response = _a.sent();
+                _a.label = 4;
+            case 4:
+                data = papa.parse(response.data).data;
+                return [4 /*yield*/, makeASCTBData(data)];
+            case 5:
+                asctbData = _a.sent();
+                return [2 /*return*/, res.send({
+                        data: asctbData,
+                        csv: response.data,
+                        parsed: data
+                    })];
+            case 6:
                 err_1 = _a.sent();
                 console.log(err_1);
                 return [2 /*return*/, res.status(500).send({
                         msg: 'Please check the table format or the sheet access',
                         code: 500
                     })];
-            case 4: return [2 /*return*/, res.send(rows)];
+            case 7: return [2 /*return*/];
         }
     });
 }); });
-app.get("/", function (req, res) {
+exports.app.get("/v2/playground", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var parsed, data, err_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                console.log(req.protocol + "://" + req.headers.host + req.originalUrl);
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                parsed = papa.parse(const_1.PLAYGROUND_CSV).data;
+                return [4 /*yield*/, makeASCTBData(parsed)];
+            case 2:
+                data = _a.sent();
+                return [2 /*return*/, res.send({
+                        data: data,
+                        csv: const_1.PLAYGROUND_CSV,
+                        parsed: parsed
+                    })];
+            case 3:
+                err_2 = _a.sent();
+                console.log(err_2);
+                return [2 /*return*/, res.status(500).send({
+                        msg: JSON.stringify(err_2),
+                        code: 500
+                    })];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
+exports.app.post('/v2/playground', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var csv, data, err_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                csv = papa.unparse(req.body);
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, makeASCTBData(req.body.data)];
+            case 2:
+                data = _a.sent();
+                res.send({
+                    data: data,
+                    parsed: req.body,
+                    csv: csv
+                });
+                return [3 /*break*/, 4];
+            case 3:
+                err_3 = _a.sent();
+                console.log(err_3);
+                return [2 /*return*/, res.status(500).send({
+                        msg: JSON.stringify(err_3),
+                        code: 500
+                    })];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
+exports.app.get("/", function (req, res) {
     res.sendFile('views/home.html', { root: __dirname });
 });
-app.get("/:sheetid/:gid", function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var f1, f2, response, err_2;
+exports.app.get("/:sheetid/:gid", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var f1, f2, response, err_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -157,13 +198,56 @@ app.get("/:sheetid/:gid", function (req, res) { return __awaiter(_this, void 0, 
                 }
                 return [3 /*break*/, 4];
             case 3:
-                err_2 = _a.sent();
-                console.log(err_2);
-                res.statusMessage = err_2;
+                err_4 = _a.sent();
+                console.log(err_4);
+                res.statusMessage = err_4;
                 res.status(500).end();
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }
     });
 }); });
-app.listen(process.env.PORT || 5000);
+function makeASCTBData(data) {
+    return new Promise(function (res, rej) {
+        var rows = [];
+        var headerRow = 11;
+        var dataLength = data.length;
+        try {
+            for (var i = headerRow; i < dataLength; i++) {
+                var newRow = new Row();
+                for (var j = 0; j < data[0].length; j++) {
+                    if (data[i][j] === '')
+                        continue;
+                    var rowHeader = data[headerRow - 1][j].split('/');
+                    var key = headerMap[rowHeader[0]];
+                    if (key === undefined)
+                        continue;
+                    if (rowHeader.length === 2 && Number(rowHeader[1])) {
+                        var s = new Structure(data[i][j]);
+                        if (rowHeader[0] === 'BG')
+                            s.b_type = BM_TYPE.G;
+                        if (rowHeader[0] === 'BP')
+                            s.b_type = BM_TYPE.P;
+                        newRow[key].push(s);
+                    }
+                    if (rowHeader.length === 3 && rowHeader[2] === 'ID') {
+                        var n = newRow[key][parseInt(rowHeader[1]) - 1];
+                        if (n)
+                            n.id = data[i][j];
+                    }
+                    else if (rowHeader.length === 3 && rowHeader[2] === 'LABEL') {
+                        var n = newRow[key][parseInt(rowHeader[1]) - 1];
+                        if (n)
+                            n.rdfs_label = data[i][j];
+                    }
+                }
+                rows.push(newRow);
+            }
+            res(rows);
+        }
+        catch (err) {
+            rej(err);
+        }
+    });
+}
+exports.app.listen(process.env.PORT || 5000);
