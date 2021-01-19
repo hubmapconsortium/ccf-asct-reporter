@@ -360,7 +360,7 @@ export class UIState {
    * Then dispatch new action to update bottom sheet data
    */
   @Action(OpenBottomSheet)
-  openBottomSheet({ getState, setState, patchState, dispatch }: StateContext<UIStateModel>, { data }: OpenBottomSheet) {
+  openBottomSheet({ getState, setState, dispatch }: StateContext<UIStateModel>, { data }: OpenBottomSheet) {
     const state = getState();
     dispatch(new CloseBottomSheet());
     dispatch(new UpdateBottomSheetData(data)).subscribe(_ => {

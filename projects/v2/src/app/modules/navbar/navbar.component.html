@@ -35,25 +35,6 @@
     <div class="search">
       <app-search [disabled]="(ui$ | async).error.hasError"></app-search>
     </div>
-    <!-- <mat-form-field style="margin-bottom: 0">
-      <button
-        class="secondary select-border"
-        mat-flat-button
-        style="width: 100%"
-        #tooltip="matTooltip"
-        matTooltip="Select Organ Set"
-        matTooltipPosition="below"
-      >
-        <mat-select
-          (selectionChange)="getVersionSelection(selectedVersion, $event)"
-          [(ngModel)]="selectedVersion"
-        >
-          <mat-option *ngFor="let option of VERSIONS" [value]="option.display">
-            {{ option.display }}
-          </mat-option>
-        </mat-select>
-      </button>
-    </mat-form-field> -->
     <mat-form-field style="margin-bottom: 0">
       <button
         class="secondary select-border"

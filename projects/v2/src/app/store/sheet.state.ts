@@ -103,7 +103,6 @@ export class SheetStateModel {
       display: '',
       sheetId: '',
       gid: '',
-
       body: '',
       config: {
         bimodal_distance_x: 0,
