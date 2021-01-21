@@ -1,6 +1,6 @@
 export const URL = `http://localhost:5000/v2`;
 
-export const PLAYGROUND = 'assets/playground/sheet.csv'
+export const PLAYGROUND = 'assets/playground/sheet.csv';
 
 export function getAssetsURL(dataVersion, currentSheet) {
   return `assets/data/${dataVersion}/${currentSheet.name}.csv`;

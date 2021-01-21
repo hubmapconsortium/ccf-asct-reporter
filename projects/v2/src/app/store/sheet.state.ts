@@ -50,45 +50,45 @@ import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
 
 /** Class to keep track of the sheet */
 export class SheetStateModel {
-  /** 
-   * Stores the data csv string from teh response
-   * */
+  /**
+   * Stores the data csv string from the response
+   */
   csv: string;
-  /** 
+  /**
    * Stores the data from Google Sheets
-   * */
+   */
   data: Row[];
-  /** 
+  /**
    * Stores the currently selected sheet
-   * */
+   */
   sheet: Sheet;
-  /** 
+  /**
    * Stores the current version
-   * */
+   */
   version: string;
-  /** 
+  /**
    * Stores the compare data input by the user
-   * */
+   */
   compareSheets: CompareData[];
-  /** 
+  /**
    * Stores the compare data from the server
-   * */
+   */
   compareData: Row[];
-  /** 
+  /**
    * Stores the configuration for a sheet such as width, height etc.
-   * */
+   */
   sheetConfig: SheetConfig;
-  /** 
+  /**
    * Stores the data from the report
-   * */
+   */
   reportData: any;
-  /** 
+  /**
    * Stores the mode: vis or playground
-   * */
+   */
   mode: string;
-  /** 
+  /**
    * Stores the parsed data
-   * */
+   */
   parsed: string[][];
 }
 
@@ -333,9 +333,9 @@ export class SheetState {
           csv: res.csv,
           data: res.data,
           version: 'latest',
-          sheet: sheet,
+          sheet,
           parsed: res.parsed,
-          mode: mode,
+          mode,
           sheetConfig: {...sheet.config, show_ontology: true},
         });
 
@@ -429,8 +429,8 @@ export class SheetState {
     const state = getState();
     setState({
       ...state,
-      mode: mode
-    })
+      mode
+    });
   }
 
   @Action(UpdateSheet)
@@ -438,9 +438,9 @@ export class SheetState {
     const state = getState();
     setState({
       ...state,
-      sheet: sheet,
+      sheet,
       sheetConfig: {...sheet.config, show_ontology: true},
-    })
+    });
   }
 
   @Action(FetchInitialPlaygroundData)
@@ -475,13 +475,13 @@ export class SheetState {
         dispatch(new HasError(err));
         return of('');
       })
-    )
+    );
 
   }
 
   @Action(UpdatePlaygroundData)
-  updatePlaygroundData({getState, setState, dispatch}: StateContext<SheetStateModel>, {data}:UpdatePlaygroundData) {
-    const state = getState()
+  updatePlaygroundData({getState, setState, dispatch}: StateContext<SheetStateModel>, {data}: UpdatePlaygroundData) {
+    const state = getState();
     dispatch(new OpenLoading('Fetching data from assets..'));
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
@@ -489,7 +489,7 @@ export class SheetState {
 
     return this.sheetService.updatePlaygroundData(data).pipe(
       tap((res: any) => {
-        console.log(res)
+        console.log(res);
         setState({
           ...state,
           parsed: res.parsed,
@@ -510,7 +510,7 @@ export class SheetState {
         dispatch(new HasError(err));
         return of('');
       })
-    )
+    );
   }
 
 }

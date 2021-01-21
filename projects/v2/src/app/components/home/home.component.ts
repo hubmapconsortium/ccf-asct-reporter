@@ -87,6 +87,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   onResize(e) {
-    console.log(e)
+    console.log(e);
   }
 }

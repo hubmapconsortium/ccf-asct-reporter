@@ -13,7 +13,7 @@ export class VisControlsComponent implements OnInit {
   @Input() config: SheetConfig;
   @Input() error: Error;
   @Input() currentSheet: Sheet;
-  
+
 
   @Output() updatedConfig: EventEmitter<any>  = new EventEmitter<any>();
   constructor(private sanitizer: DomSanitizer) { }
@@ -66,10 +66,10 @@ export class VisControlsComponent implements OnInit {
 
   exportControls(event: any) {
     event.stopPropagation();
-    var sJson = JSON.stringify(this.config);
-    var element = document.createElement('a');
-    element.setAttribute('href', "data:text/json;charset=UTF-8," + encodeURIComponent(sJson));
-    element.setAttribute('download', "asct-b-graph-config.json");
+    const sJson = JSON.stringify(this.config);
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/json;charset=UTF-8,' + encodeURIComponent(sJson));
+    element.setAttribute('download', 'asct-b-graph-config.json');
     element.style.display = 'none';
     document.body.appendChild(element);
     element.click();

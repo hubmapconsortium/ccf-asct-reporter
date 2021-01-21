@@ -27,6 +27,6 @@ export class SheetService {
   }
 
   updatePlaygroundData(data: string[][]) {
-    return this.http.post(`${URL}/playground`, {data: data})
+    return this.http.post(`${URL}/playground`, {data});
   }
 }
