@@ -3,35 +3,57 @@
     <mat-panel-title>
       <div>
         <b> Controls </b>
-        
       </div>
     </mat-panel-title>
     <mat-panel-description>
-      <button mat-icon-button class="mr-2" (click)="exportControls($event)"> 
-      <mat-icon>get_app</mat-icon>
-    </button>
+      <button mat-icon-button class="mr-2" (click)="exportControls($event)">
+        <mat-icon>get_app</mat-icon>
+      </button>
     </mat-panel-description>
   </mat-expansion-panel-header>
 
   <div class="py-1 pb-4" *ngIf="currentSheet.name === 'all'">
-    <mat-slide-toggle [checked]="config.show_all_AS" color="primary" (change)="changeShowAS()" matTooltip="Toggle Visibility of Ontology Links" matTooltipPosition="below">
-      <span style="font-weight: 500;">Show all AS</span>
+    <mat-slide-toggle
+      [checked]="config.show_all_AS"
+      color="primary"
+      (change)="changeShowAS()"
+      matTooltip="Toggle Visibility of Anatomical Structures"
+      matTooltipPosition="below"
+    >
+      <span style="font-weight: 500">Show all AS</span>
     </mat-slide-toggle>
   </div>
 
   <div class="py-1 pb-4">
-    <mat-slide-toggle [checked]="config.show_ontology" color="primary" (change)="changeShowOntology()" matTooltip="Toggle Visibility of Ontology Links" matTooltipPosition="below">
-      <span style="font-weight: 500;">Ontology IDs</span>
+    <mat-slide-toggle
+      [checked]="config.show_ontology"
+      color="primary"
+      (change)="changeShowOntology()"
+      matTooltip="Toggle Visibility of Ontology Links"
+      matTooltipPosition="below"
+    >
+      <span style="font-weight: 500">Ontology IDs</span>
     </mat-slide-toggle>
   </div>
 
-  <div class="py-1" matTooltip="Change width of AS Tree" matTooltipPosition="below">
+  <div
+    class="py-1"
+    matTooltip="Change Bimodal Distance (Y)"
+    matTooltipPosition="below"
+  >
     <div class="d-flex justify-content-between align-items-center w-100 h-100">
       <div class="w-50">
-        <span style="font-weight: 500;">Tree Width</span>
+        <span style="font-weight: 500">Tree Width</span>
       </div>
       <div class="text-right w-50">
-        <b><input [(ngModel)]="config.width" type="number" matInput (change)="changeWidth()" class="numberInput" /></b>
+        <b
+          ><input
+            [(ngModel)]="config.width"
+            type="number"
+            matInput
+            (change)="changeWidth()"
+            class="numberInput"
+        /></b>
       </div>
       <div></div>
     </div>
@@ -48,13 +70,24 @@
     </div>
   </div>
 
-  <div class="py-1" matTooltip="Change width of AS Tree" matTooltipPosition="below">
+  <div
+    class="py-1"
+    matTooltip="Change height of AS Tree"
+    matTooltipPosition="below"
+  >
     <div class="d-flex justify-content-between align-items-center w-100 h-100">
       <div class="w-50">
-        <span style="font-weight: 500;">Tree Height</span>
+        <span style="font-weight: 500">Tree Height</span>
       </div>
       <div class="text-right w-50">
-        <b><input [(ngModel)]="config.height" type="number" matInput (change)="changeHeight()" class="numberInput" /></b>
+        <b
+          ><input
+            [(ngModel)]="config.height"
+            type="number"
+            matInput
+            (change)="changeHeight()"
+            class="numberInput"
+        /></b>
       </div>
       <div></div>
     </div>
@@ -63,7 +96,7 @@
         class="min p-0 w-100"
         thumbLabel
         [(ngModel)]="config.height"
-        tickInterval="100" 
+        tickInterval="100"
         min="100"
         max="7000"
         (change)="changeHeight()"
@@ -71,13 +104,24 @@
     </div>
   </div>
 
-  <div class="py-1" matTooltip="Change width of AS Tree" matTooltipPosition="below">
+  <div
+    class="py-1"
+    matTooltip="Change Bimodal Distance (X)"
+    matTooltipPosition="below"
+  >
     <div class="d-flex justify-content-between align-items-center w-100 h-100">
       <div class="w-50">
-        <span style="font-weight: 500;">Bimodal Distance X</span>
+        <span style="font-weight: 500">Bimodal Distance X</span>
       </div>
       <div class="text-right w-50">
-        <b><input [(ngModel)]="config.bimodal_distance_x" type="number" matInput (change)="changeBimodalDistanceX()" class="numberInput" /></b>
+        <b
+          ><input
+            [(ngModel)]="config.bimodal_distance_x"
+            type="number"
+            matInput
+            (change)="changeBimodalDistanceX()"
+            class="numberInput"
+        /></b>
       </div>
       <div></div>
     </div>
@@ -86,7 +130,7 @@
         class="min p-0 w-100"
         thumbLabel
         [(ngModel)]="config.bimodal_distance_x"
-        tickInterval="100" 
+        tickInterval="100"
         min="50"
         max="500"
         (change)="changeBimodalDistanceX()"
@@ -94,13 +138,24 @@
     </div>
   </div>
 
-  <div class="py-1" matTooltip="Change width of AS Tree" matTooltipPosition="below">
+  <div
+    class="py-1"
+    matTooltip="Change width of AS Tree"
+    matTooltipPosition="below"
+  >
     <div class="d-flex justify-content-between align-items-center w-100 h-100">
       <div class="w-50">
-        <span style="font-weight: 500;">Bimodal Distance Y</span>
+        <span style="font-weight: 500">Bimodal Distance Y</span>
       </div>
       <div class="text-right w-50">
-        <b><input [(ngModel)]="config.bimodal_distance_y" type="number" matInput (change)="changeBimodalDistanceY()" class="numberInput" /></b>
+        <b
+          ><input
+            [(ngModel)]="config.bimodal_distance_y"
+            type="number"
+            matInput
+            (change)="changeBimodalDistanceY()"
+            class="numberInput"
+        /></b>
       </div>
       <div></div>
     </div>
@@ -109,7 +164,7 @@
         class="min p-0 w-100"
         thumbLabel
         [(ngModel)]="config.bimodal_distance_y"
-        tickInterval="100" 
+        tickInterval="100"
         min="10"
         max="200"
         (change)="changeBimodalDistanceY()"
