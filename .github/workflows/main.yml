@@ -15,7 +15,7 @@ jobs:
     - run: npm install -g @angular/cli > /dev/null
     - run: npm run build:v2
     - name: Publish generated content to GitHub Pages
-      uses: hrishikeshpaul/ccf-asctb-reporter@v1.0.1
+      uses: hrishikeshpaul/ccf-asctb-reporter@main
       with:
           dir: dist/v2
           branch: gh-pages
