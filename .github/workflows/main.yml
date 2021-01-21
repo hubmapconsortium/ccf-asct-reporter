@@ -1,22 +1,22 @@
 name: CI
-
-on: [push]
-
+on:
+  push:
+    branches: [ main ]
 jobs:
   build:
+    runs-on: ubuntu-latest
 
-    runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v1
-    - name: Use Node.js 8.15.1
-      uses: actions/setup-node@v1
+    - uses: actions/setup-node@v1 #this will install Node and npm on Ubuntu
       with:
-        node-version: 8.15.1
-    - name: Build and Deploy
-      uses: hrishikeshpaul/ccf-asctb-reporter@releases/v2
-      env:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        BASE_BRANCH: main
-        BRANCH: gh-pages
-        FOLDER: dist/v2
-        BUILD_SCRIPT: npm install && npm run build:v2
+        node-version: '12.x'
+    - run: npm install
+    - run: npm install -g @angular/cli > /dev/null
+    - run: npm run build:v2
+    - name: Publish generated content to GitHub Pages
+      uses: hrishikeshpaul/ccf-asctb-reporter@v1.0.1
+      with:
+          dir: dist/v2
+          branch: gh-pages
+          token: ${{ secrets.ACCESS_TOKEN }}
