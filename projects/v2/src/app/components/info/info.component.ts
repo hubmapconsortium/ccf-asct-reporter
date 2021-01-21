@@ -44,7 +44,7 @@ export class InfoComponent implements OnInit {
         this.info = {
           iri: r.iri,
           label: r.label,
-          desc: r.description[0],
+          desc: r.description ? r.description[0] : 'null',
         };
         this.changeDetectorRef.detectChanges();
       },
