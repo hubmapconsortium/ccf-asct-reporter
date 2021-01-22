@@ -4,13 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build:v2": "ng build v2 --prod --base-href=/v2/ --configuration=production",
+    "build:v2": "ng build v2",
     "build:v2:staging": "ng build v2 --prod --base-href=/v2/ --configuration=production",
     "build:v1": "ng build v1 --prod --base-href=/v1/ --configuration=production",
     "build:v1:staging": "ng build v1 --prod --base-href=/v2/ --configuration=production",
     "miner": "cd data-miner && npm run dev",
-    "test": "ng test",
-    "lint": "ng lint",
+    "test": "ng test v2 --watch=false --browsers=ChromeHeadlessCustom",
+    "lint": "ng lint v2",
     "e2e": "ng e2e",
     "deploy:miner": "git subtree push --prefix data-miner miner master",
     "deploy:v2:staging": "cd dist/v2 && touch .nojekyll && touch 404.html && cat index.html >> 404.html && cd ../.. &&gh-pages -f -b staging -d dist/v2"

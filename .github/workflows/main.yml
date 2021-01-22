@@ -1,20 +1,31 @@
-name: Build and Deploy
+name: Deploy to GitHub Pages
+
 on:
-  push:
-    branches:
+  push:	
+    branches:	
       - main
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - name: All things angular
-      uses: hrishikeshpaul/ccf-asctb-reporter@v2.0 ## replace by latest version without it you will see Expected format {org}/{repo}[/path]@ref. Actual 'AhsanAyaz/angular-deploy-gh-pages-actions',Input string was not in a correct format.
+    - name: Checkout
+      uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
       with:
-        github_access_token: ${{ secrets.ACCESS_TOKEN }} # see the Configuration section for how you can create secrets
-        build_configuration: production # The build environment for the app. please look configurations in your angular.json
-        base_href: /v2/   # make sure this corresponds to https://<your_username>.github.io/<base_href>/
-        deploy_branch: gh-pages # The branch the action should deploy to.
-        angular_dist_build_folder: dist/v2 # The folder where your project is supposed to be after running ng build by the action.
+        persist-credentials: false
+    - name: Use Node.js 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+    - name: Build
+      run: |
+         npm install -g @angular/cli
+         npm install
+         ng build --prod --base-href="/v2/"
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@releases/v2
+      env:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BASE_BRANCH: master
+        BRANCH: gh-pages
+        FOLDER: dist/v2
