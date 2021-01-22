@@ -1,4 +1,4 @@
-export const URL = `http://localhost:5000/v2`;
+export const URL = `https://astb-miner-v2.herokuapp.com/v2`;
 
 export const PLAYGROUND = 'assets/playground/sheet.csv';
 

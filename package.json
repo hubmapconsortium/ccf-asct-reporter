@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build:v2": "ng build v2",
+    "build:v2": "ng build v2 --prod --base-href=/v2/ --configuration=production",
     "build:v2:staging": "ng build v2 --prod --base-href=/v2/ --configuration=production",
     "build:v1": "ng build v1 --prod --base-href=/v1/ --configuration=production",
     "build:v1:staging": "ng build v1 --prod --base-href=/v2/ --configuration=production",
