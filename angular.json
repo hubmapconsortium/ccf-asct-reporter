@@ -25,7 +25,8 @@
             "aot": true,
             "assets": [
               "projects/v2/src/favicon.ico",
-              "projects/v2/src/assets"
+              "projects/v2/src/assets",
+              "projects/v2/src/_redirects"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
