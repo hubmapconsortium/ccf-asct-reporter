@@ -1,54 +1,20 @@
-name: workflow name
-
+name: Build and Deploy
 on:
   push:
     branches:
-      - 'main'
-
+      - main
 jobs:
   build:
-    name: Build and Test
-    runs-on: macos-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Use Node 12.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-      - name: Install dependencies
-        run: npm ci
-      - name: Build
-        run: npm run build:v2
-      - name: Test
-        run: npm run test
-        env:
-          CI: true
-      - name: Archive build
-        if: success()
-        uses: actions/upload-artifact@v1
-        with:
-          name: deploy_dist
-          path: dist
-      - name: Archive code coverage result
-        if: success()
-        uses: actions/upload-artifact@v1
-        with:
-          name: deploy_coverage
-          path: coverage
-  deploy:
+
     runs-on: ubuntu-latest
-    needs: build
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: Download build
-        uses: actions/download-artifact@v1
-        with:
-          name: deploy_dist
-      - name: Deploy to GitHub Pages
-        uses: hrishikeshpaul/ccf-asctb-reporter@releases/v2.0
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: dist/v2
+    - uses: actions/checkout@v2
+    - name: All things angular
+      uses: hrishikeshpaul/ccf-asctb-reporter@v2.0 ## replace by latest version without it you will see Expected format {org}/{repo}[/path]@ref. Actual 'AhsanAyaz/angular-deploy-gh-pages-actions',Input string was not in a correct format.
+      with:
+        github_access_token: ${{ secrets.ACCESS_TOKEN }} # see the Configuration section for how you can create secrets
+        build_configuration: production # The build environment for the app. please look configurations in your angular.json
+        base_href: /v2/   # make sure this corresponds to https://<your_username>.github.io/<base_href>/
+        deploy_branch: gh-pages # The branch the action should deploy to.
+        angular_dist_build_folder: dist/v2 # The folder where your project is supposed to be after running ng build by the action.
