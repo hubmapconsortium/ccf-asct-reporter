@@ -140,9 +140,11 @@ export class ReportComponent implements OnInit {
      */
     if (i === -1) {
       allReport.push(this.downloadData());
-
-      for (const [sheet, ele] of this.compareReport.entries()) {
-        allReport.push(this.downloadCompareSheetReport(sheet));
+      
+      if (this.compareReport) {
+        for (const [sheet, ele] of this.compareReport.entries()) {
+          allReport.push(this.downloadCompareSheetReport(sheet));
+        }
       }
     } else {
       /**

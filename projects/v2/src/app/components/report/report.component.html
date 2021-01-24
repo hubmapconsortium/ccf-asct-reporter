@@ -1,6 +1,6 @@
 <app-sidenav >
   <div header>
-    <app-sidenav-header [title]="'Report for ' + currentSheet.display" [download]="true" (downloadFn)="downloadReport()" [tooltipString]="'Various statistics caldualted from the data'" (closeSideNav)="closeReport.emit()"></app-sidenav-header>
+    <app-sidenav-header [title]="'Report for ' + currentSheet.display" [download]="true" (downloadFn)="downloadReport()" [tooltipString]="'Various statistics calculated from the data'" (closeSideNav)="closeReport.emit()"></app-sidenav-header>
   </div>
 
   <div body class="report">
@@ -24,6 +24,15 @@
               <span class="number">{{ reportData.biomarkers.length }}</span>
             </div>
             <br />
+            <div class="i1">
+              <span>CT <i>located_in</i> AS links: </span>
+              <span class="number">{{ linksData.AS_CT }}</span>
+            </div>
+            <div class="i1">
+              <span>B <i>characterizes</i> CT links: </span>
+              <span class="number">{{ linksData.CT_B }}</span>
+            </div>
+            <br />
   
             <div class="i1">
               <span>Anatomical structures with no Uberon link: </span>
@@ -34,19 +43,11 @@
               <span class="number">{{ reportData.CTWithNoLink.length }}</span>
             </div>
             <div class="i1">
-              <span>Biomarkers with no Go/UniProt link: </span>
+              <span>Biomarkers with no HGNC link: </span>
               <span class="number">{{ reportData.BWithNoLink.length }}</span>
             </div>
             <br>
-            <div class="i1">
-              <span>AS to CT Links: </span>
-              <span class="number">{{ linksData.AS_CT }}</span>
-            </div>
-            <div class="i1">
-              <span>CT to B Links: </span>
-              <span class="number">{{ linksData.CT_B }}</span>
-            </div>
-            <br />
+         
           </div>
   
           <br />
@@ -59,9 +60,10 @@
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <div style="font-weight: 400; font-size: 13pt;">
-                    Unique anatomical structures (AS)
+                    Unique Anatomical Structures <span class="text-muted">({{reportData.anatomicalStructures.length}})</span>
                   </div>
                 </mat-panel-title>
+                
               </mat-expansion-panel-header>
   
               <div class="as-details">
@@ -79,7 +81,7 @@
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <div style="font-weight: 400; font-size: 13pt;">
-                    Unique cell types (CT)
+                    Unique Cell Types <span class="text-muted">({{reportData.cellTypes.length}})</span>
                   </div>
                 </mat-panel-title>
               </mat-expansion-panel-header>
@@ -99,7 +101,7 @@
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <div style="font-weight: 400; font-size: 13pt;">
-                    Unique biomarkers (B)
+                    Unique biomarkers <span class="text-muted">({{reportData.biomarkers.length}})</span>
                   </div>
                 </mat-panel-title>
               </mat-expansion-panel-header>
@@ -120,7 +122,7 @@
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <div style="font-weight: 400; font-size: 13pt;">
-                    AS with no Uberon link
+                    Anatmoical Structures with no Uberon link <span class="text-muted">({{reportData.ASWithNoLink.length}})</span>
                   </div>
                 </mat-panel-title>
               </mat-expansion-panel-header>
@@ -140,7 +142,7 @@
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <div style="font-weight: 400; font-size: 13pt;">
-                    CT with no CL link
+                    Cell Types with no CL link <span class="text-muted">({{reportData.CTWithNoLink.length}})</span>
                   </div>
                 </mat-panel-title>
               </mat-expansion-panel-header>
@@ -160,7 +162,7 @@
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <div style="font-weight: 400; font-size: 13pt;">
-                    Biomarkers with no links
+                    Biomarkers with no HGNC links <span class="text-muted">({{reportData.BWithNoLink.length}})</span>
                   </div>
                 </mat-panel-title>
               </mat-expansion-panel-header>

@@ -210,7 +210,7 @@ export class SheetState {
   @Action(FetchCompareData)
   async fetchCompareData({getState, setState, dispatch, patchState}: StateContext<SheetStateModel>, {compareData}: FetchCompareData) {
     const state = getState();
-    dispatch(new OpenLoading('Fetching data..'));
+    dispatch(new OpenLoading('Fetching data...'));
     dispatch(new CloseBottomSheet());
 
     patchState({
@@ -263,7 +263,7 @@ export class SheetState {
   @Action(FetchAllOrganData)
   async fetchAllOrganData({getState, setState, dispatch, patchState}: StateContext<SheetStateModel>, {sheet}: FetchAllOrganData) {
 
-    dispatch(new OpenLoading('Fetching data..'));
+    dispatch(new OpenLoading('Fetching data...'));
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
@@ -319,7 +319,7 @@ export class SheetState {
   @Action(FetchSheetData)
   fetchSheetData({getState, setState, patchState, dispatch}: StateContext<SheetStateModel>, {sheet}: FetchSheetData) {
     const mode = getState().mode;
-    dispatch(new OpenLoading('Fetching data..'));
+    dispatch(new OpenLoading('Fetching data...'));
     // dispatch(new StateReset(SheetState));
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
@@ -360,7 +360,7 @@ export class SheetState {
   @Action(FetchDataFromAssets)
   fetchDataFromAssets({getState, setState, dispatch}: StateContext<SheetStateModel>, {version, sheet}: FetchDataFromAssets) {
     const state = getState();
-    dispatch(new OpenLoading('Fetching data from assets..'));
+    dispatch(new OpenLoading('Fetching data from assets...'));
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file, version));
@@ -447,7 +447,7 @@ export class SheetState {
   fetchInitialPlaygroundData({getState, setState, dispatch}: StateContext<SheetStateModel>) {
     const sheet = SHEET_CONFIG.find(i => i.name === 'example');
 
-    dispatch(new OpenLoading('Fetching data from assets..'));
+    dispatch(new OpenLoading('Fetching playground data...'));
     dispatch(new StateReset(SheetState));
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
@@ -482,7 +482,7 @@ export class SheetState {
   @Action(UpdatePlaygroundData)
   updatePlaygroundData({getState, setState, dispatch}: StateContext<SheetStateModel>, {data}: UpdatePlaygroundData) {
     const state = getState();
-    dispatch(new OpenLoading('Fetching data from assets..'));
+    dispatch(new OpenLoading('Fetching playground data...'));
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, 'Updated Playground Data', LOG_ICONS.file, 'latest'));
