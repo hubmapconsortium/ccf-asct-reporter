@@ -47,7 +47,7 @@ export const CONTIRBUTORS = [
     desc: 'Initial Visualization, Design Mockup and Biomedical Use Cases',
     mail: 'katy@indiana.edu',
     link: 'https://info.sice.indiana.edu/~katy/',
-    linkedin: 'https://www.linkedin.com/in/katy-border-a03837/',
+    linkedin: 'https://www.linkedin.com/in/katy-borner-a03837/',
     github: ''
   },
   {
