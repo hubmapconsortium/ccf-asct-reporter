@@ -5,14 +5,14 @@ import { SheetService } from '../services/sheet.service';
 // Used in the indented list vis
 export class Node {
   name: string;
-  uberon: string;
+  ontologyId: string;
   children?: Node[];
   color: string;
 
   constructor(name, children, uberon, color = '#808080') {
     this.name = name;
     this.children = children;
-    this.uberon = uberon;
+    this.ontologyId = uberon;
     this.color = color;
   }
 

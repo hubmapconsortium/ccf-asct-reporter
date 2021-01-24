@@ -18,14 +18,14 @@ import { IndentService } from './indent.service';
 
 interface Node {
   name: string;
-  uberon: string;
+  ontologyId: string;
   children?: Node[];
 }
 
 interface FlatNode {
   expandable: boolean;
   name: string;
-  uberon: string;
+  ontologyId: string;
   level: number;
 }
 

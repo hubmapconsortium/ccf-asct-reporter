@@ -31,6 +31,7 @@ import {
   CloseBottomSheet,
   CloseCompare,
   CloseLoading,
+  OpenBottomSheet,
 } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -247,6 +248,10 @@ export class RootComponent implements OnInit, OnDestroy{
   compareData(data: CompareData[]) {
     this.store.dispatch(new CloseCompare());
     this.store.dispatch(new FetchCompareData(data));
+  }
+
+  getStructureInfo(id: string) {
+    this.store.dispatch(new OpenBottomSheet(id));
   }
 
   exportVis(option: string) {

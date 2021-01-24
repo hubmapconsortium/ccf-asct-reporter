@@ -22,15 +22,23 @@
         *matTreeNodeDef="let node"
         matTreeNodePadding
         [ngClass]="{ 'background-highlight': activateNode === node }"
-        (click)="activateNode = node"
+        (click)="activateNode = node; openBottomSheet.emit({name: node.name, ontologyId: node.ontologyId})"
       >
-        <button mat-icon-button disabled></button><span>{{ node.name }}</span>
+        <button mat-icon-button disabled></button><div class="d-flex align-items-center"
+        ><span>{{ node.name }} </span
+        ><span
+          style="font-size: 8pt; color: grey; padding-left: 10px"
+          *ngIf="node.ontologyId"
+        >
+          {{ node.ontologyId }}</span
+        ></div
+      >
       </mat-tree-node>
       <mat-tree-node
         *matTreeNodeDef="let node; when: hasChild"
         matTreeNodePadding
         [ngClass]="{ 'background-highlight': activateNode === node }"
-        (click)="activateNode = node"
+        (click)="activateNode = node; openBottomSheet.emit({name: node.name, ontologyId: node.ontologyId})"
       >
         <button
           mat-icon-button
@@ -45,20 +53,21 @@
               color: white;
               height: 24px !important;
               width: 24px !important;
-              font-size: 18pt !important;
+              font-size: 14pt !important;
             "
           >
             {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
           </mat-icon>
         </button>
-        <span
+
+        <div class="d-flex align-items-center"
           ><span style="font-weight: 500">{{ node.name }} </span
           ><span
-            style="font-size: 12pt; color: grey; padding-left: 10px"
-            *ngIf="node.uberon"
+            style="font-size: 8pt; color: grey; padding-left: 10px"
+            *ngIf="node.ontologyId"
           >
-            ({{ node.uberon }})</span
-          ></span
+            {{ node.ontologyId }}</span
+          ></div
         >
       </mat-tree-node>
     </mat-tree>
@@ -70,71 +79,3 @@
     </div>
   </div>
 </app-sidenav>
-
-<!-- <div class="h-100">
-  <div class="card h-100 ">
-    <div class="card-header">
-     <div class="d-flex justify-content-between align-items-center h-100">
-      <h2 class="m-0 font-weight-normal">{{currentSheet}} Indented List</h2>
-      <mat-icon (click)="close()">close</mat-icon>
-     </div>
-      <hr class="mt-1">
-    </div>
-    <div class="card-body pt-0 px-3">
-      <mat-tree
-    [dataSource]="dataSource"
-    [treeControl]="treeControl"
-    #indentTree
-    style="
-      padding: 20px !important;
-      width: fit-content;
-      background-color: transparent;
-    "
-  >
-    <mat-tree-node
-      *matTreeNodeDef="let node"
-      matTreeNodePadding
-      [ngClass]="{ 'background-highlight': activateNode === node }"
-      (click)="activateNode = node"
-    >
-      <button mat-icon-button disabled></button><span>{{ node.name }}</span>
-    </mat-tree-node>
-    <mat-tree-node
-      *matTreeNodeDef="let node; when: hasChild"
-      matTreeNodePadding
-      [ngClass]="{ 'background-highlight': activateNode === node }"
-      (click)="activateNode = node"
-    >
-      <button
-        mat-icon-button
-        matTreeNodeToggle
-        [attr.aria-label]="'toggle' + node.name"
-        style="background-color: rgb(215, 215, 215); transform: scale(0.7)"
-      >
-        <mat-icon
-          class="mat-icon-rtl-mirror"
-          style="
-            font-size: 20pt;
-            color: white;
-            height: 24px !important;
-            width: 24px !important;
-            font-size: 18pt !important;
-          "
-        >
-          {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
-        </mat-icon>
-      </button>
-      <span
-        ><span style="font-weight: 500">{{ node.name }} </span
-        ><span
-          style="font-size: 12pt; color: grey; padding-left: 10px"
-          *ngIf="node.uberon"
-        >
-          ({{ node.uberon }})</span
-        ></span
-      >
-    </mat-tree-node>
-  </mat-tree>
-    </div>
-  </div>
-</div> -->

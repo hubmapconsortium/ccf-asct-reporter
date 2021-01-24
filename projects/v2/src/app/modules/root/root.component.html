@@ -37,6 +37,7 @@
         *ngIf="il$ | async"
         [sheetData]="data"
         [currentSheet]="sheet"
+        (openBottomSheet)="getStructureInfo($event)"
       ></app-indent>
 
       <app-debug-logs

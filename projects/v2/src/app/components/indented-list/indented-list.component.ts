@@ -22,14 +22,14 @@ import { catchError } from 'rxjs/operators';
 
 interface Node {
   name: string;
-  uberon: string;
+  ontologyId: string;
   children?: Node[];
 }
 
 interface FlatNode {
   expandable: boolean;
   name: string;
-  uberon: string;
+  ontologyId: string;
   level: number;
 }
 
@@ -46,11 +46,11 @@ export class IndentedListComponent implements OnInit, OnDestroy, AfterViewInit {
   treeFlattener;
   dataSource;
   visible = false;
-  // @Input() dataVersion=this.sc.VERSIONS[0].folder;
   @Input() dataVersion;
   @Input() currentSheet: Sheet;
   @Input() sheetData: any;
   @Output() closeIL: EventEmitter<any> = new EventEmitter<any>();
+  @Output() openBottomSheet: EventEmitter<any> = new EventEmitter<any>();
 
   @ViewChild('indentTree') indentTree;
 
@@ -65,7 +65,7 @@ export class IndentedListComponent implements OnInit, OnDestroy, AfterViewInit {
     return {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
-      uberon: node.uberon,
+      ontologyId: node.ontologyId,
       level,
     };
   }
@@ -116,36 +116,4 @@ export class IndentedListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.hasChild = (_: number, node: FlatNode) => node.expandable;
     this.dataSource.data = [data];
   }
-
-
-  // async getData() {
-  //   try {
-  //     const data = await this.sheet.getSheetData(this.currentSheet, this.dataVersion);
-  //     this.sheetData = data;
-  //     this.dataSource.data = [this.indent.makeIndentData(this.sheetData.data)];
-  //     this.indentTree.treeControl.expandAll();
-
-  //     this.returnRefresh.emit({
-  //         comp: 'Indented List',
-  //         msg: this.sheetData.msg,
-  //         status: this.sheetData.status,
-  //         val: true,
-  //       });
-  //     this.report.reportLog(
-  //         `Indented List for ${this.currentSheet.display} successfully rendered.`,
-  //         'success',
-  //         'msg'
-  //       );
-
-  //   } catch (err) {
-  //     console.log(err);
-  //     this.returnRefresh.emit({
-  //       comp: 'Indented List',
-  //       msg: 'Failed',
-  //       status: '500',
-  //       val: false,
-  //     });
-  //     this.report.reportLog(`Indented List failed to render`, 'error', 'msg');
-  //   }
-  // }
 }
