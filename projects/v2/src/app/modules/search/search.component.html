@@ -17,9 +17,11 @@
         [formControl]="structuresMultiCtrl"
         [multiple]="true"
         #multiSelect
+        (selectionChange)="onOptionSelect()"
       >
         <mat-option>
           <ngx-mat-select-search
+           
             [formControl]="structuresMultiFilterCtrl"
             [placeholderLabel]="'Search Structures'"
             noEntriesFoundLabel="No entries Found"
@@ -28,6 +30,7 @@
         <mat-option
           *ngFor="let structures of filteredstructuresMulti | async"
           [value]="structures"
+          
         >
          <div style="display: flex; justify-content: space-between;">
            <div>

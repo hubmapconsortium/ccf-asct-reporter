@@ -1,7 +1,4 @@
 import { Component, OnInit, Output, Input, ViewChild, EventEmitter, AfterViewInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
 import { FormControl, Form } from '@angular/forms';
 // import {GaService} from '../services/ga.service';
 
@@ -66,6 +63,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   }
 
+  onOptionSelect() {
+    this.store.dispatch(new DoSearch(this.structuresMultiCtrl.value));
+  }
+
   createSearchList() {
     const searchSet = new Set<SearchStructure>();
 
@@ -101,7 +102,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.structuresMultiFilterCtrl.valueChanges
       .pipe(takeUntil(this.subjectOnDestroy))
       .subscribe((r) => {
-        this.store.dispatch(new DoSearch(this.structuresMultiCtrl.value));
         this.filterstructuressMulti();
       });
     this.filteredstructuresMulti
