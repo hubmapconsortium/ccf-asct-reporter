@@ -9,7 +9,7 @@ import { Data } from './spec/data';
 import { Scales } from './spec/scales';
 import { Legends } from './spec/legends';
 import { Marks } from './spec/marks';
-import { UpdateVegaView } from '../../actions/tree.actions';
+import { UpdateVegaView, UpdateLinksData } from '../../actions/tree.actions';
 import { BimodalService } from './bimodal.service';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { OpenBottomSheet, CloseBottomSheet, CloseLoading, HasError } from '../../actions/ui.actions';
@@ -43,7 +43,7 @@ export class VegaService {
 
       this.addSignalListeners(treeView);
       this.store.dispatch(new CloseLoading('Visualization Rendered'));
-
+      this.store.dispatch(new UpdateLinksData(0,0, treeView.data('links').length))
       this.makeBimodal(treeView);
 
     } catch (error) {

@@ -38,5 +38,5 @@ export class UpdateBottomSheetData {
 
 export class UpdateLinksData {
   static readonly type = '[UPDATE] Links data';
-  constructor(public AS_CT: number, public CT_B: number) {}
+  constructor(public AS_CT: number, public CT_B: number, public AS_AS?: number) {}
 }

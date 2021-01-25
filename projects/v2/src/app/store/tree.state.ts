@@ -57,6 +57,7 @@ export class TreeStateModel {
   links: {
     AS_CT: number;
     CT_B: number;
+    AS_AS: number;
   };
 }
 
@@ -71,7 +72,7 @@ export class TreeStateModel {
     bimodal: {nodes: [], links: [], config: {BM: {sort: 'Alphabetically', size: 'None'}, CT: {sort: 'Alphabetically', size: 'None'}}},
     search: [],
     bottomSheetData: {},
-    links: {AS_CT: 0, CT_B: 0}
+    links: {AS_CT: 0, CT_B: 0, AS_AS: 0}
   }
 })
 @Injectable()
@@ -222,11 +223,11 @@ export class TreeState {
    * Updates the links data that is displayed in the report
    */
   @Action(UpdateLinksData)
-  updateLinksData({getState, setState}: StateContext<TreeStateModel>, {AS_CT, CT_B}: UpdateLinksData) {
+  updateLinksData({getState, setState}: StateContext<TreeStateModel>, {AS_CT, CT_B ,AS_AS}: UpdateLinksData) {
     const state = getState();
     setState({
       ...state,
-      links: {AS_CT, CT_B}
+      links: {AS_CT:AS_CT, CT_B:CT_B, AS_AS: state.links.AS_AS | AS_AS}
     });
   }
 
