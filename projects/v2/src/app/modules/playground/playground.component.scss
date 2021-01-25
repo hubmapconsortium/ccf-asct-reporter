@@ -18,10 +18,12 @@
 
 ::ng-deep .jexcel > tbody > tr > td {
   border: 1px solid #e3e3e3;
+  overflow: visible;
 }
 
 ::ng-deep .jexcel > thead > tr > td {
   border: 1px solid #e3e3e3;
+  overflow: visible;
 }
 
 // ::ng-deep .mat-tab-label-container {
