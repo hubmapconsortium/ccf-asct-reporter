@@ -218,7 +218,10 @@ export class SheetState {
       compareSheets: []
     });
 
-    // const organ = state.data[0].anatomical_structures[0]
+    const organ: Structure = {
+      name: 'Body',
+      id: ''
+    }
 
     for await (const [idx, sheet] of compareData.entries()) {
       this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).subscribe(
@@ -228,7 +231,7 @@ export class SheetState {
               i.isNew = true;
               i.color = sheet.color;
             }
-            // row.anatomical_structures.unshift(organ)
+            row.anatomical_structures.unshift(organ)
 
             for (const i of row.cell_types) {
               i.isNew = true;
@@ -325,9 +328,15 @@ export class SheetState {
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
     const state = getState();
+    const organ: Structure = {
+      name: 'Body',
+      id: ''
+    }
     return this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).pipe(
       tap((res: ResponseData) => {
-
+        res.data.forEach(row => {
+          row.anatomical_structures.unshift(organ)
+        })
         setState({
           ...state,
           csv: res.csv,

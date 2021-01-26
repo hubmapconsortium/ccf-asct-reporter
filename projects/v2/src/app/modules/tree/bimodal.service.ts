@@ -243,7 +243,7 @@ export class BimodalService {
           });
         }
       });
-
+      
       this.store.dispatch(new UpdateLinksData(AS_CT_LINKS, CT_BM_LINKS));
 
       this.store.dispatch(new UpdateBimodal(nodes, links)).subscribe(newData => {
