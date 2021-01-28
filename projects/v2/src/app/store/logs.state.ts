@@ -35,7 +35,7 @@ export class LogsState {
 
 
   @Action(ReportLog)
-  reportLog({getState, setState}: StateContext<LogsStateModel>, {type, message, icon, version}: ReportLog) {
+  reportLog({getState}: StateContext<LogsStateModel>, {type, message, icon, version}: ReportLog) {
     const state = getState();
     const allLogs = state.allLogs;
     const sheetLogs = state.sheetLogs;
@@ -75,19 +75,6 @@ export class LogsState {
         break;
 
     }
-
-    // const time = new Date();
-    // if (!reporterLogs.some(i => i.message === message && i.time === moment(time).format('hh:mm:ss'))) {
-    //   const newLog = new Log(id, message, icon, moment(time).format('hh:mm:ss'), LOG_TYPES.MSG);
-    //   reportedLogsForSheet.push(newLog)
-    //   reporterLogs.push(newLog)
-
-    //   setState({
-    //     ...state,
-    //     sheetLogs: reportedLogsForSheet,
-    //     allLogs: reporterLogs
-    //   })
-    // }
   }
 
   @Action(ClearSheetLogs)
@@ -104,28 +91,4 @@ export class LogsState {
       allLogs
     });
   }
-
-  // @Action(ReportMultiLog)
-  // reportMultiLog({getState, setState}: StateContext<LogsStateModel>, {message, icon, multiMessage}: ReportMultiLog) {
-  //   const state = getState();
-  //   const reporterLogs = state.allLogs;
-  //   const reportedLogsForSheet = state.sheetLogs;
-  //   const time = new Date();
-
-  //   const foundSheetLog = reportedLogsForSheet.findIndex(i => i.message === message);
-  //     if (foundSheetLog !== -1) {
-  //       if (reportedLogsForSheet[foundSheetLog].multi.findIndex(r => r === multiMessage) === -1) {
-  //         reportedLogsForSheet[foundSheetLog].multi.push(multiMessage);
-  //       }
-  //     } else {
-
-  //       const nl = new Log(message, icon, moment(time).format('hh:mm:ss'), LOG_TYPES.MULTI);
-  //       nl.multi.push(multiMessage);
-  //       reportedLogsForSheet.push(nl);
-  //     }
-
-  // }
-
-
-
 }
