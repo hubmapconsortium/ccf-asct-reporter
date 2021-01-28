@@ -1,4 +1,9 @@
-export const URL = `https://astb-miner-v2.herokuapp.com/v2`;
+import { environment } from 'projects/v1/src/environments/environment';
+
+const PROD_URL = 'https://astb-miner-v2.herokuapp.com/v2';
+const DEV_URL = 'http://localhost:5000/v2';
+
+export const URL = environment.production ? PROD_URL : DEV_URL;
 
 export const PLAYGROUND = 'assets/playground/sheet.csv';
 
