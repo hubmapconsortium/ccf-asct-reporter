@@ -3,9 +3,7 @@ import {
   State,
   Action,
   StateContext,
-  Selector,
-  Store,
-  Select,
+  Selector
 } from '@ngxs/store';
 import {
   Sheet,
@@ -16,10 +14,8 @@ import {
   ResponseData,
 } from '../models/sheet.model';
 import { Error } from '../models/response.model';
-
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-
 import { HEADER_COUNT, SHEET_CONFIG } from '../static/config';
 import { Injectable } from '@angular/core';
 import { parse } from 'papaparse';
@@ -130,44 +126,69 @@ export class SheetStateModel {
 @Injectable()
 export class SheetState {
 
-  constructor(private sheetService: SheetService, private store: Store) {
-  }
-
+  constructor(private sheetService: SheetService) {}
+  
+  /**
+   * Returns an observable that watches the data
+   */
   @Selector()
   static getData(state: SheetStateModel) {
     return state.data;
   }
-
+  
+  /**
+   * Returns an observable that watches the sheet
+   */
   @Selector()
   static getSheet(state: SheetStateModel) {
     return state.sheet;
   }
-
+  
+  /**
+   * Returns an observable that watches the sheet config
+   */
   @Selector()
   static getSheetConfig(state: SheetStateModel) {
     return state.sheetConfig;
   }
-
+  
+  /**
+   * Returns an observable that watches the linked compare documents
+   */
   @Selector()
   static getCompareSheets(state: SheetStateModel) {
     return state.compareSheets;
   }
-
+  
+  /**
+   * Returns an observable that watches all the data from the linked compare documents
+   */
   @Selector()
   static getCompareData(state: SheetStateModel) {
     return state.compareData;
   }
-
+  
+  /**
+   * Returns an observable that watches the report data
+   * This is used for the global report
+   */
   @Selector()
   static getReportdata(state: SheetStateModel) {
     return state.reportData;
   }
-
+  
+  /**
+   * Returns an observable that watches the parsed sheet data 
+   * Parsed using papa parse
+   */
   @Selector()
   static getParsedData(state: SheetStateModel) {
     return state.parsed;
   }
-
+  
+  /**
+   * Returns an observable that watches the compare sheets and the compare data
+   */
   @Selector()
   static getAllCompareData(state: SheetStateModel) {
     return {
@@ -175,12 +196,20 @@ export class SheetState {
       sheets: state.compareSheets
     };
   }
-
+  
+  /**
+   * Returns an observable that watches the mode
+   * values: [playground, vis]
+   */
   @Selector()
   static getMode(state: SheetStateModel) {
     return state.mode;
   }
-
+  
+  /**
+   * Action to delete a linked sheet from the state.
+   * Accepts the index location of the sheet that is to be deleted
+   */
   @Action(DeleteCompareSheet)
   deleteCompareSheet({getState, setState, dispatch, patchState}: StateContext<SheetStateModel>, {i}: DeleteCompareSheet) {
     let state = getState();
@@ -195,8 +224,7 @@ export class SheetState {
     state = getState();
     if (state.compareSheets.length) {
       dispatch(new FetchCompareData(state.compareSheets));
-    }
-    else {
+    } else {
       setState({
         ...state,
         compareData: []
@@ -206,9 +234,13 @@ export class SheetState {
     }
   }
 
+  /**
+   * Action to fetch all the compare data form the linked sheets
+   * Accepts all the linked sheets that contains the google sheet link,
+   * sheet name, description and color
+   */
   @Action(FetchCompareData)
   async fetchCompareData({getState, setState, dispatch, patchState}: StateContext<SheetStateModel>, {compareData}: FetchCompareData) {
-    const state = getState();
     dispatch(new OpenLoading('Fetching data...'));
     dispatch(new CloseBottomSheet());
 
@@ -222,7 +254,7 @@ export class SheetState {
       id: ''
     }
 
-    for await (const [idx, sheet] of compareData.entries()) {
+    for await (const [_, sheet] of compareData.entries()) {
       this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).subscribe(
         (res: ResponseData) => {
           for (const row of res.data) {
@@ -257,13 +289,14 @@ export class SheetState {
         }
       );
     }
-
   }
 
-
-
+  /**
+   * Action to fetch all organ data
+   * Accepts the sheet config
+   */
   @Action(FetchAllOrganData)
-  async fetchAllOrganData({getState, setState, dispatch, patchState}: StateContext<SheetStateModel>, {sheet}: FetchAllOrganData) {
+  async fetchAllOrganData({getState, dispatch, patchState}: StateContext<SheetStateModel>, {sheet}: FetchAllOrganData) {
 
     dispatch(new OpenLoading('Fetching data...'));
     dispatch(new StateReset(TreeState));
@@ -286,15 +319,15 @@ export class SheetState {
       } else {
         this.sheetService.fetchSheetData(s.sheetId, s.gid).subscribe(
           (res: ResponseData) => {
-            for (const d of res.data) {
-              const ns: Structure = {
+            for (const row of res.data) {
+              const newStructure: Structure = {
                 name: 'Body',
                 id: '',
                 rdfs_label: 'NONE',
               };
-              d.anatomical_structures.unshift(ns);
+              row.anatomical_structures.unshift(newStructure);
               if (!state.sheetConfig.show_all_AS) {
-                d.anatomical_structures.splice(2, d.anatomical_structures.length - (2));
+                row.anatomical_structures.splice(2, row.anatomical_structures.length - (2));
               }
             }
             const currentData = getState().data;
@@ -316,21 +349,25 @@ export class SheetState {
         );
       }
     }
-  }
+  } 
 
+  /**
+   * Action to fetch the sheet data. Resets the Sheet State and teh Tree State
+   * Accepts the sheet config of the particular sheet
+   */
   @Action(FetchSheetData)
-  fetchSheetData({getState, setState, patchState, dispatch}: StateContext<SheetStateModel>, {sheet}: FetchSheetData) {
+  fetchSheetData({getState, setState, dispatch, patchState}: StateContext<SheetStateModel>, {sheet}: FetchSheetData) {
     const mode = getState().mode;
     dispatch(new OpenLoading('Fetching data...'));
     dispatch(new StateReset(SheetState));
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
+   
+    const organ: Structure = { name: 'Body', id: '' };
+    patchState({ sheet: sheet });
     const state = getState();
-    const organ: Structure = {
-      name: 'Body',
-      id: ''
-    }
+
     return this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).pipe(
       tap((res: ResponseData) => {
         res.data.forEach(row => {
@@ -341,7 +378,6 @@ export class SheetState {
           csv: res.csv,
           data: res.data,
           version: 'latest',
-          sheet: sheet,
           parsed: res.parsed,
           mode: mode,
           sheetConfig: {...sheet.config, show_ontology: true},
@@ -364,7 +400,11 @@ export class SheetState {
       })
     );
   }
-
+  
+  /**
+   * Action to fetch data from assets
+   * CURRENTLY DEPRICATED IN V2
+   */
   @Action(FetchDataFromAssets)
   fetchDataFromAssets({getState, setState, dispatch}: StateContext<SheetStateModel>, {version, sheet}: FetchDataFromAssets) {
     const state = getState();
@@ -403,7 +443,11 @@ export class SheetState {
       })
     );
   }
-
+  
+  /**
+   * Action to update the sheet configuration
+   * Accepts the config that states the differetn sheet control's configuration
+   */
   @Action(UpdateConfig)
   updateConfig({getState, setState, dispatch}: StateContext<SheetStateModel>, {config}: UpdateConfig) {
     const state = getState();
@@ -412,9 +456,12 @@ export class SheetState {
       sheetConfig: config
     });
   }
-
+  
+  /**
+   * Action to toggle the show all AS in the All Organs Visualization
+   */
   @Action(ToggleShowAllAS)
-  ToggleShowAllAS({getState, setState, dispatch}: StateContext<SheetStateModel>) {
+  ToggleShowAllAS({getState, setState}: StateContext<SheetStateModel>) {
     const state = getState();
     const config = state.sheetConfig;
     setState({
@@ -422,7 +469,10 @@ export class SheetState {
       sheetConfig: {...config, show_all_AS: !state.sheetConfig.show_all_AS}
     });
   }
-
+  
+  /**
+   * Action to update the report data
+   */
   @Action(UpdateReport)
   updateReport({getState, setState}: StateContext<SheetStateModel>, {reportData}: UpdateReport) {
     const state = getState();
@@ -431,7 +481,10 @@ export class SheetState {
       reportData
     });
   }
-
+  
+  /**
+   * Action to update the mode
+   */
   @Action(UpdateMode)
   updateMode({getState, setState}: StateContext<SheetStateModel>, {mode}: UpdateMode) {
     const state = getState();
@@ -440,7 +493,11 @@ export class SheetState {
       mode
     });
   }
-
+  
+  /**
+   * Action to update the the sheet
+   * Accepts the sheet config
+   */
   @Action(UpdateSheet)
   updateSheet({getState, setState}: StateContext<SheetStateModel>, {sheet}: UpdateSheet) {
     const state = getState();
@@ -450,7 +507,11 @@ export class SheetState {
       sheetConfig: {...sheet.config, show_ontology: true},
     });
   }
-
+  
+  /**
+   * Action to fetch initial playground data. This makes a call to the playground api
+   * that fetches the initial exmaple CSV
+   */
   @Action(FetchInitialPlaygroundData)
   fetchInitialPlaygroundData({getState, setState, dispatch}: StateContext<SheetStateModel>) {
     const sheet: Sheet = SHEET_CONFIG.find(i => i.name === 'example');
@@ -460,6 +521,7 @@ export class SheetState {
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, 'Example', LOG_ICONS.file, 'latest'));
     const state = getState();
+
     return this.sheetService.fetchPlaygroundData().pipe(
       tap((res: any) => {
         setState({
@@ -489,7 +551,11 @@ export class SheetState {
     );
 
   }
-
+  
+  /**
+   * Action to update the current data in the table (in the playground)
+   * Accepts the parsed data
+   */
   @Action(UpdatePlaygroundData)
   updatePlaygroundData({getState, setState, dispatch}: StateContext<SheetStateModel>, {data}: UpdatePlaygroundData) {
     const state = getState();
@@ -500,7 +566,6 @@ export class SheetState {
 
     return this.sheetService.updatePlaygroundData(data).pipe(
       tap((res: any) => {
-        console.log(res);
         setState({
           ...state,
           parsed: res.parsed,
@@ -523,5 +588,4 @@ export class SheetState {
       })
     );
   }
-
 }
