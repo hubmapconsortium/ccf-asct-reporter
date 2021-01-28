@@ -29,7 +29,6 @@ export interface Sheet {
   sheetId: string;
   gid: string;
   display: string;
-  body: string;
   config: SheetConfig;
   title: string;
   data?: string;

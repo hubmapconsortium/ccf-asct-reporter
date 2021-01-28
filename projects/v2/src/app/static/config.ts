@@ -197,15 +197,16 @@ export const SHEET_CONFIG = [
       height: 500,
     },
     title: 'Anatomical Structures',
-    data: '',
   },
 ];
+
 export const PLAYGROUND_SHEET_OPTIONS = [
   {
     title: 'Example',
     sheet: 'example',
   },
 ];
+
 export const SHEET_OPTIONS = [
   {
     title: 'All Organs',

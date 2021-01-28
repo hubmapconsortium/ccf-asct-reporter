@@ -32,7 +32,13 @@
           </mat-form-field>
         </form>
 
-        <button mat-flat-button color="primary" (click)="upload()" class="mt-4" [disabled]="linkFormControl.status === 'INVALID'">
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="upload()"
+          class="mt-4"
+          [disabled]="linkFormControl.status === 'INVALID'"
+        >
           Link
         </button>
       </div>

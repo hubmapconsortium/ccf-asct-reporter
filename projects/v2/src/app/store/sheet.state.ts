@@ -103,7 +103,6 @@ export class SheetStateModel {
       display: '',
       sheetId: '',
       gid: '',
-      body: '',
       config: {
         bimodal_distance_x: 0,
         bimodal_distance_y: 0,
@@ -323,7 +322,7 @@ export class SheetState {
   fetchSheetData({getState, setState, patchState, dispatch}: StateContext<SheetStateModel>, {sheet}: FetchSheetData) {
     const mode = getState().mode;
     dispatch(new OpenLoading('Fetching data...'));
-    // dispatch(new StateReset(SheetState));
+    dispatch(new StateReset(SheetState));
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
@@ -342,9 +341,9 @@ export class SheetState {
           csv: res.csv,
           data: res.data,
           version: 'latest',
-          sheet,
+          sheet: sheet,
           parsed: res.parsed,
-          mode,
+          mode: mode,
           sheetConfig: {...sheet.config, show_ontology: true},
         });
 
@@ -454,10 +453,9 @@ export class SheetState {
 
   @Action(FetchInitialPlaygroundData)
   fetchInitialPlaygroundData({getState, setState, dispatch}: StateContext<SheetStateModel>) {
-    const sheet = SHEET_CONFIG.find(i => i.name === 'example');
-
+    const sheet: Sheet = SHEET_CONFIG.find(i => i.name === 'example');
+    const mode = getState().mode;
     dispatch(new OpenLoading('Fetching playground data...'));
-    dispatch(new StateReset(SheetState));
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, 'Example', LOG_ICONS.file, 'latest'));
@@ -466,11 +464,15 @@ export class SheetState {
       tap((res: any) => {
         setState({
           ...state,
+          compareData: [],
+          compareSheets: [],
           parsed: res.parsed,
           csv: res.csv,
           data: res.data,
           version: 'latest',
-          sheetConfig: {...state.sheet.config, show_ontology: true},
+          mode: mode,
+          sheet: sheet,
+          sheetConfig: {...sheet.config, show_ontology: true},
         });
       }),
       catchError((error) => {
