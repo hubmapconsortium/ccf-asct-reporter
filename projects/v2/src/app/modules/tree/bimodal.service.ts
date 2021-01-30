@@ -28,7 +28,7 @@ export class BimodalService {
 
     try {
 
-      const anatomicalStructuresData = await makeAS(sheetData);
+      const anatomicalStructuresData = makeAS(sheetData);
       const links = [];
       const nodes = [];
       let treeX = 0;
@@ -40,9 +40,9 @@ export class BimodalService {
       let id = treeData.length + 1;
       let biomarkers = [];
 
-
       treeData.forEach((td) => {
         if (td.children === 0) {
+
           const leaf = td.name;
           const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.ontologyId);
           newLeaf.id = id;
@@ -50,7 +50,7 @@ export class BimodalService {
           newLeaf.pathColor = td.pathColor;
           newLeaf.isNew = td.isNew;
           newLeaf.color = td.color;
-          newLeaf.ontologyId = anatomicalStructuresData.find(a => a.structure === leaf).uberon;
+          newLeaf.ontologyId = td.ontologyId;
           newLeaf.indegree = anatomicalStructuresData.find(a => a.structure === leaf).indegree;
           newLeaf.outdegree = anatomicalStructuresData.find(a => a.structure === leaf).outdegree;
           newLeaf.label = anatomicalStructuresData.find(a => a.structure === leaf).label;

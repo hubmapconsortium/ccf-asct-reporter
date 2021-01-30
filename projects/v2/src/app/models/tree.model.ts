@@ -2,6 +2,8 @@ export const AS_RED = '#E41A1C';
 export const CT_BLUE = '#377EB8';
 export const B_GREEN = '#4DAF4A';
 
+export const ST_ID = 2;
+
 export enum NODE_TYPE {
   AS = 'AS',
   BM = 'BM',
@@ -25,6 +27,7 @@ export class TNode {
   y: number;
   type: string;
   comparator: string;
+  label: string;
 
   constructor(id, name, parent, uId, color = '#808080') {
     this.id = id;
@@ -49,6 +52,7 @@ export class TreeAndMultiParent {
 }
 
 export interface Base {
+  id?: number;
   comparator?: string;
 }
 

@@ -1,4 +1,4 @@
-import {AS, CT, B, AS_RED, CT_BLUE, B_GREEN } from '../../models/tree.model';
+import {AS, CT, B, AS_RED, CT_BLUE, B_GREEN, ST_ID } from '../../models/tree.model';
 import { Row } from '../../models/sheet.model';
 
 
@@ -11,6 +11,7 @@ import { Row } from '../../models/sheet.model';
  */
 export function makeAS(data: Row[]): Array<AS> {
   const anatomicalStructures: Array<AS> = [];
+  let id = ST_ID;
   try {
     data.forEach(row => {
       row.anatomical_structures.forEach((str, i) => {
@@ -26,7 +27,9 @@ export function makeAS(data: Row[]): Array<AS> {
             indegree: new Set(),
             comparator: str.name + str.id,
             label: str.rdfs_label,
+            id: id
           };
+          id += 1;
 
           if (row.cell_types.length) { newStructure.outdegree.add(`${row.cell_types[0].name}${row.cell_types[0].id}`); }
           if (i > 0) {
@@ -43,6 +46,7 @@ export function makeAS(data: Row[]): Array<AS> {
             anatomicalStructures[foundIndex].indegree.add(row.anatomical_structures[i - 1].name);
           }
         }
+        
       });
     });
 
