@@ -16,7 +16,7 @@
   border: 0px !important;
 }
 
-::ng-deep .jexcel > tbody > tr > td {
+::ng-deep .jexcel > tbody > tr > td:nth-child(2){
   border: 1px solid #e3e3e3;
   overflow: visible;
 }

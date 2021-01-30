@@ -359,7 +359,7 @@ export class SheetState {
   fetchSheetData({getState, setState, dispatch, patchState}: StateContext<SheetStateModel>, {sheet}: FetchSheetData) {
     const mode = getState().mode;
     dispatch(new OpenLoading('Fetching data...'));
-    dispatch(new StateReset(SheetState));
+    // dispatch(new StateReset(SheetState));
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
@@ -375,6 +375,9 @@ export class SheetState {
         })
         setState({
           ...state,
+          compareData: [],
+          compareSheets: [],
+          reportData: [],
           csv: res.csv,
           data: res.data,
           version: 'latest',
