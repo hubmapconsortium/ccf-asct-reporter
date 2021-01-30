@@ -1,186 +1,213 @@
-<app-sidenav >
+<app-sidenav>
   <div header>
-    <app-sidenav-header [title]="'Report for ' + currentSheet.display" [download]="true" (downloadFn)="downloadReport()" [tooltipString]="'Various statistics calculated from the data'" (closeSideNav)="closeReport.emit()"></app-sidenav-header>
+    <app-sidenav-header [title]="'Report for ' + currentSheet.display" [download]="true" (downloadFn)="downloadReport()"
+      [tooltipString]="'Various statistics calculated from the data'" (closeSideNav)="closeReport.emit()">
+    </app-sidenav-header>
   </div>
 
   <div body class="report">
-    <mat-tab-group mat-stretch-tabs class="tabs px-4 mt-4" >
+    <mat-tab-group mat-stretch-tabs class="tabs px-4 mt-4">
       <mat-tab [label]="'Main Sheet'">
         <div class="content">
           <br />
-          <div class="title1">Overview</div>
-  
+          <div class="h5">Overview</div>
+          <br>
+
           <div class="overview">
-            <div class="i1">
-              <span>Unique anatomical structures: </span>
-              <span class="number">{{ reportData.anatomicalStructures.length }}</span>
+            <p class="text-muted mb-3"><small class="font-weight-bolder">UNIQUE ENTITIES</small></p>
+            <div class="d-flex justify-content-between align-content-center pr-5 h6">
+              <span class="font-weight-normal">Unique anatomical structures</span>
+              <span class="number font-weight-bolder">{{ reportData.anatomicalStructures.length }}</span>
             </div>
-            <div class="i1">
-              <span>Unique cell types: </span>
-              <span class="number">{{ reportData.cellTypes.length }}</span>
+            <hr>
+            <div class="d-flex justify-content-between align-content-center pr-5 h6">
+              <span class="font-weight-normal">Unique cell types </span>
+              <span class="number font-weight-bolder">{{ reportData.cellTypes.length }}</span>
             </div>
-            <div class="i1">
-              <span>Unique biomarkers: </span>
-              <span class="number">{{ reportData.biomarkers.length }}</span>
+            <hr>
+            <div class="d-flex justify-content-between align-content-center pr-5 h6">
+              <span class="font-weight-normal">Unique biomarkers </span>
+              <span class="number font-weight-bolder">{{ reportData.biomarkers.length }}</span>
             </div>
+            <hr>
             <br />
-            <div class="i1">
-              <span>AS <i>part_of</i> AS links: </span>
-              <span class="number">{{ linksData.AS_AS }}</span>
+
+            <p class="text-muted mb-3"><small class="font-weight-bolder">ENTITY LINKS</small></p>
+            <div class="d-flex justify-content-between align-content-center pr-5 h6">
+              <span class="font-weight-normal">Anatomical Structures <span class="badge badge-danger">part_of</span> AS
+                links </span>
+              <span class="number font-weight-bolder">{{ linksData.AS_AS }}</span>
             </div>
-            <div class="i1">
-              <span>CT <i>located_in</i> AS links: </span>
-              <span class="number">{{ linksData.AS_CT }}</span>
+            <hr>
+            <div class="d-flex justify-content-between align-content-center pr-5 h6">
+              <span class="font-weight-normal">Cell Types <span class="badge badge-primary">located_in</span> AS links
+              </span>
+              <span class="number font-weight-bolder">{{ linksData.AS_CT }}</span>
             </div>
-            <div class="i1">
-              <span>B <i>characterizes</i> CT links: </span>
-              <span class="number">{{ linksData.CT_B }}</span>
+            <hr>
+            <div class="d-flex justify-content-between align-content-center pr-5 h6">
+              <span class="font-weight-normal">Biomarker <span class="badge badge-success">characterizes</span> CT links
+              </span>
+              <span class="number font-weight-bolder">{{ linksData.CT_B }}</span>
             </div>
+            <hr>
             <br />
-  
-            <div class="i1">
-              <span>Anatomical structures with no Uberon link: </span>
-              <span class="number">{{ reportData.ASWithNoLink.length }}</span>
+
+            <p class="text-muted mb-3"><small class="font-weight-bold">ONTOLOGY LINKS</small></p>
+            <div *ngFor="let report of ontologyLinkGraphData">
+              <ngx-charts-advanced-pie-chart [customColors]="customColors" [view]="[600,175]" [results]="report.results"
+                class="w-100" [label]="report.label">
+              </ngx-charts-advanced-pie-chart>
             </div>
-            <div class="i1">
-              <span>Cells with no CL link: </span>
-              <span class="number">{{ reportData.CTWithNoLink.length }}</span>
-            </div>
-            <div class="i1">
-              <span>Biomarkers with no HGNC link: </span>
-              <span class="number">{{ reportData.BWithNoLink.length }}</span>
-            </div>
-            <br>
-         
           </div>
-  
+
           <br />
-          <div class="title1">Details</div>
-  
-          <div class="details">
-            <div class="title2">Alphabetically sorted listings of all ASCT+B</div>
-  
+
+          <div class="h5 mt-3 mb-3">Details</div>
+
+          <div class="details pr-4">
+            <p class="text-muted mb-3"><small class="font-weight-normal">Alphabetically sorted listings of all AS, CT &
+                B</small></p>
             <mat-expansion-panel [expanded]="false">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <div style="font-weight: 400; font-size: 13pt;">
-                    Unique Anatomical Structures <span class="text-muted">({{reportData.anatomicalStructures.length}})</span>
+                  <div class="h6 m-0">
+                    Unique Anatomical Structures <span
+                      class="text-muted">({{reportData.anatomicalStructures.length}})</span>
                   </div>
                 </mat-panel-title>
-                
+
               </mat-expansion-panel-header>
-  
-              <div class="as-details">
-                <div
-                  *ngFor="let a of reportData.anatomicalStructures | orderBy: 'structure'"
-                  class="i1"
-                >
-                  {{ a.structure }}
+
+              <div class="mt-2">
+                <div *ngFor="let a of reportData.anatomicalStructures | orderBy: 'structure'"
+                  class="py-1 d-flex justify-content-between align-items-center">
+                  <div class="h6 pr-2">
+                    <span class="font-weight-normal">{{ a.structure }} <span
+                        class="text-muted">({{a.label ? a.label : 'label not found'}})</span></span>
+                  </div>
+
+                  <div>
+                    <span>{{a.uberon}}</span>
+                  </div>
                 </div>
               </div>
             </mat-expansion-panel>
             <br />
-  
+
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <div style="font-weight: 400; font-size: 13pt;">
+                  <div class="h6 m-0">
                     Unique Cell Types <span class="text-muted">({{reportData.cellTypes.length}})</span>
                   </div>
                 </mat-panel-title>
               </mat-expansion-panel-header>
-  
-              <div class="as-details">
-                <div
-                  *ngFor="let a of reportData.cellTypes | orderBy: 'structure'"
-                  class="i1"
-                >
-                  {{ a.structure }}
+
+              <div class="mt-2">
+                <div *ngFor="let a of reportData.cellTypes | orderBy: 'structure'"
+                  class="py-1 d-flex justify-content-between align-items-center">
+                  <div class="h6">
+                    <span class="font-weight-normal">{{ a.structure }} <span
+                        class="text-muted">({{a.label ? a.label : 'label not found'}})</span></span>
+                  </div>
+
+                  <div>
+                    <span>{{a.link}}</span>
+                  </div>
                 </div>
               </div>
             </mat-expansion-panel>
             <br />
-  
+
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <div style="font-weight: 400; font-size: 13pt;">
+                  <div class="h6 m-0">
                     Unique biomarkers <span class="text-muted">({{reportData.biomarkers.length}})</span>
                   </div>
                 </mat-panel-title>
               </mat-expansion-panel-header>
-  
-              <div class="as-details">
-                <div
-                  *ngFor="let a of reportData.biomarkers | orderBy: 'structure'"
-                  class="i1"
-                >
-                  {{ a.structure }}
+
+              <div class="mt-2">
+                <div *ngFor="let a of reportData.biomarkers | orderBy: 'structure'"
+                  class="py-1 d-flex justify-content-between align-items-center">
+                  <div class="h6">
+                    <span class="font-weight-normal">{{ a.structure }}</span>
+                  </div>
+
+                  <div>
+                    <span>{{a.link}}</span>
+                  </div>
                 </div>
               </div>
             </mat-expansion-panel>
             <br />
-            <div class="title2">Missing Ontology Links</div>
-  
+
+            <p class="text-muted my-3"><small class="font-weight-normal">Missing Ontology Links</small></p>
+
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <div style="font-weight: 400; font-size: 13pt;">
-                    Anatmoical Structures with no Uberon link <span class="text-muted">({{reportData.ASWithNoLink.length}})</span>
+                  <div class="h6 m-0">
+                    Anatmoical Structures with no Uberon link <span
+                      class="text-muted">({{reportData.ASWithNoLink.length}})</span>
                   </div>
                 </mat-panel-title>
               </mat-expansion-panel-header>
-  
-              <div class="as-details">
-                <div
-                  *ngFor="let a of reportData.ASWithNoLink | orderBy: 'structure'"
-                  class="i1"
-                >
-                  {{ a.structure }}
+
+              <div class="mt-2">
+                <div *ngFor="let a of reportData.ASWithNoLink | orderBy: 'structure'"
+                  class="py-1 d-flex justify-content-between align-items-center">
+                  <div class="h6">
+                    <span class="font-weight-normal">{{ a.structure }} <span
+                        class="text-muted">({{a.label ? a.label : 'label not found'}})</span></span>
+                  </div>
                 </div>
               </div>
             </mat-expansion-panel>
             <br />
-  
+
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <div style="font-weight: 400; font-size: 13pt;">
+                  <div class="h6 m-0">
                     Cell Types with no CL link <span class="text-muted">({{reportData.CTWithNoLink.length}})</span>
                   </div>
                 </mat-panel-title>
               </mat-expansion-panel-header>
-  
-              <div class="as-details">
-                <div
-                  *ngFor="let a of reportData.CTWithNoLink | orderBy: 'structure'"
-                  class="i1"
-                >
-                  {{ a.structure }}
+
+              <div class="mt-2">
+                <div *ngFor="let a of reportData.CTWithNoLink | orderBy: 'structure'"
+                  class="py-1 d-flex justify-content-between align-items-center">
+                  <div class="h6">
+                    <span class="font-weight-normal">{{ a.structure }} <span
+                        class="text-muted">({{a.label ? a.label : 'label not found'}})</span></span>
+                  </div>
                 </div>
               </div>
             </mat-expansion-panel>
             <br />
-  
+
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <div style="font-weight: 400; font-size: 13pt;">
+                  <div class="h6 m-0">
                     Biomarkers with no HGNC links <span class="text-muted">({{reportData.BWithNoLink.length}})</span>
                   </div>
                 </mat-panel-title>
               </mat-expansion-panel-header>
-  
-              <div class="as-details">
-                <div
-                  *ngFor="let a of reportData.BWithNoLink | orderBy: 'structure'"
-                  class="i1"
-                >
-                  {{ a.structure }}
+
+              <div class="mt-2">
+                <div *ngFor="let a of reportData.BWithNoLink | orderBy: 'structure'"
+                  class="py-1 d-flex justify-content-between align-items-center">
+                  <div class="h6">
+                    <span class="font-weight-normal">{{ a.structure }}</span>
+                  </div>
                 </div>
               </div>
             </mat-expansion-panel>
-  
+
             <br />
           </div>
           <br />
@@ -188,7 +215,7 @@
       </mat-tab>
       <mat-tab label="Compare Sheets">
         <!-- <div *ngIf="compareData.length === 0"> -->
-          <div *ngIf="(compareData | async).data.length === 0">
+        <div *ngIf="(compareData | async).data.length === 0">
           <p class="i2">
             You have not linked any sheets to compare yet.
           </p>
@@ -202,33 +229,31 @@
           <br />
           <div *ngFor="let sheet of compareReport; let i = index">
             <mat-expansion-panel hideToggle="true" [disabled]="clickButton" (click)="clickButton=false">
-              <mat-expansion-panel-header
-                [style.backgroundColor]="sheet.color"
-                class="compare"
-              >
+              <mat-expansion-panel-header [style.backgroundColor]="sheet.color" class="compare">
                 <mat-panel-title>
-                  <div style="font-weight: 400; font-size: 13pt; color:white;">
+                  <div class="text-write h6">
                     {{sheet.title}}
                   </div>
-                  
+
                 </mat-panel-title>
                 <mat-panel-description>
                   <button mat-icon-button (click)="downloadReport(i)" style="color: white">
                     <mat-icon>get_app</mat-icon>
                   </button>
-                  <button mat-icon-button (click)="deleteCompareSheetReport(i)" style="margin-left: 4px; margin-top: -3px; color: white">
+                  <button mat-icon-button (click)="deleteCompareSheetReport(i)"
+                    style="margin-left: 4px; margin-top: -3px; color: white">
                     <mat-icon>delete</mat-icon>
                   </button>
-                
+
                 </mat-panel-description>
               </mat-expansion-panel-header>
-  
+
               <div class="pt-2">
                 <p style="color:grey; font-style: italic;" class="pt-2">
                   {{sheet.description}}
                 </p>
                 <div class="title2">Overview</div>
-  
+
                 <div class="overview">
                   <div class="i1">
                     <span>Identical anatomical structures: </span>
@@ -243,7 +268,7 @@
                     <span class="number">{{ sheet.identicalB.length }}</span>
                   </div>
                   <br />
-  
+
                   <div class="i1">
                     <span>New anatomical structures: </span>
                     <span class="number">{{ sheet.newAS.length }}</span>
@@ -258,9 +283,9 @@
                   </div>
                   <br />
                 </div>
-  
+
                 <div class="title2">Details</div>
-  
+
                 <mat-expansion-panel>
                   <mat-expansion-panel-header class="mb-2">
                     <div style="font-weight: 400; font-size: 12pt;">
@@ -271,7 +296,7 @@
                     {{ ia }}
                   </div>
                 </mat-expansion-panel>
-  
+
                 <mat-expansion-panel class="mt-2">
                   <mat-expansion-panel-header class="mb-2">
                     <div style="font-weight: 400; font-size: 12pt;">
@@ -282,7 +307,7 @@
                     {{ ia }}
                   </div>
                 </mat-expansion-panel>
-  
+
                 <mat-expansion-panel class="mt-2">
                   <mat-expansion-panel-header class="mb-2">
                     <div style="font-weight: 400; font-size: 12pt;">
@@ -293,7 +318,7 @@
                     {{ ia }}
                   </div>
                 </mat-expansion-panel>
-  
+
                 <mat-expansion-panel class="mt-2">
                   <mat-expansion-panel-header class="mb-2">
                     <div style="font-weight: 400; font-size: 12pt;">
@@ -304,7 +329,7 @@
                     {{ ia }}
                   </div>
                 </mat-expansion-panel>
-  
+
                 <mat-expansion-panel class="mt-2">
                   <mat-expansion-panel-header class="mb-2">
                     <div style="font-weight: 400; font-size: 12pt;">
@@ -315,7 +340,7 @@
                     {{ ia }}
                   </div>
                 </mat-expansion-panel>
-  
+
                 <mat-expansion-panel class="mt-2">
                   <mat-expansion-panel-header class="mb-2">
                     <div style="font-weight: 400; font-size: 12pt;">
@@ -328,7 +353,7 @@
                 </mat-expansion-panel>
               </div>
             </mat-expansion-panel>
-  
+
             <br />
           </div>
         </div>

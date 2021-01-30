@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { ReportService } from './report.service';
 import { Report } from '../../models/report.model';
 import { Sheet } from '../../models/sheet.model';
@@ -10,20 +10,22 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
-  styleUrls: ['./report.component.scss']
+  styleUrls: ['./report.component.scss'],
 })
-export class ReportComponent implements OnInit {
+export class ReportComponent implements OnInit, AfterViewInit {
   reportData: Report = {
     anatomicalStructures: [],
     cellTypes: [],
     biomarkers: [],
     ASWithNoLink: [],
     CTWithNoLink: [],
-    BWithNoLink: []
+    BWithNoLink: [],
   };
   compareReport: any;
   comapreDataAndSheets: any;
   clickButton = false; // for mat expansion panel download button
+
+  ontologyLinkGraphData = [];
 
   @Input() compareSheets: any;
   @Input() sheetData: any;
@@ -35,25 +37,85 @@ export class ReportComponent implements OnInit {
   @Output() computedReport: EventEmitter<any> = new EventEmitter<any>();
   @Output() deleteSheet: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(public reportService: ReportService) { }
+  constructor(public reportService: ReportService) {}
 
   ngOnInit(): void {
-    this.reportService.reportData$.subscribe(data => {
+    this.reportService.reportData$.subscribe((data) => {
       this.reportData = data.data;
       this.computedReport.emit(data.data);
+
+      this.ontologyLinkGraphData = this.makeOntologyLinksGraphData(data.data);
     });
 
-    this.reportService.compareData$.subscribe(data => {
+    this.reportService.compareData$.subscribe((data) => {
       this.compareReport = data.data;
     });
 
-    this.compareData.subscribe(data => {
+    this.compareData.subscribe((data) => {
       if (data.sheets.length && data.data.length) {
-        this.reportService.makeCompareData(this.reportData, data.data, data.sheets);
+        this.reportService.makeCompareData(
+          this.reportData,
+          data.data,
+          data.sheets
+        );
       }
     });
 
     this.reportService.makeReportData(this.currentSheet, this.sheetData);
+  }
+
+  ngAfterViewInit() {}
+
+  makeOntologyLinksGraphData(reportData: Report) {
+    return [
+      {
+        results: [
+          {
+            name: 'with Uberon Links',
+            value:
+              reportData.anatomicalStructures.length -
+              reportData.ASWithNoLink.length,
+          },
+          {
+            name: 'without Uberon Links',
+            value: reportData.ASWithNoLink.length,
+          },
+        ],
+        label: 'Total Anatomical Structures',
+      },
+      {
+        results: [
+          {
+            name: 'with CL Links',
+            value: reportData.cellTypes.length - reportData.CTWithNoLink.length,
+          },
+          { name: 'without CL Links', value: reportData.CTWithNoLink.length },
+        ],
+        label: 'Total Cell Types',
+      },
+      {
+        results: [
+          {
+            name: 'with HGNC Links',
+            value: reportData.biomarkers.length - reportData.BWithNoLink.length,
+          },
+          { name: 'without HGNC Links', value: reportData.BWithNoLink.length },
+        ],
+        label: 'Total Cell Types',
+      },
+    ];
+  }
+
+  customColors(v: string) {
+    const mapper = {
+      'with Uberon Links': '#E41A1C',
+      'without Uberon Links': '#f5bcba',
+      'with CL Links': '#377EB8',
+      'without CL Links': '#abc9eb',
+      'with HGNC Links': '#4DAF4A',
+      'without HGNC Links': '#bce8be',
+    };
+    return mapper[v];
   }
 
   deleteCompareSheetReport(i) {
@@ -127,7 +189,7 @@ export class ReportComponent implements OnInit {
     return {
       sheet: sheetWS,
       sheetName: this.currentSheet.display,
-      name:  `ASCT+B-Reporter_${sn}_${dt}_Report.xlsx`
+      name: `ASCT+B-Reporter_${sn}_${dt}_Report.xlsx`,
     };
   }
 
@@ -140,7 +202,7 @@ export class ReportComponent implements OnInit {
      */
     if (i === -1) {
       allReport.push(this.downloadData());
-      
+
       if (this.compareReport) {
         for (const [sheet, ele] of this.compareReport.entries()) {
           allReport.push(this.downloadCompareSheetReport(sheet));
@@ -170,19 +232,19 @@ export class ReportComponent implements OnInit {
       identicalCT: 'Identical Cell Types',
       newCT: 'New Cell Types',
       identicalB: 'Identical Biomarkers',
-      newB: 'New Biomarkers'
+      newB: 'New Biomarkers',
     };
     const download = [];
     const keys = Object.keys(this.compareReport[i]);
 
-    for (const key of keys)  {
+    for (const key of keys) {
       if (typeof sheet[key] === 'object') {
         for (const [idx, value] of sheet[key].entries()) {
           const t = {};
           t[keyMapper[key]] = value;
 
           if (!!download[idx]) {
-            download[idx] = {...download[idx], ...t};
+            download[idx] = { ...download[idx], ...t };
           } else {
             download.push(t);
           }
@@ -202,8 +264,7 @@ export class ReportComponent implements OnInit {
     return {
       sheet: sheetWS,
       sheetName: sheet.title,
-      name:  `ASCT+B-Reporter_Derived_${sn}_${dt}_Report.xlsx`
+      name: `ASCT+B-Reporter_Derived_${sn}_${dt}_Report.xlsx`,
     };
   }
-
 }

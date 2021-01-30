@@ -1,10 +1,14 @@
 .report {
-  min-width: 600px;
+  width: 700px;
 }
 
 .date {
   color: grey;
   font-size: 9pt;
+}
+hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 ::ng-deep .mat-list-item-content {
@@ -78,9 +82,9 @@
   border-top: 1px solid rgb(203, 203, 203);
 }
 
-.overview {
-  font-size: 14pt;
-}
+// .overview {
+//   font-size: 14pt;
+// }
 
 .number {
   font-weight: 400;
@@ -165,4 +169,38 @@
 .dbtn:hover {
   background-color: #444a65;
   color: white;
+}
+
+// CHART
+
+::ng-deep .advanced-pie-legend .total-value {
+  font-size: 20px !important;
+  font-weight: 600;
+  margin-bottom: 5px !important;
+}
+
+::ng-deep .advanced-pie-legend .total-label {
+  font-size: 16px !important;
+  margin-bottom: 10px !important;
+}
+
+::ng-deep .advanced-pie-legend .legend-items-container .legend-items .legend-item .item-value {
+  font-size: 16px !important;
+  font-weight: 600;
+}
+
+::ng-deep .advanced-pie-legend .legend-items-container .legend-items .legend-item .item-percent {
+  display:  none;
+}
+
+// ::ng-deep .advanced-pie-legend .legend-items-container .legend-items .legend-item .item-label {
+// }
+
+::ng-deep .advanced-pie-legend .legend-items-container .legend-items .legend-item .item-value {
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+.badge-primary {
+  background-color: #377EB8 !important;
 }
