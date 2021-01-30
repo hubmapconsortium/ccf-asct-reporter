@@ -2,7 +2,7 @@ export const HEADER_COUNT = 11;
 
 export const IMG_OPTIONS = ['PNG', 'SVG', 'Vega Spec'];
 
-export const SHEET_ID = '1olxX9Hx9egGOsFlxa-WO2uem1mRy3dZ3';
+export const SHEET_ID = '1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0';
 
 export const SHEET_CONFIG = [
   {
@@ -24,7 +24,7 @@ export const SHEET_CONFIG = [
     name: 'spleen',
     display: 'Spleen',
     sheetId: SHEET_ID,
-    gid: '350178466',
+    gid: '22580074',
     body: 'Spleen',
     config: {
       bimodal_distance_x: 250,
@@ -38,8 +38,8 @@ export const SHEET_CONFIG = [
     name: 'thymus',
     display: 'Thymus',
     sheetId: SHEET_ID,
-    gid: '1617521563',
-    body: 'Spleen',
+    gid: '364866156',
+    body: 'Thymus',
     config: {
       bimodal_distance_x: 250,
       bimodal_distance_y: 60,
@@ -52,7 +52,7 @@ export const SHEET_CONFIG = [
     name: 'kidney',
     display: 'Kidney',
     sheetId: SHEET_ID,
-    gid: '1922253259',
+    gid: '1760639962',
     config: {
       bimodal_distance_x: 250,
       bimodal_distance_y: 60,
@@ -65,7 +65,7 @@ export const SHEET_CONFIG = [
     name: 'liver',
     display: 'Liver',
     sheetId: SHEET_ID,
-    gid: '1874982716',
+    gid: '2079993346',
     config: {
       bimodal_distance_x: 250,
       bimodal_distance_y: 60,
@@ -78,7 +78,7 @@ export const SHEET_CONFIG = [
     name: 'lymph_nodes',
     display: 'Lymph Nodes',
     sheetId: SHEET_ID,
-    gid: '1758601414',
+    gid: '272157091',
     config: {
       bimodal_distance_x: 250,
       bimodal_distance_y: 60,
@@ -91,12 +91,12 @@ export const SHEET_CONFIG = [
     name: 'heart',
     display: 'Heart',
     sheetId: SHEET_ID,
-    gid: '25256990',
+    gid: '1240281363',
     config: {
       bimodal_distance_x: 300,
       bimodal_distance_y: 60,
       width: 600,
-      height: 8000,
+      height: 2500,
     },
     title: 'Anatomical Structures',
   },
@@ -104,7 +104,7 @@ export const SHEET_CONFIG = [
     name: 'brain',
     display: 'Brain',
     sheetId: SHEET_ID,
-    gid: '284400432',
+    gid: '345174398',
     config: {
       bimodal_distance_x: 200,
       bimodal_distance_y: 50,
@@ -118,7 +118,7 @@ export const SHEET_CONFIG = [
     name: 'large_intestine',
     display: 'Large Intestine',
     sheetId: SHEET_ID,
-    gid: '1028766596',
+    gid: '1687995716',
     config: {
       bimodal_distance_x: 200,
       bimodal_distance_y: 50,
@@ -132,7 +132,7 @@ export const SHEET_CONFIG = [
     name: 'vasculature',
     display: 'Vasculature',
     sheetId: SHEET_ID,
-    gid: '697490859',
+    gid: '1896956438',
     config: {
       bimodal_distance_x: 200,
       bimodal_distance_y: 50,
@@ -146,7 +146,7 @@ export const SHEET_CONFIG = [
     name: 'bone_marrow',
     display: 'Bone Marrow',
     sheetId: SHEET_ID,
-    gid: '1507427305',
+    gid: '1852470103',
     config: {
       bimodal_distance_x: 200,
       bimodal_distance_y: 50,
@@ -160,7 +160,7 @@ export const SHEET_CONFIG = [
     name: 'skin',
     display: 'Skin',
     sheetId: SHEET_ID,
-    gid: '2017602183',
+    gid: '104836770',
     config: {
       bimodal_distance_x: 200,
       bimodal_distance_y: 50,
@@ -174,7 +174,7 @@ export const SHEET_CONFIG = [
     name: 'lung',
     display: 'Lung',
     sheetId: SHEET_ID,
-    gid: '2128555362',
+    gid: '1361633379',
     config: {
       bimodal_distance_x: 200,
       bimodal_distance_y: 50,
