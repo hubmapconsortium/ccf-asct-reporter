@@ -41,7 +41,8 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
           y: { field: 'bounds.y1', round: true, offset: { signal: '-bgoffset' } },
           y2: { field: 'bounds.y2', round: true, offset: { signal: 'bgoffset' } },
           fill: { value: 'aliceblue' },
-          stroke: { value: 'steelblue' }
+          stroke: { value: 'steelblue' },
+          zindex: {value: -1}
         },
         update: {
           opacity: [

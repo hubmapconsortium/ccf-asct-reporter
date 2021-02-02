@@ -524,9 +524,17 @@ export class SheetState {
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, 'Example', LOG_ICONS.file, 'latest'));
     const state = getState();
+    const organ: Structure = {
+      name: 'Body',
+      id: ''
+    }
 
     return this.sheetService.fetchPlaygroundData().pipe(
       tap((res: any) => {
+        res.data.forEach(row => {
+          row.anatomical_structures.unshift(organ)
+        })
+
         setState({
           ...state,
           compareData: [],
@@ -566,9 +574,16 @@ export class SheetState {
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, 'Updated Playground Data', LOG_ICONS.file, 'latest'));
-
+    const organ: Structure = {
+      name: 'Body',
+      id: ''
+    }
+    
     return this.sheetService.updatePlaygroundData(data).pipe(
       tap((res: any) => {
+        res.data.forEach(row => {
+          row.anatomical_structures.unshift(organ)
+        })
         setState({
           ...state,
           parsed: res.parsed,
