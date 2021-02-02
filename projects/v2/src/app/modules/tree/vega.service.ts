@@ -66,15 +66,6 @@ export class VegaService {
         this.store.dispatch(new CloseBottomSheet());
       }
     });
-
-    view.addSignalListener('as_width', (signal: Signal, value: any) => {
-      if (value) { this.makeBimodal(view); }
-    });
-
-    view.addSignalListener('as_height', (signal: Signal, value: any) => {
-      if (value) { this.makeBimodal(view); }
-    });
-
   }
 
   makeBimodal(view: any) {

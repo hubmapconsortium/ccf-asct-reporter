@@ -33,7 +33,7 @@ export class ControlPaneComponent implements OnInit {
 
   view: any;
 
-  constructor(public store: Store, public bm: BimodalService) {
+  constructor(public store: Store, public bm: BimodalService, public vs: VegaService) {
   }
 
   ngOnInit(): void {
@@ -46,8 +46,8 @@ export class ControlPaneComponent implements OnInit {
 
   updateConfigInSheet(prop) {
     switch (prop.property) {
-      case 'width': this.view.signal('as_width', prop.config.width).runAsync(); break;
-      case 'height': this.view.signal('as_height', prop.config.height).runAsync(); break;
+      case 'width': this.vs.makeBimodal(this.view.signal('as_width', prop.config.width)); break;
+      case 'height': this.vs.makeBimodal(this.view.signal('as_height', prop.config.height)); break;
       case 'show-ontology': this.view.signal('show_ontology', prop.config.show_ontology).runAsync(); break;
       case 'bm-x': this.updateBimodal(prop.config); break;
       case 'bm-y': this.updateBimodal(prop.config); break;
