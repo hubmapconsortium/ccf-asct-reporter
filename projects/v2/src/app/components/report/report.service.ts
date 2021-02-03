@@ -50,7 +50,7 @@ export class ReportService {
   }
 
   async makeCompareData(reportdata: Report, compareData: Row[], compareSheets: CompareData[]) {
-
+    
     const compareDataStats = [];
     for (const sheet of compareSheets) {
       const newEntry: any = {};
@@ -61,13 +61,23 @@ export class ReportService {
       let newStructures = [];
 
       try {
-        compareAS = await makeAS(compareData);
+        let compareAS = makeAS(compareData);
+        let mainASData = reportdata.anatomicalStructures.filter(i => !i.isNew)
+        let compareASData = compareAS.filter(i => i.isNew)
 
         if (compareAS.length > 0 ) {
-          for (const a of compareAS) {
-            const findObj = reportdata.anatomicalStructures.findIndex(i => i.structure === a.structure);
-            if (findObj !== -1) { identicalStructures.push(a.structure); }
-            else { newStructures.push(a.structure); }
+          for (const a of compareASData) {
+            let found = false;
+            for (const b of mainASData) {
+              if (a.structure === b.structure && !b.isNew) {
+                identicalStructures.push(a.structure);
+                found = true
+              }
+            }
+
+            if(!found) {
+              newStructures.push(a.structure);
+            }
           }
         }
       } catch (err) {
@@ -82,13 +92,24 @@ export class ReportService {
       newStructures = [];
 
       try {
-        compareCT = await makeCellTypes(compareData);
+        compareCT =  makeCellTypes(compareData);
+        let mainCTData = reportdata.cellTypes.filter(i => !i.isNew)
+        let compareCTData = compareCT.filter(i => i.isNew)
+
 
         if (compareCT.length > 0 ) {
-          for (const a of compareCT) {
-            const findObj = reportdata.cellTypes.findIndex(i => i.structure === a.structure);
-            if (findObj !== -1) { identicalStructures.push(a.structure); }
-            else { newStructures.push(a.structure); }
+          for (const a of compareCTData) {
+            let found = false;
+            for (const b of mainCTData) {
+              if (a.structure === b.structure && !b.isNew) {
+                identicalStructures.push(a.structure);
+                found = true
+              }
+            }
+
+            if(!found) {
+              newStructures.push(a.structure);
+            }
           }
         }
       } catch (err) {
@@ -104,12 +125,22 @@ export class ReportService {
 
       try {
         compareB = makeBioMarkers(compareData);
+        let mainBData = reportdata.biomarkers.filter(i => !i.isNew)
+        let compareBData = compareB.filter(i => i.isNew)
 
         if (compareB.length > 0 ) {
-          for (const a of compareB) {
-            const findObj = reportdata.biomarkers.findIndex(i => i.structure === a.structure);
-            if (findObj !== -1) { identicalStructures.push(a.structure); }
-            else { newStructures.push(a.structure); }
+          for (const a of compareBData) {
+            let found = false;
+            for (const b of mainBData) {
+              if (a.structure === b.structure && !b.isNew) {
+                identicalStructures.push(a.structure);
+                found = true
+              }
+            }
+
+            if(!found) {
+              newStructures.push(a.structure);
+            }
           }
         }
       } catch (err) {
@@ -126,7 +157,7 @@ export class ReportService {
 
       compareDataStats.push(newEntry);
     }
-
+    
     this.compareData.next({
       data: compareDataStats
     });
