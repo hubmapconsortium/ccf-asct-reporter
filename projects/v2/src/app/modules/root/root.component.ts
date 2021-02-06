@@ -5,11 +5,11 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { SHEET_CONFIG, VERSION, SHEET_OPTIONS } from './../../static/config';
-import { SheetState, SheetStateModel } from './../../store/sheet.state';
-import { TreeState, TreeStateModel } from './../../store/tree.state';
+import { SHEET_CONFIG } from './../../static/config';
+import { SheetState } from './../../store/sheet.state';
+import { TreeState } from './../../store/tree.state';
 import { Select, Store } from '@ngxs/store';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   FetchSheetData,
   FetchDataFromAssets,
@@ -18,7 +18,6 @@ import {
   UpdateReport,
   DeleteCompareSheet,
   UpdateMode,
-  UpdateSheet,
   FetchInitialPlaygroundData,
 } from './../../actions/sheet.actions';
 import { TreeService } from './../tree/tree.service';
@@ -28,7 +27,6 @@ import {
   HasError,
   CloseSnackbar,
   CloseRightSideNav,
-  CloseBottomSheet,
   CloseCompare,
   CloseLoading,
   OpenBottomSheet,
@@ -38,7 +36,6 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import {
   MatSnackBar,
-  MatSnackBarRef,
   MatSnackBarConfig,
 } from '@angular/material/snack-bar';
 import { IndentedListService } from '../../components/indented-list/indented-list.service';
@@ -52,7 +49,6 @@ import {
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
 import { InfoComponent } from '../../components/info/info.component';
-import { BMNode } from '../../models/bimodal.model';
 import { CompareData, Row } from '../../models/sheet.model';
 
 
