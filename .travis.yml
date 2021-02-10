@@ -37,7 +37,6 @@ jobs:
     name: Deploy Staging Version
     if: branch = develop
     script:
-    - npm run data
     - npm run build:staging
     - cp dist/v2/index.html dist/v2/404.html
     - touch dist/v2/.nojekyll
