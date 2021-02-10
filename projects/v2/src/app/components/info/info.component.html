@@ -1,0 +1,54 @@
+<div class="p-2">
+  <div class="w-100 d-flex justify-content-between align-items-center border-bottom pb-2">
+    <div>
+      <span class="h5">{{data.name}}</span>
+    </div>
+    <div>
+      <button mat-icon-button (click)="close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  
+  <div *ngIf="loading;else resultBlock">
+    <div class="text-center">
+      <img src="../../../assets/loading.svg" alt="" style="width: 10%;">
+      <p class="text-muted">Please wait while the data loads...</p>
+    </div>
+  </div>
+  
+  <ng-template #resultBlock>
+    <div *ngIf="error.hasError; else infoBlock" class="pt-3">
+      Could not fetch data for <b>{{data.name}}</b>. This could be because,
+      <ul class="pl-3 pt-2">
+        <li>Structure does not have an ontology ID.</li>
+        <li>Structure has an invalid ontology ID.</li>
+        <li>Broken network connection.</li>
+      </ul>
+    </div>
+  </ng-template>
+  
+  
+  <ng-template #infoBlock>
+    <div *ngIf="!error.hasError" class="py-3 info">
+      <label><b>Description</b></label>
+      <div>
+        {{info.desc}}
+      </div>
+
+      <div class="pt-3"></div>
+      
+      <label><b>Ontology ID</b></label>
+      <div>
+        {{data.ontologyId}}
+      </div>
+
+      <div class="pt-3"></div>
+
+      <label><b>IRI</b></label>
+      <div>
+        <a [href]="info.iri" target="_blank" class="text-info">{{info.iri}}</a>
+      </div>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,295 @@
+<div
+  style="width: 100%; height: 100%; position: relative"
+  (window:resize)="onResize($event)"
+>
+  <!-- NAVBAR -->
+  <div class="w-100 pt-2 px-5">
+    <div class="d-flex justify-content-between align-items-center w-100">
+      <div class="navbar-logo">
+        <img
+          src="./assets/logo-light.svg"
+          alt=""
+          class="w-75 logo-link"
+          routerLink="/"
+        />
+      </div>
+      <div>
+        <a (click)="openData()" class="text-white"> Master Tables </a>
+        <a class (click)="openGithub()" class="ml-4 text-white"> GitHub </a>
+        <a (click)="window.open('https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1268820100')" class="text-white ml-4"> Old Tables </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- BACKGROUND -->
+  <div id="background"></div>
+
+  <!-- TITLE -->
+  <div class="container w-100">
+    <div
+      class="d-flex justify-content-center align-items-center w-100 flex-column"
+    >
+      <div class="title1 mt-5 pt-4 ">ASCT+B REPORTER</div>
+      <div class="text-muted pt-3">v2.0.2-alpha</div>
+      <div class="pt-3 text-center desc">
+        The CCF ASCT+B Reporter is a visualization tool for displaying
+        anatomical structures, cell types, and biomarker (ASCT+B) authored by domain experts for different human organs. The tables are used
+        to develop a common coordinate framework (CCF) of the healthy human
+        body, see also
+        <span
+          class="linker"
+          (click)="
+            window.open('https://hubmapconsortium.github.io/ccf', '_blank')
+          "
+          >Hubmap Consortium website</span
+        >.
+      </div>
+      <div class="title-btn mt-5 pt-2">
+        <button
+          mat-flat-button
+          class="go-to-vis"
+          [matMenuTriggerFor]="menu"
+        >
+          Go to Visualization
+        </button>
+        <mat-menu #menu="matMenu" class="organMenu">
+          <button
+            mat-menu-item
+            *ngFor="let option of SHEET_OPTIONS"
+            style="width: 100%"
+            routerLink="/vis"
+            [queryParams]="{ sheet: option.sheet, version: dataVersion }"
+          >
+            <span>{{ option.title }}</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIDEO  -->
+  <div class="container">
+    <div
+      class="d-flex justify-content-center align-items-center w-100 mt-5 pt-3"
+    >
+      <div class="laptop" id="laptop">
+        <img
+          src="./../../../assets/homepage/laptop.svg"
+          alt=""
+          class="l"
+          id="cover"
+        />
+        <img src="./../../../assets/homepage/intro-gif.gif" alt="" class="i" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="w-100 my-5 py-5 px-5" style="position: relative" id="about">
+    <div class="text-center container">
+      <span class="title2">ABOUT</span>
+      <p class="mt-3 text-secondary">
+        The ASCT+B Reporter is a state-of-the-art visualization tool. The video
+        gives an overview of the functionalities listed below. Please use the
+        selectors below to skip to any section you’d want to specifically know
+        about.
+      </p>
+    </div>
+    <div class="pt-5 mt-3"></div>
+    <div class="row">
+      <div class="col-xl-5 col-md-4 col-sm-6">
+        <div id="actionsHeight" class="pr-3 pl-1">
+          <div *ngFor="let va of VIDEO_ACTIONS; let i = index">
+            <button
+              class="section-selector w-100 my-2"
+              (click)="seekVideo(va.sec, i)"
+              [ngClass]="{ 'section-selected': i === videoSectionSelected }"
+            >
+              <p class="ss-header">{{ va.header }}</p>
+              <p class="ss-desc">{{ va.desc }}</p>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-7 col-md-8 col-sm-6">
+        <video
+          id="tutorialVideo"
+          class="w-100"
+          controls
+          style="
+            box-shadow: 5px 20px 30px #e1e1e1;
+            border-radius: 10px;
+            outline: none;
+          "
+          poster="assets/homeviewposter.png"
+        >
+          <source src="assets/video.mp4" />
+        </video>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPACING -->
+  <div class="w-100 mt-5 pt-5">
+    <!-- <hr class="w-25"> -->
+  </div>
+
+  <!-- CONTRIBUTORS -->
+  <div class="w-100 my-5 py-5 px-5">
+    <div class="text-center container">
+      <p class="title2">CONTRIBUTORS</p>
+      <p class="mt-3 text-secondary">
+        Along with various members from the MC-IU Team as well as doctors,
+        researchers and SMEs from various consortia, below listed are the members
+        of the core team working on building the ASCT+B Reporter
+      </p>
+    </div>
+    <div class="pt-5 mt-3 container">
+      <div class="row">
+        <div
+          class="col-xl-4 col-md-6 col-sm-6 col-lg-4 px-3"
+          *ngFor="let con of CONTIRBUTORS; let i = index"
+        >
+          <div class="card text-center con-card">
+            <div class="card-header">
+              <img
+                class="contributors-img"
+                [src]="con.img"
+                alt="sans"
+                width="170px"
+                height="170px"
+              />
+            </div>
+            <div class="card-body">
+              <p class="title3">{{ con.name }}</p>
+              <p class="desc text-secondary mt-3">
+                {{ con.desc }}
+              </p>
+              <p class="desc text-muted mt-4">
+                <a class="text-info" [href]="'mailto:' + con.mail">{{
+                  con.mail
+                }}</a>
+              </p>
+            </div>
+            <div class="card-footer border-top">
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="mr-2">
+                  <button
+                    mat-icon-button
+                    class="icon-btn"
+                    (click)="window.open(con.link, '_blank')"
+                  >
+                    <fa-icon [icon]="faGlobe"></fa-icon>
+                  </button>
+                </div>
+                <div class="mr-2" *ngIf="con.linkedin">
+                  <button
+                    mat-icon-button
+                    class="icon-btn"
+                    (click)="window.open(con.linkedin, '_blank')"
+                  >
+                    <fa-icon [icon]="faLinkedin"></fa-icon>
+                  </button>
+                </div>
+                <div *ngIf="con.github">
+                  <button
+                    mat-icon-button
+                    class="icon-btn"
+                    (click)="window.open(con.github, '_blank')"
+                  >
+                    <fa-icon [icon]="faGithub"></fa-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
+  <!-- AFFILIATIONS -->
+  <div class="my-5 py-5">
+    <div class="container">
+      <br />
+      <div class="text-center">
+        <p class="title2">AFFILIATIONS</p>
+        <p class="mt-3 text-secondary">
+          Various institutions that the CCF ASCT+B Reporter is affiliated with are listed below. 
+        </p>
+      </div>
+      <!-- <hr width="5%" color="#ededed" class="mt-1" /> -->
+      <div style="width: 100%; text-align: center;" class="p-5">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 mt-5">
+            <img
+              src="assets/affiliations/iu.jpg"
+              height="100"
+              style="cursor: pointer;"
+              (click)="window.open('https://www.indiana.edu', '_blank')"
+            />
+          </div>
+          <div class="col-lg-4 col-md-4 mt-5">
+            <img
+              src="assets/affiliations/cns.png"
+              height="100"
+              style="cursor: pointer;"
+              (click)="window.open('https://cns.iu.edu', '_blank')"
+            />
+          </div>
+          <div class="col-lg-4 col-md-4 mt-5">
+            <img
+              src="assets/affiliations/hubmap.png"
+              height="100"
+              style="cursor: pointer;"
+              (click)="
+                window.open('https://github.com/hubmapconsortium', '_blank')
+              "
+            />
+          </div>
+          <br />
+        </div>
+      </div>
+      <br />
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="mt-5 pt-5 pb-5 footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5 col-xs-12 about-company">
+          <h2>ASCT+B Reporter</h2>
+          <p class="pr-5 text-white-50">A state of the art visualization tool to envision large datasets developed by CNS, Indiana University.</p>
+          <p><a href="#"><i class="fa fa-facebook-square mr-1"></i></a><a href="#"><i class="fa fa-linkedin-square"></i></a></p>
+        </div>
+        <div class="col-lg-3 col-xs-12 links">
+          <h4 class="mt-lg-0 mt-sm-3 h5"><b>Links</b></h4>
+            <ul class="m-0 p-0">
+              <li>• <a href="https://www.indiana.edu" target="_blank">Indiana University</a></li>
+              <li>• <a href="https://cns.iu.edu" target="_blank">CI for Network Science Center</a></li>
+              <li>• <a href="https://github.com/hubmapconsortium" target="_blank">HuBMAP Consortium</a></li>
+              <li>• <a href="https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1199090884" target="_blank">Master Data Tables</a></li>
+              <li>• <a href="https://github.com/hubmapconsortium/ccf-asct-reporter#hubmap-ccf-asctb-reporter" target="_blank">Documentation</a></li>
+              <li>• <a href="https://hubmapconsortium.org/policies/" target="_blank">Policy</a></li>
+              <li>• <a href="https://hubmapconsortium.org/wp-content/uploads/2020/06/DUA_FINAL_2020_02_03_for_Signature.pdf" target="_blank">Terms & Conditions</a></li>
+            </ul>
+        </div>
+        <div class="col-lg-4 col-xs-12 location">
+          <h4 class="mt-lg-0 mt-sm-4"><b>Location</b></h4>
+          <p>700 N. Woodlawn Ave. Luddy Hall, Suite 4018
+            Bloomington, IN 47408</p>
+          <p class="mb-0 mt-2"><fa-icon [icon]="faPhone" class="mr-2"></fa-icon>(812) 856 7034</p>
+          <p><fa-icon [icon]="faEnvelope" class="mr-2"></fa-icon>infoccf@indiana.edu</p>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col copyright">
+          <p class=""><small class="text-white-50">© {{copyrightYear}}. All Rights Reserved. MIT License.</small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

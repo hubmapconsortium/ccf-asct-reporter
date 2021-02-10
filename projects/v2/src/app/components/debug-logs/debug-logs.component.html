@@ -1,0 +1,372 @@
+<app-sidenav>
+  <div header>
+    <app-sidenav-header
+      [title]="'Debug Log'"
+      [tooltipString]="
+        'Displays important messages about problems that occurred during the creation of the visualization(s).'
+      "
+      (closeSideNav)="closeDebug.emit()"
+    ></app-sidenav-header>
+  </div>
+
+  <div body class="debug-log">
+    <mat-tab-group mat-stretch-tabs class="tabs px-4">
+      <mat-tab [label]="currentSheet.display">
+        <div class="content">
+          <mat-list style="padding: 0" class="logsList mt-2">
+            <mat-list-item
+              style="padding-left: 0"
+              *ngFor="let l of logs.sheetLogs.messages"
+              class="py-2"
+            >
+              <mat-icon mat-list-icon style="color: grey" [ngClass]="l.icon">{{
+                l.icon
+              }}</mat-icon>
+              <div
+                mat-line
+                style="
+                  width: 100%;
+                  display: flex;
+                  justify-content: space-between;
+                "
+              >
+                <span class="i2" [innerHTML]="l.text"></span>
+              </div>
+            </mat-list-item>
+            <mat-list-item
+              style="width: 100%"
+              *ngIf="logs.sheetLogs.MULTI_IN_LINKS.length"
+              class="logsList mt-2"
+            >
+              <mat-icon mat-list-icon class="error mt-1">error</mat-icon>
+              <div
+                mat-line
+                style="
+                  width: 100%;
+                  display: flex;
+                  justify-content: space-between;
+                "
+              >
+                <mat-expansion-panel style="box-shadow: none" class="w-100">
+                  <mat-expansion-panel-header
+                    class="p-0"
+                    style="width: 99%"
+                    [collapsedHeight]="'35px'"
+                    [expandedHeight]="'35px'"
+                  >
+                    <mat-panel-title>
+                      <div>
+                        <p
+                          class="i2"
+                          [innerHTML]="'Nodes with multiple in-links'"
+                        ></p>
+                      </div>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div
+                    style="text-align: start; max-height: 300px; overflow: auto"
+                  >
+                    <p
+                      class="i2"
+                      *ngFor="let i of logs.sheetLogs.MULTI_IN_LINKS"
+                      [innerHTML]="i"
+                    ></p>
+                  </div>
+                </mat-expansion-panel>
+              </div>
+            </mat-list-item>
+            <mat-list-item
+              style="width: 100%"
+              *ngIf="logs.sheetLogs.SELF_LINKS.length"
+              class="logsList mt-2"
+            >
+              <mat-icon mat-list-icon class="error mt-1">error</mat-icon>
+              <div
+                mat-line
+                style="
+                  width: 100%;
+                  display: flex;
+                  justify-content: space-between;
+                "
+              >
+                <mat-expansion-panel style="box-shadow: none" class="w-100">
+                  <mat-expansion-panel-header
+                    class="p-0"
+                    style="width: 99%"
+                    [collapsedHeight]="'35px'"
+                    [expandedHeight]="'35px'"
+                  >
+                    <mat-panel-title>
+                      <div>
+                        <p class="i2" [innerHTML]="'Nodes with self-links'"></p>
+                      </div>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div
+                    style="text-align: start; max-height: 300px; overflow: auto"
+                  >
+                    <p
+                      class="i2"
+                      *ngFor="let i of logs.sheetLogs.SELF_LINKS"
+                      [innerHTML]="i"
+                    ></p>
+                  </div>
+                </mat-expansion-panel>
+              </div>
+            </mat-list-item>
+            <mat-list-item
+              style="width: 100%"
+              *ngIf="logs.sheetLogs.NO_IN_LINKS.length"
+              class="logsList mt-2"
+            >
+              <mat-icon mat-list-icon class="error mt-1">error</mat-icon>
+              <div
+                mat-line
+                style="
+                  width: 100%;
+                  display: flex;
+                  justify-content: space-between;
+                "
+              >
+                <mat-expansion-panel style="box-shadow: none" class="w-100">
+                  <mat-expansion-panel-header
+                    class="p-0"
+                    style="width: 99%"
+                    [collapsedHeight]="'35px'"
+                    [expandedHeight]="'35px'"
+                  >
+                    <mat-panel-title>
+                      <div>
+                        <p
+                          class="i2"
+                          [innerHTML]="'Nodes with no in-links'"
+                        ></p>
+                      </div>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div
+                    style="text-align: start; max-height: 300px; overflow: auto"
+                  >
+                    <p
+                      class="i2"
+                      *ngFor="let i of logs.sheetLogs.NO_IN_LINKS"
+                      [innerHTML]="i"
+                    ></p>
+                  </div>
+                </mat-expansion-panel>
+              </div>
+            </mat-list-item>
+            <mat-list-item
+              style="width: 100%"
+              *ngIf="logs.sheetLogs.NO_OUT_LINKS.length"
+              class="logsList mt-2"
+            >
+              <mat-icon mat-list-icon class="error mt-1">error</mat-icon>
+              <div
+                mat-line
+                style="
+                  width: 100%;
+                  display: flex;
+                  justify-content: space-between;
+                "
+              >
+                <mat-expansion-panel style="box-shadow: none" class="w-100">
+                  <mat-expansion-panel-header
+                    class="p-0"
+                    style="width: 99%"
+                    [collapsedHeight]="'35px'"
+                    [expandedHeight]="'35px'"
+                  >
+                    <mat-panel-title>
+                      <div>
+                        <p
+                          class="i2"
+                          [innerHTML]="'Nodes with no out-links'"
+                        ></p>
+                      </div>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div
+                    style="text-align: start; max-height: 300px; overflow: auto"
+                  >
+                    <p
+                      class="i2"
+                      *ngFor="let i of logs.sheetLogs.NO_OUT_LINKS"
+                      [innerHTML]="i"
+                    ></p>
+                  </div>
+                </mat-expansion-panel>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </mat-tab>
+      <mat-tab label="All Logs">
+        <mat-list
+          style="padding: 0"
+          class="logsList mt-2"
+          *ngFor="let AL of logs.allLogs"
+        >
+          <mat-list-item
+            style="padding-left: 0"
+            *ngFor="let l of AL.messages"
+            class="py-2"
+          >
+            <mat-icon mat-list-icon style="color: grey" [ngClass]="l.icon">{{
+              l.icon
+            }}</mat-icon>
+            <div
+              mat-line
+              style="width: 100%; display: flex; justify-content: space-between"
+            >
+              <span class="i2" [innerHTML]="l.text"></span>
+            </div>
+          </mat-list-item>
+          <mat-list-item
+            style="width: 100%"
+            *ngIf="AL.MULTI_IN_LINKS.length"
+            class="logsList mt-2"
+          >
+            <mat-icon mat-list-icon class="error mt-1">error</mat-icon>
+            <div
+              mat-line
+              style="width: 100%; display: flex; justify-content: space-between"
+            >
+              <mat-expansion-panel style="box-shadow: none" class="w-100">
+                <mat-expansion-panel-header
+                  class="p-0"
+                  style="width: 99%"
+                  [collapsedHeight]="'35px'"
+                  [expandedHeight]="'35px'"
+                >
+                  <mat-panel-title>
+                    <div>
+                      <p
+                        class="i2"
+                        [innerHTML]="'Nodes with multiple in-links'"
+                      ></p>
+                    </div>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div
+                  style="text-align: start; max-height: 300px; overflow: auto"
+                >
+                  <p
+                    class="i2"
+                    *ngFor="let i of logs.sheetLogs.MULTI_IN_LINKS"
+                    [innerHTML]="i"
+                  ></p>
+                </div>
+              </mat-expansion-panel>
+            </div>
+          </mat-list-item>
+          <mat-list-item
+            style="width: 100%"
+            *ngIf="AL.SELF_LINKS.length"
+            class="logsList mt-2"
+          >
+            <mat-icon mat-list-icon class="error mt-1">error</mat-icon>
+            <div
+              mat-line
+              style="width: 100%; display: flex; justify-content: space-between"
+            >
+              <mat-expansion-panel style="box-shadow: none" class="w-100">
+                <mat-expansion-panel-header
+                  class="p-0"
+                  style="width: 99%"
+                  [collapsedHeight]="'35px'"
+                  [expandedHeight]="'35px'"
+                >
+                  <mat-panel-title>
+                    <div>
+                      <p class="i2" [innerHTML]="'Nodes with self-links'"></p>
+                    </div>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div
+                  style="text-align: start; max-height: 300px; overflow: auto"
+                >
+                  <p
+                    class="i2"
+                    *ngFor="let i of logs.sheetLogs.SELF_LINKS"
+                    [innerHTML]="i"
+                  ></p>
+                </div>
+              </mat-expansion-panel>
+            </div>
+          </mat-list-item>
+          <mat-list-item
+            style="width: 100%"
+            *ngIf="AL.NO_IN_LINKS.length"
+            class="logsList mt-2"
+          >
+            <mat-icon mat-list-icon class="error mt-1">error</mat-icon>
+            <div
+              mat-line
+              style="width: 100%; display: flex; justify-content: space-between"
+            >
+              <mat-expansion-panel style="box-shadow: none" class="w-100">
+                <mat-expansion-panel-header
+                  class="p-0"
+                  style="width: 99%"
+                  [collapsedHeight]="'35px'"
+                  [expandedHeight]="'35px'"
+                >
+                  <mat-panel-title>
+                    <div>
+                      <p class="i2" [innerHTML]="'Nodes with no in-links'"></p>
+                    </div>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div
+                  style="text-align: start; max-height: 300px; overflow: auto"
+                >
+                  <p
+                    class="i2"
+                    *ngFor="let i of logs.sheetLogs.NO_IN_LINKS"
+                    [innerHTML]="i"
+                  ></p>
+                </div>
+              </mat-expansion-panel>
+            </div>
+          </mat-list-item>
+          <mat-list-item
+            style="width: 100%"
+            *ngIf="AL.NO_OUT_LINKS.length"
+            class="logsList mt-2"
+          >
+            <mat-icon mat-list-icon class="error mt-1">error</mat-icon>
+            <div
+              mat-line
+              style="width: 100%; display: flex; justify-content: space-between"
+            >
+              <mat-expansion-panel style="box-shadow: none" class="w-100">
+                <mat-expansion-panel-header
+                  class="p-0"
+                  style="width: 99%"
+                  [collapsedHeight]="'35px'"
+                  [expandedHeight]="'35px'"
+                >
+                  <mat-panel-title>
+                    <div>
+                      <p class="i2" [innerHTML]="'Nodes with no out-links'"></p>
+                    </div>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div
+                  style="text-align: start; max-height: 300px; overflow: auto"
+                >
+                  <p
+                    class="i2"
+                    *ngFor="let i of logs.sheetLogs.NO_OUT_LINKS"
+                    [innerHTML]="i"
+                  ></p>
+                </div>
+              </mat-expansion-panel>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</app-sidenav>

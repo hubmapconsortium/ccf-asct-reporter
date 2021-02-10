@@ -1,0 +1,35 @@
+<!-- <div
+class="title-wrapper"
+  [ngStyle]="{
+    width:
+      (config$ | async).width +
+      (config$ | async).bimodal_distance_x * 2 +
+      200 +
+      'px'
+  }"
+>
+  <div
+    class="title py-2"
+    [ngStyle]="{
+      width:
+        (config$ | async).width +
+        (config$ | async).bimodal_distance_x / 1.5 +
+        'px',
+      backgroundColor: AS_RED + '20'
+    }"
+  >
+    <span class="px-4">Anatomical Structures</span>
+  </div>
+  <div
+    class="title text-center py-2"
+    [ngStyle]="{ width: (config$ | async).bimodal_distance_x + 'px', backgroundColor: CT_BLUE + '40'}"
+  >
+  <span>Cell Types</span></div>
+  <div
+    class="title text-center py-2"
+    [ngStyle]="{ width: (config$ | async).bimodal_distance_x + 'px', backgroundColor: B_GREEN + '40'}"
+  >
+  <span>Biomarkers</span></div>
+</div> -->
+
+<div id="vis" #graph></div>

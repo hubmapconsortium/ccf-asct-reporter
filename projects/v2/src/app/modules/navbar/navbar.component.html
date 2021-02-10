@@ -1,0 +1,212 @@
+<mat-toolbar
+  color="secondary"
+  style="
+    /* padding-left: 50px !important; */
+    padding-right: 50px !important;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: white;
+  "
+    [ngStyle]="{'border-bottom': (mode$ | async) === 'vis' ?'3px solid #444a6510' : 'none'}"
+>
+  <div class="nav-wrapper">
+    <div *ngIf="!(ui$ | async).controlPaneOpen">
+      <img
+        src="./../../../assets/logo2.png"
+        alt=""
+        class="w-100 logo-link"
+        routerLink="/"
+        matTooltip="Home Page"
+        matTooltipPosition="below"
+      />
+    </div>
+    <button
+      *ngIf="!(ui$ | async).controlPaneOpen"
+      (click)="togglePane()"
+      mat-icon-button
+      #tooltip="matTooltip"
+      matTooltip="Show Control Pane"
+      matTooltipPosition="below"
+      style="background-color: #f5f5f5"
+    >
+      <mat-icon style="margin-bottom: 5px !important">menu</mat-icon>
+    </button>
+    <div class="search">
+      <app-search [disabled]="(ui$ | async).error.hasError"></app-search>
+    </div>
+    <mat-form-field style="margin-bottom: 0">
+      <button
+        class="secondary select-border"
+        mat-flat-button
+        style="width: 100%"
+        #tooltip="matTooltip"
+        matTooltip="Select Organ Set"
+        matTooltipPosition="below"
+      >
+        <mat-select
+          (selectionChange)="getSheetSelection(selectedSheetOption, $event)"
+          [(ngModel)]="selectedSheetOption"
+        >
+
+          <mat-option
+            *ngFor="let option of SHEET_OPTIONS"
+            [value]="option.title"
+          >
+            {{ option.title }}
+          </mat-option>
+          <mat-option
+            *ngFor="let option of "
+            [value]="option.title"
+          >
+            {{ option.title }}
+          </mat-option>
+        </mat-select>
+      </button>
+    </mat-form-field>
+
+    <button
+      mat-icon-button
+      (click)="window.open('https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=2034682742','_blank')"
+      #tooltip="matTooltip"
+      matTooltip="Master Data Tables"
+      matTooltipPosition="below"
+      style="background-color: #f5f5f5;"
+    >
+      <mat-icon style="margin-bottom: 5px !important">table_view</mat-icon>
+    </button>
+
+    <button
+      mat-icon-button
+      (click)="refreshData()"
+      #tooltip="matTooltip"
+      matTooltip="Refresh Data"
+      matTooltipPosition="below"
+      style="background-color: #f5f5f5"
+    >
+      <mat-icon style="margin-bottom: 5px !important">refresh</mat-icon>
+    </button>
+
+    <button
+      mat-icon-button
+      (click)="toggleMode()"
+      #tooltip="matTooltip"
+      [matTooltip]="(mode$ | async) === 'vis' ? 'Playground': 'Exit Playground'"
+      matTooltipPosition="below"
+      style="background-color: #f5f5f5"
+    >
+      <mat-icon style="margin-bottom: 5px !important">{{(mode$ | async) === 'vis' ? 'sports_esports': 'exit_to_app'}}</mat-icon>
+    </button>
+
+    <button
+      [disabled]="(ui$ | async).error.hasError"
+      mat-icon-button
+      (click)="toggleIndentedList()"
+      #tooltip="matTooltip"
+      matTooltip="Indented List"
+      matTooltipPosition="below"
+      style="background-color: #f5f5f5"
+    >
+      <mat-icon style="margin-bottom: 5px !important"
+        >format_indent_increase</mat-icon
+      >
+    </button>
+
+    <button
+      [disabled]="(ui$ | async).error.hasError"
+      mat-icon-button
+      (click)="toggleCompare()"
+      #tooltip="matTooltip"
+      matTooltip="Compare"
+      matTooltipPosition="below"
+      style="background-color: #f5f5f5"
+    >
+      <mat-icon style="margin-bottom: 5px !important">compare_arrows</mat-icon>
+    </button>
+
+    <button
+      [disabled]="(ui$ | async).error.hasError"
+      mat-icon-button
+      (click)="toggleReport()"
+      #tooltip="matTooltip"
+      matTooltip="Report"
+      matTooltipPosition="below"
+      style="background-color: #f5f5f5"
+    >
+      <mat-icon svgIcon="report" style="margin-bottom: 5px !important"></mat-icon>
+    </button>
+
+    <button
+      mat-icon-button
+      (click)="toggleDebugLogs()"
+      #tooltip="matTooltip"
+      matTooltip="Debug Log"
+      matTooltipPosition="below"
+      style="background-color: #f5f5f5;"
+    >
+      <mat-icon svgIcon="debug" style="margin-bottom: 5px !important"></mat-icon>
+    </button>
+
+    <button
+      [disabled]="(ui$ | async).error.hasError"
+      autofocus="false"
+      mat-icon-button
+      #tooltip="matTooltip"
+      matTooltip="Export"
+      matTooltipPosition="below"
+      style="background-color: #f5f5f5"
+      [matMenuTriggerFor]="downloadMenu"
+    >
+      <mat-icon style="margin-bottom: 5px !important">get_app</mat-icon>
+      <mat-menu #downloadMenu="matMenu">
+        <button
+          mat-menu-item
+          *ngFor="let option of IMG_OPTIONS"
+          (click)="export.emit(option)"
+        >
+          {{ option }}
+        </button>
+      </mat-menu>
+    </button>
+
+    <!-- <button
+      mat-icon-button
+      style="background-color: #f5f5f5"
+      #tooltip="matTooltip"
+      matTooltip="Select Version"
+      matTooltipPosition="below"
+      [matMenuTriggerFor]="versionMenu"
+    >
+      <mat-icon style="margin-bottom: 5px !important">restore</mat-icon>
+      <mat-menu #versionMenu="matMenu">
+        <button
+          [ngStyle]="{'color': selectedVersion === option.display ? '#3f51b5' : 'black'}"
+          mat-menu-item
+          *ngFor="let option of VERSIONS"
+          (click)="getVersionSelection(option.display, $event)"
+        >
+          {{ option.display }}
+        </button>
+      </mat-menu>
+    </button> -->
+
+    <button
+      mat-icon-button
+      #tooltip="matTooltip"
+      matTooltip="Menu"
+      matTooltipPosition="below"
+      [matMenuTriggerFor]="menu"
+    >
+      <mat-icon style="margin-bottom: 5px !important">more_vert</mat-icon>
+      <mat-menu #menu="matMenu">
+        <button
+          mat-menu-item
+          *ngFor="let option of MORE_OPTIONS"
+          (click)="window.open(option.url, '_blank')"
+        >
+          {{ option.name }}
+        </button>
+      </mat-menu>
+    </button>
+  </div>
+</mat-toolbar>

@@ -1,0 +1,52 @@
+<app-sidenav>
+  <div header>
+    <div class="w-100 text-center pt-3">
+      <img
+        src="./assets/logo.svg"
+        alt=""
+        class="w-100 logo-link"
+        routerLink="/"
+        matTooltip="Home Page"
+        matTooltipPosition="below"
+      />
+    </div>
+    <div class="mt-3">
+      <button
+        mat-icon-button
+        style="border-radius: 8px"
+        #tooltip="matTooltip"
+        (click)="togglePane()"
+        matTooltip="Toggle Control Pane"
+        matTooltipPosition="below"
+        class="w-100 br-0 secondary"
+      >
+        <mat-icon style="font-weight: bold">keyboard_arrow_left</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div body>
+    
+
+    <div class="px-3 mt-2">
+      <app-legend [treeData]="td$ | async" [bimodalData]="bm$ | async" [compareData]="cs$ | async" [error]="error"></app-legend>
+    </div>
+
+    <div class="px-3 mt-4">
+      <app-functions [error]="error"></app-functions>
+    </div>
+
+    <div class="px-3 mt-4">
+      <app-vis-controls [config]="config$ | async" [error]="error" (updatedConfig)="updateConfigInSheet($event)" [currentSheet]="sheet$ | async"></app-vis-controls>
+    </div>
+  </div>
+
+  <div footer>
+    <!-- <div class="py-2">
+      Something wrong? <a href="" (click)="sendMail()" class="text-info">Contact Us</a>.
+    </div> -->
+    <button mat-stroked-button class="w-100 report mt-2" (click)="sendMail()">
+      Contact Us
+    </button>
+  </div>
+</app-sidenav>

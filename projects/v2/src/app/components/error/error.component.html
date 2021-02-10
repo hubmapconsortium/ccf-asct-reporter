@@ -1,0 +1,37 @@
+<!-- <p>error works!</p>
+THERE IS AN ERROR!!!! -->
+
+<div class="h-100 w-100 card px-5">
+  <div style="display: flex; align-items: center; justify-content: center;" class="h-100 mx-5">
+    <div class="row w-100 h-100">
+      <div class="col-xl-4 col-md-6 col-sm-12 d-flex justify-content-center mr-5">
+        <img src="../../../assets/error.svg" alt="" class="w-100" />
+      </div>
+      <div class="col-xl-6 col-md-6 col-sm-12 d-flex  ml-5 flex-column h-100 justify-content-center text-left">
+       
+        <div class="h1 pt-2">
+          Error!
+        </div>
+        <div class="lead pt-3 lh">
+          <span>The visualization could not be rendered due to some errors. Below mentioned are a list of problems that could’ve occurred.</span>
+        </div>
+        <div>
+          <ul class="text-left lead pt-3 lh">
+            <li>The data version that you selected is depricated for the sheet. Click on this link to see the depricated sheets.</li>
+            <li class="pt-1">The format of the data didn't match the format of the master tables.</li>
+            <li class="pt-1">Network issues.</li>
+          </ul>
+          <p class="lead pt-3 lh">
+            To report this issue, please reach out to us, <a style="color: rgb(64, 132, 201);" >here</a>.
+          </p>
+        </div>
+        <div>
+          <code>{{error.msg}}</code>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- {{error.msg}} -->

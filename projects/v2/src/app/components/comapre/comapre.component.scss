@@ -1,0 +1,37 @@
+// .cc {
+//   border-radius: 8px;
+//   box-shadow: 3px 3px 40px 30px #ececec;
+// }
+
+.link-input-field {
+  width: 100%;
+}
+
+input[type="color"] {
+	-webkit-appearance: none;
+  border: none;
+  outline: none;
+}
+::ng-deep input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+	border: none;
+}
+
+.content {
+  flex: 1 1;
+  overflow: auto;
+}
+
+.mat-expansion-panel:not([class*="mat-elevation-z"]) {
+  box-shadow: none;
+}
+
+.mat-expansion-panel-header:not(.compare) {
+  background: rgb(228, 228, 228) !important;
+}
+
+.mat-expansion-panel-header:hover {
+  opacity: 0.85 !important;
+}

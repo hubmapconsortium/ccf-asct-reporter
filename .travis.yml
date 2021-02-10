@@ -39,15 +39,15 @@ jobs:
     script:
     - npm run data
     - npm run build:staging
-    - cp dist/ccf-asct-reporter/index.html dist/ccf-asct-reporter/404.html
-    - touch dist/ccf-asct-reporter/.nojekyll
+    - cp dist/v2/index.html dist/v2/404.html
+    - touch dist/v2/.nojekyll
     deploy:
       provider: pages
       target-branch: staging
       skip-cleanup: true
       github-token: "$GITHUB_TOKEN"
       keep-history: false
-      local-dir: dist/ccf-asct-reporter
+      local-dir: dist/v2
       on:
         branch: develop
   - stage: test

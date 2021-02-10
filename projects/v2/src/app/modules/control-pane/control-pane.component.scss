@@ -1,0 +1,15 @@
+/* REPORT */
+.report {
+  border: 1px solid  rgba(245, 159, 61);
+  border-radius: 8px !important;
+  color: black;
+  transition: all 0.3s;
+}
+
+.report:hover {
+  background-color: rgb(245, 159, 61);
+}
+
+a {
+  color: grey;
+}

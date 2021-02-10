@@ -1,0 +1,33 @@
+.nav-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    align-items: center;
+}
+
+
+.nav-wrapper > * {
+    margin-right: 20px;;
+}
+// remove underline from mat-select
+::ng-deep .mat-form-field-underline {
+    display: none;
+}
+
+:host ::ng-deep .mat-form-field-wrapper {
+    margin-bottom: 0 !important;
+    padding: 0;
+}
+
+::ng-deep .mat-form-field-infix {
+    border-top: none !important;
+}
+
+.mat-icon-button {
+ border-radius: 8px !important;
+ 
+}
+
+.search {
+    width: 30%;
+}
