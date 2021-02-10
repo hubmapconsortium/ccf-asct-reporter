@@ -9,6 +9,7 @@ import { FetchSheetData, RefreshData, FetchAllOrganData, FetchInitialPlaygroundD
 import { ToggleControlPane, ToggleIndentList, ToggleReport, ToggleDebugLogs, OpenCompare } from '../../actions/ui.actions';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { ClearSheetLogs } from '../../actions/logs.actions';
+import {  faChartLine } from "@fortawesome/free-solid-svg-icons";
 
 
 @Component({
@@ -21,6 +22,7 @@ export class NavbarComponent implements OnInit {
   MORE_OPTIONS = MORE_OPTIONS;
   IMG_OPTIONS = IMG_OPTIONS;
   window: Window = window;
+  faChartLine = faChartLine;
 
   selectedSheetOption: string;
   selectedVersion: string;

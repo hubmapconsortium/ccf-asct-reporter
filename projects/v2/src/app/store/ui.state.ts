@@ -1,4 +1,4 @@
-import { State, Action, StateContext, Selector, Select } from '@ngxs/store';
+import { State, Action, StateContext, Selector, Select, Store } from '@ngxs/store';
 import { Error, SnackbarType } from '../models/response.model';
 import { Injectable } from '@angular/core';
 import {
@@ -22,6 +22,7 @@ import { Snackbar } from '../models/ui.model';
 import { ReportLog } from '../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../models/logs.model';
 import { UpdateBottomSheetData } from '../actions/tree.actions';
+import { TreeState } from './tree.state';
 
 /** Interface to keep track of all UI elements */
 export class UIStateModel {
@@ -90,7 +91,7 @@ export class UIStateModel {
 @Injectable()
 export class UIState {
 
-  constructor() {
+  constructor(public store: Store) {
   }
 
   /**
@@ -381,6 +382,10 @@ export class UIState {
   closeBottomSheet({ getState, setState, dispatch }: StateContext<UIStateModel>) {
     const state = getState();
     dispatch(new UpdateBottomSheetData({}));
+
+    const view = this.store.selectSnapshot(TreeState.getVegaView);
+    console.log(view)
+    if (Object.entries(view).length) view.signal('bimodal_text__click', {})
 
     setState({
       ...state,

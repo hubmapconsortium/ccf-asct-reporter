@@ -91,7 +91,7 @@
       mat-icon-button
       (click)="toggleMode()"
       #tooltip="matTooltip"
-      matTooltip="Playground"
+      [matTooltip]="(mode$ | async) === 'vis' ? 'Playground': 'Exit Playground'"
       matTooltipPosition="below"
       style="background-color: #f5f5f5"
     >
@@ -108,7 +108,7 @@
       style="background-color: #f5f5f5"
     >
       <mat-icon style="margin-bottom: 5px !important"
-        >format_list_bulleted</mat-icon
+        >format_indent_increase</mat-icon
       >
     </button>
 
@@ -133,7 +133,7 @@
       matTooltipPosition="below"
       style="background-color: #f5f5f5"
     >
-      <mat-icon style="margin-bottom: 5px !important">show_chart</mat-icon>
+      <mat-icon svgIcon="report" style="margin-bottom: 5px !important"></mat-icon>
     </button>
 
     <button

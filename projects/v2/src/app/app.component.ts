@@ -17,5 +17,15 @@ export class AppComponent {
         'debug',
         this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/debug.svg')
       );
+
+      this.matIconRegistry.addSvgIcon(
+        'report',
+        this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/report.svg')
+      );
+
+      this.matIconRegistry.addSvgIcon(
+        'indentedList',
+        this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/indent.svg')
+      );
   }
 }

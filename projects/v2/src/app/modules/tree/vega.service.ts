@@ -60,10 +60,9 @@ export class VegaService {
 
   addSignalListeners(view: any) {
     view.addSignalListener('bimodal_text__click', (signal: Signal, text: any) => {
+      console.log(text)
       if (text) {
         this.store.dispatch(new OpenBottomSheet(text));
-      } else {
-        this.store.dispatch(new CloseBottomSheet());
       }
     });
   }

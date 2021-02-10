@@ -30,6 +30,7 @@ import {
   CloseCompare,
   CloseLoading,
   OpenBottomSheet,
+  CloseBottomSheet,
 } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -197,6 +198,8 @@ export class RootComponent implements OnInit, OnDestroy{
           panelClass: 'bottom-sheet-style',
           data: bsd
         });
+
+        
       } else {
         if (this.infoSheetRef) { this.infoSheetRef.dismiss(); }
       }

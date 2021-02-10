@@ -4,7 +4,6 @@ import { VegaService } from './vega.service';
 import { AS_RED, TNode, NODE_TYPE } from './../../models/tree.model';
 import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { Observable } from 'rxjs';
-import { validateWidth } from '../../static/util';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { ReportLog } from '../../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
