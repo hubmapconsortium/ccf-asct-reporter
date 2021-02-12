@@ -95,7 +95,8 @@
       matTooltipPosition="below"
       style="background-color: #f5f5f5"
     >
-      <mat-icon style="margin-bottom: 5px !important">{{(mode$ | async) === 'vis' ? 'sports_esports': 'exit_to_app'}}</mat-icon>
+    <mat-icon svgIcon="playground" style="margin-bottom: 5px !important">refresh</mat-icon>
+      <!-- <mat-icon style="margin-bottom: 5px !important">{{(mode$ | async) === 'vis' ? 'sports_esports': 'exit_to_app'}}</mat-icon> -->
     </button>
 
     <button
@@ -107,9 +108,10 @@
       matTooltipPosition="below"
       style="background-color: #f5f5f5"
     >
-      <mat-icon style="margin-bottom: 5px !important"
+    <fa-icon [icon]="faIndent" style="font-size: 14pt;"></fa-icon>
+      <!-- <mat-icon style="margin-bottom: 5px !important"
         >format_indent_increase</mat-icon
-      >
+      > -->
     </button>
 
     <button
@@ -121,7 +123,8 @@
       matTooltipPosition="below"
       style="background-color: #f5f5f5"
     >
-      <mat-icon style="margin-bottom: 5px !important">compare_arrows</mat-icon>
+    <mat-icon svgIcon="compare" style="margin-bottom: 5px !important"></mat-icon>
+      <!-- <mat-icon style="margin-bottom: 5px !important">compare_arrows</mat-icon> -->
     </button>
 
     <button

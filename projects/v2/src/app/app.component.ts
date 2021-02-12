@@ -27,5 +27,15 @@ export class AppComponent {
         'indentedList',
         this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/indent.svg')
       );
+
+      this.matIconRegistry.addSvgIcon(
+        'compare',
+        this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/compare.svg')
+      );
+
+      this.matIconRegistry.addSvgIcon(
+        'playground',
+        this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/playground.svg')
+      );
   }
 }
