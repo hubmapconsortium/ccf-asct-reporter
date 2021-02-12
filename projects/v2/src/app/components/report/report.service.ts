@@ -50,20 +50,19 @@ export class ReportService {
   }
 
   async makeCompareData(reportdata: Report, compareData: Row[], compareSheets: CompareData[]) {
-    
+
     const compareDataStats = [];
     for (const sheet of compareSheets) {
       const newEntry: any = {};
-      let compareAS;
       let compareCT;
       let compareB;
       let identicalStructures = [];
       let newStructures = [];
 
       try {
-        let compareAS = makeAS(compareData);
-        let mainASData = reportdata.anatomicalStructures.filter(i => !i.isNew)
-        let compareASData = compareAS.filter(i => i.isNew)
+        const compareAS = makeAS(compareData);
+        const mainASData = reportdata.anatomicalStructures.filter(i => !i.isNew);
+        const compareASData = compareAS.filter(i => i.isNew);
 
         if (compareAS.length > 0 ) {
           for (const a of compareASData) {
@@ -71,11 +70,11 @@ export class ReportService {
             for (const b of mainASData) {
               if (a.structure === b.structure && !b.isNew) {
                 identicalStructures.push(a.structure);
-                found = true
+                found = true;
               }
             }
 
-            if(!found) {
+            if (!found) {
               newStructures.push(a.structure);
             }
           }
@@ -93,8 +92,8 @@ export class ReportService {
 
       try {
         compareCT =  makeCellTypes(compareData);
-        let mainCTData = reportdata.cellTypes.filter(i => !i.isNew)
-        let compareCTData = compareCT.filter(i => i.isNew)
+        const mainCTData = reportdata.cellTypes.filter(i => !i.isNew);
+        const compareCTData = compareCT.filter(i => i.isNew);
 
 
         if (compareCT.length > 0 ) {
@@ -103,11 +102,11 @@ export class ReportService {
             for (const b of mainCTData) {
               if (a.structure === b.structure && !b.isNew) {
                 identicalStructures.push(a.structure);
-                found = true
+                found = true;
               }
             }
 
-            if(!found) {
+            if (!found) {
               newStructures.push(a.structure);
             }
           }
@@ -125,8 +124,8 @@ export class ReportService {
 
       try {
         compareB = makeBioMarkers(compareData);
-        let mainBData = reportdata.biomarkers.filter(i => !i.isNew)
-        let compareBData = compareB.filter(i => i.isNew)
+        const mainBData = reportdata.biomarkers.filter(i => !i.isNew);
+        const compareBData = compareB.filter(i => i.isNew);
 
         if (compareB.length > 0 ) {
           for (const a of compareBData) {
@@ -134,11 +133,11 @@ export class ReportService {
             for (const b of mainBData) {
               if (a.structure === b.structure && !b.isNew) {
                 identicalStructures.push(a.structure);
-                found = true
+                found = true;
               }
             }
 
-            if(!found) {
+            if (!found) {
               newStructures.push(a.structure);
             }
           }
@@ -157,7 +156,7 @@ export class ReportService {
 
       compareDataStats.push(newEntry);
     }
-    
+
     this.compareData.next({
       data: compareDataStats
     });

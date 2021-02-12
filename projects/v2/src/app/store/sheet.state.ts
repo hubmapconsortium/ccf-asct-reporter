@@ -127,7 +127,7 @@ export class SheetStateModel {
 export class SheetState {
 
   constructor(private sheetService: SheetService) {}
-  
+
   /**
    * Returns an observable that watches the data
    */
@@ -135,7 +135,7 @@ export class SheetState {
   static getData(state: SheetStateModel) {
     return state.data;
   }
-  
+
   /**
    * Returns an observable that watches the sheet
    */
@@ -143,7 +143,7 @@ export class SheetState {
   static getSheet(state: SheetStateModel) {
     return state.sheet;
   }
-  
+
   /**
    * Returns an observable that watches the sheet config
    */
@@ -151,7 +151,7 @@ export class SheetState {
   static getSheetConfig(state: SheetStateModel) {
     return state.sheetConfig;
   }
-  
+
   /**
    * Returns an observable that watches the linked compare documents
    */
@@ -159,7 +159,7 @@ export class SheetState {
   static getCompareSheets(state: SheetStateModel) {
     return state.compareSheets;
   }
-  
+
   /**
    * Returns an observable that watches all the data from the linked compare documents
    */
@@ -167,7 +167,7 @@ export class SheetState {
   static getCompareData(state: SheetStateModel) {
     return state.compareData;
   }
-  
+
   /**
    * Returns an observable that watches the report data
    * This is used for the global report
@@ -176,16 +176,16 @@ export class SheetState {
   static getReportdata(state: SheetStateModel) {
     return state.reportData;
   }
-  
+
   /**
-   * Returns an observable that watches the parsed sheet data 
+   * Returns an observable that watches the parsed sheet data
    * Parsed using papa parse
    */
   @Selector()
   static getParsedData(state: SheetStateModel) {
     return state.parsed;
   }
-  
+
   /**
    * Returns an observable that watches the compare sheets and the compare data
    */
@@ -196,7 +196,7 @@ export class SheetState {
       sheets: state.compareSheets
     };
   }
-  
+
   /**
    * Returns an observable that watches the mode
    * values: [playground, vis]
@@ -205,7 +205,7 @@ export class SheetState {
   static getMode(state: SheetStateModel) {
     return state.mode;
   }
-  
+
   /**
    * Action to delete a linked sheet from the state.
    * Accepts the index location of the sheet that is to be deleted
@@ -252,7 +252,7 @@ export class SheetState {
     const organ: Structure = {
       name: 'Body',
       id: ''
-    }
+    };
 
     for await (const [_, sheet] of compareData.entries()) {
       this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).subscribe(
@@ -262,7 +262,7 @@ export class SheetState {
               i.isNew = true;
               i.color = sheet.color;
             }
-            row.anatomical_structures.unshift(organ)
+            row.anatomical_structures.unshift(organ);
 
             for (const i of row.cell_types) {
               i.isNew = true;
@@ -349,7 +349,7 @@ export class SheetState {
         );
       }
     }
-  } 
+  }
 
   /**
    * Action to fetch the sheet data. Resets the Sheet State and teh Tree State
@@ -363,16 +363,16 @@ export class SheetState {
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
-   
+
     const organ: Structure = { name: 'Body', id: '' };
-    patchState({ sheet: sheet });
+    patchState({ sheet });
     const state = getState();
 
     return this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).pipe(
       tap((res: ResponseData) => {
         res.data.forEach(row => {
-          row.anatomical_structures.unshift(organ)
-        })
+          row.anatomical_structures.unshift(organ);
+        });
         setState({
           ...state,
           compareData: [],
@@ -382,7 +382,7 @@ export class SheetState {
           data: res.data,
           version: 'latest',
           parsed: res.parsed,
-          mode: mode,
+          mode,
           sheetConfig: {...sheet.config, show_ontology: true},
         });
 
@@ -403,7 +403,7 @@ export class SheetState {
       })
     );
   }
-  
+
   /**
    * Action to fetch data from assets
    * CURRENTLY DEPRICATED IN V2
@@ -446,7 +446,7 @@ export class SheetState {
       })
     );
   }
-  
+
   /**
    * Action to update the sheet configuration
    * Accepts the config that states the differetn sheet control's configuration
@@ -459,7 +459,7 @@ export class SheetState {
       sheetConfig: config
     });
   }
-  
+
   /**
    * Action to toggle the show all AS in the All Organs Visualization
    */
@@ -472,7 +472,7 @@ export class SheetState {
       sheetConfig: {...config, show_all_AS: !state.sheetConfig.show_all_AS}
     });
   }
-  
+
   /**
    * Action to update the report data
    */
@@ -484,7 +484,7 @@ export class SheetState {
       reportData
     });
   }
-  
+
   /**
    * Action to update the mode
    */
@@ -496,7 +496,7 @@ export class SheetState {
       mode
     });
   }
-  
+
   /**
    * Action to update the the sheet
    * Accepts the sheet config
@@ -510,7 +510,7 @@ export class SheetState {
       sheetConfig: {...sheet.config, show_ontology: true},
     });
   }
-  
+
   /**
    * Action to fetch initial playground data. This makes a call to the playground api
    * that fetches the initial exmaple CSV
@@ -527,13 +527,13 @@ export class SheetState {
     const organ: Structure = {
       name: 'Body',
       id: ''
-    }
+    };
 
     return this.sheetService.fetchPlaygroundData().pipe(
       tap((res: any) => {
         res.data.forEach(row => {
-          row.anatomical_structures.unshift(organ)
-        })
+          row.anatomical_structures.unshift(organ);
+        });
 
         setState({
           ...state,
@@ -543,8 +543,8 @@ export class SheetState {
           csv: res.csv,
           data: res.data,
           version: 'latest',
-          mode: mode,
-          sheet: sheet,
+          mode,
+          sheet,
           sheetConfig: {...sheet.config, show_ontology: true},
         });
       }),
@@ -562,7 +562,7 @@ export class SheetState {
     );
 
   }
-  
+
   /**
    * Action to update the current data in the table (in the playground)
    * Accepts the parsed data
@@ -577,13 +577,13 @@ export class SheetState {
     const organ: Structure = {
       name: 'Body',
       id: ''
-    }
-    
+    };
+
     return this.sheetService.updatePlaygroundData(data).pipe(
       tap((res: any) => {
         res.data.forEach(row => {
-          row.anatomical_structures.unshift(organ)
-        })
+          row.anatomical_structures.unshift(organ);
+        });
         setState({
           ...state,
           parsed: res.parsed,

@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   faGithub = faGithub;
   faPhone = faPhone;
   faEnvelope = faEnvelope;
-  
+
   copyrightYear = new Date().getFullYear();
 
   constructor() {

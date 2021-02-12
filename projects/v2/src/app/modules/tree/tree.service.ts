@@ -15,7 +15,7 @@ import { SheetState } from '../../store/sheet.state';
 import { Row } from '../../models/sheet.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TreeService {
   height: number;
@@ -27,8 +27,7 @@ export class TreeService {
   @Select(SheetState.getSheetConfig) sc$: Observable<SheetConfig>;
 
   constructor(public store: Store, public vs: VegaService) {
-
-    this.tree$.subscribe(state => {
+    this.tree$.subscribe((state) => {
       this.height = state.height;
       const view = state.view;
 
@@ -39,14 +38,13 @@ export class TreeService {
       }
     });
 
-    this.uiState$.subscribe(state => {
+    this.uiState$.subscribe((state) => {
       this.controlPaneOpen = state.controlPaneOpen;
     });
 
-    this.sc$.subscribe(config => {
+    this.sc$.subscribe((config) => {
       this.sheetConfig = config;
     });
-
   }
 
   public makeTreeData(currentSheet: Sheet, data: Row[], compareData?: any) {
@@ -54,24 +52,47 @@ export class TreeService {
       let id = 1;
       let parent: TNode;
       const nodes = [];
-      const root = new TNode(id, data[0].anatomical_structures[0].name, 0, data[0].anatomical_structures[0].id, AS_RED);
+      const root = new TNode(
+        id,
+        data[0].anatomical_structures[0].name,
+        0,
+        data[0].anatomical_structures[0].id,
+        AS_RED
+      );
       root.label = '';
       root.comparator = root.name + root.label + root.ontologyId;
       root.type = NODE_TYPE.R;
       delete root.parent;
       nodes.push(root);
 
-      data.forEach(row => {
+      data.forEach((row) => {
         parent = root;
 
-        row.anatomical_structures.forEach(structure => {
-
-          const s = nodes.findIndex(i => i.type !== 'root' && i.comparator === (parent.comparator + structure.name + structure.rdfs_label + structure.id));
+        row.anatomical_structures.forEach((structure) => {
+          const s = nodes.findIndex(
+            (i) =>
+              i.type !== 'root' &&
+              i.comparator ===
+                parent.comparator +
+                  structure.name +
+                  structure.rdfs_label +
+                  structure.id
+          );
           if (s === -1) {
             id += 1;
-            const newNode = new TNode(id, structure.name, parent.id, structure.id, AS_RED);
+            const newNode = new TNode(
+              id,
+              structure.name,
+              parent.id,
+              structure.id,
+              AS_RED
+            );
             newNode.label = structure.rdfs_label;
-            newNode.comparator = parent.comparator + newNode.name + newNode.label +newNode.ontologyId;
+            newNode.comparator =
+              parent.comparator +
+              newNode.name +
+              newNode.label +
+              newNode.ontologyId;
             if ('isNew' in structure) {
               newNode.isNew = true;
               newNode.color = structure.color;
@@ -95,8 +116,11 @@ export class TreeService {
       nodes.shift();
       delete nodes[0].parent;
 
-
-      const spec = this.vs.makeVegaConfig(currentSheet, nodes, this.sheetConfig);
+      const spec = this.vs.makeVegaConfig(
+        currentSheet,
+        nodes,
+        this.sheetConfig
+      );
       this.store.dispatch(new UpdateVegaSpec(spec));
       this.vs.renderGraph(spec);
     } catch (error) {
@@ -104,12 +128,12 @@ export class TreeService {
       const err: Error = {
         msg: `${error.name} (Status: ${error.status})`,
         status: error.status,
-        hasError: true
+        hasError: true,
       };
-      this.store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to create Tree', LOG_ICONS.error));
+      this.store.dispatch(
+        new ReportLog(LOG_TYPES.MSG, 'Failed to create Tree', LOG_ICONS.error)
+      );
       this.store.dispatch(new HasError(err));
     }
   }
 }
-
-

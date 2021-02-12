@@ -199,7 +199,7 @@ export class RootComponent implements OnInit, OnDestroy{
           data: bsd
         });
 
-        
+
       } else {
         if (this.infoSheetRef) { this.infoSheetRef.dismiss(); }
       }

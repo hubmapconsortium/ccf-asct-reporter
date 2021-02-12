@@ -27,7 +27,7 @@ export function makeAS(data: Row[]): Array<AS> {
             indegree: new Set(),
             comparator: str.name + str.id,
             label: str.rdfs_label,
-            id: id
+            id
           };
           id += 1;
 
@@ -46,7 +46,7 @@ export function makeAS(data: Row[]): Array<AS> {
             anatomicalStructures[foundIndex].indegree.add(row.anatomical_structures[i - 1].name);
           }
         }
-        
+
       });
     });
 

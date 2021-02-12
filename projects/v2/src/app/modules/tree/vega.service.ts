@@ -43,7 +43,7 @@ export class VegaService {
 
       this.addSignalListeners(treeView);
       this.store.dispatch(new CloseLoading('Visualization Rendered'));
-      this.store.dispatch(new UpdateLinksData(0,0, treeView.data('links').length))
+      this.store.dispatch(new UpdateLinksData(0, 0, treeView.data('links').length));
       this.makeBimodal(treeView);
 
     } catch (error) {
@@ -60,7 +60,7 @@ export class VegaService {
 
   addSignalListeners(view: any) {
     view.addSignalListener('bimodal_text__click', (signal: Signal, text: any) => {
-      console.log(text)
+      console.log(text);
       if (text) {
         this.store.dispatch(new OpenBottomSheet(text));
       }

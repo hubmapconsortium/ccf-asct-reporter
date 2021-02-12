@@ -223,12 +223,20 @@ export class TreeState {
    * Updates the links data that is displayed in the report
    */
   @Action(UpdateLinksData)
-  updateLinksData({getState, setState}: StateContext<TreeStateModel>, {AS_CT, CT_B ,AS_AS}: UpdateLinksData) {
+  updateLinksData({getState, setState}: StateContext<TreeStateModel>, {AS_CT, CT_B , AS_AS}: UpdateLinksData) {
     const state = getState();
-    setState({
-      ...state,
-      links: {AS_CT:AS_CT, CT_B:CT_B, AS_AS: state.links.AS_AS | AS_AS}
-    });
+    if (AS_AS) {
+      setState({
+        ...state,
+        links: {AS_CT, CT_B, AS_AS }
+      });
+    } else {
+      setState({
+        ...state,
+        links: {AS_CT, CT_B, AS_AS: state.links.AS_AS }
+      });
+    }
+
   }
 
 }

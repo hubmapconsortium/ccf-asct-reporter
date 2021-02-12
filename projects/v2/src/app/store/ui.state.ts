@@ -384,8 +384,8 @@ export class UIState {
     dispatch(new UpdateBottomSheetData({}));
 
     const view = this.store.selectSnapshot(TreeState.getVegaView);
-    console.log(view)
-    if (Object.entries(view).length) view.signal('bimodal_text__click', {})
+    console.log(view);
+    if (Object.entries(view).length) { view.signal('bimodal_text__click', {}); }
 
     setState({
       ...state,
