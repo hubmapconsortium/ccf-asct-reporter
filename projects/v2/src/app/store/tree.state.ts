@@ -69,7 +69,7 @@ export class TreeStateModel {
     view: {},
     width: 0,
     height: document.getElementsByTagName('body')[0].clientHeight,
-    bimodal: {nodes: [], links: [], config: {BM: {sort: 'Alphabetically', size: 'None'}, CT: {sort: 'Alphabetically', size: 'None'}}},
+    bimodal: {nodes: [], links: [], config: {BM: {sort: 'Alphabetically', size: 'None', type: 'All'}, CT: {sort: 'Alphabetically', size: 'None'}}},
     search: [],
     bottomSheetData: {},
     links: {AS_CT: 0, CT_B: 0, AS_AS: 0}

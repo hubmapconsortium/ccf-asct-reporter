@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
-import { bimodalCTSizeOptions, bimodalBSizeOptions, bimodalSortOptions, BimodalConfig } from '../../models/bimodal.model';
+import { bimodalCTSizeOptions, bimodalBSizeOptions, bimodalSortOptions, BimodalConfig, bimodalBTypeOptions } from '../../models/bimodal.model';
 import { TreeState } from '../../store/tree.state';
 import { Observable } from 'rxjs';
 import { MatSelectChange } from '@angular/material/select';
@@ -18,6 +18,7 @@ export class FunctionsComponent implements OnInit {
   bmSizeOptions = bimodalBSizeOptions;
   sortOptions = bimodalSortOptions;
   ctSizeOptions = bimodalCTSizeOptions;
+  bimodalBTypeOptions = bimodalBTypeOptions;
   bimodalConfig: BimodalConfig;
 
   @Input() error: Error;

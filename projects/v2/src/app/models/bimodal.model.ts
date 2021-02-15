@@ -28,6 +28,7 @@ export class BMNode {
   indegree?: any;
   outdegree?: any;
   label?: string;
+  b_type?: string;
 
   constructor(
     name,
@@ -76,6 +77,7 @@ export interface ASCTD {
 export const bimodalSortOptions = ['Alphabetically', 'Degree'];
 export const bimodalBSizeOptions = ['None', 'Degree'];
 export const bimodalCTSizeOptions = ['None', 'Degree', 'Indegree', 'Outdegree'];
+export const bimodalBTypeOptions = ['All', 'Gene', 'Protein'];
 
 export interface BimodalConfig {
   CT: {
@@ -84,6 +86,7 @@ export interface BimodalConfig {
   };
   BM: {
     sort: string,
-    size: string
+    size: string,
+    type: string
   };
 }

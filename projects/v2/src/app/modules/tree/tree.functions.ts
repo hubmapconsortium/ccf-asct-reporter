@@ -138,7 +138,8 @@ export function makeBioMarkers(data: Row[]): Array<B> {
             color: 'isNew' in str ? str.color : B_GREEN,
             outdegree: new Set(),
             indegree: new Set(),
-            nodeSize: 300
+            nodeSize: 300,
+            b_type: str.b_type
           };
 
           if (row.cell_types.length) {
