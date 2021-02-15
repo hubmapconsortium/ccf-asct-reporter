@@ -7,7 +7,7 @@
 
 
 .nav-wrapper > * {
-    margin-right: 20px;;
+    margin-right: 10px;;
 }
 // remove underline from mat-select
 ::ng-deep .mat-form-field-underline {
@@ -30,4 +30,8 @@
 
 .search {
     width: 30%;
+}
+
+.label {
+    font-size: 8px;
 }

@@ -1,176 +1,135 @@
-<mat-toolbar
-  color="secondary"
-  style="
+<mat-toolbar color="secondary" style="
     /* padding-left: 50px !important; */
     padding-right: 50px !important;
     display: flex;
     align-items: center;
     width: 100%;
     background-color: white;
-  "
-    [ngStyle]="{'border-bottom': (mode$ | async) === 'vis' ?'3px solid #444a6510' : 'none'}"
->
+  " class="d-flex align-items-center"
+  [ngStyle]="{'border-bottom': (mode$ | async) === 'vis' ?'3px solid #444a6510' : 'none'}">
+
   <div class="nav-wrapper">
     <div *ngIf="!(ui$ | async).controlPaneOpen">
-      <img
-        src="./../../../assets/logo2.png"
-        alt=""
-        class="w-100 logo-link"
-        routerLink="/"
-        matTooltip="Home Page"
-        matTooltipPosition="below"
-      />
+      <img src="./../../../assets/logo2.png" alt="" class="w-100 logo-link" routerLink="/" matTooltip="Home Page"
+        matTooltipPosition="below" />
     </div>
-    <button
-      *ngIf="!(ui$ | async).controlPaneOpen"
-      (click)="togglePane()"
-      mat-icon-button
-      #tooltip="matTooltip"
-      matTooltip="Show Control Pane"
-      matTooltipPosition="below"
-      style="background-color: #f5f5f5"
-    >
+    <button *ngIf="!(ui$ | async).controlPaneOpen" (click)="togglePane()" mat-icon-button #tooltip="matTooltip"
+      matTooltip="Show Control Pane" matTooltipPosition="below" style="background-color: #f5f5f5">
       <mat-icon style="margin-bottom: 5px !important">menu</mat-icon>
     </button>
     <div class="search">
       <app-search [disabled]="(ui$ | async).error.hasError"></app-search>
     </div>
-    <mat-form-field style="margin-bottom: 0">
-      <button
-        class="secondary select-border"
-        mat-flat-button
-        style="width: 100%"
-        #tooltip="matTooltip"
-        matTooltip="Select Organ Set"
-        matTooltipPosition="below"
-      >
-        <mat-select
-          (selectionChange)="getSheetSelection(selectedSheetOption, $event)"
-          [(ngModel)]="selectedSheetOption"
-        >
+    <mat-form-field style="margin-bottom: 0" class="mx-2">
+      <button class="secondary select-border" mat-flat-button style="width: 100%" #tooltip="matTooltip"
+        matTooltip="Select Organ Set" matTooltipPosition="below">
+        <mat-select (selectionChange)="getSheetSelection(selectedSheetOption, $event)"
+          [(ngModel)]="selectedSheetOption">
 
-          <mat-option
-            *ngFor="let option of SHEET_OPTIONS"
-            [value]="option.title"
-          >
+          <mat-option *ngFor="let option of SHEET_OPTIONS" [value]="option.title">
             {{ option.title }}
           </mat-option>
-          <mat-option
-            *ngFor="let option of "
-            [value]="option.title"
-          >
+          <mat-option *ngFor="let option of " [value]="option.title">
             {{ option.title }}
           </mat-option>
         </mat-select>
       </button>
     </mat-form-field>
 
-    <button
-      mat-icon-button
-      (click)="window.open('https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=2034682742','_blank')"
-      #tooltip="matTooltip"
-      matTooltip="Master Data Tables"
+    <app-nav-item 
+      #tooltip="matTooltip" 
+      matTooltip="Master Data Tables" 
       matTooltipPosition="below"
-      style="background-color: #f5f5f5;"
-    >
-      <mat-icon style="margin-bottom: 5px !important">table_view</mat-icon>
-    </button>
+      [label]="'Data Tables'"
+      (click)="window.open('https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=2034682742','_blank')">
+      <mat-icon style="margin-bottom: -5px;">table_view</mat-icon>
+    </app-nav-item>
 
-    <button
-      mat-icon-button
-      (click)="refreshData()"
-      #tooltip="matTooltip"
-      matTooltip="Refresh Data"
-      matTooltipPosition="below"
-      style="background-color: #f5f5f5"
+    <app-nav-item 
+    [label]="'Refresh'" 
+    (click)="refreshData()"
+    #tooltip="matTooltip" 
+    matTooltip="Refresh" 
+    matTooltipPosition="below"
     >
-      <mat-icon style="margin-bottom: 5px !important">refresh</mat-icon>
-    </button>
+      <mat-icon style="margin-bottom: -5px;">refresh</mat-icon>
+    </app-nav-item>
+    
+    <app-nav-item 
+    [label]="(mode$ | async) === 'vis' ? 'Playground': 'Exit Playground'" 
+    (click)="toggleMode()"
+    #tooltip="matTooltip" 
+    [matTooltip]="(mode$ | async) === 'vis' ? 'Playground': 'Exit Playground'"
+    matTooltipPosition="below"
+    >
+    <mat-icon style="margin-bottom: -5px !important">{{(mode$ | async) === 'vis' ? 'sports_esports': 'exit_to_app'}}</mat-icon>
+    </app-nav-item>
 
-    <button
-      mat-icon-button
-      (click)="toggleMode()"
-      #tooltip="matTooltip"
-      [matTooltip]="(mode$ | async) === 'vis' ? 'Playground': 'Exit Playground'"
-      matTooltipPosition="below"
-      style="background-color: #f5f5f5"
+    <app-nav-item 
+    [label]="'Indented List'" 
+    (click)="toggleIndentedList()"
+    #tooltip="matTooltip" matTooltip="Indented List" matTooltipPosition="below"
+    [disabled]="(ui$ | async).error.hasError" mat-icon-button
     >
-    <!-- <mat-icon svgIcon="playground" style="margin-bottom: 5px !important">refresh</mat-icon> -->
-      <mat-icon style="margin-bottom: 5px !important">{{(mode$ | async) === 'vis' ? 'sports_esports': 'exit_to_app'}}</mat-icon>
-    </button>
+    <mat-icon style="margin-bottom: -5px;">format_indent_increase</mat-icon>
+    <!-- <fa-icon [icon]="faIndent" style="font-size: 12pt; margin-bottom: -15px !important; padding-bottom: 5px;"></fa-icon> -->
+    </app-nav-item>
 
-    <button
-      [disabled]="(ui$ | async).error.hasError"
-      mat-icon-button
-      (click)="toggleIndentedList()"
-      #tooltip="matTooltip"
-      matTooltip="Indented List"
-      matTooltipPosition="below"
-      style="background-color: #f5f5f5"
+    <app-nav-item 
+    [label]="'Compare'" 
+    [disabled]="(ui$ | async).error.hasError" mat-icon-button (click)="toggleCompare()" #tooltip="matTooltip"
+      matTooltip="Compare" matTooltipPosition="below"
     >
-    <fa-icon [icon]="faIndent" style="font-size: 14pt;"></fa-icon>
-      <!-- <mat-icon style="margin-bottom: 5px !important"
-        >format_indent_increase</mat-icon
-      > -->
-    </button>
+    <mat-icon style="margin-bottom: -5px">compare_arrows</mat-icon>
+    </app-nav-item>
 
-    <button
-      [disabled]="(ui$ | async).error.hasError"
-      mat-icon-button
-      (click)="toggleCompare()"
-      #tooltip="matTooltip"
-      matTooltip="Compare"
-      matTooltipPosition="below"
-      style="background-color: #f5f5f5"
+    <app-nav-item 
+    [label]="'Report'" 
+    [disabled]="(ui$ | async).error.hasError" mat-icon-button (click)="toggleReport()" #tooltip="matTooltip"
+      matTooltip="Report" matTooltipPosition="below" 
     >
-    <!-- <mat-icon svgIcon="compare" style="margin-bottom: 5px !important"></mat-icon> -->
-      <mat-icon style="margin-bottom: 5px !important">compare_arrows</mat-icon>
-    </button>
+    <mat-icon style="margin-bottom: -5px">show_chart</mat-icon>
+    </app-nav-item>
 
-    <button
-      [disabled]="(ui$ | async).error.hasError"
-      mat-icon-button
-      (click)="toggleReport()"
-      #tooltip="matTooltip"
-      matTooltip="Report"
-      matTooltipPosition="below"
-      style="background-color: #f5f5f5"
-    >
+    <!-- <button [disabled]="(ui$ | async).error.hasError" mat-icon-button (click)="toggleReport()" #tooltip="matTooltip"
+      matTooltip="Report" matTooltipPosition="below" style="background-color: #f5f5f5">
       <mat-icon style="margin-bottom: 5px !important">show_chart</mat-icon>
-    </button>
-
-    <button
-      mat-icon-button
-      (click)="toggleDebugLogs()"
-      #tooltip="matTooltip"
-      matTooltip="Debug Log"
-      matTooltipPosition="below"
-      style="background-color: #f5f5f5;"
+    </button> -->
+    <app-nav-item 
+    [label]="'Debug Log'" 
+    (click)="toggleDebugLogs()" #tooltip="matTooltip" matTooltip="Debug Log"
+    matTooltipPosition="below"
     >
-      <mat-icon svgIcon="debug" style="margin-bottom: 5px !important"></mat-icon>
-    </button>
+    <mat-icon style="margin-top: -5px;" svgIcon="debug"></mat-icon>
+    </app-nav-item>
 
-    <button
-      [disabled]="(ui$ | async).error.hasError"
-      autofocus="false"
-      mat-icon-button
-      #tooltip="matTooltip"
-      matTooltip="Export"
-      matTooltipPosition="below"
-      style="background-color: #f5f5f5"
-      [matMenuTriggerFor]="downloadMenu"
+    <app-nav-item 
+    [label]="'Export'" 
+    [disabled]="(ui$ | async).error.hasError" autofocus="false" mat-icon-button #tooltip="matTooltip"
+      matTooltip="Export" matTooltipPosition="below"
     >
-      <mat-icon style="margin-bottom: 5px !important">get_app</mat-icon>
-      <mat-menu #downloadMenu="matMenu">
-        <button
-          mat-menu-item
-          *ngFor="let option of IMG_OPTIONS"
-          (click)="export.emit(option)"
-        >
-          {{ option }}
-        </button>
-      </mat-menu>
-    </button>
+    <mat-icon style="margin-bottom: -5px !important">get_app</mat-icon>
+    </app-nav-item>
+
+    <mat-menu #downloadMenu="matMenu">
+      <button mat-menu-item *ngFor="let option of IMG_OPTIONS" (click)="export.emit(option)">
+        {{ option }}
+      </button>
+    </mat-menu>
+
+    <app-nav-item 
+    [label]="'Menu'" 
+    #tooltip="matTooltip" matTooltip="Menu" matTooltipPosition="below"
+      [matMenuTriggerFor]="menu"
+    >
+    <mat-icon style="margin-bottom: -5px !important">more_vert</mat-icon>
+    </app-nav-item>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item *ngFor="let option of MORE_OPTIONS" (click)="window.open(option.url, '_blank')">
+        {{ option.name }}
+      </button>
+    </mat-menu>
+
 
     <!-- <button
       mat-icon-button
@@ -193,23 +152,5 @@
       </mat-menu>
     </button> -->
 
-    <button
-      mat-icon-button
-      #tooltip="matTooltip"
-      matTooltip="Menu"
-      matTooltipPosition="below"
-      [matMenuTriggerFor]="menu"
-    >
-      <mat-icon style="margin-bottom: 5px !important">more_vert</mat-icon>
-      <mat-menu #menu="matMenu">
-        <button
-          mat-menu-item
-          *ngFor="let option of MORE_OPTIONS"
-          (click)="window.open(option.url, '_blank')"
-        >
-          {{ option.name }}
-        </button>
-      </mat-menu>
-    </button>
   </div>
 </mat-toolbar>
