@@ -9,11 +9,7 @@ import { FetchSheetData, RefreshData, FetchAllOrganData, FetchInitialPlaygroundD
 import { ToggleControlPane, ToggleIndentList, ToggleReport, ToggleDebugLogs, OpenCompare } from '../../actions/ui.actions';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { ClearSheetLogs } from '../../actions/logs.actions';
-<<<<<<< HEAD
-import {  faChartLine } from '@fortawesome/free-solid-svg-icons';
-=======
 import {  faChartLine, faIndent } from '@fortawesome/free-solid-svg-icons';
->>>>>>> 1a9384133d56ace0ec7c4de0af60bb125ff4e140
 
 
 @Component({
@@ -26,11 +22,7 @@ export class NavbarComponent implements OnInit {
   MORE_OPTIONS = MORE_OPTIONS;
   IMG_OPTIONS = IMG_OPTIONS;
   window: Window = window;
-<<<<<<< HEAD
-  faChartLine = faChartLine;
-=======
   faIndent = faIndent;
->>>>>>> 1a9384133d56ace0ec7c4de0af60bb125ff4e140
 
   selectedSheetOption: string;
   selectedVersion: string;
