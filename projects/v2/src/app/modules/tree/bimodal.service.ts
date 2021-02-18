@@ -176,6 +176,7 @@ export class BimodalService {
         newNode.color = marker.color;
         newNode.indegree = marker.indegree;
         newNode.outdegree = marker.outdegree;
+        newNode.b_type = marker.b_type;
 
         nodes.push(newNode);
         treeY += distanceY;

@@ -92,6 +92,7 @@ export interface B extends Base{
   indegree?: Set<string>;
   outdegree?: Set<string>;
   nodeSize?: number;
+  b_type?: string;
 }
 
 

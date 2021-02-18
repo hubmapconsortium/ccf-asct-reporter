@@ -156,6 +156,43 @@
         </button>
       </div>
     </div>
+<<<<<<< HEAD
+=======
+    <!-- <div class="pt-3">
+      <div class="d-flex justify-content-center align-items-center">
+        <div
+          class="pr-3 mt-1"
+          #tooltip="matTooltip"
+          matTooltip="Size Biomarkers"
+        >
+          <mat-icon>bubble_chart</mat-icon>
+        </div>
+        <button
+          [disabled]="error.hasError"
+          mat-flat-button
+          style="
+            width: 100%;
+            background-color: #f5f5f5;
+            padding: 0 10px 0 10px !important;
+          "
+          #tooltip="matTooltip"
+          matTooltip="Select Biomarker Type"
+          matTooltipPosition="below"
+          class="pt-2"
+        >
+          <mat-select
+            [disabled]="error.hasError"
+            (selectionChange)="changeOptions('BM', 'size', $event)"
+            [value]="(config$ | async).BM.type"
+          >
+            <mat-option *ngFor="let option of bimodalBTypeOptions" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-select>
+        </button>
+      </div>
+    </div> -->
+>>>>>>> 1a9384133d56ace0ec7c4de0af60bb125ff4e140
     <div></div>
   </mat-expansion-panel>
 </div>
