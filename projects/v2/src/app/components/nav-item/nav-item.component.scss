@@ -1,0 +1,20 @@
+.label {
+  font-size: 9px;
+}
+
+.nav-item {
+  // margin-top: 10px;
+  padding-top: 10px;
+  cursor: pointer;
+  color: rgb(89, 89, 89);
+  transition: 0.2s all;
+}
+
+.nav-item:hover {
+  // background-color: #efefef;
+  color:black;
+}
+
+.nav-item:active {
+  // background-color: #d8d8d8;
+}

@@ -42,6 +42,7 @@ import { ComapreComponent } from './components/comapre/comapre.component';
 import { VisControlsComponent } from './components/controls/vis-controls.component';
 import { LegendComponent } from './components/legend/legend.component';
 import { PlaygroundComponent } from './modules/playground/playground.component';
+import { NavItemComponent } from './components/nav-item/nav-item.component';
 
 
 
@@ -65,7 +66,8 @@ import { PlaygroundComponent } from './modules/playground/playground.component';
     ComapreComponent,
     VisControlsComponent,
     LegendComponent,
-    PlaygroundComponent
+    PlaygroundComponent,
+    NavItemComponent
   ],
   imports: [
     BrowserModule,

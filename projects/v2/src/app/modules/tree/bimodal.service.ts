@@ -157,6 +157,17 @@ export class BimodalService {
           break;
       }
 
+      switch (bimodalConfig.BM.type) {
+        case 'All':
+          break;
+        case 'Gene':
+          biomarkers = biomarkers.filter(b => b.b_type === 'gene')
+          break;
+        case 'Protein':
+          biomarkers = biomarkers.filter(b => b.b_type === 'protein')
+          break;
+      }
+
 
       // making group 3: bio markers
       biomarkers.forEach((marker, i) => {
