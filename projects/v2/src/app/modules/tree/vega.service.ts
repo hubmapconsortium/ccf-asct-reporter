@@ -60,7 +60,7 @@ export class VegaService {
 
   addSignalListeners(view: any) {
     view.addSignalListener('bimodal_text__click', (signal: Signal, text: any) => {
-      
+
       if (Object.entries(text).length) {
         this.store.dispatch(new OpenBottomSheet(text));
       }

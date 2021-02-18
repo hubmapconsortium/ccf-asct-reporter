@@ -161,10 +161,10 @@ export class BimodalService {
         case 'All':
           break;
         case 'Gene':
-          biomarkers = biomarkers.filter(b => b.b_type === 'gene')
+          biomarkers = biomarkers.filter(b => b.bType === 'gene');
           break;
         case 'Protein':
-          biomarkers = biomarkers.filter(b => b.b_type === 'protein')
+          biomarkers = biomarkers.filter(b => b.bType === 'protein');
           break;
       }
 
@@ -187,7 +187,7 @@ export class BimodalService {
         newNode.color = marker.color;
         newNode.indegree = marker.indegree;
         newNode.outdegree = marker.outdegree;
-        newNode.b_type = marker.b_type;
+        newNode.bType = marker.bType;
 
         nodes.push(newNode);
         treeY += distanceY;

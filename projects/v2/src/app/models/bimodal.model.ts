@@ -28,7 +28,7 @@ export class BMNode {
   indegree?: any;
   outdegree?: any;
   label?: string;
-  b_type?: string;
+  bType?: string;
 
   constructor(
     name,

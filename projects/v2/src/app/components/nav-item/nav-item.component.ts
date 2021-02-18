@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./nav-item.component.scss']
 })
 export class NavItemComponent implements OnInit {
-  
+
   @Input() label: string;
   @Input() disabled: boolean;
 

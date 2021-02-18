@@ -139,7 +139,7 @@ export function makeBioMarkers(data: Row[]): Array<B> {
             outdegree: new Set(),
             indegree: new Set(),
             nodeSize: 300,
-            b_type: str.b_type
+            bType: str.bType
           };
 
           if (row.cell_types.length) {

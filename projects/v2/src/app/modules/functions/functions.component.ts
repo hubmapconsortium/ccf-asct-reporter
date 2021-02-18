@@ -7,7 +7,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { UpdateBimodalConfig } from '../../actions/tree.actions';
 import { BimodalService } from '../../modules/tree/bimodal.service';
 import { Error } from '../../models/response.model';
-import { faDna } from "@fortawesome/free-solid-svg-icons";
+import { faDna } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-functions',
