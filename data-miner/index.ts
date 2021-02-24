@@ -28,7 +28,7 @@ class Structure {
   name?: string;
   id?: string;
   rdfs_label?: string;
-  b_type?: BM_TYPE;
+  bType?: BM_TYPE;
 
   constructor(name: string) {
     this.name = name;
@@ -174,8 +174,8 @@ function makeASCTBData(data: any) {
   
           if (rowHeader.length === 2 && Number(rowHeader[1])) {
             let s = new Structure(data[i][j])
-            if (rowHeader[0] === 'BG') s.b_type = BM_TYPE.G
-            if (rowHeader[0] === 'BP') s.b_type = BM_TYPE.P
+            if (rowHeader[0] === 'BG') s.bType = BM_TYPE.G
+            if (rowHeader[0] === 'BP') s.bType = BM_TYPE.P
             newRow[key].push(s)
           } 
           
