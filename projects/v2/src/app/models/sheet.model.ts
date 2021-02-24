@@ -7,7 +7,7 @@ export interface Structure {
   name?: string;
   id?: string;
   rdfs_label?: string;
-  bType?: BM_TYPE;
+  b_type?: BM_TYPE;
   isNew?: boolean;
   color?: string;
 }

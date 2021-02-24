@@ -139,7 +139,7 @@ export function makeBioMarkers(data: Row[]): Array<B> {
             outdegree: new Set(),
             indegree: new Set(),
             nodeSize: 300,
-            bType: str.bType
+            bType: str.b_type
           };
 
           if (row.cell_types.length) {
@@ -158,7 +158,7 @@ export function makeBioMarkers(data: Row[]): Array<B> {
         }
       });
     });
-    console.log(bioMarkers)
+    console.log(bioMarkers);
     return bioMarkers;
 
   } catch (error) {
