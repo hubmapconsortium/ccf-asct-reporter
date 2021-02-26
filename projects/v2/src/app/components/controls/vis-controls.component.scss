@@ -5,17 +5,17 @@
 }
 
 .mat-expansion-panel-header:not(.compare) {
-  border-top-left-radius: 8px !important;
-  border-top-right-radius: 8px !important;
+  border-top-left-radius: 0.5rem !important;
+  border-top-right-radius: 0.5rem !important;
 }
 
 .mat-expansion-panel-header {
   transition: all 0.3s;
   background-color: $secondary !important;
-  padding-left: 15px !important;
-  padding-right: 15px !important;
-  border-top-left-radius: 8px !important;
-  border-top-right-radius: 8px !important;
+  padding-left: 0.9375rem !important;
+  padding-right: 0.9375rem !important;
+  border-top-left-radius: 0.5rem !important;
+  border-top-right-radius: 0.5rem !important;
 }
 
 .mat-expansion-panel-header:hover {
@@ -44,7 +44,7 @@
 
 .numberInput {
   background-color: #fafafa !important;
-  border-radius: 4px !important;
+  border-radius: 0.25rem !important;
 }
 
 .controls .mat-expansion-panel-header-description {
@@ -62,4 +62,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+.control-title{
+  font-weight: 500;
 }
