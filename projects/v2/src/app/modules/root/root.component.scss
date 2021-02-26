@@ -1,6 +1,8 @@
 .control-pane-container {
   height: 100%;
   width: 100%;
+  position: absolute;
+  left: 0;
 }
 
 .control-pane {
@@ -20,6 +22,7 @@
   overflow-x: auto;
   border-left: 3px solid #ececec;
   box-shadow: none !important;
+  z-index: 10 !important;
 }
 
 .compare-sidenav {
@@ -31,3 +34,6 @@
   z-index: 5;
 }
 
+#content {
+  padding-top: 64px;
+}

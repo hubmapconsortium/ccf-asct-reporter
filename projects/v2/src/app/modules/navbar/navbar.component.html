@@ -1,16 +1,17 @@
 <mat-toolbar color="secondary" style="
-    /* padding-left: 50px !important; */
+    position: fixed;
     padding-right: 50px !important;
     display: flex;
     align-items: center;
     width: 100%;
     background-color: white;
   " class="d-flex align-items-center"
+ 
   [ngStyle]="{'border-bottom': (mode$ | async) === 'vis' ?'3px solid #444a6510' : 'none'}">
 
   <div class="nav-wrapper">
     <button (click)="togglePane()" mat-icon-button #tooltip="matTooltip"
-      matTooltip="Show Control Pane" matTooltipPosition="below" style="background-color: #f5f5f5">
+      [matTooltip]="(ui$ | async).controlPaneOpen ? 'Close Control Pane' : 'Show Control Pane'" matTooltipPosition="below" style="background-color: #f5f5f5">
       <mat-icon style="margin-bottom: 5px !important">menu</mat-icon>
     </button>
     <div class="search">
@@ -58,7 +59,7 @@
     [matTooltip]="(mode$ | async) === 'vis' ? 'Playground': 'Exit Playground'"
     matTooltipPosition="below"
     >
-    <mat-icon style="margin-bottom: -5px !important">{{(mode$ | async) === 'vis' ? 'sports_esports': 'exit_to_app'}}</mat-icon>
+    <mat-icon style="margin-bottom: -5px !important">{{(mode$ | async) === 'vis' ? 'edit': 'exit_to_app'}}</mat-icon>
     </app-nav-item>
 
     <app-nav-item 
@@ -96,7 +97,7 @@
     (click)="toggleDebugLogs()" #tooltip="matTooltip" matTooltip="Debug Log"
     matTooltipPosition="below"
     >
-    <mat-icon style="margin-top: -5px;" svgIcon="debug"></mat-icon>
+    <mat-icon style="margin-bottom: -5px !important">bug_report</mat-icon>
     </app-nav-item>
 
     <app-nav-item 
