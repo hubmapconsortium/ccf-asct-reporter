@@ -14,7 +14,7 @@
       <mat-expansion-panel [expanded]="true" class="mepNoPadding">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <div style="font-weight: 600; font-size: 10pt">Instructions</div>
+            <div class="instruction-title">Instructions</div>
           </mat-panel-title>
         </mat-expansion-panel-header>
 
@@ -42,7 +42,7 @@
     </div>
     <div class="content px-3">
       <div class="mt-3">
-        <span style="font-size: 10px; color: gray">* required field</span>
+        <span class="required-field-disclaimer">* required field</span>
       </div>
 
       <form [formGroup]="formGroup" class="mt-4 px-2">
@@ -53,12 +53,7 @@
           >
             <div [formGroupName]="i">
               <div
-                class="w-100"
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-content: space-between;
-                "
+                class="w-100 title-sheet-container"
               >
                 <div class="w-75 mr-1">
                   <mat-form-field
@@ -90,12 +85,7 @@
                 </div>
               </div>
               <div
-                class="w-100 mt-4"
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-content: space-between;
-                "
+                class="w-100 mt-4 sheet-link-container"
               >
                 <div class="w-75">
                   <mat-form-field
@@ -119,14 +109,13 @@
                     >
                   </mat-form-field>
                 </div>
-                <div style="width: 15%; margin-top: -18px !important">
-                  <mat-label style="font-size: 10px; color: grey"
+                <div class="pick-color-container">
+                  <mat-label class="pick-color-title"
                     >Pick Color</mat-label
                   >
                   <input
                     type="color"
-                    class="w-100 form-control"
-                    style="height: 30px; margin-top: 4px"
+                    class="w-100 form-control pick-color-textbox"
                     formControlName="color"
                     [style.backgroundColor]="sheet.get('color').value"
                   />
@@ -152,24 +141,20 @@
   <div footer>
     <div
       class="mt-2"
-      style="width: 100%; justify-content: space-between; display: flex"
+      class="button-container"
     >
       <button
         mat-flat-button
         color="primary"
         [disabled]="doesFormHaveError()"
         (click)="compare()"
-        style="border-radius: 8px !important"
+        class="compare-button"
       >
         Compare
       </button>
       <button
         mat-flat-button
-        style="
-          border: 1px solid rgb(196, 196, 196);
-          color: grey;
-          border-radius: 8px !important;
-        "
+        class="add-button"
         (click)="addCompareSheetRow()"
       >
         <mat-icon>add</mat-icon>

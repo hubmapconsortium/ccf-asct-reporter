@@ -35,3 +35,46 @@ input[type="color"]::-webkit-color-swatch {
 .mat-expansion-panel-header:hover {
   opacity: 0.85 !important;
 }
+.instruction-title{
+  font-weight: 600; 
+  font-size: 10pt;
+}
+.required-field-disclaimer{
+  font-size: 0.625rem;
+  color: gray;
+}
+.title-sheet-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sheet-link-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.pick-color-container{
+  width: 15%;
+  margin-top: -1.125rem !important;
+  .pick-color-title{
+    font-size: 0.625rem;
+    color: grey;
+  }
+  .pick-color-textbox{
+    height: 1.875rem;
+    margin-top: 0.25rem;
+  }
+}
+.button-container{
+  width: 100%; 
+  justify-content: space-between; 
+  display: flex;
+}
+.compare-button {
+  border-radius: 0.5rem !important
+}
+.add-button{
+  border: 0.063rem solid rgb(196, 196, 196);
+  color: grey;
+  border-radius: 0.5rem !important;
+}
