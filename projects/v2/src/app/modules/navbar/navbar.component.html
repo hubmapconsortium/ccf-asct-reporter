@@ -4,6 +4,7 @@
     display: flex;
     align-items: center;
     width: 100%;
+    z-index: 10;
     background-color: white;
   " class="d-flex align-items-center"
  
@@ -14,7 +15,7 @@
       [matTooltip]="(ui$ | async).controlPaneOpen ? 'Close Control Pane' : 'Show Control Pane'" matTooltipPosition="below" style="background-color: #f5f5f5">
       <mat-icon style="margin-bottom: 5px !important">menu</mat-icon>
     </button>
-    <div class="search">
+    <div class="search ml-1">
       <app-search [disabled]="(ui$ | async).error.hasError"></app-search>
     </div>
     <mat-form-field style="margin-bottom: 0" class="mx-2">
@@ -85,7 +86,7 @@
     [disabled]="(ui$ | async).error.hasError" mat-icon-button (click)="toggleReport()" #tooltip="matTooltip"
       matTooltip="Report" matTooltipPosition="below" 
     >
-    <mat-icon style="margin-bottom: -5px">show_chart</mat-icon>
+    <mat-icon style="margin-bottom: -5px">bar_chart</mat-icon>
     </app-nav-item>
 
     <!-- <button [disabled]="(ui$ | async).error.hasError" mat-icon-button (click)="toggleReport()" #tooltip="matTooltip"
