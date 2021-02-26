@@ -1,4 +1,5 @@
 <div class="h-100 w-100">
+  <app-navbar (export)="exportVis($event)"></app-navbar>
   <mat-drawer-container class="control-pane-container h-100" autosize>
     <mat-drawer
       #controlPaneDrawer
@@ -6,6 +7,7 @@
       mode="side"
       [opened]="pane$ | async"
     >
+    
       <app-control-pane [error]="error"></app-control-pane>
     </mat-drawer>
 
@@ -57,7 +59,7 @@
     </mat-drawer>
 
     <div id="content" class="h-100 w-100">
-      <app-navbar (export)="exportVis($event)"></app-navbar>
+      
       <app-error *ngIf="error.hasError" [error]="error"></app-error>
         <div
         class="example-box" cdkDrag

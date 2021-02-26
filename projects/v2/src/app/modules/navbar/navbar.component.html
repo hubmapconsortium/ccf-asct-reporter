@@ -9,11 +9,7 @@
   [ngStyle]="{'border-bottom': (mode$ | async) === 'vis' ?'3px solid #444a6510' : 'none'}">
 
   <div class="nav-wrapper">
-    <div *ngIf="!(ui$ | async).controlPaneOpen">
-      <img src="./../../../assets/logo2.png" alt="" class="w-100 logo-link" routerLink="/" matTooltip="Home Page"
-        matTooltipPosition="below" />
-    </div>
-    <button *ngIf="!(ui$ | async).controlPaneOpen" (click)="togglePane()" mat-icon-button #tooltip="matTooltip"
+    <button (click)="togglePane()" mat-icon-button #tooltip="matTooltip"
       matTooltip="Show Control Pane" matTooltipPosition="below" style="background-color: #f5f5f5">
       <mat-icon style="margin-bottom: 5px !important">menu</mat-icon>
     </button>
