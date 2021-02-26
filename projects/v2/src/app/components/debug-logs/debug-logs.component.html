@@ -13,46 +13,38 @@
     <mat-tab-group mat-stretch-tabs class="tabs px-4">
       <mat-tab [label]="currentSheet.display">
         <div class="content">
-          <mat-list style="padding: 0" class="logsList mt-2">
+          <mat-list  class="logsList mat-list-container mt-2">
             <mat-list-item
-              style="padding-left: 0"
+              
               *ngFor="let l of logs.sheetLogs.messages"
-              class="py-2"
+              class="list-item-first py-2"
             >
-              <mat-icon mat-list-icon style="color: grey" [ngClass]="l.icon">{{
+              <mat-icon mat-list-icon class="error-icon-list" [ngClass]="l.icon">{{
                 l.icon
               }}</mat-icon>
               <div
                 mat-line
-                style="
-                  width: 100%;
-                  display: flex;
-                  justify-content: space-between;
-                "
+                class="error-list-container"
               >
                 <span class="i2" [innerHTML]="l.text"></span>
               </div>
             </mat-list-item>
             <mat-list-item
-              style="width: 100%"
+              
               *ngIf="logs.sheetLogs.MULTI_IN_LINKS.length"
-              class="logsList mt-2"
+              class="logsList list-item-section mt-2"
             >
               <mat-icon mat-list-icon class="error mt-1">error</mat-icon>
               <div
                 mat-line
-                style="
-                  width: 100%;
-                  display: flex;
-                  justify-content: space-between;
-                "
+                class="error-list-container"
               >
-                <mat-expansion-panel style="box-shadow: none" class="w-100">
+                <mat-expansion-panel  class="expansion-panel-container w-100">
                   <mat-expansion-panel-header
-                    class="p-0"
-                    style="width: 99%"
-                    [collapsedHeight]="'35px'"
-                    [expandedHeight]="'35px'"
+                    class="p-0 expansion-panel-header"
+                    
+                    [collapsedHeight]="'2.1875rem'"
+                    [expandedHeight]="'2.1875rem'"
                   >
                     <mat-panel-title>
                       <div>
@@ -64,7 +56,7 @@
                     </mat-panel-title>
                   </mat-expansion-panel-header>
                   <div
-                    style="text-align: start; max-height: 300px; overflow: auto"
+                    class="expansion-panel-content"
                   >
                     <p
                       class="i2"
@@ -76,25 +68,21 @@
               </div>
             </mat-list-item>
             <mat-list-item
-              style="width: 100%"
+              
               *ngIf="logs.sheetLogs.SELF_LINKS.length"
-              class="logsList mt-2"
+              class="logsList list-item-section mt-2"
             >
               <mat-icon mat-list-icon class="error mt-1">error</mat-icon>
               <div
                 mat-line
-                style="
-                  width: 100%;
-                  display: flex;
-                  justify-content: space-between;
-                "
+                class="error-list-container"
               >
-                <mat-expansion-panel style="box-shadow: none" class="w-100">
+                <mat-expansion-panel  class="expansion-panel-container w-100">
                   <mat-expansion-panel-header
-                    class="p-0"
-                    style="width: 99%"
-                    [collapsedHeight]="'35px'"
-                    [expandedHeight]="'35px'"
+                    class="p-0 expansion-panel-header"
+                    
+                    [collapsedHeight]="'2.1875rem'"
+                    [expandedHeight]="'2.1875rem'"
                   >
                     <mat-panel-title>
                       <div>
@@ -103,7 +91,7 @@
                     </mat-panel-title>
                   </mat-expansion-panel-header>
                   <div
-                    style="text-align: start; max-height: 300px; overflow: auto"
+                    class="expansion-panel-content"
                   >
                     <p
                       class="i2"
@@ -115,25 +103,21 @@
               </div>
             </mat-list-item>
             <mat-list-item
-              style="width: 100%"
+              
               *ngIf="logs.sheetLogs.NO_IN_LINKS.length"
-              class="logsList mt-2"
+              class="logsList list-item-section mt-2"
             >
               <mat-icon mat-list-icon class="error mt-1">error</mat-icon>
               <div
                 mat-line
-                style="
-                  width: 100%;
-                  display: flex;
-                  justify-content: space-between;
-                "
+                class="error-list-container"
               >
-                <mat-expansion-panel style="box-shadow: none" class="w-100">
+                <mat-expansion-panel  class="expansion-panel-container w-100">
                   <mat-expansion-panel-header
-                    class="p-0"
-                    style="width: 99%"
-                    [collapsedHeight]="'35px'"
-                    [expandedHeight]="'35px'"
+                    class="p-0 expansion-panel-header"
+                    
+                    [collapsedHeight]="'2.1875rem'"
+                    [expandedHeight]="'2.1875rem'"
                   >
                     <mat-panel-title>
                       <div>
@@ -145,7 +129,7 @@
                     </mat-panel-title>
                   </mat-expansion-panel-header>
                   <div
-                    style="text-align: start; max-height: 300px; overflow: auto"
+                    class="expansion-panel-content"
                   >
                     <p
                       class="i2"
@@ -157,25 +141,21 @@
               </div>
             </mat-list-item>
             <mat-list-item
-              style="width: 100%"
+              
               *ngIf="logs.sheetLogs.NO_OUT_LINKS.length"
-              class="logsList mt-2"
+              class="logsList list-item-section mt-2"
             >
               <mat-icon mat-list-icon class="error mt-1">error</mat-icon>
               <div
                 mat-line
-                style="
-                  width: 100%;
-                  display: flex;
-                  justify-content: space-between;
-                "
+                class="error-list-container"
               >
-                <mat-expansion-panel style="box-shadow: none" class="w-100">
+                <mat-expansion-panel  class="expansion-panel-container w-100">
                   <mat-expansion-panel-header
-                    class="p-0"
-                    style="width: 99%"
-                    [collapsedHeight]="'35px'"
-                    [expandedHeight]="'35px'"
+                    class="p-0 expansion-panel-header"
+                    
+                    [collapsedHeight]="'2.1875rem'"
+                    [expandedHeight]="'2.1875rem'"
                   >
                     <mat-panel-title>
                       <div>
@@ -187,7 +167,7 @@
                     </mat-panel-title>
                   </mat-expansion-panel-header>
                   <div
-                    style="text-align: start; max-height: 300px; overflow: auto"
+                    class="expansion-panel-content"
                   >
                     <p
                       class="i2"
@@ -203,41 +183,40 @@
       </mat-tab>
       <mat-tab label="All Logs">
         <mat-list
-          style="padding: 0"
-          class="logsList mt-2"
+          class="logsList mat-list-container mt-2"
           *ngFor="let AL of logs.allLogs"
         >
           <mat-list-item
-            style="padding-left: 0"
+            
             *ngFor="let l of AL.messages"
-            class="py-2"
+            class="list-item-first py-2"
           >
-            <mat-icon mat-list-icon style="color: grey" [ngClass]="l.icon">{{
+            <mat-icon mat-list-icon class="error-icon-list" [ngClass]="l.icon">{{
               l.icon
             }}</mat-icon>
             <div
               mat-line
-              style="width: 100%; display: flex; justify-content: space-between"
+              class="error-list-container"
             >
               <span class="i2" [innerHTML]="l.text"></span>
             </div>
           </mat-list-item>
           <mat-list-item
-            style="width: 100%"
+            
             *ngIf="AL.MULTI_IN_LINKS.length"
-            class="logsList mt-2"
+            class="logsList list-item-section mt-2"
           >
             <mat-icon mat-list-icon class="error mt-1">error</mat-icon>
             <div
               mat-line
-              style="width: 100%; display: flex; justify-content: space-between"
+              class="error-list-container"
             >
-              <mat-expansion-panel style="box-shadow: none" class="w-100">
+              <mat-expansion-panel  class="expansion-panel-container w-100">
                 <mat-expansion-panel-header
-                  class="p-0"
-                  style="width: 99%"
-                  [collapsedHeight]="'35px'"
-                  [expandedHeight]="'35px'"
+                  class="p-0 expansion-panel-header"
+                  
+                  [collapsedHeight]="'2.1875rem'"
+                  [expandedHeight]="'2.1875rem'"
                 >
                   <mat-panel-title>
                     <div>
@@ -249,7 +228,7 @@
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div
-                  style="text-align: start; max-height: 300px; overflow: auto"
+                  class="expansion-panel-content"
                 >
                   <p
                     class="i2"
@@ -261,21 +240,21 @@
             </div>
           </mat-list-item>
           <mat-list-item
-            style="width: 100%"
+            
             *ngIf="AL.SELF_LINKS.length"
-            class="logsList mt-2"
+            class="logsList list-item-section mt-2"
           >
             <mat-icon mat-list-icon class="error mt-1">error</mat-icon>
             <div
               mat-line
-              style="width: 100%; display: flex; justify-content: space-between"
+              class="error-list-container"
             >
-              <mat-expansion-panel style="box-shadow: none" class="w-100">
+              <mat-expansion-panel  class="expansion-panel-container w-100">
                 <mat-expansion-panel-header
-                  class="p-0"
-                  style="width: 99%"
-                  [collapsedHeight]="'35px'"
-                  [expandedHeight]="'35px'"
+                  class="p-0 expansion-panel-header"
+                  
+                  [collapsedHeight]="'2.1875rem'"
+                  [expandedHeight]="'2.1875rem'"
                 >
                   <mat-panel-title>
                     <div>
@@ -284,7 +263,7 @@
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div
-                  style="text-align: start; max-height: 300px; overflow: auto"
+                  class="expansion-panel-content"
                 >
                   <p
                     class="i2"
@@ -296,21 +275,21 @@
             </div>
           </mat-list-item>
           <mat-list-item
-            style="width: 100%"
+            
             *ngIf="AL.NO_IN_LINKS.length"
-            class="logsList mt-2"
+            class="logsList list-item-section mt-2"
           >
             <mat-icon mat-list-icon class="error mt-1">error</mat-icon>
             <div
               mat-line
-              style="width: 100%; display: flex; justify-content: space-between"
+              class="error-list-container"
             >
-              <mat-expansion-panel style="box-shadow: none" class="w-100">
+              <mat-expansion-panel  class="expansion-panel-container w-100">
                 <mat-expansion-panel-header
-                  class="p-0"
-                  style="width: 99%"
-                  [collapsedHeight]="'35px'"
-                  [expandedHeight]="'35px'"
+                  class="p-0 expansion-panel-header"
+                  
+                  [collapsedHeight]="'2.1875rem'"
+                  [expandedHeight]="'2.1875rem'"
                 >
                   <mat-panel-title>
                     <div>
@@ -319,7 +298,7 @@
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div
-                  style="text-align: start; max-height: 300px; overflow: auto"
+                  class="expansion-panel-content"
                 >
                   <p
                     class="i2"
@@ -331,21 +310,21 @@
             </div>
           </mat-list-item>
           <mat-list-item
-            style="width: 100%"
+            
             *ngIf="AL.NO_OUT_LINKS.length"
-            class="logsList mt-2"
+            class="logsList list-item-section mt-2"
           >
             <mat-icon mat-list-icon class="error mt-1">error</mat-icon>
             <div
               mat-line
-              style="width: 100%; display: flex; justify-content: space-between"
+              class="error-list-container"
             >
-              <mat-expansion-panel style="box-shadow: none" class="w-100">
+              <mat-expansion-panel  class="expansion-panel-container w-100">
                 <mat-expansion-panel-header
-                  class="p-0"
-                  style="width: 99%"
-                  [collapsedHeight]="'35px'"
-                  [expandedHeight]="'35px'"
+                  class="p-0 expansion-panel-header"
+                  
+                  [collapsedHeight]="'2.1875rem'"
+                  [expandedHeight]="'2.1875rem'"
                 >
                   <mat-panel-title>
                     <div>
@@ -354,7 +333,7 @@
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div
-                  style="text-align: start; max-height: 300px; overflow: auto"
+                  class="expansion-panel-content"
                 >
                   <p
                     class="i2"

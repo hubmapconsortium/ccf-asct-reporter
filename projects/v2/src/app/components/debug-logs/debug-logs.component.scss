@@ -1,5 +1,5 @@
 .debug-log {
-  min-width: 500px;
+  min-width: 31.25rem;
 }
 
 .logsList .mat-list-item {
@@ -17,8 +17,8 @@
 
 .i2 {
   font-size: 12pt;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 0.3125rem;
+  margin-bottom: 0.3125rem;
   font-weight: 300;
 }
 
@@ -32,4 +32,32 @@
 
 .cancel {
   color: #FF5722 !important;
+}
+.mat-list-container{
+  padding: 0;
+}
+.list-item-first{
+  padding-left: 0;
+}
+.error-icon-list{
+  color: grey;
+}
+.list-item-section{
+  width: 100%;
+}
+.expansion-panel-container{
+  box-shadow: none !important;
+}
+.expansion-panel-header{
+  width: 99%;
+}
+.expansion-panel-content{
+  text-align: start; 
+  max-height: 18.75rem; 
+  overflow: auto;
+}
+.error-list-container{
+  width: 100%;
+  display: flex !important;
+  justify-content: space-between;
 }
