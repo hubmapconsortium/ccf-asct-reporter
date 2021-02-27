@@ -1,7 +1,7 @@
 /* REPORT */
 .report {
-  border: 1px solid  rgba(245, 159, 61);
-  border-radius: 8px !important;
+  border: 0.0625rem solid  rgba(245, 159, 61);
+  border-radius: 0.5rem !important;
   color: black;
   transition: all 0.3s;
 }
@@ -12,4 +12,10 @@
 
 a {
   color: grey;
+}
+.arrow-left-button{
+  border-radius: 0.5rem;
+}
+.arrow-left-icon{
+  font-weight: bold;
 }
