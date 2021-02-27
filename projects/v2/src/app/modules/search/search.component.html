@@ -1,5 +1,5 @@
-<div class="h-100 w-100" style="display: flex; align-items: center">
-  <div style="display: inline-block; background: #f5f5f5" class="pl-2 br-left">
+<div class="h-100 w-100 search-container">
+  <div class="pl-2 br-left search-icon-container">
     <mat-icon class="mt-2">search</mat-icon>
   </div>
   <mat-form-field class="w-100 h-100">
@@ -32,11 +32,11 @@
           [value]="structures"
           
         >
-         <div style="display: flex; justify-content: space-between;">
+         <div class="structure-name">
            <div>
             {{ structures.name }}
            </div>
-           <div style="font-size: 8pt;">
+           <div class="structure-group-name" >
             <i>{{ structures.groupName }}</i>
            </div>
          </div>
