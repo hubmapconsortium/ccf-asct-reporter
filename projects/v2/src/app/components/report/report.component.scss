@@ -1,19 +1,34 @@
 .report {
-  width: 700px;
+  width: 43.75rem;
 }
-
+.download-report{
+  color: white
+}
+.delete-report{
+  margin-left: 0.25rem; 
+  margin-top: -0.1875rem; 
+  color: white;
+}
+.sheet-description{
+  color:grey; 
+  font-style: italic;
+}
+.report-expansion-header{
+  font-weight: 400; 
+  font-size: 12pt;
+}
 .date {
   color: grey;
   font-size: 9pt;
 }
 hr {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 0.625rem;
+  margin-bottom: 0.625rem;
 }
 
 ::ng-deep .mat-list-item-content {
   padding: 0 !important;
-  margin-top: -10px;
+  margin-top: -0.625rem;
 }
 
 ::ng-deep .mat-subheader {
@@ -27,7 +42,7 @@ hr {
 
 
 .content {
-  margin-top: 15px;
+  margin-top: 0.9375rem;
   z-index: 1;
 }
 
@@ -39,19 +54,19 @@ hr {
 .title1 {
   font-size: 18pt;
   font-weight: 400;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 .title2 {
   font-size: 14pt;
   font-weight: 400;
-  margin-bottom: 15px;
+  margin-bottom: 0.9375rem;
 }
 
 .i1 {
   font-size: 14pt;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 0.625rem;
+  margin-bottom: 0.625rem;
   font-weight: 300;
 }
 
@@ -61,25 +76,25 @@ hr {
 
 .i2 {
   font-size: 12pt;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 0.625rem;
+  margin-bottom: 0.625rem;
   font-weight: 300;
 }
 
 .footer {
   position: absolute;
-  bottom: 0px;
-  height: 60px;
-  left: 0px;
-  right: 0px;
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-top: 15px;
+  bottom: 0rem;
+  height: 3.75rem;
+  left: 0rem;
+  right: 0rem;
+  padding-left: 0.3125rem;
+  padding-right: 0.3125rem;
+  padding-top: 0.9375rem;
   display: flex;
   z-index: 2;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid rgb(203, 203, 203);
+  border-top: 0.0625rem solid rgb(203, 203, 203);
 }
 
 // .overview {
@@ -125,7 +140,7 @@ hr {
 
 
 ::ng-deep.mat-expansion-indicator {
-    margin-top: -5px !important;
+    margin-top: -0.3125rem !important;
 }
 
 .example-spacer {
@@ -134,13 +149,13 @@ hr {
 
 .tabs {
   position: absolute;
-  top: 65px;
-  bottom: 50px;
+  top: 4.0625rem;
+  bottom: 3.125rem;
   overflow: auto;
-  right: 0px;
-  left: 0px;
-  padding-left: 5px;
-  padding-right: 5px;
+  right: 0rem;
+  left: 0rem;
+  padding-left: 0.3125rem;
+  padding-right: 0.3125rem;
   /* height: 100%; */
   /* flex: 1 1 auto; */
 }
@@ -154,14 +169,14 @@ hr {
 
 .loader > embed {
   display: block;
-  width: 150px;
-  height: 75px;
+  width: 9.375rem;
+  height: 4.6875rem;
   text-align: center;
 }
 
 .dbtn {
-  border: 1px solid #444a65;
-  border-radius: 8px;
+  border: 0.0625rem solid #444a65;
+  border-radius: 0.5rem;
   width: 100%;
   transition: all 0.3s;
 }
@@ -174,18 +189,18 @@ hr {
 // CHART
 
 ::ng-deep .advanced-pie-legend .total-value {
-  font-size: 20px !important;
+  font-size: 1.25rem !important;
   font-weight: 600;
-  margin-bottom: 5px !important;
+  margin-bottom: 0.3125rem !important;
 }
 
 ::ng-deep .advanced-pie-legend .total-label {
-  font-size: 16px !important;
-  margin-bottom: 10px !important;
+  font-size: 1rem !important;
+  margin-bottom: 0.625rem !important;
 }
 
 ::ng-deep .advanced-pie-legend .legend-items-container .legend-items .legend-item .item-value {
-  font-size: 16px !important;
+  font-size: 1rem !important;
   font-weight: 600;
 }
 
@@ -197,8 +212,8 @@ hr {
 // }
 
 ::ng-deep .advanced-pie-legend .legend-items-container .legend-items .legend-item .item-value {
-  padding-bottom: 5px;
-  padding-top: 5px;
+  padding-bottom: 0.3125rem;
+  padding-top: 0.3125rem;
 }
 
 .badge-primary {
