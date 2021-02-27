@@ -5,8 +5,8 @@
 }
 
 .mat-expansion-panel-header:not(.compare) {
-  border-top-left-radius: 8px !important;
-  border-top-right-radius: 8px !important;
+  border-top-left-radius: 0.5rem !important;
+  border-top-right-radius: 0.5rem !important;
 }
 
 .mat-expansion-panel-header {
@@ -19,10 +19,13 @@
 }
 
 .circle{
-  height: 15px; width: 15px; border-radius: 50%; display: inline-block;
+  height: 0.9375rem; 
+  width: 0.9375rem; 
+  border-radius: 50%; 
+  display: inline-block;
 }
 
 .legend-div {
-  max-height: 180px;
+  max-height: 11.25rem;
   overflow-y: auto;
 }
