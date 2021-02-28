@@ -23,40 +23,40 @@
 }
 
 .check_circle {
-  color: #66BB6A !important;
-} 
+  color: #66bb6a !important;
+}
 
 .error {
-  color : #FFCA28 !important;
+  color: #ffca28 !important;
 }
 
 .cancel {
-  color: #FF5722 !important;
+  color: #ff5722 !important;
 }
-.mat-list-container{
+.mat-list-container {
   padding: 0;
 }
-.list-item-first{
+.list-item-first {
   padding-left: 0;
 }
-.error-icon-list{
+.error-icon-list {
   color: grey;
 }
-.list-item-section{
+.list-item-section {
   width: 100%;
 }
-.expansion-panel-container{
+.expansion-panel-container {
   box-shadow: none !important;
 }
-.expansion-panel-header{
+.expansion-panel-header {
   width: 99%;
 }
-.expansion-panel-content{
-  text-align: start; 
-  max-height: 18.75rem; 
+.expansion-panel-content {
+  text-align: start;
+  max-height: 18.75rem;
   overflow: auto;
 }
-.error-list-container{
+.error-list-container {
   width: 100%;
   display: flex !important;
   justify-content: space-between;
