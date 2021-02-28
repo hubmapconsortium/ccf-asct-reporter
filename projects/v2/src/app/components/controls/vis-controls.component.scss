@@ -1,4 +1,4 @@
-@import './../../../assets/stylesheets/colors.scss';
+@import "./../../../assets/stylesheets/colors.scss";
 
 .mat-expansion-panel:not([class*="mat-elevation-z"]) {
   box-shadow: none;
@@ -34,11 +34,17 @@
   background-color: #444a65;
 }
 
-:host ::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+:host
+  ::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-bar {
   background-color: #acacac;
 }
 
-:host ::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+:host
+  ::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-thumb {
   background-color: #444a65;
 }
 
@@ -53,16 +59,15 @@
   margin-right: 0 !important;
 }
 
-
 .controls .mat-expansion-panel-header-description {
   flex-basis: 0;
 }
 
 .controls .mat-expansion-panel-header-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.control-title{
+.control-title {
   font-weight: 500;
 }
