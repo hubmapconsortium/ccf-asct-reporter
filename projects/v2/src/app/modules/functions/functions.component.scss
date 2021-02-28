@@ -1,23 +1,31 @@
-@import './../../../assets/stylesheets/colors.scss';
+@import "./../../../assets/stylesheets/colors.scss";
 
 .mat-expansion-panel:not([class*="mat-elevation-z"]) {
   box-shadow: none;
 }
 
 .mat-expansion-panel-header:not(.compare) {
-  border-top-left-radius: 8px !important;
-  border-top-right-radius: 8px !important;
+  border-top-left-radius: 0.5rem !important;
+  border-top-right-radius: 0.5rem !important;
 }
 
 .mat-expansion-panel-header {
   transition: all 0.3s;
   background-color: $secondary !important;
-  padding-left: 15px !important;
-  padding-right: 15px !important;
-  border-top-left-radius: 8px !important;
-  border-top-right-radius: 8px !important;
+  padding-left: 0.9375rem !important;
+  padding-right: 0.9375rem !important;
+  border-top-left-radius: 0.5rem !important;
+  border-top-right-radius: 0.5rem !important;
 }
 
 .mat-expansion-panel-header:hover {
   background-color: darken($color: $secondary, $amount: 8%) !important;
+}
+.function-button {
+  width: 100% !important;
+  background-color: #f5f5f5;
+  padding: 0 0.625rem 0 0.625rem !important;
+}
+.biomarker-icon-type {
+  font-size: 1.125rem;
 }
