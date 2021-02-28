@@ -1,20 +1,20 @@
 .report {
   width: 43.75rem;
 }
-.download-report{
-  color: white
-}
-.delete-report{
-  margin-left: 0.25rem; 
-  margin-top: -0.1875rem; 
+.download-report {
   color: white;
 }
-.sheet-description{
-  color:grey; 
+.delete-report {
+  margin-left: 0.25rem;
+  margin-top: -0.1875rem;
+  color: white;
+}
+.sheet-description {
+  color: grey;
   font-style: italic;
 }
-.report-expansion-header{
-  font-weight: 400; 
+.report-expansion-header {
+  font-weight: 400;
   font-size: 12pt;
 }
 .date {
@@ -38,8 +38,6 @@ hr {
 ::ng-deep .mat-tab-body {
   text-align: left;
 }
-
-
 
 .content {
   margin-top: 0.9375rem;
@@ -127,20 +125,18 @@ hr {
   margin-right: 0 !important;
 }
 
-
 .compare .mat-expansion-panel-header-description {
   flex-basis: 0;
 }
 
 .compare .mat-expansion-panel-header-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-
 ::ng-deep.mat-expansion-indicator {
-    margin-top: -0.3125rem !important;
+  margin-top: -0.3125rem !important;
 }
 
 .example-spacer {
@@ -159,7 +155,7 @@ hr {
   /* height: 100%; */
   /* flex: 1 1 auto; */
 }
-.loader{
+.loader {
   height: 100%;
   justify-content: center;
   align-items: center;
@@ -199,23 +195,38 @@ hr {
   margin-bottom: 0.625rem !important;
 }
 
-::ng-deep .advanced-pie-legend .legend-items-container .legend-items .legend-item .item-value {
+::ng-deep
+  .advanced-pie-legend
+  .legend-items-container
+  .legend-items
+  .legend-item
+  .item-value {
   font-size: 1rem !important;
   font-weight: 600;
 }
 
-::ng-deep .advanced-pie-legend .legend-items-container .legend-items .legend-item .item-percent {
-  display:  none;
+::ng-deep
+  .advanced-pie-legend
+  .legend-items-container
+  .legend-items
+  .legend-item
+  .item-percent {
+  display: none;
 }
 
 // ::ng-deep .advanced-pie-legend .legend-items-container .legend-items .legend-item .item-label {
 // }
 
-::ng-deep .advanced-pie-legend .legend-items-container .legend-items .legend-item .item-value {
+::ng-deep
+  .advanced-pie-legend
+  .legend-items-container
+  .legend-items
+  .legend-item
+  .item-value {
   padding-bottom: 0.3125rem;
   padding-top: 0.3125rem;
 }
 
 .badge-primary {
-  background-color: #377EB8 !important;
+  background-color: #377eb8 !important;
 }
