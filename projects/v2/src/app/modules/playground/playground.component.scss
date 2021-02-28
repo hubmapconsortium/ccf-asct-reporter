@@ -9,14 +9,13 @@
 .remove-border-bottom ::ng-deep .mat-tab-header {
   // border-bottom: none;
   border-bottom: 0.1875rem solid #444a6510;
-
 }
 ::ng-deep .mat-tab-labels {
   background-color: white !important;
   border: 0rem !important;
 }
 
-::ng-deep .jexcel > tbody > tr > td:nth-child(2){
+::ng-deep .jexcel > tbody > tr > td:nth-child(2) {
   border: 0.0625rem solid #e3e3e3;
   overflow: visible;
 }
