@@ -1,11 +1,13 @@
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+// @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~bootstrap/dist/css/bootstrap.css";
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
-@import './assets/stylesheets/colors.scss';
+@import 'assets/stylesheets/colors.scss';
 
 * {
   font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
 }
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
