@@ -1,10 +1,10 @@
 .label {
-  font-size: 9px;
+  font-size: 0.5625rem;
 }
 
 .nav-item {
   // margin-top: 10px;
-  padding-top: 10px;
+  padding-top: 0.625rem;
   cursor: pointer;
   color: rgb(89, 89, 89);
   transition: 0.2s all;
@@ -12,7 +12,7 @@
 
 .nav-item:hover {
   // background-color: #efefef;
-  color:black;
+  color: black;
 }
 
 .nav-item:active {

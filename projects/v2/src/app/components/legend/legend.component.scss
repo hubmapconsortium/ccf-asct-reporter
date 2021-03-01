@@ -1,12 +1,12 @@
-@import './../../../assets/stylesheets/colors.scss';
+@import "./../../../assets/stylesheets/colors.scss";
 
 .mat-expansion-panel:not([class*="mat-elevation-z"]) {
   box-shadow: none;
 }
 
 .mat-expansion-panel-header:not(.compare) {
-  border-top-left-radius: 8px !important;
-  border-top-right-radius: 8px !important;
+  border-top-left-radius: 0.5rem !important;
+  border-top-right-radius: 0.5rem !important;
 }
 
 .mat-expansion-panel-header {
@@ -18,11 +18,14 @@
   background-color: darken($color: $secondary, $amount: 8%) !important;
 }
 
-.circle{
-  height: 15px; width: 15px; border-radius: 50%; display: inline-block;
+.circle {
+  height: 0.9375rem;
+  width: 0.9375rem;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 .legend-div {
-  max-height: 180px;
+  max-height: 11.25rem;
   overflow-y: auto;
 }

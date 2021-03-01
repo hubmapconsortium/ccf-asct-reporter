@@ -4,9 +4,9 @@
 }
 
 .control-pane {
-  width: 250px;
-  border-right: 3px solid #444a6510;
-  min-width: 50px;
+  width: 15.625rem;
+  border-right: 0.1875rem solid #444a6510;
+  min-width: 3.125rem;
 }
 
 .tree-div {
@@ -15,19 +15,24 @@
 }
 
 .right-sidenav {
-  min-width: 500px;
-  max-width: 700px;
+  min-width: 31.25rem;
+  max-width: 43.75rem;
   overflow-x: auto;
-  border-left: 3px solid #ececec;
+  border-left: 0.1875rem solid #ececec;
   box-shadow: none !important;
 }
 
 .compare-sidenav {
-  width: 650px !important;
+  width: 40.625rem !important;
 }
 
 .example-box {
   cursor: move;
   z-index: 5;
 }
-
+.box-container {
+  position: absolute;
+  width: 15.625rem;
+  left: 0.625rem;
+  z-index: 2;
+}

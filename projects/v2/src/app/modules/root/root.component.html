@@ -60,9 +60,8 @@
       <app-navbar (export)="exportVis($event)"></app-navbar>
       <app-error *ngIf="error.hasError" [error]="error"></app-error>
         <div
-        class="example-box" cdkDrag
-      [ngStyle]="{'margin-top': (mode$ | async) === 'vis' ? '20px' : '65px'}"
-        style="position: absolute; width: 250px; left: 10px; z-index: 2;"
+        class="example-box box-container" cdkDrag
+      [ngStyle]="{'margin-top': (mode$ | async) === 'vis' ? '1.25rem' : '4.0625rem'}"
         *ngIf="(pane$ | async) === false"
       >
         <app-legend

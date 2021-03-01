@@ -12,11 +12,7 @@
       [dataSource]="dataSource"
       [treeControl]="treeControl"
       #indentTree
-      style="
-        padding: 20px !important;
-        width: fit-content;
-        background-color: transparent;
-      "
+      class="tree-container"
     >
       <mat-tree-node
         *matTreeNodeDef="let node"
@@ -27,7 +23,7 @@
         <button mat-icon-button disabled></button><div class="d-flex align-items-center"
         ><span class="h6 font-weight-normal m-0">{{ node.name }}</span
         ><span
-          style="font-size: 8pt; color: grey; padding-left: 10px"
+          class="node-name-id"
           *ngIf="node.ontologyId"
         >
           {{ node.ontologyId }}</span
@@ -44,17 +40,10 @@
           mat-icon-button
           matTreeNodeToggle
           [attr.aria-label]="'toggle' + node.name"
-          style="background-color: rgb(215, 215, 215); transform: scale(0.7)"
+          class="node-button"
         >
           <mat-icon
-            class="mat-icon-rtl-mirror"
-            style="
-              font-size: 20pt;
-              color: white;
-              height: 24px !important;
-              width: 24px !important;
-              font-size: 14pt !important;
-            "
+            class="mat-icon-rtl-mirror node-button-icon"
           >
             {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
           </mat-icon>
@@ -63,7 +52,7 @@
         <div class="d-flex align-items-center"
           ><span class="h6 m-0 font-weight-bold">{{ node.name }} </span
           ><span
-            style="font-size: 8pt; color: grey; padding-left: 10px"
+            class="node-name-id"
             *ngIf="node.ontologyId"
           >
             {{ node.ontologyId }}</span

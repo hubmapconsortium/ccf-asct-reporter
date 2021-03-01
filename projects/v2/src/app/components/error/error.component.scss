@@ -1,3 +1,11 @@
 .lh {
-  line-height: 25px;
+  line-height: 1.5625rem;
+}
+.error-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.contact-us-link {
+  color: rgb(64, 132, 201);
 }

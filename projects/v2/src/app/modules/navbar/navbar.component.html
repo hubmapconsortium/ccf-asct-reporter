@@ -1,12 +1,5 @@
-<mat-toolbar color="secondary" style="
-    /* padding-left: 50px !important; */
-    padding-right: 50px !important;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    background-color: white;
-  " class="d-flex align-items-center"
-  [ngStyle]="{'border-bottom': (mode$ | async) === 'vis' ?'3px solid #444a6510' : 'none'}">
+<mat-toolbar color="secondary"  class="d-flex align-items-center toobar-nav"
+  [ngStyle]="{'border-bottom': (mode$ | async) === 'vis' ?'0.1875rem solid #444a6510' : 'none'}">
 
   <div class="nav-wrapper">
     <div *ngIf="!(ui$ | async).controlPaneOpen">
@@ -14,14 +7,14 @@
         matTooltipPosition="below" />
     </div>
     <button *ngIf="!(ui$ | async).controlPaneOpen" (click)="togglePane()" mat-icon-button #tooltip="matTooltip"
-      matTooltip="Show Control Pane" matTooltipPosition="below" style="background-color: #f5f5f5">
-      <mat-icon style="margin-bottom: 5px !important">menu</mat-icon>
+      matTooltip="Show Control Pane" matTooltipPosition="below" class="show-control-pane-button">
+      <mat-icon class="show-control-pane-icon">menu</mat-icon>
     </button>
     <div class="search">
       <app-search [disabled]="(ui$ | async).error.hasError"></app-search>
     </div>
-    <mat-form-field style="margin-bottom: 0" class="mx-2">
-      <button class="secondary select-border" mat-flat-button style="width: 100%" #tooltip="matTooltip"
+    <mat-form-field  class="mx-2 orgon-selection-box">
+      <button class="secondary select-border orgon-selection-button" mat-flat-button  #tooltip="matTooltip"
         matTooltip="Select Organ Set" matTooltipPosition="below">
         <mat-select (selectionChange)="getSheetSelection(selectedSheetOption, $event)"
           [(ngModel)]="selectedSheetOption">
@@ -42,7 +35,7 @@
       matTooltipPosition="below"
       [label]="'Data Tables'"
       (click)="window.open('https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=2034682742','_blank')">
-      <mat-icon style="margin-bottom: -5px;">table_view</mat-icon>
+      <mat-icon class="toobar-icons">table_view</mat-icon>
     </app-nav-item>
 
     <app-nav-item 
@@ -52,7 +45,7 @@
     matTooltip="Refresh" 
     matTooltipPosition="below"
     >
-      <mat-icon style="margin-bottom: -5px;">refresh</mat-icon>
+      <mat-icon class="toobar-icons">refresh</mat-icon>
     </app-nav-item>
     
     <app-nav-item 
@@ -62,7 +55,7 @@
     [matTooltip]="(mode$ | async) === 'vis' ? 'Playground': 'Exit Playground'"
     matTooltipPosition="below"
     >
-    <mat-icon style="margin-bottom: -5px !important">{{(mode$ | async) === 'vis' ? 'sports_esports': 'exit_to_app'}}</mat-icon>
+    <mat-icon class="toobar-icons">{{(mode$ | async) === 'vis' ? 'sports_esports': 'exit_to_app'}}</mat-icon>
     </app-nav-item>
 
     <app-nav-item 
@@ -71,7 +64,7 @@
     #tooltip="matTooltip" matTooltip="Indented List" matTooltipPosition="below"
     [disabled]="(ui$ | async).error.hasError" mat-icon-button
     >
-    <mat-icon style="margin-bottom: -5px;">format_indent_increase</mat-icon>
+    <mat-icon class="toobar-icons">format_indent_increase</mat-icon>
     <!-- <fa-icon [icon]="faIndent" style="font-size: 12pt; margin-bottom: -15px !important; padding-bottom: 5px;"></fa-icon> -->
     </app-nav-item>
 
@@ -80,7 +73,7 @@
     [disabled]="(ui$ | async).error.hasError" mat-icon-button (click)="toggleCompare()" #tooltip="matTooltip"
       matTooltip="Compare" matTooltipPosition="below"
     >
-    <mat-icon style="margin-bottom: -5px">compare_arrows</mat-icon>
+    <mat-icon class="toobar-icons">compare_arrows</mat-icon>
     </app-nav-item>
 
     <app-nav-item 
@@ -88,7 +81,7 @@
     [disabled]="(ui$ | async).error.hasError" mat-icon-button (click)="toggleReport()" #tooltip="matTooltip"
       matTooltip="Report" matTooltipPosition="below" 
     >
-    <mat-icon style="margin-bottom: -5px">show_chart</mat-icon>
+    <mat-icon class="toobar-icons">show_chart</mat-icon>
     </app-nav-item>
 
     <!-- <button [disabled]="(ui$ | async).error.hasError" mat-icon-button (click)="toggleReport()" #tooltip="matTooltip"
@@ -100,7 +93,7 @@
     (click)="toggleDebugLogs()" #tooltip="matTooltip" matTooltip="Debug Log"
     matTooltipPosition="below"
     >
-    <mat-icon style="margin-top: -5px;" svgIcon="debug"></mat-icon>
+    <mat-icon class="toobar-icons-top" svgIcon="debug"></mat-icon>
     </app-nav-item>
 
     <app-nav-item 
@@ -108,7 +101,7 @@
     [disabled]="(ui$ | async).error.hasError" autofocus="false" mat-icon-button #tooltip="matTooltip"
       matTooltip="Export" matTooltipPosition="below" [matMenuTriggerFor]="downloadMenu"
     >
-    <mat-icon style="margin-bottom: -5px !important">get_app</mat-icon>
+    <mat-icon class="toobar-icons">get_app</mat-icon>
     </app-nav-item>
 
     <mat-menu #downloadMenu="matMenu">
@@ -122,7 +115,7 @@
     #tooltip="matTooltip" matTooltip="Menu" matTooltipPosition="below"
       [matMenuTriggerFor]="menu"
     >
-    <mat-icon style="margin-bottom: -5px !important">more_vert</mat-icon>
+    <mat-icon class="toobar-icons">more_vert</mat-icon>
     </app-nav-item>
     <mat-menu #menu="matMenu">
       <button mat-menu-item *ngFor="let option of MORE_OPTIONS" (click)="window.open(option.url, '_blank')">

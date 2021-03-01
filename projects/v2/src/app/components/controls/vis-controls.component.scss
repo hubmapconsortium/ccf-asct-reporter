@@ -1,21 +1,21 @@
-@import './../../../assets/stylesheets/colors.scss';
+@import "./../../../assets/stylesheets/colors.scss";
 
 .mat-expansion-panel:not([class*="mat-elevation-z"]) {
   box-shadow: none;
 }
 
 .mat-expansion-panel-header:not(.compare) {
-  border-top-left-radius: 8px !important;
-  border-top-right-radius: 8px !important;
+  border-top-left-radius: 0.5rem !important;
+  border-top-right-radius: 0.5rem !important;
 }
 
 .mat-expansion-panel-header {
   transition: all 0.3s;
   background-color: $secondary !important;
-  padding-left: 15px !important;
-  padding-right: 15px !important;
-  border-top-left-radius: 8px !important;
-  border-top-right-radius: 8px !important;
+  padding-left: 0.9375rem !important;
+  padding-right: 0.9375rem !important;
+  border-top-left-radius: 0.5rem !important;
+  border-top-right-radius: 0.5rem !important;
 }
 
 .mat-expansion-panel-header:hover {
@@ -34,17 +34,23 @@
   background-color: #444a65;
 }
 
-:host ::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+:host
+  ::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-bar {
   background-color: #acacac;
 }
 
-:host ::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+:host
+  ::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-thumb {
   background-color: #444a65;
 }
 
 .numberInput {
   background-color: #fafafa !important;
-  border-radius: 4px !important;
+  border-radius: 0.25rem !important;
 }
 
 .controls .mat-expansion-panel-header-description {
@@ -53,13 +59,15 @@
   margin-right: 0 !important;
 }
 
-
 .controls .mat-expansion-panel-header-description {
   flex-basis: 0;
 }
 
 .controls .mat-expansion-panel-header-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.control-title {
+  font-weight: 500;
 }
