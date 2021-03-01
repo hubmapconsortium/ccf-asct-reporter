@@ -1,32 +1,7 @@
 <app-sidenav>
-  <div header>
-    <div class="w-100 text-center pt-3">
-      <img
-        src="./assets/logo.svg"
-        alt=""
-        class="w-100 logo-link"
-        routerLink="/"
-        matTooltip="Home Page"
-        matTooltipPosition="below"
-      />
-    </div>
-    <div class="mt-3">
-      <button
-        mat-icon-button
-        #tooltip="matTooltip"
-        (click)="togglePane()"
-        matTooltip="Toggle Control Pane"
-        matTooltipPosition="below"
-        class="w-100 br-0 secondary arrow-left-button"
-      >
-        <mat-icon class="arrow-left-icon">keyboard_arrow_left</mat-icon>
-      </button>
-    </div>
-  </div>
 
   <div body>
     
-
     <div class="px-3 mt-2">
       <app-legend [treeData]="td$ | async" [bimodalData]="bm$ | async" [compareData]="cs$ | async" [error]="error"></app-legend>
     </div>

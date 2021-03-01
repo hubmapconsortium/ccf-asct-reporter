@@ -283,6 +283,9 @@ export const VERSION = [
 
 export const MORE_OPTIONS = [
   {
+    name: 'About'
+  },
+  {
     name: 'GitHub',
     url: 'https://github.com/hubmapconsortium/ccf-asct-reporter',
   },

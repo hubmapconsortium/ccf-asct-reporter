@@ -1,11 +1,13 @@
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+// @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~bootstrap/dist/css/bootstrap.css";
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
-@import './assets/stylesheets/colors.scss';
+@import 'assets/stylesheets/colors.scss';
 
 * {
   font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
 }
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
@@ -93,9 +95,10 @@ button:focus {
   // overflow: auto;
   border: 3px solid #ececec;
   max-width: 300px !important;
-  box-shadow: none !important;
+  // box-shadow: 1px 1px 30px 1px rgb(222, 222, 222) !important;
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
+  padding: 0;
 }
 
 // SIDE NAV

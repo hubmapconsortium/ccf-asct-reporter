@@ -101,7 +101,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
           },
           { name: 'without HGNC Links', value: reportData.BWithNoLink.length },
         ],
-        label: 'Total Cell Types',
+        label: 'Total Biomarkers',
       },
     ];
   }

@@ -1,16 +1,11 @@
 <mat-toolbar color="secondary"  class="d-flex align-items-center toobar-nav"
   [ngStyle]="{'border-bottom': (mode$ | async) === 'vis' ?'0.1875rem solid #444a6510' : 'none'}">
-
   <div class="nav-wrapper">
-    <div *ngIf="!(ui$ | async).controlPaneOpen">
-      <img src="./../../../assets/logo2.png" alt="" class="w-100 logo-link" routerLink="/" matTooltip="Home Page"
-        matTooltipPosition="below" />
-    </div>
-    <button *ngIf="!(ui$ | async).controlPaneOpen" (click)="togglePane()" mat-icon-button #tooltip="matTooltip"
-      matTooltip="Show Control Pane" matTooltipPosition="below" class="show-control-pane-button">
+    <button (click)="togglePane()" mat-icon-button #tooltip="matTooltip"
+      [matTooltip]="(ui$ | async).controlPaneOpen ? 'Close Control Pane' : 'Show Control Pane'" matTooltipPosition="below" class="show-control-pane-button">
       <mat-icon class="show-control-pane-icon">menu</mat-icon>
     </button>
-    <div class="search">
+    <div class="search ml-1">
       <app-search [disabled]="(ui$ | async).error.hasError"></app-search>
     </div>
     <mat-form-field  class="mx-2 orgon-selection-box">
@@ -55,7 +50,7 @@
     [matTooltip]="(mode$ | async) === 'vis' ? 'Playground': 'Exit Playground'"
     matTooltipPosition="below"
     >
-    <mat-icon class="toobar-icons">{{(mode$ | async) === 'vis' ? 'sports_esports': 'exit_to_app'}}</mat-icon>
+    <mat-icon class="toobar-icons">{{(mode$ | async) === 'vis' ? 'edit': 'exit_to_app'}}</mat-icon>
     </app-nav-item>
 
     <app-nav-item 
@@ -81,7 +76,7 @@
     [disabled]="(ui$ | async).error.hasError" mat-icon-button (click)="toggleReport()" #tooltip="matTooltip"
       matTooltip="Report" matTooltipPosition="below" 
     >
-    <mat-icon class="toobar-icons">show_chart</mat-icon>
+    <mat-icon class="toobar-icons">bar_chart</mat-icon>
     </app-nav-item>
 
     <!-- <button [disabled]="(ui$ | async).error.hasError" mat-icon-button (click)="toggleReport()" #tooltip="matTooltip"
@@ -93,7 +88,7 @@
     (click)="toggleDebugLogs()" #tooltip="matTooltip" matTooltip="Debug Log"
     matTooltipPosition="below"
     >
-    <mat-icon class="toobar-icons-top" svgIcon="debug"></mat-icon>
+    <mat-icon class="toobar-icons">bug_report</mat-icon>
     </app-nav-item>
 
     <app-nav-item 
