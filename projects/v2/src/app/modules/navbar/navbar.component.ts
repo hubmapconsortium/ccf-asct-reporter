@@ -5,11 +5,11 @@ import { SheetState, SheetStateModel } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
 import { Sheet } from '../../models/sheet.model';
 import { Router } from '@angular/router';
-import { FetchSheetData, RefreshData, FetchAllOrganData, FetchInitialPlaygroundData } from '../../actions/sheet.actions';
+import { FetchSheetData, FetchAllOrganData } from '../../actions/sheet.actions';
 import { ToggleControlPane, ToggleIndentList, ToggleReport, ToggleDebugLogs, OpenCompare } from '../../actions/ui.actions';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { ClearSheetLogs } from '../../actions/logs.actions';
-import {  faChartLine, faIndent } from '@fortawesome/free-solid-svg-icons';
+import { faIndent } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
