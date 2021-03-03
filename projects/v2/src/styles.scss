@@ -21,9 +21,9 @@ button:focus {
 
 /* SCROLL BAR */
 ::-webkit-scrollbar {
-  width: 2px;
-  height: 5px;
-  backdrop-filter: blur(10px);
+  width: 0.125rem;
+  height: 0.3125rem;
+  backdrop-filter: blur(0.625rem);
 }
 
 ::-webkit-scrollbar-track {
@@ -32,7 +32,7 @@ button:focus {
 
 ::-webkit-scrollbar-thumb {
   background-color: #444a56a8;
-  border-radius: 10px;
+  border-radius: 0.625rem;
 }
 
 .secondary {
@@ -40,7 +40,7 @@ button:focus {
 }
 
 .select-border {
-  border: 2px solid $secondary !important;
+  border: 0.125rem solid $secondary !important;
 }
 
 /* SNACKBAR */
@@ -62,10 +62,10 @@ button:focus {
 
 /* EXPANSION PANEL */
 .mepNoPadding .mat-expansion-panel-body {
-  padding: 15px !important;
-  border: 2px solid $secondary;
-  border-bottom-left-radius: 8px !important;
-  border-bottom-right-radius: 8px !important;
+  padding: 0.9375rem !important;
+  border: 0.125rem solid $secondary;
+  border-bottom-left-radius: 0.5rem !important;
+  border-bottom-right-radius: 0.5rem !important;
 }
 
 /* CARD STYLES */
@@ -93,11 +93,11 @@ button:focus {
 .bottom-sheet-style {
   // max-height: 300px;
   // overflow: auto;
-  border: 3px solid #ececec;
-  max-width: 300px !important;
+  border: 0.1875rem solid #ececec;
+  max-width: 18.75rem !important;
   // box-shadow: 1px 1px 30px 1px rgb(222, 222, 222) !important;
-  border-top-right-radius: 8px;
-  border-top-left-radius: 8px;
+  border-top-right-radius: 0.5rem;
+  border-top-left-radius: 0.5rem;
   padding: 0;
 }
 
