@@ -56,14 +56,18 @@
                 class="w-100 title-sheet-container"
               >
                 <div class="w-75 mr-1">
-                  <p>
-                    <mat-form-field appearance="outline">
-                      <mat-label>Outline form field</mat-label>
-                      <input matInput placeholder="Placeholder">
-                      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                      <mat-hint>Hint</mat-hint>
-                    </mat-form-field>
-                  </p>
+                  <mat-form-field
+                    [floatLabel]="'always'"
+                    class="link-input-field"
+                  >
+                    <mat-label>Title</mat-label>
+                    <input
+                      matInput
+                      [placeholder]="'Sheet ' + (i + 1)"
+                      formControlName="title"
+                    />
+                    <mat-hint>A title for your sheet</mat-hint>
+                  </mat-form-field>
                 </div>
                 <div class="w-75 ml-1">
                   <mat-form-field
