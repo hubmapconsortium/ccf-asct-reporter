@@ -33,3 +33,6 @@
 .structure-group-name {
   font-size: 8pt;
 }
+::ng-deep .search-container .mat-form-field-underline {
+  display: none;
+}
