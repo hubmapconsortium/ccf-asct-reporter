@@ -1,4 +1,4 @@
-import { Reference } from "./sheet.model";
+import { Reference } from './sheet.model';
 export const AS_RED = '#E41A1C';
 export const CT_BLUE = '#377EB8';
 export const B_GREEN = '#4DAF4A';
