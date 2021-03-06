@@ -1,4 +1,5 @@
 import { NODE_TYPE } from './tree.model';
+import { Reference } from './sheet.model';
 
 const groupNameMapper = {
   1: 'Anatomical Structures',
@@ -29,6 +30,7 @@ export class BMNode {
   outdegree?: any;
   label?: string;
   bType?: string;
+  references?: Reference[];
 
   constructor(
     name,

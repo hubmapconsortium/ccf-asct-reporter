@@ -1,3 +1,4 @@
+import { Reference } from "./sheet.model";
 export const AS_RED = '#E41A1C';
 export const CT_BLUE = '#377EB8';
 export const B_GREEN = '#4DAF4A';
@@ -82,6 +83,7 @@ export interface CT extends Base{
   label?: string;
   indegree?: Set<string>;
   outdegree?: Set<string>;
+  references?: Reference[];
 }
 
 export interface B extends Base{

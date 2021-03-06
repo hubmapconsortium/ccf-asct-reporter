@@ -3,6 +3,12 @@ enum BM_TYPE {
   P = 'protein'
 }
 
+export interface Reference {
+  id?: string;
+  doi?: string;
+  notes?: string;
+}
+
 export interface Structure {
   name?: string;
   id?: string;
@@ -16,6 +22,7 @@ export interface Row {
   anatomical_structures: Array<Structure>;
   cell_types: Array<Structure>;
   biomarkers: Array<Structure>;
+  references: Reference[];
 }
 
 export interface ResponseData {

@@ -69,8 +69,13 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
           strokeWidth: { value: 1.5 },
           x: { value: 0 },
           y: { value: 5 },
+          tooltip: {
+            signal:
+              'datum.target.group === 2 ? datum.target.references : datum.source.references'
+          },
         },
         update: {
+          strokeWidth: { value: 1.5 },
           path: { field: 'path' },
           stroke: [
             // red: E41A1C, green: 4DAF4A, blue: 377EB8
@@ -185,6 +190,11 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             },
           ],
         },
+        hover: {
+          strokeWidth: { value: 5 },
+          stroke: { value: '#6c6a63' },
+          cursor: { value: 'pointer' },
+        }
       },
     };
   }

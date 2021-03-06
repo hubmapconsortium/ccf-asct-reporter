@@ -79,7 +79,8 @@ export function makeCellTypes(data: Row[]): Array<CT> {
             outdegree: new Set(),
             indegree: new Set(),
             comparator: `${str.name}${str.id}`,
-            label: str.rdfs_label
+            label: str.rdfs_label,
+            references: row.references
           };
 
           if (row.anatomical_structures.length > 0) {

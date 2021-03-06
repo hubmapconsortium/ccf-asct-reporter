@@ -120,6 +120,7 @@ export class BimodalService {
         newNode.indegree = cell.indegree;
         newNode.outdegree = cell.outdegree;
         newNode.label = cell.label;
+        newNode.references = cell.references;
 
         nodes.push(newNode);
         treeY += distanceY;
