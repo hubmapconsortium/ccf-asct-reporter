@@ -20,7 +20,6 @@ v1.get("/:sheetid/:gid", async (req: any, res: any) => {
     }
 
   } catch (err) {
-    console.log(err)
     res.statusMessage = err
     res.status(500).end();
   }
