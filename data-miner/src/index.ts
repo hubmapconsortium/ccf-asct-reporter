@@ -45,19 +45,23 @@ class Row {
   anatomical_structures: Array<Structure>;
   cell_types: Array<Structure>;
   biomarkers: Array<Structure>;
+  biomarkers_protein: Array<Structure>;
+  biomarkers_gene: Array<Structure>;
   references: Reference[];
 
   constructor() {
     this.anatomical_structures = []
     this.cell_types = []
+    this.biomarkers_protein = [];
+    this.biomarkers_gene = [];
     this.biomarkers = []
     this.references = []
+    
   }
 }
 
 let headerMap: any = {
-  'AS':'anatomical_structures', 'CT': 'cell_types', 'BG': 'biomarkers', 'BP': 'biomarkers',
-  'REF': 'references'
+  'AS':'anatomical_structures', 'CT': 'cell_types', 'BG': 'biomarkers_gene', 'BP': 'biomarkers_protein', 'REF': 'references'
  }
  
 
@@ -166,6 +170,7 @@ function makeASCTBData(data: any) {
     let rows = [];
     let headerRow = 11
     let dataLength = data.length
+    console.log(dataLength)
   
     try {
       for (let i = headerRow ; i < dataLength; i ++ ) {
@@ -190,7 +195,7 @@ function makeASCTBData(data: any) {
               newRow[key].push(s)
             }
           } 
-          
+
           if (rowHeader.length === 3 && rowHeader[2] === 'ID') {
             let n = newRow[key][parseInt(rowHeader[1]) - 1]
             if (n) n.id = data[i][j]
@@ -204,11 +209,15 @@ function makeASCTBData(data: any) {
             let n: Reference = newRow[key][parseInt(rowHeader[1]) - 1]
             if (n) n.notes = data[i][j]
           }
-          
         }
+        
         rows.push(newRow)
         
       } 
+
+      for(let row of rows) {
+        row.biomarkers = row.biomarkers_gene.concat(row.biomarkers_protein)
+      }
       res(rows)
     } catch(err) {
       rej(err)
