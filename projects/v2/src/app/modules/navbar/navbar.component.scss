@@ -38,8 +38,9 @@
   display: flex;
   align-items: center;
   width: 100%;
-  background-color: white;
+  background-color: white !important;
   position: fixed;
+  z-index: 100;
 }
 .show-control-pane-button {
   background-color: #f5f5f5;
