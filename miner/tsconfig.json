@@ -1,17 +1,24 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "rootDir": "./",
-    "outDir": "./build",
-    "esModuleInterop": true,
-    "strict": true,
+      "module": "commonjs",
+      "esModuleInterop": true,
+      "target": "es6",
+      "noImplicitAny": true,
+      "moduleResolution": "node",
+      "sourceMap": true,
+      "outDir": "dist",
+      "baseUrl": ".",
+      "paths": {
+          "*": [
+              "node_modules/*",
+              "src/types/*"
+          ]
+      },
+      "lib": [
+          "es2015"
+      ]
   },
-  "include" : [
-    "src/**/*.ts",
-    "routes/*.ts"
-  ],
-  "exclude" : [
-      "node_modules"
+  "include": [
+      "src/**/*"
   ]
 }
