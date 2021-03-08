@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import axios from 'axios';
-import papa from 'papaparse';
+import * as papa from 'papaparse';
 import { makeASCTBData } from "../utils/data";
 
 import { PLAYGROUND_CSV } from "../static/const"
