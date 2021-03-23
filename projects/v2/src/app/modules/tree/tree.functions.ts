@@ -159,7 +159,6 @@ export function makeBioMarkers(data: Row[]): Array<B> {
         }
       });
     });
-    console.log(bioMarkers);
     return bioMarkers;
 
   } catch (error) {

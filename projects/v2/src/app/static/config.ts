@@ -2,7 +2,7 @@ export const HEADER_COUNT = 11;
 
 export const IMG_OPTIONS = ['PNG', 'SVG', 'Vega Spec'];
 
-export const SHEET_ID = '1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0';
+export const SHEET_ID = '1F7D0y7pNPVIR3W4LjjtIMGg7rKTOxwyjVKzS-iiffz4';
 
 export const SHEET_CONFIG = [
   {
@@ -61,19 +61,19 @@ export const SHEET_CONFIG = [
     },
     title: 'Anatomical Structures',
   },
-  {
-    name: 'liver',
-    display: 'Liver',
-    sheetId: SHEET_ID,
-    gid: '2079993346',
-    config: {
-      bimodal_distance_x: 250,
-      bimodal_distance_y: 60,
-      width: 700,
-      height: 1400,
-    },
-    title: 'Anatomical Structures',
-  },
+  // {
+  //   name: 'liver',
+  //   display: 'Liver',
+  //   sheetId: SHEET_ID,
+  //   gid: '2079993346',
+  //   config: {
+  //     bimodal_distance_x: 250,
+  //     bimodal_distance_y: 60,
+  //     width: 700,
+  //     height: 1400,
+  //   },
+  //   title: 'Anatomical Structures',
+  // },
   {
     name: 'lymph_nodes',
     display: 'Lymph Nodes',
@@ -229,13 +229,13 @@ export const SHEET_OPTIONS = [
     sheet: 'kidney',
   },
   {
-    title: 'Large Intestine',
+    title: 'Intestine, Large',
     sheet: 'large_intestine',
   },
-  {
-    title: 'Liver',
-    sheet: 'liver',
-  },
+  // {
+  //   title: 'Liver',
+  //   sheet: 'liver',
+  // },
   {
     title: 'Lung',
     sheet: 'lung',
@@ -248,10 +248,10 @@ export const SHEET_OPTIONS = [
     title: 'Skin',
     sheet: 'skin',
   },
-  {
-    title: 'Small Intestine',
-    sheet: 'small_intestine',
-  },
+  // {
+  //   title: 'Small Intestine',
+  //   sheet: 'small_intestine',
+  // },
   {
     title: 'Spleen',
     sheet: 'spleen',
