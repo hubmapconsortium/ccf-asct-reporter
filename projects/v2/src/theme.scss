@@ -1,7 +1,7 @@
 @import "~@angular/material/theming";
 // @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-$mat-mat-reporter-primary: (
+$mat-reporter-primary: (
   50: #e9e9ed,
   100: #c7c9d1,
   200: #a2a5b2,
@@ -34,7 +34,7 @@ $mat-mat-reporter-primary: (
   ),
 );
 
-$mat-mat-reporter-accent: (
+$mat-reporter-accent: (
   50: #fffaed,
   100: #fff4d1,
   200: #ffecb3,
@@ -67,8 +67,8 @@ $mat-mat-reporter-accent: (
   ),
 );
 
-$primary: mat-palette($mat-mat-reporter-primary);
-$accent: mat-palette($mat-mat-reporter-accent);
+$primary: mat-palette($mat-reporter-primary);
+$accent: mat-palette($mat-reporter-accent);
 
 $theme: mat-light-theme($primary, $accent);
 
