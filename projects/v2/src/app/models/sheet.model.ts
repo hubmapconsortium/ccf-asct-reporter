@@ -65,4 +65,7 @@ export interface SheetInfo {
   iri: string;
   label: string;
   desc: string;
+  hasError: boolean,
+  msg: string,
+  status: number,
 }

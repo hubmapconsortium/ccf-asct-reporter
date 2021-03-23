@@ -133,6 +133,9 @@ export class SheetStateModel {
       iri: '',
       label: '',
       desc: 'null',
+      hasError: false,
+      msg: '',
+      status: 0,
     }
   }
 })
@@ -637,7 +640,7 @@ export class SheetState {
      const state = getState();
     //  dispatch(new OpenLoading('Fetching playground data...'));
     //  dispatch(new StateReset(TreeState));
-     dispatch(new CloseBottomSheet());
+    //  dispatch(new CloseBottomSheet());
  
      return this.sheetService.fetchBottomSheetData(data.ontologyId).pipe(
        tap((res: any) => {
@@ -650,18 +653,34 @@ export class SheetState {
             iri: r.iri,
             label: r.label,
             desc: r.description ? r.description[0] : 'null',
+            hasError: false,
+            msg: '',
+            status: 0,
           }
          });
        }),
        catchError((error) => {
          console.log(error);
-         const err: Error = {
-           msg: `${error.name} (Status: ${error.status})`,
-           status: error.status,
-           hasError: true
-         };
-         dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data', LOG_ICONS.error));
-         dispatch(new HasError(err));
+         setState({
+          ...state,
+          bottomSheetInfo: {
+            name: '',
+            ontologyId: '',
+            iri: '',
+            label: '',
+            desc: 'null',
+            hasError: true,
+            msg: error.message,
+            status: error.status,
+          }
+        }); 
+        //  const err: Error = {
+        //    msg: `${error.name} (Status: ${error.status})`,
+        //    status: error.status,
+        //    hasError: true
+        //  };
+        //  dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data', LOG_ICONS.error));
+        //  dispatch(new HasError(err));
          return of('');
        })
      );

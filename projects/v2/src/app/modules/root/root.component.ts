@@ -79,8 +79,7 @@ export class RootComponent implements OnInit, OnDestroy{
   @Select(SheetState.getCompareData) compareData$: Observable<Row[]>;
   @Select(SheetState.getAllCompareData) allCompareData$: Observable<any>;
   @Select(SheetState.getMode) mode$: Observable<string>;
-  @Select(SheetState.getBottomSheetInfo) bottomSheetInfo$: Observable<SheetInfo>;
-
+  
   // Tree Observables
   @Select(TreeState.getTreeData) treeData$: Observable<any>;
   @Select(TreeState.getBottomSheetData) bsd$: Observable<any>;
@@ -206,21 +205,6 @@ export class RootComponent implements OnInit, OnDestroy{
       }
     });
 
-    this.bottomSheetInfo$.subscribe(info =>{
-      if (info.ontologyId) {
-        this.infoSheetRef = this.infoSheet.open(InfoComponent, {
-          disableClose: false,
-          hasBackdrop: false,
-          autoFocus: false,
-          panelClass: 'bottom-sheet-style',
-          data: info
-        });
-
-
-      } else {
-        if (this.infoSheetRef) { this.infoSheetRef.dismiss(); }
-      }
-    })
   }
 
   ngOnInit(): void {

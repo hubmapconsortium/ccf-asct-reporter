@@ -365,13 +365,13 @@ export class UIState {
   openBottomSheet({ getState, setState, dispatch }: StateContext<UIStateModel>, { data }: OpenBottomSheet) {
     const state = getState();
     dispatch(new CloseBottomSheet());
-    dispatch(new UpdateBottomSheetInfo(data));
     dispatch(new UpdateBottomSheetData(data)).subscribe(_ => {
       setState({
         ...state,
         bottomSheetOpen: true
       });
     });
+    dispatch(new UpdateBottomSheetInfo(data));
 
   }
 
