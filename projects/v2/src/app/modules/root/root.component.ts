@@ -50,7 +50,7 @@ import {
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
 import { InfoComponent } from '../../components/info/info.component';
-import { CompareData, Row } from '../../models/sheet.model';
+import { CompareData, Row, SheetInfo } from '../../models/sheet.model';
 
 
 @Component({
@@ -79,6 +79,7 @@ export class RootComponent implements OnInit, OnDestroy{
   @Select(SheetState.getCompareData) compareData$: Observable<Row[]>;
   @Select(SheetState.getAllCompareData) allCompareData$: Observable<any>;
   @Select(SheetState.getMode) mode$: Observable<string>;
+  @Select(SheetState.getBottomSheetInfo) bottomSheetInfo$: Observable<SheetInfo>;
 
   // Tree Observables
   @Select(TreeState.getTreeData) treeData$: Observable<any>;
@@ -204,6 +205,22 @@ export class RootComponent implements OnInit, OnDestroy{
         if (this.infoSheetRef) { this.infoSheetRef.dismiss(); }
       }
     });
+
+    this.bottomSheetInfo$.subscribe(info =>{
+      if (info.ontologyId) {
+        this.infoSheetRef = this.infoSheet.open(InfoComponent, {
+          disableClose: false,
+          hasBackdrop: false,
+          autoFocus: false,
+          panelClass: 'bottom-sheet-style',
+          data: info
+        });
+
+
+      } else {
+        if (this.infoSheetRef) { this.infoSheetRef.dismiss(); }
+      }
+    })
   }
 
   ngOnInit(): void {

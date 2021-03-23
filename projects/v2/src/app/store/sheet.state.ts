@@ -12,6 +12,7 @@ import {
   CompareData,
   SheetConfig,
   ResponseData,
+  SheetInfo
 } from '../models/sheet.model';
 import { Error } from '../models/response.model';
 import { tap, catchError } from 'rxjs/operators';
@@ -32,6 +33,7 @@ import {
   UpdateSheet,
   FetchInitialPlaygroundData,
   UpdatePlaygroundData,
+  UpdateBottomSheetInfo
 } from '../actions/sheet.actions';
 import {
   OpenLoading,
@@ -86,6 +88,10 @@ export class SheetStateModel {
    * Stores the parsed data
    */
   parsed: string[][];
+  /**
+   * Stores the bottom sheet info data
+   */
+  bottomSheetInfo: SheetInfo;
 }
 
 @State<SheetStateModel>({
@@ -120,7 +126,14 @@ export class SheetStateModel {
     compareData: [],
     reportData: {},
     mode: 'vis',
-    parsed: []
+    parsed: [],
+    bottomSheetInfo:{
+      name: '',
+      ontologyId: '',
+      iri: '',
+      label: '',
+      desc: 'null',
+    }
   }
 })
 @Injectable()
@@ -198,13 +211,21 @@ export class SheetState {
   }
 
   /**
+   * Returns an observable that watches the bottom sheet info data
+   */
+  @Selector()
+  static getBottomSheetInfo(state: SheetStateModel) {
+    return state.bottomSheetInfo;
+  }
+
+  /**
    * Returns an observable that watches the mode
    * values: [playground, vis]
    */
-  @Selector()
-  static getMode(state: SheetStateModel) {
-    return state.mode;
-  }
+   @Selector()
+   static getMode(state: SheetStateModel) {
+     return state.mode;
+   }
 
   /**
    * Action to delete a linked sheet from the state.
@@ -606,4 +627,44 @@ export class SheetState {
       })
     );
   }
+
+  /**
+   * Action to update the bottom sheet data in the indentlist (in the Info)
+   * Accepts the parsed data
+   */
+   @Action(UpdateBottomSheetInfo)
+   updateBottomSheetInfo({getState, setState, dispatch}: StateContext<SheetStateModel>, {data}: UpdateBottomSheetInfo) {
+     const state = getState();
+    //  dispatch(new OpenLoading('Fetching playground data...'));
+    //  dispatch(new StateReset(TreeState));
+     dispatch(new CloseBottomSheet());
+ 
+     return this.sheetService.fetchBottomSheetData(data.ontologyId).pipe(
+       tap((res: any) => {
+         const r = res._embedded.terms[0];
+         setState({
+           ...state,
+           bottomSheetInfo: {
+            name: data.name,
+            ontologyId: data.ontologyId,
+            iri: r.iri,
+            label: r.label,
+            desc: r.description ? r.description[0] : 'null',
+          }
+         });
+       }),
+       catchError((error) => {
+         console.log(error);
+         const err: Error = {
+           msg: `${error.name} (Status: ${error.status})`,
+           status: error.status,
+           hasError: true
+         };
+         dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data', LOG_ICONS.error));
+         dispatch(new HasError(err));
+         return of('');
+       })
+     );
+   }
+
 }

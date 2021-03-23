@@ -1,6 +1,6 @@
 enum BM_TYPE {
   G = 'gene',
-  P = 'protein'
+  P = 'protein',
 }
 
 export interface Reference {
@@ -57,4 +57,12 @@ export interface SheetConfig {
   height: number;
   show_ontology?: boolean;
   show_all_AS?: boolean;
+}
+
+export interface SheetInfo {
+  name: string;
+  ontologyId: string;
+  iri: string;
+  label: string;
+  desc: string;
 }
