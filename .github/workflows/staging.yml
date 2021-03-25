@@ -32,8 +32,11 @@ jobs:
           npm run build 
           cp dist/v2/index.html dist/v2/404.html
           touch dist/v2/.nojekyll
-      - name: Deploy to Staging
-      - uses: jsmrcaga/action-netlify-deploy@master
+  deploy:
+    name: 'Deploy to Netlify'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: jsmrcaga/action-netlify-deploy@v1.1.0
         with:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
@@ -41,3 +44,4 @@ jobs:
           NETLIFY_DEPLOY_TO_PROD: true
           build_command: false
           build_directory: dist/v2
+    
