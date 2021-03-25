@@ -29,7 +29,7 @@ jobs:
       - run: npm run test
       - name: Build for Staging
         run: |
-          npm run build 
+          npm run build:staging
           cp dist/v2/index.html dist/v2/404.html
           touch dist/v2/.nojekyll 
       - name: Deploy to Netlify
