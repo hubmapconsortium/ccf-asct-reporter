@@ -116,7 +116,7 @@ export const SHEET_CONFIG = [
   },
   {
     name: 'large_intestine',
-    display: 'Large Intestine',
+    display: 'Intestine, Large',
     sheetId: SHEET_ID,
     gid: '1687995716',
     config: {
