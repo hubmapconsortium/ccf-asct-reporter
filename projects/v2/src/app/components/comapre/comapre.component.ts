@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { CompareData } from '../../models/sheet.model';
 import { Observable } from 'rxjs';
-import {GoogleAnalyticsService} from '../../services/google-analytics.service';
+import {GoogleAnalyticsService, GaAction} from '../../services/google-analytics.service';
 
 @Component({
   selector: 'app-comapre',
@@ -62,7 +62,7 @@ export class ComapreComponent implements OnInit {
         }
       );
 
-      this.ga.eventEmitter("compare_sheet", "compare", `${sheet.title},${sheet.description},${sheet.link},${sheet.color}`, "input", idx);
+      this.ga.eventEmitter("compare_sheet", "compare", `${sheet.title},${sheet.description},${sheet.link},${sheet.color}`, GaAction.INPUT, idx);
     }
 
     this.compareData.emit(data);
@@ -110,12 +110,12 @@ export class ComapreComponent implements OnInit {
   addCompareSheetRow() {
     const sheet = this.createCompareForm();
     this.formSheets.push(sheet);
-    this.ga.eventEmitter("compare_add_row", "compare", null, "input", null);
+    this.ga.eventEmitter("compare_add_row", "compare", null, GaAction.CLICK, null);
   }
 
   removeCompareSheetRow(i: number) {
     this.formSheets.removeAt(i);
-    this.ga.eventEmitter("compare_delete_row", "compare", null, "input", i);
+    this.ga.eventEmitter("compare_delete_row", "compare", null, GaAction.CLICK, i);
   }
 
 }

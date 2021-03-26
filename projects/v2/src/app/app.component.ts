@@ -43,7 +43,6 @@ export class AppComponent {
 
       this.router.events.subscribe(event => {
         if (event instanceof NavigationEnd) {
-          console.log("received event", event.urlAfterRedirects);
           gtag('config', 'G-H8FJL64BT1',
             {
               'page_path': event.urlAfterRedirects

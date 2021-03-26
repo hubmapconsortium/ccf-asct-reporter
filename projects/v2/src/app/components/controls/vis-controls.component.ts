@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Sheet, SheetConfig } from '../../models/sheet.model';
 import { Error } from '../../models/response.model';
 import { DomSanitizer } from '@angular/platform-browser';
+import {GoogleAnalyticsService, GaAction} from '../../services/google-analytics.service';
 
 @Component({
   selector: 'app-vis-controls',
@@ -16,7 +17,7 @@ export class VisControlsComponent implements OnInit {
 
 
   @Output() updatedConfig: EventEmitter<any>  = new EventEmitter<any>();
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor(private sanitizer: DomSanitizer, public ga: GoogleAnalyticsService) { }
 
   ngOnInit(): void {
   }
@@ -26,6 +27,7 @@ export class VisControlsComponent implements OnInit {
       property: 'width',
       config: this.config
     });
+    this.ga.eventEmitter("vc_change_width", "viscontrols", "Width Slider", GaAction.SLIDE, this.config.width);
   }
 
   changeHeight() {
@@ -33,6 +35,7 @@ export class VisControlsComponent implements OnInit {
       property: 'height',
       config: this.config
     });
+    this.ga.eventEmitter("vc_change_height", "viscontrols", "Height Slider", GaAction.SLIDE, this.config.height);
   }
 
   changeShowOntology() {
@@ -41,6 +44,7 @@ export class VisControlsComponent implements OnInit {
       property: 'show-ontology',
       config: this.config
     });
+    this.ga.eventEmitter("vc_toggle_ontology", "viscontrols", "Toggle Ontology", GaAction.TOGGLE, this.config.show_ontology ? 1 : 0);
   }
 
   changeBimodalDistanceX() {
@@ -48,6 +52,7 @@ export class VisControlsComponent implements OnInit {
       property: 'bm-x',
       config: this.config
     });
+    this.ga.eventEmitter("vc_change_bimodalX", "viscontrols", "Bimodal Distance X Slider", GaAction.SLIDE, this.config.bimodal_distance_x);
   }
 
   changeBimodalDistanceY() {
@@ -55,6 +60,7 @@ export class VisControlsComponent implements OnInit {
       property: 'bm-y',
       config: this.config
     });
+    this.ga.eventEmitter("vc_change_bimodalY", "viscontrols", "Bimodal Distance Y Slider", GaAction.SLIDE, this.config.bimodal_distance_y);
   }
 
   changeShowAS() {
@@ -62,6 +68,7 @@ export class VisControlsComponent implements OnInit {
       property: 'show-as',
       config: this.config
     });
+    this.ga.eventEmitter("vc_toggle_showAS", "viscontrols", "Toggle AS Visibility", GaAction.TOGGLE, this.config.show_all_AS ? 1 : 0);
   }
 
   exportControls(event: any) {
@@ -74,6 +81,8 @@ export class VisControlsComponent implements OnInit {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
+
+    this.ga.eventEmitter("vc_export_controls", "viscontrols", "Export Vis Controls", GaAction.CLICK, null);
   }
 
 }
