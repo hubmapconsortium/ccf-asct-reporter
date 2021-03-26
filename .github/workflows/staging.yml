@@ -29,14 +29,11 @@ jobs:
       - run: npm run test
       - name: Build for Staging
         run: |
-          npm run build 
+          npm run build:staging
           cp dist/v2/index.html dist/v2/404.html
-          touch dist/v2/.nojekyll
-  deploy:
-    name: 'Deploy to Netlify'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: jsmrcaga/action-netlify-deploy@v1.1.0
+          touch dist/v2/.nojekyll 
+      - name: Deploy to Netlify
+        uses: jsmrcaga/action-netlify-deploy@v1.1.0
         with:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
