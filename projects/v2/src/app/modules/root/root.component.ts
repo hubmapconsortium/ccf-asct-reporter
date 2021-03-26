@@ -191,14 +191,12 @@ export class RootComponent implements OnInit, OnDestroy{
 
     this.bs$.subscribe(value => {
       if (value) {
-        var bsd = store.selectSnapshot(TreeState.getBottomSheetData);
-        bsd['obser']= this.bottomSheetInfo$
         this.infoSheetRef = this.infoSheet.open(InfoComponent, {
           disableClose: false,
           hasBackdrop: false,
           autoFocus: false,
           panelClass: 'bottom-sheet-style',
-          data: bsd
+          data: this.bottomSheetInfo$
         });
 
 

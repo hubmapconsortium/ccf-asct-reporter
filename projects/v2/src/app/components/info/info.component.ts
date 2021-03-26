@@ -34,7 +34,8 @@ export class InfoComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     public sheetRef: MatBottomSheetRef
   ) {
-    this.data.obser.subscribe((info) => {
+    this.data.subscribe((info) => {
+      this.info = info;
       this.loading = false;
       if (info.hasError) {
         this.error = {
@@ -52,32 +53,6 @@ export class InfoComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true;
   }
-
-  // getInfo(id: string) {
-  //   this.loading = true;
-  //   this.error = { hasError: false };
-  //   this.http.get<any>(getInformation(id)).subscribe(
-  //     (res) => {
-  //       this.loading = false;
-  //       const r = res._embedded.terms[0];
-  //       this.info = {
-  //         iri: r.iri,
-  //         label: r.label,
-  //         desc: r.description ? r.description[0] : 'null',
-  //       };
-  //       this.changeDetectorRef.detectChanges();
-  //     },
-  //     (err) => {
-  //       this.loading = false;
-  //       this.error = {
-  //         hasError: true,
-  //         msg: err.message,
-  //         status: err.status,
-  //       };
-  //       this.changeDetectorRef.detectChanges();
-  //     }
-  //   );
-  // }
 
   close() {
     this.sheetRef.dismiss();

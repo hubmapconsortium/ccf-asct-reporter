@@ -664,8 +664,8 @@ export class SheetState {
          setState({
           ...state,
           bottomSheetInfo: {
-            name: '',
-            ontologyId: '',
+            name: data.name,
+            ontologyId: data.ontologyId,
             iri: '',
             label: '',
             desc: 'null',
