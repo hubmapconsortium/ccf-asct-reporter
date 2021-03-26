@@ -16,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
+import {GoogleAnalyticsService} from './services/google-analytics.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -43,6 +44,7 @@ import { VisControlsComponent } from './components/controls/vis-controls.compone
 import { LegendComponent } from './components/legend/legend.component';
 import { PlaygroundComponent } from './modules/playground/playground.component';
 import { NavItemComponent } from './components/nav-item/nav-item.component';
+import { fromEventPattern } from 'rxjs';
 
 
 
@@ -87,7 +89,7 @@ import { NavItemComponent } from './components/nav-item/nav-item.component';
     OrderModule,
     FontAwesomeModule
   ],
-  providers: [],
+  providers: [GoogleAnalyticsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
