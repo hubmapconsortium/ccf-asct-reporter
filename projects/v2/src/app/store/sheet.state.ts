@@ -674,13 +674,13 @@ export class SheetState {
             status: error.status,
           }
         }); 
-        //  const err: Error = {
-        //    msg: `${error.name} (Status: ${error.status})`,
-        //    status: error.status,
-        //    hasError: true
-        //  };
-        //  dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data', LOG_ICONS.error));
-        //  dispatch(new HasError(err));
+         const err: Error = {
+           msg: `${error.name} (Status: ${error.status})`,
+           status: error.status,
+           hasError: true
+         };
+         dispatch(new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data', LOG_ICONS.error));
+         dispatch(new HasError(err));
          return of('');
        })
      );

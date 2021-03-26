@@ -79,7 +79,8 @@ export class RootComponent implements OnInit, OnDestroy{
   @Select(SheetState.getCompareData) compareData$: Observable<Row[]>;
   @Select(SheetState.getAllCompareData) allCompareData$: Observable<any>;
   @Select(SheetState.getMode) mode$: Observable<string>;
-  
+  @Select(SheetState.getBottomSheetInfo) bottomSheetInfo$: Observable<SheetInfo>;
+
   // Tree Observables
   @Select(TreeState.getTreeData) treeData$: Observable<any>;
   @Select(TreeState.getBottomSheetData) bsd$: Observable<any>;
@@ -190,7 +191,8 @@ export class RootComponent implements OnInit, OnDestroy{
 
     this.bs$.subscribe(value => {
       if (value) {
-        const bsd = store.selectSnapshot(TreeState.getBottomSheetData);
+        var bsd = store.selectSnapshot(TreeState.getBottomSheetData);
+        bsd['obser']= this.bottomSheetInfo$
         this.infoSheetRef = this.infoSheet.open(InfoComponent, {
           disableClose: false,
           hasBackdrop: false,

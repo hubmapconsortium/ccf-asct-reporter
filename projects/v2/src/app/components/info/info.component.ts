@@ -14,10 +14,6 @@ import { HttpClient } from '@angular/common/http';
 import { Error } from '../../models/response.model';
 import { faThemeisle } from '@fortawesome/free-brands-svg-icons';
 import { getInformation } from '../../static/url';
-import { Select } from '@ngxs/store';
-import { SheetState } from '../../store/sheet.state';
-import { Observable } from 'rxjs';
-import { SheetInfo } from '../../models/sheet.model';
 
 @Component({
   selector: 'app-info',
@@ -31,8 +27,6 @@ export class InfoComponent implements OnInit {
   info: any;
 
   // @Output() close: EventEmitter<any> = new EventEmitter<any>();
-  @Select(SheetState.getBottomSheetInfo)
-  bottomSheetInfo$: Observable<SheetInfo>;
 
   constructor(
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
@@ -40,10 +34,9 @@ export class InfoComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     public sheetRef: MatBottomSheetRef
   ) {
-    this.bottomSheetInfo$.subscribe((info) => {
+    this.data.obser.subscribe((info) => {
       this.loading = false;
       if (info.hasError) {
-        console.log(info);
         this.error = {
           hasError: info.hasError,
           msg: info.msg,
