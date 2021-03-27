@@ -16,12 +16,12 @@
       </div>
     </div>
   </div>
+
   <div class="w-100 h-100 nav-height">
     <mat-drawer-container class="w-100">
-
       <mat-drawer [opened]="true" [mode]="'side'" class="drawer pb-5 nav-height" position="start" style="position: fixed;">
         <div class="pl-5 pr-3 d-flex justify-content-between align-items-center goto py-3" (click)="onLatest()">
-          <span class="h6 m-0">Latest Release</span>
+          <span class="h6 m-0 font-weight-bold">Latest Release</span>
           <fa-icon [icon]="faChevronRight"></fa-icon>
         </div>
         <hr class="m-0 mb-5">
@@ -45,15 +45,14 @@
             <markdown [data]="docsData"></markdown>
           </div>
 
-          <div class="mt-5 pt-5">
+          <div class="mt-5">
             <app-docs-nav [next]="selected + 1" [prev]="selected - 1" (nextClick)="onChange(selected + 1)" (prevClick)="onChange(selected - 1)"></app-docs-nav>
           </div>
         </div>
       </div>
 
       <!-- FOOTER -->
-      <div class="pt-5 pb-2 footer dark text-white">
-        <div class="container">
+      <div class="pt-5 pb-2 footer dark text-white px-5">
           <div class="row">
             <div class="col-lg-5 col-xs-12 about-company">
               <h3>ASCT+B Reporter</h3>
@@ -98,7 +97,6 @@
               </p>
             </div>
           </div>
-        </div>
       </div>
     </mat-drawer-container>
 

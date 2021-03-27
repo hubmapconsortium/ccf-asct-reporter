@@ -7,6 +7,7 @@ import { VIDEO_ACTIONS, CONTIRBUTORS } from '../../static/home';
 import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faGlobe, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -31,7 +32,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   copyrightYear = new Date().getFullYear();
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit(): void {
@@ -72,11 +73,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 
   openDocs() {
-    window.open(
-      'https://drive.google.com/file/d/1r8Br4t6zftyrRXbb-DnidzwS3t8FSCu4/view?usp=sharing',
-      '_blank'
-    );
-    // this.ga.eventEmitter(  'home', 'click', 'Documentation', 1);
+    this.router.navigate(['/docs'])
   }
 
   openData() {
