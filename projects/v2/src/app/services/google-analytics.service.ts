@@ -14,7 +14,7 @@ export class GoogleAnalyticsService {
     eventCategory: string, 
     eventLabel: string = null,  
     eventAction: GaAction, 
-    eventValue: number = null ){ 
+    eventValue: any = null ){ 
     gtag('event', eventName, {
       eventCategory: eventCategory,
       eventLabel: eventLabel,
@@ -36,4 +36,11 @@ export enum GaAction {
   CLICK = "click",
   // Action for module navigation
   NAV = "nav"
+}
+
+export enum GaCategory {
+  NAVBAR = "navbar",
+  GRAPH = "graph",
+  COMPARE = "compare",
+  VISCONTROLS = "viscontrols"
 }

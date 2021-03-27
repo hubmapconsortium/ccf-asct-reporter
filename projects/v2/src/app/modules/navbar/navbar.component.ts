@@ -10,6 +10,7 @@ import { ToggleControlPane, ToggleIndentList, ToggleReport, ToggleDebugLogs, Ope
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { ClearSheetLogs } from '../../actions/logs.actions';
 import { faIndent } from '@fortawesome/free-solid-svg-icons';
+import { GaAction, GaCategory, GoogleAnalyticsService } from '../../services/google-analytics.service';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class NavbarComponent implements OnInit {
 
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(public store: Store, public router: Router) {}
+  constructor(public store: Store, public router: Router, public ga: GoogleAnalyticsService) {}
 
   ngOnInit(): void {
     this.sheet$.subscribe((sheet) => {
@@ -77,16 +78,18 @@ export class NavbarComponent implements OnInit {
     });
   }
 
+  openMasterDataTables() {
+    this.ga.eventEmitter("nav_master_data", GaCategory.NAVBAR, "Go to Master Data Tables", GaAction.NAV, null);
+    window.open('https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=2034682742','_blank');
+  }
+
   refreshData() {
-    if (this.mode === 'vis') {
-      if (this.currentSheet.name === 'all') {
+    if (this.mode === 'vis' && this.currentSheet.name === 'all') {
         this.store.dispatch(new FetchAllOrganData(this.currentSheet));
-      } else {
-        this.store.dispatch(new FetchSheetData(this.currentSheet));
-      }
     } else {
       this.store.dispatch(new FetchSheetData(this.currentSheet));
     }
+    this.ga.eventEmitter("nav_refresh", GaCategory.NAVBAR, "Refresh Visualization Button", GaAction.CLICK, null)
   }
 
   togglePane() {
@@ -109,12 +112,18 @@ export class NavbarComponent implements OnInit {
     this.store.dispatch(new OpenCompare());
   }
 
+  exportImage(imageType: string) {
+    this.export.emit(imageType);
+    this.ga.eventEmitter("nav_export_image", GaCategory.NAVBAR, "Export Image", GaAction.CLICK, imageType)
+  }
+
   toggleMode() {
     if (this.mode === 'vis') {
       this.router.navigate(['/vis'], {
         queryParams: { sheet: 'example', playground: true },
         queryParamsHandling: 'merge',
       });
+      this.ga.eventEmitter("nav_enter_playground", GaCategory.NAVBAR, "Enter Playground Mode", GaAction.NAV, null);
     } else if (this.mode === 'playground') {
       this.router.navigate(['/vis'], {
         queryParams: {
@@ -123,6 +132,7 @@ export class NavbarComponent implements OnInit {
         },
         queryParamsHandling: 'merge',
       });
+      this.ga.eventEmitter("nav_exit_playground", GaCategory.NAVBAR, "Exit Playground Mode", GaAction.NAV, null);
     }
   }
 }

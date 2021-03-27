@@ -44,7 +44,7 @@ export class VisControlsComponent implements OnInit {
       property: 'show-ontology',
       config: this.config
     });
-    this.ga.eventEmitter("vc_toggle_ontology", "viscontrols", "Toggle Ontology", GaAction.TOGGLE, this.config.show_ontology ? 1 : 0);
+    this.ga.eventEmitter("vc_toggle_ontology", "viscontrols", "Toggle Ontology", GaAction.TOGGLE, this.config.show_ontology);
   }
 
   changeBimodalDistanceX() {
@@ -68,7 +68,7 @@ export class VisControlsComponent implements OnInit {
       property: 'show-as',
       config: this.config
     });
-    this.ga.eventEmitter("vc_toggle_showAS", "viscontrols", "Toggle AS Visibility", GaAction.TOGGLE, this.config.show_all_AS ? 1 : 0);
+    this.ga.eventEmitter("vc_toggle_showAS", "viscontrols", "Toggle AS Visibility", GaAction.TOGGLE, this.config.show_all_AS);
   }
 
   exportControls(event: any) {
