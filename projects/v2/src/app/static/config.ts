@@ -283,7 +283,8 @@ export const VERSION = [
 
 export const MORE_OPTIONS = [
   {
-    name: 'About'
+    name: 'About',
+    url: '/docs'
   },
   {
     name: 'GitHub',

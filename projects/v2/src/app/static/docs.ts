@@ -4,6 +4,10 @@ export const REGISTRY = [
     path: 'assets/docs/intro/README.md'
   },
   {
+    title: "About",
+    path: 'assets/docs/about/README.md'
+  },
+  {
     title: "Visualization",
     path: 'assets/docs/visualization/README.md'
   },

@@ -43,7 +43,7 @@ export class DocsComponent implements OnInit {
   onChange(idx: number) {
     this.selected = idx;
     this.router.navigate(
-      [], 
+      ['/docs'], 
       {
         relativeTo: this.activatedRoute,
         queryParams: {id: idx}, 
