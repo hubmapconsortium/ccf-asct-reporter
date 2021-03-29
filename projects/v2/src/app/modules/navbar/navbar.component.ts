@@ -69,6 +69,7 @@ export class NavbarComponent implements OnInit {
       queryParams: { sheet: selectedSheet.sheet },
       queryParamsHandling: 'merge',
     });
+    this.ga.eventEmitter("nav_select_sheet", GaCategory.NAVBAR, "Select Organ Set Dropdown", GaAction.CLICK, selectedSheet.sheet);
   }
 
   getVersionSelection(version, event) {

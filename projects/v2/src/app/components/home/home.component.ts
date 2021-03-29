@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.videoRef.play();
     }
 
-    this.ga.eventEmitter("home_video_section", GaCategory.HOME, "Jump to video section: " + VIDEO_ACTIONS[id].header, GaAction.CLICK, id);
+    this.ga.eventEmitter("home_video_section", GaCategory.HOME, "Jump to video section", GaAction.CLICK, VIDEO_ACTIONS[id].header);
   }
 
   openGithub(event?: Event) {
