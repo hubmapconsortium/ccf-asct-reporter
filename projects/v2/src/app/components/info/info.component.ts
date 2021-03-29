@@ -2,9 +2,7 @@ import {
   Component,
   OnInit,
   Inject,
-  ChangeDetectorRef,
-  Output,
-  EventEmitter,
+  ChangeDetectorRef
 } from '@angular/core';
 import {
   MAT_BOTTOM_SHEET_DATA,
@@ -13,7 +11,6 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { Error } from '../../models/response.model';
 import { faThemeisle } from '@fortawesome/free-brands-svg-icons';
-import { getInformation } from '../../static/url';
 
 @Component({
   selector: 'app-info',

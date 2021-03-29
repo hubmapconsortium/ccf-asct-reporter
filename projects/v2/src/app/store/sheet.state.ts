@@ -137,6 +137,7 @@ export class SheetStateModel {
 @Injectable()
 export class SheetState {
   constructor(private sheetService: SheetService) {}
+  faliureMsg = 'Failed to fetch data';
 
   /**
    * Returns an observable that watches the data
@@ -378,7 +379,7 @@ export class SheetState {
             dispatch(
               new ReportLog(
                 LOG_TYPES.MSG,
-                'Failed to fetch data',
+                this.faliureMsg,
                 LOG_ICONS.error
               )
             );
@@ -449,7 +450,7 @@ export class SheetState {
           hasError: true,
         };
         dispatch(
-          new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data', LOG_ICONS.error)
+          new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
         );
         dispatch(new HasError(err));
         return of('');
@@ -648,7 +649,7 @@ export class SheetState {
           hasError: true,
         };
         dispatch(
-          new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data', LOG_ICONS.error)
+          new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
         );
         dispatch(new HasError(err));
         return of('');
@@ -704,7 +705,7 @@ export class SheetState {
           hasError: true,
         };
         dispatch(
-          new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data', LOG_ICONS.error)
+          new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
         );
         dispatch(new HasError(err));
         return of('');
@@ -722,9 +723,6 @@ export class SheetState {
     { data }: UpdateBottomSheetInfo
   ) {
     const state = getState();
-    //  dispatch(new OpenLoading('Fetching playground data...'));
-    //  dispatch(new StateReset(TreeState));
-    //  dispatch(new CloseBottomSheet());
     return this.sheetService.fetchBottomSheetData(data.ontologyId).pipe(
       tap((res: any) => {
         const r = res._embedded.terms[0];
@@ -762,7 +760,7 @@ export class SheetState {
           hasError: true,
         };
         dispatch(
-          new ReportLog(LOG_TYPES.MSG, 'Failed to fetch data', LOG_ICONS.error)
+          new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
         );
         dispatch(new HasError(err));
         return of('');
