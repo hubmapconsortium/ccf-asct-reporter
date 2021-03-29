@@ -1,5 +1,4 @@
 // Standard set of actions for GA events
-
 export enum GaAction {
   // Action for Form inputs
   INPUT = "input",
@@ -14,6 +13,8 @@ export enum GaAction {
 }
 
 export enum GaCategory {
+  HOME = "home",
+  REPORT = "report",
   NAVBAR = "navbar",
   GRAPH = "graph",
   COMPARE = "compare",

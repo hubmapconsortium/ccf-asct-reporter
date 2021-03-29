@@ -6,6 +6,8 @@ import { Sheet } from '../../models/sheet.model';
 import * as XLSX from 'xlsx';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GaAction, GaCategory } from '../../models/ga.model';
 
 @Component({
   selector: 'app-report',
@@ -37,7 +39,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
   @Output() computedReport: EventEmitter<any> = new EventEmitter<any>();
   @Output() deleteSheet: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(public reportService: ReportService) {}
+  constructor(public reportService: ReportService, public ga: GoogleAnalyticsService) {}
 
   ngOnInit(): void {
     this.reportService.reportData$.subscribe((data) => {
@@ -122,6 +124,8 @@ export class ReportComponent implements OnInit, AfterViewInit {
     this.clickButton = true;
     this.compareReport.splice(i, 1);
     this.deleteSheet.emit(i);
+
+    this.ga.eventEmitter("report_compare_delete", GaCategory.REPORT, "Delete a sheet comparison", GaAction.CLICK, i);
   }
 
   downloadData() {
@@ -202,6 +206,9 @@ export class ReportComponent implements OnInit, AfterViewInit {
      */
     if (i === -1) {
       allReport.push(this.downloadData());
+      
+      // Tracking the "Download All" use case from the header button.
+      this.ga.eventEmitter("report_download_full", GaCategory.REPORT, "Download Full Report", GaAction.CLICK);
 
       if (this.compareReport) {
         for (const [sheet, ele] of this.compareReport.entries()) {
@@ -211,6 +218,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
     } else {
       /**
        * When a single compare sheet report needs to be downloaded
+       * Not firing a Google Analytics event in this case since the downloadCompareSheetReport() method already does so.
        */
       allReport.push(this.downloadCompareSheetReport(i));
     }
@@ -261,6 +269,9 @@ export class ReportComponent implements OnInit, AfterViewInit {
     const wb = XLSX.utils.book_new();
     const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
     const sn = sheet.title.toLowerCase().replace(' ', '_');
+
+    this.ga.eventEmitter("report_compare_download", GaCategory.REPORT, "Compare sheet download", GaAction.CLICK, sn);
+
     return {
       sheet: sheetWS,
       sheetName: sheet.title,
