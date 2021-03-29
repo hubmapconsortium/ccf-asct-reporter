@@ -23,7 +23,8 @@ import { ReportLog } from '../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../models/logs.model';
 import { UpdateBottomSheetData } from '../actions/tree.actions';
 import { TreeState } from './tree.state';
-import { GaAction, GaCategory, GoogleAnalyticsService } from '../services/google-analytics.service';
+import { GoogleAnalyticsService } from '../services/google-analytics.service';
+import { GaAction, GaCategory } from "../models/ga.model";
 
 /** Interface to keep track of all UI elements */
 export class UIStateModel {
@@ -345,7 +346,7 @@ export class UIState {
       debugLogOpen: false,
       compareOpen: false
     });
-    this.ga.eventEmitter("nav_close_right_sidenav", GaCategory.NAVBAR, "Close A Right-Sidenav Elements ", GaAction.CLICK, 0);
+    this.ga.eventEmitter("nav_close_right_sidenav", GaCategory.NAVBAR, "Close All Right-Sidenav Elements ", GaAction.CLICK, false);
   }
 
   /**

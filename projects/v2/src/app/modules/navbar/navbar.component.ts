@@ -10,7 +10,8 @@ import { ToggleControlPane, ToggleIndentList, ToggleReport, ToggleDebugLogs, Ope
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { ClearSheetLogs } from '../../actions/logs.actions';
 import { faIndent } from '@fortawesome/free-solid-svg-icons';
-import { GaAction, GaCategory, GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GaAction, GaCategory } from "../../models/ga.model";
 
 
 @Component({
