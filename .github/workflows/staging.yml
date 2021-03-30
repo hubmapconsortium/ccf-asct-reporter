@@ -3,8 +3,6 @@ name: 'Staging Build'
 on:
   push:
     branches: ['develop']
-  pull_request:
-    types: ['opened', 'edited']
 jobs:
   tests:
     name: 'Tests'
