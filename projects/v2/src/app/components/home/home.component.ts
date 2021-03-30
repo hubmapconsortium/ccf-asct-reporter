@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.videoRef.play();
     }
 
-    this.ga.eventEmitter("home_video_section", GaCategory.HOME, "Jump to video section", GaAction.CLICK, VIDEO_ACTIONS[id].header);
+    this.ga.eventEmitter('home_video_section', GaCategory.HOME, 'Jump to video section', GaAction.CLICK, VIDEO_ACTIONS[id].header);
   }
 
   openGithub(event?: Event) {
@@ -66,7 +66,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       'https://github.com/hubmapconsortium/ccf-asct-reporter',
       '_blank'
     );
-    this.ga.eventEmitter("home_link_click", GaCategory.HOME, "Open Github", GaAction.NAV);
+    this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Github', GaAction.NAV);
     }
 
 
@@ -75,7 +75,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       'https://drive.google.com/file/d/1r8Br4t6zftyrRXbb-DnidzwS3t8FSCu4/view?usp=sharing',
       '_blank'
     );
-    this.ga.eventEmitter("home_link_click", GaCategory.HOME, "Open Docs", GaAction.NAV);
+    this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Docs', GaAction.NAV);
   }
 
   openData() {
@@ -83,15 +83,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
       'https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1199090884',
       '_blank'
     );
-    this.ga.eventEmitter("home_link_click", GaCategory.HOME, "Open Master Tables", GaAction.NAV);
+    this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Master Tables', GaAction.NAV);
   }
 
   openDataOld() {
     window.open(
       'https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1268820100',
-      "_blank"
+      '_blank'
     );
-    this.ga.eventEmitter("home_link_click", GaCategory.HOME, "Open Old Data Tables", GaAction.NAV);
+    this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Old Data Tables', GaAction.NAV);
   }
 
   onResize(e) {

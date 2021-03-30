@@ -42,10 +42,10 @@ export class FunctionsComponent implements OnInit {
     this.bimodalConfig[type][field] = event.value;
     this.updateBimodal();
     this.ga.eventEmitter(
-      "vc_change_options_" + type.toLowerCase(), 
-      GaCategory.CONTROLS, 
-      "Change Cell Type (CT) or Biomarker (BM) Options", 
-      GaAction.CLICK, 
+      'vc_change_options_' + type.toLowerCase(),
+      GaCategory.CONTROLS,
+      'Change Cell Type (CT) or Biomarker (BM) Options',
+      GaAction.CLICK,
       `${field}:${event.value}`.toLowerCase()
     );
   }

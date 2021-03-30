@@ -11,7 +11,7 @@ import { UIState, UIStateModel } from '../../store/ui.state';
 import { ClearSheetLogs } from '../../actions/logs.actions';
 import { faIndent } from '@fortawesome/free-solid-svg-icons';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
-import { GaAction, GaCategory } from "../../models/ga.model";
+import { GaAction, GaCategory } from '../../models/ga.model';
 
 
 @Component({
@@ -69,7 +69,7 @@ export class NavbarComponent implements OnInit {
       queryParams: { sheet: selectedSheet.sheet },
       queryParamsHandling: 'merge',
     });
-    this.ga.eventEmitter("nav_select_sheet", GaCategory.NAVBAR, "Select Organ Set Dropdown", GaAction.CLICK, selectedSheet.sheet);
+    this.ga.eventEmitter('nav_select_sheet', GaCategory.NAVBAR, 'Select Organ Set Dropdown', GaAction.CLICK, selectedSheet.sheet);
   }
 
   getVersionSelection(version, event) {
@@ -81,8 +81,8 @@ export class NavbarComponent implements OnInit {
   }
 
   openMasterDataTables() {
-    this.ga.eventEmitter("nav_master_data", GaCategory.NAVBAR, "Go to Master Data Tables", GaAction.NAV, null);
-    window.open('https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=2034682742','_blank');
+    this.ga.eventEmitter('nav_master_data', GaCategory.NAVBAR, 'Go to Master Data Tables', GaAction.NAV, null);
+    window.open('https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=2034682742', '_blank');
   }
 
   refreshData() {
@@ -91,7 +91,7 @@ export class NavbarComponent implements OnInit {
     } else {
       this.store.dispatch(new FetchSheetData(this.currentSheet));
     }
-    this.ga.eventEmitter("nav_refresh", GaCategory.NAVBAR, "Refresh Visualization Button", GaAction.CLICK, null)
+    this.ga.eventEmitter('nav_refresh', GaCategory.NAVBAR, 'Refresh Visualization Button', GaAction.CLICK, null);
   }
 
   togglePane() {
@@ -116,7 +116,7 @@ export class NavbarComponent implements OnInit {
 
   exportImage(imageType: string) {
     this.export.emit(imageType);
-    this.ga.eventEmitter("nav_export_image", GaCategory.NAVBAR, "Export Image", GaAction.CLICK, imageType)
+    this.ga.eventEmitter('nav_export_image', GaCategory.NAVBAR, 'Export Image', GaAction.CLICK, imageType);
   }
 
   toggleMode() {
@@ -125,7 +125,7 @@ export class NavbarComponent implements OnInit {
         queryParams: { sheet: 'example', playground: true },
         queryParamsHandling: 'merge',
       });
-      this.ga.eventEmitter("nav_enter_playground", GaCategory.NAVBAR, "Enter Playground Mode", GaAction.NAV, null);
+      this.ga.eventEmitter('nav_enter_playground', GaCategory.NAVBAR, 'Enter Playground Mode', GaAction.NAV, null);
     } else if (this.mode === 'playground') {
       this.router.navigate(['/vis'], {
         queryParams: {
@@ -134,7 +134,7 @@ export class NavbarComponent implements OnInit {
         },
         queryParamsHandling: 'merge',
       });
-      this.ga.eventEmitter("nav_exit_playground", GaCategory.NAVBAR, "Exit Playground Mode", GaAction.NAV, null);
+      this.ga.eventEmitter('nav_exit_playground', GaCategory.NAVBAR, 'Exit Playground Mode', GaAction.NAV, null);
     }
   }
 }

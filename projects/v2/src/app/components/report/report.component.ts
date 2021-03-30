@@ -126,7 +126,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
     this.compareReport.splice(i, 1);
     this.deleteSheet.emit(i);
 
-    this.ga.eventEmitter("report_compare_delete", GaCategory.REPORT, "Delete a sheet comparison", GaAction.CLICK, i);
+    this.ga.eventEmitter('report_compare_delete', GaCategory.REPORT, 'Delete a sheet comparison', GaAction.CLICK, i);
   }
 
   downloadData() {
@@ -195,9 +195,9 @@ export class ReportComponent implements OnInit, AfterViewInit {
      */
     if (i === -1) {
       allReport.push(this.downloadData());
-      
-      // Tracking the "Download All" use case from the header button.
-      this.ga.eventEmitter("report_download_full", GaCategory.REPORT, "Download Full Report", GaAction.CLICK);
+
+      // Tracking the 'Download All' use case from the header button.
+      this.ga.eventEmitter('report_download_full', GaCategory.REPORT, 'Download Full Report', GaAction.CLICK);
 
       if (this.compareReport) {
         for (const [sheet, ele] of this.compareReport.entries()) {
@@ -259,7 +259,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
     const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
     const sn = sheet.title.toLowerCase().replace(' ', '_');
 
-    this.ga.eventEmitter("report_compare_download", GaCategory.REPORT, "Compare sheet download", GaAction.CLICK, sn);
+    this.ga.eventEmitter('report_compare_download', GaCategory.REPORT, 'Compare sheet download', GaAction.CLICK, sn);
 
     return {
       sheet: sheetWS,

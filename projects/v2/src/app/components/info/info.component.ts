@@ -56,7 +56,7 @@ export class InfoComponent implements OnInit {
   }
 
   close() {
-    this.ga.eventEmitter("graph_bottom_sheet_close", GaCategory.GRAPH, "Close Bottom Sheet Information", GaAction.CLICK, false);
+    this.ga.eventEmitter('graph_bottom_sheet_close', GaCategory.GRAPH, 'Close Bottom Sheet Information', GaAction.CLICK, false);
     this.sheetRef.dismiss();
   }
 }

@@ -45,10 +45,10 @@ export class AppComponent {
         if (event instanceof NavigationEnd) {
           gtag('config', 'G-H8FJL64BT1',
             {
-              'page_path': event.urlAfterRedirects
+              page_path: event.urlAfterRedirects
             }
           );
         }
-      })
-    };
+      });
+    }
 }

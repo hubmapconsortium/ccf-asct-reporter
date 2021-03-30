@@ -69,8 +69,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
   onOptionSelect() {
     this.store.dispatch(new DoSearch(this.structuresMultiCtrl.value));
     console.log(this.structuresMultiCtrl);
-    const selectedValues = this.structuresMultiCtrl.value.map(obj => obj.name.replace(" ","_")).join();
-    this.ga.eventEmitter("nav_search_filter_select", GaCategory.NAVBAR, "Select/Deselect Search Filters", GaAction.CLICK, selectedValues);
+    const selectedValues = this.structuresMultiCtrl.value.map(obj => obj.name.replace(' ' , '_')).join();
+    this.ga.eventEmitter('nav_search_filter_select', GaCategory.NAVBAR, 'Select/Deselect Search Filters', GaAction.CLICK, selectedValues);
   }
 
   createSearchList() {
@@ -102,7 +102,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.structures = [...searchSet];
     this.filteredstructuresMulti.next(this.structures.slice());
 
-    this.ga.eventEmitter("nav_search_clicked", GaCategory.NAVBAR, "Click Search Box", GaAction.CLICK);
+    this.ga.eventEmitter('nav_search_clicked', GaCategory.NAVBAR, 'Click Search Box', GaAction.CLICK);
   }
 
   ngAfterViewInit() {
@@ -137,9 +137,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.filteredstructuresMulti.next(
       this.structures.filter(structures => structures.name.toLowerCase().indexOf(search) > -1)
     );
-      
+
     // This event fires for every letter typed
-    this.ga.eventEmitter("nav_search_term", GaCategory.NAVBAR, "Search term typed in", GaAction.INPUT, search);
+    this.ga.eventEmitter('nav_search_term', GaCategory.NAVBAR, 'Search term typed in', GaAction.INPUT, search);
   }
 
 

@@ -24,7 +24,7 @@ import { LOG_TYPES, LOG_ICONS } from '../models/logs.model';
 import { UpdateBottomSheetData } from '../actions/tree.actions';
 import { TreeState } from './tree.state';
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
-import { GaAction, GaCategory } from "../models/ga.model";
+import { GaAction, GaCategory } from '../models/ga.model';
 import { UpdateBottomSheetInfo } from '../actions/sheet.actions';
 
 /** Interface to keep track of all UI elements */
@@ -247,7 +247,7 @@ export class UIState {
       ...state,
       controlPaneOpen: !state.controlPaneOpen
     });
-    this.ga.eventEmitter("nav_control_pane", GaCategory.NAVBAR, "Toggle Control Pane", GaAction.TOGGLE, getState().controlPaneOpen);
+    this.ga.eventEmitter('nav_control_pane', GaCategory.NAVBAR, 'Toggle Control Pane', GaAction.TOGGLE, getState().controlPaneOpen);
   }
 
   /**
@@ -318,7 +318,7 @@ export class UIState {
       ...state,
       indentListOpen: !state.indentListOpen
     });
-    this.ga.eventEmitter("nav_indent_list", GaCategory.NAVBAR, "Toggle Indent List", GaAction.TOGGLE, getState().indentListOpen);
+    this.ga.eventEmitter('nav_indent_list', GaCategory.NAVBAR, 'Toggle Indent List', GaAction.TOGGLE, getState().indentListOpen);
   }
 
   /**
@@ -331,7 +331,7 @@ export class UIState {
       ...state,
       reportOpen: !state.reportOpen
     });
-    this.ga.eventEmitter("nav_report", GaCategory.NAVBAR, "Toggle Report", GaAction.TOGGLE, getState().reportOpen);
+    this.ga.eventEmitter('nav_report', GaCategory.NAVBAR, 'Toggle Report', GaAction.TOGGLE, getState().reportOpen);
   }
 
   /**
@@ -347,7 +347,7 @@ export class UIState {
       debugLogOpen: false,
       compareOpen: false
     });
-    this.ga.eventEmitter("nav_close_right_sidenav", GaCategory.NAVBAR, "Close All Right-Sidenav Elements ", GaAction.CLICK, false);
+    this.ga.eventEmitter('nav_close_right_sidenav', GaCategory.NAVBAR, 'Close All Right-Sidenav Elements ', GaAction.CLICK, false);
   }
 
   /**
@@ -360,7 +360,7 @@ export class UIState {
       ...state,
       debugLogOpen: !state.debugLogOpen
     });
-    this.ga.eventEmitter("nav_debug_logs", GaCategory.NAVBAR, "Toggle Debug Logs", GaAction.TOGGLE, getState().debugLogOpen);
+    this.ga.eventEmitter('nav_debug_logs', GaCategory.NAVBAR, 'Toggle Debug Logs', GaAction.TOGGLE, getState().debugLogOpen);
   }
 
   /**
@@ -410,7 +410,7 @@ export class UIState {
       ...state,
       compareOpen: true
     });
-    this.ga.eventEmitter("nav_compare_open", GaCategory.NAVBAR, "Open Compare", GaAction.CLICK, getState().compareOpen);
+    this.ga.eventEmitter('nav_compare_open', GaCategory.NAVBAR, 'Open Compare', GaAction.CLICK, getState().compareOpen);
   }
 
   /**
@@ -423,6 +423,6 @@ export class UIState {
       ...state,
       compareOpen: false
     });
-    this.ga.eventEmitter("nav_compare_close", GaCategory.NAVBAR, "Close Compare", GaAction.CLICK, getState().compareOpen);
+    this.ga.eventEmitter('nav_compare_close', GaCategory.NAVBAR, 'Close Compare', GaAction.CLICK, getState().compareOpen);
   }
 }

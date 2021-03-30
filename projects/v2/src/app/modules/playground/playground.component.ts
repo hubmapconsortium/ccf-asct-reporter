@@ -256,7 +256,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
       this.store.dispatch(new UpdatePlaygroundData(this.spreadSheetData));
     }
     this.prevTab = tab.index;
-    this.ga.eventEmitter("playground_tabchange", GaCategory.PLAYGROUND, "Change playground tab", GaAction.NAV, tab.index);
+    this.ga.eventEmitter('playground_tabchange', GaCategory.PLAYGROUND, 'Change playground tab', GaAction.NAV, tab.index);
   }
 
   upload() {
@@ -267,7 +267,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
     this.tabIndex = 0;
     sheet.config.height = 1400;
     this.store.dispatch(new FetchSheetData(sheet));
-    this.ga.eventEmitter("playground_upload", GaCategory.PLAYGROUND, "Upload Playground Sheet", GaAction.CLICK, sheet.sheetId);
+    this.ga.eventEmitter('playground_upload', GaCategory.PLAYGROUND, 'Upload Playground Sheet', GaAction.CLICK, sheet.sheetId);
   }
 
   checkLinkFormat(url: string) {

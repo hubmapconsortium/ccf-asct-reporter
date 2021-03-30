@@ -31,8 +31,8 @@ export class VegaService {
   sheetConfig: SheetConfig;
 
   constructor(
-    public store: Store, 
-    public bm: BimodalService, 
+    public store: Store,
+    public bm: BimodalService,
     private infoSheet: MatBottomSheet,
     public ga: GoogleAnalyticsService) { }
 
@@ -77,11 +77,12 @@ export class VegaService {
         x: node.x,
         y: node.y
       };
-      this.ga.eventEmitter("graph_label_click", GaCategory.GRAPH, "Clicked a node label", GaAction.CLICK, JSON.stringify(nodeInfo));
+      this.ga.eventEmitter('graph_label_click', GaCategory.GRAPH, 'Clicked a node label', GaAction.CLICK, JSON.stringify(nodeInfo));
     });
 
-    view.addSignalListener("node__click", (signal: Signal, nodeId: any) => {
-      this.ga.eventEmitter("graph_node_click", GaCategory.GRAPH, "Clicked a node", GaAction.CLICK, nodeId); // TODO get more node information
+    view.addSignalListener('node__click', (signal: Signal, nodeId: any) => {
+      // TODO get more node information
+      this.ga.eventEmitter('graph_node_click', GaCategory.GRAPH, 'Clicked a node', GaAction.CLICK, nodeId);
     });
   }
 

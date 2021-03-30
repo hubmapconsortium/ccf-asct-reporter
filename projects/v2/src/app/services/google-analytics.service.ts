@@ -10,18 +10,17 @@ export class GoogleAnalyticsService {
 
   constructor() { }
 
-  public eventEmitter( 
-    eventName: string, 
-    eventCategory: string, 
-    eventLabel: string = null,  
-    eventAction: GaAction, 
-    eventValue: any = null ){ 
+  public eventEmitter(
+    eventName: string,
+    eventCategory: string,
+    eventLabel: string = null,
+    eventAction: GaAction,
+    eventValue: any = null ){
     gtag('event', eventName, {
-      eventCategory: eventCategory,
-      eventLabel: eventLabel,
+      eventCategory,
+      eventLabel,
       eventAction: eventAction.toString(),
-      eventValue: eventValue
-    })
-  };
+      eventValue
+    });
+  }
 }
-
