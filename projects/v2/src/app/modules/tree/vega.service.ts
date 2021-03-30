@@ -65,6 +65,10 @@ export class VegaService {
         this.store.dispatch(new OpenBottomSheet(text));
       }
     });
+
+    view.addSignalListener('path__click', (signal: Signal, text: any) => {
+      console.log(text)
+    })
   }
 
   makeBimodal(view: any) {
