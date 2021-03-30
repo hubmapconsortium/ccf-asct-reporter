@@ -8,6 +8,10 @@ export const REGISTRY = [
     path: 'assets/docs/about/README.md'
   },
   {
+    title: "Data Format",
+    path: 'assets/docs/data-format/README.md'
+  },
+  {
     title: "Visualization",
     path: 'assets/docs/visualization/README.md'
   },

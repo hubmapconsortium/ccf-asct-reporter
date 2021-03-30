@@ -16,18 +16,6 @@ The [CCF ASCT+B Reporter](https://hubmapconsortium.github.io/ccf-asct-reporter/)
 
 <br>
 
-#### Technologies
-
-- [Angular 11](https://angular.io/) - Main frontend component library
-- [NGXS](https://www.ngxs.io/) - State management system
-- [Angular Material](https://material.angular.io/) - UI component library
-- [Bootstrap](https://getbootstrap.com/) - Open source styling toolkit
-- [NodeJs](https://nodejs.org/) - Backend scripting tool
-- [Jexcel](https://bossanova.uk/jspreadsheet/v4/) - Table viewing library
-- Google Analytics
-
-<br>
-
 #### Snapshots
 
 <br>
