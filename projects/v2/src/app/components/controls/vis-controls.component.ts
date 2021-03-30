@@ -28,7 +28,7 @@ export class VisControlsComponent implements OnInit {
       property: 'width',
       config: this.config
     });
-    this.ga.eventEmitter("vc_change_width", GaCategory.VISCONTROLS, "Width Slider", GaAction.SLIDE, this.config.width);
+    this.ga.eventEmitter("vc_change_width", GaCategory.CONTROLS, "Width Slider", GaAction.SLIDE, this.config.width);
   }
 
   changeHeight() {
@@ -36,7 +36,7 @@ export class VisControlsComponent implements OnInit {
       property: 'height',
       config: this.config
     });
-    this.ga.eventEmitter("vc_change_height", GaCategory.VISCONTROLS, "Height Slider", GaAction.SLIDE, this.config.height);
+    this.ga.eventEmitter("vc_change_height", GaCategory.CONTROLS, "Height Slider", GaAction.SLIDE, this.config.height);
   }
 
   changeShowOntology() {
@@ -45,7 +45,7 @@ export class VisControlsComponent implements OnInit {
       property: 'show-ontology',
       config: this.config
     });
-    this.ga.eventEmitter("vc_toggle_ontology", GaCategory.VISCONTROLS, "Toggle Ontology", GaAction.TOGGLE, this.config.show_ontology);
+    this.ga.eventEmitter("vc_toggle_ontology", GaCategory.CONTROLS, "Toggle Ontology", GaAction.TOGGLE, this.config.show_ontology);
   }
 
   changeBimodalDistanceX() {
@@ -53,7 +53,7 @@ export class VisControlsComponent implements OnInit {
       property: 'bm-x',
       config: this.config
     });
-    this.ga.eventEmitter("vc_change_bimodalX", GaCategory.VISCONTROLS, "Bimodal Distance X Slider", GaAction.SLIDE, this.config.bimodal_distance_x);
+    this.ga.eventEmitter("vc_change_bimodalX", GaCategory.CONTROLS, "Bimodal Distance X Slider", GaAction.SLIDE, this.config.bimodal_distance_x);
   }
 
   changeBimodalDistanceY() {
@@ -61,7 +61,7 @@ export class VisControlsComponent implements OnInit {
       property: 'bm-y',
       config: this.config
     });
-    this.ga.eventEmitter("vc_change_bimodalY", GaCategory.VISCONTROLS, "Bimodal Distance Y Slider", GaAction.SLIDE, this.config.bimodal_distance_y);
+    this.ga.eventEmitter("vc_change_bimodalY", GaCategory.CONTROLS, "Bimodal Distance Y Slider", GaAction.SLIDE, this.config.bimodal_distance_y);
   }
 
   changeShowAS() {
@@ -69,7 +69,7 @@ export class VisControlsComponent implements OnInit {
       property: 'show-as',
       config: this.config
     });
-    this.ga.eventEmitter("vc_toggle_showAS", GaCategory.VISCONTROLS, "Toggle AS Visibility", GaAction.TOGGLE, this.config.show_all_AS);
+    this.ga.eventEmitter("vc_toggle_showAS", GaCategory.CONTROLS, "Toggle AS Visibility", GaAction.TOGGLE, this.config.show_all_AS);
   }
 
   exportControls(event: any) {
@@ -83,7 +83,7 @@ export class VisControlsComponent implements OnInit {
     element.click();
     document.body.removeChild(element);
 
-    this.ga.eventEmitter("vc_export_controls", GaCategory.VISCONTROLS, "Export Vis Controls", GaAction.CLICK, null);
+    this.ga.eventEmitter("vc_export_controls", GaCategory.CONTROLS, "Export Vis Controls", GaAction.CLICK, null);
   }
 
 }

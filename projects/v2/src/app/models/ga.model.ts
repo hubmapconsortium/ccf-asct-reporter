@@ -1,6 +1,6 @@
 // Standard set of actions for GA events
 export enum GaAction {
-  // Action for Form inputs
+  // Action for form inputs
   INPUT = "input",
   // Action for toggle ui elements
   TOGGLE = "toggle",
@@ -8,10 +8,11 @@ export enum GaAction {
   SLIDE = "slide",
   // Action for other button clicks or graph clicks
   CLICK = "click",
-  // Action for module navigation
+  // Action for module navigation or external links
   NAV = "nav"
 }
 
+// Various event categories
 export enum GaCategory {
   HOME = "home",
   REPORT = "report",
@@ -19,5 +20,21 @@ export enum GaCategory {
   PLAYGROUND = "playground",
   GRAPH = "graph",
   COMPARE = "compare",
-  VISCONTROLS = "viscontrols"
+  CONTROLS = "controls"
+}
+
+// Information to be emitted on each Comparison event
+export interface GaCompareInfo {
+  title: string,
+  desc: string,
+  link: string,
+  color: string
+}
+
+// Information to be emitted on each Node Click event
+export interface GaNodeInfo {
+  oid: string,
+  type: string,
+  x: number,
+  y: number
 }

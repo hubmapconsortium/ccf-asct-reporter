@@ -20,7 +20,7 @@ import { Sheet, SheetConfig } from '../../models/sheet.model';
 import { TNode } from '../../models/tree.model';
 import { Signal } from 'vega';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
-import { GaAction, GaCategory } from '../../models/ga.model';
+import { GaAction, GaCategory, GaNodeInfo } from '../../models/ga.model';
 
 @Injectable({
   providedIn: 'root'
@@ -70,8 +70,14 @@ export class VegaService {
       if (Object.entries(node).length) {
         this.store.dispatch(new OpenBottomSheet(node));
       }
-      const nodeInfo =  `{id:"${node.ontologyId}",type:"${node.type}",x:${node.x},y:${node.y}}`;
-      this.ga.eventEmitter("graph_label_click", GaCategory.GRAPH, "Clicked a node label", GaAction.CLICK, nodeInfo);
+
+      const nodeInfo: GaNodeInfo = {
+        oid: node.ontologyId,
+        type: node.type,
+        x: node.x,
+        y: node.y
+      };
+      this.ga.eventEmitter("graph_label_click", GaCategory.GRAPH, "Clicked a node label", GaAction.CLICK, JSON.stringify(nodeInfo));
     });
 
     view.addSignalListener("node__click", (signal: Signal, nodeId: any) => {
