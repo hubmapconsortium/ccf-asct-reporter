@@ -8,6 +8,8 @@ import * as jexcel from 'jexcel';
 import { UpdatePlaygroundData, FetchSheetData } from '../../actions/sheet.actions';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Sheet } from '../../models/sheet.model';
+import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GaAction, GaCategory } from '../../models/ga.model';
 
 @Component({
   selector: 'app-playground',
@@ -37,7 +39,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
     ]),
   ]);
 
-  constructor(public store: Store, public fb: FormBuilder) {
+  constructor(public store: Store, public fb: FormBuilder, public ga: GoogleAnalyticsService) {
     this.sheet$.subscribe((sheet) => {
       this.currentSheet = sheet;
     });
@@ -255,6 +257,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
       this.store.dispatch(new UpdatePlaygroundData(this.spreadSheetData));
     }
     this.prevTab = tab.index;
+    this.ga.eventEmitter("playground_tabchange", GaCategory.PLAYGROUND, "Change playground tab", GaAction.NAV, tab.index);
   }
 
   upload() {
@@ -265,6 +268,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
     this.tabIndex = 0;
     sheet.config.height = 1400;
     this.store.dispatch(new FetchSheetData(sheet));
+    this.ga.eventEmitter("playground_upload", GaCategory.PLAYGROUND, "Upload Playground Sheet", GaAction.CLICK, sheet.sheetId);
   }
 
   checkLinkFormat(url: string) {

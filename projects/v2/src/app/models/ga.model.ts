@@ -16,6 +16,7 @@ export enum GaCategory {
   HOME = "home",
   REPORT = "report",
   NAVBAR = "navbar",
+  PLAYGROUND = "playground",
   GRAPH = "graph",
   COMPARE = "compare",
   VISCONTROLS = "viscontrols"
