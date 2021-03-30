@@ -67,8 +67,8 @@ export class VegaService {
     });
 
     view.addSignalListener('path__click', (signal: Signal, text: any) => {
-      console.log(text)
-    })
+      console.log(text);
+    });
   }
 
   makeBimodal(view: any) {

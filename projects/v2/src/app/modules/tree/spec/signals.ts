@@ -39,7 +39,7 @@ export class Signals implements VegaSignals {
         },
         { events: 'click[!event.item]', update: 'null' },
       ],
-    }; 
+    };
   }
 
   makeShowOntologyIDSignal(value: boolean) {

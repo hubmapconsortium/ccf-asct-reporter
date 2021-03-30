@@ -75,11 +75,11 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
           tooltip: [
             {
               test: 'node__click === null && datum.target.group === 2',
-              signal: "length(datum.target.references) > 0 ? 'Click to see DOI References' : 'No DOI References'"
+              signal: 'length(datum.target.references) > 0 ? \'Click to see DOI References\' : \'No DOI References\''
             },
             {
               test: 'node__click === null && datum.target.group !== 2',
-              signal: "length(datum.source.references) > 0 ? 'Click to see DOI References' : 'No DOI References'"
+              signal: 'length(datum.source.references) > 0 ? \'Click to see DOI References\' : \'No DOI References\''
             },
           ],
           strokeWidth: { value: 1.5 },
@@ -203,7 +203,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
           ],
           stroke: { value: '#6c6a63' },
           cursor: [
-            { test: 'node__click === null', value:  "pointer"}
+            { test: 'node__click === null', value:  'pointer'}
           ]
         }
       },
