@@ -129,7 +129,7 @@ export function makeBioMarkers(data: Row[], type?: string): Array<B> {
   try {
     data.forEach(row => {
       let currentBiomarkers = [];
-      switch(type) {
+      switch (type) {
         case 'All': currentBiomarkers = row.biomarkers; break;
         case 'Gene': currentBiomarkers = row.biomarkers_gene; break;
         case 'Protein': currentBiomarkers = row.biomarkers_protein; break;

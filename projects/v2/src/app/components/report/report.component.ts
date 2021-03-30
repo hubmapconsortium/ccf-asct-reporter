@@ -61,7 +61,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
         );
       }
     });
-    
+
     this.reportService.makeReportData(this.currentSheet, this.sheetData, this.bmType);
   }
 
