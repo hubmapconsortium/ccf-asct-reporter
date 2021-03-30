@@ -5,7 +5,7 @@ import { AST } from '@angular/compiler';
 import { Report } from '../../models/report.model';
 import { makeAS, makeCellTypes, makeBioMarkers } from '../../modules/tree/tree.functions';
 import { convertMetaToOutput } from '@angular/compiler/src/render3/util';
-import { AS } from '../../models/tree.model';
+import { AS, B } from '../../models/tree.model';
 
 
 @Injectable({
@@ -19,7 +19,7 @@ export class ReportService {
 
   constructor() { }
 
-  async makeReportData(currentSheet: Sheet, data: any) {
+  async makeReportData(currentSheet: Sheet, data: any, biomarkerType?: string) {
     const output: Report = {
       anatomicalStructures: [],
       cellTypes: [],
@@ -32,7 +32,7 @@ export class ReportService {
     try {
       output.anatomicalStructures = makeAS(data);
       output.cellTypes = makeCellTypes(data);
-      output.biomarkers = makeBioMarkers(data);
+      output.biomarkers = makeBioMarkers(data, biomarkerType);
 
       output.ASWithNoLink = this.getASWithNoLink(output.anatomicalStructures);
       output.CTWithNoLink = this.getCTWithNoLink(output.cellTypes);
@@ -48,6 +48,7 @@ export class ReportService {
       throw err;
     }
   }
+
 
   async makeCompareData(reportdata: Report, compareData: Row[], compareSheets: CompareData[]) {
 

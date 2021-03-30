@@ -35,6 +35,7 @@
         [currentSheet]="sheet"
         [linksData]="links$ | async"
         (computedReport)="updateReport($event)"
+        [bmType]="bmType$ | async"
       ></app-report>
 
       <app-indent
