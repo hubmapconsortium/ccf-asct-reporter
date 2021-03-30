@@ -25,6 +25,7 @@ import { UpdateBottomSheetData } from '../actions/tree.actions';
 import { TreeState } from './tree.state';
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
 import { GaAction, GaCategory } from "../models/ga.model";
+import { UpdateBottomSheetInfo } from '../actions/sheet.actions';
 
 /** Interface to keep track of all UI elements */
 export class UIStateModel {
@@ -377,6 +378,7 @@ export class UIState {
         bottomSheetOpen: true
       });
     });
+    dispatch(new UpdateBottomSheetInfo(data));
   }
 
   /**

@@ -50,7 +50,7 @@ import {
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
 import { InfoComponent } from '../../components/info/info.component';
-import { CompareData, Row } from '../../models/sheet.model';
+import { CompareData, Row, SheetInfo } from '../../models/sheet.model';
 
 
 @Component({
@@ -79,12 +79,14 @@ export class RootComponent implements OnInit, OnDestroy{
   @Select(SheetState.getCompareData) compareData$: Observable<Row[]>;
   @Select(SheetState.getAllCompareData) allCompareData$: Observable<any>;
   @Select(SheetState.getMode) mode$: Observable<string>;
+  @Select(SheetState.getBottomSheetInfo) bottomSheetInfo$: Observable<SheetInfo>;
 
   // Tree Observables
   @Select(TreeState.getTreeData) treeData$: Observable<any>;
   @Select(TreeState.getBottomSheetData) bsd$: Observable<any>;
   @Select(TreeState.getLinksData) links$: Observable<any>;
   @Select(TreeState.getBimodal) bm$: Observable<any>;
+  @Select(TreeState.getBiomarkerType) bmType$: Observable<string>;
 
   // Control Pane Observables
   @Select(UIState.getControlPaneState) pane$: Observable<boolean>;
@@ -190,13 +192,12 @@ export class RootComponent implements OnInit, OnDestroy{
 
     this.bs$.subscribe(value => {
       if (value) {
-        const bsd = store.selectSnapshot(TreeState.getBottomSheetData);
         this.infoSheetRef = this.infoSheet.open(InfoComponent, {
           disableClose: false,
           hasBackdrop: false,
           autoFocus: false,
           panelClass: 'bottom-sheet-style',
-          data: bsd
+          data: this.bottomSheetInfo$
         });
 
 
@@ -204,6 +205,7 @@ export class RootComponent implements OnInit, OnDestroy{
         if (this.infoSheetRef) { this.infoSheetRef.dismiss(); }
       }
     });
+
   }
 
   ngOnInit(): void {

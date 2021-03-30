@@ -1,6 +1,6 @@
 enum BM_TYPE {
   G = 'gene',
-  P = 'protein'
+  P = 'protein',
 }
 
 export interface Reference {
@@ -22,6 +22,8 @@ export interface Row {
   anatomical_structures: Array<Structure>;
   cell_types: Array<Structure>;
   biomarkers: Array<Structure>;
+  biomarkers_gene: Array<Structure>;
+  biomarkers_protein: Array<Structure>;
   references: Reference[];
 }
 
@@ -57,4 +59,15 @@ export interface SheetConfig {
   height: number;
   show_ontology?: boolean;
   show_all_AS?: boolean;
+}
+
+export interface SheetInfo {
+  name: string;
+  ontologyId: string;
+  iri: string;
+  label: string;
+  desc: string;
+  hasError: boolean;
+  msg: string;
+  status: number;
 }

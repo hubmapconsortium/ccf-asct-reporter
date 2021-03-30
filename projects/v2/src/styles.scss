@@ -1,18 +1,25 @@
 // @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~bootstrap/dist/css/bootstrap.css";
-@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
-@import 'assets/stylesheets/colors.scss';
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
+@import "assets/stylesheets/colors.scss";
+@import "./theme.scss";
 
 * {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   box-sizing: border-box;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .logo-link {
- cursor: pointer;
+  cursor: pointer;
 }
 
 button:focus {
@@ -45,7 +52,7 @@ button:focus {
 
 /* SNACKBAR */
 .success-snackbar {
-  background: #4CAF50;
+  background: #4caf50;
 }
 
 .mat-simple-snackbar-action {
@@ -95,6 +102,7 @@ button:focus {
   // overflow: auto;
   border: 0.1875rem solid #ececec;
   max-width: 18.75rem !important;
+  box-shadow: 0px 5px 15px 10px rgb(0 0 0 / 5%);
   // box-shadow: 1px 1px 30px 1px rgb(222, 222, 222) !important;
   border-top-right-radius: 0.5rem;
   border-top-left-radius: 0.5rem;
@@ -105,8 +113,4 @@ button:focus {
 
 ::ng-deep .mat-drawer-backdrop .ng-star-inserted .mat-drawer-shown {
   background-color: green !important;
-}
-
-#vg-tooltip-element.vg-tooltip.custom-theme {
-  max-width: 350px;
 }

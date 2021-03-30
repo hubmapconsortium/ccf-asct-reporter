@@ -195,7 +195,6 @@ export class BimodalService {
         id += 1;
       });
 
-
       nodes.forEach((node, i) => {
         if (node.group === 1) {
           node.sources = [];

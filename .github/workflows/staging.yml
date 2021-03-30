@@ -1,0 +1,42 @@
+name: 'Staging Build'
+
+on:
+  push:
+    branches: ['develop']
+jobs:
+  tests:
+    name: 'Tests'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [13.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - run: npm install
+      - run: npm run lint
+      - run: npm run test
+      - name: Build for Staging
+        run: |
+          npm run build:staging
+          cp dist/v2/index.html dist/v2/404.html
+          touch dist/v2/.nojekyll 
+      - name: Deploy to Netlify
+        uses: jsmrcaga/action-netlify-deploy@v1.1.0
+        with:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_DEPLOY_MESSAGE: "Staging deploy to Netlify"
+          NETLIFY_DEPLOY_TO_PROD: true
+          build_command: false
+          build_directory: dist/v2
+    

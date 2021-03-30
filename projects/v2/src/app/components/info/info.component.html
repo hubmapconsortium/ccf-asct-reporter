@@ -1,7 +1,7 @@
 <div class="p-2">
   <div class="w-100 d-flex justify-content-between align-items-center border-bottom pb-2">
     <div>
-      <span class="h5">{{data.name}}</span>
+      <span class="h5">{{info.name}}</span>
     </div>
     <div>
       <button mat-icon-button (click)="close()">
@@ -19,7 +19,7 @@
   
   <ng-template #resultBlock>
     <div *ngIf="error.hasError; else infoBlock" class="pt-3">
-      Could not fetch data for <b>{{data.name}}</b>. This could be because,
+      Could not fetch data for <b>{{info.name}}</b>. This could be because,
       <ul class="pl-3 pt-2">
         <li>Structure does not have an ontology ID.</li>
         <li>Structure has an invalid ontology ID.</li>
@@ -40,7 +40,7 @@
       
       <label><b>Ontology ID</b></label>
       <div>
-        {{data.ontologyId}}
+        {{info.ontologyId}}
       </div>
 
       <div class="pt-3"></div>

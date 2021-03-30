@@ -50,7 +50,6 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.data$.subscribe((data) => {
       if (data.length) {
-        console.log(data.length, data[0].length);
         this.spreadSheetData = data;
         if (!this.table) {
           this.initTable(data, this.store);
@@ -273,7 +272,6 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
 
   checkLinkFormat(url: string) {
     const matches = /\/([\w-_]{15,})\/(.*?gid=(\d+))?/.exec(url);
-    console.log(matches);
     if (matches) {
       return {
         sheetID: matches[1],
