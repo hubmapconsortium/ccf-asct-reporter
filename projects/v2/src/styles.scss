@@ -121,4 +121,9 @@ h1, h2, h3, h4 {
 markdown .intro-img {
   border-radius: 5px;
   width: 100%;
+  box-shadow: 0px 0px 15px 10px #7272720a;
+}
+
+markdown strong {
+  font-weight: 600;
 }
