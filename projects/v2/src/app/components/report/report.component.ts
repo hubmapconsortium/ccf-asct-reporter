@@ -33,6 +33,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
   @Input() linksData: any;
   @Input() inputReportData: Observable<any>;
   @Input() compareData: Observable<any>;
+  @Input() bmType: string;
   @Output() closeReport: EventEmitter<any> = new EventEmitter<any>();
   @Output() computedReport: EventEmitter<any> = new EventEmitter<any>();
   @Output() deleteSheet: EventEmitter<any> = new EventEmitter<any>();
@@ -60,8 +61,8 @@ export class ReportComponent implements OnInit, AfterViewInit {
         );
       }
     });
-
-    this.reportService.makeReportData(this.currentSheet, this.sheetData);
+    
+    this.reportService.makeReportData(this.currentSheet, this.sheetData, this.bmType);
   }
 
   ngAfterViewInit() {}
@@ -101,7 +102,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
           },
           { name: 'without HGNC Links', value: reportData.BWithNoLink.length },
         ],
-        label: 'Total Biomarkers',
+        label: this.bmType === 'Gene' ? 'Total Gene Biomarkers' : this.bmType === 'Protein' ? 'Total Protein Biomarkers' : 'Total Biomarkers',
       },
     ];
   }
@@ -162,18 +163,6 @@ export class ReportComponent implements OnInit, AfterViewInit {
           i
         ].structure;
       }
-
-      // if (i < this.similarAS.length) {
-      //   row['Similar AS from Derived Data'] = this.similarAS[i].name;
-      // }
-
-      // if (i < this.similarCT.length) {
-      //   row['Similar CT from Derived Data'] = this.similarCT[i].name;
-      // }
-
-      // if (i < this.similarB.length) {
-      //   row['Similar B from Derived Data'] = this.similarB[i].name;
-      // }
       download.push(row);
     }
 

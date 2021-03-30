@@ -78,7 +78,14 @@ export class TreeStateModel {
 @Injectable()
 export class TreeState {
 
-  constructor() {
+  constructor() { }
+
+  /**
+   * Select the bimodal config (for sorting and sizing)
+   */
+  @Selector()
+  static getBiomarkerType(state: TreeStateModel) {
+    return state.bimodal.config.BM.type;
   }
 
   /**

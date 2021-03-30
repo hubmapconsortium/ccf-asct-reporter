@@ -124,11 +124,18 @@ export function makeCellTypes(data: Row[]): Array<CT> {
  * @param data - Sheet data
  * @returns - Array of biomarkers
  */
-export function makeBioMarkers(data: Row[]): Array<B> {
+export function makeBioMarkers(data: Row[], type?: string): Array<B> {
   const bioMarkers = [];
   try {
     data.forEach(row => {
-      row.biomarkers.forEach(str => {
+      let currentBiomarkers = [];
+      switch(type) {
+        case 'All': currentBiomarkers = row.biomarkers; break;
+        case 'Gene': currentBiomarkers = row.biomarkers_gene; break;
+        case 'Protein': currentBiomarkers = row.biomarkers_protein; break;
+        default: currentBiomarkers = row.biomarkers;
+      }
+      currentBiomarkers.forEach(str => {
         const foundIndex = bioMarkers.findIndex(i => i.structure === str.name);
         let newStructure: B;
         if (foundIndex === -1) {

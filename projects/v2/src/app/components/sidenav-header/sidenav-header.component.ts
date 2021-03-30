@@ -16,9 +16,5 @@ export class SidenavHeaderComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.tooltipString);
   }
-
-
-
 }

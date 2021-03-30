@@ -22,6 +22,8 @@ export interface Row {
   anatomical_structures: Array<Structure>;
   cell_types: Array<Structure>;
   biomarkers: Array<Structure>;
+  biomarkers_gene: Array<Structure>;
+  biomarkers_protein: Array<Structure>;
   references: Reference[];
 }
 
