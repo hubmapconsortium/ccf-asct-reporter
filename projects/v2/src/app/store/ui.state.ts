@@ -23,6 +23,7 @@ import { ReportLog } from '../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../models/logs.model';
 import { UpdateBottomSheetData } from '../actions/tree.actions';
 import { TreeState } from './tree.state';
+import { UpdateBottomSheetInfo } from '../actions/sheet.actions';
 
 /** Interface to keep track of all UI elements */
 export class UIStateModel {
@@ -370,6 +371,7 @@ export class UIState {
         bottomSheetOpen: true
       });
     });
+    dispatch(new UpdateBottomSheetInfo(data));
 
   }
 

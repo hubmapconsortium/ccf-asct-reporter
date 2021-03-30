@@ -1,4 +1,4 @@
-import {Sheet, CompareData, SheetConfig} from './../models/sheet.model';
+import { Sheet, CompareData, SheetConfig } from './../models/sheet.model';
 
 export class FetchSheetData {
   static readonly type = '[FETCH] Sheet Data';
@@ -73,4 +73,9 @@ export class UpdatePlaygroundData {
 export class FetchPlaygroundUploadData {
   static readonly type = '[FETCH] Playground Upload Data';
   constructor(public data: string[][]) {}
+}
+
+export class UpdateBottomSheetInfo {
+  static readonly type = '[UPDATE] Bottom Sheet Info';
+  constructor(public data: any) {}
 }
