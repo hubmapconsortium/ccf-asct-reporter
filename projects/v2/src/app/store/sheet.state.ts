@@ -762,7 +762,6 @@ export class SheetState {
         dispatch(
           new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
         );
-        dispatch(new HasError(err));
         return of('');
       })
     );
