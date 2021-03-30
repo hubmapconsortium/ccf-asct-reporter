@@ -377,7 +377,6 @@ export class UIState {
         bottomSheetOpen: true
       });
     });
-    this.ga.eventEmitter("nav_bottom_sheet_update", GaCategory.GRAPH, "Open and Update Sheet Information", GaAction.CLICK, getState().bottomSheetOpen);
   }
 
   /**
@@ -397,7 +396,6 @@ export class UIState {
       ...state,
       bottomSheetOpen: false
     });
-    this.ga.eventEmitter("nav_bottom_sheet_close", GaCategory.GRAPH, "Close Bottom Sheet Information", GaAction.CLICK, getState().bottomSheetOpen);
   }
 
   /**

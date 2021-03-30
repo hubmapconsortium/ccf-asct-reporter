@@ -68,7 +68,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   onOptionSelect() {
     this.store.dispatch(new DoSearch(this.structuresMultiCtrl.value));
-    this.ga.eventEmitter("nav_search_option_select", GaCategory.NAVBAR, "Select/Deselect Search Option", GaAction.CLICK);
+    console.log(this.structuresMultiCtrl);
+    const selectedValues = this.structuresMultiCtrl.value.map(obj => obj.name.replace(" ","_")).join();
+    this.ga.eventEmitter("nav_search_filter_select", GaCategory.NAVBAR, "Select/Deselect Search Filters", GaAction.CLICK, selectedValues);
   }
 
   createSearchList() {
@@ -131,10 +133,13 @@ export class SearchComponent implements OnInit, AfterViewInit {
     } else {
       search = search.toLowerCase();
     }
-    // filter the structuress
+    // filter the structures
     this.filteredstructuresMulti.next(
       this.structures.filter(structures => structures.name.toLowerCase().indexOf(search) > -1)
     );
+      
+    // This event fires for every letter typed
+    this.ga.eventEmitter("nav_search_term", GaCategory.NAVBAR, "Search term typed in", GaAction.INPUT, search);
   }
 
 

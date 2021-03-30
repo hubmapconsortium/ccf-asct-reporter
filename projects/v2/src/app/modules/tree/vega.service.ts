@@ -19,6 +19,8 @@ import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
 import { Sheet, SheetConfig } from '../../models/sheet.model';
 import { TNode } from '../../models/tree.model';
 import { Signal } from 'vega';
+import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GaAction, GaCategory } from '../../models/ga.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +30,11 @@ export class VegaService {
   infoSheetRef: MatBottomSheetRef;
   sheetConfig: SheetConfig;
 
-  constructor(public store: Store, public bm: BimodalService, private infoSheet: MatBottomSheet) { }
+  constructor(
+    public store: Store, 
+    public bm: BimodalService, 
+    private infoSheet: MatBottomSheet,
+    public ga: GoogleAnalyticsService) { }
 
   async renderGraph(config: any) {
     try {
@@ -59,11 +65,17 @@ export class VegaService {
   }
 
   addSignalListeners(view: any) {
-    view.addSignalListener('bimodal_text__click', (signal: Signal, text: any) => {
+    view.addSignalListener('bimodal_text__click', (signal: Signal, node: any) => {
 
-      if (Object.entries(text).length) {
-        this.store.dispatch(new OpenBottomSheet(text));
+      if (Object.entries(node).length) {
+        this.store.dispatch(new OpenBottomSheet(node));
       }
+      const nodeInfo =  `{id:"${node.ontologyId}",type:"${node.type}",x:${node.x},y:${node.y}}`;
+      this.ga.eventEmitter("graph_label_click", GaCategory.GRAPH, "Clicked a node label", GaAction.CLICK, nodeInfo);
+    });
+
+    view.addSignalListener("node__click", (signal: Signal, nodeId: any) => {
+      this.ga.eventEmitter("graph_node_click", GaCategory.GRAPH, "Clicked a node", GaAction.CLICK, nodeId); // TODO get more node information
     });
   }
 

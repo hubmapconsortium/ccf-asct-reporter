@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Error } from '../../models/response.model';
 import { faThemeisle } from '@fortawesome/free-brands-svg-icons';
 import { getInformation } from '../../static/url';
+import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GaAction, GaCategory } from '../../models/ga.model';
 
 @Component({
   selector: 'app-info',
@@ -22,7 +24,8 @@ export class InfoComponent implements OnInit {
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
     private http: HttpClient,
     private changeDetectorRef: ChangeDetectorRef,
-    public sheetRef: MatBottomSheetRef
+    public sheetRef: MatBottomSheetRef,
+    public ga: GoogleAnalyticsService
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +64,7 @@ export class InfoComponent implements OnInit {
   }
 
   close() {
+    this.ga.eventEmitter("graph_bottom_sheet_close", GaCategory.GRAPH, "Close Bottom Sheet Information", GaAction.CLICK, false);
     this.sheetRef.dismiss();
   }
 }
