@@ -122,13 +122,21 @@ Hovering over these nodes will highlight the paths and the nodes that the hovere
 - Ontoloty ID
 - rdfs:label
 
-The image below shows a screenshot over a hovered over node,
+The image below shows a screenshot of a hovered over node,
 
 <img src="assets/docs/visualization/hover.png" class="md-img p-2 w-50">
+
+<br>
 
 Paths can be clicked on to show the DOIs. Clicking on path will open a bottom sheet which will have the DOI References listed.
 
 
 ##### Click
 
-Clicking on a node will cause the links between the nodes to persist
+Clicking on a node will cause the highlights between the nodes to persist. The nodes that are not related have their opacities further recuded. The node text should also be bolded. The image below shows a screenshot of a clicked over node,
+
+<img src="assets/docs/visualization/click.png" class="md-img p-2 w-50">
+
+<br>
+
+Clicking on the name of a node will cause a bottom sheet to pop up that shows the *Description*, *Ontology ID* and the *IRI* of the particular node. This data is fetched from [this](https://www.ebi.ac.uk/) API. Note that this only works for AS nodes that have Ontology IDs.
