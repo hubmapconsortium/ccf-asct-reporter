@@ -71,7 +71,7 @@ Here, A3’s parent is A2 (in row 13), so even though there’s no structure aft
 
 ##### Last Layer of the Partonomy Tree
 
-The nodes in the last layer of the partonomy tree are technically not a part of the tree. These nodes behave differently than all the other AS nodes. This is due to the fact that the bimodal network is overlapped with the last layer of the tree, so that this behavior can be moved forward to create the other layers of the bimodal network. The `x` and `y` coordinates are used to build the first level of the bimodal network, that is then placed on top of the layer layer of the partonomy tree. This is a perfect overlap because the coordinates for all the nodes are the same. By being placed in a custom built visualization, it follows the algorithm that makes it interactive. Hovering and clicking on these nodes will highlight the respective CT and B nodes that the node is connected to.
+The nodes in the last layer of the partonomy tree are technically not a part of the partonomy tree. These nodes behave differently than all the other AS nodes (they can be horved and clicked on). The `x` and `y` coordinates from the last level of the partonomy tree are used to build the first level of the bimodal network, that is then placed on top of the layer layer of the partonomy tree. This is a perfect overlap because the coordinates for all the nodes are the same. By being placed in a custom built visualization, it follows the algorithm that makes it interactive. Hovering and clicking on these nodes will highlight the respective CT and B nodes that the node is connected to.
 
 <br>
 
@@ -83,13 +83,19 @@ The bimodal network links the anatomical structures to the cell types, and then 
 
 ##### Cell Type Layer (CT nodes)
 
-These nodes are colored in blue. They are built by using 2 configuration variables `bimodal_distance_x` (which is the horizontal distance between the last layer of the AS nodes and the CT nodes) and `bimodal_distance_y` (which is the vertical distance between each CT node). These both can be configured on the fly (please see [Graph Controls](https://github.com/hubmapconsortium/ccf-asct-reporter/wiki/Visualization/_edit#graph-controls)). Hovering and clicking on these nodes will highlight the respective AS and B nodes that the node is connected to. These connections are made by using the last layer of the anatomical structures from the main data. These nodes are case sensitive. Uniqueness of these nodes are defines by the combination of the name, ontology link and the rdfs label.
+This is the second layer of the biomdal network that depicts the relationships between the Anatomical Structures and their typology of cells. These nodes are colored in blue. Hovering and clicking on these nodes will highlight the respective AS and B nodes that the node is connected to. These connections are made by using the last layer of the anatomical structures from the main data. These nodes are case sensitive. They are built by using 2 configuration variables `bimodal_distance_x` (which is the horizontal distance between the last layer of the AS nodes and the CT nodes) and `bimodal_distance_y` (which is the vertical distance between each CT node). These both can be configured on the fly (please see [Graph Controls](https://github.com/hubmapconsortium/ccf-asct-reporter/wiki/Visualization/_edit#graph-controls)). Uniqueness of these nodes are defines by the combination of the name, ontology link and the rdfs label.
+
+These nodes have additional functions. To more about them click [here](/docs?id=4).
 
 <br>
 
 ##### Biomarker Layer (B nodes)
 
-These nodes are colored in green. They are built by using 2 configuration variables `bimodal_distance_x`(which is the horizontal distance between the CT nodes and the B nodes) and `bimodal_distance_y` (which is the vertical distance between each B node). These both can be configured on the fly (please see [Graph Controls](https://github.com/hubmapconsortium/ccf-asct-reporter/wiki/Visualization/_edit#graph-controls)). Hovering and clicking on these nodes will highlight the respective CT and B nodes that the node is connected to. These nodes are case sensitive. Uniqueness of these nodes are defines by the combination of the name, ontology link and the rdfs label.
+This is the third layer of the bimodal network that shows teh relationships between Cell Types and their Biomarkers. These nodes are colored in green.  Hovering and clicking on these nodes will highlight the respective CT and B nodes that the node is connected to. They are built by using 2 configuration variables `bimodal_distance_x`(which is the horizontal distance between the CT nodes and the B nodes) and `bimodal_distance_y` (which is the vertical distance between each B node). These both can be configured on the fly (please see [Graph Controls](https://github.com/hubmapconsortium/ccf-asct-reporter/wiki/Visualization/_edit#graph-controls)). These nodes are case sensitive. Uniqueness of these nodes are defines by the combination of the name, ontology link and the rdfs label.
+
+These nodes have additional functions. To more about them click [here](/docs?id=4).
+
+<br> 
 
 To sum it up, the image below depicts how the visualization is built,
 
