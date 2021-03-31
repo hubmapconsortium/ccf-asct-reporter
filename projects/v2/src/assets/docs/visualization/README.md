@@ -11,7 +11,7 @@ This section goes over what the visualization comprises of, how it works and how
 
 2. Click on the **Go to Visualization** button and select the organ sheet that you would like to view.
 
-<img src="assets/docs/visualization/gotovis.png" class="intro-img p-2 w-25">
+<img src="assets/docs/visualization/gotovis.png" class="md-img p-2 w-25">
 
 <br>
 <br>
@@ -21,7 +21,7 @@ This section goes over what the visualization comprises of, how it works and how
 The visualization in the ASCT+B Reporter consists of a tree structure that respresents the relationships between **Anatomical Structures** (AS) and its substructures (colored in red). This tree is clumped with a bimodal network that represents the relationships between these AS and their **Cell Types** (CT, colored in blue) and their **Biomarkers** (B, colored in green).
 
 <div class="text-center"> 
-  <img src="assets/docs/visualization/vis1.png" class="intro-img p-2 w-100">
+  <img src="assets/docs/visualization/vis1.png" class="md-img p-2 w-100">
   <small>ASCT+B Reporter Visualization</small>
 </div>
 
@@ -29,11 +29,11 @@ The visualization in the ASCT+B Reporter consists of a tree structure that respr
 
 #### Partonomy Tree
 
-<img src="assets/docs/visualization/partonomy.png" class="intro-img p-2 w-25 ml-5" align="right">
+<img src="assets/docs/visualization/partonomy.png" class="md-img p-2 w-25 ml-5" align="right">
 
 The partonomy tree visualizes anatomical structures (AS) and substructures. They are color coded in red. It makes use of [Vega's Tree Layout](https://vega.github.io/vega/examples/tree-layout/) to visualize relationships between anatomical structures and its substructures. The tree consists for a root node called `Body`. This node is a pseudo node, and is added to keep the visualization error free. Since it is a tree structure, having multiple parents for a node violated the algorithm. Therefore, to prevent any errors why [comparing](https://github.com/hubmapconsortium/ccf-asct-reporter/wiki/Compare) or linking your own sheet, the Body node acts as a singular parent.
 
-On hovering over any AS nodes which is not on the last layer (leaf nodes) will reveal a tooltip that will show the structure's ontology link. Please note that this part of the visualization is not interactive. This part of the visualization can also not be sorted.
+On hovering over any AS nodes which is not on the last layer (leaf nodes) will reveal a tooltip that will show the structure's ontology link. Please note that this part of the visualization is not interactive. This part of the visualization cannot be sorted. Ontology links are shown below the name of the node by default. To know how to switch them off click [here](/docs?id=5).
 
 <br>
 
@@ -52,7 +52,7 @@ The comparator is needed because there are many instances where the node has the
 
 ##### Peculiar Behavior
 
-<img src="assets/docs/visualization/peculiar-table.png" class="intro-img p-2 w-25" align="right">
+<img src="assets/docs/visualization/peculiar-table.png" class="md-img p-2 w-25" align="right">
 
 Sometimes, the anatomical structures count can be lesser than the **absolute** count. This is due to the fact that this algorithm is a tree, and having multiple parent nodes is not allowed. So such nodes are clubbed together, if they occur. For example consider a table like the one given on the right,
 
@@ -60,7 +60,7 @@ Sometimes, the anatomical structures count can be lesser than the **absolute** c
 
 Below is how the table would be visualized as,
 
-<img src="assets/docs/visualization/peculiar-vis.png" class="intro-img p-2 w-25">
+<img src="assets/docs/visualization/peculiar-vis.png" class="md-img p-2 w-25">
 
 <br>
 <br>
@@ -83,15 +83,15 @@ The bimodal network links the anatomical structures to the cell types, and then 
 
 ##### Cell Type Layer (CT nodes)
 
-This is the second layer of the biomdal network that depicts the relationships between the Anatomical Structures and their typology of cells. These nodes are colored in blue. Hovering and clicking on these nodes will highlight the respective AS and B nodes that the node is connected to. These connections are made by using the last layer of the anatomical structures from the main data. These nodes are case sensitive. They are built by using 2 configuration variables `bimodal_distance_x` (which is the horizontal distance between the last layer of the AS nodes and the CT nodes) and `bimodal_distance_y` (which is the vertical distance between each CT node). These both can be configured on the fly (please see [Graph Controls](https://github.com/hubmapconsortium/ccf-asct-reporter/wiki/Visualization/_edit#graph-controls)). Uniqueness of these nodes are defines by the combination of the name, ontology link and the rdfs label.
+This is the second layer of the biomdal network that depicts the relationships between the Anatomical Structures and their typology of cells. These nodes are colored in blue. Hovering and clicking on these nodes will highlight the respective AS and B nodes that the node is connected to. These connections are made by using the last layer of the anatomical structures from the main data. These nodes are case sensitive. They are built by using 2 configuration variables `bimodal_distance_x` (which is the horizontal distance between the last layer of the AS nodes and the CT nodes) and `bimodal_distance_y` (which is the vertical distance between each CT node). These both can be configured on the fly (please see [Graph Controls](/docs?id=5)). Uniqueness of these nodes are defines by the combination of the name, ontology link and the rdfs label. Ontology links are shown below the name of the node by default. To know how to switch them off click [here](/docs?id=5).
 
-These nodes have additional functions. To more about them click [here](/docs?id=4).
+These nodes have additional functions. To more about them click [here](/docs?id=4). 
 
 <br>
 
 ##### Biomarker Layer (B nodes)
 
-This is the third layer of the bimodal network that shows teh relationships between Cell Types and their Biomarkers. These nodes are colored in green.  Hovering and clicking on these nodes will highlight the respective CT and B nodes that the node is connected to. They are built by using 2 configuration variables `bimodal_distance_x`(which is the horizontal distance between the CT nodes and the B nodes) and `bimodal_distance_y` (which is the vertical distance between each B node). These both can be configured on the fly (please see [Graph Controls](https://github.com/hubmapconsortium/ccf-asct-reporter/wiki/Visualization/_edit#graph-controls)). These nodes are case sensitive. Uniqueness of these nodes are defines by the combination of the name, ontology link and the rdfs label.
+This is the third layer of the bimodal network that shows teh relationships between Cell Types and their Biomarkers. These nodes are colored in green.  Hovering and clicking on these nodes will highlight the respective CT and B nodes that the node is connected to. They are built by using 2 configuration variables `bimodal_distance_x`(which is the horizontal distance between the CT nodes and the B nodes) and `bimodal_distance_y` (which is the vertical distance between each B node). These both can be configured on the fly (please see [Graph Controls](/docs?id=5)). These nodes are case sensitive. Uniqueness of these nodes are defines by the combination of the name, ontology link and the rdfs label.  Ontology links are shown below the name of the node by default. To know how to switch them off click [here](/docs?id=5).
 
 These nodes have additional functions. To more about them click [here](/docs?id=4).
 
@@ -100,4 +100,4 @@ These nodes have additional functions. To more about them click [here](/docs?id=
 To sum it up, the image below depicts how the visualization is built,
 
 
-<img src="assets/docs/visualization/workflow.png" class="intro-img p-2 w-100">
+<img src="assets/docs/visualization/workflow.png" class="md-img p-2 w-100">

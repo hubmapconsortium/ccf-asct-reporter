@@ -22,7 +22,7 @@ The ASCT+B Reporter includes a partonomy tree to display the relationships betwe
 The ASCT+B Reporter is built using Angular 11 accompanied by a powerful state management system called NGXS that helps to maintain a predictable state container that makes it easier to understand how the data flow works in the application. It makes the application modular, and helps in debugging and testing. Below shows all the components of the ASCT+B Reporter and how they're interlinked to create a powerful visualization tool.
 
 <div> 
-  <img src="assets/docs/about/arch.png" class="intro-img p-2 w-75">
+  <img src="assets/docs/about/arch.png" class="md-img p-2 w-75">
 </div>
 
 <br>

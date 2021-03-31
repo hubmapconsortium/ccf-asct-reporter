@@ -20,6 +20,10 @@ export const REGISTRY = [
     path: 'assets/docs/vis-functions/README.md'
   },
   {
+    title: "Visualization Controls",
+    path: 'assets/docs/vis-controls/README.md'
+  },
+  {
     title: "Compare",
     path: 'assets/docs/intro/README.md'
   },

@@ -44,6 +44,6 @@ The data is formatted in a specific way to keep it standardized across all organ
 - Headers must be on row 11. The positioning of the columns do not matter (i.e `AS/1/LABEL` does have to be beside `AS/1`. It can be anywhere on the table as long as the column header is on row 11).
 
 <div class="text-center"> 
-  <img src="assets/docs/data-format/table.png" class="intro-img p-2 w-100">
+  <img src="assets/docs/data-format/table.png" class="md-img p-2 w-100">
   <small>Screenshot of the ASCT+B Table Template</small>
 </div>

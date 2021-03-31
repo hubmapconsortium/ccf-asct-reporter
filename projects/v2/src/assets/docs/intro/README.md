@@ -22,8 +22,8 @@ The [CCF ASCT+B Reporter](https://hubmapconsortium.github.io/ccf-asct-reporter/)
 
 |  |  |
 |-------|-------|
-| <img src="assets/docs/intro/one.png" class="intro-img p-2" /> | <img src="assets/docs/intro/two.png" class="intro-img p-2" /> |
-| <img src="assets/docs/intro/three.png" class="intro-img p-2" /> |  |
+| <img src="assets/docs/intro/one.png" class="md-img p-2" /> | <img src="assets/docs/intro/two.png" class="md-img p-2" /> |
+| <img src="assets/docs/intro/three.png" class="md-img p-2" /> |  |
 
 
 <br>

@@ -3,11 +3,11 @@
 
 To make the visualization more interactive, there are certain functions like sorting, sizing and filterning that can be done on various nodes. These functionly only apply to the Cell Types nodes and the Biomarker nodes. The figure below shows the visualization functions that can be accessed via the Control Pane on the left.
 
-<figure>
-  <img src="assets/docs/vis-functions/functions.png" alt="Vis Functions" class="into-img p-2 w-25" >
-</figure>
+<img src="assets/docs/vis-functions/vf.png" alt="Vis Functions Full" class="md-img p-2 w-50" >
 
 <br>
+<br>
+
 
 #### Terminologies
 
