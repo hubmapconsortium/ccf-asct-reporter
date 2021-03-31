@@ -30,5 +30,21 @@ export const REGISTRY = [
   {
     title: "Playground",
     path: 'assets/docs/intro/README.md'
+  },
+  {
+    title: "Report",
+    path: 'assets/docs/intro/README.md'
+  },
+  {
+    title: "Indented List",
+    path: 'assets/docs/intro/README.md'
+  },
+  {
+    title: "Search",
+    path: 'assets/docs/intro/README.md'
+  },
+  {
+    title: "Export",
+    path: 'assets/docs/intro/README.md'
   }
 ]
