@@ -90,3 +90,8 @@ These nodes are colored in blue. They are built by using 2 configuration variabl
 ##### Biomarker Layer (B nodes)
 
 These nodes are colored in green. They are built by using 2 configuration variables `bimodal_distance_x`(which is the horizontal distance between the CT nodes and the B nodes) and `bimodal_distance_y` (which is the vertical distance between each B node). These both can be configured on the fly (please see [Graph Controls](https://github.com/hubmapconsortium/ccf-asct-reporter/wiki/Visualization/_edit#graph-controls)). Hovering and clicking on these nodes will highlight the respective CT and B nodes that the node is connected to. These nodes are case sensitive. Uniqueness of these nodes are defines by the combination of the name, ontology link and the rdfs label.
+
+To sum it up, the image below depicts how the visualization is built,
+
+
+<img src="assets/docs/visualization/workflow.png" class="intro-img p-2 w-100">
