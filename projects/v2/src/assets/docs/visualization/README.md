@@ -101,3 +101,34 @@ To sum it up, the image below depicts how the visualization is built,
 
 
 <img src="assets/docs/visualization/workflow.png" class="md-img p-2 w-100">
+
+
+<br>
+<br>
+<br>
+
+#### Interaction
+
+The last layer of the Partonomy Tree (AS nodes), Cell Type nodes and Biomarker nodes are interactive, i.e you can click/hover over them. 
+
+##### Hover
+
+Hovering over these nodes will highlight the paths and the nodes that the hovered over node is linked to. The nodes that are not a part of the relations, are greyed. When hovered on a node, a tooltip pops up that has the follow data,
+
+- Name
+- Degree
+- Indegree
+- Outdegree
+- Ontoloty ID
+- rdfs:label
+
+The image below shows a screenshot over a hovered over node,
+
+<img src="assets/docs/visualization/hover.png" class="md-img p-2 w-50">
+
+Paths can be clicked on to show the DOIs. Clicking on path will open a bottom sheet which will have the DOI References listed.
+
+
+##### Click
+
+Clicking on a node will cause the links between the nodes to persist
