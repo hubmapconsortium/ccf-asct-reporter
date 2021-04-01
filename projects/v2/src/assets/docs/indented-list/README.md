@@ -15,12 +15,12 @@ This visualization is a traditional, hierarchical structure that displays anatom
 
 2. This will show the Indented list.
 
-   <img src="assets/docs/indented-list/il.png" alt="Indented List nav bar" class="md-img p-2 w-75">
+   <img src="assets/docs/indented-list/il.png" alt="Indented List" class="md-img p-2 w-75">
    <br>
    <br>
 
 3. Clicking on a name will bring up the bottom sheet with the additional information. 
 
-   <img src="assets/docs/indented-list/bottom.png" alt="Indented List nav bar" class="md-img p-2 w-75">
+   <img src="assets/docs/indented-list/bottom.png" alt="Indented List bottom sheet" class="md-img p-2 w-75">
    <br>
    <br>
