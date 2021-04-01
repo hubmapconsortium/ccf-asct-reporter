@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Sheet, SheetConfig } from '../../models/sheet.model';
 import { Error } from '../../models/response.model';
-import { DomSanitizer } from '@angular/platform-browser';
 import {GoogleAnalyticsService} from '../../services/google-analytics.service';
 import { GaAction, GaCategory } from '../../models/ga.model';
 
@@ -18,7 +17,7 @@ export class VisControlsComponent implements OnInit {
 
 
   @Output() updatedConfig: EventEmitter<any>  = new EventEmitter<any>();
-  constructor(private sanitizer: DomSanitizer, public ga: GoogleAnalyticsService) { }
+  constructor(public ga: GoogleAnalyticsService) { }
 
   ngOnInit(): void {
   }

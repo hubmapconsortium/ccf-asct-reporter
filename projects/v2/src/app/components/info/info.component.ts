@@ -10,8 +10,6 @@ import {
 } from '@angular/material/bottom-sheet';
 import { HttpClient } from '@angular/common/http';
 import { Error } from '../../models/response.model';
-import { faThemeisle } from '@fortawesome/free-brands-svg-icons';
-import { getInformation } from '../../static/url';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory } from '../../models/ga.model';
 

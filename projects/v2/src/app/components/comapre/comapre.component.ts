@@ -52,7 +52,7 @@ export class ComapreComponent implements OnInit {
     const data: CompareData[] = [];
     for (const [idx, sheet] of this.formGroup.value.sheets.entries()) {
       if (sheet.title === '') {
-        sheet.title = 'Sheet ' + (idx + 1);
+        sheet.title = `Sheet ${idx + 1}`;
       }
 
       data.push(

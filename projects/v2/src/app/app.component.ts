@@ -14,7 +14,7 @@ export class AppComponent {
 
   constructor(
     private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer,
+    private readonly domSanitizer: DomSanitizer,
     public router: Router) {
       this.matIconRegistry.addSvgIcon(
         'debug',

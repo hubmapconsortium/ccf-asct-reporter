@@ -13,7 +13,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { HttpClientModule } from '@angular/common/http';
-import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import {GoogleAnalyticsService} from './services/google-analytics.service';
@@ -44,7 +43,6 @@ import { VisControlsComponent } from './components/controls/vis-controls.compone
 import { LegendComponent } from './components/legend/legend.component';
 import { PlaygroundComponent } from './modules/playground/playground.component';
 import { NavItemComponent } from './components/nav-item/nav-item.component';
-import { fromEventPattern } from 'rxjs';
 
 
 

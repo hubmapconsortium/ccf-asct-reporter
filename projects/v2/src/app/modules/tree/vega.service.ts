@@ -21,19 +21,18 @@ import { TNode } from '../../models/tree.model';
 import { Signal } from 'vega';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory, GaNodeInfo } from '../../models/ga.model';
+import { TreeState } from '../../store/tree.state';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VegaService {
 
-  infoSheetRef: MatBottomSheetRef;
   sheetConfig: SheetConfig;
 
   constructor(
     public store: Store,
     public bm: BimodalService,
-    private infoSheet: MatBottomSheet,
     public ga: GoogleAnalyticsService) { }
 
   async renderGraph(config: any) {
@@ -71,19 +70,28 @@ export class VegaService {
         this.store.dispatch(new OpenBottomSheet(node));
       }
 
-      const nodeInfo: GaNodeInfo = {
-        oid: node.ontologyId,
-        type: node.type,
-        x: node.x,
-        y: node.y
-      };
-      this.ga.eventEmitter('graph_label_click', GaCategory.GRAPH, 'Clicked a node label', GaAction.CLICK, JSON.stringify(nodeInfo));
+      this.ga.eventEmitter('graph_label_click', GaCategory.GRAPH, 'Clicked a node label', GaAction.CLICK, this.makeNodeInfoString(node));
     });
 
     view.addSignalListener('node__click', (signal: Signal, nodeId: any) => {
-      // TODO get more node information
-      this.ga.eventEmitter('graph_node_click', GaCategory.GRAPH, 'Clicked a node', GaAction.CLICK, nodeId);
+      if (nodeId != null) {
+        console.log("clicked node " + nodeId);
+        const node = this.store.selectSnapshot(TreeState.getBimodal).nodes.find(node => node.id === nodeId);
+        this.ga.eventEmitter('graph_node_select', GaCategory.GRAPH, 'Selected (clicked) a node', GaAction.CLICK, this.makeNodeInfoString(node));
+      } else {
+        this.ga.eventEmitter('graph_node_deselect', GaCategory.GRAPH, 'Deselected a node', GaAction.CLICK);
+      }
     });
+  }
+
+  makeNodeInfoString(node: any) {
+    const nodeInfo: GaNodeInfo = {
+      oid: node.ontologyId,
+      type: node.type,
+      x: node.x,
+      y: node.y
+    };
+    return JSON.stringify(nodeInfo);
   }
 
   makeBimodal(view: any) {
