@@ -10,7 +10,7 @@ Due to the ever increasing data, the visualization can sometimes get messy and h
 
 **Ontology IDs**
 
-By default this option is switched on. Toggleing this options will show/hide the ontology names of nodes (if present) that can be found below the name of the node.
+By default this option is switched on. Toggling this options will show/hide the ontology names of nodes (if present) that can be found below the name of the node.
 
 
 **Show all AS**

@@ -25,7 +25,7 @@ export const REGISTRY = [
   },
   {
     title: "Compare",
-    path: 'assets/docs/intro/README.md'
+    path: 'assets/docs/compare/README.md'
   },
   {
     title: "Playground",

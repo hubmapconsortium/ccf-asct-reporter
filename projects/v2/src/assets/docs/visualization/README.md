@@ -147,3 +147,4 @@ Clicking on the name of a node will cause a bottom sheet to pop up that shows th
 <img src="assets/docs/visualization/bottomsheet.png" class="md-img p-2 w-50">
 
 <br>
+<br>
