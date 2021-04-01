@@ -29,7 +29,7 @@ export const REGISTRY = [
   },
   {
     title: "Playground",
-    path: 'assets/docs/intro/README.md'
+    path: 'assets/docs/playground/README.md'
   },
   {
     title: "Report",
