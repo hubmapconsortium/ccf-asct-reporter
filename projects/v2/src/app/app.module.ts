@@ -38,7 +38,7 @@ import { DebugLogsComponent } from './components/debug-logs/debug-logs.component
 import { LogsState } from './store/logs.state';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { InfoComponent } from './components/info/info.component';
-import { ComapreComponent } from './components/comapre/comapre.component';
+import { CompareComponent } from './components/compare/compare.component';
 import { VisControlsComponent } from './components/controls/vis-controls.component';
 import { LegendComponent } from './components/legend/legend.component';
 import { PlaygroundComponent } from './modules/playground/playground.component';
@@ -63,7 +63,7 @@ import { NavItemComponent } from './components/nav-item/nav-item.component';
     ReportComponent,
     DebugLogsComponent,
     InfoComponent,
-    ComapreComponent,
+    CompareComponent,
     VisControlsComponent,
     LegendComponent,
     PlaygroundComponent,

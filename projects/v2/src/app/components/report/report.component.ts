@@ -24,7 +24,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
     BWithNoLink: [],
   };
   compareReport: any;
-  comapreDataAndSheets: any;
+  compareDataAndSheets: any;
   clickButton = false; // for mat expansion panel download button
 
   ontologyLinkGraphData = [];

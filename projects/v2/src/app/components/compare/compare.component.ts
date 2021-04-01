@@ -6,11 +6,11 @@ import {GoogleAnalyticsService} from '../../services/google-analytics.service';
 import { GaAction, GaCategory, GaCompareInfo } from '../../models/ga.model';
 
 @Component({
-  selector: 'app-comapre',
-  templateUrl: './comapre.component.html',
-  styleUrls: ['./comapre.component.scss']
+  selector: 'app-compare',
+  templateUrl: './compare.component.html',
+  styleUrls: ['./compare.component.scss']
 })
-export class ComapreComponent implements OnInit {
+export class CompareComponent implements OnInit {
 
   @Output() closeCompare: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() compareData: EventEmitter<any> = new EventEmitter<any>();
