@@ -9,7 +9,7 @@ You can now compare your own data with the ASCT+B Master data that is visualized
 
 1. To access the Compare feature, head over to the toolbar at the top and click on *Compare* (shown in the image below)
 
-   <img src="assets/docs/compare/toolbar.png" alt="Compare Icon Toolbar" class="md-img p-2 w-50">
+   <img src="assets/docs/compare/toolbar.png" alt="Compare Icon Toolbar" class="md-img p-2 w-75">
    <br>
    <br>
 
@@ -31,6 +31,8 @@ You can now compare your own data with the ASCT+B Master data that is visualized
    <img src="assets/docs/compare/legend.png" alt="Compare Legend" class="md-img p-2 w-25" align="right">
    <br>
    <br>
+
+5. Reports are generated for each separately that lists various statistics (common counts, uncommon counts etc). More information about the report can hbe found [here](/docs?id=8).
 
 #### Characteristics
 

@@ -7,7 +7,7 @@ The latest feature, Playground, allows you to play around with a sample visualiz
 
 1. To active playground mode, click on the *Playground* button on the toolbar.
 
-   <img src="assets/docs/playground/toolbar.png" alt="Playground Icon Toolbar" class="md-img p-2 w-50">
+   <img src="assets/docs/playground/toolbar.png" alt="Playground Icon Toolbar" class="md-img p-2 w-75">
    <br>
    <br>
 
