@@ -37,7 +37,7 @@ export const REGISTRY = [
   },
   {
     title: "Indented List",
-    path: 'assets/docs/intro/README.md'
+    path: 'assets/docs/indented-list/README.md'
   },
   {
     title: "Search",
