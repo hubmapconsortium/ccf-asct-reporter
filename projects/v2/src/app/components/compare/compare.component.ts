@@ -84,10 +84,12 @@ export class CompareComponent implements OnInit {
         gid: matches[3],
       };
     }
+
+    return;
   }
 
   createCompareForm(link= '', color?: string, title= '', description= ''): FormGroup {
-    if (!color) { color = this.getRandomColor(); }
+    if (!color) color = this.getRandomColor();
 
     return this.fb.group({
       title: [title],
