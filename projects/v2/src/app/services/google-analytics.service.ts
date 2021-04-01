@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GaAction } from '../models/ga.model';
+import { GaAction, GaNodeInfo } from '../models/ga.model';
 
 declare let gtag: (arg1?, arg2?, arg3?) => void;
 
@@ -23,4 +23,15 @@ export class GoogleAnalyticsService {
       eventValue
     });
   }
+
+  public makeNodeInfoString(node: any) {
+    const nodeInfo: GaNodeInfo = {
+      oid: node.ontologyId,
+      type: node.type,
+      x: node.x,
+      y: node.y
+    };
+    return JSON.stringify(nodeInfo);
+  }
+
 }

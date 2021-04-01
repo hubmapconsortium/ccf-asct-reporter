@@ -69,28 +69,17 @@ export class VegaService {
         this.store.dispatch(new OpenBottomSheet(node));
       }
 
-      this.ga.eventEmitter('graph_label_click', GaCategory.GRAPH, 'Clicked a node label', GaAction.CLICK, this.makeNodeInfoString(node));
+      this.ga.eventEmitter('graph_label_click', GaCategory.GRAPH, 'Clicked a node label', GaAction.CLICK, this.ga.makeNodeInfoString(node));
     });
 
     view.addSignalListener('node__click', (signal: Signal, nodeId: any) => {
       if (nodeId != null) {
-        console.log("clicked node " + nodeId);
         const node = this.store.selectSnapshot(TreeState.getBimodal).nodes.find(node => node.id === nodeId);
-        this.ga.eventEmitter('graph_node_select', GaCategory.GRAPH, 'Selected (clicked) a node', GaAction.CLICK, this.makeNodeInfoString(node));
+        this.ga.eventEmitter('graph_node_select', GaCategory.GRAPH, 'Selected (clicked) a node', GaAction.CLICK, this.ga.makeNodeInfoString(node));
       } else {
         this.ga.eventEmitter('graph_node_deselect', GaCategory.GRAPH, 'Deselected a node', GaAction.CLICK);
       }
     });
-  }
-
-  makeNodeInfoString(node: any) {
-    const nodeInfo: GaNodeInfo = {
-      oid: node.ontologyId,
-      type: node.type,
-      x: node.x,
-      y: node.y
-    };
-    return JSON.stringify(nodeInfo);
   }
 
   makeBimodal(view: any) {
