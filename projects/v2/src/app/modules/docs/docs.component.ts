@@ -38,6 +38,8 @@ export class DocsComponent implements OnInit {
        this.docsData = data;
      }
     });
+
+    console.log(document.getElementsByClassName('md-img'))
   }
 
   onChange(idx: number) {
