@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import {Router, NavigationEnd} from '@angular/router';
+import { environment } from '../environments/environment';
 
 declare let gtag: (arg1?, arg2?, arg3?) => void;
 
@@ -43,7 +44,7 @@ export class AppComponent {
 
       this.router.events.subscribe(event => {
         if (event instanceof NavigationEnd) {
-          gtag('config', 'G-H8FJL64BT1',
+          gtag('config', environment.googleAnalyticsId,
             {
               page_path: event.urlAfterRedirects
             }
