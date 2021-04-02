@@ -17,13 +17,15 @@ import {
   CloseBottomSheet,
   OpenCompare,
   CloseCompare,
+  OpenBottomSheetDOI,
+  CloseBottomSheetDOI,
 } from '../actions/ui.actions';
 import { Snackbar } from '../models/ui.model';
 import { ReportLog } from '../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../models/logs.model';
 import { UpdateBottomSheetData } from '../actions/tree.actions';
 import { TreeState } from './tree.state';
-import { UpdateBottomSheetInfo } from '../actions/sheet.actions';
+import { UpdateBottomSheetDOI, UpdateBottomSheetInfo } from '../actions/sheet.actions';
 
 /** Interface to keep track of all UI elements */
 export class UIStateModel {
@@ -68,6 +70,10 @@ export class UIStateModel {
    */
   bottomSheetOpen: boolean;
   /**
+   * Keep track of the bottom sheet that shows DOI
+   */
+  bottomSheetDOIOpen: boolean;
+  /**
    * Keep track of the compare sidebar
    */
   compareOpen: boolean;
@@ -86,7 +92,8 @@ export class UIStateModel {
     reportOpen: false,
     debugLogOpen: false,
     bottomSheetOpen: false,
-    compareOpen: false
+    compareOpen: false,
+    bottomSheetDOIOpen: false
   }
 })
 @Injectable()
@@ -365,6 +372,7 @@ export class UIState {
   openBottomSheet({ getState, setState, dispatch }: StateContext<UIStateModel>, { data }: OpenBottomSheet) {
     const state = getState();
     dispatch(new CloseBottomSheet());
+    dispatch(new CloseBottomSheetDOI());
     dispatch(new UpdateBottomSheetData(data)).subscribe(_ => {
       setState({
         ...state,
@@ -374,6 +382,44 @@ export class UIState {
     dispatch(new UpdateBottomSheetInfo(data));
 
   }
+
+  /**
+   * Action to open bottom sheet. Accept the data (name of structure)
+   * First close the bottom sheet, incase it is open.
+   * Then dispatch new action to update bottom sheet data
+   */
+   @Action(OpenBottomSheetDOI)
+   OpenBottomSheetDOI({ getState, setState, dispatch }: StateContext<UIStateModel>, { data }: OpenBottomSheetDOI) {
+     const state = getState();
+     dispatch(new CloseBottomSheet());
+     dispatch(new CloseBottomSheetDOI());
+     dispatch(new UpdateBottomSheetData(data)).subscribe(_ => {
+       setState({
+         ...state,
+         bottomSheetDOIOpen: true
+       });
+     });
+     dispatch(new UpdateBottomSheetDOI(data));
+
+   }
+
+  /**
+   * Action to close bottom sheet.
+   * Empty the bottom sheet data from the state
+   * Set the bottom sheet open variable to false
+   */
+   @Action(CloseBottomSheetDOI)
+   closeBottomSheetDOI({ getState, setState, dispatch }: StateContext<UIStateModel>) {
+     const state = getState();
+     dispatch(new UpdateBottomSheetData({}));
+     const view = this.store.selectSnapshot(TreeState.getVegaView);
+     if (Object.entries(view).length) { view.signal('path__click', {}); }
+
+     setState({
+       ...state,
+       bottomSheetDOIOpen: false
+     });
+   }
 
   /**
    * Action to close bottom sheet.

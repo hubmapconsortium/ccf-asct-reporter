@@ -43,6 +43,7 @@ import { VisControlsComponent } from './components/controls/vis-controls.compone
 import { LegendComponent } from './components/legend/legend.component';
 import { PlaygroundComponent } from './modules/playground/playground.component';
 import { NavItemComponent } from './components/nav-item/nav-item.component';
+import { DoiComponent } from './components/doi/doi.component';
 
 
 
@@ -67,7 +68,8 @@ import { NavItemComponent } from './components/nav-item/nav-item.component';
     VisControlsComponent,
     LegendComponent,
     PlaygroundComponent,
-    NavItemComponent
+    NavItemComponent,
+    DoiComponent
   ],
   imports: [
     BrowserModule,

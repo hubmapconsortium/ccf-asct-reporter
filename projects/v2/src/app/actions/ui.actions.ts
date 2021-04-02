@@ -70,8 +70,18 @@ export class OpenBottomSheet {
   constructor(public data: any) {}
 }
 
+export class OpenBottomSheetDOI {
+  static readonly type = '[OPEN] Bottom Sheet DOI';
+  constructor(public data: any) {}
+}
+
 export class CloseBottomSheet {
   static readonly type = '[CLOSE] Bottom Sheet';
+  constructor() {}
+}
+
+export class CloseBottomSheetDOI {
+  static readonly type = '[CLOSE] Bottom Sheet DOI';
   constructor() {}
 }
 
