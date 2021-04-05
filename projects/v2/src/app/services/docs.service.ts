@@ -11,7 +11,7 @@ export class DocsService {
   REGISTRY = REGISTRY;
 
   docsData = new BehaviorSubject<string>('');
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   getData(id: number) {
     this.http.get(REGISTRY[id].path, {responseType: 'text'}).subscribe(

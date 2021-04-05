@@ -14,8 +14,8 @@ The Debug Log lists warnings and errors that occurred during data parsing and vi
 Clicking on the button will reveal the Debug Log,
 
 <img src="assets/docs/log/log.png" alt="Debug log" class="md-img p-2 w-75">
-   <br>
-   <br>
+<br>
+<br>
 
 
 The Debug log is separated into two tabs,

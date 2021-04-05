@@ -90,18 +90,23 @@ export const CONTIRBUTORS = [
 
 export const IMAGES = [
   {
-    path: 'assets/homepage/laptop-images/vis.svg'
+    path: 'assets/homepage/laptop-images/vis.svg',
+    alt: 'Visualization'
   },
   {
-    path: 'assets/homepage/laptop-images/report.svg'
+    path: 'assets/homepage/laptop-images/report.svg',
+    alt: 'Report Generator'
   },
   {
-    path: 'assets/homepage/laptop-images/compare.svg'
+    path: 'assets/homepage/laptop-images/compare.svg',
+    alt: 'Compare Results'
   },
   {
-    path: 'assets/homepage/laptop-images/il.svg'
+    path: 'assets/homepage/laptop-images/il.svg',
+    alt: 'Indented List'
   },
   {
-    path: 'assets/homepage/laptop-images/link.svg'
+    path: 'assets/homepage/laptop-images/link.svg',
+    alt: 'Playground Link'
   },
 ];
