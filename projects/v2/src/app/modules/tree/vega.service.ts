@@ -11,7 +11,7 @@ import { Legends } from './spec/legends';
 import { Marks } from './spec/marks';
 import { UpdateVegaView, UpdateLinksData } from '../../actions/tree.actions';
 import { BimodalService } from './bimodal.service';
-import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { OpenBottomSheet, CloseLoading, HasError, OpenBottomSheetDOI } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { ReportLog } from '../../actions/logs.actions';
