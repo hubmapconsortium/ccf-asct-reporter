@@ -22,6 +22,10 @@ export class DoiComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = false;
+
+    /**
+     * Trimming the intial part of the doi property as it as "DOI: " in its respective property.
+     */
     this.data = this.data.map((item) => {
       if (item.doi.toUpperCase().search('DOI') === 0) {
         item.doi = item.doi.substring(5);

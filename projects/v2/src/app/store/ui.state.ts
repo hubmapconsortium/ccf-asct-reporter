@@ -28,7 +28,6 @@ import { TreeState } from './tree.state';
 import { UpdateBottomSheetDOI, UpdateBottomSheetInfo } from '../actions/sheet.actions';
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
 import { GaAction, GaCategory } from '../models/ga.model';
-import { UpdateBottomSheetInfo } from '../actions/sheet.actions';
 
 /** Interface to keep track of all UI elements */
 export class UIStateModel {
@@ -386,9 +385,10 @@ export class UIState {
   }
 
   /**
-   * Action to open bottom sheet. Accept the data (name of structure)
-   * First close the bottom sheet, incase it is open.
-   * Then dispatch new action to update bottom sheet data
+   * Action to open bottom sheet DOI. Accept the data (name of structure)
+   * First close the bottom sheet Info, incase it is open.
+   * Second close the bottom sheet DOI, incase it is open.
+   * Then dispatch new action to update bottom sheet data DOI
    */
    @Action(OpenBottomSheetDOI)
    OpenBottomSheetDOI({ getState, setState, dispatch }: StateContext<UIStateModel>, { data }: OpenBottomSheetDOI) {
@@ -401,7 +401,6 @@ export class UIState {
   /**
    * Action to close bottom sheet.
    * Empty the bottom sheet data from the state
-   * Set the bottom sheet open variable to false
    */
    @Action(CloseBottomSheetDOI)
    closeBottomSheetDOI({ dispatch }: StateContext<UIStateModel>) {
