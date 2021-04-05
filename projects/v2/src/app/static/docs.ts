@@ -44,6 +44,10 @@ export const REGISTRY = [
     path: 'assets/docs/search/README.md'
   },
   {
+    title: 'Debug Log',
+    path: 'assets/docs/log/README.md'
+  },
+  {
     title: 'Export',
     path: 'assets/docs/export/README.md'
   }
