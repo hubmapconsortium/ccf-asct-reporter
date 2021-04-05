@@ -3,10 +3,11 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { SHEET_OPTIONS } from '../../static/config';
 // import {GaService} from '../services/ga.service';
-import { VIDEO_ACTIONS, CONTIRBUTORS } from '../../static/home';
+import { VIDEO_ACTIONS, CONTIRBUTORS, IMAGES } from '../../static/home';
 import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faGlobe, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   SHEET_OPTIONS = SHEET_OPTIONS;
   VIDEO_ACTIONS = VIDEO_ACTIONS;
   CONTIRBUTORS = CONTIRBUTORS;
+  IMAGES = IMAGES;
   videoSectionSelected = 0;
   videoRef: HTMLVideoElement;
 
@@ -31,7 +33,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   copyrightYear = new Date().getFullYear();
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit(): void {
@@ -72,11 +74,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 
   openDocs() {
-    window.open(
-      'https://drive.google.com/file/d/1r8Br4t6zftyrRXbb-DnidzwS3t8FSCu4/view?usp=sharing',
-      '_blank'
-    );
-    // this.ga.eventEmitter(  'home', 'click', 'Documentation', 1);
+    this.router.navigate(['/docs']);
   }
 
   openData() {

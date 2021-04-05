@@ -33,7 +33,10 @@
               "projects/v2/src/styles.scss",
               "./node_modules/jexcel/dist/jexcel.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/marked/lib/marked.js"
+
+            ]
           },
           "configurations": {
             "production": {
