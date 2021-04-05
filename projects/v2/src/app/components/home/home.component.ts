@@ -74,7 +74,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 
   openDocs() {
-    this.router.navigate(['/docs'])
+    this.router.navigate(['/docs']);
   }
 
   openData() {

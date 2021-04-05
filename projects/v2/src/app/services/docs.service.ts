@@ -10,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 export class DocsService {
   REGISTRY = REGISTRY;
 
-  docsData = new BehaviorSubject<string>('')
+  docsData = new BehaviorSubject<string>('');
   constructor(private http: HttpClient) { }
 
   getData(id: number) {
@@ -18,6 +18,6 @@ export class DocsService {
       data => {
         this.docsData.next(data);
       }
-    )
+    );
   }
 }

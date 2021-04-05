@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DocsService } from '../../services/docs.service';
 import { REGISTRY } from '../../static/docs';
-import { faPhone, faEnvelope, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faPhone, faEnvelope, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-docs',
@@ -22,11 +22,11 @@ export class DocsComponent implements OnInit {
 
   constructor(private router: Router, public activatedRoute: ActivatedRoute, public docsService: DocsService) { }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      if(params.id) {
-        this.selected = parseInt(params.id);
-        this.docsService.getData(parseInt(params.id));
+      if (params.id) {
+        this.selected = parseInt(params.id, 10);
+        this.docsService.getData(parseInt(params.id, 10));
       } else {
         this.selected = 0;
         this.docsService.getData(0);
@@ -34,27 +34,27 @@ export class DocsComponent implements OnInit {
     });
 
     this.docsService.docsData.subscribe(data => {
-     if(data) {
+     if (data) {
        this.docsData = data;
      }
     });
 
-    console.log(document.getElementsByClassName('md-img'))
+    console.log(document.getElementsByClassName('md-img'));
   }
 
   onChange(idx: number) {
     this.selected = idx;
     this.router.navigate(
-      ['/docs'], 
+      ['/docs'],
       {
         relativeTo: this.activatedRoute,
-        queryParams: {id: idx}, 
+        queryParams: {id: idx},
         queryParamsHandling: 'merge',
       });
   }
 
   onLatest() {
-    this.router.navigate(['/'])
+    this.router.navigate(['/']);
   }
 
   openGithub() {

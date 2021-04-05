@@ -1,4 +1,4 @@
-  
+
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { RootComponent } from './modules/root/root.component';

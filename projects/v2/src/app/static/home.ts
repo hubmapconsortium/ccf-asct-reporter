@@ -35,7 +35,7 @@ export const CONTIRBUTORS = [
   {
     img: 'assets/contributors/paul.jpg',
     name: 'Hrishikesh Paul',
-    desc: 'Reporter Design, Implementation and Deployment',
+    desc: 'Software Engineer Team Lead',
     mail: 'hrpaul@iu.edu',
     link: 'https://hrishikeshpaul.github.io',
     linkedin: 'https://www.linkedin.com/in/hrishikeshpaul/',
@@ -44,7 +44,7 @@ export const CONTIRBUTORS = [
   {
     img: 'assets/contributors/katy.png',
     name: 'Katy Börner',
-    desc: 'Initial Visualization, Design Mockup and Biomedical Use Cases',
+    desc: 'Director & Researcher',
     mail: 'katy@indiana.edu',
     link: 'https://info.sice.indiana.edu/~katy/',
     linkedin: 'https://www.linkedin.com/in/katy-borner-a03837/',
@@ -53,11 +53,38 @@ export const CONTIRBUTORS = [
   {
     img: 'assets/contributors/bruce.jpg',
     name: 'Bruce W Herr II',
-    desc: 'System Architecture, Design Advice and Project Management',
+    desc: 'Senior System Architect',
     mail: 'bherr@indiana.edu',
     link: 'https://cns.iu.edu/current_team/bio/bruce-herr.html',
     linkedin: 'https://www.linkedin.com/in/bruceherr/',
     github: 'https://github.com/bherr2'
+  },
+  {
+    img: 'assets/contributors/ellen.jpeg',
+    name: 'Ellen M Quardokus',
+    desc: 'Senior Research Analyst',
+    mail: 'ellenmq@indiana.edu',
+    link: 'https://cns.iu.edu/current_team/bio/ellen-quardokus.html',
+    linkedin: '',
+    github: ''
+  },
+  {
+    img: 'assets/contributors/ajay.jpeg',
+    name: 'Sai Ajay Vutukuri',
+    desc: 'Software Developer',
+    mail: 'svutuku@iu.edu',
+    link: 'https://cns.iu.edu/current_team/bio/vutukuri-ajay.html',
+    linkedin: 'https://in.linkedin.com/in/ajay-vutukuri-38824ba8',
+    github: ''
+  },
+  {
+    img: 'assets/contributors/mac.jpeg',
+    name: 'Mac Vogelsang',
+    desc: 'Software Developer',
+    mail: 'madvogel@iu.edu',
+    link: 'https://cns.iu.edu/current_team/bio/mac-vogelsang.html',
+    linkedin: 'https://www.linkedin.com/in/mac-vogelsang',
+    github: ''
   }
 ];
 
@@ -77,4 +104,4 @@ export const IMAGES = [
   {
     path: 'assets/homepage/laptop-images/link.svg'
   },
-]
+];

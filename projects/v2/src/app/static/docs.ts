@@ -1,50 +1,50 @@
 export const REGISTRY = [
   {
-    title: "Introduction",
+    title: 'Introduction',
     path: 'assets/docs/intro/README.md'
   },
   {
-    title: "About",
+    title: 'About',
     path: 'assets/docs/about/README.md'
   },
   {
-    title: "Data Format",
+    title: 'Data Format',
     path: 'assets/docs/data-format/README.md'
   },
   {
-    title: "Visualization",
+    title: 'Visualization',
     path: 'assets/docs/visualization/README.md'
   },
   {
-    title: "Visualization Functions",
+    title: 'Visualization Functions',
     path: 'assets/docs/vis-functions/README.md'
   },
   {
-    title: "Visualization Controls",
+    title: 'Visualization Controls',
     path: 'assets/docs/vis-controls/README.md'
   },
   {
-    title: "Compare",
+    title: 'Compare',
     path: 'assets/docs/compare/README.md'
   },
   {
-    title: "Playground",
+    title: 'Playground',
     path: 'assets/docs/playground/README.md'
   },
   {
-    title: "Report",
+    title: 'Report',
     path: 'assets/docs/report/README.md'
   },
   {
-    title: "Indented List",
+    title: 'Indented List',
     path: 'assets/docs/indented-list/README.md'
   },
   {
-    title: "Search",
+    title: 'Search',
     path: 'assets/docs/search/README.md'
   },
   {
-    title: "Export",
+    title: 'Export',
     path: 'assets/docs/export/README.md'
   }
-]
+];

@@ -1,7 +1,7 @@
-  
+
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { REGISTRY } from '../../../static/docs';
-import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-docs-nav',

@@ -132,10 +132,10 @@
         of the core team working on building the ASCT+B Reporter
       </p>
     </div>
-    <div class="pt-5 mt-3 container">
+    <div class="pt-5 container">
       <div class="row">
         <div
-          class="col-xl-4 col-md-6 col-sm-6 col-lg-4 px-3"
+          class="col-xl-4 col-md-6 col-sm-6 col-lg-4 px-3 mt-4"
           *ngFor="let con of CONTIRBUTORS; let i = index"
         >
           <div class="card text-center con-card">
@@ -144,13 +144,13 @@
                 class="contributors-img"
                 [src]="con.img"
                 alt="sans"
-                width="170px"
-                height="170px"
+                width="140px"
+                height="140px"
               />
             </div>
             <div class="card-body">
-              <p class="title3">{{ con.name }}</p>
-              <p class="desc text-secondary mt-3">
+              <p class="title4">{{ con.name }}</p>
+              <p class="desc text-secondary mt-2">
                 {{ con.desc }}
               </p>
               <p class="desc text-muted mt-4">
