@@ -1,20 +1,20 @@
 ## Compare
 ---
 
-You can now compare your own data with the ASCT+B Master data that is visualized on the Reporter. In order to do this, you will need to have you data on Google Sheets (uploading XL files is not supported) with public access, that can be uploaded in the Reporter. This feature is particularly useful if you have a subset of the data that you have found in your research and you would like to see how it compares to the data in the ASCT+B Tables.
+You can now compare your own data with that found in the ASCT+B Master tables, which is visualized in the ASCT+B Reporter. In order to do this, you will need to have your data in the ASCT+B table Google Sheets template with public access that can be uploaded into the Reporter. NOTE: .xls files are not supported.  The Compare feature is particularly useful if you have data from your own research that you would like to compare to the data in the ASCT+B Master Tables.
 
 <br>
 
 #### Usage
 
-1. To access the Compare feature, head over to the toolbar at the top and click on *Compare* (shown in the image below)
+1. To access the Compare feature, go to the toolbar at the top and click on *Compare* (shown in the image below)
 
    <img src="assets/docs/compare/toolbar.png" alt="Compare Icon Toolbar" class="md-img p-2 w-75">
    <br>
    <br>
 
 2. A drawer will pop up from the side that will show a few instructions and the various input fields.
-   - **Title**: *Optional*. This is the title by which the uploaded sheet can be identified by. By default it is given a title in the format `Sheet <number>`. This number corresponds to the index of the sheet in the compare feature. If you have added sheets, the default title of the sheets would be `Sheet 1` and `Sheet 2` respectively.
+   - **Title**: *Optional*. This is the title by which the uploaded sheet can be identified. By default it is given a title in the format `Sheet <number>`. This number corresponds to the index of the sheet in the compare feature. If you have added sheets, the default title of the sheets would be `Sheet 1` and `Sheet 2` respectively.
    - **Description**: *Optional*. This field holds a small description about what your data is about. It is empty by default.
    - **Google Sheets Link**: *Required*. This field will hold the sheet link to your data. Your data has to be in the specified format that can be found [here](https://docs.google.com/spreadsheets/d/1bsA-HngthTD7NtzAfab8t3EVjFFT439-Pc-mp_mdZUU/edit#gid=0).
    - **Color picker**: *Optional*. This is a swatch that will allow you to pick the color. A random color is assigned my default.
@@ -32,12 +32,12 @@ You can now compare your own data with the ASCT+B Master data that is visualized
    <br>
    <br>
 
-5. Reports are generated for each separately that lists various statistics (common counts, uncommon counts etc). More information about the report can hbe found [here](/docs?id=8).
+5. Reports are generated for each separately that lists various statistics (common counts, uncommon counts etc). More information about the report can be found [here](/docs?id=8).
 
 #### Characteristics
 
    - All links (paths, relationships) that are common between the master data and the uploaded data are highlighted in the selected color.
-   - All nodes that are common between teh master data and the uploaded data are highlighted in the selected color.
+   - All nodes that are common between the master table and the uploaded data are highlighted in the selected color.
    - All the new nodes have been added to the visualization with a dashed stoke around them in the selected color.
 
 <br>
@@ -54,7 +54,7 @@ In order for the compare feature to work properly, make sure,
 
 <br>
 
-*To try it out, head to the [Kidney Visualization](/vis?sheet=kidney&version=latest) and try to compare [this](https://docs.google.com/spreadsheets/d/1qG7Uy7G-SMN3p1nqz1ulOBxbb2Oif2A7OnX94U39B08/edit#gid=0) sheet to replicate the above demonstration.*
+*To try it out, go to the [Kidney Visualization](/vis?sheet=kidney&version=latest) and try to compare [this](https://docs.google.com/spreadsheets/d/1qG7Uy7G-SMN3p1nqz1ulOBxbb2Oif2A7OnX94U39B08/edit#gid=0) sheet to replicate the above demonstration.*
 
 
 
