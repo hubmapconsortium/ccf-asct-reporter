@@ -100,14 +100,6 @@ $ git commit -m <commit_message>
 $ git subtree push --prefix data-miner miner master
 ```
 
-## Snippets
-![Partonomy Tree](src/assets/snippets/tree.png)
-![Hover/Click](src/assets/snippets/hover.png)
-![Sorting and Sizing](src/assets/snippets/sort.png)
-![Indent List](src/assets/snippets/indent.png)
-![Report](src/assets/snippets/report.png)
-![Debug Logs](src/assets/snippets/log.png)
-
 ## Contributing
 
 If you'd like to contribute, follow the steps below,
