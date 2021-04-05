@@ -26,10 +26,8 @@ export class DoiComponent implements OnInit {
       if (item.doi.toUpperCase().search('DOI') === 0) {
         item.doi = item.doi.substring(5);
       }
-
       return item;
     });
-    console.log(this.data);
   }
 
   close() {

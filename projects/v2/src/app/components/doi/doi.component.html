@@ -12,30 +12,28 @@
     </div>
   </div>
   <div>
-    <div *ngIf="!error.hasError" class="py-3 doi">
-      <ol>
-        <li *ngFor="let item of data; index as i">
+    <div *ngIf="!error.hasError" class="py-3 px-2 doi">
+        <div *ngFor="let item of data; index as i">
           <label><strong>DOI: </strong></label>
           <span>
             {{ item.doi }}
           </span>
 
-          <div class="pt-3"></div>
+          <div class="pt-1"></div>
 
           <label><strong>Id: </strong></label>
           <span>
             {{ item.id }}
           </span>
 
-          <div class="pt-3"></div>
+          <div class="pt-1"></div>
 
           <label><strong>Notes: </strong></label>
           <span>
             {{ item.notes }}
           </span>
           <hr />
-        </li>
-      </ol>
+        </div>
     </div>
   </div>
 </div>
