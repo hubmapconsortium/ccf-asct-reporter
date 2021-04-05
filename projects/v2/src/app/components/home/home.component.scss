@@ -156,7 +156,7 @@ p {
 }
 
 .desc {
-  font-size: 14pt;
+  font-size: 12pt;
   font-weight: 400;
   color: white;
   line-height: 1.5625rem;
@@ -314,7 +314,7 @@ p {
   border-top-width: 0.9375rem;
   border-radius: 0.625rem;
   padding: 0.625rem;
-  height: 34.375rem;
+  height: 30.375rem;
 }
 
 .icon-btn {
@@ -369,4 +369,49 @@ p {
 
 #actionsHeight {
   min-height: 18.75rem;
+}
+
+.home-img {
+  position: absolute;
+  top:0;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-duration: 8s;
+  animation-name: anim;
+  -webkit-animation-name: anim;
+  -webkit-animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-duration: 8s;
+}
+
+.home-img:nth-child(1) {
+  animation-delay: 0s;
+  -webkit-animation-delay: 0s;
+}
+
+.home-img:nth-child(2) {
+  animation-delay: 4s;
+  -webkit-animation-delay: 4s;
+}
+
+.home-img:nth-child(3) {
+  animation-delay: 8s;
+  -webkit-animation-delay: 8s;
+}
+
+.home-img:nth-child(4) {
+  animation-delay: 12s;
+  -webkit-animation-delay: 12s;
+}
+
+.home-img:nth-child(5) {
+  animation-delay: 16s;
+  -webkit-animation-delay: 16s;
+}
+
+@keyframes anim {
+  0% { opacity: 0; z-index: 100;}
+  15% { opacity: 1;}
+  50% { opacity: 1;}
+  100% { opacity: 0; z-index: 1;}
 }

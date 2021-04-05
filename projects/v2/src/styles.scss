@@ -111,3 +111,17 @@ button:focus {
 ::ng-deep .mat-drawer-backdrop .ng-star-inserted .mat-drawer-shown {
   background-color: green !important;
 }
+
+h1, h2, h3, h4 {
+  font-weight: 600;
+}
+
+markdown .md-img {
+  border-radius: 5px;
+  width: 100%;
+  box-shadow: 0px 0px 15px 10px #7272720a;
+}
+
+markdown strong {
+  font-weight: 600;
+}

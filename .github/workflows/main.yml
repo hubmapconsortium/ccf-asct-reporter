@@ -8,24 +8,29 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
-      with:
-        persist-credentials: false
-    - name: Use Node.js 10.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: '13.x'
-    - name: Build
-      run: |
-         npm install -g @angular/cli
-         npm install
-         ng build --prod --base-href="/v2/"
-    - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@releases/v2
-      env:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        BASE_BRANCH: master
-        BRANCH: gh-pages
-        FOLDER: dist/v2
+      - uses: actions/checkout@v2
+        with:
+          ref: main
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - run: npm install
+      - run: npm run build
+      - name: Setup GitHub Pages files
+        run: |
+          cp dist/v2/index.html dist/v2/404.html
+          touch dist/v2/.nojekyll
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dist/v2
+          commit_message: "Production deploy -- ${{ github.event.head_commit.message }}"

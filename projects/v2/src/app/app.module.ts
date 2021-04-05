@@ -44,7 +44,10 @@ import { LegendComponent } from './components/legend/legend.component';
 import { PlaygroundComponent } from './modules/playground/playground.component';
 import { NavItemComponent } from './components/nav-item/nav-item.component';
 import { DoiComponent } from './components/doi/doi.component';
-
+import { DocsComponent } from './modules/docs/docs.component';
+import { MarkdownModule } from 'ngx-markdown';
+import { DocsNavComponent } from './modules/docs/docs-nav/docs-nav.component';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -69,7 +72,9 @@ import { DoiComponent } from './components/doi/doi.component';
     LegendComponent,
     PlaygroundComponent,
     NavItemComponent,
-    DoiComponent
+    DoiComponent,
+    DocsComponent,
+    DocsNavComponent
   ],
   imports: [
     BrowserModule,
@@ -80,14 +85,17 @@ import { DoiComponent } from './components/doi/doi.component';
     NgxsModule.forRoot([SheetState, TreeState, UIState, LogsState]),
     NgxsDataPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot({
+      disabled: environment.production,
+    }),
     NgxsResetPluginModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
     NgxMatSelectSearchModule,
     OrderModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MarkdownModule.forRoot()
   ],
   providers: [GoogleAnalyticsService],
   bootstrap: [AppComponent]
