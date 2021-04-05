@@ -71,10 +71,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   openDocs() {
     this.router.navigate(['/docs']);
-    window.open(
-      'https://drive.google.com/file/d/1r8Br4t6zftyrRXbb-DnidzwS3t8FSCu4/view?usp=sharing',
-      '_blank'
-    );
     this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Docs', GaAction.NAV);
   }
 
