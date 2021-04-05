@@ -5,7 +5,7 @@ The [CCF ASCT Reporter](https://hubmapconsortium.github.io/ccf-asct-reporter/) i
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/hubmapconsortium/ccf-asct-reporter)
 [![license](https://img.shields.io/github/license/hrishikeshpaul/portfolio-template?style=flat&logo=appveyor)](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/LICENSE) 
 
-![HuBMAP CCF Reporter](src/assets/github_logo.png)
+![HuBMAP CCF Reporter](projects/v2/src/assets/github_logo.png)
 
 
 ## Overview
