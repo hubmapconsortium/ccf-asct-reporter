@@ -8,6 +8,8 @@ import { UpdateBimodalConfig } from '../../actions/tree.actions';
 import { BimodalService } from '../../modules/tree/bimodal.service';
 import { Error } from '../../models/response.model';
 import { faDna } from '@fortawesome/free-solid-svg-icons';
+import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GaAction, GaCategory } from '../../models/ga.model';
 
 @Component({
   selector: 'app-functions',
@@ -27,7 +29,7 @@ export class FunctionsComponent implements OnInit {
 
   @Select(TreeState.getBimodalConfig) config$: Observable<BimodalConfig>;
 
-  constructor(public store: Store, public bms: BimodalService) {
+  constructor(public store: Store, public bms: BimodalService, public ga: GoogleAnalyticsService) {
     this.config$.subscribe(config => {
       this.bimodalConfig = config;
     });
@@ -39,6 +41,13 @@ export class FunctionsComponent implements OnInit {
   changeOptions(type: string, field: string, event: MatSelectChange) {
     this.bimodalConfig[type][field] = event.value;
     this.updateBimodal();
+    this.ga.eventEmitter(
+      'vc_change_options_' + type.toLowerCase(),
+      GaCategory.CONTROLS,
+      'Change Cell Type (CT) or Biomarker (BM) Options',
+      GaAction.CLICK,
+      `${field}:${event.value}`.toLowerCase()
+    );
   }
 
   updateBimodal() {

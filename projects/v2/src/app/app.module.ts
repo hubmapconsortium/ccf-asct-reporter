@@ -13,9 +13,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { HttpClientModule } from '@angular/common/http';
-import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
+import {GoogleAnalyticsService} from './services/google-analytics.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,7 +38,7 @@ import { DebugLogsComponent } from './components/debug-logs/debug-logs.component
 import { LogsState } from './store/logs.state';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { InfoComponent } from './components/info/info.component';
-import { ComapreComponent } from './components/comapre/comapre.component';
+import { CompareComponent } from './components/compare/compare.component';
 import { VisControlsComponent } from './components/controls/vis-controls.component';
 import { LegendComponent } from './components/legend/legend.component';
 import { PlaygroundComponent } from './modules/playground/playground.component';
@@ -66,7 +66,7 @@ import { environment } from '../environments/environment';
     ReportComponent,
     DebugLogsComponent,
     InfoComponent,
-    ComapreComponent,
+    CompareComponent,
     VisControlsComponent,
     LegendComponent,
     PlaygroundComponent,
@@ -95,7 +95,7 @@ import { environment } from '../environments/environment';
     FontAwesomeModule,
     MarkdownModule.forRoot()
   ],
-  providers: [],
+  providers: [GoogleAnalyticsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
