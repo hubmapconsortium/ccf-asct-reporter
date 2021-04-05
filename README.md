@@ -100,18 +100,39 @@ $ git commit -m <commit_message>
 $ git subtree push --prefix data-miner miner master
 ```
 
-## Snippets
+## Screenshots of the ASCT+B Reporter
+
+Visualization
+
 ![Partonomy Tree](projects/v2/src/assets/snippets/vis.png)
+
+
+Hovering over a node
 
 ![Node Hover](projects/v2/src/assets/snippets/hover.png)
 
+
+Clicking on a node
+
 ![Node Click](projects/v2/src/assets/snippets/hover.png)
+
+
+Report
 
 ![Report](projects/v2/src/assets/snippets/report.png)
 
+
+Indented List
+
 ![Indented List](projects/v2/src/assets/snippets/il.png)
 
+
+Info Sheet
+
 ![Info Bottom Sheet](projects/v2/src/assets/snippets/bottom.png)
+
+
+Debug Log
 
 ![Debug log](projects/v2/src/assets/snippets/debug.png)
 
