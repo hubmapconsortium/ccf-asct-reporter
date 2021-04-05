@@ -70,10 +70,6 @@ export class UIStateModel {
    */
   bottomSheetOpen: boolean;
   /**
-   * Keep track of the bottom sheet that shows DOI
-   */
-  bottomSheetDOIOpen: boolean;
-  /**
    * Keep track of the compare sidebar
    */
   compareOpen: boolean;
@@ -92,8 +88,7 @@ export class UIStateModel {
     reportOpen: false,
     debugLogOpen: false,
     bottomSheetOpen: false,
-    compareOpen: false,
-    bottomSheetDOIOpen: false
+    compareOpen: false
   }
 })
 @Injectable()
@@ -393,12 +388,6 @@ export class UIState {
      const state = getState();
      dispatch(new CloseBottomSheet());
      dispatch(new CloseBottomSheetDOI());
-     dispatch(new UpdateBottomSheetData(data)).subscribe(_ => {
-       setState({
-         ...state,
-         bottomSheetDOIOpen: true
-       });
-     });
      dispatch(new UpdateBottomSheetDOI(data));
 
    }
@@ -412,13 +401,6 @@ export class UIState {
    closeBottomSheetDOI({ getState, setState, dispatch }: StateContext<UIStateModel>) {
      const state = getState();
      dispatch(new UpdateBottomSheetData({}));
-     const view = this.store.selectSnapshot(TreeState.getVegaView);
-     if (Object.entries(view).length) { view.signal('path__click', {}); }
-
-     setState({
-       ...state,
-       bottomSheetDOIOpen: false
-     });
    }
 
   /**
