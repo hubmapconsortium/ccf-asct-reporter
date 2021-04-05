@@ -1,5 +1,5 @@
 <div class="h-100 w-100">
-  
+
   <mat-drawer-container class="control-pane-container h-100" autosize>
     <mat-drawer
       #controlPaneDrawer
@@ -9,7 +9,7 @@
 
 
     >
-    
+
       <app-control-pane [error]="error"></app-control-pane>
     </mat-drawer>
 
@@ -53,17 +53,17 @@
         [logs]="logs$ | async"
       ></app-debug-logs>
 
-      <app-comapre
+      <app-compare
         (closeCompare)="rightDrawer.close()"
         *ngIf="c$ | async"
         class="compare-sidenav"
         (compareData)="compareData($event)"
         [compareSheets]="compareSheets$"
-      ></app-comapre>
+      ></app-compare>
     </mat-drawer>
     <app-navbar (export)="exportVis($event)"></app-navbar>
     <div id="content" class="h-100 w-100">
-      
+
       <app-error *ngIf="error.hasError" [error]="error"></app-error>
         <div
         class="example-box box-container" cdkDrag
@@ -71,7 +71,7 @@
         *ngIf="(pane$ | async) === false"
       >
         <app-legend
-          
+
           [treeData]="treeData$ | async"
           [bimodalData]="bm$ | async"
           [compareData]="compareSheets$ | async"

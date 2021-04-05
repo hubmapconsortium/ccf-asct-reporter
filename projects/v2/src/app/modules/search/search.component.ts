@@ -13,6 +13,8 @@ import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { SearchStructure, TNode } from '../../models/tree.model';
 import { DoSearch } from '../../actions/tree.actions';
 import { BMNode } from '../../models/bimodal.model';
+import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GaAction, GaCategory } from '../../models/ga.model';
 
 
 @Component({
@@ -48,7 +50,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
   constructor(
     // private dialogRef: MatDialogRef<SearchComponent>,
     public bms: BimodalService,
-    public store: Store
+    public store: Store,
+    public ga: GoogleAnalyticsService
   ) {
 
     this.tree$.subscribe(tree => {
@@ -65,6 +68,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   onOptionSelect() {
     this.store.dispatch(new DoSearch(this.structuresMultiCtrl.value));
+    console.log(this.structuresMultiCtrl);
+    const selectedValues = this.structuresMultiCtrl.value.map(obj => obj.name.replace(' ' , '_')).join();
+    this.ga.eventEmitter('nav_search_filter_select', GaCategory.NAVBAR, 'Select/Deselect Search Filters', GaAction.CLICK, selectedValues);
   }
 
   createSearchList() {
@@ -95,6 +101,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
     this.structures = [...searchSet];
     this.filteredstructuresMulti.next(this.structures.slice());
+
+    this.ga.eventEmitter('nav_search_clicked', GaCategory.NAVBAR, 'Click Search Box', GaAction.CLICK);
   }
 
   ngAfterViewInit() {
@@ -125,10 +133,13 @@ export class SearchComponent implements OnInit, AfterViewInit {
     } else {
       search = search.toLowerCase();
     }
-    // filter the structuress
+    // filter the structures
     this.filteredstructuresMulti.next(
       this.structures.filter(structures => structures.name.toLowerCase().indexOf(search) > -1)
     );
+
+    // This event fires for every letter typed
+    this.ga.eventEmitter('nav_search_term', GaCategory.NAVBAR, 'Search term typed in', GaAction.INPUT, search);
   }
 
 

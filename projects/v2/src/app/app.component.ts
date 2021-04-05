@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import {Router, NavigationEnd} from '@angular/router';
+import { environment } from '../environments/environment';
 
+declare let gtag: (arg1?, arg2?, arg3?) => void;
 
 @Component({
   selector: 'app-root',
@@ -12,7 +15,8 @@ export class AppComponent {
 
   constructor(
     private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer) {
+    private readonly domSanitizer: DomSanitizer,
+    public router: Router) {
       this.matIconRegistry.addSvgIcon(
         'debug',
         this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/debug.svg')
@@ -37,5 +41,15 @@ export class AppComponent {
         'playground',
         this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/playground.svg')
       );
-  }
+
+      this.router.events.subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          gtag('config', environment.googleAnalyticsId,
+            {
+              page_path: event.urlAfterRedirects
+            }
+          );
+        }
+      });
+    }
 }
