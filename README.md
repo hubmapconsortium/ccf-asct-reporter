@@ -102,11 +102,18 @@ $ git subtree push --prefix data-miner miner master
 
 ## Snippets
 ![Partonomy Tree](projects/v2/src/assets/snippets/vis.png)
-![Hover/Click](projects/v2/src/assets/snippets/hover.png)
-![Sorting and Sizing](projects/v2/src/assets/snippets/sort.png)
-![Indent List](projects/v2/src/assets/snippets/indent.png)
+
+![Node Hover](projects/v2/src/assets/snippets/hover.png)
+
+![Node Click](projects/v2/src/assets/snippets/hover.png)
+
 ![Report](projects/v2/src/assets/snippets/report.png)
-![Debug Logs](projects/v2/src/assets/snippets/log.png)
+
+![Indented List](projects/v2/src/assets/snippets/il.png)
+
+![Info Bottom Sheet](projects/v2/src/assets/snippets/bottom.png)
+
+![Debug log](projects/v2/src/assets/snippets/debug.png)
 
 ## Contributing
 
