@@ -46,6 +46,7 @@ import { NavItemComponent } from './components/nav-item/nav-item.component';
 import { DocsComponent } from './modules/docs/docs.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { DocsNavComponent } from './modules/docs/docs-nav/docs-nav.component';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -82,7 +83,9 @@ import { DocsNavComponent } from './modules/docs/docs-nav/docs-nav.component';
     NgxsModule.forRoot([SheetState, TreeState, UIState, LogsState]),
     NgxsDataPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot({
+      disabled: environment.production,
+    }),
     NgxsResetPluginModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
