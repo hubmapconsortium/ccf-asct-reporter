@@ -2,13 +2,15 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { CompareData } from '../../models/sheet.model';
 import { Observable } from 'rxjs';
+import {GoogleAnalyticsService} from '../../services/google-analytics.service';
+import { GaAction, GaCategory, GaCompareInfo } from '../../models/ga.model';
 
 @Component({
-  selector: 'app-comapre',
-  templateUrl: './comapre.component.html',
-  styleUrls: ['./comapre.component.scss']
+  selector: 'app-compare',
+  templateUrl: './compare.component.html',
+  styleUrls: ['./compare.component.scss']
 })
-export class ComapreComponent implements OnInit {
+export class CompareComponent implements OnInit {
 
   @Output() closeCompare: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() compareData: EventEmitter<any> = new EventEmitter<any>();
@@ -18,7 +20,7 @@ export class ComapreComponent implements OnInit {
   formGroup: FormGroup;
   formSheets: FormArray;
 
-  constructor(public fb: FormBuilder) { }
+  constructor(public fb: FormBuilder, public ga: GoogleAnalyticsService) { }
 
   ngOnInit(): void {
 
@@ -49,7 +51,10 @@ export class ComapreComponent implements OnInit {
   compare() {
     const data: CompareData[] = [];
     for (const [idx, sheet] of this.formGroup.value.sheets.entries()) {
-      if (sheet.title === '') { sheet.title = 'Sheet ' + (idx + 1); }
+      if (sheet.title === '') {
+        sheet.title = `Sheet ${idx + 1}`;
+      }
+
       data.push(
         {
           ...sheet,
@@ -57,6 +62,14 @@ export class ComapreComponent implements OnInit {
           gid: this.checkLinkFormat(sheet.link).gid
         }
       );
+
+      const sheetInfo: GaCompareInfo = {
+        title: sheet.title,
+        desc: sheet.description,
+        link: sheet.link,
+        color: sheet.color
+      };
+      this.ga.eventEmitter('compare_sheet', GaCategory.COMPARE, 'Add new sheet to compare', GaAction.CLICK, JSON.stringify(sheetInfo));
     }
 
     this.compareData.emit(data);
@@ -74,7 +87,7 @@ export class ComapreComponent implements OnInit {
   }
 
   createCompareForm(link= '', color?: string, title= '', description= ''): FormGroup {
-    if (!color) { color = this.getRandomColor(); }
+    if (!color) {color = this.getRandomColor()}
 
     return this.fb.group({
       title: [title],
@@ -104,11 +117,12 @@ export class ComapreComponent implements OnInit {
   addCompareSheetRow() {
     const sheet = this.createCompareForm();
     this.formSheets.push(sheet);
+    this.ga.eventEmitter('compare_add_row', GaCategory.COMPARE, 'Add new compare row', GaAction.CLICK, null);
   }
 
   removeCompareSheetRow(i: number) {
     this.formSheets.removeAt(i);
-    // this.ga.eventEmitter('compare', 'click', 'Delete Sheet' , i + 1);
+    this.ga.eventEmitter('compare_delete_row', GaCategory.COMPARE, 'Delete compare row', GaAction.CLICK, i);
   }
 
 }

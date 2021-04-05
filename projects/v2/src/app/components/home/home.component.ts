@@ -7,6 +7,8 @@ import { VIDEO_ACTIONS, CONTIRBUTORS } from '../../static/home';
 import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faGlobe, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GaAction, GaCategory } from '../../models/ga.model';
 
 
 @Component({
@@ -31,7 +33,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   copyrightYear = new Date().getFullYear();
 
-  constructor() {
+  constructor(public ga: GoogleAnalyticsService) {
   }
 
   ngOnInit(): void {
@@ -56,6 +58,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.videoRef.play();
     }
 
+    this.ga.eventEmitter('home_video_section', GaCategory.HOME, 'Jump to video section', GaAction.CLICK, VIDEO_ACTIONS[id].header);
   }
 
   openGithub(event?: Event) {
@@ -63,11 +66,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       'https://github.com/hubmapconsortium/ccf-asct-reporter',
       '_blank'
     );
-      // if (event){
-      //   this.ga.eventEmitter( 'home', 'click', 'Icon', 1);
-      // }else{
-      //   this.ga.eventEmitter( 'home', 'click', 'GitHub', 1);
-      // }
+    this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Github', GaAction.NAV);
     }
 
 
@@ -76,7 +75,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       'https://drive.google.com/file/d/1r8Br4t6zftyrRXbb-DnidzwS3t8FSCu4/view?usp=sharing',
       '_blank'
     );
-    // this.ga.eventEmitter(  'home', 'click', 'Documentation', 1);
+    this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Docs', GaAction.NAV);
   }
 
   openData() {
@@ -84,7 +83,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
       'https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1199090884',
       '_blank'
     );
-    // this.ga.eventEmitter(  'home', 'click', 'Tables', 1);
+    this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Master Tables', GaAction.NAV);
+  }
+
+  openDataOld() {
+    window.open(
+      'https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1268820100',
+      '_blank'
+    );
+    this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Old Data Tables', GaAction.NAV);
   }
 
   onResize(e) {

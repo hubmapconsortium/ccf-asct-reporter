@@ -11,7 +11,6 @@ import { Legends } from './spec/legends';
 import { Marks } from './spec/marks';
 import { UpdateVegaView, UpdateLinksData } from '../../actions/tree.actions';
 import { BimodalService } from './bimodal.service';
-import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { OpenBottomSheet, CloseBottomSheet, CloseLoading, HasError } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { ReportLog } from '../../actions/logs.actions';
@@ -19,16 +18,21 @@ import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
 import { Sheet, SheetConfig } from '../../models/sheet.model';
 import { TNode } from '../../models/tree.model';
 import { Signal } from 'vega';
+import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GaAction, GaCategory, GaNodeInfo } from '../../models/ga.model';
+import { TreeState } from '../../store/tree.state';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VegaService {
 
-  infoSheetRef: MatBottomSheetRef;
   sheetConfig: SheetConfig;
 
-  constructor(public store: Store, public bm: BimodalService, private infoSheet: MatBottomSheet) { }
+  constructor(
+    public store: Store,
+    public bm: BimodalService,
+    public ga: GoogleAnalyticsService) { }
 
   async renderGraph(config: any) {
     try {
@@ -59,10 +63,21 @@ export class VegaService {
   }
 
   addSignalListeners(view: any) {
-    view.addSignalListener('bimodal_text__click', (signal: Signal, text: any) => {
+    view.addSignalListener('bimodal_text__click', (signal: Signal, node: any) => {
 
-      if (Object.entries(text).length) {
-        this.store.dispatch(new OpenBottomSheet(text));
+      if (Object.entries(node).length) {
+        this.store.dispatch(new OpenBottomSheet(node));
+      }
+
+      this.ga.eventEmitter('graph_label_click', GaCategory.GRAPH, 'Clicked a node label', GaAction.CLICK, this.ga.makeNodeInfoString(node));
+    });
+
+    view.addSignalListener('node__click', (signal: Signal, nodeId: any) => {
+      if (nodeId != null) {
+        const node = this.store.selectSnapshot(TreeState.getBimodal).nodes.find(node => node.id === nodeId);
+        this.ga.eventEmitter('graph_node_select', GaCategory.GRAPH, 'Selected (clicked) a node', GaAction.CLICK, this.ga.makeNodeInfoString(node));
+      } else {
+        this.ga.eventEmitter('graph_node_deselect', GaCategory.GRAPH, 'Deselected a node', GaAction.CLICK);
       }
     });
   }
