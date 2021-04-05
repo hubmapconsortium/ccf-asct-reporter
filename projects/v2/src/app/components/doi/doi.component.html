@@ -15,21 +15,21 @@
     <div *ngIf="!error.hasError" class="py-3 doi">
       <ol>
         <li *ngFor="let item of data; index as i">
-          <label><b>DOI: </b></label>
+          <label><strong>DOI: </strong></label>
           <span>
             {{ item.doi }}
           </span>
 
           <div class="pt-3"></div>
 
-          <label><b>Id: </b></label>
+          <label><strong>Id: </strong></label>
           <span>
             {{ item.id }}
           </span>
 
           <div class="pt-3"></div>
 
-          <label><b>Notes: </b></label>
+          <label><strong>Notes: </strong></label>
           <span>
             {{ item.notes }}
           </span>

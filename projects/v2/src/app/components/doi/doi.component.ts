@@ -4,7 +4,6 @@ import {
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
 import { Error } from '../../models/response.model';
-import { faThemeisle } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-doi',
