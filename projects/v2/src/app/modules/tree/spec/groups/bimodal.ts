@@ -62,6 +62,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
   makeBimodalPathMarks() {
     return {
       type: 'path',
+      name: 'bimodal-path',
       from: { data: 'edges' },
       encode: {
         enter: {
@@ -69,12 +70,18 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
           strokeWidth: { value: 1.5 },
           x: { value: 0 },
           y: { value: 5 },
-          tooltip: {
-            signal:
-              'datum.target.group === 2 ? datum.target.references : datum.source.references'
-          },
         },
         update: {
+          tooltip: [
+            {
+              test: 'node__click === null && datum.target.group === 2',
+              signal: 'length(datum.target.references) > 0 ? \'Click to see DOI References\' : \'No DOI References\''
+            },
+            {
+              test: 'node__click === null && datum.target.group !== 2',
+              signal: 'length(datum.source.references) > 0 ? \'Click to see DOI References\' : \'No DOI References\''
+            },
+          ],
           strokeWidth: { value: 1.5 },
           path: { field: 'path' },
           stroke: [
@@ -191,9 +198,13 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
           ],
         },
         hover: {
-          strokeWidth: { value: 5 },
+          strokeWidth: [
+            { test: 'node__click === null', value: 3.5 }
+          ],
           stroke: { value: '#6c6a63' },
-          cursor: { value: 'pointer' },
+          cursor: [
+            { test: 'node__click === null', value:  'pointer'}
+          ]
         }
       },
     };

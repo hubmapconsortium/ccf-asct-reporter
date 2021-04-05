@@ -79,3 +79,8 @@ export class UpdateBottomSheetInfo {
   static readonly type = '[UPDATE] Bottom Sheet Info';
   constructor(public data: any) {}
 }
+
+export class UpdateBottomSheetDOI {
+  static readonly type = '[UPDATE] Bottom Sheet DOI';
+  constructor(public data: any) {}
+}

@@ -21,10 +21,25 @@ export class Signals implements VegaSignals {
       this.makeBimodalTextHoverSignal(),
       this.makeASTreeWidthSignal(config.width),
       this.makeASTreeHeightSignal(config.height),
-      this.makeShowOntologyIDSignal(config.show_ontology)
+      this.makeShowOntologyIDSignal(config.show_ontology),
+      this.makeBiomodalPathDOISignal()
     ];
 
     return this.signals;
+  }
+
+  makeBiomodalPathDOISignal() {
+    return {
+      name: 'path__click',
+      value: null,
+      on: [
+        {
+          events: '@bimodal-path:click',
+          update: 'datum.target.group === 2 ? datum.target.references : datum.source.references',
+        },
+        { events: 'click[!event.item]', update: 'null' },
+      ],
+    };
   }
 
   makeShowOntologyIDSignal(value: boolean) {

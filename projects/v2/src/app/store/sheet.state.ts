@@ -8,6 +8,7 @@ import {
   SheetConfig,
   ResponseData,
   SheetInfo,
+  DOI,
 } from '../models/sheet.model';
 import { Error } from '../models/response.model';
 import { tap, catchError } from 'rxjs/operators';
@@ -29,6 +30,7 @@ import {
   FetchInitialPlaygroundData,
   UpdatePlaygroundData,
   UpdateBottomSheetInfo,
+  UpdateBottomSheetDOI,
 } from '../actions/sheet.actions';
 import {
   OpenLoading,
@@ -87,6 +89,10 @@ export class SheetStateModel {
    * Stores the bottom sheet info data
    */
   bottomSheetInfo: SheetInfo;
+  /**
+   * Stores the DOI references data
+   */
+  bottomSheetDOI: DOI[];
 }
 
 @State<SheetStateModel>({
@@ -132,6 +138,7 @@ export class SheetStateModel {
       msg: '',
       status: 0,
     },
+    bottomSheetDOI: [],
   },
 })
 @Injectable()
@@ -215,6 +222,14 @@ export class SheetState {
   static getBottomSheetInfo(state: SheetStateModel) {
     return state.bottomSheetInfo;
   }
+
+  /**
+   * Returns an observable that watches the bottom sheet DOI data
+   */
+   @Selector()
+   static getBottomSheetDOI(state: SheetStateModel) {
+     return state.bottomSheetDOI;
+   }
 
   /**
    * Returns an observable that watches the mode
@@ -377,11 +392,7 @@ export class SheetState {
               hasError: true,
             };
             dispatch(
-              new ReportLog(
-                LOG_TYPES.MSG,
-                this.faliureMsg,
-                LOG_ICONS.error
-              )
+              new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
             );
             dispatch(new HasError(err));
             return of('');
@@ -765,5 +776,21 @@ export class SheetState {
         return of('');
       })
     );
+  }
+
+  /**
+   * Action to update the bottom sheet data in the DOI
+   * Accepts the parsed data
+   */
+  @Action(UpdateBottomSheetDOI)
+  updateBottomSheetDOI(
+    { getState, setState, dispatch }: StateContext<SheetStateModel>,
+    { data }: UpdateBottomSheetDOI
+  ) {
+    const state = getState();
+    setState({
+      ...state,
+      bottomSheetDOI: data,
+    });
   }
 }

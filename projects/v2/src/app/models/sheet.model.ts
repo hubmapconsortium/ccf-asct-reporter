@@ -71,3 +71,9 @@ export interface SheetInfo {
   msg: string;
   status: number;
 }
+
+export interface DOI {
+  name: string;
+  id: string;
+  notes: string;
+}

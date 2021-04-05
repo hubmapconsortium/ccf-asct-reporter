@@ -17,15 +17,17 @@ import {
   CloseBottomSheet,
   OpenCompare,
   CloseCompare,
+  OpenBottomSheetDOI,
+  CloseBottomSheetDOI,
 } from '../actions/ui.actions';
 import { Snackbar } from '../models/ui.model';
 import { ReportLog } from '../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../models/logs.model';
 import { UpdateBottomSheetData } from '../actions/tree.actions';
 import { TreeState } from './tree.state';
+import { UpdateBottomSheetDOI, UpdateBottomSheetInfo } from '../actions/sheet.actions';
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
 import { GaAction, GaCategory } from '../models/ga.model';
-import { UpdateBottomSheetInfo } from '../actions/sheet.actions';
 
 /** Interface to keep track of all UI elements */
 export class UIStateModel {
@@ -372,6 +374,7 @@ export class UIState {
   openBottomSheet({ getState, setState, dispatch }: StateContext<UIStateModel>, { data }: OpenBottomSheet) {
     const state = getState();
     dispatch(new CloseBottomSheet());
+    dispatch(new CloseBottomSheetDOI());
     dispatch(new UpdateBottomSheetData(data)).subscribe(_ => {
       setState({
         ...state,
@@ -380,6 +383,29 @@ export class UIState {
     });
     dispatch(new UpdateBottomSheetInfo(data));
   }
+
+  /**
+   * Action to open bottom sheet DOI. Accept the data (name of structure)
+   * First close the bottom sheet Info, incase it is open.
+   * Second close the bottom sheet DOI, incase it is open.
+   * Then dispatch new action to update bottom sheet data DOI
+   */
+   @Action(OpenBottomSheetDOI)
+   OpenBottomSheetDOI({ getState, setState, dispatch }: StateContext<UIStateModel>, { data }: OpenBottomSheetDOI) {
+     dispatch(new CloseBottomSheet());
+     dispatch(new CloseBottomSheetDOI());
+     dispatch(new UpdateBottomSheetDOI(data));
+
+   }
+
+  /**
+   * Action to close bottom sheet.
+   * Empty the bottom sheet data from the state
+   */
+   @Action(CloseBottomSheetDOI)
+   closeBottomSheetDOI({ dispatch }: StateContext<UIStateModel>) {
+     dispatch(new UpdateBottomSheetData({}));
+   }
 
   /**
    * Action to close bottom sheet.

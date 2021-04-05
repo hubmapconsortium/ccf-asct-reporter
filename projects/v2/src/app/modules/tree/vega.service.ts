@@ -11,7 +11,8 @@ import { Legends } from './spec/legends';
 import { Marks } from './spec/marks';
 import { UpdateVegaView, UpdateLinksData } from '../../actions/tree.actions';
 import { BimodalService } from './bimodal.service';
-import { OpenBottomSheet, CloseBottomSheet, CloseLoading, HasError } from '../../actions/ui.actions';
+import { OpenBottomSheet, CloseLoading, HasError, OpenBottomSheetDOI } from '../../actions/ui.actions';
+
 import { Error } from '../../models/response.model';
 import { ReportLog } from '../../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
@@ -28,6 +29,7 @@ import { TreeState } from '../../store/tree.state';
 export class VegaService {
 
   sheetConfig: SheetConfig;
+
 
   constructor(
     public store: Store,
@@ -79,6 +81,13 @@ export class VegaService {
           this.ga.makeNodeInfoString(clickedNode));
       } else {
         this.ga.eventEmitter('graph_node_deselect', GaCategory.GRAPH, 'Deselected a node', GaAction.CLICK);
+      }
+    });
+
+    view.addSignalListener('path__click', (signal: Signal, text: any) => {
+      console.log(text);
+      if ((text).length) {
+        this.store.dispatch(new OpenBottomSheetDOI(text));
       }
     });
   }

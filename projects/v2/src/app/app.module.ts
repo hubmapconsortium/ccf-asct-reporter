@@ -43,6 +43,7 @@ import { VisControlsComponent } from './components/controls/vis-controls.compone
 import { LegendComponent } from './components/legend/legend.component';
 import { PlaygroundComponent } from './modules/playground/playground.component';
 import { NavItemComponent } from './components/nav-item/nav-item.component';
+import { DoiComponent } from './components/doi/doi.component';
 import { DocsComponent } from './modules/docs/docs.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { DocsNavComponent } from './modules/docs/docs-nav/docs-nav.component';
@@ -71,6 +72,7 @@ import { environment } from '../environments/environment';
     LegendComponent,
     PlaygroundComponent,
     NavItemComponent,
+    DoiComponent,
     DocsComponent,
     DocsNavComponent
   ],
