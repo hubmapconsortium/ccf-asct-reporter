@@ -60,3 +60,21 @@ export const CONTIRBUTORS = [
     github: 'https://github.com/bherr2'
   }
 ];
+
+export const IMAGES = [
+  {
+    path: 'assets/homepage/laptop-images/vis.svg'
+  },
+  {
+    path: 'assets/homepage/laptop-images/report.svg'
+  },
+  {
+    path: 'assets/homepage/laptop-images/compare.svg'
+  },
+  {
+    path: 'assets/homepage/laptop-images/il.svg'
+  },
+  {
+    path: 'assets/homepage/laptop-images/link.svg'
+  },
+]

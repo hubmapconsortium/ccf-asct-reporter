@@ -3,7 +3,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { SHEET_OPTIONS } from '../../static/config';
 // import {GaService} from '../services/ga.service';
-import { VIDEO_ACTIONS, CONTIRBUTORS } from '../../static/home';
+import { VIDEO_ACTIONS, CONTIRBUTORS, IMAGES } from '../../static/home';
 import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faGlobe, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   SHEET_OPTIONS = SHEET_OPTIONS;
   VIDEO_ACTIONS = VIDEO_ACTIONS;
   CONTIRBUTORS = CONTIRBUTORS;
+  IMAGES = IMAGES;
   videoSectionSelected = 0;
   videoRef: HTMLVideoElement;
 
