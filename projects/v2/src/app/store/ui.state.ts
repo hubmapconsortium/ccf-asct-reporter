@@ -385,7 +385,6 @@ export class UIState {
    */
    @Action(OpenBottomSheetDOI)
    OpenBottomSheetDOI({ getState, setState, dispatch }: StateContext<UIStateModel>, { data }: OpenBottomSheetDOI) {
-     const state = getState();
      dispatch(new CloseBottomSheet());
      dispatch(new CloseBottomSheetDOI());
      dispatch(new UpdateBottomSheetDOI(data));
@@ -398,8 +397,7 @@ export class UIState {
    * Set the bottom sheet open variable to false
    */
    @Action(CloseBottomSheetDOI)
-   closeBottomSheetDOI({ getState, setState, dispatch }: StateContext<UIStateModel>) {
-     const state = getState();
+   closeBottomSheetDOI({ dispatch }: StateContext<UIStateModel>) {
      dispatch(new UpdateBottomSheetData({}));
    }
 

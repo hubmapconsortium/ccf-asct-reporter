@@ -28,7 +28,7 @@ export class VegaService {
   infoSheetRef: MatBottomSheetRef;
   sheetConfig: SheetConfig;
 
-  constructor(public store: Store, public bm: BimodalService, private infoSheet: MatBottomSheet) { }
+  constructor(public store: Store, public bm: BimodalService) { }
 
   async renderGraph(config: any) {
     try {

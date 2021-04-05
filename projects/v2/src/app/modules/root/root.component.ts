@@ -218,7 +218,9 @@ export class RootComponent implements OnInit, OnDestroy{
           data
         });
       } else {
-        if (this.infoSheetRef) { this.infoSheetRef.dismiss(); }
+        if (this.infoSheetRef) {
+          this.infoSheetRef.dismiss();
+        }
       }
 
     });
