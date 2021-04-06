@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  tag: 'Development',
   googleAnalyticsId: 'UA-136932895-6'
 };
 

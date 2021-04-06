@@ -18,8 +18,10 @@ export class AppComponent {
     private readonly domSanitizer: DomSanitizer,
     public router: Router) {
     
-      switch(environment.production) {
-        case false: document.title = 'CCF Reporter | Staging';
+      switch(environment.tag) {
+        case 'Staging': document.title = 'CCF Reporter | Staging'; break;
+        case 'Development': document.title = 'CCF Reporter | Development'; break;
+        default: document.title = 'CCF Reporter'
       }
 
       this.matIconRegistry.addSvgIcon(
