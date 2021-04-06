@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GaAction, GaNodeInfo } from '../models/ga.model';
+import { GaAction, GaCategory, GaNodeInfo } from '../models/ga.model';
 
 declare let gtag: (arg1?, arg2?, arg3?) => void;
 
@@ -12,15 +12,16 @@ export class GoogleAnalyticsService {
 
   public eventEmitter(
     eventName: string,
-    eventCategory: string,
+    eventCategory: GaCategory,
     eventLabel: string = null,
     eventAction: GaAction,
-    eventValue: any = null ){
-    gtag('event', eventName, {
-      eventCategory,
-      eventLabel,
-      eventAction: eventAction.toString(),
-      eventValue
+    // Unused parameter for now, as the GA report is not displaying event values.
+    eventValue: any = 0 ){
+    gtag('event',  eventName, {
+      event_category: eventCategory.toString(),
+      event_label: eventLabel,
+      event_action: eventAction.toString(),
+      value : 0
     });
   }
 
