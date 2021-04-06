@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "dev": "npm start & npm run miner",
-    "build": "ng build v2 --base-href=/v2 --configuration=production",
+    "build": "ng build v2 --base-href=/ccf-asct-reporter --configuration=production",
     "build:staging": "ng build v2 --base-href=/ --configuration=staging",
     "miner": "cd data-miner && npm run dev",
     "test": "ng test",
