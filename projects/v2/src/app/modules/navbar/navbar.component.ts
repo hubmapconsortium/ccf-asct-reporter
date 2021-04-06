@@ -119,6 +119,17 @@ export class NavbarComponent implements OnInit {
     this.ga.eventEmitter('nav_export_image', GaCategory.NAVBAR, 'Export Image', GaAction.CLICK, imageType);
   }
 
+  onOptionClick(type: string, url: string) {
+    switch(type) {
+      case 'route': 
+        this.router.navigate([url]); break;
+      case 'tab':
+        this.window.open(url, '_blank'); break;
+      default:
+        this.window.open(url, '_blank'); break;
+    }
+  }
+
   toggleMode() {
     if (this.mode === 'vis') {
       this.router.navigate(['/vis'], {

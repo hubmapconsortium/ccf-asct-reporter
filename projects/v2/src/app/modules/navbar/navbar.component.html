@@ -75,7 +75,6 @@
     [disabled]="(ui$ | async).error.hasError" mat-icon-button
     >
     <mat-icon class="toolbar-icons">format_indent_increase</mat-icon>
-    <!-- <fa-icon [icon]="faIndent" style="font-size: 12pt; margin-bottom: -15px !important; padding-bottom: 5px;"></fa-icon> -->
     </app-nav-item>
 
     <app-nav-item 
@@ -94,10 +93,6 @@
     <mat-icon class="toolbar-icons">bar_chart</mat-icon>
     </app-nav-item>
 
-    <!-- <button [disabled]="(ui$ | async).error.hasError" mat-icon-button (click)="toggleReport()" #tooltip="matTooltip"
-      matTooltip="Report" matTooltipPosition="below" style="background-color: #f5f5f5">
-      <mat-icon style="margin-bottom: 5px !important">show_chart</mat-icon>
-    </button> -->
     <app-nav-item 
     [label]="'Debug Log'" 
     (click)="toggleDebugLogs()" #tooltip="matTooltip" matTooltip="Debug Log"
@@ -128,32 +123,9 @@
     <mat-icon class="toolbar-icons">more_vert</mat-icon>
     </app-nav-item>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item *ngFor="let option of MORE_OPTIONS" (click)="window.open(option.url, '_blank')">
+      <button mat-menu-item *ngFor="let option of MORE_OPTIONS" (click)="onOptionClick(option.type, option.url)">
         {{ option.name }}
       </button>
     </mat-menu>
-
-
-    <!-- <button
-      mat-icon-button
-      style="background-color: #f5f5f5"
-      #tooltip="matTooltip"
-      matTooltip="Select Version"
-      matTooltipPosition="below"
-      [matMenuTriggerFor]="versionMenu"
-    >
-      <mat-icon style="margin-bottom: 5px !important">restore</mat-icon>
-      <mat-menu #versionMenu="matMenu">
-        <button
-          [ngStyle]="{'color': selectedVersion === option.display ? '#3f51b5' : 'black'}"
-          mat-menu-item
-          *ngFor="let option of VERSIONS"
-          (click)="getVersionSelection(option.display, $event)"
-        >
-          {{ option.display }}
-        </button>
-      </mat-menu>
-    </button> -->
-
   </div>
 </mat-toolbar>

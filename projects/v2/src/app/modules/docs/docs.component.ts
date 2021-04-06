@@ -39,7 +39,6 @@ export class DocsComponent implements OnInit {
      }
     });
 
-    console.log(document.getElementsByClassName('md-img'));
   }
 
   onChange(idx: number) {
@@ -65,10 +64,7 @@ export class DocsComponent implements OnInit {
   }
 
   openDocs() {
-    window.open(
-      'https://drive.google.com/file/d/1r8Br4t6zftyrRXbb-DnidzwS3t8FSCu4/view?usp=sharing',
-      '_blank'
-    );
+    this.router.navigate(['/docs']);
   }
 
   openData() {
