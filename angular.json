@@ -103,6 +103,9 @@
           "configurations": {
             "production": {
               "browserTarget": "v2:build:production"
+            },
+            "staging": {
+              "browserTarget": "v2:build:staging"
             }
           }
         },
