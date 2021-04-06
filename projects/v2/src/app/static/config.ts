@@ -1,3 +1,4 @@
+
 export const HEADER_COUNT = 11;
 
 export const IMG_OPTIONS = ['PNG', 'SVG', 'Vega Spec'];
@@ -284,19 +285,23 @@ export const VERSION = [
 export const MORE_OPTIONS = [
   {
     name: 'About',
-    url: '/docs'
+    url: '/docs',
+    type: 'route'
   },
   {
     name: 'GitHub',
     url: 'https://github.com/hubmapconsortium/ccf-asct-reporter',
+    type: 'tab'
   },
   {
     name: 'T&C',
     url:
       'https://hubmapconsortium.org/wp-content/uploads/2020/06/DUA_FINAL_2020_02_03_for_Signature.pdf',
+    type: 'tab'
   },
   {
     name: 'Policy',
     url: 'https://hubmapconsortium.org/policies/',
+    type: 'tab'
   },
 ];
