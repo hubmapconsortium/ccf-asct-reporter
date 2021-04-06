@@ -120,8 +120,8 @@ export class NavbarComponent implements OnInit {
   }
 
   onOptionClick(type: string, url: string) {
-    switch(type) {
-      case 'route': 
+    switch (type) {
+      case 'route':
         this.router.navigate([url]); break;
       case 'tab':
         this.window.open(url, '_blank'); break;
