@@ -7,7 +7,6 @@ import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { Router } from '@angular/router';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory } from '../../models/ga.model';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -33,9 +32,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   copyrightYear = new Date().getFullYear();
 
 
-  constructor(private router: Router, public ga: GoogleAnalyticsService) {
-    console.log(environment);
-  }
+  constructor(private router: Router, public ga: GoogleAnalyticsService) { }
 
   ngOnInit(): void {
 
