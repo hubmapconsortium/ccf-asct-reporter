@@ -7,7 +7,7 @@ import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { Router } from '@angular/router';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory } from '../../models/ga.model';
-import { environment } from 'projects/v2/src/environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
