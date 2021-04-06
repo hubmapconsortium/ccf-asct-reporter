@@ -33,8 +33,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   copyrightYear = new Date().getFullYear();
 
 
-  constructor(private router: Router, public ga: GoogleAnalyticsService) { 
-    console.log(environment)
+  constructor(private router: Router, public ga: GoogleAnalyticsService) {
+    console.log(environment);
   }
 
   ngOnInit(): void {
