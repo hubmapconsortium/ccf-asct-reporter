@@ -31,7 +31,7 @@ jobs:
           cp dist/v2/index.html dist/v2/404.html
           touch dist/v2/.nojekyll 
       - name: Deploy to Netlify
-        uses: jsmrcaga/action-netlify-deploy@v1.1.0
+        uses: jsmrcaga/action-netlify-deploy@master
         with:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
