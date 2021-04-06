@@ -1,10 +1,25 @@
 <mat-toolbar color="secondary"  class="d-flex align-items-center toolbar-nav"
   [ngStyle]="{'border-bottom': (mode$ | async) === 'vis' ?'0.1875rem solid #444a6510' : 'none'}">
   <div class="nav-wrapper">
-    <button (click)="togglePane()" mat-icon-button #tooltip="matTooltip"
-      [matTooltip]="(ui$ | async).controlPaneOpen ? 'Close Control Pane' : 'Show Control Pane'" matTooltipPosition="below" class="show-control-pane-button">
-      <mat-icon class="show-control-pane-icon">menu</mat-icon>
-    </button>
+    <app-nav-item 
+    [label]="'Toggle'" 
+    (click)="togglePane()"
+    #tooltip="matTooltip" 
+    [matTooltip]="'Toggle Sidenav'" matTooltipPosition="below" 
+    >
+      <mat-icon class="toolbar-icons">menu</mat-icon>
+    </app-nav-item>
+    <div *ngIf="(ui$ | async).controlPaneOpen === false">
+      <img
+        src="./assets/logo.svg"
+        alt=""
+        class="px-2"
+        width="225"
+        routerLink="/"
+        matTooltip="Home Page"
+        matTooltipPosition="below"
+      />
+    </div>
     <div class="search ml-1">
       <app-search [disabled]="(ui$ | async).error.hasError"></app-search>
     </div>
