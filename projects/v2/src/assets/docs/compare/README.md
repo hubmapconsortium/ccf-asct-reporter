@@ -1,23 +1,23 @@
 ## Compare
 ---
 
-You can now compare your own data with that found in the ASCT+B Master tables, which is visualized in the ASCT+B Reporter. In order to do this, you will need to have your data in the ASCT+B table Google Sheets template with public access that can be uploaded into the Reporter. NOTE: .xls files are not supported.  The Compare feature is particularly useful if you have data from your own research that you would like to compare to the data in the ASCT+B Master Tables.
+You can now compare your own data with that visualized by the ASCT+B Reporter. In order to do this, you will need to have your data in the ASCT+B table Google Sheets template with public access so it can be uploaded into the Reporter. NOTE: .xls files are not supported. The compare feature is particularly useful if you have data from your own research that you would like to compare to the data in the ASCT+B Master Tables.
 
 <br>
 
 #### Usage
 
-1. To access the Compare feature, go to the toolbar at the top and click on *Compare* (shown in the image below)
+1. 1.	To access the compare feature, go to the toolbar at the top and click on *Compare* (shown in the image below)
 
    <img src="assets/docs/compare/toolbar.png" alt="Compare Icon Toolbar" class="md-img p-2 w-75">
    <br>
    <br>
 
 2. A drawer will pop up from the side that will show a few instructions and the various input fields.
-   - **Title**: *Optional*. This is the title by which the uploaded sheet can be identified. By default it is given a title in the format `Sheet <number>`. This number corresponds to the index of the sheet in the compare feature. If you have added sheets, the default title of the sheets would be `Sheet 1` and `Sheet 2` respectively.
-   - **Description**: *Optional*. This field holds a small description about what your data is about. It is empty by default.
-   - **Google Sheets Link**: *Required*. This field will hold the sheet link to your data. Your data has to be in the specified format that can be found [here](https://docs.google.com/spreadsheets/d/1bsA-HngthTD7NtzAfab8t3EVjFFT439-Pc-mp_mdZUU/edit#gid=0).
-   - **Color picker**: *Optional*. This is a swatch that will allow you to pick the color. A random color is assigned my default.
+   - **Title** (optional): This is the title by which the uploaded sheet can be identified. By default it is given a title in the format `Sheet <number>`. This number corresponds to the index of the sheet in the compare feature. If you have added sheets, the default title of the sheets would be `Sheet 1` and `Sheet 2` respectively.
+   - **Description** (optional): This field holds a small description of your data. It is empty by default. 
+   - **Google Sheets Link** (required): This field will hold the sheet link to your data. Your data has to be in the specified format that can be found [here](https://docs.google.com/spreadsheets/d/1bsA-HngthTD7NtzAfab8t3EVjFFT439-Pc-mp_mdZUU/edit#gid=0).
+   - **Color selector** (optional): This is a swatch that will allow you to choose the color. A random color is assigned by default. 
    
    <br>
    <img src="assets/docs/compare/cmp.png" alt="Compare Dialog" class="md-img p-2 w-50">
@@ -25,29 +25,29 @@ You can now compare your own data with that found in the ASCT+B Master tables, w
    <br>
 
 3. Additional sheets can also be added in the same way by clicking on the **+ Add** button at the bottom.
-4. Clicking on **Compare** will then render the new data on the visualization after the Reporter have successfully received the data. (sometimes this can take a few seconds). The results of a compared data is shown below (with the updated legend),
+4. 4.	Clicking on *Compare* will then render the new data on the visualization after the Reporter has successfully received the data (sometimes this can take a few seconds). The results of the compared data are shown below (with the updated legend).
 
    <img src="assets/docs/compare/result.png" alt="Compare Results" class="md-img p-2 w-50">
    <img src="assets/docs/compare/legend.png" alt="Compare Legend" class="md-img p-2 w-25" align="right">
    <br>
    <br>
 
-5. Reports are generated for each separately that lists various statistics (common counts, uncommon counts etc). More information about the report can be found [here](/docs?id=8).
+5. Reports are generated for each of the sheets separately that lists various statistics (common counts, uncommon counts etc). More information about the report can be found in the Report section.
 
 #### Characteristics
 
    - All links (paths, relationships) that are common between the master data and the uploaded data are highlighted in the selected color.
    - All nodes that are common between the master table and the uploaded data are highlighted in the selected color.
-   - All the new nodes have been added to the visualization with a dashed stoke around them in the selected color.
+   - All the new nodes have been added to the visualization with a dashed line around them in the selected color.
 
 <br>
 
 #### Note
 
 In order for the compare feature to work properly, make sure,
-- The sheet on Google Sheets has public access. The permissions on Google should look something like this,
+- The Google Sheet you’re using has public access; permissions on Google should look something like this:
 
-   <img src="assets/docs/compare/permissions.png" alt="Compare Results" class="md-img p-2 w-25">
+   <img src="assets/docs/compare/permissions.png" alt="Compare Results" class="md-img p-2 w-50">
    <br>
    <br>
 - The data should be in the format specified [here](https://docs.google.com/spreadsheets/d/1bsA-HngthTD7NtzAfab8t3EVjFFT439-Pc-mp_mdZUU/edit#gid=0). Its completely fine to not include headers that are not required for your data. For example, if you have just cell types in your data you can just have `CT/1` in your sheet, and that would work fine with the Reporter. Therefore, the headers matter.
