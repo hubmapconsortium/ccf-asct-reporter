@@ -1,7 +1,7 @@
 ## Indented List
 ---
 
-This visualization is a traditional, hierarchical structure that displays anatomical structures and its sub-structures. This makes use the of [Angular Material Tree](https://material.angular.io/components/tree/overview).
+This visualization, which makes use of the [Angular Material Tree](https://material.angular.io/components/tree/overview), is a traditional, hierarchical structure that displays anatomical structures and their sub-structures.
 
 <br>
 
