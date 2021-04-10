@@ -22,7 +22,11 @@ export class DocsComponent implements OnInit {
   selected: number;
   copyrightYear = new Date().getFullYear();
 
-  constructor(private router: Router, public activatedRoute: ActivatedRoute, public docsService: DocsService, public ga: GoogleAnalyticsService) { }
+  constructor(
+    private router: Router,
+    public activatedRoute: ActivatedRoute,
+    public docsService: DocsService,
+    public ga: GoogleAnalyticsService) { }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
