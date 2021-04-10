@@ -23,7 +23,7 @@ export class DocsComponent implements OnInit {
   copyrightYear = new Date().getFullYear();
 
   constructor(
-    private router: Router,
+    private readonly router: Router,
     public activatedRoute: ActivatedRoute,
     public docsService: DocsService,
     public ga: GoogleAnalyticsService) { }
