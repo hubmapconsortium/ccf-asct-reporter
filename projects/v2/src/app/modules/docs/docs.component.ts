@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DocsService } from '../../services/docs.service';
 import { REGISTRY } from '../../static/docs';
 import { faPhone, faEnvelope, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GaAction, GaCategory } from '../../models/ga.model';
 
 @Component({
   selector: 'app-docs',
@@ -20,7 +22,11 @@ export class DocsComponent implements OnInit {
   selected: number;
   copyrightYear = new Date().getFullYear();
 
-  constructor(private router: Router, public activatedRoute: ActivatedRoute, public docsService: DocsService) { }
+  constructor(
+    private readonly router: Router,
+    public activatedRoute: ActivatedRoute,
+    public docsService: DocsService,
+    public ga: GoogleAnalyticsService) { }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -50,10 +56,12 @@ export class DocsComponent implements OnInit {
         queryParams: {id: idx},
         queryParamsHandling: 'merge',
       });
+      // Router navigation already fires Google Analytics events, see app.component.ts
   }
 
   onLatest() {
     this.router.navigate(['/']);
+    this.ga.eventEmitter('docs_link_click', GaCategory.DOCS, 'Back to Latest Release', GaAction.NAV);
   }
 
   openGithub() {
@@ -61,6 +69,7 @@ export class DocsComponent implements OnInit {
       'https://github.com/hubmapconsortium/ccf-asct-reporter',
       '_blank'
     );
+    this.ga.eventEmitter('docs_link_click', GaCategory.DOCS, 'Open Github', GaAction.NAV);
   }
 
   openDocs() {
@@ -72,5 +81,14 @@ export class DocsComponent implements OnInit {
       'https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1199090884',
       '_blank'
     );
+    this.ga.eventEmitter('docs_link_click', GaCategory.DOCS, 'Open Data Tables', GaAction.NAV);
+  }
+
+  openDataOld() {
+    window.open(
+      'https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1268820100',
+      '_blank'
+    );
+    this.ga.eventEmitter('docs_link_click', GaCategory.DOCS, 'Open Old Data Tables', GaAction.NAV);
   }
 }
