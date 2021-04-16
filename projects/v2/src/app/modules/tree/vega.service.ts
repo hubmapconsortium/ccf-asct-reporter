@@ -71,7 +71,7 @@ export class VegaService {
 
   /**
    * Function to add various event listeners to the visualization
-   * 
+   *
    * @param view vega view
    */
   addSignalListeners(view: any) {
@@ -83,7 +83,7 @@ export class VegaService {
 
       this.ga.eventEmitter('graph_label_click', GaCategory.GRAPH, 'Clicked a node label', GaAction.CLICK, this.ga.makeNodeInfoString(node));
     });
-    
+
     // node click listener to emit ga event
     view.addSignalListener('node__click', (signal: Signal, nodeId: any) => {
       if (nodeId != null) {
@@ -94,7 +94,7 @@ export class VegaService {
         this.ga.eventEmitter('graph_node_deselect', GaCategory.GRAPH, 'Deselected a node', GaAction.CLICK);
       }
     });
-    
+
     // path click event to show doi/references
     view.addSignalListener('path__click', (signal: Signal, text: any) => {
       if ((text).length) {
@@ -102,11 +102,11 @@ export class VegaService {
       }
     });
   }
-  
+
   /**
    * Function to create the biomodal network
    * Uses the data, tree data and the various configurations
-   * 
+   *
    * @param view vega view
    */
   makeBimodal(view: any) {
@@ -126,13 +126,13 @@ export class VegaService {
       }
     });
   }
-  
+
   /**
    * Function to creat the vega spec
-   * 
+   *
    * @param currentSheet selected organ sheet
    * @param treeData partonomy/vega tree data
-   * @param sheetConfig sheet configurations 
+   * @param sheetConfig sheet configurations
    * @param multiParentLinksData depricated
    */
   makeVegaConfig(currentSheet: Sheet, treeData: TNode[], sheetConfig: SheetConfig, multiParentLinksData?: []) {

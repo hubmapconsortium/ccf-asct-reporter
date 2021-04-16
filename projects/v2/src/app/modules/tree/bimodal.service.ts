@@ -16,7 +16,7 @@ import { Row, Sheet, SheetConfig } from '../../models/sheet.model';
 export class BimodalService {
 
   constructor(private readonly store: Store) { }
-  
+
   /**
    * Function to create the bimodal network
    * @param sheetData current sheet data
@@ -284,10 +284,10 @@ export class BimodalService {
     }
 
   }
-  
+
   /**
    * Function to reset the signals and data of the visualization
-   * 
+   *
    * @param view vega view
    * @param spec vega spec
    * @param nodes bimodal network nodes
@@ -304,10 +304,10 @@ export class BimodalService {
     this.store.dispatch(new CloseLoading('Visualization Rendered'));
     this.store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Visualization successfully rendered', LOG_ICONS.success));
   }
-  
+
   /**
    * Function to update the spec with bimodal data
-   * 
+   *
    * @param spec vega spec
    * @param nodes bimodal network nodes
    * @param links bimodal network links

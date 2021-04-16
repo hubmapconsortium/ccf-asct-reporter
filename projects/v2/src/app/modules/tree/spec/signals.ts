@@ -2,10 +2,16 @@ import { Signal } from 'vega';
 import { Sheet, SheetConfig } from '../../../models/sheet.model';
 
 interface VegaSignals {
+  /**
+   * A list of vega signals
+   */
   signals: Array<Signal>;
 }
 
 export class Signals implements VegaSignals {
+  /**
+   * List of signals
+   */
   signals: any;
 
   constructor(config: SheetConfig) {
@@ -27,7 +33,12 @@ export class Signals implements VegaSignals {
 
     return this.signals;
   }
-
+  
+  /**
+   * Signal to trigger an action when a path in the bimodal network 
+   * is clicked.
+   * Updtes the signal data with the references of the source or target
+   */
   makeBiomodalPathDOISignal() {
     return {
       name: 'path__click',
@@ -41,28 +52,47 @@ export class Signals implements VegaSignals {
       ],
     };
   }
-
+  
+  /**
+   * Signal to denote of the ontology names in the visualization
+   * should be visible
+   * 
+   * @param value show or hide boolean
+   */
   makeShowOntologyIDSignal(value: boolean) {
     return {
       name: 'show_ontology',
       value
     };
   }
-
+  
+  /**
+   * Set the width of the AS tree
+   * @param width width of tree
+   */
   makeASTreeWidthSignal(width: number) {
     return {
       name: 'as_width',
       value: width,
     };
   }
-
+  
+  /**
+   * Set the height of the AS tree
+   * @param height height of tree
+   */
   makeASTreeHeightSignal(height: number) {
     return {
       name: 'as_height',
       value: height,
     };
   }
-
+  
+  /**
+   * Signal to trigger an event when the name of a bimodal node 
+   * is clicked
+   * Updates the signal data with the data of the node
+   */
   makeBimodalTextClickSignal() {
     return {
       name: 'bimodal_text__click',
@@ -76,7 +106,11 @@ export class Signals implements VegaSignals {
       ]
     };
   }
-
+  
+  /**
+   * Signal that is triggered when the name of a node
+   * is hovered upon
+   */
   makeBimodalTextHoverSignal() {
     return {
       name: 'bimodal_text__hover',
@@ -98,7 +132,6 @@ export class Signals implements VegaSignals {
    * On clicking elsewhere, the field is updated with null.
    *
    */
-
   makeBimodalNodeClickStateSignal() {
     return {
       name: 'node__click',
@@ -208,7 +241,10 @@ export class Signals implements VegaSignals {
       ],
     };
   }
-
+  
+  /**
+   * Signal to update the search field
+   */
   makeSearchSignal() {
     return {
       name: 'search_signal',

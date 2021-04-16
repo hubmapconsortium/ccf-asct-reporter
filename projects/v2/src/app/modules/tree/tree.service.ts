@@ -30,7 +30,7 @@ export class TreeService {
    * Sheet configurations that has the different parameters
    */
   sheetConfig: SheetConfig;
-  
+
   /**
    * Tree State observable
    */
@@ -50,7 +50,7 @@ export class TreeService {
     this.tree$.subscribe((state) => {
       this.height = state.height;
       const view = state.view;
-      
+
       // if the vega view is valid, check for search data
       // re-render the view
       if (Object.keys(view).length) {
@@ -68,11 +68,11 @@ export class TreeService {
       this.sheetConfig = config;
     });
   }
-  
+
   /**
-   * Function to create the vega tree that visualization the 
+   * Function to create the vega tree that visualization the
    * Anatomical structures and its substructures
-   * 
+   *
    * @param currentSheet current selected sheet
    * @param data data from the miner of the sheet
    * @param compareData compare data (depricated)
