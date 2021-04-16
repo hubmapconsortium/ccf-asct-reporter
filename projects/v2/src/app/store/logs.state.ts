@@ -34,7 +34,7 @@ export class LogsState {
 
   constructor() {
   }
-  
+
   /**
    * Returns the sheet logs and all logs
    */
@@ -46,7 +46,7 @@ export class LogsState {
     };
   }
 
-  
+
   /**
    * Action to add a log
    */

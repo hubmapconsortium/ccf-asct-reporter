@@ -11,9 +11,9 @@ export class DocsService {
    * List of all the docs pages
    */
   REGISTRY = REGISTRY;
-  
+
   /**
-   * Behavior subject to return the markdown 
+   * Behavior subject to return the markdown
    */
   docsData = new BehaviorSubject<string>('');
   constructor(private readonly http: HttpClient) { }

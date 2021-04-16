@@ -9,7 +9,7 @@ import { URL, getAssetsURL, getInformation, PLAYGROUND } from './../static/url';
 export class SheetService {
 
   constructor(private http: HttpClient) { }
-  
+
   /**
    * Service to fetch the data for a sheet form the miner
    * @param sheetId id of the sheet
@@ -18,10 +18,10 @@ export class SheetService {
   fetchSheetData(sheetId: string, gid: string) {
     return this.http.get(`${URL}/${sheetId}/${gid}`);
   }
-  
+
   /**
    * Service to get data of a particular version
-   * 
+   *
    * Note: Currently depricated
    * @param dataVersion version of the data
    * @param currentSheet current sheet
@@ -29,7 +29,7 @@ export class SheetService {
   fetchDataFromAssets(dataVersion: string, currentSheet: any) {
     return this.http.get(getAssetsURL(dataVersion, currentSheet), { responseType: 'text' });
   }
-  
+
   /**
    * Service to get the data about an entity for an exteral API
    * by passing the uberon id
@@ -38,18 +38,18 @@ export class SheetService {
   fetchBottomSheetData(id: string) {
     return this.http.get(getInformation(id));
   }
-  
+
   /**
    * Fetching initial playground data
    */
   fetchPlaygroundData(data?: string) {
     return this.http.get(`${URL}/playground`);
   }
-  
+
   /**
    * Send updated data to render on the playground
    * after editing on the table
-   * 
+   *
    * @param data updated tabular data
    */
   updatePlaygroundData(data: string[][]) {
