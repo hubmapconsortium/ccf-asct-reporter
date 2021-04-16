@@ -65,14 +65,12 @@ export class ControlPaneComponent implements OnInit {
   updateBimodal(config: SheetConfig) {
     this.store.dispatch(new UpdateConfig(config)).subscribe(states => {
       const data = states.sheetState.data;
-      const sheet = states.sheetState.sheet;
       const treeData = states.treeState.treeData;
       const bimodalConfig = states.treeState.bimodal.config;
 
-
       if (data.length) {
         try {
-          this.bm.makeBimodalData(data, treeData, bimodalConfig, sheet, config);
+          this.bm.makeBimodalData(data, treeData, bimodalConfig, config);
         } catch (err) {
           console.log(err);
         }
