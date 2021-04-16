@@ -78,7 +78,7 @@ export class DocsComponent implements OnInit {
 
   openData() {
     window.open(
-      'https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1199090884',
+      'https://docs.google.com/spreadsheets/d/1F7D0y7pNPVIR3W4LjjtIMGg7rKTOxwyjVKzS-iiffz4/edit#gid=2034682742',
       '_blank'
     );
     this.ga.eventEmitter('docs_link_click', GaCategory.DOCS, 'Open Data Tables', GaAction.NAV);
