@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-
 import vegaTooltip from 'vega-tooltip';
 import * as vega from 'vega';
-
 import { Signals } from './spec/signals';
 import { Data } from './spec/data';
 import { Scales } from './spec/scales';
@@ -12,7 +10,6 @@ import { Marks } from './spec/marks';
 import { UpdateVegaView, UpdateLinksData } from '../../actions/tree.actions';
 import { BimodalService } from './bimodal.service';
 import { OpenBottomSheet, CloseLoading, HasError, OpenBottomSheetDOI } from '../../actions/ui.actions';
-
 import { Error } from '../../models/response.model';
 import { ReportLog } from '../../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
