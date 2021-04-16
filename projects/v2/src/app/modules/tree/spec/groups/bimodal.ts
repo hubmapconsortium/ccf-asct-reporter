@@ -1,6 +1,9 @@
 import { GroupMark } from 'vega';
 
 export interface VegaBimodalGroup {
+  /**
+   * Vega mark group
+   */
   group: GroupMark;
 }
 
@@ -11,7 +14,10 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
     this.group = this.makeBimodalMarkGroup();
     return this.group;
   }
-
+  
+  /**
+   * Function to create the mark groups for the bimodal network
+   */
   makeBimodalMarkGroup() {
     return {
       type: 'group',
@@ -28,7 +34,10 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
       ]
     };
   }
-
+  
+  /**
+   * Reactable around the bimodal text mark
+   */
   makeBimodalTextSearchMarks() {
     return {
       name: 'rectmark',
@@ -58,7 +67,10 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
       }
     };
   }
-
+  
+  /**
+   * Bimodal paths
+   */
   makeBimodalPathMarks() {
     return {
       type: 'path',
@@ -209,7 +221,10 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
       },
     };
   }
-
+  
+  /**
+   * Bimodal symbols
+   */
   makeBimodalSymbolMarks() {
     return {
       type: 'symbol',
@@ -257,7 +272,10 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
       }
     };
   }
-
+  
+  /**
+   * Bimodal link texts
+   */
   makeBiomodalTextLinkMarks() {
     return {
       type: 'text',
@@ -335,7 +353,9 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
     };
   }
 
-
+  /**
+   * Bimodal text marks
+   */
   makeBiomodalTextMarks() {
     return {
       type: 'text',

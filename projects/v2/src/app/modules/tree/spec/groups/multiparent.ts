@@ -1,3 +1,5 @@
+/** Depricated */
+
 import { GroupMark } from 'vega';
 
 export interface VegaMultiParentMarkGroup {
