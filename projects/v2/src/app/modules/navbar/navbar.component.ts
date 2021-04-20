@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { SHEET_OPTIONS, VERSION, MORE_OPTIONS, IMG_OPTIONS, PLAYGROUND_SHEET_OPTIONS } from '../../static/config';
+import { SHEET_OPTIONS, VERSION, MORE_OPTIONS, IMG_OPTIONS, PLAYGROUND_SHEET_OPTIONS, MASTER_SHEET_LINK } from '../../static/config';
 import { Store, Select } from '@ngxs/store';
 import { SheetState, SheetStateModel } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
@@ -106,7 +106,7 @@ export class NavbarComponent implements OnInit {
 
   openMasterDataTables() {
     this.ga.eventEmitter('nav_master_data', GaCategory.NAVBAR, 'Go to Master Data Tables', GaAction.NAV, null);
-    window.open('https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=2034682742', '_blank');
+    window.open(MASTER_SHEET_LINK, '_blank');
   }
 
   refreshData() {

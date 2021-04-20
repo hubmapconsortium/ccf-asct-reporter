@@ -5,6 +5,7 @@ import { REGISTRY } from '../../static/docs';
 import { faPhone, faEnvelope, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory } from '../../models/ga.model';
+import { MASTER_SHEET_LINK } from '../../static/config';
 
 @Component({
   selector: 'app-docs',
@@ -78,7 +79,7 @@ export class DocsComponent implements OnInit {
 
   openData() {
     window.open(
-      'https://docs.google.com/spreadsheets/d/1F7D0y7pNPVIR3W4LjjtIMGg7rKTOxwyjVKzS-iiffz4/edit#gid=2034682742',
+      MASTER_SHEET_LINK,
       '_blank'
     );
     this.ga.eventEmitter('docs_link_click', GaCategory.DOCS, 'Open Data Tables', GaAction.NAV);

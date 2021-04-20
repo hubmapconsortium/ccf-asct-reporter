@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { SHEET_OPTIONS } from '../../static/config';
+import { SHEET_OPTIONS, MASTER_SHEET_LINK } from '../../static/config';
 import { VIDEO_ACTIONS, CONTIRBUTORS, IMAGES } from '../../static/home';
 import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faGlobe, faPhone } from '@fortawesome/free-solid-svg-icons';
@@ -7,6 +7,7 @@ import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { Router } from '@angular/router';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory } from '../../models/ga.model';
+
 
 @Component({
   selector: 'app-home',
@@ -75,7 +76,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   openData() {
     window.open(
-      'https://docs.google.com/spreadsheets/d/1F7D0y7pNPVIR3W4LjjtIMGg7rKTOxwyjVKzS-iiffz4/edit#gid=2034682742',
+      MASTER_SHEET_LINK,
       '_blank'
     );
     this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Master Tables', GaAction.NAV);
