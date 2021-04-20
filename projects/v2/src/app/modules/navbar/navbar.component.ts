@@ -9,10 +9,8 @@ import { FetchSheetData, FetchAllOrganData } from '../../actions/sheet.actions';
 import { ToggleControlPane, ToggleIndentList, ToggleReport, ToggleDebugLogs, OpenCompare } from '../../actions/ui.actions';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { ClearSheetLogs } from '../../actions/logs.actions';
-import { faIndent } from '@fortawesome/free-solid-svg-icons';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory } from '../../models/ga.model';
-
 
 @Component({
   selector: 'app-navbar',
@@ -20,18 +18,44 @@ import { GaAction, GaCategory } from '../../models/ga.model';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
+  /**
+   * Available Data versions (depricated)
+   */
   VERSIONS = VERSION;
+  /**
+   * Menu options
+   */
   MORE_OPTIONS = MORE_OPTIONS;
+  /**
+   * Export options
+   */
   IMG_OPTIONS = IMG_OPTIONS;
-  window: Window = window;
-  faIndent = faIndent;
-
-  selectedSheetOption: string;
-  selectedVersion: string;
-  currentSheet: Sheet;
-  mode: string;
+  /**
+   * Sheet configs
+   */
   SHEET_OPTIONS = SHEET_OPTIONS;
-
+  /**
+   * Document window object
+   */
+  window: Window = window;
+  /**
+   * Organ sheet selected
+   */
+  selectedSheetOption: string;
+  /**
+   * Selected data version
+   */
+  selectedVersion: string;
+  /**
+   * Currently selected sheet
+   */
+  currentSheet: Sheet;
+  /**
+   * Currently selecte mode
+   */
+  mode: string;
+  
+  // state observables
   @Select(SheetState) sheet$: Observable<SheetStateModel>;
   @Select(UIState) ui$: Observable<UIStateModel>;
   @Select(SheetState.getMode) mode$: Observable<string>;
