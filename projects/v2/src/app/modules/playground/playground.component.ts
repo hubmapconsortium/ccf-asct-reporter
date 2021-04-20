@@ -20,7 +20,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
 
   @Select(SheetState.getParsedData) data$: Observable<string[][]>;
   @Select(SheetState.getSheet) sheet$: Observable<Sheet>;
-  
+
   /**
    * Data for the table view
    */
@@ -77,9 +77,9 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  
+
   /**
-   * Add colums 
+   * Add colums
    */
   generateColumns(len: number) {
     const columns = [];
@@ -91,10 +91,10 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
     }
     return columns;
   }
-  
+
   /**
-   * Initialize jexcel table 
-   * 
+   * Initialize jexcel table
+   *
    * @param data table data
    */
   initTable(data: string[][]) {
@@ -249,10 +249,10 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
       },
     });
   }
-  
+
   /**
-   * Change tabs 
-   * 
+   * Change tabs
+   *
    * @param tab table change event
    */
   tabChange(tab: MatTabChangeEvent) {
@@ -262,7 +262,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
     this.prevTab = tab.index;
     this.ga.eventEmitter('playground_tabchange', GaCategory.PLAYGROUND, 'Change playground tab', GaAction.NAV, tab.index);
   }
-  
+
   /**
    * Read the google sheet link and upload
    */
@@ -276,7 +276,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
     this.store.dispatch(new FetchSheetData(sheet));
     this.ga.eventEmitter('playground_upload', GaCategory.PLAYGROUND, 'Upload Playground Sheet', GaAction.CLICK, sheet.sheetId);
   }
-  
+
   /**
    * Link validation function
    */

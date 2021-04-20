@@ -15,7 +15,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
 
     return this.group;
   }
-  
+
   /**
    * Mark group for the AS tree
    */
@@ -35,7 +35,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
       ],
     };
   }
-  
+
   /**
    * Mark for the blue rectangle for search
    */
@@ -69,7 +69,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
       }
     };
   }
-  
+
   /**
    * AS Tree paths marks
    */
@@ -99,7 +99,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
       },
     };
   }
-  
+
   /**
    * AS tree symbol marks
    */
@@ -141,7 +141,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
       },
     };
   }
-  
+
   /**
    * AS tree link text marks (these are clikable to get info )
    */
@@ -196,9 +196,9 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
       },
     };
   }
-  
+
   /**
-   * AS Tree text marks 
+   * AS Tree text marks
    */
   makeTreeTextMarks() {
     return {

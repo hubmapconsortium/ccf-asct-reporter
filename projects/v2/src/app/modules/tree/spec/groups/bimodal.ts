@@ -14,7 +14,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
     this.group = this.makeBimodalMarkGroup();
     return this.group;
   }
-  
+
   /**
    * Function to create the mark groups for the bimodal network
    */
@@ -34,7 +34,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
       ]
     };
   }
-  
+
   /**
    * Reactable around the bimodal text mark
    */
@@ -67,7 +67,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
       }
     };
   }
-  
+
   /**
    * Bimodal paths
    */
@@ -221,7 +221,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
       },
     };
   }
-  
+
   /**
    * Bimodal symbols
    */
@@ -272,7 +272,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
       }
     };
   }
-  
+
   /**
    * Bimodal link texts
    */

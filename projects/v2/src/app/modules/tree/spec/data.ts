@@ -36,7 +36,7 @@ export class Data implements VegaData {
 
     return this.data;
   }
-  
+
   /**
    * Stores the list of IDs that should show on the graph
    * when search is used
@@ -47,11 +47,11 @@ export class Data implements VegaData {
       values: []
     };
   }
-  
+
   /**
-   * Function to create vega data. Has tree config 
+   * Function to create vega data. Has tree config
    * and the nodes
-   * 
+   *
    * @param currentSheet selected sheet (depricated)
    * @param treeData tree data from tree service
    * @param config sheet config (depricated)
@@ -79,7 +79,7 @@ export class Data implements VegaData {
       ],
     };
   }
-  
+
   /**
    * Creates links in the vega tree
    */
@@ -97,7 +97,7 @@ export class Data implements VegaData {
       ],
     };
   }
-  
+
   /**
    * Function to create edges between multi parents (depricated)
    * @param multiParentLinksData multi parent links (depricated)
@@ -126,7 +126,7 @@ export class Data implements VegaData {
       ],
     };
   }
-  
+
   /**
    * Stores the nodes data of the bimodal network
    */
@@ -136,7 +136,7 @@ export class Data implements VegaData {
       values: []
     };
   }
-  
+
   /**
    * Stores the edges of the bimodal network
    */
@@ -164,7 +164,7 @@ export class Data implements VegaData {
       ],
     };
   }
-  
+
   /**
    * Stores the targets of a node that has been hovered on
    */
@@ -180,7 +180,7 @@ export class Data implements VegaData {
       ],
     };
   }
-  
+
   /**
    * Stores the sources of a node that has been hovered on
    */
@@ -196,7 +196,7 @@ export class Data implements VegaData {
       ],
     };
   }
-  
+
   /**
    * Stores the targets of a node that has been clicked on
    */
@@ -212,7 +212,7 @@ export class Data implements VegaData {
       ],
     };
   }
-  
+
   /**
    * Stores the sources of a node that has been clicked on
    */
@@ -228,7 +228,7 @@ export class Data implements VegaData {
       ],
     };
   }
-  
+
   /**
    * Stores the targets or targets of a node that has been clicked on
    */
@@ -248,7 +248,7 @@ export class Data implements VegaData {
       ],
     };
   }
-  
+
   /**
    * Stores the sources or sources of a node that has been clicked on
    */
@@ -268,7 +268,7 @@ export class Data implements VegaData {
       ],
     };
   }
-  
+
   /**
    * Stores the targets or targets of a node that has been hovered on
    */
@@ -288,7 +288,7 @@ export class Data implements VegaData {
       ],
     };
   }
-  
+
   /**
    * Stores the sources or sources of a node that has been hovered on
    */
@@ -308,7 +308,7 @@ export class Data implements VegaData {
       ],
     };
   }
-  
+
   /**
    * Stores the nodes whole opacity needs to be reduced when a node is clicked on
    */
@@ -324,7 +324,7 @@ export class Data implements VegaData {
       ]
     };
   }
-  
+
   /**
    * Stores the nodes whole opacity needs to be reduced when a node is hovered on
    */

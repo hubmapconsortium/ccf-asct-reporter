@@ -54,7 +54,7 @@ export class NavbarComponent implements OnInit {
    * Currently selecte mode
    */
   mode: string;
-  
+
   // state observables
   @Select(SheetState) sheet$: Observable<SheetStateModel>;
   @Select(UIState) ui$: Observable<UIStateModel>;

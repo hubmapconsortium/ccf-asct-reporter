@@ -33,9 +33,9 @@ export class Signals implements VegaSignals {
 
     return this.signals;
   }
-  
+
   /**
-   * Signal to trigger an action when a path in the bimodal network 
+   * Signal to trigger an action when a path in the bimodal network
    * is clicked.
    * Updtes the signal data with the references of the source or target
    */
@@ -52,11 +52,11 @@ export class Signals implements VegaSignals {
       ],
     };
   }
-  
+
   /**
    * Signal to denote of the ontology names in the visualization
    * should be visible
-   * 
+   *
    * @param value show or hide boolean
    */
   makeShowOntologyIDSignal(value: boolean) {
@@ -65,7 +65,7 @@ export class Signals implements VegaSignals {
       value
     };
   }
-  
+
   /**
    * Set the width of the AS tree
    * @param width width of tree
@@ -76,7 +76,7 @@ export class Signals implements VegaSignals {
       value: width,
     };
   }
-  
+
   /**
    * Set the height of the AS tree
    * @param height height of tree
@@ -87,9 +87,9 @@ export class Signals implements VegaSignals {
       value: height,
     };
   }
-  
+
   /**
-   * Signal to trigger an event when the name of a bimodal node 
+   * Signal to trigger an event when the name of a bimodal node
    * is clicked
    * Updates the signal data with the data of the node
    */
@@ -106,7 +106,7 @@ export class Signals implements VegaSignals {
       ]
     };
   }
-  
+
   /**
    * Signal that is triggered when the name of a node
    * is hovered upon
@@ -241,7 +241,7 @@ export class Signals implements VegaSignals {
       ],
     };
   }
-  
+
   /**
    * Signal to update the search field
    */

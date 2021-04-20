@@ -265,29 +265,29 @@ export class RootComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.store.dispatch(new StateReset(SheetState));
   }
-  
+
   /**
    * Function to update the report with the data
-   * 
+   *
    * @param data sheet data
    */
   updateReport(data: any) {
     this.store.dispatch(new UpdateReport(data));
   }
-  
+
   /**
-   * Deletes a sheeet from the compare 
-   * 
+   * Deletes a sheeet from the compare
+   *
    * @param i index of sheet
    */
   deleteSheet(i: number) {
     this.store.dispatch(new DeleteCompareSheet(i));
   }
 
-  
+
   /**
    * Opens loading dialog
-   * 
+   *
    * @param text Loading text
    */
   openLoading(text?: string) {
@@ -300,7 +300,7 @@ export class RootComponent implements OnInit, OnDestroy {
 
     this.dialog.open(LoadingComponent, config);
   }
-  
+
   /**
    * Close loading dialog
    */
@@ -308,14 +308,14 @@ export class RootComponent implements OnInit, OnDestroy {
     const loadingDialog = this.dialog.getDialogById('LoadingDialog');
     if (loadingDialog) { loadingDialog.close(); }
   }
-  
+
   /**
    * Toggling sidebars for Report, IL, Debug, Compare
    */
   toggleSideNav() {
     this.store.dispatch(new CloseRightSideNav());
   }
-  
+
   /**
    * Set compare data
    * @param data compare data
@@ -324,7 +324,7 @@ export class RootComponent implements OnInit, OnDestroy {
     this.store.dispatch(new CloseCompare());
     this.store.dispatch(new FetchCompareData(data));
   }
-  
+
   /**
    * Dispatch action to open bottom sheet
    * @param id ontology id
@@ -332,10 +332,10 @@ export class RootComponent implements OnInit, OnDestroy {
   getStructureInfo(id: string) {
     this.store.dispatch(new OpenBottomSheet(id));
   }
-  
+
   /**
    * Exports the visualiation into 3 formats
-   * 
+   *
    * @param option Export option. PNG | SVG | Vega Spec
    */
   exportVis(option: string) {
