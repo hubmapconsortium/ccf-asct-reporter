@@ -5,7 +5,7 @@ export const IMG_OPTIONS = ['PNG', 'SVG', 'Vega Spec'];
 
 export const MASTER_SHEET_LINK = 'https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=2034682742';
 
-export const SHEET_ID = '1F7D0y7pNPVIR3W4LjjtIMGg7rKTOxwyjVKzS-iiffz4';
+export const SHEET_ID = '1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0';
 
 export const SHEET_CONFIG = [
   {
