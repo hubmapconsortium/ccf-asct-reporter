@@ -19,62 +19,85 @@ import {GoogleAnalyticsService} from './services/google-analytics.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RootComponent } from './modules/root/root.component';
-import { TreeComponent } from './modules/tree/tree.component';
-import { HomeComponent } from './components/home/home.component';
-import { NavbarComponent } from './modules/navbar/navbar.component';
-import { ControlPaneComponent } from './modules/control-pane/control-pane.component';
+// import { RootComponent } from './modules/root/root.component';
+// import { TreeComponent } from './modules/tree/tree.component';
+// import { HomeComponent } from './components/home/home.component';
+// import { NavbarComponent } from './modules/navbar/navbar.component';
+// import { ControlPaneComponent } from './modules/control-pane/control-pane.component';
 import { UIState } from './store/ui.state';
-import { ErrorComponent } from './components/error/error.component';
-import { FunctionsComponent } from './modules/functions/functions.component';
-import { SearchComponent } from './modules/search/search.component';
+// import { ErrorComponent } from './components/error/error.component';
+// import { FunctionsComponent } from './modules/functions/functions.component';
+// import { SearchComponent } from './modules/search/search.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NgxsResetPluginModule } from 'ngxs-reset-plugin';
-import { IndentedListComponent } from './components/indented-list/indented-list.component';
-import { SidenavComponent } from './components/sidenav/sidenav.component';
-import { SidenavHeaderComponent } from './components/sidenav-header/sidenav-header.component';
-import { ReportComponent } from './components/report/report.component';
-import { DebugLogsComponent } from './components/debug-logs/debug-logs.component';
+// import { IndentedListComponent } from './components/indented-list/indented-list.component';
+// import { SidenavComponent } from './components/sidenav/sidenav.component';
+// import { SidenavHeaderComponent } from './components/sidenav-header/sidenav-header.component';
+// import { ReportComponent } from './components/report/report.component';
+// import { DebugLogsComponent } from './components/debug-logs/debug-logs.component';
 import { LogsState } from './store/logs.state';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { InfoComponent } from './components/info/info.component';
-import { CompareComponent } from './components/compare/compare.component';
-import { VisControlsComponent } from './components/controls/vis-controls.component';
-import { LegendComponent } from './components/legend/legend.component';
-import { PlaygroundComponent } from './modules/playground/playground.component';
-import { NavItemComponent } from './components/nav-item/nav-item.component';
-import { DoiComponent } from './components/doi/doi.component';
-import { DocsComponent } from './modules/docs/docs.component';
+// import { InfoComponent } from './components/info/info.component';
+// import { CompareComponent } from './components/compare/compare.component';
+// import { VisControlsComponent } from './components/controls/vis-controls.component';
+// import { LegendComponent } from './components/legend/legend.component';
+// import { PlaygroundComponent } from './modules/playground/playground.component';
+// import { NavItemComponent } from './components/nav-item/nav-item.component';
+// import { DoiComponent } from './components/doi/doi.component';
+// import { DocsComponent } from './modules/docs/docs.component';
 import { MarkdownModule } from 'ngx-markdown';
-import { DocsNavComponent } from './modules/docs/docs-nav/docs-nav.component';
+// import { DocsNavComponent } from './modules/docs/docs-nav/docs-nav.component';
 import { environment } from '../environments/environment';
+
+import { CompareModule } from '././components/compare/compare.module'
+import { ErrorModule } from './components/error/error.module';
+import { IndentedListModule } from './components/indented-list/indented-list.module';
+import { InfoModule } from './components/info/info.module';
+import { LegendModule } from './components/legend/legend.module';
+import { LoadingModule } from './components/loading/loading.module';
+import { NavItemModule } from './components/nav-item/nav-item.module';
+import { ReportModule } from './components/report/report.module';
+import { SidenavModule } from './components/sidenav/sidenav.module';
+import { SidenavHeaderModule } from './components/sidenav-header/sidenav-header.module';
+import { ControlPaneModule } from './modules/control-pane/control-pane.module';
+import { DocsModule } from './modules/docs/docs.module';
+import { FunctionsModule } from './modules/functions/functions.module';
+import { NavbarModule } from './modules/navbar/navbar.module';
+import { PlaygroundModule } from './modules/playground/playground.module';
+import { RootModule } from './modules/root/root.module';
+import { SearchModule } from './modules/search/search.module';
+import { TreeModule } from './modules/tree/tree.module';
+import { ControlsModule } from './components/controls/controls.module';
+import { DebugLogsModule } from './components/debug-logs/debug-logs.module';
+import { DoiModule } from './components/doi/doi.module';
+import { DocsNavModule } from './modules/docs/docs-nav/docs-nav.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    RootComponent,
-    TreeComponent,
-    HomeComponent,
-    NavbarComponent,
-    ControlPaneComponent,
-    ErrorComponent,
-    FunctionsComponent,
-    SearchComponent,
-    IndentedListComponent,
-    SidenavComponent,
-    SidenavHeaderComponent,
-    ReportComponent,
-    DebugLogsComponent,
-    InfoComponent,
-    CompareComponent,
-    VisControlsComponent,
-    LegendComponent,
-    PlaygroundComponent,
-    NavItemComponent,
-    DoiComponent,
-    DocsComponent,
-    DocsNavComponent
+    // RootComponent,
+    // TreeComponent,
+    // HomeComponent,
+    // NavbarComponent,
+    // ControlPaneComponent,
+    // ErrorComponent,
+    // FunctionsComponent,
+    // SearchComponent,
+    // IndentedListComponent,
+    // SidenavComponent,
+    // SidenavHeaderComponent,
+    // ReportComponent,
+    // DebugLogsComponent,
+    // InfoComponent,
+    // CompareComponent,
+    // VisControlsComponent,
+    // LegendComponent,
+    // PlaygroundComponent,
+    // NavItemComponent,
+    // DoiComponent,
+    // DocsComponent,
+    // DocsNavComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +118,29 @@ import { environment } from '../environments/environment';
     NgxMatSelectSearchModule,
     OrderModule,
     FontAwesomeModule,
-    MarkdownModule.forRoot()
+    MarkdownModule.forRoot(),
+    CompareModule,
+    ControlsModule,
+    DebugLogsModule,
+    DoiModule,
+    ErrorModule,
+    IndentedListModule,
+    InfoModule,
+    LegendModule,
+    LoadingModule,
+    NavItemModule,
+    ReportModule,
+    SidenavModule,
+    SidenavHeaderModule,
+    ControlPaneModule,
+    DocsModule,
+    FunctionsModule,
+    NavbarModule,
+    PlaygroundModule,
+    RootModule,
+    SearchModule,
+    TreeModule,
+    DocsNavModule
   ],
   providers: [GoogleAnalyticsService],
   bootstrap: [AppComponent]

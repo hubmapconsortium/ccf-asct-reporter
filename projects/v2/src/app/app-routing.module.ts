@@ -9,7 +9,7 @@ import { DocsComponent } from './modules/docs/docs.component';
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    loadChildren: () => import('././components/home/home.module').then(m => m.HomeModule)
   },
   {
     path: 'vis',
