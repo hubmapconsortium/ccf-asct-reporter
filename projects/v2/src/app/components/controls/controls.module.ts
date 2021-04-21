@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // import { SidenavModule } from '../sidenav/sidenav.module'
-import { VisControlsComponent } from './vis-controls.component'
+import { VisControlsComponent } from './vis-controls.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatIconModule } from '@angular/material/icon';

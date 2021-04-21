@@ -5,7 +5,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SidenavModule } from '../sidenav/sidenav.module'
+import { SidenavModule } from '../sidenav/sidenav.module';
 import { SidenavHeaderModule } from '../sidenav-header/sidenav-header.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '../../material.module';

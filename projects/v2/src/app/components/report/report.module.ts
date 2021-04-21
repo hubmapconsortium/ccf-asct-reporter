@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SidenavModule } from '../sidenav/sidenav.module'
+import { SidenavModule } from '../sidenav/sidenav.module';
 import { ReportComponent } from './report.component';
 import { SidenavHeaderModule } from '../sidenav-header/sidenav-header.module';
 import { MatTabsModule } from '@angular/material/tabs';

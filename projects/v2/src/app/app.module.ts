@@ -49,7 +49,7 @@ import { MarkdownModule } from 'ngx-markdown';
 // import { DocsNavComponent } from './modules/docs/docs-nav/docs-nav.component';
 import { environment } from '../environments/environment';
 
-import { CompareModule } from '././components/compare/compare.module'
+import { CompareModule } from '././components/compare/compare.module';
 import { ErrorModule } from './components/error/error.module';
 import { IndentedListModule } from './components/indented-list/indented-list.module';
 import { InfoModule } from './components/info/info.module';

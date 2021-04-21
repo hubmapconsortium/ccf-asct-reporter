@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SidenavModule } from '../sidenav/sidenav.module'
+import { SidenavModule } from '../sidenav/sidenav.module';
 import { IndentedListComponent } from './indented-list.component';
 import { SidenavHeaderModule } from '../sidenav-header/sidenav-header.module';
 import { MatTreeModule } from '@angular/material/tree';

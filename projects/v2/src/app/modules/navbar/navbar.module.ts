@@ -32,6 +32,6 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     RouterModule
   ],
-  exports:[NavbarComponent]
+  exports: [NavbarComponent]
 })
 export class NavbarModule { }
