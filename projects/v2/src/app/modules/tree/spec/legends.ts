@@ -1,3 +1,5 @@
+/* Depricated */
+
 import { Legend } from 'vega';
 
 interface VegaLegend {

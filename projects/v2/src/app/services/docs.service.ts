@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { REGISTRY } from '../static/docs';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -8,8 +7,14 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class DocsService {
+  /**
+   * List of all the docs pages
+   */
   REGISTRY = REGISTRY;
 
+  /**
+   * Behavior subject to return the markdown
+   */
   docsData = new BehaviorSubject<string>('');
   constructor(private readonly http: HttpClient) { }
 

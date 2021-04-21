@@ -2,8 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angula
 import { Select, Store } from '@ngxs/store';
 import { SheetState } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
-import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
-
+import { Validators, FormControl } from '@angular/forms';
 import * as jexcel from 'jexcel';
 import { UpdatePlaygroundData, FetchSheetData } from '../../actions/sheet.actions';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -22,16 +21,34 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
   @Select(SheetState.getParsedData) data$: Observable<string[][]>;
   @Select(SheetState.getSheet) sheet$: Observable<Sheet>;
 
+  /**
+   * Data for the table view
+   */
   spreadSheetData: Array<string[]>;
+  /**
+   * Instance of jexcel table
+   */
   table: any;
+  /**
+   * Keep track of previous tab. Default to 0
+   */
   prevTab = 0;
+  /**
+   * Google sheet link
+   */
   link: any;
+  /**
+   * Selected sheet
+   */
   currentSheet: Sheet;
+  /**
+   * Keeps track of the tab index
+   */
   tabIndex: number;
 
-  formGroup: FormGroup;
-  formSheets: FormArray;
-
+   /**
+    * Controller for entering the link
+    */
   linkFormControl = new FormControl('', [
     Validators.compose([
       Validators.required,
@@ -39,7 +56,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
     ]),
   ]);
 
-  constructor(public store: Store, public fb: FormBuilder, public ga: GoogleAnalyticsService) {
+  constructor(public readonly store: Store, public readonly ga: GoogleAnalyticsService) {
     this.sheet$.subscribe((sheet) => {
       this.currentSheet = sheet;
     });
@@ -52,15 +69,18 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
       if (data.length) {
         this.spreadSheetData = data;
         if (!this.table) {
-          this.initTable(data, this.store);
+          this.initTable(data);
         } else {
           this.table.destroy();
-          this.initTable(data, this.store);
+          this.initTable(data);
         }
       }
     });
   }
 
+  /**
+   * Add colums
+   */
   generateColumns(len: number) {
     const columns = [];
     for (let i = 0; i < len; i++) {
@@ -72,7 +92,12 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
     return columns;
   }
 
-  initTable(data: string[][], store: Store) {
+  /**
+   * Initialize jexcel table
+   *
+   * @param data table data
+   */
+  initTable(data: string[][]) {
     const that = this;
     this.table = jexcel(this.spreadsheet.nativeElement, {
       data,
@@ -205,32 +230,6 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
         // Line
         items.push({ type: 'line' });
 
-        // Do not show copy and paste options
-        /*items.push({
-            title:obj.options.text.copy,
-            shortcut:'Ctrl + C',
-            onclick:function() {
-                obj.copy(true);
-            }
-        });
-
-        // Paste
-        if (navigator && navigator.clipboard) {
-            items.push({
-                title:obj.options.text.paste,
-                shortcut:'Ctrl + V',
-                onclick:function() {
-                    if (obj.selectedCell) {
-                        navigator.clipboard.readText().then(function(text) {
-                            if (text) {
-                                jexcel.current.paste(obj.selectedCell[0], obj.selectedCell[1], text);
-                            }
-                        });
-                    }
-                }
-            });
-        }*/
-
         // Save
         if (obj.options.allowExport) {
           items.push({
@@ -251,6 +250,11 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * Change tabs
+   *
+   * @param tab table change event
+   */
   tabChange(tab: MatTabChangeEvent) {
     if (this.prevTab === 1 && tab.index === 0) {
       this.store.dispatch(new UpdatePlaygroundData(this.spreadSheetData));
@@ -259,6 +263,9 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
     this.ga.eventEmitter('playground_tabchange', GaCategory.PLAYGROUND, 'Change playground tab', GaAction.NAV, tab.index);
   }
 
+  /**
+   * Read the google sheet link and upload
+   */
   upload() {
     const data = this.checkLinkFormat(this.linkFormControl.value);
     const sheet = JSON.parse(JSON.stringify(this.currentSheet));
@@ -270,6 +277,9 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
     this.ga.eventEmitter('playground_upload', GaCategory.PLAYGROUND, 'Upload Playground Sheet', GaAction.CLICK, sheet.sheetId);
   }
 
+  /**
+   * Link validation function
+   */
   checkLinkFormat(url: string) {
     const matches = /\/([\w-_]{15,})\/(.*?gid=(\d+))?/.exec(url);
     if (matches) {

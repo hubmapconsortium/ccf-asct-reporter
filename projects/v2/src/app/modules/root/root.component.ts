@@ -59,16 +59,47 @@ import { DoiComponent } from '../../components/doi/doi.component';
   templateUrl: './root.component.html',
   styleUrls: ['./root.component.scss']
 })
-export class RootComponent implements OnInit, OnDestroy{
+export class RootComponent implements OnInit, OnDestroy {
+  /**
+   * Organ sheet data
+   */
   data: any;
+  /**
+   * Denotes if loading
+   */
   loading: boolean;
+  /**
+   * Vega view
+   */
   view: any;
+  /**
+   * Selected sheet
+   */
   sheet: any;
+  /**
+   * Denotesthe error state
+   */
   hasError: boolean;
+  /**
+   * Stores the error
+   */
   error: Error;
+  /**
+   * Reference to the snackbar
+   */
   snackbarRef: any;
+  /**
+   * Dnotes of sidebar control pane is open
+   */
   isControlPaneOpen: boolean;
+  /**
+   * Botton input sheet ref
+   */
   infoSheetRef: MatBottomSheetRef;
+  /**
+   * Mode of the application. Playground or visualiization
+   * Default is vis
+   */
   mode = 'vis';
 
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
@@ -235,15 +266,30 @@ export class RootComponent implements OnInit, OnDestroy{
     this.store.dispatch(new StateReset(SheetState));
   }
 
+  /**
+   * Function to update the report with the data
+   *
+   * @param data sheet data
+   */
   updateReport(data: any) {
     this.store.dispatch(new UpdateReport(data));
   }
 
+  /**
+   * Deletes a sheeet from the compare
+   *
+   * @param i index of sheet
+   */
   deleteSheet(i: number) {
     this.store.dispatch(new DeleteCompareSheet(i));
   }
 
 
+  /**
+   * Opens loading dialog
+   *
+   * @param text Loading text
+   */
   openLoading(text?: string) {
     const config = new MatDialogConfig();
     config.disableClose = true;
@@ -255,24 +301,43 @@ export class RootComponent implements OnInit, OnDestroy{
     this.dialog.open(LoadingComponent, config);
   }
 
+  /**
+   * Close loading dialog
+   */
   closeLoading() {
     const loadingDialog = this.dialog.getDialogById('LoadingDialog');
     if (loadingDialog) { loadingDialog.close(); }
   }
 
+  /**
+   * Toggling sidebars for Report, IL, Debug, Compare
+   */
   toggleSideNav() {
     this.store.dispatch(new CloseRightSideNav());
   }
 
+  /**
+   * Set compare data
+   * @param data compare data
+   */
   compareData(data: CompareData[]) {
     this.store.dispatch(new CloseCompare());
     this.store.dispatch(new FetchCompareData(data));
   }
 
+  /**
+   * Dispatch action to open bottom sheet
+   * @param id ontology id
+   */
   getStructureInfo(id: string) {
     this.store.dispatch(new OpenBottomSheet(id));
   }
 
+  /**
+   * Exports the visualiation into 3 formats
+   *
+   * @param option Export option. PNG | SVG | Vega Spec
+   */
   exportVis(option: string) {
     const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
     const sn = this.sheet.display.toLowerCase().replace(' ', '_');

@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-
 import vegaTooltip from 'vega-tooltip';
 import * as vega from 'vega';
-
 import { Signals } from './spec/signals';
 import { Data } from './spec/data';
 import { Scales } from './spec/scales';
@@ -12,7 +10,6 @@ import { Marks } from './spec/marks';
 import { UpdateVegaView, UpdateLinksData } from '../../actions/tree.actions';
 import { BimodalService } from './bimodal.service';
 import { OpenBottomSheet, CloseLoading, HasError, OpenBottomSheetDOI } from '../../actions/ui.actions';
-
 import { Error } from '../../models/response.model';
 import { ReportLog } from '../../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
@@ -20,7 +17,7 @@ import { Sheet, SheetConfig } from '../../models/sheet.model';
 import { TNode } from '../../models/tree.model';
 import { Signal } from 'vega';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
-import { GaAction, GaCategory, GaNodeInfo } from '../../models/ga.model';
+import { GaAction, GaCategory } from '../../models/ga.model';
 import { TreeState } from '../../store/tree.state';
 
 @Injectable({
@@ -28,14 +25,22 @@ import { TreeState } from '../../store/tree.state';
 })
 export class VegaService {
 
+  /**
+   * Sheet configuration to be applied while building
+   * the tree and the bimodal network
+   */
   sheetConfig: SheetConfig;
 
-
   constructor(
-    public store: Store,
-    public bm: BimodalService,
-    public ga: GoogleAnalyticsService) { }
+    public readonly store: Store,
+    public readonly bm: BimodalService,
+    public readonly ga: GoogleAnalyticsService) { }
 
+  /**
+   * Function to create the partonomy tree
+   *
+   * @param config vega spec
+   */
   async renderGraph(config: any) {
     try {
       const runtime: vega.Runtime = vega.parse(config, {});
@@ -64,9 +69,14 @@ export class VegaService {
     }
   }
 
+  /**
+   * Function to add various event listeners to the visualization
+   *
+   * @param view vega view
+   */
   addSignalListeners(view: any) {
+    // node name click event to open bottom sheet
     view.addSignalListener('bimodal_text__click', (signal: Signal, node: any) => {
-
       if (Object.entries(node).length) {
         this.store.dispatch(new OpenBottomSheet(node));
       }
@@ -74,6 +84,7 @@ export class VegaService {
       this.ga.eventEmitter('graph_label_click', GaCategory.GRAPH, 'Clicked a node label', GaAction.CLICK, this.ga.makeNodeInfoString(node));
     });
 
+    // node click listener to emit ga event
     view.addSignalListener('node__click', (signal: Signal, nodeId: any) => {
       if (nodeId != null) {
         const clickedNode = this.store.selectSnapshot(TreeState.getBimodal).nodes.find(node => node.id === nodeId);
@@ -84,14 +95,20 @@ export class VegaService {
       }
     });
 
+    // path click event to show doi/references
     view.addSignalListener('path__click', (signal: Signal, text: any) => {
-      console.log(text);
       if ((text).length) {
         this.store.dispatch(new OpenBottomSheetDOI(text));
       }
     });
   }
 
+  /**
+   * Function to create the biomodal network
+   * Uses the data, tree data and the various configurations
+   *
+   * @param view vega view
+   */
   makeBimodal(view: any) {
     this.store.dispatch(new UpdateVegaView(view)).subscribe(states => {
       const data = states.sheetState.data;
@@ -102,7 +119,7 @@ export class VegaService {
 
       if (data.length) {
         try {
-          this.bm.makeBimodalData(data, treeData, bimodalConfig, sheet, sheetConfig);
+          this.bm.makeBimodalData(data, treeData, bimodalConfig, sheetConfig);
         } catch (err) {
           console.log(err);
         }
@@ -110,6 +127,14 @@ export class VegaService {
     });
   }
 
+  /**
+   * Function to creat the vega spec
+   *
+   * @param currentSheet selected organ sheet
+   * @param treeData partonomy/vega tree data
+   * @param sheetConfig sheet configurations
+   * @param multiParentLinksData depricated
+   */
   makeVegaConfig(currentSheet: Sheet, treeData: TNode[], sheetConfig: SheetConfig, multiParentLinksData?: []) {
     const config: any = {
       $schema: 'https://vega.github.io/schema/vega/v5.json',

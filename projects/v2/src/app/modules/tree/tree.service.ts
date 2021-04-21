@@ -18,19 +18,41 @@ import { Row } from '../../models/sheet.model';
   providedIn: 'root',
 })
 export class TreeService {
+  /**
+   * Height of the tree
+   */
   height: number;
+  /**
+   * Denotes if the left control pane is open
+   */
   controlPaneOpen: boolean;
+  /**
+   * Sheet configurations that has the different parameters
+   */
   sheetConfig: SheetConfig;
 
+  /**
+   * Tree State observable
+   */
   @Select(TreeState) tree$: Observable<TreeStateModel>;
+
+  /**
+   * UI State observable
+   */
   @Select(UIState) uiState$: Observable<UIStateModel>;
+
+  /**
+   * Sheet state - sheet config observable
+   */
   @Select(SheetState.getSheetConfig) sc$: Observable<SheetConfig>;
 
-  constructor(public store: Store, public vs: VegaService) {
+  constructor(public readonly store: Store, public readonly vs: VegaService) {
     this.tree$.subscribe((state) => {
       this.height = state.height;
       const view = state.view;
 
+      // if the vega view is valid, check for search data
+      // re-render the view
       if (Object.keys(view).length) {
         const search = state.search;
         view.data('search', search);
@@ -47,6 +69,14 @@ export class TreeService {
     });
   }
 
+  /**
+   * Function to create the vega tree that visualization the
+   * Anatomical structures and its substructures
+   *
+   * @param currentSheet current selected sheet
+   * @param data data from the miner of the sheet
+   * @param compareData compare data (depricated)
+   */
   public makeTreeData(currentSheet: Sheet, data: Row[], compareData?: any) {
     try {
       let id = 1;

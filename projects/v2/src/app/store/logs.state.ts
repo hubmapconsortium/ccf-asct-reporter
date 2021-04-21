@@ -5,9 +5,19 @@ import { Injectable } from '@angular/core';
 import { ReportLog, ClearSheetLogs } from '../actions/logs.actions';
 import { Log, LogEntry } from '../models/logs.model';
 
+/** Class to keep track of the logs */
 export class LogsStateModel {
+  /**
+   * Id of the log
+   */
   id: number;
+  /**
+   * Logs of the current sheet
+   */
   sheetLogs: Log;
+  /**
+   * All logs of a session
+   */
   allLogs: Log[];
 }
 
@@ -25,6 +35,9 @@ export class LogsState {
   constructor() {
   }
 
+  /**
+   * Returns the sheet logs and all logs
+   */
   @Selector()
   static getLogs(state: LogsStateModel) {
     return {
@@ -34,6 +47,9 @@ export class LogsState {
   }
 
 
+  /**
+   * Action to add a log
+   */
   @Action(ReportLog)
   reportLog({getState}: StateContext<LogsStateModel>, {type, message, icon, version}: ReportLog) {
     const state = getState();
@@ -77,6 +93,9 @@ export class LogsState {
     }
   }
 
+  /**
+   * Action to clear the logs
+   */
   @Action(ClearSheetLogs)
   clearSheetLogs({getState, setState}: StateContext<LogsStateModel>) {
     const state = getState();

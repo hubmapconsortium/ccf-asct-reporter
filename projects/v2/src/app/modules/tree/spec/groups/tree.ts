@@ -1,6 +1,9 @@
 import { GroupMark } from 'vega';
 
 export interface VegaTreeMarkGroup {
+  /**
+   * Vega mark group
+   */
   group: GroupMark;
 }
 
@@ -13,6 +16,9 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
     return this.group;
   }
 
+  /**
+   * Mark group for the AS tree
+   */
   makeTreeMarkGroup() {
     return {
       type: 'group',
@@ -30,6 +36,9 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
     };
   }
 
+  /**
+   * Mark for the blue rectangle for search
+   */
   makeBimodalTextSearchMarks() {
     return {
       name: 'rectmark',
@@ -61,6 +70,9 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
     };
   }
 
+  /**
+   * AS Tree paths marks
+   */
   makeTreePathMarks() {
     return {
       type: 'path',
@@ -88,6 +100,9 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
     };
   }
 
+  /**
+   * AS tree symbol marks
+   */
   makeTreeSymbolMarks() {
     return {
       type: 'symbol',
@@ -127,6 +142,9 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
     };
   }
 
+  /**
+   * AS tree link text marks (these are clikable to get info )
+   */
   makeTreeTextLinkMarks() {
     return {
       type: 'text',
@@ -179,6 +197,9 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
     };
   }
 
+  /**
+   * AS Tree text marks
+   */
   makeTreeTextMarks() {
     return {
       type: 'text',

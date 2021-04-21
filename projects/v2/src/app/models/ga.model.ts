@@ -15,6 +15,7 @@ export enum GaAction {
 // Various event categories
 export enum GaCategory {
   HOME = 'home',
+  DOCS = 'docs',
   REPORT = 'report',
   NAVBAR = 'navbar',
   PLAYGROUND = 'playground',

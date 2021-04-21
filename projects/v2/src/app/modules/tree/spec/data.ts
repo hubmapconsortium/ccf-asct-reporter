@@ -3,17 +3,22 @@ import { TNode } from '../../../models/tree.model';
 import { Sheet, SheetConfig } from '../../../models/sheet.model';
 
 interface VegaData {
+  /**
+   * List of vega data interfaces
+   */
   data: Array<VegaDataInterface>;
 }
 
 export class Data implements VegaData {
+  /**
+   * List of data functions
+   */
   data: any;
 
   constructor(currentSheet: Sheet, treeData: TNode[], sheetConfig: SheetConfig, multiParentLinksData?: any) {
     this.data = [
       this.makeASTreeData(currentSheet, treeData, sheetConfig),
       this.makeASTreeLinksData(),
-      // this.makeASMultiParentEdgesData(multiParentLinksData),
       this.makeBimodalNodesData(),
       this.makeBimodalEdgesData(),
       this.makeSourcesClickData(),
@@ -32,6 +37,10 @@ export class Data implements VegaData {
     return this.data;
   }
 
+  /**
+   * Stores the list of IDs that should show on the graph
+   * when search is used
+   */
   makeSearchIdsData() {
     return {
       name: 'search',
@@ -39,6 +48,14 @@ export class Data implements VegaData {
     };
   }
 
+  /**
+   * Function to create vega data. Has tree config
+   * and the nodes
+   *
+   * @param currentSheet selected sheet (depricated)
+   * @param treeData tree data from tree service
+   * @param config sheet config (depricated)
+   */
   makeASTreeData(currentSheet: Sheet, treeData: TNode[], config: SheetConfig) {
     return {
       name: 'tree',
@@ -63,6 +80,9 @@ export class Data implements VegaData {
     };
   }
 
+  /**
+   * Creates links in the vega tree
+   */
   makeASTreeLinksData() {
     return {
       name: 'links',
@@ -78,6 +98,10 @@ export class Data implements VegaData {
     };
   }
 
+  /**
+   * Function to create edges between multi parents (depricated)
+   * @param multiParentLinksData multi parent links (depricated)
+   */
   makeASMultiParentEdgesData(multiParentLinksData) {
     return {
       name: 'multi_parent_edges',
@@ -103,6 +127,9 @@ export class Data implements VegaData {
     };
   }
 
+  /**
+   * Stores the nodes data of the bimodal network
+   */
   makeBimodalNodesData() {
     return {
       name: 'nodes',
@@ -110,6 +137,9 @@ export class Data implements VegaData {
     };
   }
 
+  /**
+   * Stores the edges of the bimodal network
+   */
   makeBimodalEdgesData() {
     return {
       name: 'edges',
@@ -135,6 +165,9 @@ export class Data implements VegaData {
     };
   }
 
+  /**
+   * Stores the targets of a node that has been hovered on
+   */
   makeTargetsHoverData() {
     return {
       name: 'targets_hovered_array',
@@ -148,6 +181,9 @@ export class Data implements VegaData {
     };
   }
 
+  /**
+   * Stores the sources of a node that has been hovered on
+   */
   makeSourcesHoverData() {
     return {
       name: 'sources_hovered_array',
@@ -161,6 +197,9 @@ export class Data implements VegaData {
     };
   }
 
+  /**
+   * Stores the targets of a node that has been clicked on
+   */
   makeTargetsClickData() {
     return {
       name: 'targets_clicked_array',
@@ -174,6 +213,9 @@ export class Data implements VegaData {
     };
   }
 
+  /**
+   * Stores the sources of a node that has been clicked on
+   */
   makeSourcesClickData() {
     return {
       name: 'sources_clicked_array',
@@ -187,6 +229,9 @@ export class Data implements VegaData {
     };
   }
 
+  /**
+   * Stores the targets or targets of a node that has been clicked on
+   */
   makeTargetsOfTargetsClickData() {
     return {
       name: 'targets_of_targets__click',
@@ -204,6 +249,9 @@ export class Data implements VegaData {
     };
   }
 
+  /**
+   * Stores the sources or sources of a node that has been clicked on
+   */
   makeSourcesOfSourcesClickData() {
     return {
       name: 'sources_of_sources__click',
@@ -221,6 +269,9 @@ export class Data implements VegaData {
     };
   }
 
+  /**
+   * Stores the targets or targets of a node that has been hovered on
+   */
   makeTargetsOfTargetsHoverData() {
     return {
       name: 'targets_of_targets__hover',
@@ -238,6 +289,9 @@ export class Data implements VegaData {
     };
   }
 
+  /**
+   * Stores the sources or sources of a node that has been hovered on
+   */
   makeSourcesOfSourcesHoverData() {
     return {
       name: 'sources_of_sources__hover',
@@ -255,6 +309,9 @@ export class Data implements VegaData {
     };
   }
 
+  /**
+   * Stores the nodes whole opacity needs to be reduced when a node is clicked on
+   */
   makeViewModeClickData() {
     return {
       name: 'view_mode__click',
@@ -268,6 +325,9 @@ export class Data implements VegaData {
     };
   }
 
+  /**
+   * Stores the nodes whole opacity needs to be reduced when a node is hovered on
+   */
   makeViewModeHoverData() {
     return {
       name: 'view_mode__hover',

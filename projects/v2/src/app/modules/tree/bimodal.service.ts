@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { } from './tree.service';
 import { BMNode, Link, BimodalConfig } from '../../models/bimodal.model';
 import { makeCellTypes, makeAS, makeBioMarkers } from './tree.functions';
 import { CT_BLUE, B_GREEN, TNode } from '../../models/tree.model';
@@ -16,13 +15,20 @@ import { Row, Sheet, SheetConfig } from '../../models/sheet.model';
 })
 export class BimodalService {
 
-  constructor(private store: Store) { }
+  constructor(private readonly store: Store) { }
 
+  /**
+   * Function to create the bimodal network
+   * @param sheetData current sheet data
+   * @param treeData data from the vega tree. the coordinates from the
+   * last layer is used to create the CT layer
+   * @param bimodalConfig bimodal configuration for x and y distances
+   * @param sheetConfig sheet configuration for height and width
+   */
   async makeBimodalData(
     sheetData: Row[],
     treeData: TNode[],
     bimodalConfig: BimodalConfig,
-    currentSheet: Sheet,
     sheetConfig?: SheetConfig
   ) {
 
@@ -100,7 +106,6 @@ export class BimodalService {
           break;
 
       }
-
 
       cellTypes.forEach((cell) => {
         const newNode = new BMNode(
@@ -280,6 +285,14 @@ export class BimodalService {
 
   }
 
+  /**
+   * Function to reset the signals and data of the visualization
+   *
+   * @param view vega view
+   * @param spec vega spec
+   * @param nodes bimodal network nodes
+   * @param links bimodal network links
+   */
   updateBimodalData(view: any, spec: any, nodes: BMNode[], links: Link[]) {
     view._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
     view._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
@@ -287,15 +300,18 @@ export class BimodalService {
     view.data('nodes', nodes).data('edges', links).resize().runAsync();
 
     this.updateSpec(spec, nodes, links);
-    // this.addSignalListeners(view);
 
     this.store.dispatch(new CloseLoading('Visualization Rendered'));
     this.store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Visualization successfully rendered', LOG_ICONS.success));
-
   }
 
-
-
+  /**
+   * Function to update the spec with bimodal data
+   *
+   * @param spec vega spec
+   * @param nodes bimodal network nodes
+   * @param links bimodal network links
+   */
   updateSpec(spec: any, nodes: BMNode[], links: Link[]) {
     spec.data[
       spec.data.findIndex((i) => i.name === 'nodes')
@@ -305,21 +321,5 @@ export class BimodalService {
     ].values = links;
 
     this.store.dispatch(new UpdateVegaSpec(spec));
-  }
-
-  checkLinks(data) {
-    data.forEach(node => {
-      if (node.targets.length === 0 && node.group === 2) {
-        this.store.dispatch(new ReportLog(LOG_TYPES.NO_OUT_LINKS, node.name, LOG_ICONS.warning));
-      }
-
-      if (node.sources.length === 0 && node.group === 2) {
-        this.store.dispatch(new ReportLog(LOG_TYPES.NO_IN_LINKS, node.name, LOG_ICONS.warning));
-      }
-
-      if (node.sources.length === 0 && node.group === 3) {
-        this.store.dispatch(new ReportLog(LOG_TYPES.NO_IN_LINKS, node.name, LOG_ICONS.warning));
-      }
-    });
   }
 }
