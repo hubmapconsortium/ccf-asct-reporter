@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { InfoComponent } from './info.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 
 
@@ -11,7 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [
     CommonModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatBottomSheetModule
   ],
   exports: [InfoComponent]
 })

@@ -8,7 +8,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SidenavModule } from '../sidenav/sidenav.module';
 import { SidenavHeaderModule } from '../sidenav-header/sidenav-header.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from '../../material.module';
 import { MatButtonModule } from '@angular/material/button';
 
 
@@ -26,7 +25,6 @@ import { MatButtonModule } from '@angular/material/button';
     SidenavHeaderModule,
     BrowserAnimationsModule,
     MatButtonModule
-    // MaterialModule
   ],
   exports: [
     CompareComponent

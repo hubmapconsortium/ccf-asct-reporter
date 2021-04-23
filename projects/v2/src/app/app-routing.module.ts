@@ -2,7 +2,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { RootComponent } from './modules/root/root.component';
-import { HomeComponent } from './components/home/home.component';
 import { DocsComponent } from './modules/docs/docs.component';
 
 

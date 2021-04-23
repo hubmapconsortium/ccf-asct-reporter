@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DoiComponent } from './doi.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 
 
@@ -11,7 +12,8 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [
     CommonModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatBottomSheetModule
   ],
   exports: [DoiComponent]
 })

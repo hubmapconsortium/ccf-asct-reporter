@@ -12,6 +12,10 @@ import { ErrorModule } from '../../components/error/error.module';
 import { LegendModule } from '../../components/legend/legend.module';
 import { PlaygroundModule } from '../playground/playground.module';
 import { TreeModule } from '../tree/tree.module';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 
@@ -29,7 +33,12 @@ import { TreeModule } from '../tree/tree.module';
     ErrorModule,
     LegendModule,
     PlaygroundModule,
-    TreeModule
+    TreeModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatBottomSheetModule,
+    DragDropModule
+
   ],
   exports: [RootComponent]
 })
