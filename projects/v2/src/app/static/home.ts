@@ -10,24 +10,54 @@ export const VIDEO_ACTIONS = [
     sec: 30
   },
   {
+    header: 'Search',
+    desc: 'Search entities by typing their names.',
+    sec: 68
+  },
+  {
+    header: 'Indented List',
+    desc: 'View the data in a hierarchical format.',
+    sec: 120
+  },
+  {
     header: 'Report Generator',
-    desc: 'The Reporter computes various statistics from the data - which can be viewed in the Report',
-    sec: 91
+    desc: 'The Reporter computes various statistics from the data - which is downloadable.',
+    sec: 140
   },
   {
     header: 'Debug Log',
-    desc: 'The Debug Log lists warnings and errors that occurred during data parsing and visualization creation',
-    sec: 112
+    desc: 'The Log lists warnings and errors that occurred during data parsing and visualization creation',
+    sec: 163
   },
   {
     header: 'Tree Visualization',
     desc: 'See how to explore the tree visualization.',
-    sec: 148
+    sec: 209
   },
   {
     header: 'Graph Functions',
-    desc: 'See how you can sort and size different nodes.',
-    sec: 168
+    desc: 'See how you can sort, size and filter different nodes.',
+    sec: 303
+  },
+  {
+    header: 'Graph Controls',
+    desc: 'Constomize the visualization on the fly.',
+    sec: 335
+  },
+  {
+    header: 'Compare',
+    desc: 'Compare your data to that of the master tables.',
+    sec: 378
+  },
+  {
+    header: 'Playground',
+    desc: 'Play with the visualization and upload your own data.',
+    sec: 485
+  },
+  {
+    header: 'Docs',
+    desc: 'Take a look at the Reporter Documentation.',
+    sec: 604
   }
 ];
 
