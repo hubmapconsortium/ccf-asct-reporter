@@ -7,7 +7,6 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SidenavModule } from '../sidenav/sidenav.module';
 import { SidenavHeaderModule } from '../sidenav-header/sidenav-header.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 
 
@@ -23,7 +22,6 @@ import { MatButtonModule } from '@angular/material/button';
     ReactiveFormsModule,
     SidenavModule,
     SidenavHeaderModule,
-    BrowserAnimationsModule,
     MatButtonModule
   ],
   exports: [

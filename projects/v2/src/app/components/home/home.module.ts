@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { HomeRoutingModule } from './home-routing.module';
 import { RouterModule } from '@angular/router';
 
 
@@ -14,7 +13,6 @@ import { RouterModule } from '@angular/router';
   declarations: [HomeComponent],
   imports: [
     CommonModule,
-    HomeRoutingModule,
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
