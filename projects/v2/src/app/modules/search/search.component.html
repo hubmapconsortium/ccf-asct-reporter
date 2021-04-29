@@ -12,12 +12,13 @@
       matTooltipPosition="below">
     </button>
     <div class="search-modal mat-elevation-z4"
-        *ngIf="searchState$ | async">
+        [hidden]="!(searchState$ | async)">
       <mat-form-field class="br-top"
         appearance="legacy"
         floatLabel="never">
         <input matInput
           #searchField
+          cdkFocusInitial
           placeholder="Search Structures"
           [formControl]="structuresMultiFilterCtrl">
         <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="closeSearchList()">

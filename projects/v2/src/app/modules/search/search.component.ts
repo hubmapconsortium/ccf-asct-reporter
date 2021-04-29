@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input, ViewChild, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Output, Input, ViewChild, EventEmitter, AfterViewInit, ElementRef } from '@angular/core';
 import { FormControl, Form } from '@angular/forms';
 
 import { ReplaySubject, Observable } from 'rxjs';
@@ -36,12 +36,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   /** list of structures filtered by search keyword */
   public filteredstructuresMulti: ReplaySubject<SearchStructure[]> = new ReplaySubject<SearchStructure[]>(1);
 
-  private searchFieldContent: MatInput;
-  @ViewChild('searchField', { static: false }) set searchField(content: MatInput) {
-    if (content) {
-      this.searchFieldContent = content;
-    }
-  }
+  @ViewChild('searchField', { static: false }) searchFieldContent: ElementRef;
 
   /** Subject that emits when the component has been destroyed. */
   protected subjectOnDestroy = new Subject<void>();
@@ -110,7 +105,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
     // Show search dropdown
     this.store.dispatch(new OpenSearch());
-    this.searchFieldContent.focus();
+    this.searchFieldContent.nativeElement.focus();
   }
 
   closeSearchList() {
