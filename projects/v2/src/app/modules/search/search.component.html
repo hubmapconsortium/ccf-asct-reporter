@@ -2,7 +2,6 @@
   <div class="pl-2 br-left search-icon-container">
     <mat-icon class="mt-2">search</mat-icon>
   </div>
-  <mat-form-field class="w-100 h-100">
     <button
       [disabled]="disabled"
       (click)="createSearchList()"
@@ -10,38 +9,45 @@
       mat-flat-button
       #tooltip="matTooltip"
       matTooltip="Search Structures"
-      matTooltipPosition="below"
-    >
-      <mat-select
+      matTooltipPosition="below">
+    </button>
+    <div class="search-modal mat-elevation-z4"
+        *ngIf="showList">
+      <mat-form-field class="br-top"
+        appearance="legacy"
+        floatLabel="never">
+        <input matInput
+          #searchField
+          placeholder="Search Structures"
+          [formControl]="structuresMultiFilterCtrl">
+        <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="showList=false">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-selection-list #multiSelect
         [disabled]="disabled"
         [formControl]="structuresMultiCtrl"
         [multiple]="true"
-        #multiSelect
         (selectionChange)="onOptionSelect()"
       >
-        <mat-option>
-          <ngx-mat-select-search
-           
-            [formControl]="structuresMultiFilterCtrl"
-            [placeholderLabel]="'Search Structures'"
-            noEntriesFoundLabel="No entries Found"
-          ></ngx-mat-select-search>
-        </mat-option>
-        <mat-option
+        <mat-list-item
+          *ngIf="(filteredstructuresMulti | async)?.length == 0"
+        >
+          <div>No entries found.</div>
+        </mat-list-item>
+        <mat-list-option
           *ngFor="let structures of filteredstructuresMulti | async"
           [value]="structures"
-          
-        >
-         <div class="structure-name">
-           <div>
+          checkboxPosition="before">
+          <div class="structure-name">
+            <div>
             {{ structures.name }}
-           </div>
-           <div class="structure-group-name" >
+            </div>
+            <div class="structure-group-name" >
             <i>{{ structures.groupName }}</i>
-           </div>
-         </div>
-        </mat-option>
-      </mat-select>
-    </button>
-  </mat-form-field>
+            </div>
+          </div>
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
 </div>

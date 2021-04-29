@@ -1,8 +1,7 @@
 import { Component, OnInit, Output, Input, ViewChild, EventEmitter, AfterViewInit } from '@angular/core';
 import { FormControl, Form } from '@angular/forms';
-// import {GaService} from '../services/ga.service';
 
-import { MatSelect } from '@angular/material/select';
+
 
 import { ReplaySubject, Observable } from 'rxjs';
 import { Subject } from 'rxjs';
@@ -15,6 +14,7 @@ import { DoSearch } from '../../actions/tree.actions';
 import { BMNode } from '../../models/bimodal.model';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory } from '../../models/ga.model';
+import { MatInput } from '@angular/material/input';
 
 
 @Component({
@@ -37,7 +37,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   /** list of structures filtered by search keyword */
   public filteredstructuresMulti: ReplaySubject<SearchStructure[]> = new ReplaySubject<SearchStructure[]>(1);
 
-  @ViewChild('multiSelect', { static: true }) multiSelect: MatSelect;
+  @ViewChild('searchField') searchField: MatInput;
 
   /** Subject that emits when the component has been destroyed. */
   protected subjectOnDestroy = new Subject<void>();
@@ -46,6 +46,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   treeData: TNode[];
   nodes: BMNode[];
+  showList: boolean = false;
 
   constructor(
     // private dialogRef: MatDialogRef<SearchComponent>,
@@ -102,6 +103,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.structures = [...searchSet];
     this.filteredstructuresMulti.next(this.structures.slice());
 
+    // Show search dropdown
+    this.showList = true;
+    this.searchField.focus();
     this.ga.eventEmitter('nav_search_clicked', GaCategory.NAVBAR, 'Click Search Box', GaAction.CLICK);
   }
 
@@ -112,14 +116,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
       .subscribe((r) => {
         this.filterstructuressMulti();
       });
-    this.filteredstructuresMulti
-      .pipe(take(1), takeUntil(this.subjectOnDestroy))
-      .subscribe(() => {
-        this.multiSelect.compareWith = (a: SearchStructure, b: SearchStructure) => a && b && a.id === b.id;
-      });
   }
-
-
 
   protected filterstructuressMulti() {
     if (!this.structures) {
@@ -135,12 +132,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
     }
     // filter the structures
     this.filteredstructuresMulti.next(
-      this.structures.filter(structures => structures.name.toLowerCase().indexOf(search) > -1)
+      this.structures.filter(structures => structures.name.toLowerCase().includes(search))
     );
-
     // This event fires for every letter typed
     this.ga.eventEmitter('nav_search_term', GaCategory.NAVBAR, 'Search term typed in', GaAction.INPUT, search);
   }
-
 
 }
