@@ -12,7 +12,7 @@
       matTooltipPosition="below">
     </button>
     <div class="search-modal mat-elevation-z4"
-        [hidden]="!(searchState$ | async)">
+        [hidden]="(searchState$ | async) === false">
       <mat-form-field class="br-top"
         appearance="legacy"
         floatLabel="never">
