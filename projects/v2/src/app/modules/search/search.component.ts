@@ -12,7 +12,6 @@ import { DoSearch } from '../../actions/tree.actions';
 import { BMNode } from '../../models/bimodal.model';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory } from '../../models/ga.model';
-import { MatInput } from '@angular/material/input';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { CloseSearch, OpenSearch } from '../../actions/ui.actions';
 
