@@ -17,6 +17,8 @@ import {
   CloseBottomSheet,
   OpenCompare,
   CloseCompare,
+  OpenSearch,
+  CloseSearch,
   OpenBottomSheetDOI,
   CloseBottomSheetDOI,
 } from '../actions/ui.actions';
@@ -75,6 +77,10 @@ export class UIStateModel {
    * Keep track of the compare sidebar
    */
   compareOpen: boolean;
+  /**
+   * Keep track of the search panel state
+   */
+  searchOpen: boolean;
 }
 
 @State<UIStateModel>({
@@ -90,7 +96,8 @@ export class UIStateModel {
     reportOpen: false,
     debugLogOpen: false,
     bottomSheetOpen: false,
-    compareOpen: false
+    compareOpen: false,
+    searchOpen: false
   }
 })
 @Injectable()
@@ -210,6 +217,16 @@ export class UIState {
   static getCompareState(state: UIStateModel) {
     return state.compareOpen;
   }
+
+  /**
+   * Select the search panel state
+   *
+   * @param state - UI State Model
+   */
+   @Selector()
+   static getSearchState(state: UIStateModel) {
+     return state.searchOpen;
+   }
 
   /**
    * Action to open snackbar. Update the UI State by setting the
@@ -450,5 +467,25 @@ export class UIState {
       compareOpen: false
     });
     this.ga.eventEmitter('nav_compare_close', GaCategory.NAVBAR, 'Close Compare', GaAction.CLICK, getState().compareOpen);
+  }
+
+  @Action(OpenSearch)
+  openSearch({ getState, setState }: StateContext<UIStateModel>) {
+    const state = getState();
+    setState({
+      ...state,
+      searchOpen: true
+    });
+    this.ga.eventEmitter('nav_search_open', GaCategory.NAVBAR, 'Open Search', GaAction.CLICK, getState().searchOpen);
+  }
+
+  @Action(CloseSearch)
+  closeSearch({ getState, setState }: StateContext<UIStateModel>) {
+    const state = getState();
+    setState({
+      ...state,
+      searchOpen: false
+    });
+    this.ga.eventEmitter('nav_search_close', GaCategory.NAVBAR, 'Close Search', GaAction.CLICK, getState().searchOpen);
   }
 }

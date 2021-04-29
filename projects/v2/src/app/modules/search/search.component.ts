@@ -1,8 +1,6 @@
 import { Component, OnInit, Output, Input, ViewChild, EventEmitter, AfterViewInit } from '@angular/core';
 import { FormControl, Form } from '@angular/forms';
 
-
-
 import { ReplaySubject, Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -15,7 +13,8 @@ import { BMNode } from '../../models/bimodal.model';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { MatInput } from '@angular/material/input';
-
+import { UIState, UIStateModel } from '../../store/ui.state';
+import { CloseSearch, OpenSearch } from '../../actions/ui.actions';
 
 @Component({
   selector: 'app-search',
@@ -37,16 +36,22 @@ export class SearchComponent implements OnInit, AfterViewInit {
   /** list of structures filtered by search keyword */
   public filteredstructuresMulti: ReplaySubject<SearchStructure[]> = new ReplaySubject<SearchStructure[]>(1);
 
-  @ViewChild('searchField') searchField: MatInput;
+  private searchFieldContent: MatInput;
+  @ViewChild('searchField', { static: false }) set searchField(content: MatInput) {
+    if (content) {
+      this.searchFieldContent = content;
+    }
+  }
 
   /** Subject that emits when the component has been destroyed. */
   protected subjectOnDestroy = new Subject<void>();
 
   @Select(TreeState) tree$: Observable<TreeStateModel>;
+  @Select(UIState) ui$: Observable<UIStateModel>;
+  @Select(UIState.getSearchState) searchState$: Observable<boolean>;
 
   treeData: TNode[];
   nodes: BMNode[];
-  showList: boolean = false;
 
   constructor(
     // private dialogRef: MatDialogRef<SearchComponent>,
@@ -74,7 +79,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.ga.eventEmitter('nav_search_filter_select', GaCategory.NAVBAR, 'Select/Deselect Search Filters', GaAction.CLICK, selectedValues);
   }
 
-  createSearchList() {
+  openSearchList() {
     const searchSet = new Set<SearchStructure>();
 
     for (const node of this.treeData) {
@@ -104,9 +109,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.filteredstructuresMulti.next(this.structures.slice());
 
     // Show search dropdown
-    this.showList = true;
-    this.searchField.focus();
-    this.ga.eventEmitter('nav_search_clicked', GaCategory.NAVBAR, 'Click Search Box', GaAction.CLICK);
+    this.store.dispatch(new OpenSearch());
+    this.searchFieldContent.focus();
+  }
+
+  closeSearchList() {
+    this.store.dispatch(new CloseSearch());
   }
 
   ngAfterViewInit() {

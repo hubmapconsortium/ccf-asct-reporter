@@ -4,7 +4,7 @@
   </div>
     <button
       [disabled]="disabled"
-      (click)="createSearchList()"
+      (click)="openSearchList()"
       class="w-100 secondary ch text-left"
       mat-flat-button
       #tooltip="matTooltip"
@@ -12,7 +12,7 @@
       matTooltipPosition="below">
     </button>
     <div class="search-modal mat-elevation-z4"
-        *ngIf="showList">
+        *ngIf="searchState$ | async">
       <mat-form-field class="br-top"
         appearance="legacy"
         floatLabel="never">
@@ -20,7 +20,7 @@
           #searchField
           placeholder="Search Structures"
           [formControl]="structuresMultiFilterCtrl">
-        <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="showList=false">
+        <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="closeSearchList()">
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
