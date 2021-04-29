@@ -1,11 +1,11 @@
-import { Component, OnInit, Output, Input, ViewChild, EventEmitter, AfterViewInit, ElementRef } from '@angular/core';
-import { FormControl, Form } from '@angular/forms';
+import { Component, OnInit, Input, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 import { ReplaySubject, Observable } from 'rxjs';
 import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { BimodalService } from '../../modules/tree/bimodal.service';
-import { Store, Select, NgxsOnInit } from '@ngxs/store';
+import { Store, Select } from '@ngxs/store';
 import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { SearchStructure, TNode } from '../../models/tree.model';
 import { DoSearch } from '../../actions/tree.actions';
