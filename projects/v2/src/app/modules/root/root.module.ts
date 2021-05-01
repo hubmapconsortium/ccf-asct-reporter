@@ -16,6 +16,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DoiModule } from '../../components/doi/doi.module';
+import { InfoModule } from '../../components/info/info.module';
 
 
 
@@ -37,7 +39,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatDialogModule,
     MatSnackBarModule,
     MatBottomSheetModule,
-    DragDropModule
+    DragDropModule,
+    DoiModule,
+    InfoModule
 
   ],
   exports: [RootComponent]

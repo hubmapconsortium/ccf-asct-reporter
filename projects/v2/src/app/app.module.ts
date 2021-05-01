@@ -19,11 +19,8 @@ import { NgxsResetPluginModule } from 'ngxs-reset-plugin';
 import { LogsState } from './store/logs.state';
 import { MarkdownModule } from 'ngx-markdown';
 import { environment } from '../environments/environment';
-import { InfoModule } from './components/info/info.module';
 import { DocsModule } from './modules/docs/docs.module';
 import { RootModule } from './modules/root/root.module';
-import { DoiModule } from './components/doi/doi.module';
-import { DocsNavModule } from './modules/docs/docs-nav/docs-nav.module';
 import { HomeModule } from './components/home/home.module';
 
 
@@ -45,12 +42,9 @@ import { HomeModule } from './components/home/home.module';
     }),
     NgxsResetPluginModule.forRoot(),
     MarkdownModule.forRoot(),
-    DoiModule,
-    InfoModule,
     DocsModule,
     RootModule,
     HomeModule,
-    DocsNavModule
   ],
   providers: [GoogleAnalyticsService],
   bootstrap: [AppComponent]
