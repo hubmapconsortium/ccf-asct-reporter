@@ -56,7 +56,7 @@
           *ngFor="let structure of structures"
           [value]="structure"
           color="primary"
-          [style.display]="hideStructure(structure) ? 'none': 'block'"
+          [hidden]="hideStructure(structure)"
           checkboxPosition="before">
           <div class="structure-name">
             <div>
