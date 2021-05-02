@@ -167,7 +167,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   hideStructure(structure: SearchStructure) {
-    return !(this.filteredStructures.indexOf(structure) > -1);
+    return this.filteredStructures.indexOf(structure) <= -1;
   }
 
 }
