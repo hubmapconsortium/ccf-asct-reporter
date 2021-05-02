@@ -3,6 +3,7 @@
     <mat-icon class="mt-2">search</mat-icon>
   </div>
     <button
+      id="searchBtn"
       [disabled]="disabled"
       (click)="openSearchList()"
       class="w-100 secondary ch text-left"
@@ -10,6 +11,7 @@
       #tooltip="matTooltip"
       matTooltip="Search Structures"
       matTooltipPosition="below">
+      {{selectedValues}}
     </button>
     <div class="search-modal mat-elevation-z4"
         [hidden]="(searchState$ | async) === false">
@@ -18,11 +20,23 @@
         floatLabel="never">
         <input matInput
           #searchField
+          [(ngModel)]="searchValue"
           cdkFocusInitial
           placeholder="Search Structures"
           [formControl]="structuresMultiFilterCtrl">
-        <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="closeSearchList()">
+        <button mat-button matSuffix mat-icon-button
+          #clearBtn
+          [hidden]="!searchValue"
+          aria-label="Clear Search"
+          matTooltip="Clear Search"
+          (click)="searchValue=''">
           <mat-icon>close</mat-icon>
+        </button>
+        <button mat-button matSuffix mat-icon-button
+          aria-label="Close"
+          matTooltip="Close"
+          (click)="closeSearchList()">
+          <mat-icon>arrow_drop_up</mat-icon>
         </button>
       </mat-form-field>
       <mat-selection-list #multiSelect
@@ -30,6 +44,8 @@
         [formControl]="structuresMultiCtrl"
         [multiple]="true"
         (selectionChange)="onOptionSelect()"
+        [(ngModel)]="selectedOptions"
+        [compareWith]="selectionCompareFunction"
       >
         <mat-list-item
           *ngIf="(filteredstructuresMulti | async)?.length == 0"
@@ -39,6 +55,7 @@
         <mat-list-option
           *ngFor="let structures of filteredstructuresMulti | async"
           [value]="structures"
+          color="primary"
           checkboxPosition="before">
           <div class="structure-name">
             <div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit, ElementRef, HostListener } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { ReplaySubject, Observable } from 'rxjs';
@@ -46,12 +46,19 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   treeData: TNode[];
   nodes: BMNode[];
+  searchValue: String = "";
+  selectedValues: String = "";
+  selectedOptions: SearchStructure[];
+  selectionMemory: SearchStructure[] = [];
+  selectionCompareFunction = (o1: any, o2: any)=> o1.id===o2.id;
+
 
   constructor(
     // private dialogRef: MatDialogRef<SearchComponent>,
     public bms: BimodalService,
     public store: Store,
-    public ga: GoogleAnalyticsService
+    public ga: GoogleAnalyticsService,
+    private elementRef: ElementRef
   ) {
 
     this.tree$.subscribe(tree => {
@@ -68,9 +75,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   onOptionSelect() {
     this.store.dispatch(new DoSearch(this.structuresMultiCtrl.value));
-    console.log(this.structuresMultiCtrl);
-    const selectedValues = this.structuresMultiCtrl.value.map(obj => obj.name.replace(' ' , '_')).join();
-    this.ga.eventEmitter('nav_search_filter_select', GaCategory.NAVBAR, 'Select/Deselect Search Filters', GaAction.CLICK, selectedValues);
+    this.selectionMemory = this.selectedOptions.slice();
+    this.selectedValues = this.structuresMultiCtrl.value.map(obj => obj.name).join(", ");
+    this.ga.eventEmitter('nav_search_filter_select', GaCategory.NAVBAR, 'Select/Deselect Search Filters', GaAction.CLICK);
   }
 
   openSearchList() {
@@ -105,10 +112,20 @@ export class SearchComponent implements OnInit, AfterViewInit {
     // Show search dropdown
     this.store.dispatch(new OpenSearch());
     this.searchFieldContent.nativeElement.focus();
+    this.selectedOptions = this.selectionMemory.slice();
   }
 
   closeSearchList() {
     this.store.dispatch(new CloseSearch());
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickOutsideSearchList(event: MouseEvent) {
+    const targetElement = event.target as HTMLElement;
+    // Check if the click was outside the element
+    if (targetElement && !this.elementRef.nativeElement.contains(targetElement)) {
+      this.closeSearchList();
+    }
   }
 
   ngAfterViewInit() {

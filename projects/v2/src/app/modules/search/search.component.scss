@@ -44,6 +44,13 @@
   display: none;
 }
 
+::ng-deep #searchBtn .mat-button-wrapper {
+  text-overflow: ellipsis;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .search-modal {
   background: white;
   position: absolute;
@@ -62,9 +69,15 @@
     font-size: 12pt;
     border-bottom: 1px lightgray solid;
     background:transparent;
+    color:gray;
 
     button {
       font-size: 18pt;
+      color:black;
+    }
+
+    input {
+      color:rgba(0,0,0,.87);
     }
   }
 
@@ -82,3 +95,6 @@
     height: 40px;
   }
 }
+
+
+//@include mat-checkbox-theme($mat-reporter-primary);
