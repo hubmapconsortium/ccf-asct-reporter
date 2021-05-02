@@ -14,6 +14,7 @@ import { GoogleAnalyticsService } from '../../services/google-analytics.service'
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { CloseSearch, OpenSearch } from '../../actions/ui.actions';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -58,6 +59,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     public bms: BimodalService,
     public store: Store,
     public ga: GoogleAnalyticsService,
+    public router: Router,
     private readonly elementRef: ElementRef
   ) {
 
@@ -65,6 +67,15 @@ export class SearchComponent implements OnInit, AfterViewInit {
       this.structuresMultiCtrl.setValue(tree.search);
       this.treeData = tree.treeData;
       this.nodes = tree.bimodal.nodes;
+    });
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.structures = [];
+        this.selectedValues = '';
+        this.selectedOptions = [];
+        this.selectionMemory = [];
+      }
     });
   }
 
@@ -81,9 +92,11 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   openSearchList() {
-    const searchSet = new Set<SearchStructure>();
 
-    for (const node of this.treeData) {
+    if (this.structures.length == 0) {
+      const searchSet = new Set<SearchStructure>();
+
+      for (const node of this.treeData) {
         if (node.children !== 0) {
           searchSet.add({
             id: node.id,
@@ -93,10 +106,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
             y: node.y
           });
         }
-
       }
 
-    for (const node of this.nodes) {
+      for (const node of this.nodes) {
         searchSet.add({
           id: node.id,
           name: node.name,
@@ -106,8 +118,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
         });
       }
 
-    this.structures = [...searchSet];
-    this.filteredstructuresMulti.next(this.structures.slice());
+      this.structures = [...searchSet];
+      this.filteredstructuresMulti.next(this.structures.slice());
+    }
 
     // Show search dropdown
     this.store.dispatch(new OpenSearch());
@@ -135,6 +148,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
       .subscribe((r) => {
         this.filterstructuressMulti();
       });
+
   }
 
   protected filterstructuressMulti() {
@@ -142,7 +156,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
       return;
     }
     // get the search keyword
-    let search = this.structuresMultiFilterCtrl.value;
+    let search = this.searchValue;
     if (!search) {
       this.filteredstructuresMulti.next(this.structures.slice());
       return;
