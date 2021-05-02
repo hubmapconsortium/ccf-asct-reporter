@@ -20,8 +20,8 @@
 }
 
 .br-top {
-  border-top-left-radius: 0.5rem !important;
-  border-top-right-radius: 0.5rem !important;
+  border-top-left-radius: 0.25rem !important;
+  border-top-right-radius: 0.25rem !important;
 }
 
 .search-container {
@@ -44,27 +44,39 @@
   display: none;
 }
 
-::ng-deep #searchBtn .mat-button-wrapper {
-  text-overflow: ellipsis;
-  display: block;
-  overflow: hidden;
-  white-space: nowrap;
+#searchBtn {
+
+  mat-icon {
+    float:right;
+    position: absolute;
+    top:9px;
+    right:10px;
+  }
+
+  ::ng-deep .mat-button-wrapper {
+    text-overflow: ellipsis;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    padding-right:10px;
+  }
+
 }
 
 .search-modal {
   background: white;
   position: absolute;
-  width: 350px;
+  width: 375px;
   top: 10px;
   z-index: 20;
   border-bottom: 0.1875rem solid rgba(68, 74, 101, 0.063);
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
 
   mat-form-field {
     position: fixed;
     z-index: 30;
     padding:10px 15px;
-    width: 350px;
+    width: 375px;
     height: 55px;
     font-size: 12pt;
     border-bottom: 1px lightgray solid;
@@ -93,6 +105,7 @@
 
   mat-list-option {
     height: 40px;
+    font-size: 11pt;
   }
 }
 
