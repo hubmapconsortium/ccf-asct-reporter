@@ -46,11 +46,11 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   treeData: TNode[];
   nodes: BMNode[];
-  searchValue: String = "";
-  selectedValues: String = "";
+  searchValue = '';
+  selectedValues = '';
   selectedOptions: SearchStructure[];
   selectionMemory: SearchStructure[] = [];
-  selectionCompareFunction = (o1: any, o2: any)=> o1.id===o2.id;
+  selectionCompareFunction = (o1: any, o2: any) => o1.id === o2.id;
 
 
   constructor(
@@ -58,7 +58,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     public bms: BimodalService,
     public store: Store,
     public ga: GoogleAnalyticsService,
-    private elementRef: ElementRef
+    private readonly elementRef: ElementRef
   ) {
 
     this.tree$.subscribe(tree => {
@@ -76,7 +76,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   onOptionSelect() {
     this.store.dispatch(new DoSearch(this.structuresMultiCtrl.value));
     this.selectionMemory = this.selectedOptions.slice();
-    this.selectedValues = this.structuresMultiCtrl.value.map(obj => obj.name).join(", ");
+    this.selectedValues = this.structuresMultiCtrl.value.map(obj => obj.name).join(', ');
     this.ga.eventEmitter('nav_search_filter_select', GaCategory.NAVBAR, 'Select/Deselect Search Filters', GaAction.CLICK);
   }
 
