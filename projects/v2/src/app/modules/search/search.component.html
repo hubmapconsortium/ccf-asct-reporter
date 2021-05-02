@@ -42,7 +42,6 @@
       </mat-form-field>
       <mat-selection-list #multiSelect
         [disabled]="disabled"
-        [formControl]="structuresMultiCtrl"
         [multiple]="true"
         (selectionChange)="onOptionSelect()"
         [(ngModel)]="selectedOptions"

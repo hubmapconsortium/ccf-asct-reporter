@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild, AfterViewInit, ElementRef, HostListener } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { ReplaySubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { BimodalService } from '../../modules/tree/bimodal.service';
@@ -15,7 +15,6 @@ import { GaAction, GaCategory } from '../../models/ga.model';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { CloseSearch, OpenSearch } from '../../actions/ui.actions';
 import { Router, NavigationEnd } from '@angular/router';
-import { Structure } from '../../models/sheet.model';
 
 @Component({
   selector: 'app-search',
@@ -26,17 +25,14 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   @Input() disabled = false;
 
+  // Structures contains the full list of structures to render for the search
   public structures: SearchStructure[] = [];
+  // FilteredStructures contains the filtered subset, to hide filtered out
+  // elements without removing them from the DOM completely
   public filteredStructures: SearchStructure[] = [];
-
-  /** control for the selected structures for multi-selection */
-  public structuresMultiCtrl: FormControl = new FormControl();
 
   /** control for the MatSelect filter keyword multi-selection */
   public structuresMultiFilterCtrl: FormControl = new FormControl();
-
-  /** list of structures filtered by search keyword */
-  public filteredstructuresMulti: ReplaySubject<SearchStructure[]> = new ReplaySubject<SearchStructure[]>(1);
 
   @ViewChild('searchField', { static: false }) searchFieldContent: ElementRef;
 
@@ -57,7 +53,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
 
   constructor(
-    // private dialogRef: MatDialogRef<SearchComponent>,
     public bms: BimodalService,
     public store: Store,
     public ga: GoogleAnalyticsService,
@@ -66,11 +61,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
   ) {
 
     this.tree$.subscribe(tree => {
-      this.structuresMultiCtrl.setValue(tree.search);
+      this.selectedOptions = tree.search;
       this.treeData = tree.treeData;
       this.nodes = tree.bimodal.nodes;
     });
 
+    // On tree selection, reset the selected options and structures array
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.structures = [];
@@ -81,21 +77,20 @@ export class SearchComponent implements OnInit, AfterViewInit {
     });
   }
 
-
   ngOnInit() {
 
   }
 
   onOptionSelect() {
-    this.store.dispatch(new DoSearch(this.structuresMultiCtrl.value));
+    this.store.dispatch(new DoSearch(this.selectedOptions));
     this.selectionMemory = this.selectedOptions.slice();
-    this.selectedValues = this.structuresMultiCtrl.value.map(obj => obj.name).join(', ');
+    this.selectedValues = this.selectedOptions.map(obj => obj.name).join(', ');
     this.ga.eventEmitter('nav_search_filter_select', GaCategory.NAVBAR, 'Select/Deselect Search Filters', GaAction.CLICK);
   }
 
   openSearchList() {
 
-    if (this.structures.length == 0) {
+    if (this.structures.length === 0) {
       const searchSet = new Set<SearchStructure>();
 
       for (const node of this.treeData) {
@@ -122,7 +117,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
       this.structures = [...searchSet];
       this.filteredStructures = this.structures.slice();
-      this.filteredstructuresMulti.next(this.structures.slice());
     }
 
     // Show search dropdown
@@ -161,7 +155,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
     // get the search keyword
     let search = this.searchValue;
     if (!search) {
-      this.filteredstructuresMulti.next(this.structures.slice());
       this.filteredStructures = this.structures.slice();
       return;
     } else {
@@ -169,9 +162,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
     }
     // filter the structures
     this.filteredStructures = this.structures.filter(structures => structures.name.toLowerCase().includes(search));
-    this.filteredstructuresMulti.next(
-      this.filteredStructures
-    );
     // This event fires for every letter typed
     this.ga.eventEmitter('nav_search_term', GaCategory.NAVBAR, 'Search term typed in', GaAction.INPUT, search);
   }
