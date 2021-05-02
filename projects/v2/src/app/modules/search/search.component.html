@@ -49,21 +49,22 @@
         [compareWith]="selectionCompareFunction"
       >
         <mat-list-item
-          *ngIf="(filteredstructuresMulti | async)?.length == 0"
+          *ngIf="filteredStructures.length == 0"
         >
           <div>No entries found.</div>
         </mat-list-item>
         <mat-list-option
-          *ngFor="let structures of filteredstructuresMulti | async"
-          [value]="structures"
+          *ngFor="let structure of structures"
+          [value]="structure"
           color="primary"
+          [style.display]="hideStructure(structure) ? 'none': 'block'"
           checkboxPosition="before">
           <div class="structure-name">
             <div>
-            {{ structures.name }}
+            {{ structure.name }}
             </div>
             <div class="structure-group-name" >
-            <i>{{ structures.groupName }}</i>
+            <i>{{ structure.groupName }}</i>
             </div>
           </div>
         </mat-list-option>

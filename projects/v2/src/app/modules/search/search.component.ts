@@ -15,6 +15,7 @@ import { GaAction, GaCategory } from '../../models/ga.model';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { CloseSearch, OpenSearch } from '../../actions/ui.actions';
 import { Router, NavigationEnd } from '@angular/router';
+import { Structure } from '../../models/sheet.model';
 
 @Component({
   selector: 'app-search',
@@ -25,7 +26,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   @Input() disabled = false;
 
-  protected structures: SearchStructure[] = [];
+  public structures: SearchStructure[] = [];
+  public filteredStructures: SearchStructure[] = [];
 
   /** control for the selected structures for multi-selection */
   public structuresMultiCtrl: FormControl = new FormControl();
@@ -119,6 +121,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
       }
 
       this.structures = [...searchSet];
+      this.filteredStructures = this.structures.slice();
       this.filteredstructuresMulti.next(this.structures.slice());
     }
 
@@ -159,16 +162,22 @@ export class SearchComponent implements OnInit, AfterViewInit {
     let search = this.searchValue;
     if (!search) {
       this.filteredstructuresMulti.next(this.structures.slice());
+      this.filteredStructures = this.structures.slice();
       return;
     } else {
       search = search.toLowerCase();
     }
     // filter the structures
+    this.filteredStructures = this.structures.filter(structures => structures.name.toLowerCase().includes(search));
     this.filteredstructuresMulti.next(
-      this.structures.filter(structures => structures.name.toLowerCase().includes(search))
+      this.filteredStructures
     );
     // This event fires for every letter typed
     this.ga.eventEmitter('nav_search_term', GaCategory.NAVBAR, 'Search term typed in', GaAction.INPUT, search);
+  }
+
+  hideStructure(structure: SearchStructure) {
+    return !(this.filteredStructures.indexOf(structure) > -1);
   }
 
 }
