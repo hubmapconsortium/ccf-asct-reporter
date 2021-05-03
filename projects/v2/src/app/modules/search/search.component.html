@@ -2,12 +2,11 @@
   <div class="pl-2 br-left search-icon-container">
     <mat-icon class="mt-2">search</mat-icon>
   </div>
-    <button
+    <button mat-flat-button
       id="searchBtn"
       [disabled]="disabled"
       (click)="openSearchList()"
       class="w-100 secondary ch text-left"
-      mat-flat-button
       #tooltip="matTooltip"
       matTooltip="Search Structures"
       matTooltipPosition="below">
@@ -19,18 +18,16 @@
       <mat-form-field class="br-top"
         appearance="legacy"
         floatLabel="never">
-        <input matInput
-          #searchField
+        <input matInput cdkFocusInitial #searchField
           [(ngModel)]="searchValue"
-          cdkFocusInitial
           placeholder="Search Structures"
-          [formControl]="structuresMultiFilterCtrl" />
+          (input)="filterStructuresOnSearch()" />
         <button mat-button matSuffix mat-icon-button
           #clearBtn
           [hidden]="!searchValue"
           aria-label="Clear Search"
           matTooltip="Clear Search"
-          (click)="searchValue=''">
+          (click)="clearSearchField()">
           <mat-icon>close</mat-icon>
         </button>
         <button mat-button matSuffix mat-icon-button
@@ -43,13 +40,10 @@
       <mat-selection-list #multiSelect
         [disabled]="disabled"
         [multiple]="true"
-        (selectionChange)="onOptionSelect()"
+        (selectionChange)="selectOption()"
         [(ngModel)]="selectedOptions"
-        [compareWith]="selectionCompareFunction"
-      >
-        <mat-list-item
-          *ngIf="filteredStructures.length == 0"
-        >
+        [compareWith]="selectionCompareFunction">
+        <mat-list-item *ngIf="filteredStructures.length == 0">
           <div>No entries found.</div>
         </mat-list-item>
         <mat-list-option

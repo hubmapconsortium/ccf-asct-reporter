@@ -1,9 +1,6 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit, ElementRef, HostListener } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Input, ViewChild, ElementRef, HostListener } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { BimodalService } from '../../modules/tree/bimodal.service';
 import { Store, Select } from '@ngxs/store';
 import { TreeState, TreeStateModel } from '../../store/tree.state';
@@ -21,7 +18,7 @@ import { Router, NavigationEnd } from '@angular/router';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })
-export class SearchComponent implements OnInit, AfterViewInit {
+export class SearchComponent {
 
   @Input() disabled = false;
 
@@ -31,13 +28,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   // elements without removing them from the DOM completely
   public filteredStructures: SearchStructure[] = [];
 
-  /** control for the MatSelect filter keyword multi-selection */
-  public structuresMultiFilterCtrl: FormControl = new FormControl();
-
   @ViewChild('searchField', { static: false }) searchFieldContent: ElementRef;
-
-  /** Subject that emits when the component has been destroyed. */
-  protected subjectOnDestroy = new Subject<void>();
 
   @Select(TreeState) tree$: Observable<TreeStateModel>;
   @Select(UIState) ui$: Observable<UIStateModel>;
@@ -50,7 +41,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
   selectedOptions: SearchStructure[];
   selectionMemory: SearchStructure[] = [];
   selectionCompareFunction = (o1: any, o2: any) => o1.id === o2.id;
-
 
   constructor(
     public bms: BimodalService,
@@ -77,11 +67,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit() {
-
-  }
-
-  onOptionSelect() {
+  selectOption() {
     this.store.dispatch(new DoSearch(this.selectedOptions));
     this.selectionMemory = this.selectedOptions.slice();
     this.selectedValues = this.selectedOptions.map(obj => obj.name).join(', ');
@@ -89,7 +75,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   openSearchList() {
-
     if (this.structures.length === 0) {
       const searchSet = new Set<SearchStructure>();
 
@@ -129,6 +114,11 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.store.dispatch(new CloseSearch());
   }
 
+  clearSearchField() {
+    this.searchValue = '';
+    this.filterStructuresOnSearch();
+  }
+
   @HostListener('document:click', ['$event'])
   clickOutsideSearchList(event: MouseEvent) {
     const targetElement = event.target as HTMLElement;
@@ -138,32 +128,19 @@ export class SearchComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
-    // listen for search field value changes
-    this.structuresMultiFilterCtrl.valueChanges
-      .pipe(takeUntil(this.subjectOnDestroy))
-      .subscribe((r) => {
-        this.filterstructuressMulti();
-      });
-
-  }
-
-  protected filterstructuressMulti() {
+  // This method filters the structures on every letter typed
+  public filterStructuresOnSearch() {
     if (!this.structures) {
       return;
     }
-    // get the search keyword
-    let search = this.searchValue;
-    if (!search) {
+    if (!this.searchValue) {
       this.filteredStructures = this.structures.slice();
       return;
-    } else {
-      search = search.toLowerCase();
     }
     // filter the structures
-    this.filteredStructures = this.structures.filter(structures => structures.name.toLowerCase().includes(search));
+    this.filteredStructures = this.structures.filter(structures => structures.name.toLowerCase().includes(this.searchValue.toLowerCase()));
     // This event fires for every letter typed
-    this.ga.eventEmitter('nav_search_term', GaCategory.NAVBAR, 'Search term typed in', GaAction.INPUT, search);
+    this.ga.eventEmitter('nav_search_term', GaCategory.NAVBAR, 'Search term typed in', GaAction.INPUT, this.searchValue);
   }
 
   hideStructure(structure: SearchStructure) {
