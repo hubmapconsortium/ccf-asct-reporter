@@ -18,6 +18,12 @@
   border-top-left-radius: 0.5rem !important;
   border-bottom-left-radius: 0.5rem !important;
 }
+
+.br-top {
+  border-top-left-radius: 0.25rem !important;
+  border-top-right-radius: 0.25rem !important;
+}
+
 .search-container {
   display: flex;
   align-items: center;
@@ -29,6 +35,7 @@
 .structure-name {
   display: flex;
   justify-content: space-between;
+  font-size: 11pt;
 }
 .structure-group-name {
   font-size: 8pt;
@@ -36,3 +43,71 @@
 ::ng-deep .search-container .mat-form-field-underline {
   display: none;
 }
+
+#searchBtn {
+
+  mat-icon {
+    float:right;
+    position: absolute;
+    top:9px;
+    right:10px;
+  }
+
+  ::ng-deep .mat-button-wrapper {
+    text-overflow: ellipsis;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    padding-right:10px;
+  }
+
+}
+
+.search-modal {
+  background: white;
+  position: absolute;
+  width: 375px;
+  top: 10px;
+  z-index: 20;
+  border-bottom: 0.1875rem solid rgba(68, 74, 101, 0.063);
+  border-radius: 0.25rem;
+
+  mat-form-field {
+    position: fixed;
+    z-index: 30;
+    padding:10px 15px;
+    width: 375px;
+    height: 55px;
+    font-size: 12pt;
+    border-bottom: 1px lightgray solid;
+    background:transparent;
+    color:gray;
+
+    button {
+      font-size: 18pt;
+      color:black;
+    }
+
+    input {
+      color:rgba(0,0,0,.87);
+    }
+  }
+
+  .mat-form-field-flex {
+    padding-top:0px;
+  }
+
+  mat-selection-list {
+    margin-top:55px;
+    overflow-y: scroll;
+    height: 300px;
+  }
+
+  mat-list-option {
+    height: 40px;
+    font-size: 11pt;
+  }
+}
+
+
+//@include mat-checkbox-theme($mat-reporter-primary);

@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { SearchComponent } from './search.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { MatOptionModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
 
 
 
@@ -17,7 +19,9 @@ import { MatButtonModule } from '@angular/material/button';
     CommonModule,
     MatIconModule,
     MatFormFieldModule,
-    MatSelectModule,
+    MatInputModule,
+    MatListModule,
+    MatOptionModule,
     NgxMatSelectSearchModule,
     FormsModule,
     ReactiveFormsModule,
