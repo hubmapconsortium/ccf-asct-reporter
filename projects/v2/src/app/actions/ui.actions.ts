@@ -94,3 +94,13 @@ export class CloseCompare {
   static readonly type = '[CLOSE] Compare';
   constructor() {}
 }
+
+export class OpenSearch {
+  static readonly type = '[OPEN] Search';
+  constructor() {}
+}
+
+export class CloseSearch {
+  static readonly type = '[CLOSE] Search';
+  constructor() {}
+}

@@ -1,11 +1,11 @@
 <mat-toolbar color="secondary"  class="d-flex align-items-center toolbar-nav"
   [ngStyle]="{'border-bottom': (mode$ | async) === 'vis' ?'0.1875rem solid #444a6510' : 'none'}">
   <div class="nav-wrapper">
-    <app-nav-item 
-    [label]="'Toggle'" 
+    <app-nav-item
+    [label]="'Toggle'"
     (click)="togglePane()"
-    #tooltip="matTooltip" 
-    [matTooltip]="'Toggle Sidenav'" matTooltipPosition="below" 
+    #tooltip="matTooltip"
+    [matTooltip]="'Toggle Sidenav'" matTooltipPosition="below"
     >
       <mat-icon class="toolbar-icons">menu</mat-icon>
     </app-nav-item>
@@ -32,44 +32,41 @@
           <mat-option *ngFor="let option of SHEET_OPTIONS" [value]="option.title">
             {{ option.title }}
           </mat-option>
-          <mat-option *ngFor="let option of " [value]="option.title">
-            {{ option.title }}
-          </mat-option>
         </mat-select>
       </button>
     </mat-form-field>
 
-    <app-nav-item 
-      #tooltip="matTooltip" 
-      matTooltip="Master Data Tables" 
+    <app-nav-item
+      #tooltip="matTooltip"
+      matTooltip="Master Data Tables"
       matTooltipPosition="below"
       [label]="'Data Tables'"
       (click)="openMasterDataTables()">
       <mat-icon class="toolbar-icons">table_view</mat-icon>
     </app-nav-item>
 
-    <app-nav-item 
-    [label]="'Refresh'" 
+    <app-nav-item
+    [label]="'Refresh'"
     (click)="refreshData()"
-    #tooltip="matTooltip" 
-    matTooltip="Refresh" 
+    #tooltip="matTooltip"
+    matTooltip="Refresh"
     matTooltipPosition="below"
     >
       <mat-icon class="toolbar-icons">refresh</mat-icon>
     </app-nav-item>
-    
-    <app-nav-item 
-    [label]="(mode$ | async) === 'vis' ? 'Playground': 'Exit Playground'" 
+
+    <app-nav-item
+    [label]="(mode$ | async) === 'vis' ? 'Playground': 'Exit Playground'"
     (click)="toggleMode()"
-    #tooltip="matTooltip" 
+    #tooltip="matTooltip"
     [matTooltip]="(mode$ | async) === 'vis' ? 'Playground': 'Exit Playground'"
     matTooltipPosition="below"
     >
     <mat-icon class="toolbar-icons">{{(mode$ | async) === 'vis' ? 'edit': 'exit_to_app'}}</mat-icon>
     </app-nav-item>
 
-    <app-nav-item 
-    [label]="'Indented List'" 
+    <app-nav-item
+    [label]="'Indented List'"
     (click)="toggleIndentedList()"
     #tooltip="matTooltip" matTooltip="Indented List" matTooltipPosition="below"
     [disabled]="(ui$ | async).error.hasError" mat-icon-button
@@ -77,32 +74,32 @@
     <mat-icon class="toolbar-icons">format_indent_increase</mat-icon>
     </app-nav-item>
 
-    <app-nav-item 
-    [label]="'Compare'" 
+    <app-nav-item
+    [label]="'Compare'"
     [disabled]="(ui$ | async).error.hasError" mat-icon-button (click)="toggleCompare()" #tooltip="matTooltip"
       matTooltip="Compare" matTooltipPosition="below"
     >
     <mat-icon class="toolbar-icons">compare_arrows</mat-icon>
     </app-nav-item>
 
-    <app-nav-item 
-    [label]="'Report'" 
+    <app-nav-item
+    [label]="'Report'"
     [disabled]="(ui$ | async).error.hasError" mat-icon-button (click)="toggleReport()" #tooltip="matTooltip"
-      matTooltip="Report" matTooltipPosition="below" 
+      matTooltip="Report" matTooltipPosition="below"
     >
     <mat-icon class="toolbar-icons">bar_chart</mat-icon>
     </app-nav-item>
 
-    <app-nav-item 
-    [label]="'Debug Log'" 
+    <app-nav-item
+    [label]="'Debug Log'"
     (click)="toggleDebugLogs()" #tooltip="matTooltip" matTooltip="Debug Log"
     matTooltipPosition="below"
     >
     <mat-icon class="toolbar-icons">bug_report</mat-icon>
     </app-nav-item>
 
-    <app-nav-item 
-    [label]="'Export'" 
+    <app-nav-item
+    [label]="'Export'"
     [disabled]="(ui$ | async).error.hasError" autofocus="false" mat-icon-button #tooltip="matTooltip"
       matTooltip="Export" matTooltipPosition="below" [matMenuTriggerFor]="downloadMenu"
     >
@@ -115,8 +112,8 @@
       </button>
     </mat-menu>
 
-    <app-nav-item 
-    [label]="'Menu'" 
+    <app-nav-item
+    [label]="'Menu'"
     #tooltip="matTooltip" matTooltip="Menu" matTooltipPosition="below"
       [matMenuTriggerFor]="menu"
     >
