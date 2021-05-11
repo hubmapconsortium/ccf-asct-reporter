@@ -332,7 +332,7 @@ export class SheetState {
   }
 
   /**
-   * Action to fetch all organ data
+   * Action to fetch all organ data using forkJoin rxjs
    * Accepts the sheet config
    */
   @Action(FetchAllOrganData)
@@ -406,51 +406,6 @@ export class SheetState {
       }
     );
   }
-
-    // for await (const s of SHEET_CONFIG) {
-    //   console.log(s)
-    //   if (s.name === 'all' || s.name === 'example') {
-    //     continue;
-    //   } else {
-    //     this.sheetService.fetchSheetData(s.sheetId, s.gid).subscribe(
-    //       (res: ResponseData) => {
-    //         for (const row of res.data) {
-    //           const newStructure: Structure = {
-    //             name: 'Body',
-    //             id: '',
-    //             rdfs_label: 'NONE',
-    //           };
-    //           row.anatomical_structures.unshift(newStructure);
-    //           if (!state.sheetConfig.show_all_AS) {
-    //             row.anatomical_structures.splice(
-    //               2,
-    //               row.anatomical_structures.length - 2
-    //             );
-    //           }
-    //         }
-    //         const currentData = getState().data;
-    //         console.log([...currentData, ...res.data])
-    //         patchState({
-    //           data: [...currentData, ...res.data],
-    //         });
-    //       },
-    //       (error) => {
-    //         console.log(error);
-    //         const err: Error = {
-    //           msg: `${error.name} (Status: ${error.status})`,
-    //           status: error.status,
-    //           hasError: true,
-    //         };
-    //         dispatch(
-    //           new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
-    //         );
-    //         dispatch(new HasError(err));
-    //         return of('');
-    //       }
-    //     );
-    //   }
-    // }
-
 
   /**
    * Action to fetch the sheet data. Resets the Sheet State and teh Tree State
