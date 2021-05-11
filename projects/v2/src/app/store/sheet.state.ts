@@ -12,7 +12,7 @@ import {
 } from '../models/sheet.model';
 import { Error } from '../models/response.model';
 import { tap, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { HEADER_COUNT, SHEET_CONFIG } from '../static/config';
 import { Injectable } from '@angular/core';
 import { parse } from 'papaparse';
@@ -226,10 +226,10 @@ export class SheetState {
   /**
    * Returns an observable that watches the bottom sheet DOI data
    */
-   @Selector()
-   static getBottomSheetDOI(state: SheetStateModel) {
-     return state.bottomSheetDOI;
-   }
+  @Selector()
+  static getBottomSheetDOI(state: SheetStateModel) {
+    return state.bottomSheetDOI;
+  }
 
   /**
    * Returns an observable that watches the mode
@@ -332,7 +332,7 @@ export class SheetState {
   }
 
   /**
-   * Action to fetch all organ data
+   * Action to fetch all organ data using forkJoin rxjs
    * Accepts the sheet config
    */
   @Action(FetchAllOrganData)
@@ -359,47 +359,52 @@ export class SheetState {
       data: [],
     });
 
-    for await (const s of SHEET_CONFIG) {
+    const requests$: Array<Observable<any>> = [];
+    let dataAll: Row[] = [];
+    for (const s of SHEET_CONFIG) {
       if (s.name === 'all' || s.name === 'example') {
         continue;
       } else {
-        this.sheetService.fetchSheetData(s.sheetId, s.gid).subscribe(
-          (res: ResponseData) => {
-            for (const row of res.data) {
-              const newStructure: Structure = {
-                name: 'Body',
-                id: '',
-                rdfs_label: 'NONE',
-              };
-              row.anatomical_structures.unshift(newStructure);
-              if (!state.sheetConfig.show_all_AS) {
-                row.anatomical_structures.splice(
-                  2,
-                  row.anatomical_structures.length - 2
-                );
-              }
-            }
-            const currentData = getState().data;
-            patchState({
-              data: [...currentData, ...res.data],
-            });
-          },
-          (error) => {
-            console.log(error);
-            const err: Error = {
-              msg: `${error.name} (Status: ${error.status})`,
-              status: error.status,
-              hasError: true,
-            };
-            dispatch(
-              new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
-            );
-            dispatch(new HasError(err));
-            return of('');
-          }
-        );
+        requests$.push(this.sheetService.fetchSheetData(s.sheetId, s.gid));
       }
     }
+    forkJoin(requests$).subscribe(
+      (allresults) => {
+        allresults.map((res: ResponseData) => {
+          console.log(res);
+          for (const row of res.data) {
+            const newStructure: Structure = {
+              name: 'Body',
+              id: '',
+              rdfs_label: 'NONE',
+            };
+            row.anatomical_structures.unshift(newStructure);
+            if (!state.sheetConfig.show_all_AS) {
+              row.anatomical_structures.splice(
+                2,
+                row.anatomical_structures.length - 2
+              );
+            }
+          }
+          dataAll = [...dataAll, ...res.data];
+        });
+        patchState({
+          data: dataAll,
+        });
+      },
+      (error) => {
+        const err: Error = {
+          msg: `${error.name} (Status: ${error.status})`,
+          status: error.status,
+          hasError: true,
+        };
+        dispatch(
+          new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
+        );
+        dispatch(new HasError(err));
+        return of('');
+      }
+    );
   }
 
   /**
