@@ -74,6 +74,11 @@ export class SearchComponent {
     this.selectionMemory = this.selectedOptions.slice();
     this.selectedValues = this.selectedOptions.map(obj => obj.name).join(', ');
     this.ga.eventEmitter('nav_search_filter_select', GaCategory.NAVBAR, 'Select/Deselect Search Filters', GaAction.CLICK);
+
+    if (this.selectOption.length > 0) {
+      console.log(this.selectedOptions[this.selectedOptions.length - 1]);
+      window.scrollTo(0, this.selectedOptions[this.selectedOptions.length - 1].y);
+    }
   }
 
   deselectAllOptions() {
