@@ -81,6 +81,16 @@ export class SearchComponent {
     }
   }
 
+  selectFirstOption() {
+    this.selectedOptions.push(this.searchFilteredStructures[0]);
+    this.selectOption();
+    console.log("tesT");
+  }
+
+  isSelected(structure: SearchStructure) {
+    return this.selectedOptions.includes(structure);
+  }
+
   deselectAllOptions() {
     this.selectedOptions = [];
     this.selectionMemory = [];

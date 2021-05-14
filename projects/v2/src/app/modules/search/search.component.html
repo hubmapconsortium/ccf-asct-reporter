@@ -20,6 +20,7 @@
             appearance="legacy"
             floatLabel="never">
             <input matInput cdkFocusInitial #searchField
+              (keyup.enter)="selectFirstOption()"
               [(ngModel)]="searchValue"
               placeholder="Search Structures"
               (input)="filterStructuresOnSearch()" />
@@ -69,6 +70,7 @@
             [value]="structure"
             color="primary"
             [hidden]="hideStructure(structure)"
+            [selected]="isSelected(structure)"
             checkboxPosition="before">
             <div class="structure-name">
               <div>
