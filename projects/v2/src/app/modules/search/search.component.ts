@@ -155,7 +155,7 @@ export class SearchComponent {
   }
 
   filterToggleChange(value: String[]) {
-    console.log(value);
+    this.ga.eventEmitter('nav_search_group_toggle', GaCategory.NAVBAR, 'Structure Group Name Toggle', GaAction.TOGGLE, this.searchValue);
 
     if (value.length == 0) {
       this.groupFilteredStructures = this.structures.slice();
