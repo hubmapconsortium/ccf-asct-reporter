@@ -24,9 +24,11 @@ export class SearchComponent {
 
   // Structures contains the full list of structures to render for the search
   public structures: SearchStructure[] = [];
-  // FilteredStructures contains the filtered subset, to hide filtered out
+  // Contains the subset matching the search term, to hide filtered out
   // elements without removing them from the DOM completely
-  public filteredStructures: SearchStructure[] = [];
+  public searchFilteredStructures: SearchStructure[] = [];
+  // Contains the subset of structures matching the group name button toggle
+  public groupFilteredStructures: SearchStructure[] = [];
 
   @ViewChild('searchField', { static: false }) searchFieldContent: ElementRef;
 
@@ -74,6 +76,14 @@ export class SearchComponent {
     this.ga.eventEmitter('nav_search_filter_select', GaCategory.NAVBAR, 'Select/Deselect Search Filters', GaAction.CLICK);
   }
 
+  deselectAllOptions() {
+    this.selectedOptions = [];
+    this.selectionMemory = [];
+    this.selectedValues = '';
+    this.store.dispatch(new DoSearch(this.selectedOptions));
+    this.ga.eventEmitter('nav_search_deselect_all', GaCategory.NAVBAR, 'Deselect All Search Filters', GaAction.CLICK);
+  }
+
   openSearchList() {
     if (this.structures.length === 0) {
       const searchSet = new Set<SearchStructure>();
@@ -101,7 +111,8 @@ export class SearchComponent {
       }
 
       this.structures = [...searchSet];
-      this.filteredStructures = this.structures.slice();
+      this.searchFilteredStructures = this.structures.slice();
+      this.groupFilteredStructures = this.structures.slice();
     }
 
     // Show search dropdown
@@ -134,17 +145,30 @@ export class SearchComponent {
       return;
     }
     if (!this.searchValue) {
-      this.filteredStructures = this.structures.slice();
+      this.searchFilteredStructures = this.structures.slice();
       return;
     }
     // filter the structures
-    this.filteredStructures = this.structures.filter(structures => structures.name.toLowerCase().includes(this.searchValue.toLowerCase()));
+    this.searchFilteredStructures = this.structures.filter(structures => structures.name.toLowerCase().includes(this.searchValue.toLowerCase()));
     // This event fires for every letter typed
     this.ga.eventEmitter('nav_search_term', GaCategory.NAVBAR, 'Search term typed in', GaAction.INPUT, this.searchValue);
   }
 
+  filterToggleChange(value: String[]) {
+    console.log(value);
+
+    if (value.length == 0) {
+      this.groupFilteredStructures = this.structures.slice();
+      return;
+    }
+
+    this.groupFilteredStructures = this.structures.filter(structure => value.includes(structure.groupName));
+  }
+
+  // Hide a structure if it is absent from the filtered group list, otherwise hide when absent from the
+  // filtered search list
   hideStructure(structure: SearchStructure) {
-    return this.filteredStructures.indexOf(structure) <= -1;
+    return this.groupFilteredStructures.indexOf(structure) <= -1 || this.searchFilteredStructures.indexOf(structure) <= -1;
   }
 
 }
