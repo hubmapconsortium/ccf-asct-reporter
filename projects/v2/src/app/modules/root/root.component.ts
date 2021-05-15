@@ -274,7 +274,7 @@ export class RootComponent implements OnInit, OnDestroy {
         // This leads to differences in the scrollTo interface.
         const contentHeight = this.verticalScrollEntity.getElementRef().nativeElement.offsetHeight;
         const contentWidth = this.verticalScrollEntity.getElementRef().nativeElement.offsetWidth;
-        const yScrollPos = this.verticalScrollEntity.measureScrollOffset("top");
+        const yScrollPos = this.verticalScrollEntity.measureScrollOffset('top');
         const xScrollPos = this.horizontalScrollEntity.nativeElement.scrollLeft;
 
         // Scroll to the selected structure if it's outside the area of the screen

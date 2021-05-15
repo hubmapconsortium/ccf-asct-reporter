@@ -73,8 +73,9 @@ export class SearchComponent {
     // Find the latest option clicked
     const newSelections = this.selectedOptions.filter(item => this.selectionMemory.indexOf(item) < 0);
     let lastClickedOption = null;
-    if (newSelections.length > 0)
+    if (newSelections.length > 0) {
       lastClickedOption = newSelections[0];
+    }
 
     console.log(lastClickedOption);
     // Dispace the search data to the tree store
@@ -170,15 +171,16 @@ export class SearchComponent {
       return;
     }
     // filter the structures
-    this.searchFilteredStructures = this.structures.filter(structures => structures.name.toLowerCase().includes(this.searchValue.toLowerCase()));
+    this.searchFilteredStructures = this.structures.filter(structures =>
+      structures.name.toLowerCase().includes(this.searchValue.toLowerCase()));
     // This event fires for every letter typed
     this.ga.eventEmitter('nav_search_term', GaCategory.NAVBAR, 'Search term typed in', GaAction.INPUT, this.searchValue);
   }
 
-  filterToggleChange(value: String[]) {
+  filterToggleChange(value: string[]) {
     this.ga.eventEmitter('nav_search_group_toggle', GaCategory.NAVBAR, 'Structure Group Name Toggle', GaAction.TOGGLE, this.searchValue);
 
-    if (value.length == 0) {
+    if (value.length === 0) {
       this.groupFilteredStructures = this.structures.slice();
       return;
     }
