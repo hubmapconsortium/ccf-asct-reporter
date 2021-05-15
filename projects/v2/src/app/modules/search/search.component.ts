@@ -70,21 +70,27 @@ export class SearchComponent {
   }
 
   selectOption() {
-    this.store.dispatch(new DoSearch(this.selectedOptions));
-    this.selectionMemory = this.selectedOptions.slice();
-    this.selectedValues = this.selectedOptions.map(obj => obj.name).join(', ');
-    this.ga.eventEmitter('nav_search_filter_select', GaCategory.NAVBAR, 'Select/Deselect Search Filters', GaAction.CLICK);
+    // Find the latest option clicked
+    const newSelections = this.selectedOptions.filter(item => this.selectionMemory.indexOf(item) < 0);
+    let lastClickedOption = null;
+    if (newSelections.length > 0)
+      lastClickedOption = newSelections[0];
 
-    if (this.selectOption.length > 0) {
-      console.log(this.selectedOptions[this.selectedOptions.length - 1]);
-      window.scrollTo(0, this.selectedOptions[this.selectedOptions.length - 1].y);
-    }
+    console.log(lastClickedOption);
+    // Dispace the search data to the tree store
+    this.store.dispatch(new DoSearch(this.selectedOptions, lastClickedOption));
+
+    // Update the memory
+    this.selectionMemory = this.selectedOptions.slice();
+    // Build values for search bar UI text
+    this.selectedValues = this.selectedOptions.map(obj => obj.name).join(', ');
+
+    this.ga.eventEmitter('nav_search_filter_select', GaCategory.NAVBAR, 'Select/Deselect Search Filters', GaAction.CLICK);
   }
 
   selectFirstOption() {
     this.selectedOptions.push(this.searchFilteredStructures[0]);
     this.selectOption();
-    console.log("tesT");
   }
 
   isSelected(structure: SearchStructure) {
@@ -95,7 +101,7 @@ export class SearchComponent {
     this.selectedOptions = [];
     this.selectionMemory = [];
     this.selectedValues = '';
-    this.store.dispatch(new DoSearch(this.selectedOptions));
+    this.store.dispatch(new DoSearch(this.selectedOptions, null));
     this.ga.eventEmitter('nav_search_deselect_all', GaCategory.NAVBAR, 'Deselect All Search Filters', GaAction.CLICK);
   }
 

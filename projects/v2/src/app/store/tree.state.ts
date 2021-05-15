@@ -48,6 +48,10 @@ export class TreeStateModel {
    */
   search: SearchStructure[];
   /**
+   * Store the last clicked node in the search field
+   */
+  lastSearch: SearchStructure;
+  /**
    * Store data for the bottom sheet to display information
    */
   bottomSheetData: {};
@@ -71,6 +75,7 @@ export class TreeStateModel {
     height: document.getElementsByTagName('body')[0].clientHeight,
     bimodal: {nodes: [], links: [], config: {BM: {sort: 'Alphabetically', size: 'None', type: 'All'}, CT: {sort: 'Alphabetically', size: 'None'}}},
     search: [],
+    lastSearch: null,
     bottomSheetData: {},
     links: {AS_CT: 0, CT_B: 0, AS_AS: 0}
   }
@@ -145,6 +150,14 @@ export class TreeState {
   }
 
   /**
+   * Select the most recently chosen search option
+   */
+  @Selector()
+  static getLatestSearchStructure(state: TreeStateModel) {
+    return state.lastSearch;
+  }
+
+  /**
    * Updates the bimodal data
    */
   @Action(UpdateBimodal)
@@ -206,11 +219,12 @@ export class TreeState {
    * Updates the search list
    */
   @Action(DoSearch)
-  doSearch({getState, setState}: StateContext<TreeStateModel>, {searchStructures}: DoSearch) {
+  doSearch({getState, setState}: StateContext<TreeStateModel>, {searchStructures, lastClickedOption: lastClickedStructure}: DoSearch) {
     const state = getState();
     setState({
       ...state,
-      search: searchStructures
+      search: searchStructures,
+      lastSearch: lastClickedStructure
     });
   }
 
