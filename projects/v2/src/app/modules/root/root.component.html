@@ -33,6 +33,7 @@
         *ngIf="report$ | async"
         [sheetData]="data"
         [currentSheet]="sheet"
+        [currentSheetConfig] = "sheetConfig$"
         [linksData]="links$ | async"
         (computedReport)="updateReport($event)"
         [bmType]="bmType$ | async"

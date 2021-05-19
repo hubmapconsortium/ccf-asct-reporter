@@ -9,7 +9,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { OrderModule } from 'ngx-order-pipe';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-
+import {MatTableModule} from '@angular/material/table';
 
 
 @NgModule({
@@ -23,7 +23,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatExpansionModule,
     OrderModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTableModule
   ],
   exports: [ReportComponent]
 })

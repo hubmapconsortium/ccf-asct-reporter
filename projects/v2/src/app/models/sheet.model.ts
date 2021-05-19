@@ -16,6 +16,7 @@ export interface Structure {
   b_type?: BM_TYPE;
   isNew?: boolean;
   color?: string;
+  organName?: string;
 }
 
 export interface Row {
@@ -25,6 +26,7 @@ export interface Row {
   biomarkers_gene: Array<Structure>;
   biomarkers_protein: Array<Structure>;
   references: Reference[];
+  organName?: string;
 }
 
 export interface ResponseData {

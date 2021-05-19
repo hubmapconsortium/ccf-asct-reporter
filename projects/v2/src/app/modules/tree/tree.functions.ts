@@ -27,7 +27,8 @@ export function makeAS(data: Row[]): Array<AS> {
             indegree: new Set(),
             comparator: str.name + str.id,
             label: str.rdfs_label,
-            id
+            id,
+            organName: row.organName
           };
           id += 1;
 
@@ -80,7 +81,8 @@ export function makeCellTypes(data: Row[]): Array<CT> {
             indegree: new Set(),
             comparator: `${str.name}${str.id}`,
             label: str.rdfs_label,
-            references: row.references
+            references: row.references,
+            organName: row.organName
           };
 
           if (row.anatomical_structures.length > 0) {
@@ -147,7 +149,8 @@ export function makeBioMarkers(data: Row[], type?: string): Array<B> {
             outdegree: new Set(),
             indegree: new Set(),
             nodeSize: 300,
-            bType: str.b_type
+            bType: str.b_type,
+            organName: row.organName
           };
 
           if (row.cell_types.length) {
