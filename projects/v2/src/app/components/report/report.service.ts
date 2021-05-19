@@ -50,6 +50,16 @@ export class ReportService {
     }
   }
 
+  countOrganWise(acc, curr) {
+    let item = acc.find((x) => x.organName === curr.organName);
+    if (!item) {
+      item = { organName: curr.organName, count: 0 };
+      acc.push(item);
+    }
+    item.count++;
+    return acc;
+  }
+
   makeAllOrganReportDataByOrgan(reportData: any) {
     const result = {
       anatomicalStructures: [],
@@ -63,69 +73,24 @@ export class ReportService {
     try {
       result.anatomicalStructures = reportData.anatomicalStructures.reduce(
         (acc, curr) => {
-          let item = acc.find((x) => x.organName === curr.organName);
-          if (!item) {
-            item = { organName: curr.organName, count: 0 };
-            acc.push(item);
-          }
-          item.count++;
-          return acc;
+          return this.countOrganWise(acc, curr);
         },
         []
       );
       result.ASWithNoLink = reportData.ASWithNoLink.reduce((acc, curr) => {
-        let item = acc.find((x) => x.organName === curr.organName);
-        if (!item) {
-          item = { organName: curr.organName, count: 0 };
-          acc.push(item);
-        }
-        item.count++;
-        return acc;
+        return this.countOrganWise(acc, curr);
       }, []);
       result.BWithNoLink = reportData.BWithNoLink.reduce((acc, curr) => {
-        let item = acc.find((x) => x.organName === curr.organName);
-        if (!item) {
-          item = { organName: curr.organName, count: 0 };
-          acc.push(item);
-        }
-        item.count++;
-        return acc;
+        return this.countOrganWise(acc, curr);
       }, []);
       result.CTWithNoLink = reportData.CTWithNoLink.reduce((acc, curr) => {
-        let item = acc.find((x) => x.organName === curr.organName);
-        if (!item) {
-          item = { organName: curr.organName, count: 0 };
-          acc.push(item);
-        }
-        item.count++;
-        return acc;
+        return this.countOrganWise(acc, curr);
       }, []);
       result.biomarkers = reportData.biomarkers.reduce((acc, curr) => {
-        let item = acc.find((x) => x.organName === curr.organName);
-        if (!item) {
-          item = { organName: curr.organName, count: 0 };
-          acc.push(item);
-        }
-        item.count++;
-        return acc;
+        return this.countOrganWise(acc, curr);
       }, []);
       result.cellTypes = reportData.cellTypes.reduce((acc, curr) => {
-        let item = acc.find((x) => x.organName === curr.organName);
-        if (!item) {
-          item = { organName: curr.organName, count: 0 };
-          acc.push(item);
-        }
-        item.count++;
-        return acc;
-      }, []);
-      result.ASWithNoLink = reportData.ASWithNoLink.reduce((acc, curr) => {
-        let item = acc.find((x) => x.organName === curr.organName);
-        if (!item) {
-          item = { organName: curr.organName, count: 0 };
-          acc.push(item);
-        }
-        item.count++;
-        return acc;
+        return this.countOrganWise(acc, curr);
       }, []);
       return result;
     } catch (err) {
