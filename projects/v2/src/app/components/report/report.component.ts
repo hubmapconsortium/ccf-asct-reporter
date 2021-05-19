@@ -1,7 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  AfterViewInit,
+} from '@angular/core';
 import { ReportService } from './report.service';
-import { Report } from '../../models/report.model';
-import { Sheet } from '../../models/sheet.model';
+import { CByOrgan, Report } from '../../models/report.model';
+import { Sheet, SheetConfig } from '../../models/sheet.model';
 
 import * as XLSX from 'xlsx';
 import * as moment from 'moment';
@@ -23,24 +30,39 @@ export class ReportComponent implements OnInit, AfterViewInit {
     CTWithNoLink: [],
     BWithNoLink: [],
   };
+  resultDataByOrganName: Report = {
+    anatomicalStructures: [],
+    ASWithNoLink: [],
+    CTWithNoLink: [],
+    BWithNoLink: [],
+    cellTypes: [],
+    biomarkers: [],
+  };
+  countsByOrgan: CByOrgan[];
+  displayedColumns: string[] = ['organName', 'anatomicalStructures', 'cellTypes', 'biomarkers'];
   compareReport: any;
   compareDataAndSheets: any;
   clickButton = false; // for mat expansion panel download button
 
   ontologyLinkGraphData = [];
+  SheetConfig: SheetConfig;
 
   @Input() compareSheets: any;
   @Input() sheetData: any;
   @Input() currentSheet: Sheet;
   @Input() linksData: any;
   @Input() inputReportData: Observable<any>;
+  @Input() currentSheetConfig: Observable<any>;
   @Input() compareData: Observable<any>;
   @Input() bmType: string;
   @Output() closeReport: EventEmitter<any> = new EventEmitter<any>();
   @Output() computedReport: EventEmitter<any> = new EventEmitter<any>();
   @Output() deleteSheet: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(public reportService: ReportService, public ga: GoogleAnalyticsService) {}
+  constructor(
+    public reportService: ReportService,
+    public ga: GoogleAnalyticsService
+  ) {}
 
   ngOnInit(): void {
     this.reportService.reportData$.subscribe((data) => {
@@ -54,6 +76,10 @@ export class ReportComponent implements OnInit, AfterViewInit {
       this.compareReport = data.data;
     });
 
+    this.currentSheetConfig.subscribe((data) => {
+      this.SheetConfig = data;
+    });
+
     this.compareData.subscribe((data) => {
       if (data.sheets.length && data.data.length) {
         this.reportService.makeCompareData(
@@ -64,12 +90,20 @@ export class ReportComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.reportService.makeReportData(this.currentSheet, this.sheetData, this.bmType);
+    this.reportService.makeReportData(
+      this.currentSheet,
+      this.sheetData,
+      this.bmType
+    );
   }
 
   ngAfterViewInit() {}
 
   makeOntologyLinksGraphData(reportData: Report) {
+    if (this.SheetConfig.show_all_AS && this.currentSheet.name === 'all') {
+      this.resultDataByOrganName = this.reportService.makeAllOrganReportDataByOrgan(reportData);
+      this.countsByOrgan = this.reportService.makeAllOrganReportDataCountsByOrgan(this.resultDataByOrganName);
+    }
     return [
       {
         results: [
@@ -104,7 +138,12 @@ export class ReportComponent implements OnInit, AfterViewInit {
           },
           { name: 'without HGNC Links', value: reportData.BWithNoLink.length },
         ],
-        label: this.bmType === 'Gene' ? 'Total Gene Biomarkers' : this.bmType === 'Protein' ? 'Total Protein Biomarkers' : 'Total Biomarkers',
+        label:
+          this.bmType === 'Gene'
+            ? 'Total Gene Biomarkers'
+            : this.bmType === 'Protein'
+            ? 'Total Protein Biomarkers'
+            : 'Total Biomarkers',
       },
     ];
   }
@@ -126,7 +165,13 @@ export class ReportComponent implements OnInit, AfterViewInit {
     this.compareReport.splice(i, 1);
     this.deleteSheet.emit(i);
 
-    this.ga.eventEmitter('report_compare_delete', GaCategory.REPORT, 'Delete a sheet comparison', GaAction.CLICK, i);
+    this.ga.eventEmitter(
+      'report_compare_delete',
+      GaCategory.REPORT,
+      'Delete a sheet comparison',
+      GaAction.CLICK,
+      i
+    );
   }
 
   downloadData() {
@@ -144,15 +189,13 @@ export class ReportComponent implements OnInit, AfterViewInit {
     ) {
       const row = {};
       if (i < this.reportData.anatomicalStructures.length) {
-        row[
-          'Unique Anatomical Structures'
-        ] = this.reportData.anatomicalStructures[i].structure;
+        row['Unique Anatomical Structures'] =
+          this.reportData.anatomicalStructures[i].structure;
         if (
           !this.reportData.anatomicalStructures[i].uberon.includes('UBERON')
         ) {
-          row['AS with no Uberon Link'] = this.reportData.anatomicalStructures[
-            i
-          ].structure;
+          row['AS with no Uberon Link'] =
+            this.reportData.anatomicalStructures[i].structure;
         }
       }
       if (i < this.reportData.cellTypes.length) {
@@ -163,9 +206,8 @@ export class ReportComponent implements OnInit, AfterViewInit {
       }
       if (i < this.reportData.biomarkers.length) {
         row['Unique Biomarkers'] = this.reportData.biomarkers[i].structure;
-        row['Biomarkers with no links'] = this.reportData.biomarkers[
-          i
-        ].structure;
+        row['Biomarkers with no links'] =
+          this.reportData.biomarkers[i].structure;
       }
       download.push(row);
     }
@@ -197,7 +239,12 @@ export class ReportComponent implements OnInit, AfterViewInit {
       allReport.push(this.downloadData());
 
       // Tracking the 'Download All' use case from the header button.
-      this.ga.eventEmitter('report_download_full', GaCategory.REPORT, 'Download Full Report', GaAction.CLICK);
+      this.ga.eventEmitter(
+        'report_download_full',
+        GaCategory.REPORT,
+        'Download Full Report',
+        GaAction.CLICK
+      );
 
       if (this.compareReport) {
         for (const [sheet, ele] of this.compareReport.entries()) {
@@ -259,7 +306,13 @@ export class ReportComponent implements OnInit, AfterViewInit {
     const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
     const sn = sheet.title.toLowerCase().replace(' ', '_');
 
-    this.ga.eventEmitter('report_compare_download', GaCategory.REPORT, 'Compare sheet download', GaAction.CLICK, sn);
+    this.ga.eventEmitter(
+      'report_compare_download',
+      GaCategory.REPORT,
+      'Compare sheet download',
+      GaAction.CLICK,
+      sn
+    );
 
     return {
       sheet: sheetWS,

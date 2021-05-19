@@ -361,18 +361,20 @@ export class SheetState {
 
     const requests$: Array<Observable<any>> = [];
     let dataAll: Row[] = [];
+    const organsNames: string[] = [];
     for (const s of SHEET_CONFIG) {
       if (s.name === 'all' || s.name === 'example') {
         continue;
       } else {
         requests$.push(this.sheetService.fetchSheetData(s.sheetId, s.gid));
+        organsNames.push(s.name);
       }
     }
     forkJoin(requests$).subscribe(
       (allresults) => {
-        allresults.map((res: ResponseData) => {
-          console.log(res);
+        allresults.map((res: ResponseData, i) => {
           for (const row of res.data) {
+            row.organName = organsNames[i];
             const newStructure: Structure = {
               name: 'Body',
               id: '',
