@@ -6,6 +6,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DocsNavModule } from './docs-nav/docs-nav.module';
 import { RouterModule } from '@angular/router';
+import { FooterModule } from '../../components/footer/footer.module';
 
 
 
@@ -17,7 +18,8 @@ import { RouterModule } from '@angular/router';
     MarkdownModule,
     FontAwesomeModule,
     DocsNavModule,
-    RouterModule
+    RouterModule,
+    FooterModule
   ],
   exports: [DocsComponent]
 })
