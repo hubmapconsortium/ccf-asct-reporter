@@ -29,7 +29,7 @@ export class FooterComponent implements OnInit {
 
   openDocs() {
     this.router.navigate(['/docs']);
-    this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Docs', GaAction.NAV);
+    this.ga.eventEmitter('footer_link_click', GaCategory.FOOTER, 'Open Docs', GaAction.NAV);
   }
 
   openData() {
@@ -37,6 +37,6 @@ export class FooterComponent implements OnInit {
       MASTER_SHEET_LINK,
       '_blank'
     );
-    this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Master Tables', GaAction.NAV);
+    this.ga.eventEmitter('footer_link_click', GaCategory.FOOTER, 'Open Master Tables', GaAction.NAV);
   }
 }
