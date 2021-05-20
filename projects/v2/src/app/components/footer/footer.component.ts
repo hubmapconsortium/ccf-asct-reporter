@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faGithub, faFacebookSquare, faTwitterSquare } from '@fortawesome/free-brands-svg-icons';
 import { faGlobe, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
@@ -14,15 +14,16 @@ import { MASTER_SHEET_LINK } from '../../static/config';
 })
 export class FooterComponent implements OnInit {
 
-  faLinkedin = faLinkedin;
   faGlobe = faGlobe;
   faGithub = faGithub;
   faPhone = faPhone;
   faEnvelope = faEnvelope;
+  faFacebookSquare = faFacebookSquare;
+  faTwitterSquare = faTwitterSquare;
 
   copyrightYear = new Date().getFullYear();
 
-  constructor(private router: Router, public ga: GoogleAnalyticsService) { }
+  constructor(private readonly router: Router, public ga: GoogleAnalyticsService) { }
 
   ngOnInit(): void {
   }
