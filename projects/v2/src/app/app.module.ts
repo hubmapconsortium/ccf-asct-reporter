@@ -24,10 +24,9 @@ import { RootModule } from './modules/root/root.module';
 import { HomeModule } from './components/home/home.module';
 import { FooterModule } from './components/footer/footer.module';
 
-
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,

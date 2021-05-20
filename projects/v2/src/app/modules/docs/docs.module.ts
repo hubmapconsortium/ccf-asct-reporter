@@ -8,8 +8,6 @@ import { DocsNavModule } from './docs-nav/docs-nav.module';
 import { RouterModule } from '@angular/router';
 import { FooterModule } from '../../components/footer/footer.module';
 
-
-
 @NgModule({
   declarations: [DocsComponent],
   imports: [

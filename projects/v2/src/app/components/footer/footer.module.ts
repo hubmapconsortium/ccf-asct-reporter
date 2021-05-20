@@ -6,8 +6,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FooterComponent } from './footer.component';
 
-
-
 @NgModule({
   declarations: [FooterComponent],
   imports: [

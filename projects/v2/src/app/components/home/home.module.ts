@@ -8,8 +8,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule } from '@angular/router';
 import { FooterModule } from '../footer/footer.module';
 
-
-
 @NgModule({
   declarations: [HomeComponent],
   imports: [
