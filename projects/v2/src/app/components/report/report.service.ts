@@ -46,6 +46,7 @@ export class ReportService {
         sheet: currentSheet,
       });
     } catch (err) {
+      console.log(err);
       throw err;
     }
   }
