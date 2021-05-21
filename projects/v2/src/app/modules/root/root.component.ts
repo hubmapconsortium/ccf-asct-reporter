@@ -5,6 +5,7 @@ import {
   Output,
   EventEmitter,
   ElementRef,
+  ViewChild,
 } from '@angular/core';
 import { SHEET_CONFIG } from './../../static/config';
 import { SheetState } from './../../store/sheet.state';
@@ -52,7 +53,6 @@ import {
 import { InfoComponent } from '../../components/info/info.component';
 import { CompareData, DOI, Row, SheetInfo } from '../../models/sheet.model';
 import { DoiComponent } from '../../components/doi/doi.component';
-import { ViewChild } from '@angular/core';
 import { SearchStructure } from '../../models/tree.model';
 import { MatDrawerContent } from '@angular/material/sidenav';
 
