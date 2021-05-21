@@ -22,7 +22,7 @@ import { environment } from '../environments/environment';
 import { DocsModule } from './modules/docs/docs.module';
 import { RootModule } from './modules/root/root.module';
 import { HomeModule } from './components/home/home.module';
-
+import { FooterModule } from './components/footer/footer.module';
 
 @NgModule({
   declarations: [
@@ -45,6 +45,7 @@ import { HomeModule } from './components/home/home.module';
     DocsModule,
     RootModule,
     HomeModule,
+    FooterModule
   ],
   providers: [GoogleAnalyticsService],
   bootstrap: [AppComponent]
