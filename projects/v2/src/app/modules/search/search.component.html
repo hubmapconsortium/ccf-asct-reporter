@@ -15,52 +15,72 @@
     </button>
     <div class="search-modal mat-elevation-z4"
         [hidden]="(searchState$ | async) === false">
-      <mat-form-field class="br-top"
-        appearance="legacy"
-        floatLabel="never">
-        <input matInput cdkFocusInitial #searchField
-          [(ngModel)]="searchValue"
-          placeholder="Search Structures"
-          (input)="filterStructuresOnSearch()" />
-        <button mat-button matSuffix mat-icon-button
-          #clearBtn
-          [hidden]="!searchValue"
-          aria-label="Clear Search"
-          matTooltip="Clear Search"
-          (click)="clearSearchField()">
-          <mat-icon>close</mat-icon>
-        </button>
-        <button mat-button matSuffix mat-icon-button
-          aria-label="Close"
-          matTooltip="Close"
-          (click)="closeSearchList()">
-          <mat-icon>arrow_drop_up</mat-icon>
-        </button>
-      </mat-form-field>
-      <mat-selection-list #multiSelect
-        [disabled]="disabled"
-        [multiple]="true"
-        (selectionChange)="selectOption()"
-        [(ngModel)]="selectedOptions"
-        [compareWith]="selectionCompareFunction">
-        <mat-list-item *ngIf="filteredStructures.length == 0">
-          <div>No entries found.</div>
-        </mat-list-item>
-        <mat-list-option
-          *ngFor="let structure of structures"
-          [value]="structure"
-          color="primary"
-          [hidden]="hideStructure(structure)"
-          checkboxPosition="before">
-          <div class="structure-name">
-            <div>
-            {{ structure.name }}
+        <div class="search-controls br-top">
+          <mat-form-field class="br-top"
+            appearance="legacy"
+            floatLabel="never">
+            <input matInput cdkFocusInitial #searchField
+              (keyup.enter)="selectFirstOption()"
+              [(ngModel)]="searchValue"
+              placeholder="Search Structures"
+              (input)="filterStructuresOnSearch()" />
+            <button mat-button matSuffix mat-icon-button
+              #clearBtn
+              [hidden]="!searchValue"
+              aria-label="Clear Search"
+              matTooltip="Clear Search"
+              (click)="clearSearchField()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <button mat-button matSuffix mat-icon-button
+              aria-label="Close"
+              matTooltip="Close"
+              (click)="closeSearchList()">
+              <mat-icon>arrow_drop_up</mat-icon>
+            </button>
+          </mat-form-field>
+          <br>
+          <p>
+            Show only:
+            <mat-button-toggle-group multiple
+              #group="matButtonToggleGroup"
+              (change)="filterToggleChange(group.value)"
+              name="searchFilterButtons"
+              aria-label="searchFilterButtons">
+              <mat-button-toggle value="Anatomical Structures" matTooltip="Anatomical Structures">AS</mat-button-toggle>
+              <mat-button-toggle value="Cell Types" matTooltip="Cell Types">CT</mat-button-toggle>
+              <mat-button-toggle value="Biomarkers" matTooltip="Biomarkers">B</mat-button-toggle>
+            </mat-button-toggle-group>
+            <button id="deselectBtn" mat-stroked-button
+              aria-label="Deselect All"
+              (click)="deselectAllOptions()">Deselect All</button>
+          </p>
+        </div>
+        <mat-selection-list #multiSelect
+          [disabled]="disabled"
+          [multiple]="true"
+          (selectionChange)="selectOption()"
+          [(ngModel)]="selectedOptions"
+          [compareWith]="selectionCompareFunction">
+          <mat-list-item *ngIf="searchFilteredStructures.length == 0 && groupFilteredStructures.length == 0">
+            <div>No entries found.</div>
+          </mat-list-item>
+          <mat-list-option
+            *ngFor="let structure of structures"
+            [value]="structure"
+            color="primary"
+            [hidden]="hideStructure(structure)"
+            [selected]="isSelected(structure)"
+            checkboxPosition="before">
+            <div class="structure-name">
+              <div>
+              {{ structure.name }}
+              </div>
+              <div class="structure-group-name" >
+              <em>{{ structure.groupName }}</em>
+              </div>
             </div>
-            <div class="structure-group-name" >
-            <em>{{ structure.groupName }}</em>
-            </div>
-          </div>
-        </mat-list-option>
-      </mat-selection-list>
+          </mat-list-option>
+        </mat-selection-list>
     </div>
 </div>

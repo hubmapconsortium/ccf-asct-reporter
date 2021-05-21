@@ -28,7 +28,7 @@ export class UpdateBimodalConfig {
 
 export class DoSearch {
   static readonly type = '[SEARCH] Update Search List';
-  constructor(public searchStructures: SearchStructure[]) {}
+  constructor(public searchStructures: SearchStructure[], public lastClickedOption: SearchStructure) {}
 }
 
 export class UpdateBottomSheetData {
