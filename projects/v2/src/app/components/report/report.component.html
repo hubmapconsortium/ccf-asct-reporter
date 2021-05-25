@@ -150,7 +150,7 @@
           <div class="details pr-4">
             <div *ngIf="SheetConfig.show_all_AS && currentSheet.name == 'all'">
               <p class="text-muted mb-3">
-                <small class="font-weight-normal">Organ Wise</small>
+                <small class="font-weight-normal">Counts by Organ</small>
               </p>
 
               <table
@@ -158,7 +158,7 @@
                 [dataSource]="countsByOrgan"
                 class="mat-elevation-z8 count_by_organ_table"
               >
-              <caption class="sr-only">Organ Wise Count for all organs</caption>
+              <caption class="sr-only">Counts by Organ</caption>
                 <!-- Organ Name  -->
                 <ng-container matColumnDef="organName">
                   <th mat-header-cell *matHeaderCellDef id="organName">Name</th>
@@ -202,7 +202,7 @@
             </div>
             <p class="text-muted my-3">
               <small class="font-weight-normal"
-                >Alphabetically sorted listings of all AS, CT & B</small
+                >Alphabetically sorted listings of all AS, CT, & B</small
               >
             </p>
             <mat-expansion-panel [expanded]="false">
