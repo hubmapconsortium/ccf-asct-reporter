@@ -119,103 +119,27 @@ export class ReportService {
     const compareDataStats = [];
     for (const sheet of compareSheets) {
       const newEntry: any = {};
-      let compareCT;
-      let compareB;
-      let identicalStructures = [];
-      let newStructures = [];
 
-      try {
-        const compareAS = makeAS(compareData);
-        const mainASData = reportdata.anatomicalStructures.filter(
-          (i) => !i.isNew
-        );
-        const compareASData = compareAS.filter((i) => i.isNew);
+      const { identicalStructuresAS, newStructuresAS } = this.compareASData(
+        reportdata,
+        compareData
+      );
+      newEntry.identicalAS = identicalStructuresAS;
+      newEntry.newAS = newStructuresAS;
 
-        if (compareAS.length > 0) {
-          for (const a of compareASData) {
-            let found = false;
-            for (const b of mainASData) {
-              if (a.structure === b.structure && !b.isNew) {
-                identicalStructures.push(a.structure);
-                found = true;
-              }
-            }
+      const { identicalStructuresCT, newStructuresCT } = this.compareCTData(
+        reportdata,
+        compareData
+      );
+      newEntry.identicalCT = identicalStructuresCT;
+      newEntry.newCT = newStructuresCT;
 
-            if (!found) {
-              newStructures.push(a.structure);
-            }
-          }
-        }
-      } catch (err) {
-        this.reportData.next({
-          data: null,
-        });
-      }
-
-      newEntry.identicalAS = identicalStructures;
-      newEntry.newAS = newStructures;
-      identicalStructures = [];
-      newStructures = [];
-
-      try {
-        compareCT = makeCellTypes(compareData);
-        const mainCTData = reportdata.cellTypes.filter((i) => !i.isNew);
-        const compareCTData = compareCT.filter((i) => i.isNew);
-
-        if (compareCT.length > 0) {
-          for (const a of compareCTData) {
-            let found = false;
-            for (const b of mainCTData) {
-              if (a.structure === b.structure && !b.isNew) {
-                identicalStructures.push(a.structure);
-                found = true;
-              }
-            }
-
-            if (!found) {
-              newStructures.push(a.structure);
-            }
-          }
-        }
-      } catch (err) {
-        this.reportData.next({
-          data: null,
-        });
-      }
-
-      newEntry.identicalCT = identicalStructures;
-      newEntry.newCT = newStructures;
-      identicalStructures = [];
-      newStructures = [];
-
-      try {
-        compareB = makeBioMarkers(compareData);
-        const mainBData = reportdata.biomarkers.filter((i) => !i.isNew);
-        const compareBData = compareB.filter((i) => i.isNew);
-
-        if (compareB.length > 0) {
-          for (const a of compareBData) {
-            let found = false;
-            for (const b of mainBData) {
-              if (a.structure === b.structure && !b.isNew) {
-                identicalStructures.push(a.structure);
-                found = true;
-              }
-            }
-
-            if (!found) {
-              newStructures.push(a.structure);
-            }
-          }
-        }
-      } catch (err) {
-        this.reportData.next({
-          data: null,
-        });
-      }
-
-      newEntry.identicalB = identicalStructures;
-      newEntry.newB = newStructures;
+      const { identicalStructuresB, newStructuresB } = this.compareBData(
+        reportdata,
+        compareData
+      );
+      newEntry.identicalB = identicalStructuresB;
+      newEntry.newB = newStructuresB;
       newEntry.color = sheet.color;
       newEntry.title = sheet.title;
       newEntry.description = sheet.description;
@@ -226,6 +150,101 @@ export class ReportService {
     this.compareData.next({
       data: compareDataStats,
     });
+  }
+
+  compareASData(reportdata: Report, compareData: Row[]) {
+    let identicalStructuresAS = [];
+    let newStructuresAS = [];
+    try {
+      const compareAS = makeAS(compareData);
+      const mainASData = reportdata.anatomicalStructures.filter(
+        (i) => !i.isNew
+      );
+      const compareASData = compareAS.filter((i) => i.isNew);
+
+      if (compareAS.length > 0) {
+        for (const a of compareASData) {
+          let found = false;
+          for (const b of mainASData) {
+            if (a.structure === b.structure && !b.isNew) {
+              identicalStructuresAS.push(a.structure);
+              found = true;
+            }
+          }
+
+          if (!found) {
+            newStructuresAS.push(a.structure);
+          }
+        }
+      }
+      return { identicalStructuresAS, newStructuresAS };
+    } catch (err) {
+      this.reportData.next({
+        data: null,
+      });
+    }
+  }
+
+  compareCTData(reportdata: Report, compareData: Row[]) {
+    let identicalStructuresCT = [];
+    let newStructuresCT = [];
+    try {
+      const compareCT = makeCellTypes(compareData);
+      const mainCTData = reportdata.cellTypes.filter((i) => !i.isNew);
+      const compareCTData = compareCT.filter((i) => i.isNew);
+
+      if (compareCT.length > 0) {
+        for (const a of compareCTData) {
+          let found = false;
+          for (const b of mainCTData) {
+            if (a.structure === b.structure && !b.isNew) {
+              identicalStructuresCT.push(a.structure);
+              found = true;
+            }
+          }
+
+          if (!found) {
+            newStructuresCT.push(a.structure);
+          }
+        }
+      }
+      return { identicalStructuresCT, newStructuresCT };
+    } catch (err) {
+      this.reportData.next({
+        data: null,
+      });
+    }
+  }
+
+  compareBData(reportdata: Report, compareData: Row[]) {
+    let identicalStructuresB = [];
+    let newStructuresB = [];
+    try {
+      const compareB = makeBioMarkers(compareData);
+      const mainBData = reportdata.biomarkers.filter((i) => !i.isNew);
+      const compareBData = compareB.filter((i) => i.isNew);
+
+      if (compareB.length > 0) {
+        for (const a of compareBData) {
+          let found = false;
+          for (const b of mainBData) {
+            if (a.structure === b.structure && !b.isNew) {
+              identicalStructuresB.push(a.structure);
+              found = true;
+            }
+          }
+
+          if (!found) {
+            newStructuresB.push(a.structure);
+          }
+        }
+      }
+      return { identicalStructuresB, newStructuresB };
+    } catch (err) {
+      this.reportData.next({
+        data: null,
+      });
+    }
   }
 
   getASWithNoLink(anatomicalStructures) {
