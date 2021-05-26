@@ -143,6 +143,12 @@ export class ReportComponent implements OnInit, AfterViewInit {
             ? 'Total Gene Biomarkers'
             : this.bmType === 'Protein'
             ? 'Total Protein Biomarkers'
+            : this.bmType === 'Lipids'
+            ? 'Total Lipids Biomarkers'
+            : this.bmType === 'Metalloids'
+            ? 'Total Metalloids Biomarkers'
+            : this.bmType === 'Proteoforms'
+            ? 'Total Proteoforms Biomarkers'
             : 'Total Biomarkers',
       },
     ];

@@ -24,7 +24,11 @@ interface Reference {
 
 enum BM_TYPE {
   G = 'gene',
-  P = 'protein'
+  P = 'protein',
+  BL = 'lipids',
+  BM = 'metalloids',
+  BF = 'proteoforms'
+
 }
 
 class Structure {
@@ -47,6 +51,9 @@ class Row {
   biomarkers: Array<Structure>;
   biomarkers_protein: Array<Structure>;
   biomarkers_gene: Array<Structure>;
+  biomarkers_lipids: Array<Structure>;
+  biomarkers_meta: Array<Structure>;
+  biomarkers_prot: Array<Structure>;
   references: Reference[];
 
   constructor() {
@@ -54,14 +61,17 @@ class Row {
     this.cell_types = []
     this.biomarkers_protein = [];
     this.biomarkers_gene = [];
-    this.biomarkers = []
-    this.references = []
+    this.biomarkers = [];
+    this.biomarkers_lipids = [];
+    this.biomarkers_meta = [];
+    this.biomarkers_prot = [];
+    this.references = [];
     
   }
 }
 
 let headerMap: any = {
-  'AS':'anatomical_structures', 'CT': 'cell_types', 'BG': 'biomarkers_gene', 'BP': 'biomarkers_protein', 'REF': 'references'
+  'AS':'anatomical_structures', 'CT': 'cell_types', 'BG': 'biomarkers_gene', 'BP': 'biomarkers_protein', 'REF': 'references', 'BL': 'biomarkers_lipids', 'BM': 'biomarkers_meta', 'BF': 'biomarkers_prot'
  }
  
 
@@ -192,6 +202,9 @@ function makeASCTBData(data: any) {
               let s = new Structure(data[i][j])
               if (rowHeader[0] === 'BG') s.b_type = BM_TYPE.G
               if (rowHeader[0] === 'BP') s.b_type = BM_TYPE.P
+              if (rowHeader[0] === 'BL') s.b_type = BM_TYPE.BL
+              if (rowHeader[0] === 'BM') s.b_type = BM_TYPE.BM
+              if (rowHeader[0] === 'BF') s.b_type = BM_TYPE.BF
               newRow[key].push(s)
             }
           } 
@@ -216,7 +229,7 @@ function makeASCTBData(data: any) {
       } 
 
       for(let row of rows) {
-        row.biomarkers = row.biomarkers_gene.concat(row.biomarkers_protein)
+        row.biomarkers = row.biomarkers_gene.concat(row.biomarkers_protein).concat(row.biomarkers_lipids).concat(row.biomarkers_meta).concat(row.biomarkers_prot)
       }
       res(rows)
     } catch(err) {

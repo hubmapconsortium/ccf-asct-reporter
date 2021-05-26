@@ -135,6 +135,9 @@ export function makeBioMarkers(data: Row[], type?: string): Array<B> {
         case 'All': currentBiomarkers = row.biomarkers; break;
         case 'Gene': currentBiomarkers = row.biomarkers_gene; break;
         case 'Protein': currentBiomarkers = row.biomarkers_protein; break;
+        case 'Lipids': currentBiomarkers = row.biomarkers_lipids; break;
+        case 'Metalloids': currentBiomarkers = row.biomarkers_meta; break;
+        case 'Proteoforms': currentBiomarkers = row.biomarkers_prot; break;
         default: currentBiomarkers = row.biomarkers;
       }
       currentBiomarkers.forEach(str => {

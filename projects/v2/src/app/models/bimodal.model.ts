@@ -79,7 +79,7 @@ export interface ASCTD {
 export const bimodalSortOptions = ['Alphabetically', 'Degree'];
 export const bimodalBSizeOptions = ['None', 'Degree'];
 export const bimodalCTSizeOptions = ['None', 'Degree', 'Indegree', 'Outdegree'];
-export const bimodalBTypeOptions = ['All', 'Gene', 'Protein'];
+export const bimodalBTypeOptions = ['All', 'Gene', 'Protein', 'Lipids', 'Metalloids', 'Proteoforms'];
 
 export interface BimodalConfig {
   CT: {
