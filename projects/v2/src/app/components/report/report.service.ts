@@ -153,8 +153,8 @@ export class ReportService {
   }
 
   compareASData(reportdata: Report, compareData: Row[]) {
-    let identicalStructuresAS = [];
-    let newStructuresAS = [];
+    const identicalStructuresAS = [];
+    const newStructuresAS = [];
     try {
       const compareAS = makeAS(compareData);
       const mainASData = reportdata.anatomicalStructures.filter(
@@ -182,12 +182,13 @@ export class ReportService {
       this.reportData.next({
         data: null,
       });
+      return { identicalStructuresAS, newStructuresAS };
     }
   }
 
   compareCTData(reportdata: Report, compareData: Row[]) {
-    let identicalStructuresCT = [];
-    let newStructuresCT = [];
+    const identicalStructuresCT = [];
+    const newStructuresCT = [];
     try {
       const compareCT = makeCellTypes(compareData);
       const mainCTData = reportdata.cellTypes.filter((i) => !i.isNew);
@@ -213,12 +214,13 @@ export class ReportService {
       this.reportData.next({
         data: null,
       });
+      return { identicalStructuresCT, newStructuresCT };
     }
   }
 
   compareBData(reportdata: Report, compareData: Row[]) {
-    let identicalStructuresB = [];
-    let newStructuresB = [];
+    const identicalStructuresB = [];
+    const newStructuresB = [];
     try {
       const compareB = makeBioMarkers(compareData);
       const mainBData = reportdata.biomarkers.filter((i) => !i.isNew);
@@ -244,6 +246,7 @@ export class ReportService {
       this.reportData.next({
         data: null,
       });
+      return { identicalStructuresB, newStructuresB };
     }
   }
 
