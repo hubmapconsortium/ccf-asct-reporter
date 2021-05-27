@@ -177,7 +177,7 @@ export const SHEET_CONFIG = [
     name: 'lung',
     display: 'Lung',
     sheetId: SHEET_ID,
-    gid: '925712902',
+    gid: '1824552484',
     config: {
       bimodal_distance_x: 200,
       bimodal_distance_y: 50,
