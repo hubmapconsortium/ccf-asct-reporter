@@ -253,7 +253,11 @@ export class ReportService {
   getASWithNoLink(anatomicalStructures) {
     const noLinks = [];
     anatomicalStructures.forEach((ele) => {
-      if (!ele.uberon.includes('UBERON')) {
+      if (!(
+        ele.uberon.includes('UBERON') ||
+        ele.uberon.includes('FMAID') ||
+        ele.uberon.includes('fma')
+      )) {
         noLinks.push(ele);
       }
     });
