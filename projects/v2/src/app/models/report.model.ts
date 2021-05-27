@@ -8,3 +8,10 @@ export interface Report {
   cellTypes: CT[];
   biomarkers: B[];
 }
+
+export interface CByOrgan {
+  organName?: string;
+  anatomicalStructures?: number;
+  cellTypes?: number;
+  biomarkers?: number;
+}

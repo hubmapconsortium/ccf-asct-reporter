@@ -13,14 +13,18 @@ This feature allows for AS, CT, and B to be searched and pinpointed in the visua
    <br>
    <br>
 
-2. Type in the name in the input field. The options will keep changing as letters are typed (auto-complete).
+2. Type in the name in the input field. The options will change as letters are typed. Pressing "Enter" will automatically select the first option in the list. Other options can be selected or deselected by clicking on them. The visualization will scroll to the most recently selected option.
 
    <img src="assets/docs/search/search.png" alt="Search typing" class="md-img p-2 w-75">
    <br>
    <br>
 
-3. Clicking on the available options will highlight those entities in the visualization with a light-blue box around the name.
+3. Multiple entities can be selected at once, and they will be highlighted in the visualization with a light-blue box around the name.
 
-   <img src="assets/docs/search/click.png" alt="Search typing" class="md-img p-2 w-75">
+4. There are additional toggles at the top of the Search drop-down which let you filter the options by Anatomical Structures, Cell Types, and Biomarkers. Multiple structure types can be selected at once. Additional, the "Deselect All" button will deselect all checkboxes.
+
+   <img src="assets/docs/search/controls.png" alt="Search controls" class="sm-img w-50">
    <br>
    <br>
+
+5. Finally, the search input can be cleared with the "X" in the top right, and the drop-down can be closed by clicking anywhere outside of the window.

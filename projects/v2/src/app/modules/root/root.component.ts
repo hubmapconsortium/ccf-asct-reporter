@@ -4,6 +4,8 @@ import {
   OnDestroy,
   Output,
   EventEmitter,
+  ElementRef,
+  ViewChild,
 } from '@angular/core';
 import { SHEET_CONFIG } from './../../static/config';
 import { SheetState } from './../../store/sheet.state';
@@ -21,7 +23,7 @@ import {
   FetchInitialPlaygroundData,
 } from './../../actions/sheet.actions';
 import { TreeService } from './../tree/tree.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { UIState } from '../../store/ui.state';
 import {
   HasError,
@@ -30,7 +32,6 @@ import {
   CloseCompare,
   CloseLoading,
   OpenBottomSheet,
-  CloseBottomSheet,
 } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -50,8 +51,10 @@ import {
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
 import { InfoComponent } from '../../components/info/info.component';
-import { CompareData, DOI, Row, SheetInfo } from '../../models/sheet.model';
+import { CompareData, DOI, Row, SheetConfig, SheetInfo } from '../../models/sheet.model';
 import { DoiComponent } from '../../components/doi/doi.component';
+import { SearchStructure } from '../../models/tree.model';
+import { MatDrawerContent } from '@angular/material/sidenav';
 
 
 @Component({
@@ -102,6 +105,10 @@ export class RootComponent implements OnInit, OnDestroy {
    */
   mode = 'vis';
 
+  // The container used for vertical scrolling of the viz is different than the one used for horizontal scrolling
+  // Here we get references to both values.
+  @ViewChild(MatDrawerContent) verticalScrollEntity: MatDrawerContent;
+  @ViewChild('treeDiv') horizontalScrollEntity: ElementRef;
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
 
   // Sheet Observables
@@ -113,6 +120,7 @@ export class RootComponent implements OnInit, OnDestroy {
   @Select(SheetState.getMode) mode$: Observable<string>;
   @Select(SheetState.getBottomSheetInfo) bottomSheetInfo$: Observable<SheetInfo>;
   @Select(SheetState.getBottomSheetDOI) bottomSheetDOI$: Observable<DOI[]>;
+  @Select(SheetState.getSheetConfig) sheetConfig$: Observable<SheetConfig>;
 
   // Tree Observables
   @Select(TreeState.getTreeData) treeData$: Observable<any>;
@@ -120,6 +128,7 @@ export class RootComponent implements OnInit, OnDestroy {
   @Select(TreeState.getLinksData) links$: Observable<any>;
   @Select(TreeState.getBimodal) bm$: Observable<any>;
   @Select(TreeState.getBiomarkerType) bmType$: Observable<string>;
+  @Select(TreeState.getLatestSearchStructure) searchOption$: Observable<SearchStructure>;
 
   // Control Pane Observables
   @Select(UIState.getControlPaneState) pane$: Observable<boolean>;
@@ -253,13 +262,34 @@ export class RootComponent implements OnInit, OnDestroy {
           this.infoSheetRef.dismiss();
         }
       }
-
     });
 
+    // Listen for changes in the last selected search structure
+    this.searchOption$.subscribe(structure => {
+      // Structure will be null when all structures are deselected
+      if (this.verticalScrollEntity && structure) {
+        const yPos = structure.y + 30; // 30 accounts for top-padding
+        const xPos = structure.x;
+
+        // The vertical scroll div is a CdkScrollable component, but the horizontal scroll element is a normal div.
+        // This leads to differences in the scrollTo interface.
+        const contentHeight = this.verticalScrollEntity.getElementRef().nativeElement.offsetHeight;
+        const contentWidth = this.verticalScrollEntity.getElementRef().nativeElement.offsetWidth;
+        const yScrollPos = this.verticalScrollEntity.measureScrollOffset('top');
+        const xScrollPos = this.horizontalScrollEntity.nativeElement.scrollLeft;
+
+        // Scroll to the selected structure if it's outside the area of the screen
+        if (xPos > xScrollPos + contentWidth || xPos < xScrollPos) {
+          this.horizontalScrollEntity.nativeElement.scrollTo(xPos, yScrollPos);
+        }
+        if (yPos > yScrollPos + contentHeight || yPos < yScrollPos) {
+          this.verticalScrollEntity.scrollTo({top: yPos - contentHeight / 2});
+        }
+      }
+    });
   }
 
   ngOnInit(): void {
-
   }
 
   ngOnDestroy() {

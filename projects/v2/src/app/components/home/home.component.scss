@@ -329,44 +329,6 @@ p {
   color: #444a65 !important;
 }
 
-.footer {
-  background: #262626;
-  color: white;
-  .links {
-    ul {
-      list-style-type: none;
-    }
-    li a {
-      color: white;
-      transition: color 0.2s;
-      &:hover {
-        text-decoration: none;
-        color: #4180cb;
-      }
-    }
-  }
-  .about-company {
-    i {
-      font-size: 1.5625rem;
-    }
-    a {
-      color: rgb(249, 249, 249);
-      transition: color 0.2s;
-      &:hover {
-        color: #4180cb;
-      }
-    }
-  }
-  .location {
-    i {
-      font-size: 1.125rem;
-    }
-  }
-  .copyright p {
-    border-top: 0.0625rem solid rgba(255, 255, 255, 0.1);
-  }
-}
-
 #actionsHeight {
   min-height: 18.75rem;
 }

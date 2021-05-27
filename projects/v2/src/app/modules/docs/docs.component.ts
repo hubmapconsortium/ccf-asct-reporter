@@ -73,10 +73,6 @@ export class DocsComponent implements OnInit {
     this.ga.eventEmitter('docs_link_click', GaCategory.DOCS, 'Open Github', GaAction.NAV);
   }
 
-  openDocs() {
-    this.router.navigate(['/docs']);
-  }
-
   openData() {
     window.open(
       MASTER_SHEET_LINK,
