@@ -51,7 +51,7 @@ import {
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
 import { InfoComponent } from '../../components/info/info.component';
-import { CompareData, DOI, Row, SheetInfo } from '../../models/sheet.model';
+import { CompareData, DOI, Row, SheetConfig, SheetInfo } from '../../models/sheet.model';
 import { DoiComponent } from '../../components/doi/doi.component';
 import { SearchStructure } from '../../models/tree.model';
 import { MatDrawerContent } from '@angular/material/sidenav';
@@ -120,6 +120,7 @@ export class RootComponent implements OnInit, OnDestroy {
   @Select(SheetState.getMode) mode$: Observable<string>;
   @Select(SheetState.getBottomSheetInfo) bottomSheetInfo$: Observable<SheetInfo>;
   @Select(SheetState.getBottomSheetDOI) bottomSheetDOI$: Observable<DOI[]>;
+  @Select(SheetState.getSheetConfig) sheetConfig$: Observable<SheetConfig>;
 
   // Tree Observables
   @Select(TreeState.getTreeData) treeData$: Observable<any>;

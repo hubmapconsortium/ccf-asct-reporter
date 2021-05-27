@@ -65,6 +65,7 @@ export interface AS extends Base {
   label?: string;
   isNew?: boolean;
   color?: string;
+  organName?: string;
 }
 
 export interface ASCTBConfig {
@@ -84,6 +85,7 @@ export interface CT extends Base{
   indegree?: Set<string>;
   outdegree?: Set<string>;
   references?: Reference[];
+  organName?: string;
 }
 
 export interface B extends Base{
@@ -95,6 +97,7 @@ export interface B extends Base{
   outdegree?: Set<string>;
   nodeSize?: number;
   bType?: string;
+  organName?: string;
 }
 
 
