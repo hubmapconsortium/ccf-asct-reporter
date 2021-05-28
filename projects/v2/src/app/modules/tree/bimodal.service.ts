@@ -172,6 +172,15 @@ export class BimodalService {
         case 'Protein':
           biomarkers = biomarkers.filter(b => b.bType === 'protein');
           break;
+        case 'Lipids':
+          biomarkers = biomarkers.filter(b => b.bType === 'lipids');
+          break;
+        case 'Metalloids':
+          biomarkers = biomarkers.filter(b => b.bType === 'metalloids');
+          break;
+        case 'Proteoforms':
+          biomarkers = biomarkers.filter(b => b.bType === 'proteoforms');
+          break;
       }
 
 
