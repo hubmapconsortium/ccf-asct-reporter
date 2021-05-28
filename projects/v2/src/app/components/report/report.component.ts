@@ -39,7 +39,12 @@ export class ReportComponent implements OnInit, AfterViewInit {
     biomarkers: [],
   };
   countsByOrgan: CByOrgan[];
-  displayedColumns: string[] = ['organName', 'anatomicalStructures', 'cellTypes', 'biomarkers'];
+  displayedColumns: string[] = [
+    'organName',
+    'anatomicalStructures',
+    'cellTypes',
+    'biomarkers',
+  ];
   compareReport: any;
   compareDataAndSheets: any;
   clickButton = false; // for mat expansion panel download button
@@ -101,8 +106,12 @@ export class ReportComponent implements OnInit, AfterViewInit {
 
   makeOntologyLinksGraphData(reportData: Report) {
     if (this.SheetConfig.show_all_AS && this.currentSheet.name === 'all') {
-      this.resultDataByOrganName = this.reportService.makeAllOrganReportDataByOrgan(reportData);
-      this.countsByOrgan = this.reportService.makeAllOrganReportDataCountsByOrgan(this.resultDataByOrganName);
+      this.resultDataByOrganName =
+        this.reportService.makeAllOrganReportDataByOrgan(reportData);
+      this.countsByOrgan =
+        this.reportService.makeAllOrganReportDataCountsByOrgan(
+          this.resultDataByOrganName
+        );
     }
     return [
       {
@@ -138,20 +147,23 @@ export class ReportComponent implements OnInit, AfterViewInit {
           },
           { name: 'without HGNC Links', value: reportData.BWithNoLink.length },
         ],
-        label:
-          this.bmType === 'Gene'
-            ? 'Total Gene Biomarkers'
-            : this.bmType === 'Protein'
-            ? 'Total Protein Biomarkers'
-            : this.bmType === 'Lipids'
-            ? 'Total Lipids Biomarkers'
-            : this.bmType === 'Metalloids'
-            ? 'Total Metalloids Biomarkers'
-            : this.bmType === 'Proteoforms'
-            ? 'Total Proteoforms Biomarkers'
-            : 'Total Biomarkers',
+        label: this.getBiomarkerLabel(this.bmType),
       },
     ];
+  }
+
+  getBiomarkerLabel(bmType) {
+    return bmType === 'Gene'
+      ? 'Total Gene Biomarkers'
+      : bmType === 'Protein'
+      ? 'Total Protein Biomarkers'
+      : bmType === 'Lipids'
+      ? 'Total Lipids Biomarkers'
+      : bmType === 'Metalloids'
+      ? 'Total Metalloids Biomarkers'
+      : bmType === 'Proteoforms'
+      ? 'Total Proteoforms Biomarkers'
+      : 'Total Biomarkers';
   }
 
   customColors(v: string) {
