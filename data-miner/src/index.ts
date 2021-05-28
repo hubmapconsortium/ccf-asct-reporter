@@ -77,7 +77,7 @@ let headerMap: any = {
 };
 
 app.get('/v2/:sheetid/:gid', async (req: any, res: any) => {
-  console.log(req.protocol + '://' + req.headers.host + req.originalUrl);
+  console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
 
   let f1 = req.params.sheetid;
   let f2 = req.params.gid;
@@ -92,7 +92,7 @@ app.get('/v2/:sheetid/:gid', async (req: any, res: any) => {
         `https://docs.google.com/spreadsheets/d/${f1}/export?format=csv&gid=${f2}`
       );
     }
-    let data = papa.parse(response.data).data;
+    const data = papa.parse(response.data).data;
 
     const asctbData = await makeASCTBData(data);
 
@@ -111,8 +111,7 @@ app.get('/v2/:sheetid/:gid', async (req: any, res: any) => {
 });
 
 app.get('/v2/playground', async (req: any, res: any) => {
-  console.log(req.protocol + '://' + req.headers.host + req.originalUrl);
-
+  console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
   try {
     const parsed = papa.parse(PLAYGROUND_CSV).data;
     const data = await makeASCTBData(parsed);
@@ -179,27 +178,27 @@ app.get('/:sheetid/:gid', async (req: any, res: any) => {
 function makeASCTBData(data: any) {
   return new Promise((res, rej) => {
     let rows = [];
-    let headerRow = 11;
-    let dataLength = data.length;
+    const headerRow = 11;
+    const dataLength = data.length;
 
     try {
       for (let i = headerRow; i < dataLength; i++) {
-        let newRow: { [key: string]: any } = new Row();
+        const newRow: { [key: string]: any } = new Row();
 
         for (let j = 0; j < data[0].length; j++) {
           if (data[i][j] === '') continue;
 
           let rowHeader = data[headerRow - 1][j].split('/');
-          let key = headerMap[rowHeader[0]];
+          const key = headerMap[rowHeader[0]];
 
           if (key === undefined) continue;
 
           if (rowHeader.length === 2 && Number(rowHeader[1])) {
             if (rowHeader[0] === 'REF') {
-              let ref: Reference = { id: data[i][j] };
+              const ref: Reference = { id: data[i][j] };
               newRow[key].push(ref);
             } else {
-              let s = new Structure(data[i][j]);
+              const s = new Structure(data[i][j]);
               if (rowHeader[0] === 'BG') {
                 s.b_type = BM_TYPE.G;
               }
@@ -220,17 +219,25 @@ function makeASCTBData(data: any) {
           }
 
           if (rowHeader.length === 3 && rowHeader[2] === 'ID') {
-            let n = newRow[key][parseInt(rowHeader[1]) - 1];
-            if (n) n.id = data[i][j];
+            const n = newRow[key][parseInt(rowHeader[1]) - 1];
+            if (n) {
+              n.id = data[i][j];
+            }
           } else if (rowHeader.length === 3 && rowHeader[2] === 'LABEL') {
-            let n = newRow[key][parseInt(rowHeader[1]) - 1];
-            if (n) n.rdfs_label = data[i][j];
+            const n = newRow[key][parseInt(rowHeader[1]) - 1];
+            if (n) {
+              n.rdfs_label = data[i][j];
+            }
           } else if (rowHeader.length === 3 && rowHeader[2] === 'DOI') {
-            let n: Reference = newRow[key][parseInt(rowHeader[1]) - 1];
-            if (n) n.doi = data[i][j];
+            const n: Reference = newRow[key][parseInt(rowHeader[1]) - 1];
+            if (n) {
+              n.doi = data[i][j];
+            }
           } else if (rowHeader.length === 3 && rowHeader[2] === 'NOTES') {
-            let n: Reference = newRow[key][parseInt(rowHeader[1]) - 1];
-            if (n) n.notes = data[i][j];
+            const n: Reference = newRow[key][parseInt(rowHeader[1]) - 1];
+            if (n) {
+              n.notes = data[i][j];
+            }
           }
         }
 
