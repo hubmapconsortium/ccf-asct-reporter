@@ -178,10 +178,21 @@ app.get('/:sheetid/:gid', async (req: any, res: any) => {
 function makeASCTBData(data: any) {
   return new Promise((res, rej) => {
     let rows = [];
-    const headerRow = 11;
+    let headerRow = 0;
     const dataLength = data.length;
 
     try {
+      outerloop: for (let i = headerRow; i < dataLength; i++) {
+        innerloop: for (let j = 0; j < data[0].length; j++) {
+          if (data[i][j] != 'AS/1') {
+            continue;
+          }
+          headerRow = i + 1;
+          break outerloop;
+        }
+      }
+      let a = 0
+
       for (let i = headerRow; i < dataLength; i++) {
         const newRow: { [key: string]: any } = new Row();
 
