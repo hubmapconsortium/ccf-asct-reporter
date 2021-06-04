@@ -184,14 +184,13 @@ function makeASCTBData(data: any) {
     try {
       outerloop: for (let i = headerRow; i < dataLength; i++) {
         innerloop: for (let j = 0; j < data[0].length; j++) {
-          if (data[i][j] != 'AS/1') {
+          if (data[i][j] !== 'AS/1') {
             continue;
           }
           headerRow = i + 1;
           break outerloop;
         }
       }
-      let a = 0
 
       for (let i = headerRow; i < dataLength; i++) {
         const newRow: { [key: string]: any } = new Row();
