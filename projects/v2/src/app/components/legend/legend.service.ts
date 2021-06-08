@@ -105,10 +105,6 @@ export class LegendService {
           });
           addedBMBF = true;
         }
-        // legends.push({
-        //   name: 'Biomarkers',
-        //   color: '#4DAF4A', style: ''
-        // });
       }
       if (!addedCT && i.type === 'BM') {
         legends.push({
