@@ -234,7 +234,12 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
         enter: {
           shape: {
             signal:
-              'datum.bType === "gene" ?  "circle" : datum.bType === "protein" ? "diamond" : datum.bType === "lipids" ?  "square" : datum.bType === "metalloids" ? "triangle": datum.bType === "proteoforms" ? "cross" : "circle"',
+              `datum.bType === "gene" ?
+              "circle" : datum.bType === "protein" ?
+              "diamond" : datum.bType === "lipids" ?
+              "square" : datum.bType === "metalloids" ?
+              "triangle": datum.bType === "proteoforms" ?
+              "cross" : "circle"`,
           },
           size: { field: 'nodeSize' },
           fill: { signal: 'datum.isNew ? "#fafafa" : datum.color' },
