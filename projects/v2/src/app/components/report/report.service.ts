@@ -51,14 +51,28 @@ export class ReportService {
     }
   }
 
-  countOrganWise(acc, curr) {
+  countOrganWise(acc, curr, type) {
     let item = acc.find((x) => x.organName === curr.organName);
     if (!item) {
-      item = { organName: curr.organName, count: 0 };
+      item = { organName: curr.organName };
+      item[type] = 0;
       acc.push(item);
     }
-    item.count++;
+    item[type]++;
     return acc;
+  }
+
+  countSeperateBiomarkers(biomarkers) {
+    return biomarkers.reduce((acc, curr) => {
+      if (acc[curr.bType]) {
+        acc[curr.bType].push(curr);
+      }
+      else {
+        acc[curr.bType] = [];
+        acc[curr.bType].push(curr);
+      }
+      return acc;
+    }, {});
   }
 
   makeAllOrganReportDataByOrgan(reportData: any) {
@@ -74,26 +88,36 @@ export class ReportService {
     try {
       result.anatomicalStructures = reportData.anatomicalStructures.reduce(
         (acc, curr) => {
-          return this.countOrganWise(acc, curr);
+          return this.countOrganWise(acc, curr, 'anatomicalStructures');
         },
         []
       );
       result.ASWithNoLink = reportData.ASWithNoLink.reduce((acc, curr) => {
-        return this.countOrganWise(acc, curr);
+        return this.countOrganWise(acc, curr, 'ASWithNoLink');
       }, []);
       result.BWithNoLink = reportData.BWithNoLink.reduce((acc, curr) => {
-        return this.countOrganWise(acc, curr);
+        return this.countOrganWise(acc, curr, 'BWithNoLink');
       }, []);
       result.CTWithNoLink = reportData.CTWithNoLink.reduce((acc, curr) => {
-        return this.countOrganWise(acc, curr);
+        return this.countOrganWise(acc, curr, 'CTWithNoLink');
       }, []);
+      const biomarkersSeperate = this.countSeperateBiomarkers(
+        reportData.biomarkers
+      );
+      const biomarkersSeperateNames = [];
+      Object.keys(biomarkersSeperate).forEach((bType) => {
+        result[bType] = biomarkersSeperate[bType].reduce((acc, curr) => {
+          return this.countOrganWise(acc, curr, bType);
+        }, []);
+        biomarkersSeperateNames.push(bType);
+      });
       result.biomarkers = reportData.biomarkers.reduce((acc, curr) => {
-        return this.countOrganWise(acc, curr);
+        return this.countOrganWise(acc, curr, 'biomarkers');
       }, []);
       result.cellTypes = reportData.cellTypes.reduce((acc, curr) => {
-        return this.countOrganWise(acc, curr);
+        return this.countOrganWise(acc, curr, 'cellTypes');
       }, []);
-      return result;
+      return {result, biomarkersSeperateNames};
     } catch (err) {
       console.log(err);
       throw err;
@@ -101,14 +125,25 @@ export class ReportService {
   }
 
   makeAllOrganReportDataCountsByOrgan(data) {
-    return data.anatomicalStructures.map((e: any, i) => {
-      return {
-        organName: e.organName,
-        biomarkers: data.biomarkers[i].count,
-        cellTypes: data.cellTypes[i].count,
-        anatomicalStructures: e.count,
-      };
+    let allData = [];
+    Object.keys(data).forEach((type) => {
+      allData = [...allData, ...data[type]];
     });
+    return allData.reduce((acc, curr) => {
+      let item = acc.find((x) => x.organName === curr.organName);
+      const index = acc.findIndex((x) => x.organName === curr.organName);
+      if (!item) {
+        item = curr;
+        acc.push(item);
+      } else {
+        if (index > -1) {
+          acc.splice(index, 1);
+        }
+        item = { ...item, ...curr };
+        acc.push(item);
+      }
+      return acc;
+    }, []);
   }
 
   async makeCompareData(
@@ -253,11 +288,13 @@ export class ReportService {
   getASWithNoLink(anatomicalStructures) {
     const noLinks = [];
     anatomicalStructures.forEach((ele) => {
-      if (!(
-        ele.uberon.includes('UBERON') ||
-        ele.uberon.includes('FMAID') ||
-        ele.uberon.includes('fma')
-      )) {
+      if (
+        !(
+          ele.uberon.includes('UBERON') ||
+          ele.uberon.includes('FMAID') ||
+          ele.uberon.includes('fma')
+        )
+      ) {
         noLinks.push(ele);
       }
     });

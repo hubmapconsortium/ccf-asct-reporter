@@ -10,6 +10,9 @@
   border: solid 1px #f5f5f5;
   border-collapse: collapse;
 }
+th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+  padding-right: unset !important;
+}
 .center_align {
   text-align: center;
 }

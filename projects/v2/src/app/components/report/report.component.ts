@@ -43,8 +43,8 @@ export class ReportComponent implements OnInit, AfterViewInit {
     'organName',
     'anatomicalStructures',
     'cellTypes',
-    'biomarkers',
   ];
+  biomarkersSeperateNames: any;
   compareReport: any;
   compareDataAndSheets: any;
   clickButton = false; // for mat expansion panel download button
@@ -106,12 +106,15 @@ export class ReportComponent implements OnInit, AfterViewInit {
 
   makeOntologyLinksGraphData(reportData: Report) {
     if (this.SheetConfig.show_all_AS && this.currentSheet.name === 'all') {
-      this.resultDataByOrganName =
+      const { result, biomarkersSeperateNames } =
         this.reportService.makeAllOrganReportDataByOrgan(reportData);
+      this.displayedColumns = [
+        ...this.displayedColumns,
+        ...biomarkersSeperateNames,
+      ];
+      this.biomarkersSeperateNames = biomarkersSeperateNames;
       this.countsByOrgan =
-        this.reportService.makeAllOrganReportDataCountsByOrgan(
-          this.resultDataByOrganName
-        );
+        this.reportService.makeAllOrganReportDataCountsByOrgan(result);
     }
     return [
       {
