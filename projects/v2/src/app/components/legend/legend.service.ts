@@ -17,7 +17,11 @@ export class LegendService {
   makeLegendData(treeData: TNode[], bimodalData: BMNode[], compareData?: CompareData[]): Array<Legend> {
 
     const legends: Array<Legend> = [];
-    let addedBM = false;
+    let addedBMBG = false;
+    let addedBMBP = false;
+    let addedBMBL = false;
+    let addedBMBM = false;
+    let addedBMBF = false;
     let addedCT = false;
     for (const i of treeData) {
       if (legends.findIndex(l => l.name === 'Anatomical Structures') === -1) {
@@ -46,6 +50,7 @@ export class LegendService {
       }
 
     }
+
     for (const i of bimodalData) {
       if (i.isNew) {
         if (legends.findIndex(l => l.color === i.color) === -1) {
@@ -64,12 +69,42 @@ export class LegendService {
           }
         }
       }
-      if (!addedBM && i.type === 'BM') {
-        legends.push({
-          name: 'Biomarkers',
-          color: '#4DAF4A', style: ''
-        });
-        addedBM = true;
+      if (i.type === 'BM') {
+        if (!addedBMBG && i.bType === 'gene'){
+          legends.push({
+            name: 'Gene Biomarkers',
+            color: '#4DAF4A', style: '', bmType: 'biomarker'
+          });
+          addedBMBG = true;
+        }
+        if (!addedBMBP && i.bType === 'protein'){
+          legends.push({
+            name: 'Protein Biomarkers',
+            color: '#4DAF4A', style: '', bmType: 'biomarker'
+          });
+          addedBMBP = true;
+        }
+        if (!addedBMBL && i.bType === 'lipids'){
+          legends.push({
+            name: 'Lipids Biomarkers',
+            color: '#4DAF4A', style: '', bmType: 'biomarker'
+          });
+          addedBMBL = true;
+        }
+        if (!addedBMBM && i.bType === 'metalloids'){
+          legends.push({
+            name: 'Metalloids Biomarkers',
+            color: '#4DAF4A', style: '', bmType: 'biomarker'
+          });
+          addedBMBM = true;
+        }
+        if (!addedBMBF && i.bType === 'proteoforms'){
+          legends.push({
+            name: 'Proteoforms Biomarkers',
+            color: '#4DAF4A', style: '', bmType: 'biomarker'
+          });
+          addedBMBF = true;
+        }
       }
       if (!addedCT && i.type === 'BM') {
         legends.push({

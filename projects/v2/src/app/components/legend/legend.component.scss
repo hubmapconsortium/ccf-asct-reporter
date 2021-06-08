@@ -25,6 +25,42 @@
   display: inline-block;
 }
 
+.protein {
+  height: 1.063rem;
+  width: 1.063rem;
+  background-image: url(../../../assets/legends/diamondSymbol.svg);
+  background-repeat: no-repeat;
+  background-position: -0.438rem -0.438rem;
+  background-color: unset !important;
+}
+
+.lipids {
+  height: 1.063rem;
+  width: 1.063rem;
+  background-image: url(../../../assets/legends/squareSymbol.svg);
+  background-repeat: no-repeat;
+  background-color: unset !important;
+  background-position: -0.438rem -0.438rem;
+}
+
+.metalloids {
+  height: 1.063rem;
+  width: 1.063rem;
+  background-image: url(../../../assets/legends/triangleSymbol.svg);
+  background-color: unset !important;
+  background-repeat: no-repeat;
+  background-position: -0.438rem -0.438rem;
+}
+
+.proteoforms {
+  height: 1.063rem;
+  width: 1.063rem;
+  background-image: url(../../../assets/legends/crossSymbol.svg);
+  background-color: unset !important;
+  background-repeat: no-repeat;
+  background-position: -0.438rem -0.438rem;
+}
+
 .legend-div {
   max-height: 11.25rem;
   overflow-y: auto;
