@@ -59,8 +59,12 @@ export class ControlPaneComponent implements OnInit {
       case 'bm-x': this.updateBimodal(prop.config); break;
       case 'bm-y': this.updateBimodal(prop.config); break;
       case 'show-as': this.showAllAS(); break;
-      case 'show-discrepency-label': this.makeBimodalWithDiscrepency(prop.config, 'label'); break;
-      case 'show-discrepency-id': this.makeBimodalWithDiscrepency(prop.config, 'id'); break;
+      case 'show-discrepency-label':
+        this.makeBimodalWithDiscrepencyLabel(prop.config);
+        break;
+      case 'show-discrepency-id':
+        this.makeBimodalWithDiscrepencyId(prop.config);
+        break;
     }
   }
 
@@ -71,81 +75,80 @@ export class ControlPaneComponent implements OnInit {
     });
   }
 
-  makeBimodalWithDiscrepency(config: SheetConfig, type: string) {
+  makeBimodalWithDiscrepencyLabel(config: SheetConfig) {
     this.store.dispatch(new UpdateConfig(config));
-    if (type === 'label') {
-      let discrepencyLabels = [];
-      if (config.discrepencyLabel){
-        const discrepencySet = new Set<DiscrepencyStructure>();
-        for (const node of this.treeData) {
-          if (node.children !== 0 && (node.label !== node.name)) {
-            discrepencySet.add({
-              id: node.id,
-              name: node.name,
-              groupName: 'Anatomical Structures',
-              ontologyId: node.ontologyId,
-              x: node.x,
-              y: node.y
-            });
-          }
+    let discrepencyLabels = [];
+    if (config.discrepencyLabel){
+      const discrepencySet = new Set<DiscrepencyStructure>();
+      for (const node of this.treeData) {
+        if (node.children !== 0 && (node.label !== node.name)) {
+          discrepencySet.add({
+            id: node.id,
+            name: node.name,
+            groupName: 'Anatomical Structures',
+            ontologyId: node.ontologyId,
+            x: node.x,
+            y: node.y
+          });
         }
-        for (const node of this.nodes) {
-          if ((node.group === 1 || node.group === 2) && (node.label !== node.name)) {
-            discrepencySet.add({
-              id: node.id,
-              name: node.name,
-              groupName: node.groupName,
-              ontologyId: node.ontologyId,
-              x: node.x,
-              y: node.y
-            });
-          }
+      }
+      for (const node of this.nodes) {
+        if ((node.group === 1 || node.group === 2) && (node.label !== node.name)) {
+          discrepencySet.add({
+            id: node.id,
+            name: node.name,
+            groupName: node.groupName,
+            ontologyId: node.ontologyId,
+            x: node.x,
+            y: node.y
+          });
         }
-        discrepencyLabels = [...discrepencySet];
-        this.store.dispatch(new DiscrepencyId([]));
       }
-      else {
-        discrepencyLabels = [];
-      }
-      this.store.dispatch(new DiscrepencyLabel(discrepencyLabels));
+      discrepencyLabels = [...discrepencySet];
+      this.store.dispatch(new DiscrepencyId([]));
     }
     else {
-      this.store.dispatch(new UpdateConfig(config));
-      let discrepencyIds = [];
-      if (config.discrepencyId){
-        const discrepencySet = new Set<DiscrepencyStructure>();
-        for (const node of this.treeData) {
-          if (node.children !== 0 && (!node.ontologyId)) {
-            discrepencySet.add({
-              id: node.id,
-              name: node.name,
-              groupName: 'Anatomical Structures',
-              ontologyId: node.ontologyId,
-              x: node.x,
-              y: node.y
-            });
-          }
-        }
-        for (const node of this.nodes) {
-          if ((node.group === 1 || node.group === 2) && (!node.ontologyId)) {
-            discrepencySet.add({
-              id: node.id,
-              name: node.name,
-              groupName: node.groupName,
-              ontologyId: node.ontologyId,
-              x: node.x,
-              y: node.y
-            });
-          }
-        }
-        discrepencyIds = [...discrepencySet];
-        this.store.dispatch(new DiscrepencyLabel([]));
-      }
-      else {
-        discrepencyIds = [];
-      }
-      this.store.dispatch(new DiscrepencyId(discrepencyIds));
+      discrepencyLabels = [];
     }
+    this.store.dispatch(new DiscrepencyLabel(discrepencyLabels));
+  }
+
+  makeBimodalWithDiscrepencyId(config: SheetConfig) {
+    this.store.dispatch(new UpdateConfig(config));
+    let discrepencyIds = [];
+    if (config.discrepencyId){
+      const discrepencySet = new Set<DiscrepencyStructure>();
+      for (const node of this.treeData) {
+        if (node.children !== 0 && (!node.ontologyId)) {
+          discrepencySet.add({
+            id: node.id,
+            name: node.name,
+            groupName: 'Anatomical Structures',
+            ontologyId: node.ontologyId,
+            x: node.x,
+            y: node.y
+          });
+        }
+      }
+      for (const node of this.nodes) {
+        if ((node.group === 1 || node.group === 2) && (!node.ontologyId)) {
+          discrepencySet.add({
+            id: node.id,
+            name: node.name,
+            groupName: node.groupName,
+            ontologyId: node.ontologyId,
+            x: node.x,
+            y: node.y
+          });
+        }
+      }
+      discrepencyIds = [...discrepencySet];
+      this.store.dispatch(new DiscrepencyLabel([]));
+    }
+    else {
+      discrepencyIds = [];
+    }
+    this.store.dispatch(new DiscrepencyId(discrepencyIds));
   }
 
   updateBimodal(config: SheetConfig) {
