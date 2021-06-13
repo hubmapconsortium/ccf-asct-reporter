@@ -54,6 +54,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
 
   @Input() compareSheets: any;
   @Input() sheetData: any;
+  @Input() asFullData: any;
   @Input() currentSheet: Sheet;
   @Input() linksData: any;
   @Input() inputReportData: Observable<any>;
@@ -105,9 +106,9 @@ export class ReportComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {}
 
   makeOntologyLinksGraphData(reportData: Report) {
-    if (this.SheetConfig.show_all_AS && this.currentSheet.name === 'all') {
+    if (this.currentSheet.name === 'all') {
       const { result, biomarkersSeperateNames } =
-        this.reportService.makeAllOrganReportDataByOrgan(reportData);
+        this.reportService.makeAllOrganReportDataByOrgan(reportData, this.asFullData);
       this.displayedColumns = [
         ...this.displayedColumns,
         ...biomarkersSeperateNames,

@@ -32,6 +32,7 @@
         (closeReport)="rightDrawer.close()"
         *ngIf="report$ | async"
         [sheetData]="data"
+        [asFullData]="fullAsData$ | async"
         [currentSheet]="sheet"
         [currentSheetConfig] = "sheetConfig$"
         [linksData]="links$ | async"
