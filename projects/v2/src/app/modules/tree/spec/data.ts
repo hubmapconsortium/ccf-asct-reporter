@@ -31,7 +31,9 @@ export class Data implements VegaData {
       this.makeTargetsOfTargetsHoverData(),
       this.makeViewModeClickData(),
       this.makeViewModeHoverData(),
-      this.makeSearchIdsData()
+      this.makeSearchIdsData(),
+      this.makeDiscrepencyLabelData(),
+      this.makeDiscrepencyIdData()
     ];
 
     return this.data;
@@ -44,6 +46,28 @@ export class Data implements VegaData {
   makeSearchIdsData() {
     return {
       name: 'search',
+      values: []
+    };
+  }
+
+  /**
+   * Stores the list of IDs that should show on the graph
+   * when Discrepency ID feature is used
+   */
+   makeDiscrepencyIdData() {
+    return {
+      name: 'discrepencyId',
+      values: []
+    };
+  }
+
+  /**
+   * Stores the list of Labels that should show on the graph
+   * when Discrepency Labels feature is used
+   */
+   makeDiscrepencyLabelData() {
+    return {
+      name: 'discrepencyLabel',
       values: []
     };
   }

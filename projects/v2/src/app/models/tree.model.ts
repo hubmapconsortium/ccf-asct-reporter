@@ -151,6 +151,15 @@ export interface SearchStructure {
   y: number;
 }
 
+export interface DiscrepencyStructure {
+  id: number;
+  name: string;
+  groupName: string;
+  x: number;
+  y: number;
+  ontologyId: string;
+}
+
 export interface BottomSheetData {
   status: string;
   text: any;

@@ -47,6 +47,28 @@ export class VisControlsComponent implements OnInit {
     this.ga.eventEmitter('vc_toggle_ontology', GaCategory.CONTROLS, 'Toggle Ontology', GaAction.TOGGLE, this.config.show_ontology);
   }
 
+  showDiscrepencyLabel() {
+    this.config.discrepencyLabel = !this.config.discrepencyLabel;
+    this.config.discrepencyId = false;
+    this.updatedConfig.emit({
+      property: 'show-discrepency-label',
+      config: this.config
+    });
+    this.ga.eventEmitter('vc_toggle_discrepency_label', GaCategory.CONTROLS, 'Toggle Discrepency Label',
+      GaAction.TOGGLE, this.config.discrepencyLabel);
+  }
+
+  showDiscrepencyId() {
+    this.config.discrepencyId = !this.config.discrepencyId;
+    this.config.discrepencyLabel = false;
+    this.updatedConfig.emit({
+      property: 'show-discrepency-id',
+      config: this.config
+    });
+    this.ga.eventEmitter('vc_toggle_discrepency_id', GaCategory.CONTROLS, 'Toggle Discrepency ID',
+      GaAction.TOGGLE, this.config.discrepencyLabel);
+  }
+
   changeBimodalDistanceX() {
     this.updatedConfig.emit({
       property: 'bm-x',
