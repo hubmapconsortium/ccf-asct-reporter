@@ -37,10 +37,10 @@ Sets the horizontal width of the bimodal nodes (distance between AS and CT nodes
 
 Sets the vertical width of the bimodal nodes (distance between AS and CT nodes/CT and B nodes).
 
-**Discrepency Label**
+**Discrepancy Label**
 
 Toggling this option will show rectangular box around the text mark, whose name and lables are not same.
 
-**Discrepency IDs**
+**Discrepancy IDs**
 
 Toggling this option will show rectangular box around the text mark, whose id are not present.
