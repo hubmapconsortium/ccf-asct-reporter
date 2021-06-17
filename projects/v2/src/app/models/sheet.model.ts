@@ -67,6 +67,8 @@ export interface SheetConfig {
   height: number;
   show_ontology?: boolean;
   show_all_AS?: boolean;
+  discrepencyLabel?: boolean;
+  discrepencyId?: boolean;
 }
 
 export interface SheetInfo {

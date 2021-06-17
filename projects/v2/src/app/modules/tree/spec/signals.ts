@@ -28,7 +28,8 @@ export class Signals implements VegaSignals {
       this.makeASTreeWidthSignal(config.width),
       this.makeASTreeHeightSignal(config.height),
       this.makeShowOntologyIDSignal(config.show_ontology),
-      this.makeBiomodalPathDOISignal()
+      this.makeBiomodalPathDOISignal(),
+      this.makeDiscrepencySignal()
     ];
 
     return this.signals;
@@ -248,6 +249,16 @@ export class Signals implements VegaSignals {
   makeSearchSignal() {
     return {
       name: 'search_signal',
+      value: [],
+    };
+  }
+
+  /**
+   * Signal to update the discrepency field
+   */
+   makeDiscrepencySignal() {
+    return {
+      name: 'discrepency_signal',
       value: [],
     };
   }

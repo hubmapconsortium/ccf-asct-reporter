@@ -9,8 +9,10 @@ import {
   DoSearch,
   UpdateBottomSheetData,
   UpdateLinksData,
+  DiscrepencyLabel,
+  DiscrepencyId,
 } from '../actions/tree.actions';
-import { TNode, SearchStructure } from '../models/tree.model';
+import { TNode, SearchStructure, DiscrepencyStructure } from '../models/tree.model';
 import { BMNode, Link, BimodalConfig } from '../models/bimodal.model';
 
 /** Class to keep track of all data and events related to the visualization */
@@ -63,6 +65,14 @@ export class TreeStateModel {
     CT_B: number;
     AS_AS: number;
   };
+  /**
+   * Store the discrepency label data
+   */
+  discrepencyLabel: DiscrepencyStructure[];
+  /**
+   * Store the discrepency id data
+   */
+  discrepencyId: DiscrepencyStructure[];
 }
 
 @State<TreeStateModel>({
@@ -77,7 +87,9 @@ export class TreeStateModel {
     search: [],
     lastSearch: null,
     bottomSheetData: {},
-    links: {AS_CT: 0, CT_B: 0, AS_AS: 0}
+    links: {AS_CT: 0, CT_B: 0, AS_AS: 0},
+    discrepencyLabel: [],
+    discrepencyId: []
   }
 })
 @Injectable()
@@ -225,6 +237,30 @@ export class TreeState {
       ...state,
       search: searchStructures,
       lastSearch: lastClickedStructure
+    });
+  }
+
+  /**
+   * Updates the discrepency labels list
+   */
+   @Action(DiscrepencyLabel)
+   discrepencyLabel({getState, setState}: StateContext<TreeStateModel>, {discrepencyStructures}: DiscrepencyLabel) {
+     const state = getState();
+     setState({
+       ...state,
+       discrepencyLabel: discrepencyStructures,
+     });
+   }
+
+  /**
+   * Updates the discrepency ids list
+   */
+  @Action(DiscrepencyId)
+  discrepencyId({getState, setState}: StateContext<TreeStateModel>, {discrepencyStructures}: DiscrepencyLabel) {
+    const state = getState();
+    setState({
+      ...state,
+      discrepencyId: discrepencyStructures,
     });
   }
 

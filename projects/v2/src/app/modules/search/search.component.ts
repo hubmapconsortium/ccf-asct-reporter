@@ -5,13 +5,16 @@ import { BimodalService } from '../../modules/tree/bimodal.service';
 import { Store, Select } from '@ngxs/store';
 import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { SearchStructure, TNode } from '../../models/tree.model';
-import { DoSearch } from '../../actions/tree.actions';
+import { DiscrepencyId, DiscrepencyLabel, DoSearch } from '../../actions/tree.actions';
 import { BMNode } from '../../models/bimodal.model';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { CloseSearch, OpenSearch } from '../../actions/ui.actions';
 import { Router, NavigationEnd } from '@angular/router';
+import { UpdateConfig } from '../../actions/sheet.actions';
+import { SheetState } from '../../store/sheet.state';
+import { SheetConfig } from '../../models/sheet.model';
 
 @Component({
   selector: 'app-search',
@@ -35,6 +38,7 @@ export class SearchComponent {
   @Select(TreeState) tree$: Observable<TreeStateModel>;
   @Select(UIState) ui$: Observable<UIStateModel>;
   @Select(UIState.getSearchState) searchState$: Observable<boolean>;
+  @Select(SheetState.getSheetConfig) sheetConfig$: Observable<SheetConfig>;
 
   treeData: TNode[];
   nodes: BMNode[];
@@ -42,6 +46,7 @@ export class SearchComponent {
   selectedValues = '';
   selectedOptions: SearchStructure[];
   selectionMemory: SearchStructure[] = [];
+  sheetConfig: SheetConfig;
   selectionCompareFunction = (o1: any, o2: any) => o1.id === o2.id;
 
   constructor(
@@ -67,6 +72,10 @@ export class SearchComponent {
         this.selectionMemory = [];
       }
     });
+
+    this.sheetConfig$.subscribe((config => {
+      this.sheetConfig = config;
+    }));
   }
 
   selectOption() {
@@ -78,9 +87,16 @@ export class SearchComponent {
     }
 
     console.log(lastClickedOption);
+    // Toggling the Discrepency fields to off
+    this.sheetConfig.discrepencyId = false;
+    this.sheetConfig.discrepencyLabel = false;
+    this.store.dispatch(new UpdateConfig(this.sheetConfig));
     // Dispace the search data to the tree store
     this.store.dispatch(new DoSearch(this.selectedOptions, lastClickedOption));
 
+    // Clearing Discrepency fields so that searched options can appear
+    this.store.dispatch(new DiscrepencyLabel([]));
+    this.store.dispatch(new DiscrepencyId([]));
     // Update the memory
     this.selectionMemory = this.selectedOptions.slice();
     // Build values for search bar UI text

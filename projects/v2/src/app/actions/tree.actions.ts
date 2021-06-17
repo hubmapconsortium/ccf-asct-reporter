@@ -1,5 +1,5 @@
 import { BimodalConfig } from '../models/bimodal.model';
-import { SearchStructure } from '../models/tree.model';
+import { DiscrepencyStructure, SearchStructure } from '../models/tree.model';
 
 export class UpdateGraphWidth{
   static readonly type = '[UPDATE WIDTH] Update Graph Width';
@@ -29,6 +29,15 @@ export class UpdateBimodalConfig {
 export class DoSearch {
   static readonly type = '[SEARCH] Update Search List';
   constructor(public searchStructures: SearchStructure[], public lastClickedOption: SearchStructure) {}
+}
+
+export class DiscrepencyLabel {
+  static readonly type = '[DISCREPENCY] Update discrepency Label List';
+  constructor(public discrepencyStructures: DiscrepencyStructure[]) {}
+}
+export class DiscrepencyId {
+  static readonly type = '[DISCREPENCY] Update discrepency Id List';
+  constructor(public discrepencyStructures: DiscrepencyStructure[]) {}
 }
 
 export class UpdateBottomSheetData {
