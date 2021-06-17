@@ -121,6 +121,7 @@ export class RootComponent implements OnInit, OnDestroy {
   @Select(SheetState.getBottomSheetInfo) bottomSheetInfo$: Observable<SheetInfo>;
   @Select(SheetState.getBottomSheetDOI) bottomSheetDOI$: Observable<DOI[]>;
   @Select(SheetState.getSheetConfig) sheetConfig$: Observable<SheetConfig>;
+  @Select(SheetState.getFullAsData) fullAsData$: Observable<any>;
 
   // Tree Observables
   @Select(TreeState.getTreeData) treeData$: Observable<any>;

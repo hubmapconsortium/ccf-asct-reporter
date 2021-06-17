@@ -75,7 +75,7 @@ export class ReportService {
     }, {});
   }
 
-  makeAllOrganReportDataByOrgan(reportData: any) {
+  makeAllOrganReportDataByOrgan(reportData: any, asFullData: any) {
     const result = {
       anatomicalStructures: [],
       cellTypes: [],
@@ -86,7 +86,7 @@ export class ReportService {
     };
 
     try {
-      result.anatomicalStructures = reportData.anatomicalStructures.reduce(
+      result.anatomicalStructures = makeAS(asFullData).reduce(
         (acc, curr) => {
           return this.countOrganWise(acc, curr, 'anatomicalStructures');
         },
