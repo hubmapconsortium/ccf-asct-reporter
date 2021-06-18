@@ -7,6 +7,8 @@ import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { Router } from '@angular/router';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory } from '../../models/ga.model';
+import { ViewChild } from '@angular/core';
+import { YouTubePlayer } from '@angular/youtube-player';
 
 @Component({
   selector: 'app-home',
@@ -31,11 +33,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   copyrightYear = new Date().getFullYear();
 
+  @ViewChild('tutorialVideo') player: YouTubePlayer;
 
   constructor(private router: Router, public ga: GoogleAnalyticsService) { }
 
   ngOnInit(): void {
-
 
   }
 
@@ -46,15 +48,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
     actionsDiv.style.overflowY = 'auto';
   }
 
-  seekVideo(s: number, id: number) {
+  seekVideo(seconds: number, id: number) {
     this.videoSectionSelected = id;
 
-
-    this.videoRef.pause();
-    this.videoRef.currentTime = s;
-    if (this.videoRef.paused && this.videoRef.readyState === 4 || !this.videoRef.paused) {
-      this.videoRef.play();
-    }
+    this.player.pauseVideo();
+    this.player.seekTo(seconds, true);
+    this.player.playVideo();
 
     this.ga.eventEmitter('home_video_section', GaCategory.HOME, 'Jump to video section', GaAction.CLICK, VIDEO_ACTIONS[id].header);
   }
