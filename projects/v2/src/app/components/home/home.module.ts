@@ -7,6 +7,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule } from '@angular/router';
 import { FooterModule } from '../footer/footer.module';
+import { YouTubePlayerModule } from '@angular/youtube-player';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -17,7 +18,8 @@ import { FooterModule } from '../footer/footer.module';
     MatMenuModule,
     FontAwesomeModule,
     RouterModule,
-    FooterModule
+    FooterModule,
+    YouTubePlayerModule
   ],
   exports: [HomeComponent]
 })

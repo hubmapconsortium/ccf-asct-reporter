@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory } from '../../models/ga.model';
 
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
