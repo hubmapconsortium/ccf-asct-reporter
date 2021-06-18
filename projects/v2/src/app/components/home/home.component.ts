@@ -43,8 +43,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     const actionsDiv = document.getElementById('actionsHeight');
-    this.videoRef = (document.getElementById('tutorialVideo') as HTMLVideoElement);
-    actionsDiv.style.maxHeight = `${this.videoRef.offsetHeight + 50}px`;
+    actionsDiv.style.maxHeight = `${this.player.height + 50}px`;
     actionsDiv.style.overflowY = 'auto';
   }
 
