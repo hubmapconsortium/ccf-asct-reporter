@@ -3,7 +3,7 @@ import { environment } from 'projects/v2/src/environments/environment';
 const PROD_URL = 'https://astb-miner-v2.herokuapp.com/v2';
 const DEV_URL = 'http://localhost:5000/v2';
 
-export const URL = PROD_URL;
+export const URL = environment.apasctbApi;
 
 export const PLAYGROUND = 'assets/playground/sheet.csv';
 

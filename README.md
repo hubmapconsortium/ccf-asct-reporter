@@ -10,7 +10,7 @@ The [CCF ASCT Reporter](https://hubmapconsortium.github.io/ccf-asct-reporter/) i
 
 ## Overview
 
-The [CCF ASCT+B Reporter](https://hubmapconsortium.github.io/ccf-asct-reporter/) includes a partonomy tree that presents relationships between various anatomical structures and substructures, that is combined with their respective cell types and biomarkers via a bimodal network. The reporter also presents an indented list tree for a more traditional look. Along with visualizing, the reporter has a report generator that enlists various meta data for the visualized ASCT table, which is download-able. There is also an in-house debug logger that lists any issues related to the data provided in the table. The reporter is also accompanied by a backend server, ASCT+B Data Miner.
+The [CCF ASCT+B Reporter](https://hubmapconsortium.github.io/ccf-asct-reporter/) includes a partonomy tree that presents relationships between various anatomical structures and substructures, that is combined with their respective cell types and biomarkers via a bimodal network. The reporter also presents an indented list tree for a more traditional look. Along with visualizing, the reporter has a report generator that enlists various meta data for the visualized ASCT table, which is download-able. There is also an in-house debug logger that lists any issues related to the data provided in the table. The reporter is also accompanied by a backend server, ASCT+B API.
 
 ## Installation
 
@@ -78,9 +78,9 @@ Below are a list of ASCT+B tables supported by the Reporter,
 
 Click [here](https://ccf-asct-reporter.netlify.app/docs) to view the documentation.
 
-### Data Miner
+### ASCTB API
 
-The reporter is also accompanied by a backend server ASCT+B Data Miner. In the event of Google Sheets blocking requests by the Reporter or any error, the Reporter fetches the data from the Data Miner which runs a simple Node script to fetch the data from Google Sheets. By supplying the SheetId and GID to the Data Miner, the data from the flattened tables can be retrieved. If for some reason the Data Miner also fails to retrieve the data, the Reporter falls to its system cache, which contains a snapshot of the flattened tables. 
+The reporter is also accompanied by a backend server ASCT+B API. In the event of Google Sheets blocking requests by the Reporter or any error, the Reporter fetches the data from the ASCTB API which runs a simple Node script to fetch the data from Google Sheets. By supplying the SheetId and GID to the ASCTB API, the data from the flattened tables can be retrieved. If for some reason the ASCTB API also fails to retrieve the data, the Reporter falls to its system cache, which contains a snapshot of the flattened tables. 
 
 The Miner can also be used as a stand-alone tool to retrieve the data from the flattened Google sheets. Below is the API that you'll have to use,
 
@@ -92,7 +92,7 @@ This will either return the data, or will return a `500` HTTP code.
 
 #### Deploying 
 
-Since the ASCT+B Data Miner is a dynamic script, Heroku has been used to deploy the server. Heroky is free to use for this usage. Deploying on Heroku requires the `data-miner` folder to have an additional git remote. To deploy the latest changes to the Heroku cloud,
+Since the ASCT+B API is a dynamic script, Heroku has been used to deploy the server. Heroky is free to use for this usage. Deploying on Heroku requires the `data-miner` folder to have an additional git remote. To deploy the latest changes to the Heroku cloud,
 
 ```shell
 $ git add data-miner
