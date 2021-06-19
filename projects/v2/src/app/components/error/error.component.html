@@ -18,9 +18,9 @@ THERE IS AN ERROR!!!! -->
         <div>
           
           <ul class="text-left lead pt-3 lh">
-            <img *ngIf="error.gidErr" width="100%" src="../../../assets/urlScreen.png">
-            <li *ngIf="error.gidErr"><b>Please copy and use the sheet URL from the Address bar like from above example.</b></li>
-            <li *ngIf="error.gidErr"><b>Do not use the Share URL from Google Sheets (URLs ending with ?usp=sharing).</b></li>
+            <img *ngIf="error.gidErr" alt="Valid google sheet url example" width="100%" src="../../../assets/urlScreen.png">
+            <li *ngIf="error.gidErr"><strong>Please copy and use the sheet URL from the Address bar like from above example.</strong></li>
+            <li *ngIf="error.gidErr"><strong>Do not use the Share URL from Google Sheets (URLs ending with ?usp=sharing).</strong></li>
             <li>The data version that you selected is deprecated for the sheet. Click on this link to see the deprecated sheets.</li>
             <li class="pt-1">The format of the data didn't match the format of the master tables.</li>
             <li class="pt-1">Network issues.</li>
