@@ -23,7 +23,7 @@ $ npm install
 $ ng serve
 
 # Miner
-$ cd data-miner
+$ cd asctb-api
 $ npm install
 $ npm start
 ```
@@ -40,7 +40,7 @@ $ npm run build
 $ npm run deploy
 
 # Miner
-$ git subtree push --prefix data-miner miner master
+$ git subtree push --prefix asctb-api miner master
 ```
 
 ## Details
@@ -78,26 +78,26 @@ Below are a list of ASCT+B tables supported by the Reporter,
 
 Click [here](https://ccf-asct-reporter.netlify.app/docs) to view the documentation.
 
-### ASCTB API
+### ASCT+B API
 
-The reporter is also accompanied by a backend server ASCT+B API. In the event of Google Sheets blocking requests by the Reporter or any error, the Reporter fetches the data from the ASCTB API which runs a simple Node script to fetch the data from Google Sheets. By supplying the SheetId and GID to the ASCTB API, the data from the flattened tables can be retrieved. If for some reason the ASCTB API also fails to retrieve the data, the Reporter falls to its system cache, which contains a snapshot of the flattened tables. 
+The reporter is also accompanied by a backend server ASCT+B API. In the event of Google Sheets blocking requests by the Reporter or any error, the Reporter fetches the data from the ASCT+B API which runs a simple Node script to fetch the data from Google Sheets. By supplying the SheetId and GID to the ASCT+B API, the data from the flattened tables can be retrieved. If for some reason the ASCT+B API also fails to retrieve the data, the Reporter falls to its system cache, which contains a snapshot of the flattened tables. 
 
 The Miner can also be used as a stand-alone tool to retrieve the data from the flattened Google sheets. Below is the API that you'll have to use,
 
 ```
-https://asctb-data-miner.herokuapp.com/v2/<sheetID>/<gid>
+https://asctb-api.herokuapp.com/v2/<sheetID>/<gid>
 ```
 
 This will either return the data, or will return a `500` HTTP code.
 
 #### Deploying 
 
-Since the ASCT+B API is a dynamic script, Heroku has been used to deploy the server. Heroky is free to use for this usage. Deploying on Heroku requires the `data-miner` folder to have an additional git remote. To deploy the latest changes to the Heroku cloud,
+Since the ASCT+B API is a dynamic script, Heroku has been used to deploy the server. Heroky is free to use for this usage. Deploying on Heroku requires the `asctb-api` folder to have an additional git remote. To deploy the latest changes to the Heroku cloud,
 
 ```shell
-$ git add data-miner
+$ git add asctb-api
 $ git commit -m <commit_message>
-$ git subtree push --prefix data-miner miner master
+$ git subtree push --prefix asctb-api miner master
 ```
 
 ## Screenshots of the ASCT+B Reporter
