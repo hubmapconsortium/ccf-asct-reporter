@@ -40,6 +40,11 @@ export class DiscrepencyId {
   constructor(public discrepencyStructures: DiscrepencyStructure[]) {}
 }
 
+export class DuplicateId {
+  static readonly type = '[DISCREPENCY] Update duplicate Id List';
+  constructor(public discrepencyStructures: DiscrepencyStructure[]) {}
+}
+
 export class UpdateBottomSheetData {
   static readonly type = '[UPDATE] Bottom Sheet Data';
   constructor(public data: any) {}

@@ -33,7 +33,8 @@ export class Data implements VegaData {
       this.makeViewModeHoverData(),
       this.makeSearchIdsData(),
       this.makeDiscrepencyLabelData(),
-      this.makeDiscrepencyIdData()
+      this.makeDiscrepencyIdData(),
+      this.makeDuplicateIdData()
     ];
 
     return this.data;
@@ -57,6 +58,17 @@ export class Data implements VegaData {
    makeDiscrepencyIdData() {
     return {
       name: 'discrepencyId',
+      values: []
+    };
+  }
+
+  /**
+   * Stores the list of IDs that should show on the graph
+   * when Duplicate ID feature is used
+   */
+   makeDuplicateIdData() {
+    return {
+      name: 'duplicateId',
       values: []
     };
   }
