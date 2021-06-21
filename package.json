@@ -4,15 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "dev": "npm start & npm run miner",
+    "start:asctb-api": "cd asctb-api && npm run dev",
+    "dev": "npm start & npm run start:asctb-api",
     "build": "ng build v2 --base-href=/ccf-asct-reporter/ --configuration=production --prod",
     "build:staging": "ng build v2 --base-href=/ --configuration=staging",
-    "miner": "cd asctb-api && npm run dev",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "deploy:miner": "git subtree push --prefix asctb-api miner master",
-    "deploy:staging": "cd dist/v2 && touch .nojekyll && touch 404.html && cat index.html >> 404.html && cd ../.. &&gh-pages -f -b staging -d dist/v2"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
