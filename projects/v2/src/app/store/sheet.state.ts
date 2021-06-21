@@ -343,7 +343,7 @@ export class SheetState {
             msg: `${error.name} (Status: ${error.status})`,
             status: error.status,
             hasError: true,
-            gidErr: sheet.gid ? false : true
+            hasGidError: !(sheet.gid || sheet.gid === '0')
           };
           dispatch(
             new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
@@ -495,7 +495,7 @@ export class SheetState {
           msg: `${error.name} (Status: ${error.status})`,
           status: error.status,
           hasError: true,
-          gidErr: sheet.gid ? false : true
+          hasGidError: !(sheet.gid || sheet.gid === '0')
         };
         dispatch(
           new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
