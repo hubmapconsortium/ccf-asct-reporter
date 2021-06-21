@@ -7,11 +7,11 @@
     "dev": "npm start & npm run miner",
     "build": "ng build v2 --base-href=/ccf-asct-reporter/ --configuration=production --prod",
     "build:staging": "ng build v2 --base-href=/ --configuration=staging",
-    "miner": "cd data-miner && npm run dev",
+    "miner": "cd asctb-api && npm run dev",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy:miner": "git subtree push --prefix data-miner miner master",
+    "deploy:miner": "git subtree push --prefix asctb-api miner master",
     "deploy:staging": "cd dist/v2 && touch .nojekyll && touch 404.html && cat index.html >> 404.html && cd ../.. &&gh-pages -f -b staging -d dist/v2"
   },
   "private": true,
