@@ -30,18 +30,7 @@ $ npm start
 
 ## Deployment
 
-
-```shell
-$ git clone https://github.com/hubmapconsortium/ccf-asct-reporter
-$ cd ccf-asct-reporter
-
-# Reporter
-$ npm run build
-$ npm run deploy
-
-# Miner
-$ git subtree push --prefix asctb-api miner master
-```
+Deployment is accomplished via GitHub Actions based on the branch. The `main` branch deploys to production (both the web application and ASCT+B API server) and `develop` deploys to staging.
 
 ## Details
 
@@ -92,13 +81,7 @@ This will either return the data, or will return a `500` HTTP code.
 
 #### Deploying 
 
-Since the ASCT+B API is a dynamic script, Heroku has been used to deploy the server. Heroky is free to use for this usage. Deploying on Heroku requires the `asctb-api` folder to have an additional git remote. To deploy the latest changes to the Heroku cloud,
-
-```shell
-$ git add asctb-api
-$ git commit -m <commit_message>
-$ git subtree push --prefix asctb-api miner master
-```
+Since the ASCT+B API is a dynamic script, Heroku has been used to deploy the server. Heroky is free to use for this usage. Deployment is accomplished via GitHub Actions based on the branch. The `main` branch deploys to production and `develop` deploys to staging.
 
 ## Screenshots of the ASCT+B Reporter
 
