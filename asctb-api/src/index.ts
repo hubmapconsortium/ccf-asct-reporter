@@ -134,7 +134,7 @@ app.post('/v2/playground', async (req: any, res: any) => {
   const csv = papa.unparse(req.body);
   try {
     const data = await makeASCTBData(req.body.data);
-    res.send({
+    return res.send({
       data: data,
       parsed: req.body,
       csv: csv,
