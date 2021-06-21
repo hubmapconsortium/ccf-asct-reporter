@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { SHEET_OPTIONS, MASTER_SHEET_LINK } from '../../static/config';
 import { VIDEO_ACTIONS, CONTIRBUTORS, IMAGES } from '../../static/home';
 import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
@@ -7,7 +7,7 @@ import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { Router } from '@angular/router';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory } from '../../models/ga.model';
-
+import { YouTubePlayer } from '@angular/youtube-player';
 
 @Component({
   selector: 'app-home',
@@ -32,30 +32,26 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   copyrightYear = new Date().getFullYear();
 
+  @ViewChild('tutorialVideo') player: YouTubePlayer;
 
   constructor(private router: Router, public ga: GoogleAnalyticsService) { }
 
   ngOnInit(): void {
 
-
   }
 
   ngAfterViewInit(): void {
     const actionsDiv = document.getElementById('actionsHeight');
-    this.videoRef = (document.getElementById('tutorialVideo') as HTMLVideoElement);
-    actionsDiv.style.maxHeight = `${this.videoRef.offsetHeight + 50}px`;
+    actionsDiv.style.maxHeight = `${this.player.height + 50}px`;
     actionsDiv.style.overflowY = 'auto';
   }
 
-  seekVideo(s: number, id: number) {
+  seekVideo(seconds: number, id: number) {
     this.videoSectionSelected = id;
 
-
-    this.videoRef.pause();
-    this.videoRef.currentTime = s;
-    if (this.videoRef.paused && this.videoRef.readyState === 4 || !this.videoRef.paused) {
-      this.videoRef.play();
-    }
+    this.player.pauseVideo();
+    this.player.seekTo(seconds, true);
+    this.player.playVideo();
 
     this.ga.eventEmitter('home_video_section', GaCategory.HOME, 'Jump to video section', GaAction.CLICK, VIDEO_ACTIONS[id].header);
   }

@@ -329,8 +329,9 @@ p {
   color: #444a65 !important;
 }
 
-#actionsHeight {
-  min-height: 18.75rem;
+#actionsHeight,
+.video-tutorial {
+  height: 450px;
 }
 
 .home-img {
