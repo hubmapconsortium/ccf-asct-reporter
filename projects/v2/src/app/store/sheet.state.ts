@@ -339,6 +339,17 @@ export class SheetState {
         },
         (error) => {
           console.log(error);
+          const err: Error = {
+            msg: `${error.name} (Status: ${error.status})`,
+            status: error.status,
+            hasError: true,
+            hasGidError: !(sheet.gid || sheet.gid === '0')
+          };
+          dispatch(
+            new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
+          );
+          dispatch(new HasError(err));
+          return of('');
         }
       );
     }
@@ -484,6 +495,7 @@ export class SheetState {
           msg: `${error.name} (Status: ${error.status})`,
           status: error.status,
           hasError: true,
+          hasGidError: !(sheet.gid || sheet.gid === '0')
         };
         dispatch(
           new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)

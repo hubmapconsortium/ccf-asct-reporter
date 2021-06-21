@@ -8,6 +8,7 @@ export interface Error {
   hasError?: boolean;
   msg?: string;
   status?: number;
+  hasGidError?: boolean;
 }
 
 export enum SnackbarType {
