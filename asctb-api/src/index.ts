@@ -1,3 +1,4 @@
+/* tslint:disable:variable-name */
 const express = require('express');
 var bodyParser = require('body-parser');
 const axios = require('axios');
@@ -65,7 +66,7 @@ class Row {
   }
 }
 
-let headerMap: any = {
+const headerMap: any = {
   AS: 'anatomical_structures',
   CT: 'cell_types',
   BG: 'biomarkers_gene',
@@ -79,8 +80,8 @@ let headerMap: any = {
 app.get('/v2/:sheetid/:gid', async (req: any, res: any) => {
   console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
 
-  let f1 = req.params.sheetid;
-  let f2 = req.params.gid;
+  const f1 = req.params.sheetid;
+  const f2 = req.params.gid;
 
   try {
     let response: any;
@@ -133,7 +134,7 @@ app.post('/v2/playground', async (req: any, res: any) => {
   const csv = papa.unparse(req.body);
   try {
     const data = await makeASCTBData(req.body.data);
-    res.send({
+    return res.send({
       data: data,
       parsed: req.body,
       csv: csv,
@@ -177,7 +178,7 @@ app.get('/:sheetid/:gid', async (req: any, res: any) => {
 
 function makeASCTBData(data: any) {
   return new Promise((res, rej) => {
-    let rows = [];
+    const rows = [];
     let headerRow = 0;
     const dataLength = data.length;
 
@@ -194,12 +195,16 @@ function makeASCTBData(data: any) {
         const newRow: { [key: string]: any } = new Row();
 
         for (let j = 0; j < data[0].length; j++) {
-          if (data[i][j] === '') continue;
+          if (data[i][j] === '') {
+            continue;
+          }
 
-          let rowHeader = data[headerRow - 1][j].split('/');
+          const rowHeader = data[headerRow - 1][j].split('/');
           const key = headerMap[rowHeader[0]];
 
-          if (key === undefined) continue;
+          if (key === undefined) {
+            continue;
+          }
 
           if (rowHeader.length === 2 && Number(rowHeader[1])) {
             if (rowHeader[0] === 'REF') {
@@ -252,7 +257,7 @@ function makeASCTBData(data: any) {
         rows.push(newRow);
       }
 
-      for (let row of rows) {
+      for (const row of rows) {
         row.biomarkers = row.biomarkers_gene
           .concat(row.biomarkers_protein)
           .concat(row.biomarkers_lipids)

@@ -1,3 +1,4 @@
+/* tslint:disable:max-line-length */
 export const PLAYGROUND_CSV = `"Anatomical Strucures, Cell Types and Biomarkers Table  for *Organ Name*",,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Author: Joe Doe (add up to 3 authors with ORCID IDs),,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -14,4 +15,4 @@ AS/1,AS/1/LABEL,AS/1/ID,AS/2,AS/2/LABEL,AS/2/ID,AS/3,AS/3/LABEL,AS/3/ID,CT/2,CT/
 AS/1,AS/1/LABEL,AS/1/ID,AS/2,AS/2/LABEL,AS/2/ID,AS/3.1,AS/3.1/LABEL,AS/3.1/ID,CT/3,CT/3/LABEL,CT/3/ID,BG/3,BG/3/LABEL,BG/3/ID,,,,,,,,,,,,,
 AS/1,AS/1/LABEL,AS/1/ID,AS/2.1,AS/2/.1LABEL,AS/2/ID,AS/3.1,AS/3.1/LABEL,AS/3.1/ID,CT/4,CT/4/LABEL,CT/4/ID,BG/3,BG/3/LABEL,BG/3/ID,,,,,,,,,,,,,
 AS/1,AS/1/LABEL,AS/1/ID,AS/2.1,AS/2.1/LABEL,AS/2/ID,AS/3.2,AS/3.2/LABEL,AS/3.2/ID,CT/2,CT/2/LABEL,CT/2/ID,BG/4,BG/4/LABEL,BG/4/ID,,,,,,,,,,,,,
-AS/1,AS/1/LABEL,AS/1/ID,AS/2.1,AS/2.1/LABEL,AS/2/ID,AS/3.2,AS/3.2/LABEL,AS/3.2/ID,CT/3,CT/3/LABEL,CT/3/ID,BG/5,BG/5/LABEL,BG/5/ID,,,,,,,,,,,,,`
+AS/1,AS/1/LABEL,AS/1/ID,AS/2.1,AS/2.1/LABEL,AS/2/ID,AS/3.2,AS/3.2/LABEL,AS/3.2/ID,CT/3,CT/3/LABEL,CT/3/ID,BG/5,BG/5/LABEL,BG/5/ID,,,,,,,,,,,,,`;
