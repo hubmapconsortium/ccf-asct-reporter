@@ -13,7 +13,7 @@ export const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '/')));
+app.use(express.static(path.join(__dirname, '../../')));
 
 interface Reference {
   id?: string;
@@ -149,7 +149,7 @@ app.post('/v2/playground', async (req: any, res: any) => {
 });
 
 app.get('/', (req: any, res: any) => {
-  res.sendFile('views/home.html', { root: __dirname });
+  res.sendFile('views/home.html', { root: path.join(__dirname, '../../') });
 });
 
 app.get('/:sheetid/:gid', async (req: any, res: any) => {
@@ -190,7 +190,7 @@ function makeASCTBData(data: any) {
         headerRow = i + 1;
         break;
       }
-      
+
       for (let i = headerRow; i < dataLength; i++) {
         const newRow: { [key: string]: any } = new Row();
 
