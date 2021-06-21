@@ -1,4 +1,4 @@
-// tslint:disable:variable-name
+/* tslint:disable:variable-name */
 const express = require('express');
 var bodyParser = require('body-parser');
 const axios = require('axios');

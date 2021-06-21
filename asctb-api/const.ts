@@ -1,4 +1,4 @@
-// tslint:disable:max-line-length
+/* tslint:disable:max-line-length */
 export const PLAYGROUND_CSV = `"Anatomical Strucures, Cell Types and Biomarkers Table  for *Organ Name*",,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Author: Joe Doe (add up to 3 authors with ORCID IDs),,,,,,,,,,,,,,,,,,,,,,,,,,,
