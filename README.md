@@ -12,6 +12,13 @@ The [CCF ASCT Reporter](https://hubmapconsortium.github.io/ccf-asct-reporter/) i
 
 The [CCF ASCT+B Reporter](https://hubmapconsortium.github.io/ccf-asct-reporter/) includes a partonomy tree that presents relationships between various anatomical structures and substructures, that is combined with their respective cell types and biomarkers via a bimodal network. The reporter also presents an indented list tree for a more traditional look. Along with visualizing, the reporter has a report generator that enlists various meta data for the visualized ASCT table, which is download-able. There is also an in-house debug logger that lists any issues related to the data provided in the table. The reporter is also accompanied by a backend server, ASCT+B API.
 
+## Links
+
+- Production Site: <https://hubmapconsortium.github.io/ccf-asct-reporter/> ([staging](https://ccf-asct-reporter.netlify.app))
+- Documentation: <https://hubmapconsortium.github.io/ccf-asct-reporter/docs> ([staging](https://ccf-asct-reporter.netlify.app/docs))
+- ASCT+B API: <https://asctb-api.herokuapp.com/> ([staging](https://asctb-api--staging.herokuapp.com/))
+- Change Log: [CHANGELOG.md](CHANGELOG.md)
+
 ## Installation
 
 ```shell
@@ -36,7 +43,7 @@ Deployment is accomplished via GitHub Actions based on the branch. The `main` br
 
 ### Currently supported ASCT Tables
 
-Below are a list of ASCT+B tables supported by the Reporter,
+Below are a list of ASCT+B tables supported by the Reporter:
 
 - [Bone Marrow & Blood](https://docs.google.com/spreadsheets/d/1F7D0y7pNPVIR3W4LjjtIMGg7rKTOxwyjVKzS-iiffz4/edit#gid=1852470103)
 - [Brain](https://docs.google.com/spreadsheets/d/1F7D0y7pNPVIR3W4LjjtIMGg7rKTOxwyjVKzS-iiffz4/edit#gid=345174398)
