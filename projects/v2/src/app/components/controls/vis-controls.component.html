@@ -175,4 +175,40 @@
       ></mat-slider>
     </div>
   </div>
+
+  <div class="py-1 pb-4">
+    <mat-slide-toggle
+      [checked]="config.discrepencyLabel"
+      color="primary"
+      (change)="showDiscrepencyLabel()"
+      matTooltip="Show the discrepency Label"
+      matTooltipPosition="below"
+    >
+      <span class="control-title">Label mismatch</span>
+    </mat-slide-toggle>
+  </div>
+  
+  <div class="py-1 pb-4">
+    <mat-slide-toggle
+      [checked]="config.discrepencyId"
+      color="primary"
+      (change)="showDiscrepencyId()"
+      matTooltip="Show the discrepency ID"
+      matTooltipPosition="below"
+    >
+      <span class="control-title">ID Missing</span>
+    </mat-slide-toggle>
+  </div>
+  
+  <div class="py-1 pb-4">
+    <mat-slide-toggle
+      [checked]="config.duplicateId"
+      color="primary"
+      (change)="showDuplicateId()"
+      matTooltip="Show the duplicate ID"
+      matTooltipPosition="below"
+    >
+      <span class="control-title">ID Duplicates</span>
+    </mat-slide-toggle>
+  </div>
 </mat-expansion-panel>

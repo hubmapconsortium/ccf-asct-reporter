@@ -16,7 +16,7 @@ export class SheetService {
    * @param gid gid of the sheet
    */
   fetchSheetData(sheetId: string, gid: string) {
-    return this.http.get(`${URL}/${sheetId}/${gid}`);
+    return this.http.get(`${URL}/v2/${sheetId}/${gid}`);
   }
 
   /**
@@ -43,7 +43,7 @@ export class SheetService {
    * Fetching initial playground data
    */
   fetchPlaygroundData(data?: string) {
-    return this.http.get(`${URL}/playground`);
+    return this.http.get(`${URL}/v2/playground`);
   }
 
   /**
@@ -53,6 +53,6 @@ export class SheetService {
    * @param data updated tabular data
    */
   updatePlaygroundData(data: string[][]) {
-    return this.http.post(`${URL}/playground`, {data});
+    return this.http.post(`${URL}/v2/playground`, {data});
   }
 }

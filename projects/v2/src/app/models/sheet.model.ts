@@ -1,6 +1,9 @@
 enum BM_TYPE {
   G = 'gene',
   P = 'protein',
+  BL = 'lipids',
+  BM = 'metalloids',
+  BF = 'proteoforms'
 }
 
 export interface Reference {
@@ -25,6 +28,9 @@ export interface Row {
   biomarkers: Array<Structure>;
   biomarkers_gene: Array<Structure>;
   biomarkers_protein: Array<Structure>;
+  biomarkers_lipids: Array<Structure>;
+  biomarkers_meta: Array<Structure>;
+  biomarkers_prot: Array<Structure>;
   references: Reference[];
   organName?: string;
 }
@@ -61,6 +67,9 @@ export interface SheetConfig {
   height: number;
   show_ontology?: boolean;
   show_all_AS?: boolean;
+  discrepencyLabel?: boolean;
+  discrepencyId?: boolean;
+  duplicateId?: boolean;
 }
 
 export interface SheetInfo {

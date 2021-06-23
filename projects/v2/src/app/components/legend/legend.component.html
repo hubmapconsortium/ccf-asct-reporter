@@ -16,7 +16,14 @@
               'border': l.style === 'stroke' ? '3px solid ' + l.color : 'none',
               'border-style': l.style === 'stroke' ? 'dotted' : 'none'
             }"
-            class="mr-2 circle"
+            [ngClass]="{
+              'circle' : l.name === 'Gene Biomarkers' || !l.bmType,
+              'protein' : l.name === 'Protein Biomarkers',
+              'lipids' : l.name === 'Lipids Biomarkers',
+              'metalloids' : l.name === 'Metalloids Biomarkers',
+              'proteoforms' : l.name === 'Proteoforms Biomarkers',
+              'mr-2' : true
+            }"
           ></div>
           <span>{{ l.name }}</span>
         </div>

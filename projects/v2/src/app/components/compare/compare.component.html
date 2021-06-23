@@ -20,13 +20,14 @@
 
         <div class="mt-1 text-muted">
           <ul class="pl-3">
-            <li>
-              Through this feature, you can compare your own data by pasting the
-              Google Sheet link of your data in the fields mentioned below.
+            <li class="text-justify">
+              Through this feature, you can compare your own data by pasting the Browser url 
+              address for the Google sheet of your data in the fields mentioned below.
               Multiple data sources can be added by clicking on the '+ Add'
-              button at the bottom. In order to successfuly link your sheet,
-              make sure the sheet has
-              <strong>public access (Anyone with the link can view).</strong>
+              button at the bottom. In order to successfully link your sheet, make sure the sheet 
+              has
+              <strong>public access by selecting Share --> Get link --> selecting "Anyone with the link" option and "Viewer" 
+                privileges, select "Done" to save.</strong>
             </li>
             <li>
               Please make sure your data follows the appropriate data format, see
@@ -118,7 +119,7 @@
                       formControlName="link"
                       required
                     />
-                    <mat-hint>Enter Google Sheet Link</mat-hint>
+                    <mat-hint>Enter Browser url address for Google Sheet</mat-hint>
                     <mat-error
                       *ngIf="
                         sheet.get('link').hasError('required') ||

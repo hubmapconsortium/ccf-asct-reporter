@@ -31,7 +31,10 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
         this.makeTreeSymbolMarks(),
         this.makeTreeTextMarks(),
         this.makeBimodalTextSearchMarks(),
-        this.makeTreeTextLinkMarks()
+        this.makeTreeTextLinkMarks(),
+        this.makeBimodalTextDiscrepencyLabelMarks(),
+        this.makeBimodalTextDiscrepencyIdMarks(),
+        this.makeBimodalTextDuplicateIdMarks()
       ],
     };
   }
@@ -69,6 +72,105 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
       }
     };
   }
+
+  /**
+   * Rectangle around the bimodal text mark when discrepency label toggle is turned on
+   */
+   makeBimodalTextDiscrepencyLabelMarks() {
+    return {
+      name: 'rectmarkdiscrepencylabel',
+      type: 'rect',
+      from: { data: 'astextmark' },
+      encode: {
+        enter: {
+          x: { field: 'bounds.x1', round: true, offset: { signal: '-bgoffset' } },
+          x2: { field: 'bounds.x2', round: true, offset: { signal: 'bgoffset' } },
+          y: { field: 'bounds.y1', round: true, offset: { signal: '-bgoffset' } },
+          y2: { field: 'bounds.y2', round: true, offset: { signal: 'bgoffset' } },
+          fill: { value: 'lightblue' },
+          stroke: { value: 'darkblue' },
+          zindex: {value: -1}
+        },
+        update: {
+          opacity: [
+            {
+              test: 'node__click === null && indata(\'discrepencyLabel\', \'id\', datum.datum.id)',
+              value: 1
+            },
+            {
+              value: '0'
+            }
+          ]
+        }
+      }
+    };
+  }
+
+  /**
+   * Rectangle around the bimodal text mark when discrepency Id toggle is turned on
+   */
+   makeBimodalTextDiscrepencyIdMarks() {
+    return {
+      name: 'rectmarkdiscrepencyid',
+      type: 'rect',
+      from: { data: 'astextmark' },
+      encode: {
+        enter: {
+          x: { field: 'bounds.x1', round: true, offset: { signal: '-bgoffset' } },
+          x2: { field: 'bounds.x2', round: true, offset: { signal: 'bgoffset' } },
+          y: { field: 'bounds.y1', round: true, offset: { signal: '-bgoffset' } },
+          y2: { field: 'bounds.y2', round: true, offset: { signal: 'bgoffset' } },
+          fill: { value: 'bisque' },
+          stroke: { value: 'burlywood' },
+          zindex: {value: -1}
+        },
+        update: {
+          opacity: [
+            {
+              test: 'node__click === null && indata(\'discrepencyId\', \'id\', datum.datum.id)',
+              value: 1
+            },
+            {
+              value: '0'
+            }
+          ]
+        }
+      }
+    };
+  }
+
+   /**
+    * Rectangle around the bimodal text mark when duplicate Id toggle is turned on
+    */
+    makeBimodalTextDuplicateIdMarks() {
+      return {
+        name: 'rectmarkduplicateid',
+        type: 'rect',
+        from: { data: 'astextmark' },
+        encode: {
+          enter: {
+            x: { field: 'bounds.x1', round: true, offset: { signal: '-bgoffset' } },
+            x2: { field: 'bounds.x2', round: true, offset: { signal: 'bgoffset' } },
+            y: { field: 'bounds.y1', round: true, offset: { signal: '-bgoffset' } },
+            y2: { field: 'bounds.y2', round: true, offset: { signal: 'bgoffset' } },
+            fill: { value: 'lightyellow' },
+            stroke: { value: 'burlywood' },
+            zindex: {value: -1}
+          },
+          update: {
+            opacity: [
+              {
+                test: 'node__click === null && indata(\'duplicateId\', \'id\', datum.datum.id)',
+                value: 1
+              },
+              {
+                value: '0'
+              }
+            ]
+          }
+        }
+      };
+    }
 
   /**
    * AS Tree paths marks

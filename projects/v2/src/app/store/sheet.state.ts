@@ -93,6 +93,10 @@ export class SheetStateModel {
    * Stores the DOI references data
    */
   bottomSheetDOI: DOI[];
+  /**
+   * Stores the full anatomical structures data when all organs is clicked.
+   */
+  fullAsData: Row[];
 }
 
 @State<SheetStateModel>({
@@ -139,6 +143,7 @@ export class SheetStateModel {
       status: 0,
     },
     bottomSheetDOI: [],
+    fullAsData: []
   },
 })
 @Injectable()
@@ -230,6 +235,14 @@ export class SheetState {
   static getBottomSheetDOI(state: SheetStateModel) {
     return state.bottomSheetDOI;
   }
+
+  /**
+   * Returns an observable that watches the fullAsData  data
+   */
+   @Selector()
+   static getFullAsData(state: SheetStateModel) {
+     return state.fullAsData;
+   }
 
   /**
    * Returns an observable that watches the mode
@@ -326,6 +339,17 @@ export class SheetState {
         },
         (error) => {
           console.log(error);
+          const err: Error = {
+            msg: `${error.name} (Status: ${error.status})`,
+            status: error.status,
+            hasError: true,
+            hasGidError: !(sheet.gid || sheet.gid === '0')
+          };
+          dispatch(
+            new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
+          );
+          dispatch(new HasError(err));
+          return of('');
         }
       );
     }
@@ -370,6 +394,7 @@ export class SheetState {
         organsNames.push(s.name);
       }
     }
+    let asData = [];
     forkJoin(requests$).subscribe(
       (allresults) => {
         allresults.map((res: ResponseData, i) => {
@@ -381,6 +406,9 @@ export class SheetState {
               rdfs_label: 'NONE',
             };
             row.anatomical_structures.unshift(newStructure);
+          }
+          asData = JSON.parse(JSON.stringify([...asData, ...res.data]));
+          for (const row of res.data) {
             if (!state.sheetConfig.show_all_AS) {
               row.anatomical_structures.splice(
                 2,
@@ -392,6 +420,7 @@ export class SheetState {
         });
         patchState({
           data: dataAll,
+          fullAsData: asData
         });
       },
       (error) => {
@@ -466,6 +495,7 @@ export class SheetState {
           msg: `${error.name} (Status: ${error.status})`,
           status: error.status,
           hasError: true,
+          hasGidError: !(sheet.gid || sheet.gid === '0')
         };
         dispatch(
           new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)

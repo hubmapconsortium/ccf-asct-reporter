@@ -7,10 +7,10 @@ import { ToggleControlPane } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { SheetState } from '../../store/sheet.state';
 import { Sheet, SheetConfig, CompareData } from '../../models/sheet.model';
-import { TreeState } from '../../store/tree.state';
-import { TNode } from '../../models/tree.model';
+import { TreeState, TreeStateModel } from '../../store/tree.state';
+import { DiscrepencyStructure, TNode } from '../../models/tree.model';
 import { VegaService } from '../tree/vega.service';
-import { UpdateVegaSpec } from '../../actions/tree.actions';
+import { DiscrepencyId, DiscrepencyLabel, DuplicateId, UpdateVegaSpec } from '../../actions/tree.actions';
 import { UpdateConfig, ToggleShowAllAS, FetchAllOrganData } from '../../actions/sheet.actions';
 import { BimodalService } from '../tree/bimodal.service';
 import { BMNode } from '../../models/bimodal.model';
@@ -31,17 +31,25 @@ export class ControlPaneComponent implements OnInit {
   @Select(TreeState.getBimodal) bm$: Observable<any>;
   @Select(SheetState.getCompareSheets) cs$: Observable<CompareData[]>;
 
+  @Select(TreeState) tree$: Observable<TreeStateModel>;
+
+  nodes: BMNode[];
+  treeData: TNode[];
   view: any;
+  groupName = 'Anatomical Structures';
 
   constructor(public store: Store, public bm: BimodalService, public vs: VegaService) {
+
+    this.tree$.subscribe(tree => {
+      this.treeData = tree.treeData;
+      this.nodes = tree.bimodal.nodes;
+    });
   }
 
   ngOnInit(): void {
     this.view$.subscribe(data => {
       this.view = data;
     });
-
-
   }
 
   updateConfigInSheet(prop) {
@@ -52,6 +60,15 @@ export class ControlPaneComponent implements OnInit {
       case 'bm-x': this.updateBimodal(prop.config); break;
       case 'bm-y': this.updateBimodal(prop.config); break;
       case 'show-as': this.showAllAS(); break;
+      case 'show-discrepency-label':
+        this.makeBimodalWithDiscrepencyLabel(prop.config);
+        break;
+      case 'show-discrepency-id':
+        this.makeBimodalWithDiscrepencyId(prop.config);
+        break;
+      case 'show-duplicate-id':
+        this.makeDuplicateId(prop.config);
+        break;
     }
   }
 
@@ -60,6 +77,130 @@ export class ControlPaneComponent implements OnInit {
       const sheet = states.sheetState.sheet;
       this.store.dispatch(new FetchAllOrganData(sheet));
     });
+  }
+
+  makeBimodalWithDiscrepencyLabel(config: SheetConfig) {
+    this.store.dispatch(new UpdateConfig(config));
+    let discrepencyLabels = [];
+    if (config.discrepencyLabel){
+      const discrepencySet = new Set<DiscrepencyStructure>();
+      for (const node of this.treeData) {
+        if (node.children !== 0 && (node.label !== node.name)) {
+          discrepencySet.add({
+            id: node.id,
+            name: node.name,
+            groupName: this.groupName,
+            ontologyId: node.ontologyId,
+            x: node.x,
+            y: node.y
+          });
+        }
+      }
+      for (const node of this.nodes) {
+        if ((node.group === 1 || node.group === 2) && (node.label !== node.name)) {
+          discrepencySet.add({
+            id: node.id,
+            name: node.name,
+            groupName: node.groupName,
+            ontologyId: node.ontologyId,
+            x: node.x,
+            y: node.y
+          });
+        }
+      }
+      discrepencyLabels = [...discrepencySet];
+      this.store.dispatch(new DiscrepencyId([]));
+      this.store.dispatch(new DuplicateId([]));
+    }
+    else {
+      discrepencyLabels = [];
+    }
+    this.store.dispatch(new DiscrepencyLabel(discrepencyLabels));
+  }
+
+  makeBimodalWithDiscrepencyId(config: SheetConfig) {
+    this.store.dispatch(new UpdateConfig(config));
+    let discrepencyIds = [];
+    if (config.discrepencyId){
+      const discrepencySet = new Set<DiscrepencyStructure>();
+      for (const node of this.treeData) {
+        if (node.children !== 0 && (!node.ontologyId)) {
+          discrepencySet.add({
+            id: node.id,
+            name: node.name,
+            groupName: this.groupName,
+            ontologyId: node.ontologyId,
+            x: node.x,
+            y: node.y
+          });
+        }
+      }
+      for (const node of this.nodes) {
+        if ((node.group === 1 || node.group === 2) && (!node.ontologyId)) {
+          discrepencySet.add({
+            id: node.id,
+            name: node.name,
+            groupName: node.groupName,
+            ontologyId: node.ontologyId,
+            x: node.x,
+            y: node.y
+          });
+        }
+      }
+      discrepencyIds = [...discrepencySet];
+      this.store.dispatch(new DiscrepencyLabel([]));
+      this.store.dispatch(new DuplicateId([]));
+    }
+    else {
+      discrepencyIds = [];
+    }
+    this.store.dispatch(new DiscrepencyId(discrepencyIds));
+  }
+
+  makeDuplicateId(config: SheetConfig) {
+    this.store.dispatch(new UpdateConfig(config));
+    let duplicateId = [];
+    if (config.duplicateId){
+      const duplicateIdSet = new Set<DiscrepencyStructure>();
+      for (const node of this.treeData) {
+        if (node.children !== 0 && (node.ontologyId) && node.ontologyId !== 'no good match') {
+          duplicateIdSet.add({
+            id: node.id,
+            name: node.name,
+            groupName: this.groupName,
+            ontologyId: node.ontologyId,
+            x: node.x,
+            y: node.y
+          });
+        }
+      }
+      for (const node of this.nodes) {
+        if (node.ontologyId && node.ontologyId !== 'no good match') {
+          duplicateIdSet.add({
+            id: node.id,
+            name: node.name,
+            groupName: node.groupName,
+            ontologyId: node.ontologyId,
+            x: node.x,
+            y: node.y
+          });
+        }
+      }
+      duplicateId = [...duplicateIdSet];
+      const dataLookup = duplicateId.reduce((acc, e) => {
+        acc[e.ontologyId]++;
+        acc[e.ontologyId] = acc[e.ontologyId] || 0;
+        return acc;
+      }, {});
+      const duplicateIdsTree = duplicateId.filter(e => dataLookup[e.ontologyId]);
+      duplicateId = [...duplicateIdsTree];
+      this.store.dispatch(new DiscrepencyLabel([]));
+      this.store.dispatch(new DiscrepencyId([]));
+    }
+    else{
+      duplicateId = [];
+    }
+    this.store.dispatch(new DuplicateId([...duplicateId]));
   }
 
   updateBimodal(config: SheetConfig) {
