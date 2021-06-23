@@ -41,6 +41,12 @@ In order for the playground feature to work properly, make sure,
    <img src="assets/docs/compare/permissions.png" alt="Compare Results" class="md-img p-2 w-25">
    <br>
    <br>
+- Do not use the Share URL from Google Sheets (URLs ending with ?usp=sharing)
+- Please copy and use the sheet URL from the Address bar like from below example.
+
+   <img width="75%" src="assets/urlScreen.png">
+   <br>
+   <br>
 - The data should be in the format specified [here](https://docs.google.com/spreadsheets/d/1bsA-HngthTD7NtzAfab8t3EVjFFT439-Pc-mp_mdZUU/edit#gid=0).
 
 <br>

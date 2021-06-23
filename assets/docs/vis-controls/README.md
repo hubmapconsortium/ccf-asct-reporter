@@ -37,3 +37,14 @@ Sets the horizontal width of the bimodal nodes (distance between AS and CT nodes
 
 Sets the vertical width of the bimodal nodes (distance between AS and CT nodes/CT and B nodes).
 
+**Label Mismatch**
+
+Toggling this option will show rectangular box around the text mark, whose name and lables are not same.
+
+**ID Missing**
+
+Toggling this option will show rectangular box around the text mark, whose id are not present.
+
+**ID Duplication**
+
+Toggling this option will show rectangular box around the text mark, whose id are duplicates.
