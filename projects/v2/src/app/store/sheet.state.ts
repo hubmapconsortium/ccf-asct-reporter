@@ -774,6 +774,7 @@ export class SheetState {
     return this.sheetService.fetchBottomSheetData(data.ontologyId).pipe(
       tap((res: any) => {
         const r = res._embedded.terms[0];
+        let description = r.annotation.definition[0];
         setState({
           ...state,
           bottomSheetInfo: {
@@ -781,7 +782,7 @@ export class SheetState {
             ontologyId: data.ontologyId,
             iri: r.iri,
             label: r.label,
-            desc: r.description ? r.description[0] : 'null',
+            desc: description ? description : 'null',
             hasError: false,
             msg: '',
             status: 0,
@@ -807,6 +808,7 @@ export class SheetState {
           status: error.status,
           hasError: true,
         };
+        console.log(err);
         dispatch(
           new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
         );

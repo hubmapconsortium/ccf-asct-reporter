@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { URL, getAssetsURL, getInformation, PLAYGROUND } from './../static/url';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { URL, getAssetsURL, buildUberonOrCellTypeUrl, PLAYGROUND, buildHNGCUrl as buildHGNCUrl } from './../static/url';
+import { EMPTY, Observable, of } from 'rxjs';
 
 
 @Injectable({
@@ -32,11 +33,42 @@ export class SheetService {
 
   /**
    * Service to get the data about an entity for an exteral API
-   * by passing the uberon id
+   * by passing the UBERON, CL, or HNGC id
    * @param id ontologyid
    */
-  fetchBottomSheetData(id: string) {
-    return this.http.get(getInformation(id));
+
+  testCallback(data: JSON) {
+    console.log(data);
+    return data;
+  }
+
+  fetchBottomSheetData(id: string):  Observable<Object> {
+    console.log("RAW ID: " + id);
+    if (id.startsWith("UBERON:") || id.startsWith("CL:")) {
+      console.log("id: " + id);
+      return this.http.get(buildUberonOrCellTypeUrl(id),
+        {
+          headers: new HttpHeaders({
+            'Access-Control-Allow-Origin': '*'
+          })
+        });
+    } else if (id.startsWith("HGNC:")) {
+      return this.http.get(
+        // uri
+        buildHGNCUrl(id),
+        // options
+        {
+          headers: new HttpHeaders({
+            'Content-Type':  'application/json'
+          })
+        }
+      );
+    } else {
+      console.log("INVALID ID");
+      return of({
+
+      });
+    }
   }
 
   /**
