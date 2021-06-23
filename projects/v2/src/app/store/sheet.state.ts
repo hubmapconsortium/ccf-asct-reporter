@@ -773,16 +773,27 @@ export class SheetState {
     const state = getState();
     return this.sheetService.fetchBottomSheetData(data.ontologyId).pipe(
       tap((res: any) => {
-        const r = res._embedded.terms[0];
-        let description = r.annotation.definition[0];
+        let firstRes, description, iri, label;
+        if (res.hasOwnProperty('_embedded')) {
+          firstRes = res._embedded.terms[0];
+          description = firstRes.annotation.definition[0];
+          iri = firstRes.iri;
+          label = firstRes.label;
+        } else {
+          firstRes = res.response.docs[0];
+          description = firstRes.name;
+          iri = "http://purl.obolibrary.org/obo/" + firstRes.hgnc_id;
+          label = firstRes.symbol;
+        }
+        console.log(firstRes);
         setState({
           ...state,
           bottomSheetInfo: {
             name: data.name,
             ontologyId: data.ontologyId,
-            iri: r.iri,
-            label: r.label,
-            desc: description ? description : 'null',
+            iri: iri,
+            label: label,
+            desc: description,
             hasError: false,
             msg: '',
             status: 0,
