@@ -36,6 +36,7 @@ export class ControlPaneComponent implements OnInit {
   nodes: BMNode[];
   treeData: TNode[];
   view: any;
+  groupName = 'Anatomical Structures';
 
   constructor(public store: Store, public bm: BimodalService, public vs: VegaService) {
 
@@ -88,7 +89,7 @@ export class ControlPaneComponent implements OnInit {
           discrepencySet.add({
             id: node.id,
             name: node.name,
-            groupName: 'Anatomical Structures',
+            groupName: this.groupName,
             ontologyId: node.ontologyId,
             x: node.x,
             y: node.y
@@ -127,7 +128,7 @@ export class ControlPaneComponent implements OnInit {
           discrepencySet.add({
             id: node.id,
             name: node.name,
-            groupName: 'Anatomical Structures',
+            groupName: this.groupName,
             ontologyId: node.ontologyId,
             x: node.x,
             y: node.y
@@ -166,7 +167,7 @@ export class ControlPaneComponent implements OnInit {
           duplicateIdSet.add({
             id: node.id,
             name: node.name,
-            groupName: 'Anatomical Structures',
+            groupName: this.groupName,
             ontologyId: node.ontologyId,
             x: node.x,
             y: node.y
@@ -187,7 +188,8 @@ export class ControlPaneComponent implements OnInit {
       }
       duplicateId = [...duplicateIdSet];
       const dataLookup = duplicateId.reduce((acc, e) => {
-        acc[e.ontologyId] = ++acc[e.ontologyId] || 0;
+        acc[e.ontologyId]++;
+        acc[e.ontologyId] = acc[e.ontologyId] || 0;
         return acc;
       }, {});
       const duplicateIdsTree = duplicateId.filter(e => dataLookup[e.ontologyId]);
