@@ -5,7 +5,7 @@ import { BimodalService } from '../../modules/tree/bimodal.service';
 import { Store, Select } from '@ngxs/store';
 import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { SearchStructure, TNode } from '../../models/tree.model';
-import { DiscrepencyId, DiscrepencyLabel, DoSearch } from '../../actions/tree.actions';
+import { DiscrepencyId, DiscrepencyLabel, DoSearch, DuplicateId } from '../../actions/tree.actions';
 import { BMNode } from '../../models/bimodal.model';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory } from '../../models/ga.model';
@@ -90,6 +90,7 @@ export class SearchComponent {
     // Toggling the Discrepency fields to off
     this.sheetConfig.discrepencyId = false;
     this.sheetConfig.discrepencyLabel = false;
+    this.sheetConfig.duplicateId = false;
     this.store.dispatch(new UpdateConfig(this.sheetConfig));
     // Dispace the search data to the tree store
     this.store.dispatch(new DoSearch(this.selectedOptions, lastClickedOption));
@@ -97,6 +98,7 @@ export class SearchComponent {
     // Clearing Discrepency fields so that searched options can appear
     this.store.dispatch(new DiscrepencyLabel([]));
     this.store.dispatch(new DiscrepencyId([]));
+    this.store.dispatch(new DuplicateId([]));
     // Update the memory
     this.selectionMemory = this.selectedOptions.slice();
     // Build values for search bar UI text

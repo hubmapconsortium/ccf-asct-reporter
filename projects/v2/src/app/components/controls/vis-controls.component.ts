@@ -50,6 +50,7 @@ export class VisControlsComponent implements OnInit {
   showDiscrepencyLabel() {
     this.config.discrepencyLabel = !this.config.discrepencyLabel;
     this.config.discrepencyId = false;
+    this.config.duplicateId = false;
     this.updatedConfig.emit({
       property: 'show-discrepency-label',
       config: this.config
@@ -61,6 +62,7 @@ export class VisControlsComponent implements OnInit {
   showDiscrepencyId() {
     this.config.discrepencyId = !this.config.discrepencyId;
     this.config.discrepencyLabel = false;
+    this.config.duplicateId = false;
     this.updatedConfig.emit({
       property: 'show-discrepency-id',
       config: this.config
@@ -68,6 +70,19 @@ export class VisControlsComponent implements OnInit {
     this.ga.eventEmitter('vc_toggle_discrepency_id', GaCategory.CONTROLS, 'Toggle Discrepency ID',
       GaAction.TOGGLE, this.config.discrepencyLabel);
   }
+
+  showDuplicateId() {
+    this.config.duplicateId = !this.config.duplicateId;
+    this.config.discrepencyLabel = false;
+    this.config.discrepencyId = false;
+    this.updatedConfig.emit({
+      property: 'show-duplicate-id',
+      config: this.config
+    });
+    this.ga.eventEmitter('vc_toggle_duplicate_id', GaCategory.CONTROLS, 'Toggle Duplicate ID',
+      GaAction.TOGGLE, this.config.duplicateId);
+  }
+
 
   changeBimodalDistanceX() {
     this.updatedConfig.emit({

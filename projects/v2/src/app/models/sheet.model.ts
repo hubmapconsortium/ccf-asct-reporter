@@ -69,6 +69,7 @@ export interface SheetConfig {
   show_all_AS?: boolean;
   discrepencyLabel?: boolean;
   discrepencyId?: boolean;
+  duplicateId?: boolean;
 }
 
 export interface SheetInfo {

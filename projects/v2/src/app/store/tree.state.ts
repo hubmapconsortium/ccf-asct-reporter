@@ -11,6 +11,7 @@ import {
   UpdateLinksData,
   DiscrepencyLabel,
   DiscrepencyId,
+  DuplicateId,
 } from '../actions/tree.actions';
 import { TNode, SearchStructure, DiscrepencyStructure } from '../models/tree.model';
 import { BMNode, Link, BimodalConfig } from '../models/bimodal.model';
@@ -73,6 +74,11 @@ export class TreeStateModel {
    * Store the discrepency id data
    */
   discrepencyId: DiscrepencyStructure[];
+  /**
+   * Store the discrepency id data
+   */
+   duplicateId: DiscrepencyStructure[];
+
 }
 
 @State<TreeStateModel>({
@@ -89,7 +95,8 @@ export class TreeStateModel {
     bottomSheetData: {},
     links: {AS_CT: 0, CT_B: 0, AS_AS: 0},
     discrepencyLabel: [],
-    discrepencyId: []
+    discrepencyId: [],
+    duplicateId: []
   }
 })
 @Injectable()
@@ -263,6 +270,18 @@ export class TreeState {
       discrepencyId: discrepencyStructures,
     });
   }
+
+  /**
+   * Updates the duplicate ids list
+   */
+   @Action(DuplicateId)
+   duplicateId({getState, setState}: StateContext<TreeStateModel>, {discrepencyStructures}: DiscrepencyLabel) {
+     const state = getState();
+     setState({
+       ...state,
+       duplicateId: discrepencyStructures,
+     });
+   }
 
   /**
    * Updates the bottom sheet data
