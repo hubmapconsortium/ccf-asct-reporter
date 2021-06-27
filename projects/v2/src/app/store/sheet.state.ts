@@ -779,11 +779,11 @@ export class SheetState {
       ...state,
       bottomSheetInfo: {
         ...state.bottomSheetInfo,
-        name:'',
-        desc:'',
-        iri:''
+        name: '',
+        desc: '',
+        iri: ''
       }
-    })
+    });
 
     // Call the appropriate API and fetch ontology data
     return this.sheetService.fetchBottomSheetData(data.ontologyId, data.name).pipe(

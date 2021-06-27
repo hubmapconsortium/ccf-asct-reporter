@@ -13,10 +13,10 @@ export function buildASCTApiUrl(id: string, group = 1) {
 }
 
 export function buildHGNCApiUrl(id: string, group = 1) {
-  let numid = id.split(':')[1];
+  const numid = id.split(':')[1];
   return `/hgnc_api/hgnc_id/${numid}`;
 }
 
 export function buildHGNCLink(id: string) {
-  return "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/" + id;
+  return 'https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/' + id;
 }

@@ -46,26 +46,24 @@ export class SheetService {
    * @param name: structure name
    */
   fetchBottomSheetData(id: string, name: string): Observable<BottomSheetInfo> {
-    console.log("RAW ID: " + id);
-
     //  Use ebi.ac.uk API
-    if (id.startsWith("UBERON:") || id.startsWith("CL:") || id.toLowerCase().startsWith("fma")) {
-      console.log("id: " + id);
+    if (id.startsWith('UBERON:') || id.startsWith('CL:') || id.toLowerCase().startsWith('fma')) {
+      console.log('id: ' + id);
 
       // Normalize FMA ids. Takes care of the formats: fma12345, FMA:12456, FMAID:12345
-      if (id.toLowerCase().startsWith("fma")) {
+      if (id.toLowerCase().startsWith('fma')) {
         id = id.substring(3);
-        if (id.includes(":")) {
-          id = id.split(":")[1];
+        if (id.includes(':')) {
+          id = id.split(':')[1];
         }
-        id = "FMA:" + id;
+        id = 'FMA:' + id;
       }
 
       return this.http.get(buildASCTApiUrl(id)).pipe(map((res: any) => {
           // Get first item in the response
-          let firstRes = res._embedded.terms[0];
-          return <BottomSheetInfo>{
-            name: name,
+          const firstRes = res._embedded.terms[0];
+          return {
+            name,
             ontologyId: id,
             desc: firstRes.annotation.definition ? firstRes.annotation.definition[0] : 'No description found.',
             iri: firstRes.iri,
@@ -73,13 +71,13 @@ export class SheetService {
             hasError: false,
             msg: '',
             status: 0
-          };
+          } as BottomSheetInfo;
 
         }));
 
     }
     // User HGNC API
-    else if (id.startsWith("HGNC:")) {
+    else if (id.startsWith('HGNC:')) {
       return this.http.get(
         // uri
         buildHGNCApiUrl(id),
@@ -92,9 +90,9 @@ export class SheetService {
       ).pipe(map((res: any) => {
 
         // Get first item in the response
-        let firstRes = res.response.docs[0];
-        return <BottomSheetInfo>{
-          name: name,
+        const firstRes = res.response.docs[0];
+        return {
+          name,
           ontologyId: id,
           desc: firstRes.name,
           iri: buildHGNCLink(firstRes.hgnc_id),
@@ -102,19 +100,18 @@ export class SheetService {
           hasError: false,
           msg: '',
           status: 0
-        };
+        } as BottomSheetInfo;
       }));
-
     } else {
-      console.log("INVALID ID");
+      console.log('INVALID ID');
       return of({
-        name: name,
+        name,
         ontologyId: id,
         iri: '',
         label: '',
         desc: 'null',
         hasError: true,
-        msg: "Invalid ID format or type.",
+        msg: 'Invalid ID format or type.',
         status: 500
       });
     }
