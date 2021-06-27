@@ -22,7 +22,7 @@ export class InfoComponent implements OnInit {
   loading = true;
   noId = false;
   error: Error = { hasError: false };
-  info: any;
+  info: BottomSheetInfo;
 
   // @Output() close: EventEmitter<any> = new EventEmitter<any>();
 

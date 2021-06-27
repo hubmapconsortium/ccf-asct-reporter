@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <div *ngIf="loading;else resultBlock">
+  <div *ngIf="loading || info.name === '';else resultBlock">
     <div class="text-center">
       <img src="../../../assets/loading.svg" alt="" class="loading-wait">
       <p class="text-muted">Please wait while the data loads...</p>

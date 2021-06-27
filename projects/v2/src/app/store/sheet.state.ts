@@ -772,7 +772,20 @@ export class SheetState {
     { getState, setState, dispatch }: StateContext<SheetStateModel>,
     { data }: UpdateBottomSheetInfo
   ) {
+
+    // Get initial state and blank it out while fetching new data.
     const state = getState();
+    setState({
+      ...state,
+      bottomSheetInfo: {
+        ...state.bottomSheetInfo,
+        name:'',
+        desc:'',
+        iri:''
+      }
+    })
+
+    // Call the appropriate API and fetch ontology data
     return this.sheetService.fetchBottomSheetData(data.ontologyId, data.name).pipe(
       tap((res: any) => {
         setState({
