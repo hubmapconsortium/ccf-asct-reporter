@@ -4,7 +4,6 @@ import { URL, getAssetsURL, buildHGNCApiUrl, buildASCTApiUrl, buildHGNCLink } fr
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BottomSheetInfo } from '../models/bottom-sheet-info.model';
-import { Error } from '../models/response.model';
 
 @Injectable({
   providedIn: 'root'

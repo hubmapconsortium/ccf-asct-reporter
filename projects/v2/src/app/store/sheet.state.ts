@@ -42,8 +42,6 @@ import { StateReset } from 'ngxs-reset-plugin';
 import { TreeState } from './tree.state';
 import { ReportLog } from '../actions/logs.actions';
 import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
-import { buildHGNCLink } from '../static/url';
-import { BottomSheetInfo } from '../models/bottom-sheet-info.model';
 
 /** Class to keep track of the sheet */
 export class SheetStateModel {
