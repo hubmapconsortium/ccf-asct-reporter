@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { URL, getAssetsURL, buildUberonOrCellTypeUrl, PLAYGROUND, buildHNGCUrl as buildHGNCUrl } from './../static/url';
+import { URL, getAssetsURL, buildUberonOrCellTypeUrl, PLAYGROUND, buildHGNCApiUrl as buildHGNCUrl } from './../static/url';
 import { EMPTY, Observable, of } from 'rxjs';
 
 

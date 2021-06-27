@@ -42,6 +42,7 @@ import { StateReset } from 'ngxs-reset-plugin';
 import { TreeState } from './tree.state';
 import { ReportLog } from '../actions/logs.actions';
 import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
+import { buildHGNCLink } from '../static/url';
 
 /** Class to keep track of the sheet */
 export class SheetStateModel {
@@ -782,7 +783,7 @@ export class SheetState {
         } else {
           firstRes = res.response.docs[0];
           description = firstRes.name;
-          iri = "http://purl.obolibrary.org/obo/" + firstRes.hgnc_id;
+          iri = buildHGNCLink(firstRes.hgnc_id);
           label = firstRes.symbol;
         }
         console.log(firstRes);

@@ -12,7 +12,11 @@ export function buildUberonOrCellTypeUrl(id: string, group = 1) {
   return `/ebi_api/findByIdAndIsDefiningOntology?id=${id}`;
 }
 
-export function buildHNGCUrl(id: string, group = 1) {
+export function buildHGNCApiUrl(id: string, group = 1) {
   let numid = id.split(':')[1];
   return `/hgnc_api/hgnc_id/${numid}`;
+}
+
+export function buildHGNCLink(id: string) {
+  return "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/" + id;
 }
