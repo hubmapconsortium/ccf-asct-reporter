@@ -8,8 +8,8 @@ export function getAssetsURL(dataVersion, currentSheet) {
   return `assets/data/${dataVersion}/${currentSheet.name}.csv`;
 }
 
-export function buildUberonOrCellTypeUrl(id: string, group = 1) {
-  return `/ebi_api/findByIdAndIsDefiningOntology?id=${id}`;
+export function buildASCTApiUrl(id: string, group = 1) {
+  return `/ebi_api/findByIdAndIsDefiningOntology?obo_id=${id}`;
 }
 
 export function buildHGNCApiUrl(id: string, group = 1) {

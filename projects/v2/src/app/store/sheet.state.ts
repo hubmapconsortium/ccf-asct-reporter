@@ -43,6 +43,7 @@ import { TreeState } from './tree.state';
 import { ReportLog } from '../actions/logs.actions';
 import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
 import { buildHGNCLink } from '../static/url';
+import { BottomSheetInfo } from '../models/bottom-sheet-info.model';
 
 /** Class to keep track of the sheet */
 export class SheetStateModel {
@@ -772,34 +773,17 @@ export class SheetState {
     { data }: UpdateBottomSheetInfo
   ) {
     const state = getState();
-    return this.sheetService.fetchBottomSheetData(data.ontologyId).pipe(
+    return this.sheetService.fetchBottomSheetData(data.ontologyId, data.name).pipe(
       tap((res: any) => {
-        let firstRes, description, iri, label;
-        if (res.hasOwnProperty('_embedded')) {
-          firstRes = res._embedded.terms[0];
-          description = firstRes.annotation.definition[0];
-          iri = firstRes.iri;
-          label = firstRes.label;
-        } else {
-          firstRes = res.response.docs[0];
-          description = firstRes.name;
-          iri = buildHGNCLink(firstRes.hgnc_id);
-          label = firstRes.symbol;
-        }
-        console.log(firstRes);
         setState({
           ...state,
-          bottomSheetInfo: {
-            name: data.name,
-            ontologyId: data.ontologyId,
-            iri: iri,
-            label: label,
-            desc: description,
-            hasError: false,
-            msg: '',
-            status: 0,
-          },
+          bottomSheetInfo: res,
         });
+        if (res.hasError) {
+          dispatch(
+            new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
+          );
+        }
       }),
       catchError((error) => {
         setState({

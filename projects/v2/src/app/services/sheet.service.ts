@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { URL, getAssetsURL, buildUberonOrCellTypeUrl, PLAYGROUND, buildHGNCApiUrl as buildHGNCUrl } from './../static/url';
-import { EMPTY, Observable, of } from 'rxjs';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { URL, getAssetsURL, buildHGNCApiUrl, buildASCTApiUrl, buildHGNCLink } from './../static/url';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { BottomSheetInfo } from '../models/bottom-sheet-info.model';
+import { Error } from '../models/response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,42 +33,89 @@ export class SheetService {
     return this.http.get(getAssetsURL(dataVersion, currentSheet), { responseType: 'text' });
   }
 
-  /**
-   * Service to get the data about an entity for an exteral API
-   * by passing the UBERON, CL, or HNGC id
-   * @param id ontologyid
-   */
-
   testCallback(data: JSON) {
     console.log(data);
     return data;
   }
 
-  fetchBottomSheetData(id: string):  Observable<Object> {
+  /**
+   * Service to get the data about an entity for an exteral API
+   * by passing the UBERON, CL, or HNGC id. It determins which API to call and maps the
+   * response to a normalized BottomSheetInfo format.
+   * @param id ontologyid
+   * @param name: structure name
+   */
+  fetchBottomSheetData(id: string, name: string): Observable<BottomSheetInfo> {
     console.log("RAW ID: " + id);
-    if (id.startsWith("UBERON:") || id.startsWith("CL:")) {
+
+    //  Use ebi.ac.uk API
+    if (id.startsWith("UBERON:") || id.startsWith("CL:") || id.toLowerCase().startsWith("fma")) {
       console.log("id: " + id);
-      return this.http.get(buildUberonOrCellTypeUrl(id),
-        {
-          headers: new HttpHeaders({
-            'Access-Control-Allow-Origin': '*'
-          })
-        });
-    } else if (id.startsWith("HGNC:")) {
+
+      // Normalize FMA ids. Takes care of the formats: fma12345, FMA:12456, FMAID:12345
+      if (id.toLowerCase().startsWith("fma")) {
+        id = id.substring(3);
+        if (id.includes(":")) {
+          id = id.split(":")[1];
+        }
+        id = "FMA:" + id;
+      }
+
+      return this.http.get(buildASCTApiUrl(id)).pipe(map((res: any) => {
+          // Get first item in the response
+          let firstRes = res._embedded.terms[0];
+          return <BottomSheetInfo>{
+            name: name,
+            ontologyId: id,
+            desc: firstRes.annotation.definition ? firstRes.annotation.definition[0] : 'No description found.',
+            iri: firstRes.iri,
+            label: firstRes.label,
+            hasError: false,
+            msg: '',
+            status: 0
+          };
+
+        }));
+
+    }
+    // User HGNC API
+    else if (id.startsWith("HGNC:")) {
       return this.http.get(
         // uri
-        buildHGNCUrl(id),
+        buildHGNCApiUrl(id),
         // options
         {
           headers: new HttpHeaders({
-            'Content-Type':  'application/json'
+            'Content-Type': 'application/json'
           })
         }
-      );
+      ).pipe(map((res: any) => {
+
+        // Get first item in the response
+        let firstRes = res.response.docs[0];
+        return <BottomSheetInfo>{
+          name: name,
+          ontologyId: id,
+          desc: firstRes.name,
+          iri: buildHGNCLink(firstRes.hgnc_id),
+          label: firstRes.symbol,
+          hasError: false,
+          msg: '',
+          status: 0
+        };
+      }));
+
     } else {
       console.log("INVALID ID");
       return of({
-
+        name: name,
+        ontologyId: id,
+        iri: '',
+        label: '',
+        desc: 'null',
+        hasError: true,
+        msg: "Invalid ID format or type.",
+        status: 500
       });
     }
   }
