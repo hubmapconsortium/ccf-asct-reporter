@@ -103,12 +103,10 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "v2:build:production",
-              "proxyConfig": "./proxy.conf.json"
+              "browserTarget": "v2:build:production"
             },
             "staging": {
-              "browserTarget": "v2:build:staging",
-              "proxyConfig": "./proxy.conf.json"
+              "browserTarget": "v2:build:staging"
             }
           }
         },
