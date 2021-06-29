@@ -8,8 +8,6 @@ Existing ontologies (Uberon, FMA, CL, HGNC, etc.) have thousands of terms and fo
 
 *The template for the ASCT+B Tables version 2 can be found [here](https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=559906129).*
 
-*The template for the ASCT+B Tables version 2 can be found [here](https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=559906129).*
-
 <br>
 
 #### “About Table” Information (first 10 rows)
