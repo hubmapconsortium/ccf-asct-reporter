@@ -560,9 +560,9 @@ export class SheetState {
       catchError((error) => {
         console.log(error);
         const err: Error = {
-          msg: `${error.name} (Status: ${error.status})`,
-          status: error.status,
+          msg: `${error.name} (Status: ${error.status})`, 
           hasError: true,
+          status: error.status,
         };
         dispatch(
           new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
