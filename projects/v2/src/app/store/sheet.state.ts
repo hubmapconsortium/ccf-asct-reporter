@@ -31,6 +31,7 @@ import {
   UpdatePlaygroundData,
   UpdateBottomSheetInfo,
   UpdateBottomSheetDOI,
+  FetchSheetDataFromCSV,
 } from '../actions/sheet.actions';
 import {
   OpenLoading,
@@ -506,6 +507,73 @@ export class SheetState {
     );
   }
 
+  /**
+   * Action to fetch the sheet data for the CSV files. Resets the Sheet State
+   * Accepts the sheet config of the particular sheet
+   */
+  @Action(FetchSheetDataFromCSV)
+  fetchSheetDataFromCSV(
+    { getState, setState, dispatch, patchState }: StateContext<SheetStateModel>,
+    { sheet, url }: FetchSheetDataFromCSV
+  ) {
+    const mode = getState().mode;
+    dispatch(new OpenLoading('Fetching data...'));
+    // dispatch(new StateReset(SheetState));
+    dispatch(new StateReset(TreeState));
+    dispatch(new CloseBottomSheet());
+    dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
+
+    const organ: Structure = { name: 'Body', id: '' };
+    patchState({ sheet });
+    const state = getState();
+
+    return this.sheetService.fetchDataFromCSV(url).pipe(
+      tap((res: ResponseData) => {
+        res.data.forEach((row) => {
+          row.anatomical_structures.unshift(organ);
+        });
+        setState({
+          ...state,
+          compareData: [],
+          compareSheets: [],
+          reportData: [],
+          csv: res.csv,
+          data: res.data,
+          version: 'latest',
+          parsed: res.parsed,
+          mode,
+          sheetConfig: { ...sheet.config, show_ontology: true },
+        });
+
+        dispatch(
+          new ReportLog(
+            LOG_TYPES.MSG,
+            `${sheet.display} data successfully fetched.`,
+            LOG_ICONS.success
+          )
+        );
+        dispatch(
+          new UpdateLoadingText(
+            'Fetch data successful. Building Visualization..'
+          )
+        );
+      }),
+      catchError((error) => {
+        console.log(error);
+        const err: Error = {
+          msg: `${error.name} (Status: ${error.status})`,
+          status: error.status,
+          hasError: true,
+          hasGidError: !(sheet.gid || sheet.gid === '0')
+        };
+        dispatch(
+          new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
+        );
+        dispatch(new HasError(err));
+        return of('');
+      })
+    );
+  }
   /**
    * Action to fetch data from assets
    * CURRENTLY DEPRICATED IN V2

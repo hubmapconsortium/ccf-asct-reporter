@@ -4,7 +4,7 @@ import { SheetState } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
 import { Validators, FormControl } from '@angular/forms';
 import * as jexcel from 'jexcel';
-import { UpdatePlaygroundData, FetchSheetData } from '../../actions/sheet.actions';
+import { UpdatePlaygroundData, FetchSheetData, FetchSheetDataFromCSV } from '../../actions/sheet.actions';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Sheet } from '../../models/sheet.model';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
@@ -267,14 +267,26 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
    * Read the google sheet link and upload
    */
   upload() {
-    const data = this.checkLinkFormat(this.linkFormControl.value);
-    const sheet = JSON.parse(JSON.stringify(this.currentSheet));
-    sheet.gid = data.gid;
-    sheet.sheetId = data.sheetID;
-    this.tabIndex = 0;
-    sheet.config.height = 1400;
-    this.store.dispatch(new FetchSheetData(sheet));
-    this.ga.eventEmitter('playground_upload', GaCategory.PLAYGROUND, 'Upload Playground Sheet', GaAction.CLICK, sheet.sheetId);
+    if (this.linkFormControl.value.endsWith('.csv')) {
+      const sheet = JSON.parse(JSON.stringify(this.currentSheet));
+      sheet.gid = '0';
+      sheet.sheetId = '0';
+      this.tabIndex = 0;
+      sheet.config.height = 1400;
+      this.store.dispatch(new FetchSheetDataFromCSV(sheet, this.linkFormControl.value));
+      this.ga.eventEmitter('playground_upload', GaCategory.PLAYGROUND, 'Upload Playground Sheet through CSV file',
+       GaAction.CLICK, sheet.sheetId);
+    }
+    else {
+      const data = this.checkLinkFormat(this.linkFormControl.value);
+      const sheet = JSON.parse(JSON.stringify(this.currentSheet));
+      sheet.gid = data.gid;
+      sheet.sheetId = data.sheetID;
+      this.tabIndex = 0;
+      sheet.config.height = 1400;
+      this.store.dispatch(new FetchSheetData(sheet));
+      this.ga.eventEmitter('playground_upload', GaCategory.PLAYGROUND, 'Upload Playground Sheet', GaAction.CLICK, sheet.sheetId);
+    }
   }
 
   /**

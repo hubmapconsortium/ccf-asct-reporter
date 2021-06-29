@@ -55,4 +55,14 @@ export class SheetService {
   updatePlaygroundData(data: string[][]) {
     return this.http.post(`${URL}/v2/playground`, {data});
   }
+
+  /**
+   * Service to fetch the data for a sheet from CSV file using the api
+   * @param url is the link to the csv file of the sheet
+   */
+   fetchDataFromCSV(url: string) {
+    return this.http.post(`${URL}/v2/getDataFromCSV`, { data: {
+      sheetUrl: url
+    } });
+  }
 }

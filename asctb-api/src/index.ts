@@ -116,6 +116,31 @@ app.get('/v2/:sheetid/:gid', async (req: any, res: any) => {
   }
 });
 
+app.post('/v2/getDataFromCSV', async (req: any, res: any) => {
+  console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
+  const url = req.body.data.sheetUrl;
+  
+  try {
+    let response: any;
+    response = await axios.get(url);
+    
+    const data = papa.parse(response.data).data;
+    const asctbData = await makeASCTBData(data);
+
+    return res.send({
+      data: asctbData,
+      csv: response.data,
+      parsed: data,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({
+      msg: 'Please check the CSV format',
+      code: 500,
+    });
+  }
+});
+
 app.get('/v2/playground', async (req: any, res: any) => {
   console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
   try {
