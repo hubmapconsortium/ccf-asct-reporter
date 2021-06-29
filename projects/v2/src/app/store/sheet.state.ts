@@ -518,7 +518,6 @@ export class SheetState {
   ) {
     const mode = getState().mode;
     dispatch(new OpenLoading('Fetching data...'));
-    // dispatch(new StateReset(SheetState));
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
@@ -554,7 +553,7 @@ export class SheetState {
         );
         dispatch(
           new UpdateLoadingText(
-            'Fetch data successful. Building Visualization..'
+            'Fetch data from CSV file successful. Building Visualization..'
           )
         );
       }),
@@ -564,7 +563,6 @@ export class SheetState {
           msg: `${error.name} (Status: ${error.status})`,
           status: error.status,
           hasError: true,
-          hasGidError: !(sheet.gid || sheet.gid === '0')
         };
         dispatch(
           new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)

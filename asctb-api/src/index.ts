@@ -121,8 +121,7 @@ app.post('/v2/getDataFromCSV', async (req: any, res: any) => {
   const url = req.body.data.sheetUrl;
   
   try {
-    let response: any;
-    response = await axios.get(url);
+    const response = await axios.get(url);
     
     const data = papa.parse(response.data).data;
     const asctbData = await makeASCTBData(data);
