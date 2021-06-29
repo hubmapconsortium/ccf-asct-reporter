@@ -1,10 +1,12 @@
 ## Data Format
 ---
 
-Existing ontologies (Uberon, FMA, CL, HGNC, etc.) have thousands of terms and form a complex knowledge graph. They were designed for different purposes and frequently cover developmental and disease terms. For developing a reference atlas of the healthy human adult body within HuBMAP, we need a unified view of AS, CT, and B. In close collaboration with other consortia, we agreed to focus on part_of relationships so that the network graph can be simplified to a hierarchy. This makes it easier to develop user interfaces that enable investigators to quickly drill down, in an intuitive way, from whole-body, to organ, to organ parts, to cell types, and eventually to specific biomarkers assays associated with those cells. Also, the ASCT+B tables capture the located_in relationships of CT and AS and the characterize relationships between B and CT. The ASCT+B tables are not creating new ontologies. Rather, they help construct a uniform and simplified view of AS, CT, and B and their interlinkages relevant for the design of a healthy human reference atlas with cross-walks to multiple existing ontologies that are revised and extended in the process.
+Existing ontologies (Uberon, FMA, CL, HGNC, etc.) have thousands of terms and form a complex knowledge graph. They were designed for different purposes and frequently cover developmental and disease terms. For developing a reference atlas of the healthy human adult body within HuBMAP, we need a unified view of AS, CT, and B. In close collaboration with other consortia, we agreed to focus on part_of relationships so that the network graph can be simplified to a hierarchy. This makes it easier to develop user interfaces that enable investigators to quickly drill down, in an intuitive way, from whole-body, to organ, to organ parts, to cell types, and eventually to specific biomarkers associated with those cells. The ASCT+B tables also capture the located_in relationships of CT and AS and the characterize relationships between B and CT. The ASCT+B tables are not creating new ontologies. Rather, they help construct a uniform and simplified view of AS, CT, and B and their interlinkages relevant for the design of a healthy human reference atlas with cross-walks to multiple existing ontologies that are revised and extended in the process.
 
 
-*The template for the ASCT+B Tables can be found [here](https://docs.google.com/spreadsheets/d/1F7D0y7pNPVIR3W4LjjtIMGg7rKTOxwyjVKzS-iiffz4/edit#gid=2034682742).*
+*The template for the ASCT+B Tables version 1 can be found [here](https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=2034682742).*
+
+*The template for the ASCT+B Tables version 2 can be found [here](https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=559906129).*
 
 *The template for the ASCT+B Tables version 2 can be found [here](https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=559906129).*
 
@@ -14,14 +16,14 @@ Existing ontologies (Uberon, FMA, CL, HGNC, etc.) have thousands of terms and fo
 
 The first 10 rows describes the following content,
 
-- Organ name
-- Author information name and ORCID (lead author first, co-authors following) on row 3
-- Reviewer name(s) on row 4
-- Date started
-- Date last modified
-- Version number
-- List of major publications
-- Coverage of table organ
+- Organ name on row 1
+- Author name(s) (lead author first, co-authors following) on row 3
+- Author ORCID ID(s) (lead author first, co-authors following) on row 4
+- Reviewer name(s) on row 5
+- General publication on row 6
+- Data DOI on row 7
+- Date table is published row 8
+- Version number of published table row 9
 
 <br>
 
