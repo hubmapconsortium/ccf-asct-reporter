@@ -61,8 +61,6 @@ export class SheetService {
    * @param url is the link to the csv file of the sheet
    */
    fetchDataFromCSV(url: string) {
-    return this.http.post(`${URL}/v2/getDataFromCSV`, { data: {
-      sheetUrl: url
-    } });
+    return this.http.post(`${URL}/v2/getDataFromCSV`, { csvUrl: url });
   }
 }
