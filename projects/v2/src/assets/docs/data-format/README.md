@@ -6,6 +6,8 @@ Existing ontologies (Uberon, FMA, CL, HGNC, etc.) have thousands of terms and fo
 
 *The template for the ASCT+B Tables can be found [here](https://docs.google.com/spreadsheets/d/1F7D0y7pNPVIR3W4LjjtIMGg7rKTOxwyjVKzS-iiffz4/edit#gid=2034682742).*
 
+*The template for the ASCT+B Tables version 2 can be found [here](https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=559906129).*
+
 <br>
 
 #### “About Table” Information (first 10 rows)
@@ -33,7 +35,7 @@ The data is formatted in a specific way to keep it standardized across all organ
 
 <br>
 
-- **ENTITY** values: `AS`, `CT`, `BP`, `BG`, `REF` (required)
+- **ENTITY** values: `AS`, `CT`, `BProtein`, `BGene`, `BProteoform`, `BLipid`, `BMetabolites`, `REF` (required)
 - **NUMBER** can be non-negative numbers starting from 1 (required)
 - **DATA_TYPE** values: `ID`, `LABEL`, `DOI` (optional)
 
@@ -43,7 +45,7 @@ The data is formatted in a specific way to keep it standardized across all organ
 
 - For the data to be visualized, the data **must** conform to this structure. 
 - There should be only one item per cell. Multiple items in a single cell separated by commas or any delimiter will be considered and visualized as a single entity. 
-- Headers must be on row 11. The positioning of the columns do not matter (i.e `AS/1/LABEL` to be beside `AS/1`. It can be anywhere on the table as long as the column header is on row 11).
+- Headers should start with `AS/1` as the first column from any row position. The positioning of all other columns do not matter (i.e `AS/1/LABEL` to be beside `AS/1`. It can be anywhere on the table as long as the column header begin with `AS/1` as the first column).
 
 <div class="text-center"> 
   <img src="assets/docs/data-format/table.png" class="md-img p-2 w-100">
