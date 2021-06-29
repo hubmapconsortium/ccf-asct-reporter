@@ -524,6 +524,7 @@ export class SheetState {
     return this.sheetService.fetchDataFromCSV(url).pipe(
       tap((res: ResponseData) => {
         res.data = this.sheetService.getDataWithBody(res.data);
+
         setState({
           ...state,
           compareData: [],
@@ -540,10 +541,11 @@ export class SheetState {
         dispatch(
           new ReportLog(
             LOG_TYPES.MSG,
-            `${sheet.display} data successfully fetched.`,
+            `${sheet.display} data successfully fetched from CSV file url.`,
             LOG_ICONS.success
           )
         );
+
         dispatch(
           new UpdateLoadingText(
             'Fetch data from CSV file successful. Building Visualization..'
@@ -551,7 +553,6 @@ export class SheetState {
         );
       }),
       catchError((error) => {
-        console.log(error);
         const err: Error = {
           msg: `${error.name} (Status: ${error.status})`,
           hasError: true,
