@@ -454,16 +454,12 @@ export class SheetState {
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
-
-    const organ: Structure = { name: 'Body', id: '' };
     patchState({ sheet });
     const state = getState();
 
     return this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid).pipe(
       tap((res: ResponseData) => {
-        res.data.forEach((row) => {
-          row.anatomical_structures.unshift(organ);
-        });
+        res.data = this.sheetService.getDataWithBody(res.data);
         setState({
           ...state,
           compareData: [],
@@ -522,15 +518,12 @@ export class SheetState {
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
 
-    const organ: Structure = { name: 'Body', id: '' };
     patchState({ sheet });
     const state = getState();
 
     return this.sheetService.fetchDataFromCSV(url).pipe(
       tap((res: ResponseData) => {
-        res.data.forEach((row) => {
-          row.anatomical_structures.unshift(organ);
-        });
+        res.data = this.sheetService.getDataWithBody(res.data);
         setState({
           ...state,
           compareData: [],

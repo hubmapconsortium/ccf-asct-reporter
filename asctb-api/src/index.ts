@@ -116,7 +116,7 @@ app.get('/v2/:sheetid/:gid', async (req: any, res: any) => {
   }
 });
 
-app.post('/v2/getDataFromCSV', async (req: any, res: any) => {
+app.post('/v2/csv', async (req: any, res: any) => {
   console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
   const url = req.body.csvUrl;
   

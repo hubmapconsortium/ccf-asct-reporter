@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { URL, getAssetsURL, getInformation, PLAYGROUND } from './../static/url';
+import { Structure } from '../models/sheet.model';
 
 
 @Injectable({
@@ -61,6 +62,18 @@ export class SheetService {
    * @param url is the link to the csv file of the sheet
    */
    fetchDataFromCSV(url: string) {
-    return this.http.post(`${URL}/v2/getDataFromCSV`, { csvUrl: url });
+    return this.http.post(`${URL}/v2/csv`, { csvUrl: url });
+  }
+
+  /**
+   * Service to add body for each AS to the data
+   * @param data is the parsed ASCTB data from the csv file of the sheet
+   */
+   getDataWithBody(data: any) {
+    const organ: Structure = { name: 'Body', id: '' };
+    data.forEach((row) => {
+      row.anatomical_structures.unshift(organ);
+    });
+    return data;
   }
 }
