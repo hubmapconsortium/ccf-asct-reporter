@@ -42,9 +42,14 @@ export function makeAS(data: Row[]): Array<AS> {
           id += 1;
 
           if (row.cell_types.length) {
-            newStructure.outdegree.add(
-              `${row.cell_types[0].name}${row.cell_types[0].id}`
-            );
+            row.cell_types.forEach((cell) => {
+              newStructure.outdegree.add(
+                `${cell.name}${cell.id}`
+              );
+            });
+            // newStructure.outdegree.add(
+            //   `${row.cell_types[row.cell_types.length-1].name}${row.cell_types[row.cell_types.length-1].id}`
+            // );
           }
           if (i > 0) {
             // needed for the first element to not throw an error
@@ -54,9 +59,14 @@ export function makeAS(data: Row[]): Array<AS> {
           anatomicalStructures.push(newStructure);
         } else {
           if (row.cell_types.length) {
-            anatomicalStructures[foundIndex].outdegree.add(
-              `${row.cell_types[0].name}${row.cell_types[0].id}`
-            );
+            row.cell_types.forEach((cell) => {
+              anatomicalStructures[foundIndex].outdegree.add(
+                `${cell.name}${cell.id}`
+              );
+            });
+            // anatomicalStructures[foundIndex].outdegree.add(
+            //   `${row.cell_types[row.cell_types.length-1].name}${row.cell_types[row.cell_types.length-1].id}`
+            // );
           }
           if (i > 0) {
             anatomicalStructures[foundIndex].indegree.add(
@@ -193,9 +203,14 @@ export function makeBioMarkers(data: Row[], type?: string): Array<B> {
           };
 
           if (row.cell_types.length) {
-            newStructure.indegree.add(
-              `${row.cell_types[0].name}${row.cell_types[0].id}`
-            );
+            row.cell_types.forEach((cell) => {
+              newStructure.indegree.add(
+                `${cell.name}${cell.id}`
+              );
+            });
+            // newStructure.indegree.add(
+            //   `${row.cell_types[row.cell_types.length-1].name}${row.cell_types[row.cell_types.length-1].id}`
+            // );
           }
 
           bioMarkers.push(newStructure);
@@ -204,10 +219,17 @@ export function makeBioMarkers(data: Row[], type?: string): Array<B> {
             bioMarkers[foundIndex].color = str.color;
             bioMarkers[foundIndex].pathColor = str.color;
           }
+          // if (row.cell_types.length) {
+          //   bioMarkers[foundIndex].indegree.add(
+          //     `${row.cell_types[row.cell_types.length-1].name}${row.cell_types[row.cell_types.length-1].id}`
+          //   );
+          // }
           if (row.cell_types.length) {
-            bioMarkers[foundIndex].indegree.add(
-              `${row.cell_types[0].name}${row.cell_types[0].id}`
-            );
+            row.cell_types.forEach((cell) => {
+              bioMarkers[foundIndex].indegree.add(
+                `${cell.name}${cell.id}`
+              );
+            });
           }
         }
       });
