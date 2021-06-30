@@ -1,18 +1,18 @@
 {
     "/ebi_api": {
-      "target": "http://www.ebi.ac.uk/ols/api/terms",
-      "secure": true,
-      "changeOrigin": true,
-      "pathRewrite": {
-        "^/ebi_api": ""
-      }
+        "target": "http://www.ebi.ac.uk/ols/api/terms",
+        "secure": true,
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/ebi_api": ""
+        }
     },
     "/hgnc_api": {
         "target": "https://rest.genenames.org/fetch",
         "secure": true,
         "changeOrigin": true,
         "pathRewrite": {
-          "^/hgnc_api": ""
+            "^/hgnc_api": ""
         }
-      }
-  }
+    }
+}

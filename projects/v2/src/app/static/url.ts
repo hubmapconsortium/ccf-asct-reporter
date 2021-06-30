@@ -9,12 +9,13 @@ export function getAssetsURL(dataVersion, currentSheet) {
 }
 
 export function buildASCTApiUrl(id: string, group = 1) {
-  return `/ebi_api/findByIdAndIsDefiningOntology?obo_id=${id}`;
+  return `http://www.ebi.ac.uk/ols/api/terms/findByIdAndIsDefiningOntology?obo_id=${id}`;
 }
 
 export function buildHGNCApiUrl(id: string, group = 1) {
   const numid = id.split(':')[1];
-  return `/hgnc_api/hgnc_id/${numid}`;
+  return `https://rest.genenames.org/fetch/hgnc_id/${numid}`;
+  //return `/hgnc_api/hgnc_id/${numid}`;
 }
 
 export function buildHGNCLink(id: string) {
