@@ -34,7 +34,10 @@ CT and B nodes can be sized based on their *indegree*, *outdegree* and *degree*.
 
 The Reporter currently supports two types of bomarkers,
 
-- Protein (denoted by BP in the ASCT+B Tables)
-- Gene (denoted by BG in the ASCT+B Tables)
+- Protein (denoted by BProtein in the ASCT+B Tables)
+- Gene (denoted by BGene in the ASCT+B Tables)
+- Proteoform (denoted by BProteoform in the ASCT+B Tables)
+- Lipid (denoted by BLipid in the ASCT+B Tables)
+- Metabolites (denoted by BMetabolites in the ASCT+B Tables)
 
 By using the third select menu in the biomarker Functions, B nodes can be filtered based on their type. Selecting any of the options will cause the visualization to re-render.

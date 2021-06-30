@@ -5,6 +5,11 @@ export class FetchSheetData {
   constructor(public sheet: Sheet) {}
 }
 
+export class FetchSheetDataFromCSV {
+  static readonly type = '[FETCH] Sheet Data from csv file';
+  constructor(public sheet: Sheet, public url: string) {}
+}
+
 export class RefreshData {
   static readonly type = '[FETCH] Refresh';
   constructor() {}

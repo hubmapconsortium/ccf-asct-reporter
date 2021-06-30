@@ -10,7 +10,7 @@ import { Sheet, SheetConfig, CompareData } from '../../models/sheet.model';
 import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { DiscrepencyStructure, TNode } from '../../models/tree.model';
 import { VegaService } from '../tree/vega.service';
-import { DiscrepencyId, DiscrepencyLabel, UpdateVegaSpec } from '../../actions/tree.actions';
+import { DiscrepencyId, DiscrepencyLabel, DuplicateId, UpdateVegaSpec } from '../../actions/tree.actions';
 import { UpdateConfig, ToggleShowAllAS, FetchAllOrganData } from '../../actions/sheet.actions';
 import { BimodalService } from '../tree/bimodal.service';
 import { BMNode } from '../../models/bimodal.model';
@@ -36,6 +36,7 @@ export class ControlPaneComponent implements OnInit {
   nodes: BMNode[];
   treeData: TNode[];
   view: any;
+  groupName = 'Anatomical Structures';
 
   constructor(public store: Store, public bm: BimodalService, public vs: VegaService) {
 
@@ -65,6 +66,9 @@ export class ControlPaneComponent implements OnInit {
       case 'show-discrepency-id':
         this.makeBimodalWithDiscrepencyId(prop.config);
         break;
+      case 'show-duplicate-id':
+        this.makeDuplicateId(prop.config);
+        break;
     }
   }
 
@@ -85,7 +89,7 @@ export class ControlPaneComponent implements OnInit {
           discrepencySet.add({
             id: node.id,
             name: node.name,
-            groupName: 'Anatomical Structures',
+            groupName: this.groupName,
             ontologyId: node.ontologyId,
             x: node.x,
             y: node.y
@@ -106,6 +110,7 @@ export class ControlPaneComponent implements OnInit {
       }
       discrepencyLabels = [...discrepencySet];
       this.store.dispatch(new DiscrepencyId([]));
+      this.store.dispatch(new DuplicateId([]));
     }
     else {
       discrepencyLabels = [];
@@ -123,7 +128,7 @@ export class ControlPaneComponent implements OnInit {
           discrepencySet.add({
             id: node.id,
             name: node.name,
-            groupName: 'Anatomical Structures',
+            groupName: this.groupName,
             ontologyId: node.ontologyId,
             x: node.x,
             y: node.y
@@ -144,11 +149,58 @@ export class ControlPaneComponent implements OnInit {
       }
       discrepencyIds = [...discrepencySet];
       this.store.dispatch(new DiscrepencyLabel([]));
+      this.store.dispatch(new DuplicateId([]));
     }
     else {
       discrepencyIds = [];
     }
     this.store.dispatch(new DiscrepencyId(discrepencyIds));
+  }
+
+  makeDuplicateId(config: SheetConfig) {
+    this.store.dispatch(new UpdateConfig(config));
+    let duplicateId = [];
+    if (config.duplicateId){
+      const duplicateIdSet = new Set<DiscrepencyStructure>();
+      for (const node of this.treeData) {
+        if (node.children !== 0 && (node.ontologyId) && node.ontologyId !== 'no good match') {
+          duplicateIdSet.add({
+            id: node.id,
+            name: node.name,
+            groupName: this.groupName,
+            ontologyId: node.ontologyId,
+            x: node.x,
+            y: node.y
+          });
+        }
+      }
+      for (const node of this.nodes) {
+        if (node.ontologyId && node.ontologyId !== 'no good match') {
+          duplicateIdSet.add({
+            id: node.id,
+            name: node.name,
+            groupName: node.groupName,
+            ontologyId: node.ontologyId,
+            x: node.x,
+            y: node.y
+          });
+        }
+      }
+      duplicateId = [...duplicateIdSet];
+      const dataLookup = duplicateId.reduce((acc, e) => {
+        acc[e.ontologyId]++;
+        acc[e.ontologyId] = acc[e.ontologyId] || 0;
+        return acc;
+      }, {});
+      const duplicateIdsTree = duplicateId.filter(e => dataLookup[e.ontologyId]);
+      duplicateId = [...duplicateIdsTree];
+      this.store.dispatch(new DiscrepencyLabel([]));
+      this.store.dispatch(new DiscrepencyId([]));
+    }
+    else{
+      duplicateId = [];
+    }
+    this.store.dispatch(new DuplicateId([...duplicateId]));
   }
 
   updateBimodal(config: SheetConfig) {

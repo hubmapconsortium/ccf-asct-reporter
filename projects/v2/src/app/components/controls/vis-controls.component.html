@@ -184,7 +184,7 @@
       matTooltip="Show the discrepency Label"
       matTooltipPosition="below"
     >
-      <span class="control-title">Discrepancy Labels</span>
+      <span class="control-title">Label mismatch</span>
     </mat-slide-toggle>
   </div>
   
@@ -196,7 +196,19 @@
       matTooltip="Show the discrepency ID"
       matTooltipPosition="below"
     >
-      <span class="control-title">Discrepancy ID's</span>
+      <span class="control-title">ID Missing</span>
+    </mat-slide-toggle>
+  </div>
+  
+  <div class="py-1 pb-4">
+    <mat-slide-toggle
+      [checked]="config.duplicateId"
+      color="primary"
+      (change)="showDuplicateId()"
+      matTooltip="Show the duplicate ID"
+      matTooltipPosition="below"
+    >
+      <span class="control-title">ID Duplicates</span>
     </mat-slide-toggle>
   </div>
 </mat-expansion-panel>

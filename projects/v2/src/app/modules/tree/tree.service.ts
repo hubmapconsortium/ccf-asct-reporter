@@ -74,6 +74,14 @@ export class TreeService {
         view.data('discrepencyId', discrepency);
         view.runAsync();
       }
+
+      // if the vega view is valid, check for duplicate Ids data
+      // re-render the view
+      if (Object.keys(view).length) {
+        const discrepency = state.duplicateId;
+        view.data('duplicateId', discrepency);
+        view.runAsync();
+      }
     });
     this.uiState$.subscribe((state) => {
       this.controlPaneOpen = state.controlPaneOpen;

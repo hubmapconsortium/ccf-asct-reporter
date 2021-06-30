@@ -71,7 +71,12 @@ const headerMap: any = {
   CT: 'cell_types',
   BG: 'biomarkers_gene',
   BP: 'biomarkers_protein',
+  BGene: 'biomarkers_gene',
+  BProtein: 'biomarkers_protein',
   REF: 'references',
+  BLipid: 'biomarkers_lipids',
+  BMetabolites: 'biomarkers_meta',
+  BProteoform: 'biomarkers_prot',
   BL: 'biomarkers_lipids',
   BM: 'biomarkers_meta',
   BF: 'biomarkers_prot',
@@ -106,6 +111,30 @@ app.get('/v2/:sheetid/:gid', async (req: any, res: any) => {
     console.log(err);
     return res.status(500).send({
       msg: 'Please check the table format or the sheet access',
+      code: 500,
+    });
+  }
+});
+
+app.post('/v2/csv', async (req: any, res: any) => {
+  console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
+  const url = req.body.csvUrl;
+  
+  try {
+    const response = await axios.get(url);
+    
+    const data = papa.parse(response.data, {skipEmptyLines: 'greedy'}).data;
+    const asctbData = await makeASCTBData(data);
+
+    return res.send({
+      data: asctbData,
+      csv: response.data,
+      parsed: data,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({
+      msg: 'Please check the CSV format',
       code: 500,
     });
   }
@@ -190,7 +219,7 @@ function makeASCTBData(data: any) {
         headerRow = i + 1;
         break;
       }
-
+      
       for (let i = headerRow; i < dataLength; i++) {
         const newRow: { [key: string]: any } = new Row();
 
@@ -212,19 +241,19 @@ function makeASCTBData(data: any) {
               newRow[key].push(ref);
             } else {
               const s = new Structure(data[i][j]);
-              if (rowHeader[0] === 'BG') {
+              if (rowHeader[0] === 'BGene' || rowHeader[0] === 'BG') {
                 s.b_type = BM_TYPE.G;
               }
-              if (rowHeader[0] === 'BP') {
+              if (rowHeader[0] === 'BProtein' || rowHeader[0] === 'BP') {
                 s.b_type = BM_TYPE.P;
               }
-              if (rowHeader[0] === 'BL') {
+              if (rowHeader[0] === 'BLipid' || rowHeader[0] === 'BL') {
                 s.b_type = BM_TYPE.BL;
               }
-              if (rowHeader[0] === 'BM') {
+              if (rowHeader[0] === 'BMetabolites' || rowHeader[0] === 'BM') {
                 s.b_type = BM_TYPE.BM;
               }
-              if (rowHeader[0] === 'BF') {
+              if (rowHeader[0] === 'BProteoform' || rowHeader[0] === 'BF') {
                 s.b_type = BM_TYPE.BF;
               }
               newRow[key].push(s);

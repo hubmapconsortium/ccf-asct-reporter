@@ -16,6 +16,7 @@ Changelog for the HuBMAP CCF ASCT+B Reporter
 - New Demo Video
 - Alert users when they add a Google Sheets Share URL instead of the Browser URL
 - Fixed a regression in the ASCT+B API homepage
+- Duplicate ID's can be highlighed when ID duplicates toggle is on
 
 ## 2.0.0 - 2021-04-06
 

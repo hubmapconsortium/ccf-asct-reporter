@@ -19,9 +19,7 @@
               <mat-label>Google Sheet Link</mat-label>
               <input type="text" placeholder="Enter link..." matInput [formControl]="linkFormControl" />
               <mat-hint
-                >Please input your <strong>public</strong> Google Sheet
-                Link.</mat-hint
-              >
+                >Please Enter Browser url address for your <strong>public</strong> Google Sheet.</mat-hint>
               <mat-error
                 *ngIf="
                   linkFormControl.hasError('email') ||

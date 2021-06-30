@@ -4,6 +4,7 @@ import { URL, getAssetsURL, buildHGNCApiUrl, buildASCTApiUrl, buildHGNCLink } fr
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BottomSheetInfo } from '../models/bottom-sheet-info.model';
+import { Structure } from '../models/sheet.model';
 
 @Injectable({
   providedIn: 'root'
@@ -131,5 +132,25 @@ export class SheetService {
    */
   updatePlaygroundData(data: string[][]) {
     return this.http.post(`${URL}/v2/playground`, {data});
+  }
+
+  /**
+   * Service to fetch the data for a sheet from CSV file using the api
+   * @param url is the link to the csv file of the sheet
+   */
+   fetchDataFromCSV(url: string) {
+    return this.http.post(`${URL}/v2/csv`, { csvUrl: url });
+  }
+
+  /**
+   * Service to add body for each AS to the data
+   * @param data is the parsed ASCTB data from the csv file of the sheet
+   */
+   getDataWithBody(data: any) {
+    const organ: Structure = { name: 'Body', id: '' };
+    data.forEach((row) => {
+      row.anatomical_structures.unshift(organ);
+    });
+    return data;
   }
 }
