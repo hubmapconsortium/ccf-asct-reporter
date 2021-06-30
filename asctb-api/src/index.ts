@@ -123,7 +123,7 @@ app.post('/v2/csv', async (req: any, res: any) => {
   try {
     const response = await axios.get(url);
     
-    const data = papa.parse(response.data).data;
+    const data = papa.parse(response.data, {skipEmptyLines: 'greedy'}).data;
     const asctbData = await makeASCTBData(data);
 
     return res.send({
