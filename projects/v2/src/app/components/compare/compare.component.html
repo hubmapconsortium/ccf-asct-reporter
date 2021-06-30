@@ -111,7 +111,7 @@
                     [floatLabel]="'always'"
                     class="link-input-field"
                   > -->
-                    <mat-label>Google Sheets Link</mat-label>
+                    <mat-label>Google Sheet (or CSV) Link</mat-label>
                     <input
                       class="w-100"
                       matInput
@@ -119,7 +119,7 @@
                       formControlName="link"
                       required
                     />
-                    <mat-hint>Enter Browser url address for Google Sheet</mat-hint>
+                    <mat-hint>Enter Browser URL address for your public Google Sheet (or CSV)</mat-hint>
                     <mat-error
                       *ngIf="
                         sheet.get('link').hasError('required') ||

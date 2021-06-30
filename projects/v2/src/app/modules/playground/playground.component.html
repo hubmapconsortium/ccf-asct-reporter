@@ -16,10 +16,10 @@
         <form class="w-100">
           <p>
             <mat-form-field class="w-50" appearance="legacy">
-              <mat-label>Google Sheet Link</mat-label>
+              <mat-label>Google Sheet (or CSV) Link</mat-label>
               <input type="text" placeholder="Enter link..." matInput [formControl]="linkFormControl" />
               <mat-hint
-                >Please Enter Browser url address for your <strong>public</strong> Google Sheet.</mat-hint>
+                >Please Enter Browser url address for your <strong>public</strong> Google Sheet (or CSV).</mat-hint>
               <mat-error
                 *ngIf="
                   linkFormControl.hasError('email') ||

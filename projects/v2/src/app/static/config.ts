@@ -7,6 +7,10 @@ export const MASTER_SHEET_LINK = 'https://docs.google.com/spreadsheets/d/1tK916J
 
 export const SHEET_ID = '1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0';
 
+export const releaseUrl = 'https://hubmapconsortium.github.io/ccf-releases/';
+
+export const version = 'v1.0';
+
 export const SHEET_CONFIG = [
   {
     name: 'all',
@@ -175,7 +179,7 @@ export const SHEET_CONFIG = [
   },
   {
     name: 'lung',
-    display: 'Lung',
+    display: 'Lung DRAFT',
     sheetId: SHEET_ID,
     gid: '1824552484',
     config: {
@@ -187,7 +191,21 @@ export const SHEET_CONFIG = [
     title: 'Anatomical Structures',
     data: '',
   },
-
+  {
+    name: 'lungv1',
+    display: 'Lung v1.0',
+    sheetId: '0',
+    gid: '0',
+    csvUrl: `${releaseUrl}/${version}/asct-b/ASCT-B_VH_Lung.csv`,
+    config: {
+      bimodal_distance_x: 200,
+      bimodal_distance_y: 50,
+      width: 1000,
+      height: 50000,
+    },
+    title: 'Anatomical Structures',
+    data: '',
+  },
   {
     name: 'example',
     display: 'Example',
@@ -242,6 +260,10 @@ export const SHEET_OPTIONS = [
   {
     title: 'Lung DRAFT',
     sheet: 'lung',
+  },
+  {
+    title: 'Lung v1.0',
+    sheet: 'lungv1',
   },
   {
     title: 'Lymph Nodes',

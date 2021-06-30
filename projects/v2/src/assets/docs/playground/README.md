@@ -25,7 +25,7 @@ This feature allows you to play around with a sample visualization and upload yo
       <br>
       <br>
 
-   - **Upload**: This is where you can upload your own sheet. In the input field, paste your Google Sheet URL from your browser and hit the **Link** button to visualize your data.
+   - **Upload**: This is where you can upload your own sheet. In the input field, paste your Google Sheet (or CSV) URL from your browser and hit the **Link** button to visualize your data.
 
       <img src="assets/docs/playground/link.png" alt="Playground" class="md-img p-2 w-75">
       <br>
@@ -47,7 +47,7 @@ In order for the playground feature to work properly, make sure,
    <img width="75%" src="assets/urlScreen.png">
    <br>
    <br>
-- The data should be in the format specified [here](https://docs.google.com/spreadsheets/d/1bsA-HngthTD7NtzAfab8t3EVjFFT439-Pc-mp_mdZUU/edit#gid=0).
+- The data should be in the format specified [here](https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=559906129).
 
 <br>
 

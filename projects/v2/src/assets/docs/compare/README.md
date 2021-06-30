@@ -16,7 +16,7 @@ You can now compare your own data with that visualized by the ASCT+B Reporter. I
 2. A drawer will pop up from the side that will show a few instructions and the various input fields.
    - **Title** (optional): This is the title by which the uploaded sheet can be identified. By default it is given a title in the format `Sheet <number>`. This number corresponds to the index of the sheet in the compare feature. If you have added sheets, the default title of the sheets would be `Sheet 1` and `Sheet 2` respectively.
    - **Description** (optional): This field holds a small description of your data. It is empty by default. 
-   - **Google Sheets Link** (required): This field will hold the sheet link to your data. Your data has to be in the specified format that can be found [here](https://docs.google.com/spreadsheets/d/1bsA-HngthTD7NtzAfab8t3EVjFFT439-Pc-mp_mdZUU/edit#gid=0).
+   - **Google Sheet Link (or CSV)** (required): This field will hold the sheet link to your data. Your data has to be in the specified format that can be found [here](https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=559906129).
    - **Color selector** (optional): This is a swatch that will allow you to choose the color. A random color is assigned by default. 
    
    <br>
@@ -50,7 +50,7 @@ In order for the compare feature to work properly, make sure,
    <img src="assets/docs/compare/permissions.png" alt="Compare Results" class="md-img p-2 w-50">
    <br>
    <br>
-- The data should be in the format specified [here](https://docs.google.com/spreadsheets/d/1bsA-HngthTD7NtzAfab8t3EVjFFT439-Pc-mp_mdZUU/edit#gid=0). Its completely fine to not include headers that are not required for your data. For example, if you have just cell types in your data you can just have `CT/1` in your sheet, and that would work fine with the Reporter. Therefore, the headers matter.
+- The data should be in the format specified [here](https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=559906129). Its completely fine to not include headers that are not required for your data. For example, if you have just cell types in your data you can just have `CT/1` in your sheet, and that would work fine with the Reporter. Therefore, the headers matter.
 
 <br>
 
