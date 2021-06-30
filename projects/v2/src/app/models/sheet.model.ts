@@ -49,6 +49,7 @@ export interface Sheet {
   config: SheetConfig;
   title: string;
   data?: string;
+  csvUrl?: string;
 }
 
 export interface CompareData {
@@ -58,6 +59,7 @@ export interface CompareData {
   color: string;
   sheetId: string;
   gid: string;
+  csvUrl?: string;
 }
 
 export interface SheetConfig {

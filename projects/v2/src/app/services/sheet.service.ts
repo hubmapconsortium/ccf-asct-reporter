@@ -12,12 +12,18 @@ export class SheetService {
   constructor(private http: HttpClient) { }
 
   /**
-   * Service to fetch the data for a sheet form the miner
+   * Service to fetch the data for a sheet from CSV file or Google sheet using the api
    * @param sheetId id of the sheet
    * @param gid gid of the sheet
+   * @param csvFileUrl is the opitional parameter that contains the value to the csv file url of the sheet
    */
-  fetchSheetData(sheetId: string, gid: string) {
-    return this.http.get(`${URL}/v2/${sheetId}/${gid}`);
+  fetchSheetData(sheetId: string, gid: string, csvFileUrl: string  = '') {
+    if (csvFileUrl) {
+      return this.http.post(`${URL}/v2/csv`, { csvUrl: csvFileUrl });
+    }
+    else {
+      return this.http.get(`${URL}/v2/${sheetId}/${gid}`);
+    }
   }
 
   /**
@@ -57,13 +63,6 @@ export class SheetService {
     return this.http.post(`${URL}/v2/playground`, {data});
   }
 
-  /**
-   * Service to fetch the data for a sheet from CSV file using the api
-   * @param url is the link to the csv file of the sheet
-   */
-   fetchDataFromCSV(url: string) {
-    return this.http.post(`${URL}/v2/csv`, { csvUrl: url });
-  }
 
   /**
    * Service to add body for each AS to the data

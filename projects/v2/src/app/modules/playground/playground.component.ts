@@ -267,38 +267,37 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
    * Read the google sheet link and upload
    */
   upload() {
-    if (this.linkFormControl.value.endsWith('.csv')) {
-      const sheet = JSON.parse(JSON.stringify(this.currentSheet));
-      sheet.gid = '0';
-      sheet.sheetId = '0';
-      this.tabIndex = 0;
-      sheet.config.height = 1400;
-      this.store.dispatch(new FetchSheetDataFromCSV(sheet, this.linkFormControl.value));
-      this.ga.eventEmitter('playground_upload', GaCategory.PLAYGROUND, 'Upload Playground Sheet through CSV file',
-       GaAction.CLICK, sheet.sheetId);
-    }
-    else {
-      const data = this.checkLinkFormat(this.linkFormControl.value);
-      const sheet = JSON.parse(JSON.stringify(this.currentSheet));
-      sheet.gid = data.gid;
-      sheet.sheetId = data.sheetID;
-      this.tabIndex = 0;
-      sheet.config.height = 1400;
-      this.store.dispatch(new FetchSheetData(sheet));
-      this.ga.eventEmitter('playground_upload', GaCategory.PLAYGROUND, 'Upload Playground Sheet', GaAction.CLICK, sheet.sheetId);
-    }
+    const data = this.checkLinkFormat(this.linkFormControl.value);
+    const sheet = JSON.parse(JSON.stringify(this.currentSheet));
+    sheet.gid = data.gid;
+    sheet.sheetId = data.sheetID;
+    sheet.csvUrl = data.csvUrl;
+    this.tabIndex = 0;
+    sheet.config.height = 1400;
+    this.store.dispatch(new FetchSheetData(sheet));
+    this.ga.eventEmitter('playground_upload', GaCategory.PLAYGROUND, 'Upload Playground Sheet', GaAction.CLICK, sheet.sheetId);
   }
 
   /**
    * Link validation function
    */
   checkLinkFormat(url: string) {
-    const matches = /\/([\w-_]{15,})\/(.*?gid=(\d+))?/.exec(url);
+    const matches = /\/([\w-_]{15,})\/(.*?gid=(\d+))?|\w*csv$/.exec(url);
     if (matches) {
-      return {
-        sheetID: matches[1],
-        gid: matches[3],
-      };
+      if (matches[0] === 'csv') {
+        return {
+          sheetID: '0',
+          gid: '0',
+          csvUrl: url
+        };
+      }
+      else {
+        return {
+          sheetID: matches[1],
+          gid: matches[3],
+          csvUrl: ''
+        };
+      }
     }
   }
 }
