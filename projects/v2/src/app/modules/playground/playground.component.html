@@ -19,14 +19,14 @@
               <mat-label>Google Sheet (or CSV) Link</mat-label>
               <input type="text" placeholder="Enter link..." matInput [formControl]="linkFormControl" />
               <mat-hint
-                >Please Enter Browser url address for your <strong>public</strong> Google Sheet (or CSV).</mat-hint>
+                >Enter Browser URL address for your <strong>public</strong> Google Sheet (or CSV).</mat-hint>
               <mat-error
                 *ngIf="
                   linkFormControl.hasError('email') ||
                   linkFormControl.hasError('required')
                 "
               >
-                Please enter a valid Google Sheet Link
+              Enter Browser URL address for your public Google Sheet (or CSV).
               </mat-error>
             </mat-form-field>
           </p>

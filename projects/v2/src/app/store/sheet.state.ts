@@ -390,7 +390,7 @@ export class SheetState {
       if (s.name === 'all' || s.name === 'example') {
         continue;
       } else {
-        requests$.push(this.sheetService.fetchSheetData(s.sheetId, s.gid));
+        requests$.push(this.sheetService.fetchSheetData(s.sheetId, s.gid, s.csvUrl));
         organsNames.push(s.name);
       }
     }
