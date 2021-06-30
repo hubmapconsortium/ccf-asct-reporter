@@ -52,7 +52,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
   linkFormControl = new FormControl('', [
     Validators.compose([
       Validators.required,
-      Validators.pattern(/\/([\w-_]{15,})\/(.*?gid=(\d+))?/),
+      Validators.pattern(/\/([\w-_]{15,})\/(.*?gid=(\d+))?|\w*csv$/),
     ]),
   ]);
 
