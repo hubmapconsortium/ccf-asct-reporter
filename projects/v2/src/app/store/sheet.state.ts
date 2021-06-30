@@ -31,7 +31,6 @@ import {
   UpdatePlaygroundData,
   UpdateBottomSheetInfo,
   UpdateBottomSheetDOI,
-  FetchSheetDataFromCSV,
 } from '../actions/sheet.actions';
 import {
   OpenLoading,

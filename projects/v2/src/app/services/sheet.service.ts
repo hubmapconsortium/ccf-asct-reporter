@@ -15,9 +15,9 @@ export class SheetService {
    * Service to fetch the data for a sheet from CSV file or Google sheet using the api
    * @param sheetId id of the sheet
    * @param gid gid of the sheet
-   * @param csvFileUrl is the opitional parameter that contains the value to the csv file url of the sheet
+   * @param csvFileUrl is the optional parameter that contains the value to the csv file url of the sheet
    */
-  fetchSheetData(sheetId: string, gid: string, csvFileUrl: string  = '') {
+  fetchSheetData(sheetId: string, gid: string, csvFileUrl?: string) {
     if (csvFileUrl) {
       return this.http.post(`${URL}/v2/csv`, { csvUrl: csvFileUrl });
     }
