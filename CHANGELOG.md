@@ -6,6 +6,9 @@ Changelog for the HuBMAP CCF ASCT+B Reporter
 
 ### Added in 2.2.0
 
+- Multiple levels of cell types (`CT`) are now supported in the Table Format and User Interface. **Note:** The Cell Type heirarchy is currently flattened in the visualization; future work includes visualizing the heirarchical structure.
+- Five biomarker types are now supported in the Table format and User Interface: Genes (`BGene`), Proteins (`BProtein`), Lipids (`BLipid`), Metabolites (`BMetabolites`) and Proteoforms (`BProteoform`)
+- CSV URLs can now be used in the organ dropdown, compare, and playground features
 - Clicking on an a term label now fetches a description and IRI link for terms across UBERON, FMA, CL, and HGNC ontologies.
 
 ## 2.1.0 - 2021-06-23
