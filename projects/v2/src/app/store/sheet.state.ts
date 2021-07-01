@@ -850,11 +850,6 @@ export class SheetState {
           ...state,
           bottomSheetInfo: res,
         });
-        if (res.hasError) {
-          dispatch(
-            new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
-          );
-        }
       }),
       catchError((error) => {
         setState({
@@ -864,7 +859,7 @@ export class SheetState {
             ontologyId: data.ontologyId,
             iri: '',
             label: '',
-            desc: 'null',
+            desc: '',
             hasError: true,
             msg: error.message,
             status: error.status,
