@@ -11,7 +11,7 @@ import {
 import { Error } from '../../models/response.model';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory } from '../../models/ga.model';
-import { BottomSheetInfo } from '../../models/bottom-sheet-info.model';
+import { SheetInfo } from '../../models/sheet.model';
 
 @Component({
   selector: 'app-info',
@@ -22,7 +22,7 @@ export class InfoComponent implements OnInit {
   loading = true;
   noId = false;
   error: Error = { hasError: false };
-  info: BottomSheetInfo;
+  info: SheetInfo;
 
   // @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
@@ -35,7 +35,7 @@ export class InfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.data.subscribe((info: BottomSheetInfo) => {
+    this.data.subscribe((info: SheetInfo) => {
       this.info = info;
       this.loading = false;
 

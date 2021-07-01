@@ -45,7 +45,7 @@
 
       <div class="pt-3"></div>
 
-      <label><b>IRI / Link</b></label>
+      <label><b>{{ info.ontologyCode == 'HGNC' ? 'Link' : 'IRI'}}</b></label>
       <div>
         <a [href]="info.iri" target="_blank" class="text-info">{{info.iri ? info.iri : 'No IRI found.'}}</a>
       </div>

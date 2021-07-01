@@ -136,6 +136,7 @@ export class SheetStateModel {
     bottomSheetInfo: {
       name: '',
       ontologyId: '',
+      ontologyCode: '',
       iri: '',
       label: '',
       desc: 'null',
@@ -857,6 +858,7 @@ export class SheetState {
           bottomSheetInfo: {
             name: data.name,
             ontologyId: data.ontologyId,
+            ontologyCode: '',
             iri: '',
             label: '',
             desc: '',

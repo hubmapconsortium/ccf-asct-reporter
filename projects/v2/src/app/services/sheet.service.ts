@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { URL, getAssetsURL } from './../static/url';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { BottomSheetInfo } from '../models/bottom-sheet-info.model';
-import { Structure } from '../models/sheet.model';
+import { SheetInfo, Structure } from '../models/sheet.model';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +44,7 @@ export class SheetService {
    * @param id ontologyid
    * @param name: structure name
    */
-  fetchBottomSheetData(id: string, name: string): Observable<BottomSheetInfo> {
+  fetchBottomSheetData(id: string, name: string): Observable<SheetInfo> {
     // Normalize FMA ids. Takes care of the formats: fma12345, FMA:12456, FMAID:12345
     if (id.toLowerCase().startsWith('fma')) {
       id = id.substring(3);
@@ -62,13 +61,14 @@ export class SheetService {
       return {
         name: name,
         ontologyId: id,
+        ontologyCode: ontologyCode,
         desc: res.description,
         iri: res.link,
         label: res.label,
         hasError: false,
         msg: '',
         status: 0
-      } as BottomSheetInfo;
+      } as SheetInfo;
     }));
 
   };
