@@ -2,6 +2,12 @@
 
 Changelog for the HuBMAP CCF ASCT+B Reporter
 
+## 2.2.0 - Pre-release
+
+### Added in 2.2.0
+
+- Clicking on an a term label now fetches a description and IRI link for terms across UBERON, FMA, CL, and HGNC ontologies.
+
 ## 2.1.0 - 2021-06-23
 
 ### Added in 2.1.0

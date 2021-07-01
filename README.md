@@ -3,7 +3,7 @@
 The [CCF ASCT Reporter](https://hubmapconsortium.github.io/ccf-asct-reporter/) is a basic visualization tool for displaying the [flattened ASCT tables](https://docs.google.com/spreadsheets/u/1/d/1F7D0y7pNPVIR3W4LjjtIMGg7rKTOxwyjVKzS-iiffz4/edit#gid=2034682742) built using Angular 10.
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/hubmapconsortium/ccf-asct-reporter)
-[![license](https://img.shields.io/github/license/hrishikeshpaul/portfolio-template?style=flat&logo=appveyor)](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/LICENSE) 
+[![license](https://img.shields.io/github/license/hrishikeshpaul/portfolio-template?style=flat&logo=appveyor)](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/LICENSE)
 
 ![HuBMAP CCF Reporter](projects/v2/src/assets/github_logo.png)
 
@@ -29,10 +29,10 @@ $ cd ccf-asct-reporter
 $ npm install
 $ ng serve
 
-# Miner
+# API
 $ cd asctb-api
 $ npm install
-$ npm start
+$ npm start # default port is 5000
 ```
 
 ## Deployment
@@ -66,7 +66,7 @@ Below are a list of ASCT+B tables supported by the Reporter:
 - Report Generator
 - Indented List
 - Search
-- Export 
+- Export
 - Visualization Functions
 - Visualization Controls
 
@@ -76,7 +76,7 @@ Click [here](https://ccf-asct-reporter.netlify.app/docs) to view the documentati
 
 ### ASCT+B API
 
-The reporter is also accompanied by a backend server ASCT+B API. In the event of Google Sheets blocking requests by the Reporter or any error, the Reporter fetches the data from the ASCT+B API which runs a simple Node script to fetch the data from Google Sheets. By supplying the SheetId and GID to the ASCT+B API, the data from the flattened tables can be retrieved. If for some reason the ASCT+B API also fails to retrieve the data, the Reporter falls to its system cache, which contains a snapshot of the flattened tables. 
+The reporter is also accompanied by a backend server ASCT+B API. In the event of Google Sheets blocking requests by the Reporter or any error, the Reporter fetches the data from the ASCT+B API which runs a simple Node script to fetch the data from Google Sheets. By supplying the SheetId and GID to the ASCT+B API, the data from the flattened tables can be retrieved. If for some reason the ASCT+B API also fails to retrieve the data, the Reporter falls to its system cache, which contains a snapshot of the flattened tables.
 
 The Miner can also be used as a stand-alone tool to retrieve the data from the flattened Google sheets. Below is the API that you'll have to use,
 
@@ -86,7 +86,7 @@ https://asctb-api.herokuapp.com/v2/<sheetID>/<gid>
 
 This will either return the data, or will return a `500` HTTP code.
 
-#### Deploying 
+#### Deploying
 
 Since the ASCT+B API is a dynamic script, Heroku has been used to deploy the server. Heroky is free to use for this usage. Deployment is accomplished via GitHub Actions based on the branch. The `main` branch deploys to production and `develop` deploys to staging.
 

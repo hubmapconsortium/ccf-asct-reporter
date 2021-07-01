@@ -8,10 +8,10 @@ import {
   MAT_BOTTOM_SHEET_DATA,
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
-import { HttpClient } from '@angular/common/http';
 import { Error } from '../../models/response.model';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory } from '../../models/ga.model';
+import { SheetInfo } from '../../models/sheet.model';
 
 @Component({
   selector: 'app-info',
@@ -22,20 +22,23 @@ export class InfoComponent implements OnInit {
   loading = true;
   noId = false;
   error: Error = { hasError: false };
-  info: any;
+  info: SheetInfo;
 
   // @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
-    private http: HttpClient,
     private changeDetectorRef: ChangeDetectorRef,
     public sheetRef: MatBottomSheetRef,
     public ga: GoogleAnalyticsService
-  ) {
-    this.data.subscribe((info) => {
+  ) {}
+
+  ngOnInit(): void {
+    this.loading = true;
+    this.data.subscribe((info: SheetInfo) => {
       this.info = info;
       this.loading = false;
+
       if (info.hasError) {
         this.error = {
           hasError: info.hasError,
@@ -46,11 +49,9 @@ export class InfoComponent implements OnInit {
         this.error = { hasError: false };
         this.info = info;
       }
-    });
-  }
 
-  ngOnInit(): void {
-    this.loading = true;
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   close() {

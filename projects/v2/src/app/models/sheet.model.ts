@@ -77,6 +77,7 @@ export interface SheetConfig {
 export interface SheetInfo {
   name: string;
   ontologyId: string;
+  ontologyCode: string;
   iri: string;
   label: string;
   desc: string;

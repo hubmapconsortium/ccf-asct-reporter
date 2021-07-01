@@ -47,6 +47,7 @@ export class SearchComponent {
   selectedOptions: SearchStructure[];
   selectionMemory: SearchStructure[] = [];
   sheetConfig: SheetConfig;
+  searchOpen = false;
   selectionCompareFunction = (o1: any, o2: any) => o1.id === o2.id;
 
   constructor(
@@ -157,12 +158,16 @@ export class SearchComponent {
 
     // Show search dropdown
     this.store.dispatch(new OpenSearch());
+    this.searchOpen = true;
     this.searchFieldContent.nativeElement.focus();
     this.selectedOptions = this.selectionMemory.slice();
   }
 
   closeSearchList() {
-    this.store.dispatch(new CloseSearch());
+    if (this.searchOpen) {
+      this.store.dispatch(new CloseSearch());
+      this.searchOpen = false;
+    }
   }
 
   clearSearchField() {

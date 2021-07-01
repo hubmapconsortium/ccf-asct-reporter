@@ -8,6 +8,8 @@ var papa = require('papaparse');
 var fs = require('fs');
 
 import { PLAYGROUND_CSV } from '../const';
+import { LookupResponse, OntologyCode } from './models';
+import { buildASCTApiUrl, buildHGNCApiUrl, buildHGNCLink } from './url-util';
 
 export const app = express();
 app.use(cors());
@@ -119,10 +121,10 @@ app.get('/v2/:sheetid/:gid', async (req: any, res: any) => {
 app.post('/v2/csv', async (req: any, res: any) => {
   console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
   const url = req.body.csvUrl;
-  
+
   try {
     const response = await axios.get(url);
-    
+
     const data = papa.parse(response.data, {skipEmptyLines: 'greedy'}).data;
     const asctbData = await makeASCTBData(data);
 
@@ -205,6 +207,63 @@ app.get('/:sheetid/:gid', async (req: any, res: any) => {
   }
 });
 
+/**
+ * Given an ontology code (UBERON, FMA, CL, or HGNC), and a numerical ID of a term,
+ * call the corresponding external ontology API to fetch data about that term, including
+ * label and description.
+ */
+app.get('/lookup/:ontology/:id',  async (req: any, res: any) => {
+  const ontologyCode = req.params.ontology.toUpperCase();
+  const termId = req.params.id;
+
+  switch (ontologyCode) {
+    case OntologyCode.HGNC: {
+      const response = await axios.get(buildHGNCApiUrl(termId), {
+          headers: {'Content-Type': 'application/json'}
+        }
+      );
+      if (response.status === 200 && response.data) {
+        const firstResult = response.data.response.docs[0];
+
+        res.send({
+          label: firstResult.symbol,
+          link: buildHGNCLink(firstResult.hgnc_id),
+          description: firstResult.name ? firstResult.name : ''
+        } as LookupResponse);
+
+      } else {
+        res.status(response.status).end();
+      }
+      break;
+    }
+    case OntologyCode.UBERON:
+    case OntologyCode.CL:
+    case OntologyCode.FMA: {
+      const response = await axios.get(buildASCTApiUrl(`${ontologyCode}:${termId}`));
+      if (response.status === 200 && response.data) {
+        const firstResult = response.data._embedded.terms[0];
+
+        res.send({
+          label: firstResult.label,
+          link: firstResult.iri,
+          description: firstResult.annotation.definition ? firstResult.annotation.definition[0] : ''
+        } as LookupResponse);
+
+      } else {
+        res.status(response.status).end();
+      }
+      break;
+    }
+    default: {
+      // 400
+      res.statusMessage = "Invalid ID";
+      res.status(400).end();
+      break;
+    }
+  }
+
+});
+
 function makeASCTBData(data: any) {
   return new Promise((res, rej) => {
     const rows = [];
@@ -219,7 +278,7 @@ function makeASCTBData(data: any) {
         headerRow = i + 1;
         break;
       }
-      
+
       for (let i = headerRow; i < dataLength; i++) {
         const newRow: { [key: string]: any } = new Row();
 
@@ -301,3 +360,4 @@ function makeASCTBData(data: any) {
 }
 
 app.listen(process.env.PORT || 5000);
+
