@@ -218,11 +218,11 @@ app.get('/lookup/:ontology/:id',  async (req: any, res: any) => {
 
   switch (ontologyCode) {
     case OntologyCode.HGNC: {
-      let response = await axios.get(buildHGNCApiUrl(termId), {
+      const response = await axios.get(buildHGNCApiUrl(termId), {
           headers: {'Content-Type': 'application/json'}
         }
       );
-      if (response.status == 200 && response.data) {
+      if (response.status === 200 && response.data) {
         const firstResult = response.data.response.docs[0];
 
         res.send({
@@ -239,8 +239,8 @@ app.get('/lookup/:ontology/:id',  async (req: any, res: any) => {
     case OntologyCode.UBERON:
     case OntologyCode.CL:
     case OntologyCode.FMA: {
-      let response = await axios.get(buildASCTApiUrl(ontologyCode + ":"  + termId));
-      if (response.status == 200 && response.data) {
+      const response = await axios.get(buildASCTApiUrl(`${ontologyCode}:${termId}`));
+      if (response.status === 200 && response.data) {
         const firstResult = response.data._embedded.terms[0];
 
         res.send({
@@ -360,3 +360,4 @@ function makeASCTBData(data: any) {
 }
 
 app.listen(process.env.PORT || 5000);
+

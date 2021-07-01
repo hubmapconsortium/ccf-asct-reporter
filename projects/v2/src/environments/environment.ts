@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   tag: 'Development',
   googleAnalyticsId: 'UA-136932895-6',
-  asctbApiUrl: 'http://localhost:5000'
+  asctbApiUrl: 'https://asctb-api--staging.herokuapp.com'
 };
 
 /*
