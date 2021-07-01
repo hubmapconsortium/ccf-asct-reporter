@@ -59,7 +59,8 @@ export class CompareComponent implements OnInit {
         {
           ...sheet,
           sheetId: this.checkLinkFormat(sheet.link).sheetID,
-          gid: this.checkLinkFormat(sheet.link).gid
+          gid: this.checkLinkFormat(sheet.link).gid,
+          csvUrl: this.checkLinkFormat(sheet.link).csvUrl
         }
       );
 
@@ -76,13 +77,22 @@ export class CompareComponent implements OnInit {
   }
 
   checkLinkFormat(url: string) {
-    const matches = /\/([\w-_]{15,})\/(.*?gid=(\d+))?/.exec(url);
-
+    const matches = /\/([\w-_]{15,})\/(.*?gid=(\d+))?|\w*csv$/.exec(url);
     if (matches) {
-      return {
-        sheetID: matches[1],
-        gid: matches[3],
-      };
+      if (matches[0] === 'csv') {
+        return {
+          sheetID: '0',
+          gid: '0',
+          csvUrl: url
+        };
+      }
+      else {
+        return {
+          sheetID: matches[1],
+          gid: matches[3],
+          csvUrl: ''
+        };
+      }
     }
   }
 
@@ -94,7 +104,7 @@ export class CompareComponent implements OnInit {
     return this.fb.group({
       title: [title],
       description: [description],
-      link: [link, Validators.compose([Validators.required, Validators.pattern(/\/([\w-_]{15,})\/(.*?gid=(\d+))?/)])],
+      link: [link, Validators.compose([Validators.required, Validators.pattern(/\/([\w-_]{15,})\/(.*?gid=(\d+))?|\w*csv$/)])],
       color: [color]
     });
   }

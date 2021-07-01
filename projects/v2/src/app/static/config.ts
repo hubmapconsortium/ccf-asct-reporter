@@ -1,3 +1,4 @@
+import { SheetDetails } from '../models/sheet.model';
 
 export const HEADER_COUNT = 11;
 
@@ -7,7 +8,7 @@ export const MASTER_SHEET_LINK = 'https://docs.google.com/spreadsheets/d/1tK916J
 
 export const SHEET_ID = '1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0';
 
-export const SHEET_CONFIG = [
+export const SHEET_CONFIG: SheetDetails[] = [
   {
     name: 'all',
     display: 'All Organs',
@@ -175,7 +176,7 @@ export const SHEET_CONFIG = [
   },
   {
     name: 'lung',
-    display: 'Lung',
+    display: 'Lung DRAFT',
     sheetId: SHEET_ID,
     gid: '1824552484',
     config: {

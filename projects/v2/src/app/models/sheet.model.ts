@@ -49,6 +49,7 @@ export interface Sheet {
   config: SheetConfig;
   title: string;
   data?: string;
+  csvUrl?: string;
 }
 
 export interface CompareData {
@@ -58,6 +59,7 @@ export interface CompareData {
   color: string;
   sheetId: string;
   gid: string;
+  csvUrl?: string;
 }
 
 export interface SheetConfig {
@@ -87,4 +89,21 @@ export interface DOI {
   name: string;
   id: string;
   notes: string;
+}
+
+export interface SheetDetails {
+  name: string;
+  display: string;
+  body?: string;
+  sheetId: string;
+  gid: string;
+  config: {
+      bimodal_distance_x: number;
+      bimodal_distance_y: number;
+      width: number;
+      height: number;
+  };
+  title: string;
+  data?: any;
+  csvUrl?: string;
 }
