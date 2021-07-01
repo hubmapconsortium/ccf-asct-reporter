@@ -32,7 +32,7 @@ $ ng serve
 # API
 $ cd asctb-api
 $ npm install
-$ npm run start # default port is 5000
+$ npm start # default port is 5000
 ```
 
 ## Deployment
