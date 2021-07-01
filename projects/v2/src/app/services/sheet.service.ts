@@ -54,14 +54,14 @@ export class SheetService {
       id = 'FMA:' + id;
     }
 
-    let ontologyCode = id.split(":")[0];
-    let termId = id.split(":")[1];
+    const ontologyCode = id.split(':')[0];
+    const termId = id.split(':')[1];
 
     return this.http.get(`${URL}/lookup/${ontologyCode}/${termId}`).pipe(map((res: any) => {
       return {
-        name: name,
+        name,
         ontologyId: id,
-        ontologyCode: ontologyCode,
+        ontologyCode,
         desc: res.description,
         iri: res.link,
         label: res.label,
@@ -71,7 +71,7 @@ export class SheetService {
       } as SheetInfo;
     }));
 
-  };
+  }
 
   /**
    * Fetching initial playground data
