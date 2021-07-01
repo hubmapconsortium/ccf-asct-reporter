@@ -33,21 +33,21 @@
     <div *ngIf="!error.hasError" class="py-3 info">
       <label><b>Description</b></label>
       <div>
-        {{info.desc}}
+        {{info.desc ? info.desc : 'No description found.'}}
       </div>
 
       <div class="pt-3"></div>
 
       <label><b>Ontology ID</b></label>
       <div>
-        {{info.ontologyId}}
+        {{info.ontologyId ? info.ontologyId : 'No ID found.'}}
       </div>
 
       <div class="pt-3"></div>
 
       <label><b>IRI / Link</b></label>
       <div>
-        <a [href]="info.iri" target="_blank" class="text-info">{{info.iri}}</a>
+        <a [href]="info.iri" target="_blank" class="text-info">{{info.iri ? info.iri : 'No IRI found.'}}</a>
       </div>
     </div>
   </ng-template>
