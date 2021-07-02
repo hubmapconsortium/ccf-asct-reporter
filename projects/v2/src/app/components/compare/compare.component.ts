@@ -77,22 +77,21 @@ export class CompareComponent implements OnInit {
   }
 
   checkLinkFormat(url: string) {
-    const matches = /\/([\w-_]{15,})\/(.*?gid=(\d+))?|\w*csv$/.exec(url);
-    if (matches) {
-      if (matches[0] === 'csv') {
+    if (url.startsWith('https://docs.google.com/spreadsheets/d/')) {
+      const splitUrl = url.split('/');
+      if (splitUrl.length === 7) {
         return {
-          sheetID: '0',
-          gid: '0',
-          csvUrl: url
-        };
-      }
-      else {
-        return {
-          sheetID: matches[1],
-          gid: matches[3],
+          sheetID: splitUrl[5],
+          gid: splitUrl[6].split('=')[1],
           csvUrl: ''
         };
       }
+    } else {
+      return {
+        sheetID: '0',
+        gid: '0',
+        csvUrl: url
+      };
     }
   }
 
