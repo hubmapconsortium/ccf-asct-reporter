@@ -60,10 +60,10 @@ export class SheetService {
       id = 'FMA:' + id;
     }
 
-    const ontologyCode = id.split(':')[0];
-    const termId = id.split(':')[1];
+    const ontologyCode = id.split(':')[0] ?? '';
+    const termId = id.split(':')[1] ?? '';
 
-    if (ontologyCode == null || termId == null) {
+    if (ontologyCode === '' || termId === '') {
       return throwError('Invalid ID format');
     }
 
