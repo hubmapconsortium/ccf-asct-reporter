@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { URL, getAssetsURL } from './../static/url';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SheetInfo, Structure } from '../models/sheet.model';
 
@@ -60,8 +60,12 @@ export class SheetService {
       id = 'FMA:' + id;
     }
 
-    const ontologyCode = id.split(':')[0];
-    const termId = id.split(':')[1];
+    const ontologyCode = id.split(':')[0] ?? '';
+    const termId = id.split(':')[1] ?? '';
+
+    if (ontologyCode === '' || termId === '') {
+      return throwError('Invalid ID format');
+    }
 
     return this.http.get(`${URL}/lookup/${ontologyCode}/${termId}`).pipe(map((res: any) => {
       return {
