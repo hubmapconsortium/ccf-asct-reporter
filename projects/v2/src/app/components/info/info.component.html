@@ -9,14 +9,14 @@
       </button>
     </div>
   </div>
-  
-  <div *ngIf="loading;else resultBlock">
+
+  <div *ngIf="loading || info.name === '';else resultBlock">
     <div class="text-center">
       <img src="../../../assets/loading.svg" alt="" class="loading-wait">
       <p class="text-muted">Please wait while the data loads...</p>
     </div>
   </div>
-  
+
   <ng-template #resultBlock>
     <div *ngIf="error.hasError; else infoBlock" class="pt-3">
       Could not fetch data for <b>{{info.name}}</b>. This could be because,
@@ -27,27 +27,27 @@
       </ul>
     </div>
   </ng-template>
-  
-  
+
+
   <ng-template #infoBlock>
     <div *ngIf="!error.hasError" class="py-3 info">
       <label><b>Description</b></label>
       <div>
-        {{info.desc}}
+        {{info.desc ? info.desc : 'No description found.'}}
       </div>
 
       <div class="pt-3"></div>
-      
+
       <label><b>Ontology ID</b></label>
       <div>
-        {{info.ontologyId}}
+        {{info.ontologyId ? info.ontologyId : 'No ID found.'}}
       </div>
 
       <div class="pt-3"></div>
 
-      <label><b>IRI</b></label>
+      <label><b>{{ info.ontologyCode == 'HGNC' ? 'Link' : 'IRI'}}</b></label>
       <div>
-        <a [href]="info.iri" target="_blank" class="text-info">{{info.iri}}</a>
+        <a [href]="info.iri" target="_blank" class="text-info">{{info.iri ? info.iri : 'No IRI found.'}}</a>
       </div>
     </div>
   </ng-template>

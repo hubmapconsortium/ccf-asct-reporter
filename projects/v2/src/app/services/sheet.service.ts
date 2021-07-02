@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { URL, getAssetsURL, getInformation, PLAYGROUND } from './../static/url';
-import { Structure } from '../models/sheet.model';
-
+import { URL, getAssetsURL } from './../static/url';
+import { Observable, throwError } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { SheetInfo, Structure } from '../models/sheet.model';
 
 @Injectable({
   providedIn: 'root'
@@ -37,13 +38,49 @@ export class SheetService {
     return this.http.get(getAssetsURL(dataVersion, currentSheet), { responseType: 'text' });
   }
 
+  testCallback(data: JSON) {
+    console.log(data);
+    return data;
+  }
+
   /**
    * Service to get the data about an entity for an exteral API
-   * by passing the uberon id
+   * by passing the UBERON, CL, or HNGC id. It determins which API to call and maps the
+   * response to a normalized BottomSheetInfo format.
    * @param id ontologyid
+   * @param name: structure name
    */
-  fetchBottomSheetData(id: string) {
-    return this.http.get(getInformation(id));
+  fetchBottomSheetData(id: string, name: string): Observable<SheetInfo> {
+    // Normalize FMA ids. Takes care of the formats: fma12345, FMA:12456, FMAID:12345
+    if (id.toLowerCase().startsWith('fma')) {
+      id = id.substring(3);
+      if (id.includes(':')) {
+        id = id.split(':')[1];
+      }
+      id = 'FMA:' + id;
+    }
+
+    const ontologyCode = id.split(':')[0] ?? '';
+    const termId = id.split(':')[1] ?? '';
+
+    if (ontologyCode === '' || termId === '') {
+      return throwError('Invalid ID format');
+    }
+
+    return this.http.get(`${URL}/lookup/${ontologyCode}/${termId}`).pipe(map((res: any) => {
+      return {
+        name,
+        ontologyId: id,
+        ontologyCode,
+        desc: res.description,
+        iri: res.link,
+        label: res.label,
+        hasError: false,
+        msg: '',
+        status: 0
+      } as SheetInfo;
+    }));
+
   }
 
   /**

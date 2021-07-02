@@ -282,6 +282,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
    * Link validation function
    */
   checkLinkFormat(url: string) {
+<<<<<<< HEAD
     if (url.startsWith('https://docs.google.com/spreadsheets/d/')) {
       const splitUrl = url.split('/');
       if (splitUrl.length === 7) {
@@ -297,6 +298,24 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
         gid: '0',
         csvUrl: url
       };
+=======
+    const matches = /\/([\w-_]{15,})\/(.*?gid=(\d+))?|\w*csv$/.exec(url);
+    if (matches) {
+      if (matches[0] === 'csv') {
+        return {
+          sheetID: '0',
+          gid: '0',
+          csvUrl: url
+        };
+      }
+      else {
+        return {
+          sheetID: matches[1],
+          gid: matches[3],
+          csvUrl: ''
+        };
+      }
+>>>>>>> 62f1281ad76d9ee20fea22384afd907395b506ca
     }
   }
 }

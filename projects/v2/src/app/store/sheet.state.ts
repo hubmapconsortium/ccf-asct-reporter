@@ -135,6 +135,7 @@ export class SheetStateModel {
     bottomSheetInfo: {
       name: '',
       ontologyId: '',
+      ontologyCode: '',
       iri: '',
       label: '',
       desc: 'null',
@@ -766,22 +767,25 @@ export class SheetState {
     { getState, setState, dispatch }: StateContext<SheetStateModel>,
     { data }: UpdateBottomSheetInfo
   ) {
+
+    // Get initial state and blank it out while fetching new data.
     const state = getState();
-    return this.sheetService.fetchBottomSheetData(data.ontologyId).pipe(
+    setState({
+      ...state,
+      bottomSheetInfo: {
+        ...state.bottomSheetInfo,
+        name: '',
+        desc: '',
+        iri: ''
+      }
+    });
+
+    // Call the appropriate API and fetch ontology data
+    return this.sheetService.fetchBottomSheetData(data.ontologyId, data.name).pipe(
       tap((res: any) => {
-        const r = res._embedded.terms[0];
         setState({
           ...state,
-          bottomSheetInfo: {
-            name: data.name,
-            ontologyId: data.ontologyId,
-            iri: r.iri,
-            label: r.label,
-            desc: r.description ? r.description[0] : 'null',
-            hasError: false,
-            msg: '',
-            status: 0,
-          },
+          bottomSheetInfo: res,
         });
       }),
       catchError((error) => {
@@ -790,9 +794,10 @@ export class SheetState {
           bottomSheetInfo: {
             name: data.name,
             ontologyId: data.ontologyId,
+            ontologyCode: '',
             iri: '',
             label: '',
-            desc: 'null',
+            desc: '',
             hasError: true,
             msg: error.message,
             status: error.status,
@@ -803,6 +808,7 @@ export class SheetState {
           status: error.status,
           hasError: true,
         };
+        console.log(err);
         dispatch(
           new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
         );
