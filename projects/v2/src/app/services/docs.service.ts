@@ -18,11 +18,20 @@ export class DocsService {
   docsData = new BehaviorSubject<string>('');
   constructor(private readonly http: HttpClient) { }
 
-  getData(id: number) {
-    this.http.get(REGISTRY[id].path, {responseType: 'text'}).subscribe(
+  getData(title: string) {
+    const index = REGISTRY.map(e => e.urlTitle).indexOf(title);
+    this.http.get(REGISTRY[index].path, {responseType: 'text'}).subscribe(
       data => {
         this.docsData.next(data);
       }
     );
+  }
+
+  getID(title: string) {
+    return REGISTRY.map(e => e.urlTitle).indexOf(title);
+  }
+
+  getTitle(id: number) {
+    return REGISTRY[id].urlTitle;
   }
 }
