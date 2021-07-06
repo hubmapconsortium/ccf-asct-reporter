@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Sheet, Row, CompareData } from '../../models/sheet.model';
-import { AST } from '@angular/compiler';
 import { Report } from '../../models/report.model';
 import {
   makeAS,
   makeCellTypes,
   makeBioMarkers,
 } from '../../modules/tree/tree.functions';
-import { convertMetaToOutput } from '@angular/compiler/src/render3/util';
 import { AS, B } from '../../models/tree.model';
 
 @Injectable({

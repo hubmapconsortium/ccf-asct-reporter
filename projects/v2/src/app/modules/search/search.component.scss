@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 .mat-select-arrow {
   visibility: hidden;
 }
@@ -130,4 +131,4 @@
 }
 
 
-//@include mat-checkbox-theme($mat-reporter-primary);
+//@include mat.checkbox-theme($mat-reporter-primary);
