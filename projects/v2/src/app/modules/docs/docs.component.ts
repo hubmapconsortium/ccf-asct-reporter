@@ -30,14 +30,16 @@ export class DocsComponent implements OnInit {
     public ga: GoogleAnalyticsService) { }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
-      if (params.id) {
-        this.selected = parseInt(params.id, 10);
-        this.docsService.getData(parseInt(params.id, 10));
+    this.activatedRoute.params.subscribe(params => {
+      if (this.docsService.getID(params.id) >= 0) {
+        this.selected = this.docsService.getID(params.id);
+        this.docsService.getData(params.id);
       } else {
-        this.selected = 0;
-        this.docsService.getData(0);
+        this.router.navigate(
+          ['/docs', 'introduction'],
+        );
       }
+
     });
 
     this.docsService.docsData.subscribe(data => {
@@ -50,13 +52,10 @@ export class DocsComponent implements OnInit {
 
   onChange(idx: number) {
     this.selected = idx;
+    const title = this.docsService.getTitle(idx);
     this.router.navigate(
-      ['/docs'],
-      {
-        relativeTo: this.activatedRoute,
-        queryParams: {id: idx},
-        queryParamsHandling: 'merge',
-      });
+      ['/docs', title],
+      );
       // Router navigation already fires Google Analytics events, see app.component.ts
   }
 
