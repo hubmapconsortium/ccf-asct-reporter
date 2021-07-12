@@ -22,7 +22,6 @@
             "main": "projects/v2/src/main.ts",
             "polyfills": "projects/v2/src/polyfills.ts",
             "tsConfig": "projects/v2/tsconfig.app.json",
-            "aot": true,
             "assets": [
               "projects/v2/src/favicon.ico",
               "projects/v2/src/assets",
@@ -36,7 +35,13 @@
             "scripts": [
               "node_modules/marked/lib/marked.js"
 
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -93,7 +98,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
