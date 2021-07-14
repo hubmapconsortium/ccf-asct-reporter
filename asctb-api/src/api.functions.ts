@@ -1,3 +1,4 @@
+/* tslint:disable:variable-name */
 import { BM_TYPE, headerMap, Reference, Row, Structure } from "./api.model";
 
 export function buildASCTApiUrl(id: string) {
