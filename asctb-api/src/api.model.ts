@@ -1,3 +1,4 @@
+/* tslint:disable:variable-name */
 export interface LookupResponse {
   name: string;
   label: string;

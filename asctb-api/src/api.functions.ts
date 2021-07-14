@@ -34,26 +34,24 @@ function addBiomarker(rowHeader: any, s: any) {
 function addingIDNotesLabels(rowHeader: any, newRow: any, key: any, data: any, i: number, j: number) {
   if (rowHeader.length === 3 && rowHeader[2] === 'ID') {
     const n = newRow[key][parseInt(rowHeader[1]) - 1];
-    if (n) {
-      n.id = data[i][j];
-    }
+    assignNotesDOIData(n, data[i][j], 'id');
   } else if (rowHeader.length === 3 && rowHeader[2] === 'LABEL') {
     const n = newRow[key][parseInt(rowHeader[1]) - 1];
-    if (n) {
-      n.rdfs_label = data[i][j];
-    }
+    assignNotesDOIData(n, data[i][j], 'rdfs_label');
   } else if (rowHeader.length === 3 && rowHeader[2] === 'DOI') {
     const n: Reference = newRow[key][parseInt(rowHeader[1]) - 1];
-    if (n) {
-      n.doi = data[i][j];
-    }
+    assignNotesDOIData(n, data[i][j], 'doi');
   } else if (rowHeader.length === 3 && rowHeader[2] === 'NOTES') {
     const n: Reference = newRow[key][parseInt(rowHeader[1]) - 1];
-    if (n) {
-      n.notes = data[i][j];
-    }
+    assignNotesDOIData(n, data[i][j], 'notes');
   }
+}
 
+function assignNotesDOIData(n:any, data: any, type: string) {
+
+  if (n) {
+    n[type] = data;
+  }
 }
 
 function checkForHeader(headerRow: number, dataLength: number, data: any) {
@@ -74,6 +72,17 @@ function addAllBiomarkersToRow(rows: any) {
       .concat(row.biomarkers_lipids)
       .concat(row.biomarkers_meta)
       .concat(row.biomarkers_prot);
+  }
+}
+
+function addREF(rowHeader: any, newRow:any, key: any, data: any) {
+  if (rowHeader[0] === 'REF') {
+    const ref: Reference = { id: data };
+    newRow[key].push(ref);
+  } else {
+    let s = new Structure(data);
+    s = addBiomarker(rowHeader, s);
+    newRow[key].push(s);
   }
 }
 
@@ -102,14 +111,7 @@ export function makeASCTBData(data: any) {
             }
   
             if (rowHeader.length === 2 && Number(rowHeader[1])) {
-              if (rowHeader[0] === 'REF') {
-                const ref: Reference = { id: data[i][j] };
-                newRow[key].push(ref);
-              } else {
-                let s = new Structure(data[i][j]);
-                s = addBiomarker(rowHeader, s);
-                newRow[key].push(s);
-              }
+              addREF(rowHeader, newRow, key, data[i][j]);
             }
             addingIDNotesLabels(rowHeader, newRow, key, data, i, j);
             
