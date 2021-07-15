@@ -58,38 +58,38 @@ export class LogsState {
     const id = state.id;
 
     switch (type) {
-      case 'MSG':  {
-        const newLog: LogEntry = { text: message, icon, version };
-        sheetLogs.messages.push(newLog);
+    case 'MSG':  {
+      const newLog: LogEntry = { text: message, icon, version };
+      sheetLogs.messages.push(newLog);
 
-        const foundLog = allLogs.find(l => l.id === id);
-        foundLog.messages.push(newLog);
-        break;
-      }
-      case 'NO_OUT_LINKS': {
-        sheetLogs.NO_OUT_LINKS.push(message);
-        const foundNOLLog = allLogs.find(l => l.id === id);
-        foundNOLLog.NO_OUT_LINKS.push(message);
-        break;
-      }
-      case 'NO_IN_LINKS': {
-        sheetLogs.NO_IN_LINKS.push(message);
-        const foundNILLog = allLogs.find(l => l.id === id);
-        foundNILLog.NO_IN_LINKS.push(message);
-        break;
-      }
-      case 'MULTI_IN_LINKS': {
-        sheetLogs.MULTI_IN_LINKS.push(message);
-        const foundMILLLog = allLogs.find(l => l.id === id);
-        foundMILLLog.MULTI_IN_LINKS.push(message);
-        break;
-      }
-      case 'SELF_LINKS': {
-        sheetLogs.SELF_LINKS.push(message);
-        const foundSLLog = allLogs.find(l => l.id === id);
-        foundSLLog.SELF_LINKS.push(message);
-        break;
-      }
+      const foundLog = allLogs.find(l => l.id === id);
+      foundLog.messages.push(newLog);
+      break;
+    }
+    case 'NO_OUT_LINKS': {
+      sheetLogs.NO_OUT_LINKS.push(message);
+      const foundNOLLog = allLogs.find(l => l.id === id);
+      foundNOLLog.NO_OUT_LINKS.push(message);
+      break;
+    }
+    case 'NO_IN_LINKS': {
+      sheetLogs.NO_IN_LINKS.push(message);
+      const foundNILLog = allLogs.find(l => l.id === id);
+      foundNILLog.NO_IN_LINKS.push(message);
+      break;
+    }
+    case 'MULTI_IN_LINKS': {
+      sheetLogs.MULTI_IN_LINKS.push(message);
+      const foundMILLLog = allLogs.find(l => l.id === id);
+      foundMILLLog.MULTI_IN_LINKS.push(message);
+      break;
+    }
+    case 'SELF_LINKS': {
+      sheetLogs.SELF_LINKS.push(message);
+      const foundSLLog = allLogs.find(l => l.id === id);
+      foundSLLog.SELF_LINKS.push(message);
+      break;
+    }
     }
   }
 
