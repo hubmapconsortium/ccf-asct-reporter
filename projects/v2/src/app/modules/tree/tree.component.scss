@@ -6,3 +6,8 @@
   font-weight: 600;
   display: inline-block;
 }
+
+.scroll-bar-horizontal {
+  overflow: scroll;
+  height: calc(100vh - 4rem);
+};
