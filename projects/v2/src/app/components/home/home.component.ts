@@ -62,7 +62,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       '_blank'
     );
     this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Github', GaAction.NAV);
-    }
+  }
 
 
   openDocs() {

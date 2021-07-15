@@ -18,7 +18,17 @@
         //"plugin:prettier/recommended"
       ],
       "rules": {
-        "@typescript-eslint/no-non-null-assertion": "off"
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "dot-notation": "error",
+        "indent": ["error", 2],
+        "no-empty-function": "off",
+        "no-shadow": "error",
+        "no-unused-expressions": "error",
+        "no-use-before-define": "off",
+        "quotes": ["error", "single"],
+        "semi": "error",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-explicit-any": "off"
       }
     },
     {

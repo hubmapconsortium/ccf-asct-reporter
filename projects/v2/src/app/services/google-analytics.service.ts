@@ -17,17 +17,17 @@ export class GoogleAnalyticsService {
     eventLabel: string = null,
     eventAction: GaAction,
     // Unused parameter for now, as the GA report is not displaying event values.
-    eventValue: any = 0 ){
-      // Make this check true to enable GA on local development
-      if (environment.tag !== 'Development') {
-        gtag('event',  eventName, {
-          event_category: eventCategory.toString(),
-          // Concatenating name and label into the event_label field, as otherwise the eventName is unused in the GA report.
-          event_label: `${eventName}: ${eventLabel}`,
-          event_action: eventAction.toString(),
-          value : 0
-        });
-      }
+    eventValue: any = 0) {
+    // Make this check true to enable GA on local development
+    if (environment.tag !== 'Development') {
+      gtag('event', eventName, {
+        event_category: eventCategory.toString(),
+        // Concatenating name and label into the event_label field, as otherwise the eventName is unused in the GA report.
+        event_label: `${eventName}: ${eventLabel}`,
+        event_action: eventAction.toString(),
+        value: 0
+      });
+    }
   }
 
   public makeNodeInfoString(node: any) {

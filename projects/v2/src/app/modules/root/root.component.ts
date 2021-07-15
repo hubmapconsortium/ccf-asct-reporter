@@ -191,13 +191,13 @@ export class RootComponent implements OnInit, OnDestroy {
         this.sheet =  SHEET_CONFIG.find(i => i.name === sheet);
         localStorage.setItem('sheet', this.sheet.name);
         if (version === 'latest') {
-            if (this.sheet.name === 'all') {
-              store.dispatch(new FetchAllOrganData(this.sheet));
-            } else { store.dispatch(new FetchSheetData(this.sheet)); }
+          if (this.sheet.name === 'all') {
+            store.dispatch(new FetchAllOrganData(this.sheet));
+          } else { store.dispatch(new FetchSheetData(this.sheet)); }
 
-          } else {
-            store.dispatch(new FetchDataFromAssets(version, this.sheet));
-          }
+        } else {
+          store.dispatch(new FetchDataFromAssets(version, this.sheet));
+        }
       }
 
 

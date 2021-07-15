@@ -55,7 +55,7 @@ export class Data implements VegaData {
    * Stores the list of IDs that should show on the graph
    * when Discrepency ID feature is used
    */
-   makeDiscrepencyIdData() {
+  makeDiscrepencyIdData() {
     return {
       name: 'discrepencyId',
       values: []
@@ -66,7 +66,7 @@ export class Data implements VegaData {
    * Stores the list of IDs that should show on the graph
    * when Duplicate ID feature is used
    */
-   makeDuplicateIdData() {
+  makeDuplicateIdData() {
     return {
       name: 'duplicateId',
       values: []
@@ -77,7 +77,7 @@ export class Data implements VegaData {
    * Stores the list of Labels that should show on the graph
    * when Discrepency Labels feature is used
    */
-   makeDiscrepencyLabelData() {
+  makeDiscrepencyLabelData() {
     return {
       name: 'discrepencyLabel',
       values: []

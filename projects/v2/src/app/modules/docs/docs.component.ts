@@ -43,9 +43,9 @@ export class DocsComponent implements OnInit {
     });
 
     this.docsService.docsData.subscribe(data => {
-     if (data) {
-       this.docsData = data;
-     }
+      if (data) {
+        this.docsData = data;
+      }
     });
 
   }
@@ -55,8 +55,8 @@ export class DocsComponent implements OnInit {
     const title = this.docsService.getTitle(idx);
     this.router.navigate(
       ['/docs', title],
-      );
-      // Router navigation already fires Google Analytics events, see app.component.ts
+    );
+    // Router navigation already fires Google Analytics events, see app.component.ts
   }
 
   onLatest() {

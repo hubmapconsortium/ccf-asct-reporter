@@ -149,7 +149,7 @@ export class SheetStateModel {
 })
 @Injectable()
 export class SheetState {
-  constructor(private sheetService: SheetService) {}
+  constructor(private sheetService: SheetService) { }
   faliureMsg = 'Failed to fetch data';
 
   /**
@@ -240,10 +240,10 @@ export class SheetState {
   /**
    * Returns an observable that watches the fullAsData  data
    */
-   @Selector()
-   static getFullAsData(state: SheetStateModel) {
-     return state.fullAsData;
-   }
+  @Selector()
+  static getFullAsData(state: SheetStateModel) {
+    return state.fullAsData;
+  }
 
   /**
    * Returns an observable that watches the mode

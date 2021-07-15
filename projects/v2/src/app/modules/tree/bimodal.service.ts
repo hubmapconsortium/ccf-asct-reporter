@@ -74,36 +74,36 @@ export class BimodalService {
       const cellTypes = await makeCellTypes(sheetData);
 
       switch (bimodalConfig.CT.sort) {
-        case 'Alphabetically':
-          cellTypes.sort((a, b) => {
-            return a.structure.toLowerCase() > b.structure.toLowerCase()
-              ? 1
-              : b.structure.toLowerCase() > a.structure.toLowerCase()
-                ? -1
-                : 0;
-          });
-          break;
+      case 'Alphabetically':
+        cellTypes.sort((a, b) => {
+          return a.structure.toLowerCase() > b.structure.toLowerCase()
+            ? 1
+            : b.structure.toLowerCase() > a.structure.toLowerCase()
+              ? -1
+              : 0;
+        });
+        break;
 
-        case 'Degree':
-          cellTypes.sort((a, b) => {
-            return (b.outdegree.size + b.indegree.size) - (a.outdegree.size + a.indegree.size);
-          });
-          break;
+      case 'Degree':
+        cellTypes.sort((a, b) => {
+          return (b.outdegree.size + b.indegree.size) - (a.outdegree.size + a.indegree.size);
+        });
+        break;
       }
 
 
       switch (bimodalConfig.CT.size) {
-        case 'None':
-          break;
-        case 'Degree':
-          cellTypes.forEach(c => { c.nodeSize = (c.indegree.size + c.outdegree.size) * 25; });
-          break;
-        case 'Indegree':
-          cellTypes.forEach(c => { c.nodeSize = (c.indegree.size) * 25; });
-          break;
-        case 'Outdegree':
-          cellTypes.forEach(c => { c.nodeSize = (c.outdegree.size) * 25; });
-          break;
+      case 'None':
+        break;
+      case 'Degree':
+        cellTypes.forEach(c => { c.nodeSize = (c.indegree.size + c.outdegree.size) * 25; });
+        break;
+      case 'Indegree':
+        cellTypes.forEach(c => { c.nodeSize = (c.indegree.size) * 25; });
+        break;
+      case 'Outdegree':
+        cellTypes.forEach(c => { c.nodeSize = (c.outdegree.size) * 25; });
+        break;
 
       }
 
@@ -138,49 +138,49 @@ export class BimodalService {
       biomarkers = await makeBioMarkers(sheetData);
 
       switch (bimodalConfig.BM.sort) {
-        case 'Alphabetically':
-          biomarkers.sort((a, b) => {
-            return a.structure.toLowerCase() > b.structure.toLowerCase()
-              ? 1
-              : b.structure.toLowerCase() > a.structure.toLowerCase()
-                ? -1
-                : 0;
-          });
-          break;
+      case 'Alphabetically':
+        biomarkers.sort((a, b) => {
+          return a.structure.toLowerCase() > b.structure.toLowerCase()
+            ? 1
+            : b.structure.toLowerCase() > a.structure.toLowerCase()
+              ? -1
+              : 0;
+        });
+        break;
 
-        case 'Degree':
-          biomarkers.sort((a, b) => {
-            return b.indegree.size - a.indegree.size;
-          });
-          break;
+      case 'Degree':
+        biomarkers.sort((a, b) => {
+          return b.indegree.size - a.indegree.size;
+        });
+        break;
       }
 
       switch (bimodalConfig.BM.size) {
-        case 'None':
-          break;
-        case 'Degree':
-          biomarkers.forEach(b => { b.nodeSize += (b.indegree.size + b.outdegree.size) * 25; });
-          break;
+      case 'None':
+        break;
+      case 'Degree':
+        biomarkers.forEach(b => { b.nodeSize += (b.indegree.size + b.outdegree.size) * 25; });
+        break;
       }
 
       switch (bimodalConfig.BM.type) {
-        case 'All':
-          break;
-        case 'Gene':
-          biomarkers = biomarkers.filter(b => b.bType === 'gene');
-          break;
-        case 'Protein':
-          biomarkers = biomarkers.filter(b => b.bType === 'protein');
-          break;
-        case 'Lipids':
-          biomarkers = biomarkers.filter(b => b.bType === 'lipids');
-          break;
-        case 'Metalloids':
-          biomarkers = biomarkers.filter(b => b.bType === 'metalloids');
-          break;
-        case 'Proteoforms':
-          biomarkers = biomarkers.filter(b => b.bType === 'proteoforms');
-          break;
+      case 'All':
+        break;
+      case 'Gene':
+        biomarkers = biomarkers.filter(b => b.bType === 'gene');
+        break;
+      case 'Protein':
+        biomarkers = biomarkers.filter(b => b.bType === 'protein');
+        break;
+      case 'Lipids':
+        biomarkers = biomarkers.filter(b => b.bType === 'lipids');
+        break;
+      case 'Metalloids':
+        biomarkers = biomarkers.filter(b => b.bType === 'metalloids');
+        break;
+      case 'Proteoforms':
+        biomarkers = biomarkers.filter(b => b.bType === 'proteoforms');
+        break;
       }
 
 

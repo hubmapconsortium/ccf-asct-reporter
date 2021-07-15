@@ -223,10 +223,10 @@ export class UIState {
    *
    * @param state - UI State Model
    */
-   @Selector()
-   static getSearchState(state: UIStateModel) {
-     return state.searchOpen;
-   }
+  @Selector()
+  static getSearchState(state: UIStateModel) {
+    return state.searchOpen;
+  }
 
   /**
    * Action to open snackbar. Update the UI State by setting the
@@ -407,22 +407,22 @@ export class UIState {
    * Second close the bottom sheet DOI, incase it is open.
    * Then dispatch new action to update bottom sheet data DOI
    */
-   @Action(OpenBottomSheetDOI)
-   OpenBottomSheetDOI({ getState, setState, dispatch }: StateContext<UIStateModel>, { data }: OpenBottomSheetDOI) {
-     dispatch(new CloseBottomSheet());
-     dispatch(new CloseBottomSheetDOI());
-     dispatch(new UpdateBottomSheetDOI(data));
+  @Action(OpenBottomSheetDOI)
+  OpenBottomSheetDOI({ getState, setState, dispatch }: StateContext<UIStateModel>, { data }: OpenBottomSheetDOI) {
+    dispatch(new CloseBottomSheet());
+    dispatch(new CloseBottomSheetDOI());
+    dispatch(new UpdateBottomSheetDOI(data));
 
-   }
+  }
 
   /**
-   * Action to close bottom sheet.
-   * Empty the bottom sheet data from the state
-   */
-   @Action(CloseBottomSheetDOI)
-   closeBottomSheetDOI({ dispatch }: StateContext<UIStateModel>) {
-     dispatch(new UpdateBottomSheetData({}));
-   }
+  * Action to close bottom sheet.
+  * Empty the bottom sheet data from the state
+  */
+  @Action(CloseBottomSheetDOI)
+  closeBottomSheetDOI({ dispatch }: StateContext<UIStateModel>) {
+    dispatch(new UpdateBottomSheetData({}));
+  }
 
   /**
    * Action to close bottom sheet.

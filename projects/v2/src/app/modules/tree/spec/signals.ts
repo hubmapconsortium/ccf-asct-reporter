@@ -256,7 +256,7 @@ export class Signals implements VegaSignals {
   /**
    * Signal to update the discrepency field
    */
-   makeDiscrepencySignal() {
+  makeDiscrepencySignal() {
     return {
       name: 'discrepency_signal',
       value: [],

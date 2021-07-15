@@ -46,7 +46,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
    */
   tabIndex: number;
 
-   /**
+  /**
     * Controller for entering the link
     */
   linkFormControl = new FormControl('', [
