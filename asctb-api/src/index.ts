@@ -55,6 +55,10 @@ app.get('/v2/:sheetid/:gid', async (req: express.Request, res: express.Response)
   }
 });
 
+app.get('/graph', (req: express.Request, res: express.Response) => {
+  res.sendFile('assets/graph-vis/index.html', { root: path.join(__dirname, '../../') });
+});
+
 app.get('/v2/:sheetid/:gid/graph', async (req: express.Request, res: express.Response) => {
   console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
   const sheetID = req.params.sheetid;
@@ -72,7 +76,7 @@ app.get('/v2/:sheetid/:gid/graph', async (req: express.Request, res: express.Res
     const data = papa.parse(resp.data).data;
     const asctbData = await makeASCTBData(data);
     const graphData = makeGraphData(asctbData)
-
+    
     return res.send({
       data: graphData,
       csv: resp.data,
