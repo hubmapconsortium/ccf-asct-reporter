@@ -158,7 +158,7 @@ export class RootComponent implements OnInit, OnDestroy {
     private snackbar: MatSnackBar,
     public indent: IndentedListService,
     public report: ReportService,
-    private infoSheet: MatBottomSheet,
+    private readonly infoSheet: MatBottomSheet,
     public sheetService: SheetService
   ) {
 

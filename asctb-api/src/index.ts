@@ -57,29 +57,25 @@ app.get('/v2/:sheetid/:gid', async (req: express.Request, res: express.Response)
 
 app.get('/v2/:sheetid/:gid/graph', async (req: express.Request, res: express.Response) => {
   console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
-
-  const f1 = req.params.sheetid;
-  const f2 = req.params.gid;
-
+  const sheetID = req.params.sheetid;
+  const gID = req.params.gid;
   try {
-    let response: any;
+    let resp: any;
 
-    if (f1 === '0' && f2 === '0') {
-      response = { data: PLAYGROUND_CSV };
+    if (sheetID === '0' && gID === '0') {
+      resp = { data: PLAYGROUND_CSV };
     } else {
-      response = await axios.get(
-        `https://docs.google.com/spreadsheets/d/${f1}/export?format=csv&gid=${f2}`
+      resp = await axios.get(
+        `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv&gid=${gID}`
       );
     }
-    const data = papa.parse(response.data).data;
-
+    const data = papa.parse(resp.data).data;
     const asctbData = await makeASCTBData(data);
-
     const graphData = await makeGraphData(asctbData)
 
     return res.send({
       data: graphData,
-      csv: response.data,
+      csv: resp.data,
       parsed: data,
     });
   } catch (err) {
