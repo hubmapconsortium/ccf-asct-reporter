@@ -1,6 +1,7 @@
 /* tslint:disable:variable-name */
 import { GraphData, GNode, Node_type } from '../models/graph.model';
 import { Row } from '../models/api.model';
+import { strict } from 'assert';
 
 export function buildgraphAS(data: Row[], graphData: GraphData) {
   let id = 0;
@@ -168,6 +169,7 @@ export function makeGraphData(data: any) {
   buildgraphBM(data, graphData, id);
   graphData.nodes.shift();
   graphData.edges.shift();
+  graphData.edges = [{source: null, target: 1}].concat(graphData.edges);
   graphData.nodes.forEach((node: GNode) => {
     delete node.parent;
     delete node.comparatorName;
