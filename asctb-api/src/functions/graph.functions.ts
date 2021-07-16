@@ -73,7 +73,7 @@ export function buildgraphCT(data: Row[], graphData: GraphData, id: number) {
         i.metadata.name ===
         row.anatomical_structures[row.anatomical_structures.length - 1].name
     );
-    if (parentIndex != -1) {
+    if (parentIndex !== -1) {
       const parent = graphData.nodes[parentIndex];
 
       row.cell_types.forEach((structure) => {
@@ -120,7 +120,7 @@ export function buildgraphBM(data: Row[], graphData: GraphData, id: number) {
       const parentIndex = graphData.nodes.findIndex(
         (i: any) => i.metadata.name === structure.name
       );
-      if (parentIndex != -1) {
+      if (parentIndex !== -1) {
         const parent = graphData.nodes[parentIndex];
 
         row.biomarkers.forEach((biomarker) => {
@@ -165,7 +165,7 @@ export function makeGraphData(data: any) {
   const graphData: GraphData = { nodes: [], edges: [] };
   let id = buildgraphAS(data, graphData);
   id = buildgraphCT(data, graphData, id);
-  id = buildgraphBM(data, graphData, id);
+  buildgraphBM(data, graphData, id);
   graphData.nodes.shift();
   graphData.edges.shift();
   graphData.nodes.forEach((node: GNode) => {
