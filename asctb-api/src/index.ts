@@ -71,7 +71,7 @@ app.get('/v2/:sheetid/:gid/graph', async (req: express.Request, res: express.Res
     }
     const data = papa.parse(resp.data).data;
     const asctbData = await makeASCTBData(data);
-    const graphData = await makeGraphData(asctbData)
+    const graphData = makeGraphData(asctbData)
 
     return res.send({
       data: graphData,
@@ -106,7 +106,7 @@ app.get('/v2/csv', async (req: express.Request, res: express.Response) => {
         parsed: data,
       });
     } else {
-      const graphData = await makeGraphData(asctbData)
+      const graphData = makeGraphData(asctbData)
       return res.send({
         data: graphData,
         csv: response.data,
