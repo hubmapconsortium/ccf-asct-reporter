@@ -7,9 +7,11 @@ var papa = require('papaparse');
 var fs = require('fs');
 
 import { PLAYGROUND_CSV } from '../const';
-import { LookupResponse, OntologyCode } from './api.model';
-import { buildASCTApiUrl, buildHGNCApiUrl, buildHGNCLink, makeASCTBData } from './api.functions';
+import { LookupResponse, OntologyCode } from './models/lookup.model';
+import { makeASCTBData } from './functions/api.functions';
+import { buildASCTApiUrl, buildHGNCApiUrl, buildHGNCLink } from './functions/lookup.functions';
 import express from 'express';
+import { makeGraphData } from './functions/graph.functions';
 
 export const app: express.Application = express();
 app.use(cors());
@@ -53,21 +55,69 @@ app.get('/v2/:sheetid/:gid', async (req: express.Request, res: express.Response)
   }
 });
 
-app.post('/v2/csv', async (req: express.Request, res: express.Response) => {
+app.get('/v2/:sheetid/:gid/graph', async (req: express.Request, res: express.Response) => {
   console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
-  const url = req.body.csvUrl;
 
+  const f1 = req.params.sheetid;
+  const f2 = req.params.gid;
+
+  try {
+    let response: any;
+
+    if (f1 === '0' && f2 === '0') {
+      response = { data: PLAYGROUND_CSV };
+    } else {
+      response = await axios.get(
+        `https://docs.google.com/spreadsheets/d/${f1}/export?format=csv&gid=${f2}`
+      );
+    }
+    const data = papa.parse(response.data).data;
+
+    const asctbData = await makeASCTBData(data);
+
+    const graphData = await makeGraphData(asctbData)
+
+    return res.send({
+      data: graphData,
+      csv: response.data,
+      parsed: data,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({
+      msg: 'Please check the table format or the sheet access',
+      code: 500,
+    });
+  }
+});
+
+app.get('/v2/csv', async (req: express.Request, res: express.Response) => {
+  console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
+  // query parameters csvUrl and output
+  const url = req.query.csvUrl;
+  const output = req.query.output;
+  
   try {
     const response = await axios.get(url);
 
     const data = papa.parse(response.data, {skipEmptyLines: 'greedy'}).data;
     const asctbData = await makeASCTBData(data);
 
-    return res.send({
-      data: asctbData,
-      csv: response.data,
-      parsed: data,
-    });
+    if (output === 'json') {
+      return res.send({
+        data: asctbData,
+        csv: response.data,
+        parsed: data,
+      });
+    } else {
+      const graphData = await makeGraphData(asctbData)
+      return res.send({
+        data: graphData,
+        csv: response.data,
+        parsed: data,
+      });
+    }
+
   } catch (err) {
     console.log(err);
     return res.status(500).send({
