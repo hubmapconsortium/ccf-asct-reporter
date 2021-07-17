@@ -19,8 +19,6 @@ export function buildgraphAS(data: Row[], graphData: GraphData) {
   root.comparatorId = root.metadata.ontologyId;
   delete root.parent;
   graphData.nodes.push(root);
-  delete root.parent;
-  graphData.nodes.push(root);
 
   data.forEach((row: Row) => {
     parent = root;
@@ -164,10 +162,19 @@ export function buildgraphBM(data: Row[], graphData: GraphData, id: number) {
 
 export function makeGraphData(data: any) {
   const graphData: GraphData = { nodes: [], edges: [] };
+
+  for (const row of data) {
+    const organ: any = {
+      name: 'Body',
+      id: 'UBERON:0013702',
+      rdfs_label: 'body proper',
+    };
+    row.anatomical_structures.unshift(organ);
+  }
+
   let id = buildgraphAS(data, graphData);
   id = buildgraphCT(data, graphData, id);
   buildgraphBM(data, graphData, id);
-  graphData.nodes.shift();
   graphData.edges.shift();
   graphData.nodes.forEach((node: GNode) => {
     delete node.parent;
