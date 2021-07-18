@@ -42,9 +42,10 @@
             "accessibility": "explicit"
           }
         ],
-        "@typescript-eslint/no-non-null-assertion": "off",
+        // Set the following two rules to "warn" or "error" to disallow 'any' types
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-require-imports": "error",
         "@typescript-eslint/no-empty-function": "off",
         "@angular-eslint/no-empty-lifecycle-method": "off",

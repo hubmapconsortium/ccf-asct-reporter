@@ -1,5 +1,5 @@
 {
-  "extends": "../../.eslintrc.json",
+  "extends": "../../.eslintrc",
   "ignorePatterns": [
     "!**/*"
   ],
@@ -16,9 +16,7 @@
         ],
         "createDefaultProgram": true
       },
-      "rules": {
-
-      }
+      "rules": {}
     },
     {
       "files": [
