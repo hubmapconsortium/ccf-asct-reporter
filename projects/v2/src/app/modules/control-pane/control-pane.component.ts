@@ -223,9 +223,10 @@ export class ControlPaneComponent implements OnInit {
 
   sendMail() {
     const subject = 'About the ASCT+B Reporter!';
-    const body = 'Hi, thank you for wanting to contact us! This is an auto-generated body template. Below are a list of possible subjects, %0D%0A%0D%0A1. Issue/bug wit the Reporter%0D%0A%0D%0A2. Feature request for the reporter.%0D%0A%0D%0A3. General discussion about the Reporter.';
+    const body = `Hi, thank you for wanting to contact us! This is an auto-generated body template.
+      Below are a list of possible subjects, %0D%0A%0D%0A1. Issue/bug wit the Reporter%0D%0A%0D%0A2.
+      Feature request for the reporter.%0D%0A%0D%0A3. General discussion about the Reporter.`;
     const mailText = `mailto:infoccf@indiana.edu?subject=${subject}&body=${body}`;
     window.location.href = mailText;
-    // this.ga.eventEmitter( 'report', 'click',  'Report Problem' , 1);
   }
 }
