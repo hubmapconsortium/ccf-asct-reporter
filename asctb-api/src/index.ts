@@ -1,10 +1,9 @@
 /* tslint:disable:variable-name */
-var bodyParser = require('body-parser');
-const axios = require('axios');
-var cors = require('cors');
-var path = require('path');
-var papa = require('papaparse');
-var fs = require('fs');
+import bodyParser from 'body-parser';
+import axios from 'axios';
+import cors from 'cors';
+import path from 'path';
+import papa from 'papaparse';
 
 import { PLAYGROUND_CSV } from '../const';
 import { LookupResponse, OntologyCode } from './api.model';
@@ -119,8 +118,8 @@ app.get('/', (req: express.Request, res: express.Response) => {
 });
 
 app.get('/:sheetid/:gid', async (req: express.Request, res: express.Response) => {
-  var f1 = req.params.sheetid;
-  var f2 = req.params.gid;
+  const f1 = req.params.sheetid;
+  const f2 = req.params.gid;
 
   try {
     const response = await axios.get(
@@ -152,49 +151,49 @@ app.get('/lookup/:ontology/:id',  async (req: express.Request, res: express.Resp
   const termId = req.params.id;
 
   switch (ontologyCode) {
-    case OntologyCode.HGNC: {
-      const response = await axios.get(buildHGNCApiUrl(termId), {
-          headers: {'Content-Type': 'application/json'}
-        }
-      );
-      if (response.status === 200 && response.data) {
-        const firstResult = response.data.response.docs[0];
-
-        res.send({
-          label: firstResult.symbol,
-          link: buildHGNCLink(firstResult.hgnc_id),
-          description: firstResult.name ? firstResult.name : ''
-        } as LookupResponse);
-
-      } else {
-        res.status(response.status).end();
-      }
-      break;
+  case OntologyCode.HGNC: {
+    const response = await axios.get(buildHGNCApiUrl(termId), {
+      headers: {'Content-Type': 'application/json'}
     }
-    case OntologyCode.UBERON:
-    case OntologyCode.CL:
-    case OntologyCode.FMA: {
-      const response = await axios.get(buildASCTApiUrl(`${ontologyCode}:${termId}`));
-      if (response.status === 200 && response.data) {
-        const firstResult = response.data._embedded.terms[0];
+    );
+    if (response.status === 200 && response.data) {
+      const firstResult = response.data.response.docs[0];
 
-        res.send({
-          label: firstResult.label,
-          link: firstResult.iri,
-          description: firstResult.annotation.definition ? firstResult.annotation.definition[0] : ''
-        } as LookupResponse);
+      res.send({
+        label: firstResult.symbol,
+        link: buildHGNCLink(firstResult.hgnc_id),
+        description: firstResult.name ? firstResult.name : ''
+      } as LookupResponse);
 
-      } else {
-        res.status(response.status).end();
-      }
-      break;
+    } else {
+      res.status(response.status).end();
     }
-    default: {
-      // 400
-      res.statusMessage = "Invalid ID";
-      res.status(400).end();
-      break;
+    break;
+  }
+  case OntologyCode.UBERON:
+  case OntologyCode.CL:
+  case OntologyCode.FMA: {
+    const response = await axios.get(buildASCTApiUrl(`${ontologyCode}:${termId}`));
+    if (response.status === 200 && response.data) {
+      const firstResult = response.data._embedded.terms[0];
+
+      res.send({
+        label: firstResult.label,
+        link: firstResult.iri,
+        description: firstResult.annotation.definition ? firstResult.annotation.definition[0] : ''
+      } as LookupResponse);
+
+    } else {
+      res.status(response.status).end();
     }
+    break;
+  }
+  default: {
+    // 400
+    res.statusMessage = 'Invalid ID';
+    res.status(400).end();
+    break;
+  }
   }
 
 });
