@@ -308,7 +308,7 @@ export class SheetState {
       id: '',
     };
 
-    for await (const [_, sheet] of compareData.entries()) {
+    for await (const [_unused, sheet] of compareData.entries()) {
       this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid, sheet.csvUrl).subscribe(
         (res: ResponseData) => {
           for (const row of res.data) {

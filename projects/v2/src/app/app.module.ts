@@ -10,7 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
-import {GoogleAnalyticsService} from './services/google-analytics.service';
+import { GoogleAnalyticsService } from './services/google-analytics.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';

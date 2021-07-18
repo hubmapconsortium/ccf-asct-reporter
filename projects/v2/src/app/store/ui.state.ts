@@ -392,7 +392,7 @@ export class UIState {
     const state = getState();
     dispatch(new CloseBottomSheet());
     dispatch(new CloseBottomSheetDOI());
-    dispatch(new UpdateBottomSheetData(data)).subscribe(_ => {
+    dispatch(new UpdateBottomSheetData(data)).subscribe(_unused => {
       setState({
         ...state,
         bottomSheetOpen: true

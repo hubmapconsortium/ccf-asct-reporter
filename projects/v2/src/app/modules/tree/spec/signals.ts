@@ -1,5 +1,5 @@
 import { Signal } from 'vega';
-import { Sheet, SheetConfig } from '../../../models/sheet.model';
+import { SheetConfig } from '../../../models/sheet.model';
 
 interface VegaSignals {
   /**

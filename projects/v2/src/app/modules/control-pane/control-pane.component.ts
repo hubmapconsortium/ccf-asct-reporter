@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ToggleControlPane } from '../../actions/ui.actions';
@@ -8,7 +8,7 @@ import { Sheet, SheetConfig, CompareData } from '../../models/sheet.model';
 import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { DiscrepencyStructure, TNode } from '../../models/tree.model';
 import { VegaService } from '../tree/vega.service';
-import { DiscrepencyId, DiscrepencyLabel, DuplicateId, UpdateVegaSpec } from '../../actions/tree.actions';
+import { DiscrepencyId, DiscrepencyLabel, DuplicateId } from '../../actions/tree.actions';
 import { UpdateConfig, ToggleShowAllAS, FetchAllOrganData } from '../../actions/sheet.actions';
 import { BimodalService } from '../tree/bimodal.service';
 import { BMNode } from '../../models/bimodal.model';

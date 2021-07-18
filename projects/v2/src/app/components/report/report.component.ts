@@ -239,7 +239,6 @@ export class ReportComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < totalRows; i++) {
       sheetWS['!cols'].push({ wch: 30 });
     }
-    const wb = XLSX.utils.book_new();
     const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
     const sn = this.currentSheet.display.toLowerCase().replace(' ', '_');
 
@@ -269,7 +268,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
       );
 
       if (this.compareReport) {
-        for (const [sheet, ele] of this.compareReport.entries()) {
+        for (const [sheet, _unused] of this.compareReport.entries()) {
           allReport.push(this.downloadCompareSheetReport(sheet));
         }
       }
@@ -324,7 +323,6 @@ export class ReportComponent implements OnInit, AfterViewInit {
     for (let j = 0; j < totalRows; j++) {
       sheetWS['!cols'].push({ wch: 30 });
     }
-    const wb = XLSX.utils.book_new();
     const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
     const sn = sheet.title.toLowerCase().replace(' ', '_');
 

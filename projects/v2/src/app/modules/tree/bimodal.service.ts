@@ -8,7 +8,7 @@ import { CloseLoading, HasError } from '../../actions/ui.actions';
 import { ReportLog } from '../../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
 import { Error } from '../../models/response.model';
-import { Row, Sheet, SheetConfig } from '../../models/sheet.model';
+import { Row, SheetConfig } from '../../models/sheet.model';
 
 @Injectable({
   providedIn: 'root'

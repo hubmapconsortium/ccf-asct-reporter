@@ -1,6 +1,6 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ILNode } from '../../models/indent.model';
-import { Subject, Observable, throwError } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -57,7 +57,6 @@ export class IndentedListService {
       this.indentData.next({
         data: null,
       });
-      // console.log(err)
     }
   }
 

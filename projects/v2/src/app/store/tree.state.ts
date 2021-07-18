@@ -1,3 +1,4 @@
+/*eslint no-underscore-dangle: "off" */
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Spec } from 'vega';
 import { Injectable } from '@angular/core';
@@ -57,7 +58,7 @@ export class TreeStateModel {
   /**
    * Store data for the bottom sheet to display information
    */
-  bottomSheetData: {};
+  bottomSheetData: Record<string, never>;
   /**
    * Store data of links between nodes to show in the report
    */
@@ -195,7 +196,6 @@ export class TreeState {
    */
   @Action(UpdateVegaView)
   updateVegaView({ getState, patchState }: StateContext<TreeStateModel>, { view }: UpdateVegaView) {
-    const state = getState();
     patchState({
       view,
       treeData: view.data('tree'),

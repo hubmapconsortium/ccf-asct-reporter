@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject, ViewChild, TemplateRef } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Select } from '@ngxs/store';
 import { UIState } from '../../store/ui.state';
 import { Observable } from 'rxjs';

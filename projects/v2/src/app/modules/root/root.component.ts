@@ -227,7 +227,7 @@ export class RootComponent implements OnInit, OnDestroy {
     });
 
 
-    this.pane$.subscribe(value => {
+    this.pane$.subscribe(_unused => {
       if (this.data) {
         ts.makeTreeData(this.sheet, this.data, []);
       }

@@ -15,7 +15,7 @@ export class Data implements VegaData {
    */
   data: any;
 
-  constructor(currentSheet: Sheet, treeData: TNode[], sheetConfig: SheetConfig, multiParentLinksData?: any) {
+  constructor(currentSheet: Sheet, treeData: TNode[], sheetConfig: SheetConfig) {
     this.data = [
       this.makeASTreeData(currentSheet, treeData, sheetConfig),
       this.makeASTreeLinksData(),
@@ -88,9 +88,7 @@ export class Data implements VegaData {
    * Function to create vega data. Has tree config
    * and the nodes
    *
-   * @param currentSheet selected sheet (depricated)
    * @param treeData tree data from tree service
-   * @param config sheet config (depricated)
    */
   makeASTreeData(currentSheet: Sheet, treeData: TNode[], config: SheetConfig) {
     return {

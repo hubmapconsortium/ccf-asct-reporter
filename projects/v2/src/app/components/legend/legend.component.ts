@@ -2,8 +2,6 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { LegendService } from './legend.service';
 import { Legend } from '../../models/legend.model';
 import { TNode } from '../../models/tree.model';
-import { BMNode } from '../../models/bimodal.model';
-import { Observable } from 'rxjs';
 import { CompareData } from '../../models/sheet.model';
 import { Error } from '../../models/response.model';
 
