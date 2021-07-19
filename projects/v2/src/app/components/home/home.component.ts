@@ -56,13 +56,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.ga.eventEmitter('home_video_section', GaCategory.HOME, 'Jump to video section', GaAction.CLICK, VIDEO_ACTIONS[id].header);
   }
 
-  openGithub(event?: Event) {
+  openGithub() {
     window.open(
       'https://github.com/hubmapconsortium/ccf-asct-reporter',
       '_blank'
     );
     this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Github', GaAction.NAV);
-    }
+  }
 
 
   openDocs() {

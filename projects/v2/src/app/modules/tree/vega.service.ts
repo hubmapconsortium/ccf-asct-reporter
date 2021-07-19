@@ -112,7 +112,6 @@ export class VegaService {
   makeBimodal(view: any) {
     this.store.dispatch(new UpdateVegaView(view)).subscribe(states => {
       const data = states.sheetState.data;
-      const sheet = states.sheetState.sheet;
       const treeData = states.treeState.treeData;
       const bimodalConfig = states.treeState.bimodal.config;
       const sheetConfig = states.sheetState.sheetConfig;

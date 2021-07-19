@@ -1,7 +1,6 @@
 /* tslint:disable:variable-name */
 import { GraphData, GNode, Node_type } from '../models/graph.model';
 import { Row } from '../models/api.model';
-import { strict } from 'assert';
 
 export function buildgraphAS(data: Row[], graphData: GraphData) {
   let id = -1;

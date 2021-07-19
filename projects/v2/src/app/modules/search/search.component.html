@@ -62,7 +62,7 @@
           (selectionChange)="selectOption()"
           [(ngModel)]="selectedOptions"
           [compareWith]="selectionCompareFunction">
-          <mat-list-item *ngIf="searchFilteredStructures.length == 0 && groupFilteredStructures.length == 0">
+          <mat-list-item *ngIf="searchFilteredStructures.length === 0 && groupFilteredStructures.length === 0">
             <div>No entries found.</div>
           </mat-list-item>
           <mat-list-option

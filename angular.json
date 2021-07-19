@@ -34,7 +34,6 @@
             ],
             "scripts": [
               "node_modules/marked/lib/marked.js"
-
             ],
             "vendorChunk": true,
             "extractLicenses": false,
@@ -140,15 +139,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/v2/tsconfig.app.json",
-              "projects/v2/tsconfig.spec.json",
-              "projects/v2/e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/v2/**/*.ts",
+              "projects/v2/**/*.html"
             ]
           }
         },
@@ -167,5 +162,8 @@
       }
     }
   },
-  "defaultProject": "v2"
+  "defaultProject": "v2",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }

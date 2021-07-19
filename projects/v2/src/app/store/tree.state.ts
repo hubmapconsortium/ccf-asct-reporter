@@ -1,3 +1,4 @@
+/*eslint no-underscore-dangle: "off" */
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Spec } from 'vega';
 import { Injectable } from '@angular/core';
@@ -57,7 +58,7 @@ export class TreeStateModel {
   /**
    * Store data for the bottom sheet to display information
    */
-  bottomSheetData: {};
+  bottomSheetData: Record<string, never>;
   /**
    * Store data of links between nodes to show in the report
    */
@@ -77,7 +78,7 @@ export class TreeStateModel {
   /**
    * Store the discrepency id data
    */
-   duplicateId: DiscrepencyStructure[];
+  duplicateId: DiscrepencyStructure[];
 
 }
 
@@ -89,11 +90,11 @@ export class TreeStateModel {
     view: {},
     width: 0,
     height: document.getElementsByTagName('body')[0].clientHeight,
-    bimodal: {nodes: [], links: [], config: {BM: {sort: 'Alphabetically', size: 'None', type: 'All'}, CT: {sort: 'Alphabetically', size: 'None'}}},
+    bimodal: { nodes: [], links: [], config: { BM: { sort: 'Alphabetically', size: 'None', type: 'All' }, CT: { sort: 'Alphabetically', size: 'None' } } },
     search: [],
     lastSearch: null,
     bottomSheetData: {},
-    links: {AS_CT: 0, CT_B: 0, AS_AS: 0},
+    links: { AS_CT: 0, CT_B: 0, AS_AS: 0 },
     discrepencyLabel: [],
     discrepencyId: [],
     duplicateId: []
@@ -180,11 +181,11 @@ export class TreeState {
    * Updates the bimodal data
    */
   @Action(UpdateBimodal)
-  updateBimodal({getState, setState}: StateContext<TreeStateModel>, {nodes, links}: UpdateBimodal) {
+  updateBimodal({ getState, setState }: StateContext<TreeStateModel>, { nodes, links }: UpdateBimodal) {
     const state = getState();
     setState({
       ...state,
-      bimodal: {nodes, links, config: state.bimodal.config}
+      bimodal: { nodes, links, config: state.bimodal.config }
     });
   }
 
@@ -194,8 +195,7 @@ export class TreeState {
    * Updates the width of the visualization
    */
   @Action(UpdateVegaView)
-  updateVegaView({getState, patchState}: StateContext<TreeStateModel>, {view}: UpdateVegaView) {
-    const state = getState();
+  updateVegaView({ getState, patchState }: StateContext<TreeStateModel>, { view }: UpdateVegaView) {
     patchState({
       view,
       treeData: view.data('tree'),
@@ -207,7 +207,7 @@ export class TreeState {
    * Updates te vega spec
    */
   @Action(UpdateVegaSpec)
-  updateVegaSpec({setState, getState}: StateContext<TreeStateModel>, {spec}: UpdateVegaSpec) {
+  updateVegaSpec({ setState, getState }: StateContext<TreeStateModel>, { spec }: UpdateVegaSpec) {
     const state = getState();
     setState({
       ...state,
@@ -219,7 +219,7 @@ export class TreeState {
    * Updates the bimodal config
    */
   @Action(UpdateBimodalConfig)
-  updateBimodalConfig({getState, setState}: StateContext<TreeStateModel>, {config}: UpdateBimodalConfig) {
+  updateBimodalConfig({ getState, setState }: StateContext<TreeStateModel>, { config }: UpdateBimodalConfig) {
     const state = getState();
     const nodes = state.bimodal.nodes;
     const links = state.bimodal.links;
@@ -238,7 +238,7 @@ export class TreeState {
    * Updates the search list
    */
   @Action(DoSearch)
-  doSearch({getState, setState}: StateContext<TreeStateModel>, {searchStructures, lastClickedOption: lastClickedStructure}: DoSearch) {
+  doSearch({ getState, setState }: StateContext<TreeStateModel>, { searchStructures, lastClickedOption: lastClickedStructure }: DoSearch) {
     const state = getState();
     setState({
       ...state,
@@ -250,20 +250,20 @@ export class TreeState {
   /**
    * Updates the discrepency labels list
    */
-   @Action(DiscrepencyLabel)
-   discrepencyLabel({getState, setState}: StateContext<TreeStateModel>, {discrepencyStructures}: DiscrepencyLabel) {
-     const state = getState();
-     setState({
-       ...state,
-       discrepencyLabel: discrepencyStructures,
-     });
-   }
+  @Action(DiscrepencyLabel)
+  discrepencyLabel({ getState, setState }: StateContext<TreeStateModel>, { discrepencyStructures }: DiscrepencyLabel) {
+    const state = getState();
+    setState({
+      ...state,
+      discrepencyLabel: discrepencyStructures,
+    });
+  }
 
   /**
    * Updates the discrepency ids list
    */
   @Action(DiscrepencyId)
-  discrepencyId({getState, setState}: StateContext<TreeStateModel>, {discrepencyStructures}: DiscrepencyLabel) {
+  discrepencyId({ getState, setState }: StateContext<TreeStateModel>, { discrepencyStructures }: DiscrepencyLabel) {
     const state = getState();
     setState({
       ...state,
@@ -274,20 +274,20 @@ export class TreeState {
   /**
    * Updates the duplicate ids list
    */
-   @Action(DuplicateId)
-   duplicateId({getState, setState}: StateContext<TreeStateModel>, {discrepencyStructures}: DiscrepencyLabel) {
-     const state = getState();
-     setState({
-       ...state,
-       duplicateId: discrepencyStructures,
-     });
-   }
+  @Action(DuplicateId)
+  duplicateId({ getState, setState }: StateContext<TreeStateModel>, { discrepencyStructures }: DiscrepencyLabel) {
+    const state = getState();
+    setState({
+      ...state,
+      duplicateId: discrepencyStructures,
+    });
+  }
 
   /**
    * Updates the bottom sheet data
    */
   @Action(UpdateBottomSheetData)
-  updateBottomSheetData({getState, setState}: StateContext<TreeStateModel>, {data}: UpdateBottomSheetData) {
+  updateBottomSheetData({ getState, setState }: StateContext<TreeStateModel>, { data }: UpdateBottomSheetData) {
     const state = getState();
     setState({
       ...state,
@@ -299,17 +299,17 @@ export class TreeState {
    * Updates the links data that is displayed in the report
    */
   @Action(UpdateLinksData)
-  updateLinksData({getState, setState}: StateContext<TreeStateModel>, {AS_CT, CT_B , AS_AS}: UpdateLinksData) {
+  updateLinksData({ getState, setState }: StateContext<TreeStateModel>, { AS_CT, CT_B, AS_AS }: UpdateLinksData) {
     const state = getState();
     if (AS_AS) {
       setState({
         ...state,
-        links: {AS_CT, CT_B, AS_AS }
+        links: { AS_CT, CT_B, AS_AS }
       });
     } else {
       setState({
         ...state,
-        links: {AS_CT, CT_B, AS_AS: state.links.AS_AS }
+        links: { AS_CT, CT_B, AS_AS: state.links.AS_AS }
       });
     }
 

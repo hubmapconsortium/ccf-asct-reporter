@@ -1,5 +1,5 @@
 /* tslint:disable:variable-name */
-import { BM_TYPE, headerMap, Reference, Row, Structure } from "../models/api.model";
+import { BM_TYPE, headerMap, Reference, Row, Structure } from '../models/api.model';
 
 function addBiomarker(rowHeader: any, s: any) {
   if (rowHeader[0] === 'BGene' || rowHeader[0] === 'BG') {
@@ -17,7 +17,7 @@ function addBiomarker(rowHeader: any, s: any) {
   if (rowHeader[0] === 'BProteoform' || rowHeader[0] === 'BF') {
     s.b_type = BM_TYPE.BF;
   }
-  return s
+  return s;
 }
 
 function addingIDNotesLabels(rowHeader: any, newRow: any, key: any, data: any, i: number, j: number) {
@@ -51,8 +51,8 @@ function checkForHeader(headerRow: number, dataLength: number, data: any) {
     headerRow = i + 1;
     break;
   }
-  return headerRow
-} 
+  return headerRow;
+}
 
 function addAllBiomarkersToRow(rows: any) {
   for (const row of rows) {
@@ -76,41 +76,42 @@ function addREF(rowHeader: any, newRow:any, key: any, data: any) {
 }
 
 export function makeASCTBData(data: any) {
-    return new Promise((res, rej) => {
-      const rows = [];
-      let headerRow = 0;
-      const dataLength = data.length;
-  
-      try {
-        headerRow = checkForHeader(headerRow, dataLength, data);
-  
-        for (let i = headerRow; i < dataLength; i++) {
-          const newRow: { [key: string]: any } = new Row();
-  
-          for (let j = 0; j < data[0].length; j++) {
-            if (data[i][j] === '') {
-              continue;
-            }
-  
-            const rowHeader = data[headerRow - 1][j].split('/');
-            const key = headerMap[rowHeader[0]];
-  
-            if (key === undefined) {
-              continue;
-            }
-  
-            if (rowHeader.length === 2 && Number(rowHeader[1])) {
-              addREF(rowHeader, newRow, key, data[i][j]);
-            }
-            addingIDNotesLabels(rowHeader, newRow, key, data, i, j);
-            
+  return new Promise((res, rej) => {
+    const rows = [];
+    let headerRow = 0;
+    const dataLength = data.length;
+
+    try {
+      headerRow = checkForHeader(headerRow, dataLength, data);
+
+      for (let i = headerRow; i < dataLength; i++) {
+        const newRow: { [key: string]: any } = new Row();
+
+        for (let j = 0; j < data[0].length; j++) {
+          if (data[i][j] === '') {
+            continue;
           }
-          rows.push(newRow);
+
+          const rowHeader = data[headerRow - 1][j].split('/');
+          const key = headerMap[rowHeader[0]];
+
+          if (key === undefined) {
+            continue;
+          }
+
+          if (rowHeader.length === 2 && Number(rowHeader[1])) {
+            addREF(rowHeader, newRow, key, data[i][j]);
+          }
+          addingIDNotesLabels(rowHeader, newRow, key, data, i, j);
+
         }
-        addAllBiomarkersToRow(rows);
-        res(rows);
-      } catch (err) {
-        rej(err);
+        rows.push(newRow);
       }
-    });
-  }
+
+      addAllBiomarkersToRow(rows);
+      res(rows);
+    } catch (err) {
+      rej(err);
+    }
+  });
+}

@@ -28,11 +28,16 @@ $ cd ccf-asct-reporter
 # Reporter
 $ npm install
 $ ng serve
+# linting
+$ ng lint
 
 # API
 $ cd asctb-api
 $ npm install
 $ npm start # default port is 5000
+# linting
+$ npm run lint
+$ npm run lint-fix
 ```
 
 ## Deployment

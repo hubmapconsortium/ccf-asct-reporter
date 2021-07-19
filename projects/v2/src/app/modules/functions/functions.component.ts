@@ -53,7 +53,6 @@ export class FunctionsComponent implements OnInit {
   updateBimodal() {
     this.store.dispatch(new UpdateBimodalConfig(this.bimodalConfig)).subscribe(states => {
       const data = states.sheetState.data;
-      const sheet = states.sheetState.sheet;
       const treeData = states.treeState.treeData;
       const bimodalConfig = states.treeState.bimodal.config;
       const sheetConfig = states.sheetState.sheetConfig;

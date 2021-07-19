@@ -149,7 +149,7 @@ export class SheetStateModel {
 })
 @Injectable()
 export class SheetState {
-  constructor(private sheetService: SheetService) {}
+  constructor(private sheetService: SheetService) { }
   faliureMsg = 'Failed to fetch data';
 
   /**
@@ -240,10 +240,10 @@ export class SheetState {
   /**
    * Returns an observable that watches the fullAsData  data
    */
-   @Selector()
-   static getFullAsData(state: SheetStateModel) {
-     return state.fullAsData;
-   }
+  @Selector()
+  static getFullAsData(state: SheetStateModel) {
+    return state.fullAsData;
+  }
 
   /**
    * Returns an observable that watches the mode
@@ -308,7 +308,7 @@ export class SheetState {
       id: '',
     };
 
-    for await (const [_, sheet] of compareData.entries()) {
+    for await (const [_unused, sheet] of compareData.entries()) {
       this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid, sheet.csvUrl).subscribe(
         (res: ResponseData) => {
           for (const row of res.data) {

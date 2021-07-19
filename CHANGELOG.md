@@ -2,6 +2,13 @@
 
 Changelog for the HuBMAP CCF ASCT+B Reporter
 
+## 2.3.0 - Pre-release
+
+### Added in 2.3.0
+
+- Added linting to the ASCTB API
+- Migrated from tslint to eslint
+
 ## 2.2.0 - 2021-07-02
 
 ### Added in 2.2.0

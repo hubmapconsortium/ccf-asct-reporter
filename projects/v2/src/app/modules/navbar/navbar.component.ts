@@ -111,7 +111,7 @@ export class NavbarComponent implements OnInit {
 
   refreshData() {
     if (this.mode === 'vis' && this.currentSheet.name === 'all') {
-        this.store.dispatch(new FetchAllOrganData(this.currentSheet));
+      this.store.dispatch(new FetchAllOrganData(this.currentSheet));
     } else {
       this.store.dispatch(new FetchSheetData(this.currentSheet));
     }
@@ -145,12 +145,12 @@ export class NavbarComponent implements OnInit {
 
   onOptionClick(type: string, url: string) {
     switch (type) {
-      case 'route':
-        this.router.navigate([url]); break;
-      case 'tab':
-        this.window.open(url, '_blank'); break;
-      default:
-        this.window.open(url, '_blank'); break;
+    case 'route':
+      this.router.navigate([url]); break;
+    case 'tab':
+      this.window.open(url, '_blank'); break;
+    default:
+      this.window.open(url, '_blank'); break;
     }
   }
 

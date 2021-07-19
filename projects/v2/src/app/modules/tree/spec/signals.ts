@@ -1,5 +1,5 @@
 import { Signal } from 'vega';
-import { Sheet, SheetConfig } from '../../../models/sheet.model';
+import { SheetConfig } from '../../../models/sheet.model';
 
 interface VegaSignals {
   /**
@@ -256,7 +256,7 @@ export class Signals implements VegaSignals {
   /**
    * Signal to update the discrepency field
    */
-   makeDiscrepencySignal() {
+  makeDiscrepencySignal() {
     return {
       name: 'discrepency_signal',
       value: [],

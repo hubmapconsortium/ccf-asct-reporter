@@ -1,3 +1,5 @@
+/*eslint  @typescript-eslint/no-this-alias: "off"*/
+/*eslint-env es6*/
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { SheetState } from '../../store/sheet.state';
@@ -46,7 +48,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
    */
   tabIndex: number;
 
-   /**
+  /**
     * Controller for entering the link
     */
   linkFormControl = new FormControl('', [

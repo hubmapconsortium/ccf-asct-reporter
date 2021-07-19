@@ -68,7 +68,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
   constructor(
     public reportService: ReportService,
     public ga: GoogleAnalyticsService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.reportService.reportData$.subscribe((data) => {
@@ -103,7 +103,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
     );
   }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() { }
 
   makeOntologyLinksGraphData(reportData: Report) {
     if (this.currentSheet.name === 'all') {
@@ -160,14 +160,14 @@ export class ReportComponent implements OnInit, AfterViewInit {
     return bmType === 'Gene'
       ? 'Total Gene Biomarkers'
       : bmType === 'Protein'
-      ? 'Total Protein Biomarkers'
-      : bmType === 'Lipids'
-      ? 'Total Lipids Biomarkers'
-      : bmType === 'Metalloids'
-      ? 'Total Metalloids Biomarkers'
-      : bmType === 'Proteoforms'
-      ? 'Total Proteoforms Biomarkers'
-      : 'Total Biomarkers';
+        ? 'Total Protein Biomarkers'
+        : bmType === 'Lipids'
+          ? 'Total Lipids Biomarkers'
+          : bmType === 'Metalloids'
+            ? 'Total Metalloids Biomarkers'
+            : bmType === 'Proteoforms'
+              ? 'Total Proteoforms Biomarkers'
+              : 'Total Biomarkers';
   }
 
   customColors(v: string) {
@@ -239,7 +239,6 @@ export class ReportComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < totalRows; i++) {
       sheetWS['!cols'].push({ wch: 30 });
     }
-    const wb = XLSX.utils.book_new();
     const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
     const sn = this.currentSheet.display.toLowerCase().replace(' ', '_');
 
@@ -269,7 +268,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
       );
 
       if (this.compareReport) {
-        for (const [sheet, ele] of this.compareReport.entries()) {
+        for (const [sheet, _unused] of this.compareReport.entries()) {
           allReport.push(this.downloadCompareSheetReport(sheet));
         }
       }
@@ -309,7 +308,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
           const t = {};
           t[keyMapper[key]] = value;
 
-          if (!!download[idx]) {
+          if (download[idx]) {
             download[idx] = { ...download[idx], ...t };
           } else {
             download.push(t);
@@ -324,7 +323,6 @@ export class ReportComponent implements OnInit, AfterViewInit {
     for (let j = 0; j < totalRows; j++) {
       sheetWS['!cols'].push({ wch: 30 });
     }
-    const wb = XLSX.utils.book_new();
     const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
     const sn = sheet.title.toLowerCase().replace(' ', '_');
 

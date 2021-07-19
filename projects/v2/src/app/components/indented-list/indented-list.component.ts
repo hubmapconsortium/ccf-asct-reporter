@@ -5,7 +5,6 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnChanges,
   OnDestroy,
   AfterViewInit
 
@@ -18,7 +17,6 @@ import {
 // import { ReportService } from '../report/report.service';
 import { IndentedListService } from './indented-list.service';
 import { Sheet } from '../../models/sheet.model';
-import { catchError } from 'rxjs/operators';
 
 interface Node {
   name: string;

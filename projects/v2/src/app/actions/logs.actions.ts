@@ -1,5 +1,3 @@
-import { LOG_TYPES } from '../models/logs.model';
-
 export class ReportLog {
   static readonly type = '[REPORT] Log';
   constructor(public type: string, public message: string, public icon?: string, public version: string = 'latest') {}

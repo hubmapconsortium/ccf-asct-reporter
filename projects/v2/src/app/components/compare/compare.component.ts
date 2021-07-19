@@ -116,7 +116,7 @@ export class CompareComponent implements OnInit {
     const letters = '3456789BC'.split('');
     let color = '#';
     for (let i = 0; i < 6; i++ ) {
-        color += letters[Math.floor(Math.random() * letters.length)];
+      color += letters[Math.floor(Math.random() * letters.length)];
     }
     return color;
   }

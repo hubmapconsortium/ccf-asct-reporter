@@ -7,7 +7,6 @@ import {
   makeCellTypes,
   makeBioMarkers,
 } from '../../modules/tree/tree.functions';
-import { AS, B } from '../../models/tree.model';
 
 @Injectable({
   providedIn: 'root',
