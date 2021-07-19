@@ -305,7 +305,8 @@ export class SheetState {
 
     const organ: Structure = {
       name: 'Body',
-      id: '',
+      id: 'UBERON:0013702',
+      rdfs_label: 'body proper',
     };
 
     for await (const [_unused, sheet] of compareData.entries()) {
@@ -403,8 +404,8 @@ export class SheetState {
             row.organName = organsNames[i];
             const newStructure: Structure = {
               name: 'Body',
-              id: '',
-              rdfs_label: 'NONE',
+              id: 'UBERON:0013702',
+              rdfs_label: 'body proper',
             };
             row.anatomical_structures.unshift(newStructure);
           }
@@ -664,7 +665,8 @@ export class SheetState {
     const state = getState();
     const organ: Structure = {
       name: 'Body',
-      id: '',
+      id: 'UBERON:0013702',
+      rdfs_label: 'body proper',
     };
 
     return this.sheetService.fetchPlaygroundData().pipe(
@@ -725,7 +727,8 @@ export class SheetState {
     );
     const organ: Structure = {
       name: 'Body',
-      id: '',
+      id: 'UBERON:0013702',
+      rdfs_label: 'body proper',
     };
 
     return this.sheetService.updatePlaygroundData(data).pipe(

@@ -93,7 +93,7 @@ app.get('/v2/:sheetid/:gid/graph', async (req: express.Request, res: express.Res
 app.get('/v2/csv', async (req: express.Request, res: express.Response) => {
   console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
   // query parameters csvUrl and output
-  const url = req.query.csvUrl;
+  const url = req.query.csvUrl.toString();
   const output = req.query.output;
   
   try {
