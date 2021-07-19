@@ -58,12 +58,12 @@
   "data": [
     {
       "name": "node-data",
-      "url": "http://localhost:5000/v2/0/0/graph",
+      "url": "/v2/0/0/graph",
       "format": {"type": "json", "property": "data.nodes"}
     },
     {
       "name": "link-data",
-      "url": "http://localhost:5000/v2/0/0/graph",
+      "url": "/v2/0/0/graph",
       "format": {"type": "json", "property": "data.edges"}
     }
   ],
