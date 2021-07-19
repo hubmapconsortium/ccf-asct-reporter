@@ -1,17 +1,5 @@
 /* tslint:disable:variable-name */
-import { BM_TYPE, headerMap, Reference, Row, Structure } from './api.model';
-
-export function buildASCTApiUrl(id: string) {
-  return `http://www.ebi.ac.uk/ols/api/terms/findByIdAndIsDefiningOntology?obo_id=${id}`;
-}
-
-export function buildHGNCApiUrl(id: string) {
-  return `https://rest.genenames.org/fetch/hgnc_id/${id}`;
-}
-
-export function buildHGNCLink(id: string) {
-  return `https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/${id}`;
-}
+import { BM_TYPE, headerMap, Reference, Row, Structure } from '../models/api.model';
 
 function addBiomarker(rowHeader: any, s: any) {
   if (rowHeader[0] === 'BGene' || rowHeader[0] === 'BG') {

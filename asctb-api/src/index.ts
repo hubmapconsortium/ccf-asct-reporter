@@ -6,9 +6,11 @@ import path from 'path';
 import papa from 'papaparse';
 
 import { PLAYGROUND_CSV } from '../const';
-import { LookupResponse, OntologyCode } from './api.model';
-import { buildASCTApiUrl, buildHGNCApiUrl, buildHGNCLink, makeASCTBData } from './api.functions';
+import { LookupResponse, OntologyCode } from './models/lookup.model';
+import { makeASCTBData } from './functions/api.functions';
+import { buildASCTApiUrl, buildHGNCApiUrl, buildHGNCLink } from './functions/lookup.functions';
 import express from 'express';
+import { makeGraphData } from './functions/graph.functions';
 
 export const app: express.Application = express();
 app.use(cors());
@@ -52,21 +54,69 @@ app.get('/v2/:sheetid/:gid', async (req: express.Request, res: express.Response)
   }
 });
 
-app.post('/v2/csv', async (req: express.Request, res: express.Response) => {
-  console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
-  const url = req.body.csvUrl;
+app.get('/graph', (req: express.Request, res: express.Response) => {
+  res.sendFile('assets/graph-vis/index.html', { root: path.join(__dirname, '../../') });
+});
 
+app.get('/v2/:sheetid/:gid/graph', async (req: express.Request, res: express.Response) => {
+  console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
+  const sheetID = req.params.sheetid;
+  const gID = req.params.gid;
+  try {
+    let resp: any;
+
+    if (sheetID === '0' && gID === '0') {
+      resp = { data: PLAYGROUND_CSV };
+    } else {
+      resp = await axios.get(
+        `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv&gid=${gID}`
+      );
+    }
+    const data = papa.parse(resp.data).data;
+    const asctbData = await makeASCTBData(data);
+    const graphData = makeGraphData(asctbData);
+    
+    return res.send({
+      data: graphData,
+      csv: resp.data,
+      parsed: data,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({
+      msg: 'Please check the table format or the sheet access',
+      code: 500,
+    });
+  }
+});
+
+app.get('/v2/csv', async (req: express.Request, res: express.Response) => {
+  console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
+  // query parameters csvUrl and output
+  const url = req.query.csvUrl;
+  const output = req.query.output;
+  
   try {
     const response = await axios.get(url);
 
     const data = papa.parse(response.data, {skipEmptyLines: 'greedy'}).data;
     const asctbData = await makeASCTBData(data);
 
-    return res.send({
-      data: asctbData,
-      csv: response.data,
-      parsed: data,
-    });
+    if (output === 'json') {
+      return res.send({
+        data: asctbData,
+        csv: response.data,
+        parsed: data,
+      });
+    } else {
+      const graphData = makeGraphData(asctbData);
+      return res.send({
+        data: graphData,
+        csv: response.data,
+        parsed: data,
+      });
+    }
+
   } catch (err) {
     console.log(err);
     return res.status(500).send({
