@@ -55,6 +55,7 @@ import { CompareData, DOI, Row, SheetConfig, SheetInfo } from '../../models/shee
 import { DoiComponent } from '../../components/doi/doi.component';
 import { SearchStructure } from '../../models/tree.model';
 import { MatDrawerContent } from '@angular/material/sidenav';
+import { SheetService } from '../../services/sheet.service';
 
 
 @Component({
@@ -157,7 +158,8 @@ export class RootComponent implements OnInit, OnDestroy {
     private snackbar: MatSnackBar,
     public indent: IndentedListService,
     public report: ReportService,
-    private infoSheet: MatBottomSheet
+    private readonly infoSheet: MatBottomSheet,
+    public sheetService: SheetService
   ) {
 
     this.data$.subscribe(data => {
@@ -373,8 +375,19 @@ export class RootComponent implements OnInit, OnDestroy {
     const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
     const sn = this.sheet.display.toLowerCase().replace(' ', '_');
     const formatType = option.toLowerCase();
-
-    if (option === 'Vega Spec') {
+    if (option === 'Graph Data') {
+      const sheet = this.store.selectSnapshot(SheetState.getSheet);
+      this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid, sheet.csvUrl, 'graph').subscribe((graphData: any) => {
+        const graphDataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(graphData.data));
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute('href',     graphDataStr);
+        downloadAnchorNode.setAttribute('download', `asct+b_graph_data_${sn}_${dt}` + '.json');
+        document.body.appendChild(downloadAnchorNode);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+      });
+    }
+    else if (option === 'Vega Spec') {
       const spec = this.store.selectSnapshot(TreeState.getVegaSpec);
       const dataStr =
         'data:text/json;charset=utf-8,' +
