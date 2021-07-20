@@ -75,7 +75,7 @@ app.get('/v2/:sheetid/:gid/graph', async (req: express.Request, res: express.Res
     const data = papa.parse(resp.data).data;
     const asctbData = await makeASCTBData(data);
     const graphData = makeGraphData(asctbData);
-    
+
     return res.send({
       data: graphData,
       csv: resp.data,
@@ -93,25 +93,26 @@ app.get('/v2/:sheetid/:gid/graph', async (req: express.Request, res: express.Res
 app.get('/v2/csv', async (req: express.Request, res: express.Response) => {
   console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
   // query parameters csvUrl and output
-  const url = req.query.csvUrl.toString();
-  const output = req.query.output;
-  
+  const url = req.query.csvUrl as string;
+  const output = req.query.output as 'json' | 'graph' | string;
+
   try {
     const response = await axios.get(url);
 
     const data = papa.parse(response.data, {skipEmptyLines: 'greedy'}).data;
     const asctbData = await makeASCTBData(data);
 
-    if (output === 'json') {
+    if (output === 'graph') {
+      const graphData = makeGraphData(asctbData);
       return res.send({
-        data: asctbData,
+        data: graphData,
         csv: response.data,
         parsed: data,
       });
     } else {
-      const graphData = makeGraphData(asctbData);
+      // The default is returning the json
       return res.send({
-        data: graphData,
+        data: asctbData,
         csv: response.data,
         parsed: data,
       });

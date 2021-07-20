@@ -23,8 +23,7 @@ export class SheetService {
       return this.http.get(`${URL}/v2/csv`, { params: {
         csvUrl: csvFileUrl,
         output: output ? output : 'json'
-        }
-       });
+      }});
     }
     else {
       if (output === 'graph') {
