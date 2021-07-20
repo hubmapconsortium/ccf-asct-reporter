@@ -112,7 +112,11 @@ export class SheetService {
    * @param data is the parsed ASCTB data from the csv file of the sheet
    */
   getDataWithBody(data: any) {
-    const organ: Structure = { name: 'Body', id: '' };
+    const organ: Structure = {
+      name: 'Body',
+      id: 'UBERON:0013702',
+      rdfs_label: 'body proper'
+    };
     data.forEach((row) => {
       row.anatomical_structures.unshift(organ);
     });
