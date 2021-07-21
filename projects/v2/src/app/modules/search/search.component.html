@@ -41,7 +41,6 @@
           </mat-form-field>
           <br>
           <p>
-            Show only:
             <mat-button-toggle-group multiple
               #group="matButtonToggleGroup"
               (change)="filterToggleChange(group.value)"
@@ -54,6 +53,9 @@
             <button id="deselectBtn" mat-stroked-button
               aria-label="Deselect All"
               (click)="deselectAllOptions()">Deselect All</button>
+            <button id="selectBtn" mat-stroked-button
+              aria-label="Select All"
+              (click)="selectAllOptions()">Select All</button>
           </p>
         </div>
         <mat-selection-list #multiSelect

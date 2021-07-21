@@ -86,14 +86,24 @@
       height: 30px;
     }
 
+    #label {
+      width: 35px;
+      height: 35px;
+      line-height: 14px;
+      display:inline-block;
+    }
+
     ::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
       line-height: 32px !important;
     }
 
-    button#deselectBtn {
+    button#deselectBtn,
+    button#selectBtn {
       float:right;
+      padding: 0px 7px;
+      font-size: 13px;
+      margin-left:5px;
     }
-
   }
 
   mat-form-field {
