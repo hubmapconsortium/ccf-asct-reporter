@@ -93,7 +93,7 @@ export class SearchComponent {
     this.sheetConfig.discrepencyLabel = false;
     this.sheetConfig.duplicateId = false;
     this.store.dispatch(new UpdateConfig(this.sheetConfig));
-    // Dispace the search data to the tree store
+    // Dispatch the search data to the tree store
     this.store.dispatch(new DoSearch(this.selectedOptions, lastClickedOption));
 
     // Clearing Discrepency fields so that searched options can appear
@@ -123,6 +123,14 @@ export class SearchComponent {
     this.selectedValues = '';
     this.store.dispatch(new DoSearch(this.selectedOptions, null));
     this.ga.eventEmitter('nav_search_deselect_all', GaCategory.NAVBAR, 'Deselect All Search Filters', GaAction.CLICK);
+  }
+
+  selectAllOptions() {
+    this.selectedOptions = this.groupFilteredStructures.filter(s => this.searchFilteredStructures.indexOf(s) >= 0);
+    this.selectionMemory = this.selectedOptions.slice();
+    this.selectedValues = this.selectedOptions.map(obj => obj.name).join(', ');
+    this.store.dispatch(new DoSearch(this.selectedOptions, this.selectedOptions[0]));
+    this.ga.eventEmitter('nav_search_select_all', GaCategory.NAVBAR, 'Select All Searched Options', GaAction.CLICK);
   }
 
   openSearchList() {

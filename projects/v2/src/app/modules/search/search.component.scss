@@ -83,17 +83,29 @@
     p {
       padding:0px 15px;
       font-size:10pt;
-      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      margin-bottom: 10px;
+    }
+
+    #label {
+      width: 35px;
+      line-height: 14px;
+      font-size: 8pt;
+      display: inline-block;
+      padding-top: 4px;;
     }
 
     ::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
       line-height: 32px !important;
     }
 
-    button#deselectBtn {
-      float:right;
+    button.selectBtn {
+      font-size: 13px;
+      margin-left:12px;
+      padding: 0px 7px;
     }
-
   }
 
   mat-form-field {
