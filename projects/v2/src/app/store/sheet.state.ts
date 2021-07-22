@@ -151,6 +151,8 @@ export class SheetStateModel {
 export class SheetState {
   constructor(private sheetService: SheetService) { }
   faliureMsg = 'Failed to fetch data';
+  bodyId = 'UBERON:0013702';
+  bodyLabel: 'body proper';
 
   /**
    * Returns an observable that watches the data
@@ -305,7 +307,8 @@ export class SheetState {
 
     const organ: Structure = {
       name: 'Body',
-      id: '',
+      id: this.bodyId,
+      rdfs_label: this.bodyLabel,
     };
 
     for await (const [_unused, sheet] of compareData.entries()) {
@@ -403,8 +406,8 @@ export class SheetState {
             row.organName = organsNames[i];
             const newStructure: Structure = {
               name: 'Body',
-              id: '',
-              rdfs_label: 'NONE',
+              id: this.bodyId,
+              rdfs_label: this.bodyLabel,
             };
             row.anatomical_structures.unshift(newStructure);
           }
@@ -664,7 +667,8 @@ export class SheetState {
     const state = getState();
     const organ: Structure = {
       name: 'Body',
-      id: '',
+      id: this.bodyId,
+      rdfs_label: this.bodyLabel,
     };
 
     return this.sheetService.fetchPlaygroundData().pipe(
@@ -725,7 +729,8 @@ export class SheetState {
     );
     const organ: Structure = {
       name: 'Body',
-      id: '',
+      id: this.bodyId,
+      rdfs_label: this.bodyLabel,
     };
 
     return this.sheetService.updatePlaygroundData(data).pipe(
