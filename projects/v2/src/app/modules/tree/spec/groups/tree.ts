@@ -59,6 +59,12 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
           stroke: {value: 'steelblue'}
         },
         update: {
+          x: {field: 'bounds.x1', round: true, offset: {signal: '-bgoffset'}},
+          x2: {field: 'bounds.x2', round: true, offset: {signal: 'bgoffset'}},
+          y: {field: 'bounds.y1', round: true, offset: {signal: '-bgoffset'}},
+          y2: {field: 'bounds.y2', round: true, offset: {signal: 'bgoffset'}},
+          fill: {value: 'aliceblue'},
+          stroke: {value: 'steelblue'},
           opacity: [
             {
               test: 'node__click === null && indata(\'search\', \'id\', datum.datum.id)',
@@ -92,6 +98,13 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
           zindex: {value: -1}
         },
         update: {
+          x: { field: 'bounds.x1', round: true, offset: { signal: '-bgoffset' } },
+          x2: { field: 'bounds.x2', round: true, offset: { signal: 'bgoffset' } },
+          y: { field: 'bounds.y1', round: true, offset: { signal: '-bgoffset' } },
+          y2: { field: 'bounds.y2', round: true, offset: { signal: 'bgoffset' } },
+          fill: { value: 'lightblue' },
+          stroke: { value: 'darkblue' },
+          zindex: {value: -1},
           opacity: [
             {
               test: 'node__click === null && indata(\'discrepencyLabel\', \'id\', datum.datum.id)',
@@ -125,6 +138,13 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
           zindex: {value: -1}
         },
         update: {
+          x: { field: 'bounds.x1', round: true, offset: { signal: '-bgoffset' } },
+          x2: { field: 'bounds.x2', round: true, offset: { signal: 'bgoffset' } },
+          y: { field: 'bounds.y1', round: true, offset: { signal: '-bgoffset' } },
+          y2: { field: 'bounds.y2', round: true, offset: { signal: 'bgoffset' } },
+          fill: { value: 'lightblue' },
+          stroke: { value: 'darkblue' },
+          zindex: {value: -1},
           opacity: [
             {
               test: 'node__click === null && indata(\'discrepencyId\', \'id\', datum.datum.id)',
@@ -140,8 +160,8 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
   }
 
   /**
-    * Rectangle around the bimodal text mark when duplicate Id toggle is turned on
-    */
+   * Rectangle around the bimodal text mark when duplicate Id toggle is turned on
+   */
   makeBimodalTextDuplicateIdMarks() {
     return {
       name: 'rectmarkduplicateid',
@@ -158,6 +178,13 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
           zindex: {value: -1}
         },
         update: {
+          x: { field: 'bounds.x1', round: true, offset: { signal: '-bgoffset' } },
+          x2: { field: 'bounds.x2', round: true, offset: { signal: 'bgoffset' } },
+          y: { field: 'bounds.y1', round: true, offset: { signal: '-bgoffset' } },
+          y2: { field: 'bounds.y2', round: true, offset: { signal: 'bgoffset' } },
+          fill: { value: 'lightblue' },
+          stroke: { value: 'darkblue' },
+          zindex: {value: -1},
           opacity: [
             {
               test: 'node__click === null && indata(\'duplicateId\', \'id\', datum.datum.id)',
