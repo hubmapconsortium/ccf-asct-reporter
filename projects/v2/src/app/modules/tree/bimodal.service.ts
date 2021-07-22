@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { BMNode, Link, BimodalConfig } from '../../models/bimodal.model';
 import { makeCellTypes, makeAS, makeBioMarkers } from './tree.functions';
-import { CT_BLUE, B_GREEN, TNode } from '../../models/tree.model';
+import { CT_BLUE, B_GREEN, TNode, AS } from '../../models/tree.model';
 import { UpdateBimodal, UpdateVegaSpec, UpdateLinksData } from '../../actions/tree.actions';
 import { CloseLoading, HasError } from '../../actions/ui.actions';
 import { ReportLog } from '../../actions/logs.actions';
@@ -45,7 +45,6 @@ export class BimodalService {
       const distanceY = sheetConfig.bimodal_distance_y;
       let id = treeData.length + 1;
       let biomarkers = [];
-
       treeData.forEach((td) => {
         if (td.children === 0) {
 
@@ -57,9 +56,30 @@ export class BimodalService {
           newLeaf.isNew = td.isNew;
           newLeaf.color = td.color;
           newLeaf.ontologyId = td.ontologyId;
-          newLeaf.indegree = anatomicalStructuresData.find(a => a.structure === leaf).indegree;
-          newLeaf.outdegree = anatomicalStructuresData.find(a => a.structure === leaf).outdegree;
-          newLeaf.label = anatomicalStructuresData.find(a => a.structure === leaf).label;
+          newLeaf.indegree = anatomicalStructuresData.find((a: AS) => {
+            if (a.comparatorId.toLowerCase() !== 'not found' && a.comparatorId === td.ontologyId)  {
+              return a;
+            }
+            else if (a.comparatorName === td.name) {
+              return a;
+            }
+          }).indegree;
+          newLeaf.outdegree = anatomicalStructuresData.find((a: AS) => {
+            if (a.comparatorId.toLowerCase() !== 'not found' && a.comparatorId === td.ontologyId)  {
+              return a;
+            }
+            else if (a.comparatorName === td.name) {
+              return a;
+            }
+          }).outdegree;
+          newLeaf.label = anatomicalStructuresData.find((a: AS) => {
+            if (a.comparatorId.toLowerCase() !== 'not found' && a.comparatorId === td.ontologyId)  {
+              return a;
+            }
+            else if (a.comparatorName === td.name) {
+              return a;
+            }
+          }).label;
           nodes.push(newLeaf);
           id += 1;
           treeX = td.x;
@@ -213,7 +233,17 @@ export class BimodalService {
         if (node.group === 1) {
           node.sources = [];
           node.outdegree.forEach(str => {
-            const foundIndex = nodes.findIndex(n => `${n.name}${n.ontologyId}` === str);
+            let foundIndex: number;
+            if (str.id) {
+              foundIndex = nodes.findIndex(
+                (i: BMNode) => i.ontologyId === str.id
+              );
+            } else {
+              foundIndex = nodes.findIndex(
+                (i: BMNode) => i.name === str.name
+              );
+            }
+            console.log(foundIndex);
             node.targets.push(nodes[foundIndex].id);
             links.push({ s: node.id, t: nodes[foundIndex].id });
           });
@@ -222,7 +252,16 @@ export class BimodalService {
         if (node.group === 3) {
           node.indegree.forEach(str => {
 
-            const foundIndex = nodes.findIndex(n => `${n.name}${n.ontologyId}` === str);
+            let foundIndex: number;
+            if (str.id) {
+              foundIndex = nodes.findIndex(
+                (i: BMNode) => i.ontologyId === str.id
+              );
+            } else {
+              foundIndex = nodes.findIndex(
+                (i: BMNode) => i.name === str.name
+              );
+            }
             node.sources.push(nodes[foundIndex].id);
             links.push({ s: nodes[foundIndex].id, t: node.id });
           });
@@ -234,7 +273,14 @@ export class BimodalService {
           node.outdegree.forEach((str) => {
             const tt = nodes
               .map((val, idx) => ({ val, idx }))
-              .filter(({ val, idx }) => `${val.name}${val.ontologyId}` === str)
+              .filter(({ val, idx }) => {
+                if (str.id) {
+                  return val.comparatorId === str.id;
+                }
+                else {
+                  return val.comparatorName === str.name;
+                }
+              })
               .map(({ val, idx }) => idx);
             const targets = [];
             tt.forEach((s) => {
@@ -254,7 +300,14 @@ export class BimodalService {
           node.indegree.forEach((str) => {
             const ss = nodes
               .map((val, idx) => ({ val, idx }))
-              .filter(({ val, idx }) => `${val.name}${val.ontologyId}` === str)
+              .filter(({ val, idx }) => {
+                if (str.id) {
+                  return val.comparatorId === str.id;
+                }
+                else {
+                  return val.comparatorName === str.name;
+                }
+              })
               .map(({ val, idx }) => idx);
             const sources = [];
             ss.forEach((s) => {

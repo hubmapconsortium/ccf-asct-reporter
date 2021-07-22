@@ -120,17 +120,22 @@ export class TreeService {
 
       data.forEach((row) => {
         parent = root;
-
+        
         row.anatomical_structures.forEach((structure) => {
-          const s = nodes.findIndex(
-            (i) =>
-              i.type !== 'root' &&
-              i.comparator ===
-                parent.comparator +
-                  structure.name +
-                  structure.rdfs_label +
-                  structure.id
-          );
+          let s: number;
+          if (structure.id && structure.id.toLowerCase() !== 'not found') {
+            s = nodes.findIndex(
+              (i: any) =>
+                i.type !== 'root' &&
+                i.comparatorId === parent.comparatorId + structure.id
+            );
+          } else {
+            s = nodes.findIndex(
+              (i: any) =>
+                i.type !== 'root' &&
+                i.comparatorName === parent.comparatorName + structure.name
+            );
+          }
           if (s === -1) {
             id += 1;
             const newNode = new TNode(
@@ -146,6 +151,8 @@ export class TreeService {
               newNode.name +
               newNode.label +
               newNode.ontologyId;
+            newNode.comparatorId = parent.comparatorId + newNode.ontologyId;
+            newNode.comparatorName = parent.comparatorName + newNode.name;
             if ('isNew' in structure) {
               newNode.isNew = true;
               newNode.color = structure.color;
