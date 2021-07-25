@@ -22,66 +22,68 @@ export function makeAS(data: Row[]): Array<AS> {
   try {
     data.forEach((row) => {
       row.anatomical_structures.forEach((str, i) => {
-        let foundIndex: number;
-        if (str.id && str.id.toLowerCase() !== 'not found') {
-          foundIndex = anatomicalStructures.findIndex(
-            (i: any) => i.comparatorId === str.id
-          );
-        } else {
-          foundIndex = anatomicalStructures.findIndex(
-            (i: any) => i.comparatorName === str.name
-          );
-        }
-        let newStructure: AS;
-        if (foundIndex === -1) {
-          newStructure = {
-            structure: str.name,
-            uberon: str.id,
-            isNew: 'isNew' in str ? true : false,
-            color: 'isNew' in str ? str.color : AS_RED,
-            outdegree: new Set(),
-            indegree: new Set(),
-            comparator: str.name + str.id,
-            comparatorId: str.id,
-            comparatorName: str.name,
-            label: str.rdfs_label,
-            id,
-            organName: row.organName,
-          };
-          id += 1;
+        if (i == row.anatomical_structures.length - 1) {
+          let foundIndex: number;
+          if (str.id && str.id.toLowerCase() !== 'not found') {
+            foundIndex = anatomicalStructures.findIndex(
+              (i: any) => i.comparatorId === str.id
+            );
+          } else {
+            foundIndex = anatomicalStructures.findIndex(
+              (i: any) => i.comparatorName === str.name
+            );
+          }
+          let newStructure: AS;
+          if (foundIndex === -1) {
+            newStructure = {
+              structure: str.name,
+              uberon: str.id,
+              isNew: 'isNew' in str ? true : false,
+              color: 'isNew' in str ? str.color : AS_RED,
+              outdegree: new Set(),
+              indegree: new Set(),
+              comparator: str.name + str.id,
+              comparatorId: str.id,
+              comparatorName: str.name,
+              label: str.rdfs_label,
+              id,
+              organName: row.organName,
+            };
+            id += 1;
 
-          if (row.cell_types.length) {
-            row.cell_types.forEach((cell) => {
-              newStructure.outdegree.add({
-                id: cell.id,
-                name: cell.name,
+            if (row.cell_types.length) {
+              row.cell_types.forEach((cell) => {
+                newStructure.outdegree.add({
+                  id: cell.id,
+                  name: cell.name,
+                });
               });
-            });
-          }
-          if (i > 0) {
-            // needed for the first element to not throw an error
+            }
+            if (i > 0) {
+              // needed for the first element to not throw an error
 
-            newStructure.indegree.add({
-              id: row.anatomical_structures[i-1].id,
-              name: row.anatomical_structures[i - 1].name
-            });
-          }
-
-          anatomicalStructures.push(newStructure);
-        } else {
-          if (row.cell_types.length) {
-            row.cell_types.forEach((cell) => {
-              anatomicalStructures[foundIndex].outdegree.add({
-                id: cell.id,
-                name: cell.name,
+              newStructure.indegree.add({
+                id: row.anatomical_structures[i-1].id,
+                name: row.anatomical_structures[i - 1].name
               });
-            });
-          }
-          if (i > 0) {
-            anatomicalStructures[foundIndex].indegree.add({
-              id: row.anatomical_structures[i-1].id,
-              name: row.anatomical_structures[i - 1].name
-            });
+            }
+
+            anatomicalStructures.push(newStructure);
+          } else {
+            if (row.cell_types.length) {
+              row.cell_types.forEach((cell) => {
+                anatomicalStructures[foundIndex].outdegree.add({
+                  id: cell.id,
+                  name: cell.name,
+                });
+              });
+            }
+            if (i > 0) {
+              anatomicalStructures[foundIndex].indegree.add({
+                id: row.anatomical_structures[i-1].id,
+                name: row.anatomical_structures[i - 1].name
+              });
+            }
           }
         }
       });

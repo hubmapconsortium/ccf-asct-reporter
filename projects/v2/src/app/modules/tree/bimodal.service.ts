@@ -56,30 +56,28 @@ export class BimodalService {
           newLeaf.isNew = td.isNew;
           newLeaf.color = td.color;
           newLeaf.ontologyId = td.ontologyId;
-          newLeaf.indegree = anatomicalStructuresData.find((a: AS) => {
-            if (a.comparatorId.toLowerCase() !== 'not found' && a.comparatorId === td.ontologyId)  {
-              return a;
-            }
-            else if (a.comparatorName === td.name) {
-              return a;
-            }
-          }).indegree;
-          newLeaf.outdegree = anatomicalStructuresData.find((a: AS) => {
-            if (a.comparatorId.toLowerCase() !== 'not found' && a.comparatorId === td.ontologyId)  {
-              return a;
-            }
-            else if (a.comparatorName === td.name) {
-              return a;
-            }
-          }).outdegree;
-          newLeaf.label = anatomicalStructuresData.find((a: AS) => {
-            if (a.comparatorId.toLowerCase() !== 'not found' && a.comparatorId === td.ontologyId)  {
-              return a;
-            }
-            else if (a.comparatorName === td.name) {
-              return a;
-            }
-          }).label;
+          if (td.ontologyId && td.ontologyId.toLowerCase() !== 'not found') {
+            newLeaf.indegree = anatomicalStructuresData.find((a: AS) => {
+              return (a.comparatorId === td.ontologyId)
+            }).indegree;
+            newLeaf.outdegree = anatomicalStructuresData.find((a: AS) => {
+              return (a.comparatorId === td.ontologyId)
+            }).outdegree;
+            newLeaf.label = anatomicalStructuresData.find((a: AS) => {
+              return (a.comparatorId === td.ontologyId)
+            }).label;
+          }
+          else{
+            newLeaf.indegree = anatomicalStructuresData.find((a: AS) => {
+              return (a.comparatorName === td.name)
+            }).indegree;
+            newLeaf.outdegree = anatomicalStructuresData.find((a: AS) => {
+              return (a.comparatorName === td.name)
+            }).outdegree;
+            newLeaf.label = anatomicalStructuresData.find((a: AS) => {
+              return (a.comparatorName === td.name) 
+            }).label;
+          }
           nodes.push(newLeaf);
           id += 1;
           treeX = td.x;
@@ -234,7 +232,7 @@ export class BimodalService {
           node.sources = [];
           node.outdegree.forEach(str => {
             let foundIndex: number;
-            if (str.id) {
+            if (str.id && str.id.toLowerCase() !== 'not found') {
               foundIndex = nodes.findIndex(
                 (i: BMNode) => i.ontologyId === str.id
               );
@@ -242,9 +240,10 @@ export class BimodalService {
               foundIndex = nodes.findIndex(
                 (i: BMNode) => i.name === str.name
               );
+            };
+            if (node.targets.findIndex(l => l ===nodes[foundIndex].id) === -1){
+              node.targets.push(nodes[foundIndex].id);
             }
-            console.log(foundIndex);
-            node.targets.push(nodes[foundIndex].id);
             links.push({ s: node.id, t: nodes[foundIndex].id });
           });
         }
@@ -262,7 +261,9 @@ export class BimodalService {
                 (i: BMNode) => i.name === str.name
               );
             }
-            node.sources.push(nodes[foundIndex].id);
+            if (node.sources.findIndex(l => l ===nodes[foundIndex].id) === -1){
+              node.sources.push(nodes[foundIndex].id);
+            }
             links.push({ s: nodes[foundIndex].id, t: node.id });
           });
         }
@@ -275,10 +276,10 @@ export class BimodalService {
               .map((val, idx) => ({ val, idx }))
               .filter(({ val, idx }) => {
                 if (str.id) {
-                  return val.comparatorId === str.id;
+                  return val.ontologyId === str.id;
                 }
                 else {
-                  return val.comparatorName === str.name;
+                  return val.name === str.name;
                 }
               })
               .map(({ val, idx }) => idx);
@@ -290,22 +291,23 @@ export class BimodalService {
             // make targets only if there is a link from CT to B
             targets.forEach((s) => {
               if (links.some((l) => l.s === node.id && l.t === s)) {
-                CT_BM_LINKS += 1;
-                node.targets.push(s);
+                if (node.targets.findIndex(l => l === s) === -1) {
+                  CT_BM_LINKS += 1;
+                  node.targets.push(s);
+                }
               }
             });
           });
-
           // make sources only if there is a link from AS to CT
           node.indegree.forEach((str) => {
             const ss = nodes
               .map((val, idx) => ({ val, idx }))
               .filter(({ val, idx }) => {
-                if (str.id) {
-                  return val.comparatorId === str.id;
+                if (str.id && str.id.toLowerCase() !== 'not found') {
+                  return val.ontologyId === str.id;
                 }
                 else {
-                  return val.comparatorName === str.name;
+                  return val.name === str.name;
                 }
               })
               .map(({ val, idx }) => idx);
@@ -315,8 +317,10 @@ export class BimodalService {
             });
             sources.forEach((s) => {
               if (links.some((l) => l.s === s && l.t === node.id)) {
+                if (node.sources.findIndex(l => l === s) === -1) {
                 AS_CT_LINKS += 1;
                 node.sources.push(s);
+                }
               }
             });
           });
