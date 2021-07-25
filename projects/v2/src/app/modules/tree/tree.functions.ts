@@ -22,7 +22,7 @@ export function makeAS(data: Row[]): Array<AS> {
   try {
     data.forEach((row) => {
       row.anatomical_structures.forEach((str, i) => {
-        if (i == row.anatomical_structures.length - 1) {
+        if (i === row.anatomical_structures.length - 1) {
           let foundIndex: number;
           if (str.id && str.id.toLowerCase() !== 'not found') {
             foundIndex = anatomicalStructures.findIndex(
@@ -215,9 +215,6 @@ export function makeBioMarkers(data: Row[], type?: string): Array<B> {
         currentBiomarkers = row.biomarkers;
       }
       currentBiomarkers.forEach((str) => {
-        // const foundIndex = bioMarkers.findIndex(
-        //   (i) => i.structure === str.name
-        // );
         let foundIndex: number;
           if (str.id) {
             foundIndex = bioMarkers.findIndex(

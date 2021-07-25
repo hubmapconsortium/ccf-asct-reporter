@@ -240,7 +240,7 @@ export class BimodalService {
               foundIndex = nodes.findIndex(
                 (i: BMNode) => i.name === str.name
               );
-            };
+            }
             if (node.targets.findIndex(l => l ===nodes[foundIndex].id) === -1){
               node.targets.push(nodes[foundIndex].id);
             }
