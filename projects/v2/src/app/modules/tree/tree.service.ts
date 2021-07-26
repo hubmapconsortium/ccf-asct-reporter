@@ -102,6 +102,7 @@ export class TreeService {
    */
   public makeTreeData(currentSheet: Sheet, data: Row[], compareData?: any) {
     try {
+      const idNameSet = {};
       let id = 1;
       let parent: TNode;
       const nodes = [];
@@ -120,22 +121,27 @@ export class TreeService {
 
       data.forEach((row) => {
         parent = root;
-
+        
         row.anatomical_structures.forEach((structure) => {
-          const s = nodes.findIndex(
-            (i) =>
-              i.type !== 'root' &&
-              i.comparator ===
-                parent.comparator +
-                  structure.name +
-                  structure.rdfs_label +
-                  structure.id
-          );
+          let s: number;
+          if (structure.id && structure.id.toLowerCase() !== 'not found') {
+            s = nodes.findIndex(
+              (i: any) =>
+                i.type !== 'root' &&
+                i.comparatorId === parent.comparatorId + structure.id
+            );
+          } else {
+            s = nodes.findIndex(
+              (i: any) =>
+                i.type !== 'root' &&
+                i.comparatorName === parent.comparatorName + structure.name
+            );
+          }
           if (s === -1) {
             id += 1;
             const newNode = new TNode(
               id,
-              structure.name,
+              structure.id.toLowerCase() !== 'not found' && structure.id && idNameSet[structure.id] ? idNameSet[structure.id]  : structure.name,
               parent.id,
               structure.id,
               AS_RED
@@ -146,6 +152,11 @@ export class TreeService {
               newNode.name +
               newNode.label +
               newNode.ontologyId;
+            newNode.comparatorId = parent.comparatorId + newNode.ontologyId;
+            newNode.comparatorName = parent.comparatorName + newNode.name;
+            if (idNameSet[newNode.ontologyId] === undefined) {
+              idNameSet[newNode.ontologyId] = newNode.name;
+            }
             if ('isNew' in structure) {
               newNode.isNew = true;
               newNode.color = structure.color;

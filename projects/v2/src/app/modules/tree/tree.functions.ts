@@ -22,50 +22,68 @@ export function makeAS(data: Row[]): Array<AS> {
   try {
     data.forEach((row) => {
       row.anatomical_structures.forEach((str, i) => {
-        const foundIndex = anatomicalStructures.findIndex(
-          (a) => a.comparator === str.name + str.id
-        );
-        let newStructure: AS;
-        if (foundIndex === -1) {
-          newStructure = {
-            structure: str.name,
-            uberon: str.id,
-            isNew: 'isNew' in str ? true : false,
-            color: 'isNew' in str ? str.color : AS_RED,
-            outdegree: new Set(),
-            indegree: new Set(),
-            comparator: str.name + str.id,
-            label: str.rdfs_label,
-            id,
-            organName: row.organName,
-          };
-          id += 1;
-
-          if (row.cell_types.length) {
-            row.cell_types.forEach((cell) => {
-              newStructure.outdegree.add(
-                `${cell.name}${cell.id}`
-              );
-            });
-          }
-          if (i > 0) {
-            // needed for the first element to not throw an error
-            newStructure.indegree.add(row.anatomical_structures[i - 1].name);
-          }
-
-          anatomicalStructures.push(newStructure);
-        } else {
-          if (row.cell_types.length) {
-            row.cell_types.forEach((cell) => {
-              anatomicalStructures[foundIndex].outdegree.add(
-                `${cell.name}${cell.id}`
-              );
-            });
-          }
-          if (i > 0) {
-            anatomicalStructures[foundIndex].indegree.add(
-              row.anatomical_structures[i - 1].name
+        if (i === row.anatomical_structures.length - 1) {
+          let foundIndex: number;
+          if (str.id && str.id.toLowerCase() !== 'not found') {
+            foundIndex = anatomicalStructures.findIndex(
+              (ind: any) => ind.comparatorId === str.id
             );
+          } else {
+            foundIndex = anatomicalStructures.findIndex(
+              (ind: any) => ind.comparatorName === str.name
+            );
+          }
+          let newStructure: AS;
+          if (foundIndex === -1) {
+            newStructure = {
+              structure: str.name,
+              uberon: str.id,
+              isNew: 'isNew' in str ? true : false,
+              color: 'isNew' in str ? str.color : AS_RED,
+              outdegree: new Set(),
+              indegree: new Set(),
+              comparator: str.name + str.id,
+              comparatorId: str.id,
+              comparatorName: str.name,
+              label: str.rdfs_label,
+              id,
+              organName: row.organName,
+            };
+            id += 1;
+
+            if (row.cell_types.length) {
+              row.cell_types.forEach((cell) => {
+                newStructure.outdegree.add({
+                  id: cell.id,
+                  name: cell.name,
+                });
+              });
+            }
+            if (i > 0) {
+              // needed for the first element to not throw an error
+
+              newStructure.indegree.add({
+                id: row.anatomical_structures[i - 1].id,
+                name: row.anatomical_structures[i - 1].name,
+              });
+            }
+
+            anatomicalStructures.push(newStructure);
+          } else {
+            if (row.cell_types.length) {
+              row.cell_types.forEach((cell) => {
+                anatomicalStructures[foundIndex].outdegree.add({
+                  id: cell.id,
+                  name: cell.name,
+                });
+              });
+            }
+            if (i > 0) {
+              anatomicalStructures[foundIndex].indegree.add({
+                id: row.anatomical_structures[i - 1].id,
+                name: row.anatomical_structures[i - 1].name,
+              });
+            }
           }
         }
       });
@@ -88,9 +106,16 @@ export function makeCellTypes(data: Row[]): Array<CT> {
   try {
     data.forEach((row) => {
       row.cell_types.forEach((str) => {
-        const foundIndex = cellTypes.findIndex(
-          (cell) => cell.comparator === str.name + str.id
-        );
+        let foundIndex: number;
+        if (str.id) {
+          foundIndex = cellTypes.findIndex(
+            (i: any) => i.comparatorId === str.id
+          );
+        } else {
+          foundIndex = cellTypes.findIndex(
+            (i: any) => i.comparatorName === str.name
+          );
+        }
         let newStructure: CT;
         if (foundIndex === -1) {
           newStructure = {
@@ -101,6 +126,8 @@ export function makeCellTypes(data: Row[]): Array<CT> {
             outdegree: new Set(),
             indegree: new Set(),
             comparator: `${str.name}${str.id}`,
+            comparatorId: str.id,
+            comparatorName: str.name,
             label: str.rdfs_label,
             references: row.references,
             organName: row.organName,
@@ -113,12 +140,18 @@ export function makeCellTypes(data: Row[]): Array<CT> {
             const sid =
               row.anatomical_structures[row.anatomical_structures.length - 1]
                 .id;
-            newStructure.indegree.add(sn + sid);
+            newStructure.indegree.add({
+              id: sid,
+              name: sn,
+            });
           }
 
           // calculate outdegree (CT -> B)
           row.biomarkers.forEach((marker) => {
-            newStructure.outdegree.add(marker.name + marker.id);
+            newStructure.outdegree.add({
+              id: marker.id,
+              name: marker.name,
+            });
           });
           cellTypes.push(newStructure);
         } else {
@@ -127,7 +160,10 @@ export function makeCellTypes(data: Row[]): Array<CT> {
             cellTypes[foundIndex].pathColor = str.color;
           }
           row.biomarkers.forEach((marker) => {
-            cellTypes[foundIndex].outdegree.add(marker.name + marker.id);
+            cellTypes[foundIndex].outdegree.add({
+              id: marker.id,
+              name: marker.name,
+            });
           });
           const sn =
             row.anatomical_structures[row.anatomical_structures.length - 1]
@@ -135,7 +171,10 @@ export function makeCellTypes(data: Row[]): Array<CT> {
           const sid =
             row.anatomical_structures[row.anatomical_structures.length - 1].id;
 
-          cellTypes[foundIndex].indegree.add(`${sn}${sid}`);
+          cellTypes[foundIndex].indegree.add({
+            id: sid,
+            name: sn,
+          });
         }
       });
     });
@@ -179,9 +218,16 @@ export function makeBioMarkers(data: Row[], type?: string): Array<B> {
         currentBiomarkers = row.biomarkers;
       }
       currentBiomarkers.forEach((str) => {
-        const foundIndex = bioMarkers.findIndex(
-          (i) => i.structure === str.name
-        );
+        let foundIndex: number;
+        if (str.id) {
+          foundIndex = bioMarkers.findIndex(
+            (i: any) => i.comparatorId === str.id
+          );
+        } else {
+          foundIndex = bioMarkers.findIndex(
+            (i: any) => i.comparatorName === str.name
+          );
+        }
         let newStructure: B;
         if (foundIndex === -1) {
           newStructure = {
@@ -191,6 +237,9 @@ export function makeBioMarkers(data: Row[], type?: string): Array<B> {
             color: 'isNew' in str ? str.color : B_GREEN,
             outdegree: new Set(),
             indegree: new Set(),
+            comparator: `${str.name}${str.id}`,
+            comparatorId: str.id,
+            comparatorName: str.name,
             nodeSize: 300,
             bType: str.b_type,
             organName: row.organName,
@@ -198,9 +247,10 @@ export function makeBioMarkers(data: Row[], type?: string): Array<B> {
 
           if (row.cell_types.length) {
             row.cell_types.forEach((cell) => {
-              newStructure.indegree.add(
-                `${cell.name}${cell.id}`
-              );
+              newStructure.indegree.add({
+                id: cell.id,
+                name: cell.name,
+              });
             });
           }
 
@@ -212,9 +262,10 @@ export function makeBioMarkers(data: Row[], type?: string): Array<B> {
           }
           if (row.cell_types.length) {
             row.cell_types.forEach((cell) => {
-              bioMarkers[foundIndex].indegree.add(
-                `${cell.name}${cell.id}`
-              );
+              bioMarkers[foundIndex].indegree.add({
+                id: cell.id,
+                name: cell.name,
+              });
             });
           }
         }

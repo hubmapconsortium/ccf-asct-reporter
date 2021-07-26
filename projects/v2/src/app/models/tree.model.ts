@@ -28,6 +28,8 @@ export class TNode {
   y: number;
   type: string;
   comparator: string;
+  comparatorName: string;
+  comparatorId: string;
   label: string;
 
   constructor(id, name, parent, uId, color = '#808080') {
@@ -43,6 +45,8 @@ export class TNode {
     this.parents = [];
     this.type = NODE_TYPE.AS;
     this.comparator = '';
+    this.comparatorId = '';
+    this.comparatorName = '';
   }
 }
 
@@ -55,17 +59,24 @@ export class TreeAndMultiParent {
 export interface Base {
   id?: number;
   comparator?: string;
+  comparatorId?: string;
+  comparatorName?: string;
 }
 
 export interface AS extends Base {
   structure: string;
   uberon: string;
-  indegree?: Set<string>;
-  outdegree?: Set<string>;
+  indegree?: Set<Degree>;
+  outdegree?: Set<Degree>;
   label?: string;
   isNew?: boolean;
   color?: string;
   organName?: string;
+}
+
+export interface Degree {
+  id: string;
+  name: string;
 }
 
 export interface ASCTBConfig {
@@ -82,8 +93,8 @@ export interface CT extends Base{
   isNew: boolean;
   color: string;
   label?: string;
-  indegree?: Set<string>;
-  outdegree?: Set<string>;
+  indegree?: Set<Degree>;
+  outdegree?: Set<Degree>;
   references?: Reference[];
   organName?: string;
 }
@@ -93,8 +104,8 @@ export interface B extends Base{
   link: string;
   isNew: boolean;
   color: string;
-  indegree?: Set<string>;
-  outdegree?: Set<string>;
+  indegree?: Set<Degree>;
+  outdegree?: Set<Degree>;
   nodeSize?: number;
   bType?: string;
   organName?: string;
