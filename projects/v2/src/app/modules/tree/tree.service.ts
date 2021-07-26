@@ -102,7 +102,7 @@ export class TreeService {
    */
   public makeTreeData(currentSheet: Sheet, data: Row[], compareData?: any) {
     try {
-      let idNameSet = {};
+      const idNameSet = {};
       let id = 1;
       let parent: TNode;
       const nodes = [];
