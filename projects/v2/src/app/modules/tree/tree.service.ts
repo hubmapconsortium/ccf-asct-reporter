@@ -102,6 +102,7 @@ export class TreeService {
    */
   public makeTreeData(currentSheet: Sheet, data: Row[], compareData?: any) {
     try {
+      let idNameSet = {};
       let id = 1;
       let parent: TNode;
       const nodes = [];
@@ -140,7 +141,7 @@ export class TreeService {
             id += 1;
             const newNode = new TNode(
               id,
-              structure.name,
+              structure.id.toLowerCase() !== 'not found' && structure.id && idNameSet[structure.id] ? idNameSet[structure.id]  : structure.name,
               parent.id,
               structure.id,
               AS_RED
@@ -153,6 +154,9 @@ export class TreeService {
               newNode.ontologyId;
             newNode.comparatorId = parent.comparatorId + newNode.ontologyId;
             newNode.comparatorName = parent.comparatorName + newNode.name;
+            if (idNameSet[newNode.ontologyId] === undefined) {
+              idNameSet[newNode.ontologyId] = newNode.name;
+            }
             if ('isNew' in structure) {
               newNode.isNew = true;
               newNode.color = structure.color;
