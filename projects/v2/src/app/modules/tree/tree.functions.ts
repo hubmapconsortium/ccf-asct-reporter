@@ -26,11 +26,11 @@ export function makeAS(data: Row[]): Array<AS> {
           let foundIndex: number;
           if (str.id && str.id.toLowerCase() !== 'not found') {
             foundIndex = anatomicalStructures.findIndex(
-              (i: any) => i.comparatorId === str.id
+              (ind: any) => ind.comparatorId === str.id
             );
           } else {
             foundIndex = anatomicalStructures.findIndex(
-              (i: any) => i.comparatorName === str.name
+              (ind: any) => ind.comparatorName === str.name
             );
           }
           let newStructure: AS;
@@ -63,8 +63,8 @@ export function makeAS(data: Row[]): Array<AS> {
               // needed for the first element to not throw an error
 
               newStructure.indegree.add({
-                id: row.anatomical_structures[i-1].id,
-                name: row.anatomical_structures[i - 1].name
+                id: row.anatomical_structures[i - 1].id,
+                name: row.anatomical_structures[i - 1].name,
               });
             }
 
@@ -80,8 +80,8 @@ export function makeAS(data: Row[]): Array<AS> {
             }
             if (i > 0) {
               anatomicalStructures[foundIndex].indegree.add({
-                id: row.anatomical_structures[i-1].id,
-                name: row.anatomical_structures[i - 1].name
+                id: row.anatomical_structures[i - 1].id,
+                name: row.anatomical_structures[i - 1].name,
               });
             }
           }
@@ -142,7 +142,7 @@ export function makeCellTypes(data: Row[]): Array<CT> {
                 .id;
             newStructure.indegree.add({
               id: sid,
-              name: sn
+              name: sn,
             });
           }
 
@@ -150,7 +150,8 @@ export function makeCellTypes(data: Row[]): Array<CT> {
           row.biomarkers.forEach((marker) => {
             newStructure.outdegree.add({
               id: marker.id,
-              name: marker.name});
+              name: marker.name,
+            });
           });
           cellTypes.push(newStructure);
         } else {
@@ -161,7 +162,8 @@ export function makeCellTypes(data: Row[]): Array<CT> {
           row.biomarkers.forEach((marker) => {
             cellTypes[foundIndex].outdegree.add({
               id: marker.id,
-              name: marker.name});
+              name: marker.name,
+            });
           });
           const sn =
             row.anatomical_structures[row.anatomical_structures.length - 1]
@@ -171,7 +173,8 @@ export function makeCellTypes(data: Row[]): Array<CT> {
 
           cellTypes[foundIndex].indegree.add({
             id: sid,
-            name: sn });
+            name: sn,
+          });
         }
       });
     });
@@ -193,38 +196,38 @@ export function makeBioMarkers(data: Row[], type?: string): Array<B> {
     data.forEach((row) => {
       let currentBiomarkers = [];
       switch (type) {
-      case 'All':
-        currentBiomarkers = row.biomarkers;
-        break;
-      case 'Gene':
-        currentBiomarkers = row.biomarkers_gene;
-        break;
-      case 'Protein':
-        currentBiomarkers = row.biomarkers_protein;
-        break;
-      case 'Lipids':
-        currentBiomarkers = row.biomarkers_lipids;
-        break;
-      case 'Metalloids':
-        currentBiomarkers = row.biomarkers_meta;
-        break;
-      case 'Proteoforms':
-        currentBiomarkers = row.biomarkers_prot;
-        break;
-      default:
-        currentBiomarkers = row.biomarkers;
+        case 'All':
+          currentBiomarkers = row.biomarkers;
+          break;
+        case 'Gene':
+          currentBiomarkers = row.biomarkers_gene;
+          break;
+        case 'Protein':
+          currentBiomarkers = row.biomarkers_protein;
+          break;
+        case 'Lipids':
+          currentBiomarkers = row.biomarkers_lipids;
+          break;
+        case 'Metalloids':
+          currentBiomarkers = row.biomarkers_meta;
+          break;
+        case 'Proteoforms':
+          currentBiomarkers = row.biomarkers_prot;
+          break;
+        default:
+          currentBiomarkers = row.biomarkers;
       }
       currentBiomarkers.forEach((str) => {
         let foundIndex: number;
-          if (str.id) {
-            foundIndex = bioMarkers.findIndex(
-              (i: any) => i.comparatorId === str.id
-            );
-          } else {
-            foundIndex = bioMarkers.findIndex(
-              (i: any) => i.comparatorName === str.name
-            );
-          }
+        if (str.id) {
+          foundIndex = bioMarkers.findIndex(
+            (i: any) => i.comparatorId === str.id
+          );
+        } else {
+          foundIndex = bioMarkers.findIndex(
+            (i: any) => i.comparatorName === str.name
+          );
+        }
         let newStructure: B;
         if (foundIndex === -1) {
           newStructure = {
@@ -245,9 +248,9 @@ export function makeBioMarkers(data: Row[], type?: string): Array<B> {
           if (row.cell_types.length) {
             row.cell_types.forEach((cell) => {
               newStructure.indegree.add({
-                  id: cell.id,
-                  name: cell.name
-                });
+                id: cell.id,
+                name: cell.name,
+              });
             });
           }
 
@@ -260,9 +263,9 @@ export function makeBioMarkers(data: Row[], type?: string): Array<B> {
           if (row.cell_types.length) {
             row.cell_types.forEach((cell) => {
               bioMarkers[foundIndex].indegree.add({
-                  id: cell.id,
-                  name: cell.name
-                });
+                id: cell.id,
+                name: cell.name,
+              });
             });
           }
         }

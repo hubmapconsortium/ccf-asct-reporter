@@ -58,24 +58,24 @@ export class BimodalService {
           newLeaf.ontologyId = td.ontologyId;
           if (td.ontologyId && td.ontologyId.toLowerCase() !== 'not found') {
             newLeaf.indegree = anatomicalStructuresData.find((a: AS) => {
-              return (a.comparatorId === td.ontologyId)
+              return (a.comparatorId === td.ontologyId);
             }).indegree;
             newLeaf.outdegree = anatomicalStructuresData.find((a: AS) => {
-              return (a.comparatorId === td.ontologyId)
+              return (a.comparatorId === td.ontologyId);
             }).outdegree;
             newLeaf.label = anatomicalStructuresData.find((a: AS) => {
-              return (a.comparatorId === td.ontologyId)
+              return (a.comparatorId === td.ontologyId);
             }).label;
           }
           else{
             newLeaf.indegree = anatomicalStructuresData.find((a: AS) => {
-              return (a.comparatorName === td.name)
+              return (a.comparatorName === td.name);
             }).indegree;
             newLeaf.outdegree = anatomicalStructuresData.find((a: AS) => {
-              return (a.comparatorName === td.name)
+              return (a.comparatorName === td.name);
             }).outdegree;
             newLeaf.label = anatomicalStructuresData.find((a: AS) => {
-              return (a.comparatorName === td.name) 
+              return (a.comparatorName === td.name); 
             }).label;
           }
           nodes.push(newLeaf);
@@ -227,7 +227,7 @@ export class BimodalService {
         id += 1;
       });
 
-      nodes.forEach((node, i) => {
+      nodes.forEach((node, index) => {
         if (node.group === 1) {
           node.sources = [];
           node.outdegree.forEach(str => {
@@ -318,8 +318,8 @@ export class BimodalService {
             sources.forEach((s) => {
               if (links.some((l) => l.s === s && l.t === node.id)) {
                 if (node.sources.findIndex(l => l === s) === -1) {
-                AS_CT_LINKS += 1;
-                node.sources.push(s);
+                  AS_CT_LINKS += 1;
+                  node.sources.push(s);
                 }
               }
             });
