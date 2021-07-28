@@ -8,6 +8,7 @@ import {
   ST_ID,
 } from '../../models/tree.model';
 import { Row, Structure } from '../../models/sheet.model';
+type TypeStructue = AS | CT | B;
 
 /**
  * Function to compute the Anatomical Structures from the given Data Table.
@@ -16,7 +17,7 @@ import { Row, Structure } from '../../models/sheet.model';
  * @returns - Array of anatomical structures
  *
  */
-export function makeAS(data: Row[], isForReport?: boolean): Array<AS> {
+export function makeAS(data: Row[], isForReport: boolean = false): Array<AS> {
   const anatomicalStructures: Array<AS> = [];
   let id = ST_ID;
   try {
@@ -26,8 +27,7 @@ export function makeAS(data: Row[], isForReport?: boolean): Array<AS> {
           i === row.anatomical_structures.length - 1 ||
           (isForReport && str.name !== 'Body')
         ) {
-          let foundIndex: number;
-          foundIndex = getFoundIndex(str, anatomicalStructures, isForReport, row);
+          const foundIndex = getFoundIndex(str, anatomicalStructures, isForReport, row);
           let newStructure: AS;
           if (foundIndex === -1) {
             newStructure = {
@@ -96,13 +96,12 @@ export function makeAS(data: Row[], isForReport?: boolean): Array<AS> {
  * @param data - Sheet data
  * @returns - Array of cell types
  */
-export function makeCellTypes(data: Row[], isForReport?: boolean): Array<CT> {
+export function makeCellTypes(data: Row[], isForReport: boolean = false): Array<CT> {
   const cellTypes = [];
   try {
     data.forEach((row) => {
       row.cell_types.forEach((str) => {
-        let foundIndex: number;
-        foundIndex = getFoundIndex(str, cellTypes, isForReport, row);
+        const foundIndex = getFoundIndex(str, cellTypes, isForReport, row);
         let newStructure: CT;
         if (foundIndex === -1) {
           newStructure = {
@@ -180,7 +179,7 @@ export function makeCellTypes(data: Row[], isForReport?: boolean): Array<CT> {
 export function makeBioMarkers(
   data: Row[],
   type?: string,
-  isForReport?: boolean
+  isForReport: boolean = false
 ): Array<B> {
   const bioMarkers = [];
   try {
@@ -209,8 +208,7 @@ export function makeBioMarkers(
         currentBiomarkers = row.biomarkers;
       }
       currentBiomarkers.forEach((str) => {
-        let foundIndex: number;
-        foundIndex = getFoundIndex(str, bioMarkers, isForReport, row);
+        const foundIndex = getFoundIndex(str, bioMarkers, isForReport, row);
         let newStructure: B;
         if (foundIndex === -1) {
           newStructure = {
@@ -269,10 +267,10 @@ export function makeBioMarkers(
  * @param row - Row of the sheet
  * @returns - Index of the object in the array
  */
-function getFoundIndex(str: Structure, typeData: Array<CT | B | AS>, isForReport: boolean, row: Row) {
+function getFoundIndex(str: Structure, typeData: Array<TypeStructue>, isForReport: boolean, row: Row) {
   let foundIndex: number;
   if (str.id  && str.id.toLowerCase() !== 'not found') {
-    foundIndex = typeData.findIndex((i: CT | B | AS) => {
+    foundIndex = typeData.findIndex((i: TypeStructue) => {
       if (!isForReport) {
         return i.comparatorId === str.id;
       } else {
@@ -280,7 +278,7 @@ function getFoundIndex(str: Structure, typeData: Array<CT | B | AS>, isForReport
       }
     });
   } else {
-    foundIndex = typeData.findIndex((i: CT | B | AS) => {
+    foundIndex = typeData.findIndex((i: TypeStructue) => {
       if (!isForReport) {
         return i.comparatorName === str.name;
       } else {
