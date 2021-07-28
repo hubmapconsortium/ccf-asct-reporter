@@ -55,7 +55,7 @@
     "vega-embed": "^6.14.2",
     "vega-lite": "^4.17.0",
     "vega-tooltip": "^0.24.2",
-    "xlsx": "^0.16.9",
+    "xlsx": "^0.17.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

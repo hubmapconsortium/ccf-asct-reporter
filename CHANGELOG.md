@@ -2,12 +2,18 @@
 
 Changelog for the HuBMAP CCF ASCT+B Reporter
 
-## 2.3.0 - Pre-release
+## 2.3.0 - 2021-07-22
 
 ### Added in 2.3.0
 
-- Added linting to the ASCTB API
+- Added export to JSON graph to the ASCT+B API and UI (export menu)
+- Better routes for documentation pages (/docs/1 => /docs/about)
+- Added Select All button to the search dropdown
+- Added Ontology ID and label to the Body node
+- Upgraded dependencies to Angular 12
+- Added linting to the ASCT+B API
 - Migrated from tslint to eslint
+- Bug fixes and code cleanup
 
 ## 2.2.0 - 2021-07-02
 
