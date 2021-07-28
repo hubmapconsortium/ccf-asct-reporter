@@ -17,7 +17,7 @@ type TypeStructue = AS | CT | B;
  * @returns - Array of anatomical structures
  *
  */
-export function makeAS(data: Row[], isForReport: boolean = false): Array<AS> {
+export function makeAS(data: Row[], isForReport = false): Array<AS> {
   const anatomicalStructures: Array<AS> = [];
   let id = ST_ID;
   try {
@@ -96,7 +96,7 @@ export function makeAS(data: Row[], isForReport: boolean = false): Array<AS> {
  * @param data - Sheet data
  * @returns - Array of cell types
  */
-export function makeCellTypes(data: Row[], isForReport: boolean = false): Array<CT> {
+export function makeCellTypes(data: Row[], isForReport = false): Array<CT> {
   const cellTypes = [];
   try {
     data.forEach((row) => {
@@ -179,7 +179,7 @@ export function makeCellTypes(data: Row[], isForReport: boolean = false): Array<
 export function makeBioMarkers(
   data: Row[],
   type?: string,
-  isForReport: boolean = false
+  isForReport = false
 ): Array<B> {
   const bioMarkers = [];
   try {
