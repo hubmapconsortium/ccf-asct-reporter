@@ -4,6 +4,7 @@ import axios from 'axios';
 import cors from 'cors';
 import path from 'path';
 import papa from 'papaparse';
+import fileUpload from 'express-fileupload';
 
 import { PLAYGROUND_CSV } from '../const';
 import { LookupResponse, OntologyCode } from './models/lookup.model';
@@ -17,6 +18,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../../')));
+app.use(fileUpload());
 
 
 
@@ -125,6 +127,16 @@ app.get('/v2/csv', async (req: express.Request, res: express.Response) => {
       code: 500,
     });
   }
+});
+
+app.post('/v2/csv', async (req: express.Request, res: express.Response) => {
+  console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
+
+  const output = 'json';
+  const file  = req.files.csvFile;
+  console.log("File uploaded: ", file);
+  return res.status(200).send();
+
 });
 
 app.get('/v2/playground', async (req: express.Request, res: express.Response) => {

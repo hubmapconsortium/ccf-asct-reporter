@@ -377,7 +377,7 @@ export class RootComponent implements OnInit, OnDestroy {
     const formatType = option.toLowerCase();
     if (option === 'Graph Data') {
       const sheet = this.store.selectSnapshot(SheetState.getSheet);
-      this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid, sheet.csvUrl, 'graph').subscribe((graphData: any) => {
+      this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid, sheet.csvUrl, null, 'graph').subscribe((graphData: any) => {
         const graphDataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(graphData.data));
         const downloadAnchorNode = document.createElement('a');
         downloadAnchorNode.setAttribute('href',     graphDataStr);
