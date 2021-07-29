@@ -12,6 +12,7 @@ import { makeASCTBData } from './functions/api.functions';
 import { buildASCTApiUrl, buildHGNCApiUrl, buildHGNCLink } from './functions/lookup.functions';
 import express from 'express';
 import { makeGraphData } from './functions/graph.functions';
+import { UploadedFile } from './models/api.model';
 
 export const app: express.Application = express();
 app.use(cors());
@@ -132,10 +133,27 @@ app.get('/v2/csv', async (req: express.Request, res: express.Response) => {
 app.post('/v2/csv', async (req: express.Request, res: express.Response) => {
   console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
 
-  const output = 'json';
-  const file  = req.files.csvFile;
-  console.log("File uploaded: ", file);
-  return res.status(200).send();
+  const file  = req.files.csvFile as UploadedFile;
+  const dataString = file.data.toString();
+  console.log("File uploaded: ", file.name);
+
+  try {
+    const data = papa.parse(dataString, {skipEmptyLines: 'greedy'}).data;
+    const asctbData = await makeASCTBData(data);
+
+    return res.send({
+      data: asctbData,
+      csv: dataString,
+      parsed: data,
+    });
+
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({
+      msg: 'Please check the CSV format',
+      code: 500,
+    });
+  }
 
 });
 

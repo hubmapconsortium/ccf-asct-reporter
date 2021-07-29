@@ -1,12 +1,4 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { FetchSheetData } from '../../actions/sheet.actions';
-import { Sheet } from '../../models/sheet.model';
-import { GoogleAnalyticsService } from '../../services/google-analytics.service';
-import { SheetState } from '../../store/sheet.state';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-file-upload',
@@ -17,11 +9,9 @@ export class FileUploadComponent implements OnInit {
 
   fileName = '';
 
-  @Select(SheetState.getParsedData) data$: Observable<string[][]>;
-  @Select(SheetState.getSheet) sheet$: Observable<Sheet>;
+  @Output() fileFormDataEvent = new EventEmitter<FormData>();
 
-
-  constructor(public readonly store: Store, public readonly ga: GoogleAnalyticsService) { }
+  constructor() { }
 
   ngOnInit(): void { }
 
@@ -33,18 +23,7 @@ export class FileUploadComponent implements OnInit {
       this.fileName = file.name;
       const formData = new FormData();
       formData.append("csvFile", file);
-      //console.log(formData['files'].csvFile);
-      //const upload$ = this.http.post("/api/thumbnail-upload", formData);
-      //upload$.subscribe();
-      const sheet = {
-        gid: null,
-        sheetId: null,
-        csvUrl: null,
-        formData: formData
-      } as Sheet;
-
-      this.store.dispatch(new FetchSheetData(sheet));
-      //this.ga.eventEmitter('playground_upload', GaCategory.PLAYGROUND, 'Upload Playground Sheet', GaAction.CLICK, sheet.sheetId);
+      this.fileFormDataEvent.emit(formData);
     }
   }
 

@@ -46,7 +46,7 @@
     <div class="card m-2 p-4">
       <h5 class="font-weight-bold">Upload CSV</h5>
       <div class="mt-4">
-        <app-file-upload></app-file-upload>
+        <app-file-upload (fileFormDataEvent)="upload($event)"></app-file-upload>
       </div>
     </div>
   </mat-tab>
