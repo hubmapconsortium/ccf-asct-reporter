@@ -60,5 +60,4 @@ export function setupOntologyLookupRoutes(app: Express): void {
     }
     }
   });
-
 }
