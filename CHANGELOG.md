@@ -2,6 +2,13 @@
 
 Changelog for the HuBMAP CCF ASCT+B Reporter
 
+## 2.4.0 - Pre-release
+
+### Added in 2.4.0
+
+- Added CSV file upload capability to Playground
+- Refactored routes into new files in ASCTB API
+
 ## 2.3.0 - 2021-07-22
 
 ### Added in 2.3.0
