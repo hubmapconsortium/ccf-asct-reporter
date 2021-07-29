@@ -13,7 +13,7 @@ import { GaAction, GaCategory, GaCompareInfo } from '../../models/ga.model';
 export class CompareComponent implements OnInit {
 
   @Output() closeCompare: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() compareData: EventEmitter<any> = new EventEmitter<any>();
+  @Output() compareData: EventEmitter<CompareData[]> = new EventEmitter<CompareData[]>();
 
   @Input() compareSheets: Observable<CompareData[]>;
 
@@ -37,7 +37,8 @@ export class CompareComponent implements OnInit {
               source.link,
               source.color,
               source.title,
-              source.description
+              source.description,
+              source.formData
             )
           );
         }
@@ -45,6 +46,10 @@ export class CompareComponent implements OnInit {
         this.formSheets.push(this.createCompareForm());
       }
     });
+
+  }
+
+  upload(fileFormDataEvent?: FormData) {
 
   }
 
@@ -68,7 +73,7 @@ export class CompareComponent implements OnInit {
         title: sheet.title,
         desc: sheet.description,
         link: sheet.link,
-        color: sheet.color
+        color: sheet.color,
       };
       this.ga.eventEmitter('compare_sheet', GaCategory.COMPARE, 'Add new sheet to compare', GaAction.CLICK, JSON.stringify(sheetInfo));
     }
@@ -95,7 +100,7 @@ export class CompareComponent implements OnInit {
     }
   }
 
-  createCompareForm(link= '', color?: string, title= '', description= ''): FormGroup {
+  createCompareForm(link= '', color?: string, title= '', description= '', formData?: FormData): FormGroup {
     if (!color) {
       color = this.getRandomColor();
     }
@@ -104,7 +109,8 @@ export class CompareComponent implements OnInit {
       title: [title],
       description: [description],
       link: [link, Validators.compose([Validators.required, Validators.pattern(/\/([\w-_]{15,})\/(.*?gid=(\d+))?|\w*csv$/)])],
-      color: [color]
+      color: [color],
+      formData: [formData]
     });
   }
 

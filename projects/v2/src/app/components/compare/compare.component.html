@@ -117,17 +117,23 @@
                       matInput
                       placeholder="Enter link..."
                       formControlName="link"
-                      required
+
                     />
                     <mat-hint>Enter Browser URL address for your public Google Sheet (or CSV)</mat-hint>
-                    <mat-error
+                    <!-- <mat-error
                       *ngIf="
                         sheet.get('link').hasError('required') ||
                         sheet.get('link').hasError('pattern')
                       "
                       >Invalid link</mat-error
-                    >
+                    > -->
                   </mat-form-field>
+                </div>
+                <div class="w-100">
+                  <p>
+                    <app-file-upload (fileFormDataEvent)="upload($event)"></app-file-upload>
+                    <mat-label>Upload a CSV file</mat-label>
+                  </p>
                 </div>
                 <div class="pick-color-container">
                   <mat-label class="pick-color-title"
@@ -166,7 +172,6 @@
       <button
         mat-flat-button
         color="primary"
-        [disabled]="doesFormHaveError()"
         (click)="compare()"
         class="compare-button"
       >
