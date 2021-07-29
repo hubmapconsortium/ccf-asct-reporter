@@ -16,17 +16,17 @@
         <form class="w-100">
           <p>
             <mat-form-field class="w-50" appearance="legacy">
-              <mat-label>Google Sheet (or CSV) Link</mat-label>
+              <mat-label>Google Sheet or CSV Link</mat-label>
               <input type="text" placeholder="Enter link..." matInput [formControl]="linkFormControl" />
               <mat-hint
-                >Enter Browser URL address for your <strong>public</strong> Google Sheet (or CSV).</mat-hint>
+                >Enter Browser URL address for your <strong>public</strong> Google Sheet or CSV.</mat-hint>
               <mat-error
                 *ngIf="
                   linkFormControl.hasError('email') ||
                   linkFormControl.hasError('required')
                 "
               >
-              Enter Browser URL address for your public Google Sheet (or CSV).
+              Enter Browser URL address for your public Google Sheet or CSV.
               </mat-error>
             </mat-form-field>
           </p>
@@ -44,7 +44,7 @@
       </div>
     </div>
     <div class="card m-2 p-4">
-      <h5 class="font-weight-bold">Upload CSV</h5>
+      <h5 class="font-weight-bold">Upload CSV File</h5>
       <div class="mt-4">
         <app-file-upload (fileFormDataEvent)="upload($event)"></app-file-upload>
       </div>

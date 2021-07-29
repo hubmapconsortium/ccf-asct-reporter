@@ -134,8 +134,16 @@ app.post('/v2/csv', async (req: express.Request, res: express.Response) => {
   console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
 
   const file  = req.files.csvFile as UploadedFile;
+
+  if (file.mimetype !== 'text/csv' || file.size > 10000000) {
+    return res.status(400).send({
+      msg: 'File must be a CSV less than 10 MB.',
+      code: 400
+    })
+  }
+
   const dataString = file.data.toString();
-  console.log("File uploaded: ", file.name);
+  console.log('File uploaded: ', file.name);
 
   try {
     const data = papa.parse(dataString, {skipEmptyLines: 'greedy'}).data;

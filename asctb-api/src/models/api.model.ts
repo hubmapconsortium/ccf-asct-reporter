@@ -67,6 +67,7 @@ export const headerMap: any = {
   BF: 'biomarkers_prot',
 };
 
+// Copied interface out of @types/express-fileupload to avoid type casting failure
 export interface UploadedFile {
     /** file name */
     name: string;

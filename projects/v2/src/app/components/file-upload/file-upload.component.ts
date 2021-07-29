@@ -22,7 +22,7 @@ export class FileUploadComponent implements OnInit {
     if (file) {
       this.fileName = file.name;
       const formData = new FormData();
-      formData.append("csvFile", file);
+      formData.append('csvFile', file);
       this.fileFormDataEvent.emit(formData);
     }
   }
