@@ -30,9 +30,9 @@ export class ReportService {
     };
 
     try {
-      output.anatomicalStructures = makeAS(data);
-      output.cellTypes = makeCellTypes(data);
-      output.biomarkers = makeBioMarkers(data, biomarkerType);
+      output.anatomicalStructures = makeAS(data, true);
+      output.cellTypes = makeCellTypes(data, true);
+      output.biomarkers = makeBioMarkers(data, biomarkerType, true);
 
       output.ASWithNoLink = this.getASWithNoLink(output.anatomicalStructures);
       output.CTWithNoLink = this.getCTWithNoLink(output.cellTypes);
@@ -83,7 +83,7 @@ export class ReportService {
     };
 
     try {
-      result.anatomicalStructures = makeAS(asFullData).reduce(
+      result.anatomicalStructures = makeAS(asFullData, true).reduce(
         (acc, curr) => {
           return this.countOrganWise(acc, curr, 'anatomicalStructures');
         },
@@ -188,7 +188,7 @@ export class ReportService {
     const identicalStructuresAS = [];
     const newStructuresAS = [];
     try {
-      const compareAS = makeAS(compareData);
+      const compareAS = makeAS(compareData, true);
       const mainASData = reportdata.anatomicalStructures.filter(
         (i) => !i.isNew
       );
@@ -222,7 +222,7 @@ export class ReportService {
     const identicalStructuresCT = [];
     const newStructuresCT = [];
     try {
-      const compareCT = makeCellTypes(compareData);
+      const compareCT = makeCellTypes(compareData, true);
       const mainCTData = reportdata.cellTypes.filter((i) => !i.isNew);
       const compareCTData = compareCT.filter((i) => i.isNew);
 
@@ -254,7 +254,7 @@ export class ReportService {
     const identicalStructuresB = [];
     const newStructuresB = [];
     try {
-      const compareB = makeBioMarkers(compareData);
+      const compareB = makeBioMarkers(compareData, '', true);
       const mainBData = reportdata.biomarkers.filter((i) => !i.isNew);
       const compareBData = compareB.filter((i) => i.isNew);
 
