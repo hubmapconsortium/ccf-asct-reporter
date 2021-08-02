@@ -23,6 +23,7 @@ import { DocsModule } from './modules/docs/docs.module';
 import { RootModule } from './modules/root/root.module';
 import { HomeModule } from './components/home/home.module';
 import { FooterModule } from './components/footer/footer.module';
+import { FileUploadModule } from './components/file-upload/file-upload.module';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { FooterModule } from './components/footer/footer.module';
     DocsModule,
     RootModule,
     HomeModule,
-    FooterModule
+    FooterModule,
+    FileUploadModule
   ],
   providers: [GoogleAnalyticsService],
   bootstrap: [AppComponent]

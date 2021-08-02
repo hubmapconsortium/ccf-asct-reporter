@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { FileUploadModule } from '../../components/file-upload/file-upload.module';
 
 
 
@@ -20,8 +21,8 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule,
     MatButtonModule,
     FormsModule,
-    ReactiveFormsModule
-
+    ReactiveFormsModule,
+    FileUploadModule
   ],
   exports: [PlaygroundComponent]
 })

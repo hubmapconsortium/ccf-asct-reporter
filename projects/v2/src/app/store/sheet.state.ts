@@ -311,24 +311,24 @@ export class SheetState {
       rdfs_label: this.bodyLabel,
     };
 
-    for await (const [_unused, sheet] of compareData.entries()) {
-      this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid, sheet.csvUrl).subscribe(
+    for await (const [_unused, compareSheet] of compareData.entries()) {
+      this.sheetService.fetchSheetData(compareSheet.sheetId, compareSheet.gid, compareSheet.csvUrl, compareSheet.formData).subscribe(
         (res: ResponseData) => {
           for (const row of res.data) {
             for (const i of row.anatomical_structures) {
               i.isNew = true;
-              i.color = sheet.color;
+              i.color = compareSheet.color;
             }
             row.anatomical_structures.unshift(organ);
 
             for (const i of row.cell_types) {
               i.isNew = true;
-              i.color = sheet.color;
+              i.color = compareSheet.color;
             }
 
             for (const i of row.biomarkers) {
               i.isNew = true;
-              i.color = sheet.color;
+              i.color = compareSheet.color;
             }
           }
 
@@ -337,7 +337,7 @@ export class SheetState {
           const currentCompareData = getState().compareData;
           patchState({
             data: [...currentData, ...res.data],
-            compareSheets: [...currentCompare, ...[sheet]],
+            compareSheets: [...currentCompare, ...[compareSheet]],
             compareData: [...currentCompareData, ...res.data],
           });
         },
@@ -347,7 +347,7 @@ export class SheetState {
             msg: `${error.name} (Status: ${error.status})`,
             status: error.status,
             hasError: true,
-            hasGidError: !(sheet.gid || sheet.gid === '0')
+            hasGidError: !(compareSheet.gid || compareSheet.gid === '0')
           };
           dispatch(
             new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
@@ -443,7 +443,7 @@ export class SheetState {
   }
 
   /**
-   * Action to fetch the sheet data. Resets the Sheet State and teh Tree State
+   * Action to fetch the sheet data. Resets the Sheet State and the Tree State
    * Accepts the sheet config of the particular sheet
    */
   @Action(FetchSheetData)
@@ -460,7 +460,7 @@ export class SheetState {
     patchState({ sheet });
     const state = getState();
 
-    return this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid, sheet.csvUrl).pipe(
+    return this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid, sheet.csvUrl, sheet.formData).pipe(
       tap((res: ResponseData) => {
         res.data = this.sheetService.getDataWithBody(res.data);
         setState({

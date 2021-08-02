@@ -18,14 +18,15 @@ export class SheetService {
    * @param gid gid of the sheet
    * @param csvFileUrl is the optional parameter that contains the value to the csv file url of the sheet
    */
-  fetchSheetData(sheetId: string, gid: string, csvFileUrl?: string, output?: string) {
+  fetchSheetData(sheetId: string, gid: string, csvFileUrl?: string, formData?: FormData, output?: string) {
     if (csvFileUrl) {
       return this.http.get(`${URL}/v2/csv`, { params: {
         csvUrl: csvFileUrl,
         output: output ? output : 'json'
       }});
-    }
-    else {
+    } else if (formData) {
+      return this.http.post(`${URL}/v2/csv`, formData);
+    } else {
       if (output === 'graph') {
         return this.http.get(`${URL}/v2/${sheetId}/${gid}/graph`);
       }
