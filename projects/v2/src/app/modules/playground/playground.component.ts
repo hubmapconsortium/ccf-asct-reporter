@@ -268,7 +268,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
   /**
    * Read the google sheet link and upload
    */
-  upload() {
+  upload(formDataEvent?: FormData) {
     const data = this.checkLinkFormat(this.linkFormControl.value);
     const sheet = JSON.parse(JSON.stringify(this.currentSheet));
     sheet.gid = data.gid;
@@ -276,6 +276,11 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
     sheet.csvUrl = data.csvUrl;
     this.tabIndex = 0;
     sheet.config.height = 1400;
+
+    if (formDataEvent) {
+      sheet.formData = formDataEvent;
+    }
+
     this.store.dispatch(new FetchSheetData(sheet));
     this.ga.eventEmitter('playground_upload', GaCategory.PLAYGROUND, 'Upload Playground Sheet', GaAction.CLICK, sheet.sheetId);
   }

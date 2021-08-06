@@ -50,6 +50,7 @@ export interface Sheet {
   title: string;
   data?: string;
   csvUrl?: string;
+  formData?: FormData;
 }
 
 export interface CompareData {
@@ -60,6 +61,7 @@ export interface CompareData {
   sheetId: string;
   gid: string;
   csvUrl?: string;
+  formData?: FormData;
 }
 
 export interface SheetConfig {
