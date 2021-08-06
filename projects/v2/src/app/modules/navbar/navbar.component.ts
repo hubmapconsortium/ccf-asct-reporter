@@ -74,7 +74,7 @@ export class NavbarComponent implements OnInit {
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(public store: Store, public router: Router, public ga: GoogleAnalyticsService, public dialog: MatDialog,
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     this.sheet$.subscribe((sheet) => {
@@ -100,7 +100,7 @@ export class NavbarComponent implements OnInit {
     this.selectedOrgans$.subscribe((organs) => {
       this.selectedOrgans = organs;
       this.selectedOrgansValues = organs?.join(', ');
-    })
+    });
   }
 
   getSheetSelection(sheet, event) {
@@ -184,7 +184,7 @@ export class NavbarComponent implements OnInit {
     dialogRef.afterClosed().subscribe((organs) => {
       if(organs !== false){
         this.store.dispatch(new UpdateMode('vis'));
-        let sheet =  SHEET_CONFIG.find(i => i.name === 'some');
+        const sheet =  SHEET_CONFIG.find(i => i.name === 'some');
         this.store.dispatch(new FetchSelectedOrganData(sheet, organs));
         localStorage.setItem('selectedOrgans', organs);
       }

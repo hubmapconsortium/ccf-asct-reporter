@@ -52,7 +52,7 @@ import {
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
 import { InfoComponent } from '../../components/info/info.component';
-import { CompareData, DOI, Row, SheetConfig, SheetInfo, VersionDetail } from '../../models/sheet.model';
+import { CompareData, DOI, Row, SheetConfig, SheetInfo } from '../../models/sheet.model';
 import { DoiComponent } from '../../components/doi/doi.component';
 import { SearchStructure } from '../../models/tree.model';
 import { MatDrawerContent } from '@angular/material/sidenav';

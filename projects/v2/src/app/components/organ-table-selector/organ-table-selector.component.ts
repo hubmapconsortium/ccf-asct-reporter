@@ -40,7 +40,7 @@ export class OrganTableSelectorComponent implements OnInit {
   }
 
   selectAllOrgans() {
-    let allOrgans = [];
+    const allOrgans = [];
     this.SHEET_OPTIONS.forEach((s: any) => {
       s.version?.forEach((v) => {
         allOrgans.push(v.value);
