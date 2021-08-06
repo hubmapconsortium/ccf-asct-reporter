@@ -94,6 +94,12 @@ export interface DOI {
   notes: string;
 }
 
+export interface VersionDetail {
+  value: string;
+  viewValue: string;
+  csvUrl?: string;
+}
+
 export interface SheetDetails {
   name: string;
   display: string;
@@ -107,6 +113,7 @@ export interface SheetDetails {
       height: number;
   };
   title: string;
+  version?: Array<VersionDetail>;
   data?: any;
   csvUrl?: string;
 }

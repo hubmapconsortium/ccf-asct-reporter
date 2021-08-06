@@ -1,0 +1,61 @@
+
+<h2 mat-dialog-title>Select one or more ASCT+B Tables</h2>
+<div class="select-deselect-all">
+  <button
+    class="selectBtn"
+    mat-stroked-button
+    aria-label="Select All"
+    (click)="selectAllOrgans()"
+  >
+    Select All
+  </button>
+  <button
+    class="selectBtn"
+    mat-stroked-button
+    aria-label="Deselect All"
+    (click)="deselectAllOrgans()"
+  >
+    Deselect All
+  </button>
+</div>
+<div>
+  <mat-form-field class="w-100" appearance="fill">
+    <mat-label>Organs</mat-label>
+    <mat-select [(ngModel)]="organs" (selectionChange)="selectOption()" multiple>
+      <mat-optgroup
+        *ngFor="let group of SHEET_OPTIONS"
+        [label]="group.title"
+        [disabled]="group.disabled"
+      >
+        <mat-option
+          *ngFor="let version of group.version"
+          [value]="version.value"
+        >
+          {{ version.viewValue }}
+        </mat-option>
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div footer>
+  <div class="mt-2" class="button-container">
+    <button
+      mat-flat-button
+      color="primary"
+      class="add-cancel-button"
+      [mat-dialog-close]="false"
+      [disabled]="!hasSomeOrgans"
+    >
+      Cancel
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      class="add-cancel-button"
+      [disabled]="!hasSomeOrgans"
+      (click)="addSheets(organs)"
+    >
+      Submit
+    </button>
+  </div>
+</div>

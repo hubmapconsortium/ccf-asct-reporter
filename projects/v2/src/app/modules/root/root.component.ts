@@ -21,6 +21,7 @@ import {
   DeleteCompareSheet,
   UpdateMode,
   FetchInitialPlaygroundData,
+  FetchSelectedOrganData,
 } from './../../actions/sheet.actions';
 import { TreeService } from './../tree/tree.service';
 import { ActivatedRoute } from '@angular/router';
@@ -51,11 +52,12 @@ import {
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
 import { InfoComponent } from '../../components/info/info.component';
-import { CompareData, DOI, Row, SheetConfig, SheetInfo } from '../../models/sheet.model';
+import { CompareData, DOI, Row, SheetConfig, SheetInfo, VersionDetail } from '../../models/sheet.model';
 import { DoiComponent } from '../../components/doi/doi.component';
 import { SearchStructure } from '../../models/tree.model';
 import { MatDrawerContent } from '@angular/material/sidenav';
 import { SheetService } from '../../services/sheet.service';
+import { OrganTableSelectorComponent } from '../../components/organ-table-selector/organ-table-selector.component';
 
 
 @Component({
@@ -181,14 +183,41 @@ export class RootComponent implements OnInit, OnDestroy {
     this.route.queryParamMap.subscribe(query => {
       const version = query.get('version');
       const sheet = query.get('sheet');
+      const selectedOrgans = localStorage.getItem('selectedOrgans');
       const playground = query.get('playground');
+      if (!selectedOrgans && playground !== 'true' && !sheet) {
+        store.dispatch(new CloseLoading('Select Organ Model Rendered'));
+        const config = new MatDialogConfig();
+        config.disableClose = true;
+        config.autoFocus = true;
+        config.id = 'OrganTableSelector';
+        config.width = '25vw';
+
+        const dialogRef = this.dialog.open(OrganTableSelectorComponent, config);
+        dialogRef.afterClosed().subscribe((organs) => {
+          if (organs !== false){
+            store.dispatch(new UpdateMode('vis'));
+            this.sheet =  SHEET_CONFIG.find(i => i.name === 'some');
+            store.dispatch(new FetchSelectedOrganData(this.sheet, organs));
+            
+            localStorage.setItem('selectedOrgans', organs);
+          }
+        });
+      }
+      if (selectedOrgans && playground !== 'true') {
+        store.dispatch(new UpdateMode('vis'));
+        this.sheet =  SHEET_CONFIG.find(i => i.name === 'some');
+        store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(',')));
+        localStorage.setItem('selectedOrgans', selectedOrgans);
+      }
+
 
       if (playground === 'true') {
         store.dispatch(new UpdateMode('playground'));
         this.sheet = SHEET_CONFIG.find(i => i.name === 'example');
         this.store.dispatch(new FetchInitialPlaygroundData());
         store.dispatch(new CloseLoading());
-      } else {
+      } else if (sheet && !selectedOrgans) {
         store.dispatch(new UpdateMode('vis'));
         this.sheet =  SHEET_CONFIG.find(i => i.name === sheet);
         localStorage.setItem('sheet', this.sheet.name);

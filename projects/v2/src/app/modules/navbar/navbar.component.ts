@@ -1,16 +1,18 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { SHEET_OPTIONS, VERSION, MORE_OPTIONS, IMG_OPTIONS, PLAYGROUND_SHEET_OPTIONS, MASTER_SHEET_LINK } from '../../static/config';
+import { SHEET_OPTIONS, VERSION, MORE_OPTIONS, IMG_OPTIONS, PLAYGROUND_SHEET_OPTIONS, MASTER_SHEET_LINK, SHEET_CONFIG } from '../../static/config';
 import { Store, Select } from '@ngxs/store';
 import { SheetState, SheetStateModel } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
 import { Sheet } from '../../models/sheet.model';
 import { Router } from '@angular/router';
-import { FetchSheetData, FetchAllOrganData } from '../../actions/sheet.actions';
+import { FetchSheetData, FetchAllOrganData, UpdateMode, FetchSelectedOrganData } from '../../actions/sheet.actions';
 import { ToggleControlPane, ToggleIndentList, ToggleReport, ToggleDebugLogs, OpenCompare } from '../../actions/ui.actions';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { ClearSheetLogs } from '../../actions/logs.actions';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory } from '../../models/ga.model';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { OrganTableSelectorComponent } from '../../components/organ-table-selector/organ-table-selector.component';
 
 @Component({
   selector: 'app-navbar',
@@ -54,15 +56,25 @@ export class NavbarComponent implements OnInit {
    * Currently selecte mode
    */
   mode: string;
+  /**
+   * Currently selected organs
+   */
+  selectedOrgans: Array<string>;
+  /**
+   * Currently selected organs joined by comma
+   */
+  selectedOrgansValues: string;
 
   // state observables
   @Select(SheetState) sheet$: Observable<SheetStateModel>;
   @Select(UIState) ui$: Observable<UIStateModel>;
   @Select(SheetState.getMode) mode$: Observable<string>;
+  @Select(SheetState.getSelectedOrgans) selectedOrgans$: Observable<Array<string>>;
 
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(public store: Store, public router: Router, public ga: GoogleAnalyticsService) {}
+  constructor(public store: Store, public router: Router, public ga: GoogleAnalyticsService, public dialog: MatDialog,
+    ) {}
 
   ngOnInit(): void {
     this.sheet$.subscribe((sheet) => {
@@ -84,6 +96,11 @@ export class NavbarComponent implements OnInit {
         this.SHEET_OPTIONS = SHEET_OPTIONS;
       }
     });
+
+    this.selectedOrgans$.subscribe((organs) => {
+      this.selectedOrgans = organs;
+      this.selectedOrgansValues = organs?.join(', ');
+    })
   }
 
   getSheetSelection(sheet, event) {
@@ -152,6 +169,26 @@ export class NavbarComponent implements OnInit {
     default:
       this.window.open(url, '_blank'); break;
     }
+  }
+
+  openSelectOrgansDialog(){
+
+    const config = new MatDialogConfig();
+    config.disableClose = true;
+    config.autoFocus = true;
+    config.id = 'OrganTableSelector';
+    config.width = '25vw';
+    config.data = this.selectedOrgans;
+
+    const dialogRef = this.dialog.open(OrganTableSelectorComponent, config);
+    dialogRef.afterClosed().subscribe((organs) => {
+      if(organs !== false){
+        this.store.dispatch(new UpdateMode('vis'));
+        let sheet =  SHEET_CONFIG.find(i => i.name === 'some');
+        this.store.dispatch(new FetchSelectedOrganData(sheet, organs));
+        localStorage.setItem('selectedOrgans', organs);
+      }
+    });
   }
 
   toggleMode() {

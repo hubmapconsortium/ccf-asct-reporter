@@ -1,0 +1,24 @@
+
+  .button-container {
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+  }
+  .select-deselect-all{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 15px;
+  }
+  .add-cancel-button {
+    border: 0.063rem solid rgb(196, 196, 196);
+    border-radius: 0.5rem !important;
+  }
+  .orgon-selection-box {
+    margin-bottom: 0;
+  }
+  .orgon-selection-button {
+    width: 100%;
+  }
+  ::ng-deep .orgon-selection-box .mat-form-field-underline {
+    display: none;
+  }

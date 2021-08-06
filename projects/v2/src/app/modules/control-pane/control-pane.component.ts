@@ -24,6 +24,7 @@ export class ControlPaneComponent implements OnInit {
   @Select(SheetState.getSheetConfig) config$: Observable<SheetConfig>;
   @Select(SheetState.getSheet) sheet$: Observable<Sheet>;
   @Select(TreeState.getVegaView) view$: Observable<any>;
+  @Select(SheetState.getSelectedOrgans) selectedOrgans$: Observable<string[]>;
 
   @Select(TreeState.getTreeData) td$: Observable<TNode[]>;
   @Select(TreeState.getBimodal) bm$: Observable<any>;

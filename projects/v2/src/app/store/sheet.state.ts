@@ -9,6 +9,7 @@ import {
   ResponseData,
   SheetInfo,
   DOI,
+  VersionDetail,
 } from '../models/sheet.model';
 import { Error } from '../models/response.model';
 import { tap, catchError } from 'rxjs/operators';
@@ -31,6 +32,7 @@ import {
   UpdatePlaygroundData,
   UpdateBottomSheetInfo,
   UpdateBottomSheetDOI,
+  FetchSelectedOrganData,
 } from '../actions/sheet.actions';
 import {
   OpenLoading,
@@ -97,6 +99,10 @@ export class SheetStateModel {
    * Stores the full anatomical structures data when all organs is clicked.
    */
   fullAsData: Row[];
+  /**
+   * Stores the selected organs details.
+   */
+   selectedOrgans: string[];
 }
 
 @State<SheetStateModel>({
@@ -144,7 +150,8 @@ export class SheetStateModel {
       status: 0,
     },
     bottomSheetDOI: [],
-    fullAsData: []
+    fullAsData: [],
+    selectedOrgans: [],
   },
 })
 @Injectable()
@@ -177,6 +184,14 @@ export class SheetState {
   static getSheetConfig(state: SheetStateModel) {
     return state.sheetConfig;
   }
+
+  /**
+   * Returns an observable that watches the selected organs data
+   */
+   @Selector()
+   static getSelectedOrgans(state: SheetStateModel) {
+     return state.selectedOrgans;
+   }
 
   /**
    * Returns an observable that watches the linked compare documents
@@ -360,6 +375,100 @@ export class SheetState {
   }
 
   /**
+   * Action to fetch selected organs data using forkJoin rxjs
+   * Accepts the sheet config and selected organs data
+   */
+   @Action(FetchSelectedOrganData)
+   async fetchSelectedOrganData(
+     { getState, dispatch, patchState }: StateContext<SheetStateModel>,
+     { sheet, selectedOrgans }: FetchSelectedOrganData
+   ) {
+     dispatch(new OpenLoading('Fetching data...'));
+
+     dispatch(new StateReset(TreeState));
+     dispatch(new CloseBottomSheet());
+     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
+     const state = getState();
+
+     patchState({
+       sheet,
+       compareData: [],
+       compareSheets: [],
+       data: [],
+       selectedOrgans: selectedOrgans,
+       sheetConfig: {
+         ...sheet.config,
+         show_ontology: state.sheetConfig.show_ontology,
+         show_all_AS: state.sheetConfig.show_all_AS,
+       },
+       version: 'latest',
+     });
+ 
+     const requests$: Array<Observable<any>> = [];
+     let dataAll: Row[] = [];
+
+     const organsNames: string[] = [];
+     for (const organ of selectedOrgans) {
+      SHEET_CONFIG.forEach((config) => {
+        config.version?.forEach((version: VersionDetail) => {
+          if (version.value === organ) {
+            requests$.push(this.sheetService.fetchSheetData(config.sheetId, config.gid, version.csvUrl));
+            organsNames.push(config.name);
+          }
+        });
+      });
+    }
+     let asDeltails = [];
+     forkJoin(requests$).subscribe(
+       (allResults) => {
+         allResults.map((res: ResponseData, index: number) => {
+           for (const row of res.data) {
+             row.organName = organsNames[index];
+
+             const newStructure: Structure = {
+               name: 'Body',
+               id: this.bodyId,
+               rdfs_label: this.bodyLabel,
+             };
+
+             row.anatomical_structures.unshift(newStructure);
+           }
+
+           asDeltails = JSON.parse(JSON.stringify([...asDeltails, ...res.data]));
+
+           for (const row of res.data) {
+            if (!state.sheetConfig.show_all_AS && selectedOrgans.length > 8) {
+              row.anatomical_structures.splice(
+                2,
+                row.anatomical_structures.length - 2
+              );
+            }
+          }
+
+          dataAll = [...dataAll, ...res.data];
+         });
+         patchState({
+           data: dataAll,
+           fullAsData: asDeltails
+         });
+       },
+       (err) => {
+
+         const error: Error = {
+           msg: `${err.name} (Status: ${err.status})`,
+           status: err.status,
+           hasError: true,
+         };
+         dispatch(
+           new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
+         );
+         dispatch(new HasError(error));
+         return of('');
+       }
+     );
+   }
+
+  /**
    * Action to fetch all organ data using forkJoin rxjs
    * Accepts the sheet config
    */
@@ -391,7 +500,7 @@ export class SheetState {
     let dataAll: Row[] = [];
     const organsNames: string[] = [];
     for (const s of SHEET_CONFIG) {
-      if (s.name === 'all' || s.name === 'example') {
+      if (s.name === 'all' || s.name === 'example' || s.name === 'some') {
         continue;
       } else {
         requests$.push(this.sheetService.fetchSheetData(s.sheetId, s.gid, s.csvUrl));

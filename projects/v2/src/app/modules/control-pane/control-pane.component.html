@@ -22,7 +22,7 @@
     </div>
 
     <div class="px-3 mt-4">
-      <app-vis-controls [config]="config$ | async" [error]="error" (updatedConfig)="updateConfigInSheet($event)" [currentSheet]="sheet$ | async"></app-vis-controls>
+      <app-vis-controls [selectedOrgans]="selectedOrgans$ | async" [config]="config$ | async" [error]="error" (updatedConfig)="updateConfigInSheet($event)" [currentSheet]="sheet$ | async"></app-vis-controls>
     </div>
   </div>
 
