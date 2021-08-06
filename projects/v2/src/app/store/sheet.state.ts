@@ -409,15 +409,15 @@ export class SheetState {
 
     const organsNames: string[] = [];
     for (const organ of selectedOrgans) {
-    SHEET_CONFIG.forEach((config) => {
-      config.version?.forEach((version: VersionDetail) => {
-        if (version.value === organ) {
-          requests$.push(this.sheetService.fetchSheetData(config.sheetId, config.gid, version.csvUrl));
-          organsNames.push(config.name);
-        }
+      SHEET_CONFIG.forEach((config) => {
+        config.version?.forEach((version: VersionDetail) => {
+          if (version.value === organ) {
+            requests$.push(this.sheetService.fetchSheetData(config.sheetId, config.gid, version.csvUrl));
+            organsNames.push(config.name);
+          }
+        });
       });
-    });
-  }
+    }
     let asDeltails = [];
     forkJoin(requests$).subscribe(
       (allResults) => {
@@ -437,15 +437,15 @@ export class SheetState {
           asDeltails = JSON.parse(JSON.stringify([...asDeltails, ...res.data]));
 
           for (const row of res.data) {
-          if (!state.sheetConfig.show_all_AS && selectedOrgans.length > 8) {
-            row.anatomical_structures.splice(
-              2,
-              row.anatomical_structures.length - 2
-            );
+            if (!state.sheetConfig.show_all_AS && selectedOrgans.length > 8) {
+              row.anatomical_structures.splice(
+                2,
+                row.anatomical_structures.length - 2
+              );
+            }
           }
-        }
 
-        dataAll = [...dataAll, ...res.data];
+          dataAll = [...dataAll, ...res.data];
         });
         patchState({
           data: dataAll,
