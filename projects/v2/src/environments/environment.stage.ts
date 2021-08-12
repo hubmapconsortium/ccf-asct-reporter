@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
   tag: 'Staging',
-  googleAnalyticsId: 'UA-136932895-4',
+  googleAnalyticsId: 'G-58FWLW86SD',
   asctbApiUrl: 'https://asctb-api--staging.herokuapp.com'
 };
