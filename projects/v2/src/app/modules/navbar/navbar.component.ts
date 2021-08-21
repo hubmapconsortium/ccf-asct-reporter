@@ -99,7 +99,7 @@ export class NavbarComponent implements OnInit {
 
     this.selectedOrgans$.subscribe((organs) => {
       this.selectedOrgans = organs;
-      this.selectedOrgansValues = organs?.join(', ');
+      this.selectedOrgansValues = (organs?.join(', ')).length > 64 ? `${organs.length} organs selected` : organs?.join(', ');
     });
   }
 
@@ -177,16 +177,19 @@ export class NavbarComponent implements OnInit {
     config.disableClose = true;
     config.autoFocus = true;
     config.id = 'OrganTableSelector';
-    config.width = '25vw';
+    config.width = '40vw';
     config.data = this.selectedOrgans;
 
     const dialogRef = this.dialog.open(OrganTableSelectorComponent, config);
     dialogRef.afterClosed().subscribe((organs) => {
       if(organs !== false){
-        this.store.dispatch(new UpdateMode('vis'));
-        const sheet =  SHEET_CONFIG.find(i => i.name === 'some');
-        this.store.dispatch(new FetchSelectedOrganData(sheet, organs));
-        localStorage.setItem('selectedOrgans', organs);
+        this.router.navigate(['/vis'], {
+          queryParams: {
+            selectedOrgans: organs?.join(','),
+            playground: false,
+          },
+          queryParamsHandling: 'merge',
+        });
       }
     });
   }
@@ -194,14 +197,14 @@ export class NavbarComponent implements OnInit {
   toggleMode() {
     if (this.mode === 'vis') {
       this.router.navigate(['/vis'], {
-        queryParams: { sheet: 'example', playground: true },
+        queryParams: {  playground: true, selectedOrgans: 'example'},
         queryParamsHandling: 'merge',
       });
       this.ga.eventEmitter('nav_enter_playground', GaCategory.NAVBAR, 'Enter Playground Mode', GaAction.NAV, null);
     } else if (this.mode === 'playground') {
       this.router.navigate(['/vis'], {
         queryParams: {
-          sheet: localStorage.getItem('sheet'),
+          selectedOrgans: sessionStorage.getItem('selectedOrgans'),
           playground: false,
         },
         queryParamsHandling: 'merge',

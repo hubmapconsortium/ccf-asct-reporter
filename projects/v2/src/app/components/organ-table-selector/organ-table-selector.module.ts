@@ -10,12 +10,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
-
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [OrganTableSelectorComponent],
   imports: [
-    CommonModule, 
+    CommonModule,
     MatDialogModule,
     MatInputModule,
     FormsModule,
@@ -28,7 +29,10 @@ import { MatMenuModule } from '@angular/material/menu';
     MatMenuModule,
     FormsModule,
     ReactiveFormsModule,
-    MatButtonModule],
+    MatCheckboxModule,
+    MatTableModule,
+    MatButtonModule,
+  ],
   exports: [OrganTableSelectorComponent],
 })
 export class OrganTableSelectorModule {}

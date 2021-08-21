@@ -106,7 +106,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() { }
 
   makeOntologyLinksGraphData(reportData: Report) {
-    if (this.currentSheet.name === 'all') {
+    if (this.currentSheet.name === 'all' || this.currentSheet.name === 'some') {
       const { result, biomarkersSeperateNames } =
         this.reportService.makeAllOrganReportDataByOrgan(reportData, this.asFullData);
       this.displayedColumns = [

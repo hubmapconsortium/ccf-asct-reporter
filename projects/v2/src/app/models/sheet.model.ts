@@ -117,3 +117,12 @@ export interface SheetDetails {
   data?: any;
   csvUrl?: string;
 }
+
+export interface SheetOptions {
+  title: string;
+  sheet: string;
+  version?: {
+    value: string;
+    viewValue: string;
+  }[];
+}

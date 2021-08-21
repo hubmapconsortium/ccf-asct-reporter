@@ -1,4 +1,4 @@
-import { SheetDetails } from '../models/sheet.model';
+import { SheetDetails, SheetOptions } from '../models/sheet.model';
 
 export const HEADER_COUNT = 11;
 
@@ -342,18 +342,14 @@ export const SHEET_CONFIG: SheetDetails[] = [
   },
 ];
 
-export const PLAYGROUND_SHEET_OPTIONS = [
+export const PLAYGROUND_SHEET_OPTIONS: SheetOptions[] = [
   {
     title: 'Example',
     sheet: 'example',
   },
 ];
 
-export const SHEET_OPTIONS = [
-  {
-    title: 'All Organs',
-    sheet: 'all',
-  },
+export const SHEET_OPTIONS: SheetOptions[] = [
   {
     title: 'Bone Marrow',
     sheet: 'bone_marrow',
