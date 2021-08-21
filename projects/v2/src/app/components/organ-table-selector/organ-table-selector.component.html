@@ -41,7 +41,7 @@
             </mat-select>
         </mat-form-field>
         </div>
-        <div *ngIf= "element.version.length ==1">
+        <div *ngIf= "element.version.length === 1">
                 <mat-label >{{element.version[0].viewValue}} {{changeVersion(element.version[0].value,element)}}</mat-label>
         </div>
      </td>
