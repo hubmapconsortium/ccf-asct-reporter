@@ -13,9 +13,6 @@ import { TreeState } from './../../store/tree.state';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import {
-  FetchSheetData,
-  FetchDataFromAssets,
-  FetchAllOrganData,
   FetchCompareData,
   UpdateReport,
   DeleteCompareSheet,
@@ -182,7 +179,6 @@ export class RootComponent implements OnInit, OnDestroy {
     });
 
     this.route.queryParamMap.subscribe(query => {
-      const version = query.get('version');
       const selectedOrgans = query.get('selectedOrgans');
       console.log(selectedOrgans);
       const playground = query.get('playground');

@@ -38,7 +38,7 @@ export class OrganTableSelectorComponent implements OnInit {
     this.organs = data ? data : [];
     this.dataSource.data.forEach((dataElement: any) => {
       dataElement?.version?.forEach((v, i) => {
-        if (i == 0) {
+        if (i === 0) {
           dataElement.symbol = v.value;
         }
       });
