@@ -47,9 +47,7 @@ export function setupCSVRoutes(app: Express): void {
       } else if (output === 'graph') {
         const graphData = makeGraphData(asctbData);
         return res.send({
-          data: graphData,
-          csv: csvData,
-          parsed: parsedCsvData,
+          data: graphData
         });
       } else {
         // The default is returning the json
