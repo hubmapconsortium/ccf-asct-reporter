@@ -49,22 +49,21 @@ export class CompareComponent implements OnInit {
     });
 
     this.formGroup.valueChanges
-    .subscribe(sheets => {
-      const formArray =this.formGroup.controls.sheets as FormArray    
-      formArray.controls.forEach((sheet: FormGroup) => {
-        var file = sheet.controls["formData"];
-        var link = sheet.controls["link"];   
-        if (file.value != null) {
-          link.clearValidators();
-          link.updateValueAndValidity({emitEvent: false});
-        }
+      .subscribe(sheets => {
+        const formArray =this.formGroup.controls.sheets as FormArray;    
+        formArray.controls.forEach((sheet: FormGroup) => {
+          const file = sheet.controls.formData;
+          const link = sheet.controls.link;   
+          if (file.value != null) {
+            link.clearValidators();
+            link.updateValueAndValidity({emitEvent: false});
+          }
+        });
       });
-    });
-
   }
 
   upload(fileFormDataEvent: FormData, sheet: FormGroup) {
-    sheet.controls['formData'].setValue(fileFormDataEvent);
+    sheet.controls.formData.setValue(fileFormDataEvent);
   }
 
   compare() {
@@ -73,7 +72,6 @@ export class CompareComponent implements OnInit {
       if (sheet.title === '') {
         sheet.title = `Sheet ${idx + 1}`;
       }
-      console.log(idx,sheet)
 
       data.push(
         {
@@ -131,7 +129,7 @@ export class CompareComponent implements OnInit {
   }
   atLeastOnePhoneRequired(group : FormGroup) : {[s:string ]: boolean} {
     if (group) {
-      if(group.controls['link'].value || group.controls['fileName'].value) {
+      if(group.controls.link.value || group.controls.fileName.value) {
         return null;
       }
     }

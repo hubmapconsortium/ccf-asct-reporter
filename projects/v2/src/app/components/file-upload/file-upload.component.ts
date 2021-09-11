@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 
 @Component({
@@ -7,14 +7,14 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
   styleUrls: ['./file-upload.component.scss'], 
   providers: [
     {
-        provide: NG_VALUE_ACCESSOR,
-        multi: true,
-        useExisting: FileUploadComponent
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: FileUploadComponent
     },
     {
-        provide: NG_VALIDATORS,
-        multi: true,
-        useExisting: FileUploadComponent
+      provide: NG_VALIDATORS,
+      multi: true,
+      useExisting: FileUploadComponent
     }
 ]
 })
@@ -34,7 +34,7 @@ export class FileUploadComponent implements ControlValueAccessor, Validator {
     if (file) {
       this.fileName = file.name;
       const formData = new FormData();
-      formData.append("csvFile", file);
+      formData.append('csvFile', file);
       this.fileFormDataEvent.emit(formData);
       this.onChange(this.fileName);
     }
@@ -51,28 +51,28 @@ export class FileUploadComponent implements ControlValueAccessor, Validator {
 
 
   onClick(fileUpload: HTMLInputElement) {
-      this.onTouched();
-      fileUpload.click();
+    this.onTouched();
+    fileUpload.click();
   }
 
   writeValue(value: any) {
-      this.fileName = value;
+    this.fileName = value;
   }
 
   registerOnChange(onChange: any) {
-      this.onChange = onChange;
+    this.onChange = onChange;
   }
 
   registerOnTouched(onTouched: any) {
-      this.onTouched = onTouched;
+    this.onTouched = onTouched;
   }
 
 
   registerOnValidatorChange(onValidatorChange: () => void) {
-      this.onValidatorChange = onValidatorChange;
+    this.onValidatorChange = onValidatorChange;
   }
 
   validate(control: AbstractControl): ValidationErrors | null {
-    return null
+    return null;
   }
 }
