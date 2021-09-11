@@ -62,6 +62,7 @@ export interface CompareData {
   gid: string;
   csvUrl?: string;
   formData?: FormData;
+  fileName?: string;
 }
 
 export interface SheetConfig {

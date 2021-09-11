@@ -38,7 +38,8 @@ export class CompareComponent implements OnInit {
               source.color,
               source.title,
               source.description,
-              source.formData
+              source.formData,
+              source.fileName
             )
           );
         }
@@ -47,10 +48,23 @@ export class CompareComponent implements OnInit {
       }
     });
 
+    this.formGroup.valueChanges
+    .subscribe(sheets => {
+      const formArray =this.formGroup.controls.sheets as FormArray    
+      formArray.controls.forEach((sheet: FormGroup) => {
+        var file = sheet.controls["formData"];
+        var link = sheet.controls["link"];   
+        if (file.value != null) {
+          link.clearValidators();
+          link.updateValueAndValidity({emitEvent: false});
+        }
+      });
+    });
+
   }
 
-  upload(fileFormDataEvent?: FormData) {
-
+  upload(fileFormDataEvent: FormData, sheet: FormGroup) {
+    sheet.controls['formData'].setValue(fileFormDataEvent);
   }
 
   compare() {
@@ -59,6 +73,7 @@ export class CompareComponent implements OnInit {
       if (sheet.title === '') {
         sheet.title = `Sheet ${idx + 1}`;
       }
+      console.log(idx,sheet)
 
       data.push(
         {
@@ -100,7 +115,7 @@ export class CompareComponent implements OnInit {
     }
   }
 
-  createCompareForm(link= '', color?: string, title= '', description= '', formData?: FormData): FormGroup {
+  createCompareForm(link= '', color?: string, title= '', description= '', formData?: FormData, fileName?: string): FormGroup {
     if (!color) {
       color = this.getRandomColor();
     }
@@ -110,10 +125,18 @@ export class CompareComponent implements OnInit {
       description: [description],
       link: [link, Validators.compose([Validators.required, Validators.pattern(/\/([\w-_]{15,})\/(.*?gid=(\d+))?|\w*csv$/)])],
       color: [color],
-      formData: [formData]
-    });
+      formData: [formData],
+      fileName: [fileName]
+    }, { validators: [this.atLeastOnePhoneRequired]});
   }
-
+  atLeastOnePhoneRequired(group : FormGroup) : {[s:string ]: boolean} {
+    if (group) {
+      if(group.controls['link'].value || group.controls['fileName'].value) {
+        return null;
+      }
+    }
+    return {'error': true};
+  }
   get CSControls() {
     return this.formGroup.get('sheets') as FormArray;
   }

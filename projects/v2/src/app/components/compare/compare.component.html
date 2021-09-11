@@ -56,7 +56,7 @@
               <div
                 class="w-100 title-sheet-container"
               >
-                <div class="w-75 mr-1">
+                <div class="w-75 mr-1 flex-container">
                   <!-- <mat-form-field
                     [floatLabel]="'always'"
                     class="link-input-field"
@@ -78,33 +78,44 @@
                     </mat-form-field>
                   </p>
                 </div>
-                <div class="w-75 ml-1">
-                  <p>
-                    <mat-form-field appearance="legacy">
+                <div class="title-sheet-sub-container">
+                  <div class="w-75">
+                    <p>
+                      <mat-form-field appearance="legacy">
+                        <mat-label>Description</mat-label>
+                        <input matInput placeholder="This data maps amazing structures!" formControlName="description">
+                        <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                        <mat-hint>A suitable description</mat-hint>
+                      </mat-form-field>
+                    </p>
+                    <!-- <mat-form-field
+                      [floatLabel]="'always'"
+                      class="link-input-field"
+                    >
                       <mat-label>Description</mat-label>
-                      <input matInput placeholder="This data maps amazing structures!" formControlName="description">
-                      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                      <input
+                        matInput
+                        placeholder="This data maps amazing structures!"
+                        formControlName="description"
+                      />
                       <mat-hint>A suitable description</mat-hint>
-                    </mat-form-field>
-                  </p>
-                  <!-- <mat-form-field
-                    [floatLabel]="'always'"
-                    class="link-input-field"
-                  >
-                    <mat-label>Description</mat-label>
-                    <input
-                      matInput
-                      placeholder="This data maps amazing structures!"
-                      formControlName="description"
-                    />
-                    <mat-hint>A suitable description</mat-hint>
-                  </mat-form-field> -->
-                </div>
+                    </mat-form-field> -->
+                  </div>
+                  <div class="ml-2">
+                    <button
+                      mat-icon-button
+                      [disabled]="formGroup.value.sheets.length === 1"
+                      (click)="removeCompareSheetRow(i)"
+                    >
+                      <mat-icon color="red">delete</mat-icon>
+                    </button>
+                  </div>
+              </div>
               </div>
               <div
                 class="w-100 mt-4 sheet-link-container"
               >
-                <div class="w-100">
+                <div class="w-100 flex-container">
                   <p>
                     <mat-form-field appearance="legacy" class="w-75">
                   <!-- <mat-form-field
@@ -129,10 +140,12 @@
                     > -->
                   </mat-form-field>
                 </div>
+                <div class="title-sheet-sub-container">
+                  
                 <div class="w-100">
                   <p>
-                    <app-file-upload (fileFormDataEvent)="upload($event)"></app-file-upload>
-                    <mat-label>Upload a CSV file</mat-label>
+                    <app-file-upload formControlName="fileName" (fileFormDataEvent)="upload($event, sheet)"></app-file-upload>
+                    <mat-label class="file-upload">Upload a CSV file</mat-label>
                   </p>
                 </div>
                 <div class="pick-color-container">
@@ -146,15 +159,7 @@
                     [style.backgroundColor]="sheet.get('color').value"
                   />
                 </div>
-                <div class="mt-1 ml-2">
-                  <button
-                    mat-icon-button
-                    [disabled]="formGroup.value.sheets.length === 1"
-                    (click)="removeCompareSheetRow(i)"
-                  >
-                    <mat-icon color="red">delete</mat-icon>
-                  </button>
-                </div>
+              </div>
               </div>
             </div>
             <hr />
@@ -172,6 +177,7 @@
       <button
         mat-flat-button
         color="primary"
+        [disabled]="doesFormHaveError()"
         (click)="compare()"
         class="compare-button"
       >

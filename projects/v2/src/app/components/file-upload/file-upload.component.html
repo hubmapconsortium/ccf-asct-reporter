@@ -1,4 +1,4 @@
-<input type="file" class="file-input" formControlName="formData"
+<input type="file" class="file-input" required
        (change)="onFileSelected($event)" #fileUpload>
 
 <div class="file-upload">
@@ -6,7 +6,7 @@
    {{fileName || "No file uploaded yet."}}
 
     <button mat-mini-fab color="primary" class="upload-btn"
-      (click)="fileUpload.click()">
+    (click)="onClick(fileUpload)">
         <mat-icon>attach_file</mat-icon>
     </button>
 </div>
