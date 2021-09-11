@@ -16,7 +16,7 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
       multi: true,
       useExisting: FileUploadComponent
     }
-]
+  ]
 })
 export class FileUploadComponent implements ControlValueAccessor, Validator {
 
