@@ -76,5 +76,11 @@ export const REGISTRY = [
     title: 'Export',
     urlTitle: 'export',
     path: 'assets/docs/export/README.md'
+  },
+  {
+    id: 14,
+    title: 'ASCT+B API',
+    urlTitle: 'api',
+    path: 'assets/docs/asct+b-api/README.md'
   }
 ];

@@ -2,6 +2,16 @@
 
 Changelog for the HuBMAP CCF ASCT+B Reporter
 
+## 2.4.0 - 2021-08-06
+
+### Added in 2.4.0
+
+- Comparison feature now uses both ID and Name for node comparison
+- AS Count in reports no longer include Body
+- Added ASCT+B API Documentation page
+- Added CSV file upload capability to Playground
+- Refactored routes into new files in ASCTB API
+
 ## 2.3.0 - 2021-07-22
 
 ### Added in 2.3.0
