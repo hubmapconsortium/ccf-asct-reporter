@@ -4,7 +4,6 @@ import {
   OnDestroy,
   Output,
   EventEmitter,
-  ElementRef,
   ViewChild,
 } from '@angular/core';
 import { SHEET_CONFIG } from './../../static/config';
@@ -54,9 +53,8 @@ import { InfoComponent } from '../../components/info/info.component';
 import { CompareData, DOI, Row, SheetConfig, SheetInfo } from '../../models/sheet.model';
 import { DoiComponent } from '../../components/doi/doi.component';
 import { SearchStructure } from '../../models/tree.model';
-import { MatDrawerContent } from '@angular/material/sidenav';
 import { SheetService } from '../../services/sheet.service';
-
+import { TreeComponent } from '../tree/tree.component';
 
 @Component({
   selector: 'app-root',
@@ -108,8 +106,7 @@ export class RootComponent implements OnInit, OnDestroy {
 
   // The container used for vertical scrolling of the viz is different than the one used for horizontal scrolling
   // Here we get references to both values.
-  @ViewChild(MatDrawerContent) verticalScrollEntity: MatDrawerContent;
-  @ViewChild('treeDiv') horizontalScrollEntity: ElementRef;
+  @ViewChild(TreeComponent) verticalScrollEntity: TreeComponent;
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
 
   // Sheet Observables
@@ -276,17 +273,17 @@ export class RootComponent implements OnInit, OnDestroy {
 
         // The vertical scroll div is a CdkScrollable component, but the horizontal scroll element is a normal div.
         // This leads to differences in the scrollTo interface.
-        const contentHeight = this.verticalScrollEntity.getElementRef().nativeElement.offsetHeight;
-        const contentWidth = this.verticalScrollEntity.getElementRef().nativeElement.offsetWidth;
-        const yScrollPos = this.verticalScrollEntity.measureScrollOffset('top');
-        const xScrollPos = this.horizontalScrollEntity.nativeElement.scrollLeft;
+        const contentHeight = this.verticalScrollEntity.treeElementRef.nativeElement.offsetHeight;
+        const contentWidth = this.verticalScrollEntity.treeElementRef.nativeElement.offsetWidth;
+        const yScrollPos = this.verticalScrollEntity.treeElementRef.nativeElement.scrollTop;
+        const xScrollPos = this.verticalScrollEntity.treeElementRef.nativeElement.scrollLeft;
 
         // Scroll to the selected structure if it's outside the area of the screen
         if (xPos > xScrollPos + contentWidth || xPos < xScrollPos) {
-          this.horizontalScrollEntity.nativeElement.scrollTo(xPos, yScrollPos);
+          this.verticalScrollEntity.treeElementRef.nativeElement.scrollTo(xPos, yScrollPos);
         }
         if (yPos > yScrollPos + contentHeight || yPos < yScrollPos) {
-          this.verticalScrollEntity.scrollTo({top: yPos - contentHeight / 2});
+          this.verticalScrollEntity.treeElementRef.nativeElement.scrollTo({top: yPos - contentHeight / 2});
         }
       }
     });

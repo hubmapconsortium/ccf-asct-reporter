@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-tree',
@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TreeComponent implements OnInit {
   constructor() {}
+  @ViewChild('graph') treeElementRef: ElementRef;
 
   ngOnInit() {}
 
