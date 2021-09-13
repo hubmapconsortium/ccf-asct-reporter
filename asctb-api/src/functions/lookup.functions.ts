@@ -13,6 +13,9 @@ export function buildHGNCLink(id: string): string {
 }
 
 export function fixOntologyId(id: string): string {
+  if (id?.toLowerCase() === 'n/a') {
+    return '';
+  }
   // Fix IDs from ASCT+B Tables. Ideally, these changes are made up stream for next release and no transformation is necessary
   if (id.startsWith('fma') && /[0-9]/.test(id[3])) {
     id = 'fma:' + id.slice(3);

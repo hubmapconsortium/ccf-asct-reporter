@@ -1,5 +1,7 @@
 /* tslint:disable:variable-name */
 import { BM_TYPE, headerMap, Reference, Row, Structure } from '../models/api.model';
+import { fixOntologyId } from './lookup.functions';
+
 
 function addBiomarker(rowHeader: any, s: any) {
   if (rowHeader[0] === 'BGene' || rowHeader[0] === 'BG') {
@@ -37,6 +39,9 @@ function addingIDNotesLabels(rowHeader: any, newRow: any, key: any, data: any, i
 }
 
 function assignNotesDOIData(n:any, data: any, type: string) {
+  if (type === 'id') {
+    data = fixOntologyId(data);
+  }
 
   if (n) {
     n[type] = data;
