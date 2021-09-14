@@ -1,6 +1,7 @@
 import { Edge_type, GraphData } from '../models/graph.model';
 import { fixOntologyId, guessIri } from './lookup.functions';
 
+
 export function makeJsonLdData(data: GraphData): any {
   const { nodes, edges } = data;
   const iriLookup: Record<number, string> = {};
@@ -8,14 +9,16 @@ export function makeJsonLdData(data: GraphData): any {
 
   nodes.forEach((node, index) => {
     let ontologyId = node.metadata.ontologyId;
-    if (ontologyId?.length === 0 ?? false) {
-      ontologyId = `ASCTB_TEMP:${index}`;
-    } else {
+    let iri: string;
+    if (ontologyId?.trim().length > 0 ?? false) {
       ontologyId = fixOntologyId(ontologyId);
+      iri = guessIri(ontologyId);
     }
-
-    // const iri = guessIri(ontologyId) ?? `https://purl.org/ccf/ASCTB_TEMP_${index}`;
-    const iri = guessIri(ontologyId) ?? `https://purl.org/ccf/ASCTB_TEMP_${node.name.toLowerCase().replace(/ /g, '_')}`;
+    if (!iri) {
+      const suffix = node.name?.toLowerCase().trim().replace(/\W+/g, '_').replace(/[^a-z0-9_]+/g, '');
+      ontologyId = `ASCTB_TEMP:${suffix}`;
+      iri = `https://purl.org/ccf/ASCTB_TEMP_${suffix}`;
+    }
     iriLookup[index] = iri;
 
     if (!nodeMap.has(iri)) {

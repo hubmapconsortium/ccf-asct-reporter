@@ -22,21 +22,26 @@ export function fixOntologyId(id: string): string {
   }
   id = id.replace('_', ':').replace('::', ':').replace(': ', ':').replace('fmaid:', 'FMA:').split(' ')[0].toUpperCase();
   id = id.split(':').map((s: string) => s.trim()).join(':');
+  id = id.replace(/[^A-Z0-9_]+/g, '');
   return id;
 }
 
 export function guessIri(id: string): string {
   const [code, idNumber] = id.split(':');
-  switch (code) {
-  case OntologyCode.CL:
-    return `http://purl.obolibrary.org/obo/CL_${idNumber}`;
-  case OntologyCode.FMA:
-    return `http://purl.org/sig/ont/fma/fma${idNumber}`;
-  case OntologyCode.HGNC:
-    return `http://ncicb.nci.nih.gov/xml/owl/EVS/Hugo.owl#HGNC_${idNumber}`;
-  case OntologyCode.UBERON:
-    return `http://purl.obolibrary.org/obo/UBERON_${idNumber}`;
-  default:
+  if (idNumber) {
+    switch (code) {
+    case OntologyCode.CL:
+      return `http://purl.obolibrary.org/obo/CL_${idNumber}`;
+    case OntologyCode.FMA:
+      return `http://purl.org/sig/ont/fma/fma${idNumber}`;
+    case OntologyCode.HGNC:
+      return `http://ncicb.nci.nih.gov/xml/owl/EVS/Hugo.owl#HGNC_${idNumber}`;
+    case OntologyCode.UBERON:
+      return `http://purl.obolibrary.org/obo/UBERON_${idNumber}`;
+    default:
+      return undefined;
+    }
+  } else {
     return undefined;
   }
 }
