@@ -1,17 +1,12 @@
-<input type="file" class="file-input" accept=".csv"
+<input type="file" class="file-input" required accept=".csv"
        (change)="onFileSelected($event)" #fileUpload>
 
 <div class="file-upload">
-  {{fileName || "No file uploaded yet."}}
-  <br>
-  <button mat-flat-button color="primary" (click)="fileUpload.click()" class="mt-4">
-    Attach File
-  </button>
 
-  <!--
-    Alternative (smaller) button styling. Could be useful for Compare Pane.
+   {{fileName || "No file uploaded yet."}}
+
     <button mat-mini-fab color="primary" class="upload-btn"
-    (click)="fileUpload.click()">
-      <mat-icon>attach_file</mat-icon>
-    </button> -->
+    (click)="onClick(fileUpload)">
+        <mat-icon>attach_file</mat-icon>
+    </button>
 </div>

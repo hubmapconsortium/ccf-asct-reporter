@@ -48,13 +48,25 @@ input[type="color"]::-webkit-color-swatch {
   align-items: center;
   justify-content: space-between;
 }
+.title-sheet-sub-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 0.5;
+}
+.flex-container {
+  flex: 0.5;
+}
+.file-upload {
+  color: #757575;
+}
 .sheet-link-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .pick-color-container {
-  width: 15%;
+  width: 25%;
   margin-top: -1.125rem !important;
   .pick-color-title {
     font-size: 0.625rem;
