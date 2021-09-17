@@ -22,7 +22,7 @@ export function fixOntologyId(id: string): string {
   }
   id = id.replace('_', ':').replace('::', ':').replace(': ', ':').replace('fmaid:', 'FMA:').split(' ')[0].toUpperCase();
   id = id.split(':').map((s: string) => s.trim()).join(':');
-  id = id.replace(/[^A-Z0-9_]+/g, '');
+  id = id.replace(/[^A-Z0-9_:]+/g, '');
   return id;
 }
 
