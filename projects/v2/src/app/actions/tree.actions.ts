@@ -52,5 +52,5 @@ export class UpdateBottomSheetData {
 
 export class UpdateLinksData {
   static readonly type = '[UPDATE] Links data';
-  constructor(public AS_CT: number, public CT_B: number,  public AS_CT_organWise: object, public CT_B_organWise: object, public AS_AS?: number,public AS_AS_organWise?: object) {}
+  constructor(public AS_CT: number, public CT_B: number, public AS_CT_organWise: Record<string, number>, public CT_B_organWise: Record<string, number>, public AS_AS?: number, public AS_AS_organWise?: Record<string, number>) {}
 }

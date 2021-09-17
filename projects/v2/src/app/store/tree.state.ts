@@ -66,9 +66,9 @@ export class TreeStateModel {
     AS_CT: number;
     CT_B: number;
     AS_AS: number;
-    AS_CT_organWise: object;
-    CT_B_organWise: object;
-    AS_AS_organWise: object;
+    AS_CT_organWise: Record<string, number>;
+    CT_B_organWise: Record<string, number>;
+    AS_AS_organWise: Record<string, number>;
   };
   /**
    * Store the discrepency label data
