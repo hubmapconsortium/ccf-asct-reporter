@@ -19,12 +19,20 @@
 
   <ng-template #resultBlock>
     <div *ngIf="error.hasError; else infoBlock" class="pt-3">
-      Could not fetch data for <b>{{info.name}}</b>. This could be because,
+      Could not fetch data {{!info.notes ? 'and notes' : ''}} for <b>{{info.name}}</b> {{info.notes? 'but we have some notes available' : ''}}. This could be because,
       <ul class="pl-3 pt-2">
         <li>Structure does not have an ontology ID.</li>
         <li>Structure has an invalid ontology ID.</li>
         <li>Broken network connection.</li>
       </ul>
+      <div *ngIf="info.notes">
+        <div class="pt-3"></div>
+
+        <label><b>Notes</b></label>
+        <div>
+          {{info.notes}}
+        </div>
+      </div>
     </div>
   </ng-template>
 
@@ -48,6 +56,13 @@
       <label><b>{{ info.ontologyCode === 'HGNC' ? 'Link' : 'IRI'}}</b></label>
       <div>
         <a [href]="info.iri" target="_blank" class="text-info">{{info.iri ? info.iri : 'No IRI found.'}}</a>
+      </div>
+
+      <div class="pt-3"></div>
+
+      <label><b>Notes</b></label>
+      <div>
+        {{info.notes? info.notes : 'No Notes Found'}}
       </div>
     </div>
   </ng-template>

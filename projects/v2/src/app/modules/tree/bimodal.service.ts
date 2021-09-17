@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { BMNode, Link, BimodalConfig } from '../../models/bimodal.model';
 import { makeCellTypes, makeAS, makeBioMarkers } from './tree.functions';
-import { CT_BLUE, B_GREEN, TNode, AS } from '../../models/tree.model';
+import { CT_BLUE, B_GREEN, TNode, AS, CT, B } from '../../models/tree.model';
 import { UpdateBimodal, UpdateVegaSpec, UpdateLinksData } from '../../actions/tree.actions';
 import { CloseLoading, HasError } from '../../actions/ui.actions';
 import { ReportLog } from '../../actions/logs.actions';
@@ -41,6 +41,8 @@ export class BimodalService {
       let treeY = 50;
       let AS_CT_LINKS = 0;
       let CT_BM_LINKS = 0;
+      let CT_BM = {};
+      let AS_CT = {};
       const distance = sheetConfig.bimodal_distance_x;
       const distanceY = sheetConfig.bimodal_distance_y;
       let id = treeData.length + 1;
@@ -49,7 +51,7 @@ export class BimodalService {
         if (td.children === 0) {
 
           const leaf = td.name;
-          const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.ontologyId);
+          const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.notes, td.organName, td.ontologyId);
           newLeaf.id = id;
           newLeaf.problem = td.problem;
           newLeaf.pathColor = td.pathColor;
@@ -125,13 +127,15 @@ export class BimodalService {
 
       }
 
-      cellTypes.forEach((cell) => {
+      cellTypes.forEach((cell: CT) => {
         const newNode = new BMNode(
           cell.structure,
           2,
           treeX,
           treeY,
           14,
+          cell.notes,
+          cell.organName,
           cell.link,
           CT_BLUE,
           cell.nodeSize
@@ -203,13 +207,15 @@ export class BimodalService {
 
 
       // making group 3: bio markers
-      biomarkers.forEach((marker, i) => {
+      biomarkers.forEach((marker: B, i) => {
         const newNode = new BMNode(
           marker.structure,
           3,
           treeX,
           treeY,
           14,
+          marker.notes,
+          marker.organName,
           marker.link,
           B_GREEN,
           marker.nodeSize
@@ -269,7 +275,7 @@ export class BimodalService {
         }
       });
 
-      nodes.forEach((node, i) => {
+      nodes.forEach((node : BMNode, i) => {
         if (node.group === 2) {
           node.outdegree.forEach((str) => {
             const tt = nodes
@@ -292,6 +298,11 @@ export class BimodalService {
             targets.forEach((s) => {
               if (links.some((l) => l.s === node.id && l.t === s)) {
                 if (node.targets.findIndex(l => l === s) === -1) {
+                  if (CT_BM.hasOwnProperty(node.organName)) {
+                    CT_BM[node.organName] += 1;
+                  } else {
+                    CT_BM[node.organName] = 1;
+                  }
                   CT_BM_LINKS += 1;
                   node.targets.push(s);
                 }
@@ -318,6 +329,11 @@ export class BimodalService {
             sources.forEach((s) => {
               if (links.some((l) => l.s === s && l.t === node.id)) {
                 if (node.sources.findIndex(l => l === s) === -1) {
+                  if (AS_CT.hasOwnProperty(node.organName)) {
+                    AS_CT[node.organName] += 1;
+                  } else {
+                    AS_CT[node.organName] = 1;
+                  }
                   AS_CT_LINKS += 1;
                   node.sources.push(s);
                 }
@@ -327,7 +343,7 @@ export class BimodalService {
         }
       });
 
-      this.store.dispatch(new UpdateLinksData(AS_CT_LINKS, CT_BM_LINKS));
+      this.store.dispatch(new UpdateLinksData(AS_CT_LINKS, CT_BM_LINKS, AS_CT, CT_BM));
 
       this.store.dispatch(new UpdateBimodal(nodes, links)).subscribe(newData => {
         const view = newData.treeState.view;

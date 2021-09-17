@@ -111,6 +111,8 @@ export class TreeService {
         data[0].anatomical_structures[0].name,
         0,
         data[0].anatomical_structures[0].id,
+        data[0].anatomical_structures[0].notes,
+        'Body',
         AS_RED
       );
       root.label = '';
@@ -144,6 +146,8 @@ export class TreeService {
               structure.id.toLowerCase() !== 'not found' && structure.id && idNameSet[structure.id] ? idNameSet[structure.id]  : structure.name,
               parent.id,
               structure.id,
+              structure.notes,
+              row.organName,
               AS_RED
             );
             newNode.label = structure.rdfs_label;

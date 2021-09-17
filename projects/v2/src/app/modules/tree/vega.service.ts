@@ -54,7 +54,16 @@ export class VegaService {
 
       this.addSignalListeners(treeView);
       this.store.dispatch(new CloseLoading('Visualization Rendered'));
-      this.store.dispatch(new UpdateLinksData(0, 0, treeView.data('links').length));
+      let as_as_links = treeView.data('links');
+      let AS_AS_organWise = {};
+      as_as_links.forEach(link => {
+        if (AS_AS_organWise.hasOwnProperty(link.target?.organName)) {
+          AS_AS_organWise[link.target?.organName] += 1;
+        } else {
+          AS_AS_organWise[link.target?.organName] = 1;
+        }
+      });
+      this.store.dispatch(new UpdateLinksData(0, 0, {}, {}, treeView.data('links').length, AS_AS_organWise));
       this.makeBimodal(treeView);
 
     } catch (error) {
