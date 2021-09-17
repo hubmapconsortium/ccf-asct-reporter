@@ -54,10 +54,10 @@ export class VegaService {
 
       this.addSignalListeners(treeView);
       this.store.dispatch(new CloseLoading('Visualization Rendered'));
-      let as_as_links = treeView.data('links');
-      let AS_AS_organWise = {};
+      const as_as_links = treeView.data('links');
+      const AS_AS_organWise = {};
       as_as_links.forEach(link => {
-        if (AS_AS_organWise.hasOwnProperty(link.target?.organName)) {
+        if (Object.prototype.hasOwnProperty.call(AS_AS_organWise, link.target?.organName)) {
           AS_AS_organWise[link.target?.organName] += 1;
         } else {
           AS_AS_organWise[link.target?.organName] = 1;

@@ -41,8 +41,8 @@ export class BimodalService {
       let treeY = 50;
       let AS_CT_LINKS = 0;
       let CT_BM_LINKS = 0;
-      let CT_BM = {};
-      let AS_CT = {};
+      const CT_BM = {};
+      const AS_CT = {};
       const distance = sheetConfig.bimodal_distance_x;
       const distanceY = sheetConfig.bimodal_distance_y;
       let id = treeData.length + 1;
@@ -298,7 +298,7 @@ export class BimodalService {
             targets.forEach((s) => {
               if (links.some((l) => l.s === node.id && l.t === s)) {
                 if (node.targets.findIndex(l => l === s) === -1) {
-                  if (CT_BM.hasOwnProperty(node.organName)) {
+                  if (Object.prototype.hasOwnProperty.call(CT_BM, node.organName)) {
                     CT_BM[node.organName] += 1;
                   } else {
                     CT_BM[node.organName] = 1;
@@ -329,7 +329,7 @@ export class BimodalService {
             sources.forEach((s) => {
               if (links.some((l) => l.s === s && l.t === node.id)) {
                 if (node.sources.findIndex(l => l === s) === -1) {
-                  if (AS_CT.hasOwnProperty(node.organName)) {
+                  if (Object.prototype.hasOwnProperty.call(AS_CT, node.organName)) {
                     AS_CT[node.organName] += 1;
                   } else {
                     AS_CT[node.organName] = 1;
