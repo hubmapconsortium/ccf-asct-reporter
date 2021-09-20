@@ -99,7 +99,16 @@ export class NavbarComponent implements OnInit {
 
     this.selectedOrgans$.subscribe((organs) => {
       this.selectedOrgans = organs;
-      this.selectedOrgansValues = (organs?.join(', ')).length > 64 ? `${organs.length} organs selected` : organs?.join(', ');
+      this.selectedOrgansValues =
+      organs
+        ?.map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+        .join(', ')
+        .replace('_', ' ').length > 64
+        ? `${organs.length} organs selected`
+        : organs
+            ?.map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+            .join(', ')
+            .replace('_', ' ');    
     });
   }
 
