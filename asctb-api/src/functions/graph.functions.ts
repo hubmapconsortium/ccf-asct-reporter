@@ -140,7 +140,7 @@ export function buildgraphBM(data: Row[], graphData: GraphData, id: number) {
               parent.id,
               biomarker.id,
               biomarker.rdfs_label,
-              Node_type.BM
+              biomarker.b_type ?? Node_type.BM
             );
             newNode.comparatorName = newNode.metadata.name;
             newNode.comparatorId = newNode.metadata.ontologyId;

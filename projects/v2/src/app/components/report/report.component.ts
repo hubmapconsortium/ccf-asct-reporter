@@ -115,7 +115,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
       ];
       this.biomarkersSeperateNames = biomarkersSeperateNames;
       this.countsByOrgan =
-        this.reportService.makeAllOrganReportDataCountsByOrgan(result);
+        this.reportService.makeAllOrganReportDataCountsByOrgan(result, this.linksData);
     }
     return [
       {

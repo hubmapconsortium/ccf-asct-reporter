@@ -1,9 +1,13 @@
-import { Express, Request, Response } from 'express';
-import { makeASCTBData } from '../functions/api.functions';
-import { UploadedFile } from '../models/api.model';
-import { makeGraphData } from '../functions/graph.functions';
-import papa from 'papaparse';
 import axios from 'axios';
+import { Express, Request, Response } from 'express';
+import { expand } from 'jsonld';
+import papa from 'papaparse';
+
+import { makeASCTBData } from '../functions/api.functions';
+import { makeJsonLdData } from '../functions/graph-jsonld.functions';
+import { makeGraphData } from '../functions/graph.functions';
+import { UploadedFile } from '../models/api.model';
+
 
 export function setupCSVRoutes(app: Express): void {
 
@@ -12,32 +16,47 @@ export function setupCSVRoutes(app: Express): void {
    */
   app.get('/v2/csv', async (req: Request, res: Response) => {
     console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
-    // query parameters csvUrl and output
+
+    // query parameters
     const url = req.query.csvUrl as string;
-    const output = req.query.output as 'json' | 'graph' | string;
+    const expanded = req.query.expanded !== 'false';
+    const output = req.query.output as 'json' | 'graph' | 'jsonld' | string;
 
     try {
-      const response = await axios.get(url);
+      let csvData = '';
+      let parsedCsvData: any[] = [];
 
-      const data = papa.parse(response.data, { skipEmptyLines: 'greedy' }).data;
-      const asctbData = await makeASCTBData(data);
+      const asctbDataResponses = await Promise.all(
+        url.split('|').map(async (csvUrl) => {
+          const response = await axios.get(csvUrl);
+          csvData = response.data;
 
-      if (output === 'graph') {
+          const data = papa.parse(response.data, { skipEmptyLines: 'greedy' }).data;
+          parsedCsvData = data;
+          return makeASCTBData(data);
+        })
+      );
+      const asctbData = ([] as any[]).concat(...asctbDataResponses);
+
+      if (output === 'jsonld') {
+        let graphData = makeJsonLdData(makeGraphData(asctbData));
+        if (expanded) {
+          graphData = await expand(graphData);
+        }
+        return res.send(graphData);
+      } else if (output === 'graph') {
         const graphData = makeGraphData(asctbData);
         return res.send({
-          data: graphData,
-          csv: response.data,
-          parsed: data,
+          data: graphData
         });
       } else {
         // The default is returning the json
         return res.send({
           data: asctbData,
-          csv: response.data,
-          parsed: data,
+          csv: csvData,
+          parsed: parsedCsvData,
         });
       }
-
     } catch (err) {
       console.log(err);
       return res.status(500).send({

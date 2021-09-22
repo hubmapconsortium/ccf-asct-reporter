@@ -20,6 +20,7 @@ export interface Structure {
   isNew?: boolean;
   color?: string;
   organName?: string;
+  notes?: string;
 }
 
 export interface Row {
@@ -32,7 +33,7 @@ export interface Row {
   biomarkers_meta: Array<Structure>;
   biomarkers_prot: Array<Structure>;
   references: Reference[];
-  organName?: string;
+  organName: string;
 }
 
 export interface ResponseData {
@@ -62,6 +63,7 @@ export interface CompareData {
   gid: string;
   csvUrl?: string;
   formData?: FormData;
+  fileName?: string;
 }
 
 export interface SheetConfig {
@@ -86,6 +88,7 @@ export interface SheetInfo {
   hasError: boolean;
   msg: string;
   status: number;
+  notes: string;
 }
 
 export interface DOI {

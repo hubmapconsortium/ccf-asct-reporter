@@ -6,6 +6,19 @@ export enum Node_type {
   R = 'root',
 }
 
+export enum Edge_type {
+  AS_AS = 'ASAS',
+  AS_CT = 'ASCT',
+  CT_CT = 'CTCT',
+  CT_G = 'CTgene',
+  CT_P = 'CTprotein',
+  CT_BL = 'CTlipids',
+  CT_BM = 'CTmetalloids',
+  CT_BF = 'CTproteoforms',
+  AS_G = 'ASgene', // Not supported, but shows up in the data
+  AS_P = 'ASprotein' // Not supported, but shows up in the data
+}
+
 export class GNode {
   id: any;
   parent: number;
@@ -47,12 +60,12 @@ export class Metadata {
   }
 }
 
-export interface GraphData {
-  nodes: Array<GNode>;
-  edges: Array<Edges>;
-}
-
-export interface Edges {
+export interface GEdge {
   source: number;
   target: number;
+}
+
+export interface GraphData {
+  nodes: Array<GNode>;
+  edges: Array<GEdge>;
 }

@@ -148,6 +148,7 @@ export class SheetStateModel {
       hasError: false,
       msg: '',
       status: 0,
+      notes: ''
     },
     bottomSheetDOI: [],
     fullAsData: [],
@@ -335,6 +336,7 @@ export class SheetState {
               i.color = compareSheet.color;
             }
             row.anatomical_structures.unshift(organ);
+            row.organName = compareSheet.title;
 
             for (const i of row.cell_types) {
               i.isNew = true;
@@ -571,7 +573,7 @@ export class SheetState {
 
     return this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid, sheet.csvUrl, sheet.formData).pipe(
       tap((res: ResponseData) => {
-        res.data = this.sheetService.getDataWithBody(res.data);
+        res.data = this.sheetService.getDataWithBody(res.data, sheet.name);
         setState({
           ...state,
           compareData: [],
@@ -784,6 +786,7 @@ export class SheetState {
       tap((res: any) => {
         res.data.forEach((row) => {
           row.anatomical_structures.unshift(organ);
+          row.organName = sheet.name;
         });
 
         setState({
@@ -824,6 +827,7 @@ export class SheetState {
     { getState, setState, dispatch }: StateContext<SheetStateModel>,
     { data }: UpdatePlaygroundData
   ) {
+    const sheet: Sheet = SHEET_CONFIG.find((i) => i.name === 'example');
     const state = getState();
     dispatch(new OpenLoading('Fetching playground data...'));
     dispatch(new StateReset(TreeState));
@@ -846,6 +850,7 @@ export class SheetState {
       tap((res: any) => {
         res.data.forEach((row) => {
           row.anatomical_structures.unshift(organ);
+          row.organName = sheet.name;
         });
         setState({
           ...state,
@@ -899,7 +904,10 @@ export class SheetState {
       tap((res: any) => {
         setState({
           ...state,
-          bottomSheetInfo: res,
+          bottomSheetInfo: {
+            ...res,
+            notes: data?.notes,
+          }
         });
       }),
       catchError((error) => {
@@ -915,6 +923,7 @@ export class SheetState {
             hasError: true,
             msg: error.message,
             status: error.status,
+            notes: data?.notes
           },
         });
         const err: Error = {

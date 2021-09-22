@@ -1,5 +1,7 @@
 /* tslint:disable:variable-name */
 import { BM_TYPE, headerMap, Reference, Row, Structure } from '../models/api.model';
+import { fixOntologyId } from './lookup.functions';
+
 
 function addBiomarker(rowHeader: any, s: any) {
   if (rowHeader[0] === 'BGene' || rowHeader[0] === 'BG') {
@@ -37,6 +39,9 @@ function addingIDNotesLabels(rowHeader: any, newRow: any, key: any, data: any, i
 }
 
 function assignNotesDOIData(n:any, data: any, type: string) {
+  if (type === 'id') {
+    data = fixOntologyId(data);
+  }
 
   if (n) {
     n[type] = data;
@@ -64,7 +69,7 @@ function addAllBiomarkersToRow(rows: any) {
   }
 }
 
-function addREF(rowHeader: any, newRow:any, key: any, data: any) {
+function addREF(rowHeader: any, newRow: any, key: any, data: any) {
   if (rowHeader[0] === 'REF') {
     const ref: Reference = { id: data };
     newRow[key].push(ref);
@@ -75,7 +80,7 @@ function addREF(rowHeader: any, newRow:any, key: any, data: any) {
   }
 }
 
-export function makeASCTBData(data: any) {
+export function makeASCTBData(data: any[]): Promise<Row[]> {
   return new Promise((res, rej) => {
     const rows = [];
     let headerRow = 0;
@@ -85,7 +90,7 @@ export function makeASCTBData(data: any) {
       headerRow = checkForHeader(headerRow, dataLength, data);
 
       for (let i = headerRow; i < dataLength; i++) {
-        const newRow: { [key: string]: any } = new Row();
+        const newRow = new Row();
 
         for (let j = 0; j < data[0].length; j++) {
           if (data[i][j] === '') {

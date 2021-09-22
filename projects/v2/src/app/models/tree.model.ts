@@ -31,8 +31,10 @@ export class TNode {
   comparatorName: string;
   comparatorId: string;
   label: string;
+  notes: string;
+  organName: string;
 
-  constructor(id, name, parent, uId, color = '#808080') {
+  constructor(id, name, parent, uId, notes, organName, color = '#808080') {
     this.id = id;
     this.name = name;
     this.parent = parent;
@@ -47,6 +49,8 @@ export class TNode {
     this.comparator = '';
     this.comparatorId = '';
     this.comparatorName = '';
+    this.notes = notes;
+    this.organName = organName;
   }
 }
 
@@ -72,6 +76,7 @@ export interface AS extends Base {
   isNew?: boolean;
   color?: string;
   organName?: string;
+  notes: string;
 }
 
 export interface Degree {
@@ -97,6 +102,7 @@ export interface CT extends Base{
   outdegree?: Set<Degree>;
   references?: Reference[];
   organName?: string;
+  notes: string;
 }
 
 export interface B extends Base{
@@ -109,6 +115,7 @@ export interface B extends Base{
   nodeSize?: number;
   bType?: string;
   organName?: string;
+  notes: string;
 }
 
 

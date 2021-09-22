@@ -67,9 +67,7 @@ export function setupGoogleSheetRoutes(app: Express): void {
       const graphData = makeGraphData(asctbData);
 
       return res.send({
-        data: graphData,
-        csv: resp.data,
-        parsed: data,
+        data: graphData
       });
     } catch (err) {
       console.log(err);

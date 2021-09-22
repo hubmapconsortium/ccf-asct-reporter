@@ -43,6 +43,7 @@ export function makeAS(data: Row[], isForReport = false): Array<AS> {
               label: str.rdfs_label,
               id,
               organName: row.organName,
+              notes: str.notes
             };
             id += 1;
 
@@ -117,6 +118,7 @@ export function makeCellTypes(data: Row[], isForReport = false): Array<CT> {
             label: str.rdfs_label,
             references: row.references,
             organName: row.organName,
+            notes: str.notes
           };
 
           if (row.anatomical_structures.length > 0) {
@@ -224,6 +226,7 @@ export function makeBioMarkers(
             nodeSize: 300,
             bType: str.b_type,
             organName: row.organName,
+            notes: str.notes
           };
 
           if (row.cell_types.length) {
