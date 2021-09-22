@@ -112,7 +112,7 @@ export class SheetService {
    * Service to add body for each AS to the data
    * @param data is the parsed ASCTB data from the csv file of the sheet
    */
-  getDataWithBody(data: any) {
+  getDataWithBody(data: any, organName: string) {
     const organ: Structure = {
       name: 'Body',
       id: 'UBERON:0013702',
@@ -120,6 +120,7 @@ export class SheetService {
     };
     data.forEach((row) => {
       row.anatomical_structures.unshift(organ);
+      row.organName = organName;
     });
     return data;
   }

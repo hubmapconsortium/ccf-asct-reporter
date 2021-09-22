@@ -121,12 +121,12 @@ export class ReportService {
     }
   }
 
-  makeAllOrganReportDataCountsByOrgan(data) {
+  makeAllOrganReportDataCountsByOrgan(data, linksByOrgan) {
     let allData = [];
     Object.keys(data).forEach((type) => {
       allData = [...allData, ...data[type]];
     });
-    return allData.reduce((acc, curr) => {
+    allData =  allData.reduce((acc, curr) => {
       let item = acc.find((x) => x.organName === curr.organName);
       const index = acc.findIndex((x) => x.organName === curr.organName);
       if (!item) {
@@ -141,6 +141,12 @@ export class ReportService {
       }
       return acc;
     }, []);
+    allData.forEach((countsByOrgan) => {
+      countsByOrgan.AS_AS = linksByOrgan.AS_AS_organWise[countsByOrgan.organName];
+      countsByOrgan.CT_BM = linksByOrgan.CT_B_organWise[countsByOrgan.organName];
+      countsByOrgan.AS_CT = linksByOrgan.AS_CT_organWise[countsByOrgan.organName];
+    });
+    return allData;
   }
 
   async makeCompareData(
