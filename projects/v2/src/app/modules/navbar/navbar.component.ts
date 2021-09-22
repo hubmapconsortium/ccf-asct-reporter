@@ -106,9 +106,9 @@ export class NavbarComponent implements OnInit {
         .replace('_', ' ').length > 64
         ? `${organs.length} organs selected`
         : organs
-            ?.map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-            .join(', ')
-            .replace('_', ' ');    
+          ?.map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+          .join(', ')
+          .replace('_', ' ');
     });
   }
 
