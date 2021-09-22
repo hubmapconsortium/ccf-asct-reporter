@@ -51,6 +51,8 @@
         {{info.ontologyId ? info.ontologyId : 'No ID found.'}}
       </div>
 
+      
+
       <div class="pt-3"></div>
 
       <label><b>{{ info.ontologyCode === 'HGNC' ? 'Link' : 'IRI'}}</b></label>
@@ -64,6 +66,24 @@
       <div>
         {{info.notes? info.notes : 'No Notes Found'}}
       </div>
+      <div *ngIf="info.entrezLink">
+      <div class="pt-3"></div>
+
+      <label ><b>Entrez Link</b></label>
+      <div>
+        <a [href]="info.entrezLink" target="_blank" class="text-info">{{info.entrezLink ? info.entrezLink : 'No Entrez Link found.'}}</a>
+      </div>
+    </div>
+
+    <div *ngIf="info.uniprotLink">
+      <div class="pt-3"></div>
+      <label ><b>Uniprot Link</b></label>
+      <div>
+        <a [href]="info.uniprotLink" target="_blank" class="text-info">{{info.uniprotLink ? info.uniprotLink : 'No Uniprot Link found.'}}</a>
+      </div>
+    </div>
+
+      
     </div>
   </ng-template>
 </div>

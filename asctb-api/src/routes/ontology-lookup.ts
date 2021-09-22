@@ -1,6 +1,6 @@
 import { Express, Request, Response } from 'express';
 import { LookupResponse, OntologyCode } from '../models/lookup.model';
-import { buildASCTApiUrl, buildHGNCApiUrl, buildHGNCLink } from '../functions/lookup.functions';
+import { buildASCTApiUrl, buildHGNCApiUrl, buildHGNCLink , buildUniprotLink, buildEntrezLink} from '../functions/lookup.functions';
 import axios from 'axios';
 
 export function setupOntologyLookupRoutes(app: Express): void {
@@ -22,11 +22,16 @@ export function setupOntologyLookupRoutes(app: Express): void {
       );
       if (response.status === 200 && response.data) {
         const firstResult = response.data.response.docs[0];
-
+       
         res.send({
           label: firstResult.symbol,
           link: buildHGNCLink(firstResult.hgnc_id),
-          description: firstResult.name ? firstResult.name : ''
+          description: firstResult.name ? firstResult.name : '',
+          extraLinks: {
+            'Uniprot Link': buildUniprotLink(firstResult.uniprot_ids[0]),
+            'Entrez Link': buildEntrezLink(firstResult.entrez_id),
+            
+          }
         } as LookupResponse);
 
       } else {
@@ -44,7 +49,11 @@ export function setupOntologyLookupRoutes(app: Express): void {
         res.send({
           label: firstResult.label,
           link: firstResult.iri,
-          description: firstResult.annotation.definition ? firstResult.annotation.definition[0] : ''
+          description: firstResult.annotation.definition ? firstResult.annotation.definition[0] : '',
+          extraLinks: {
+            'Uniprot Link': '',
+            'Entrez Link': '',  
+          }
         } as LookupResponse);
 
       } else {

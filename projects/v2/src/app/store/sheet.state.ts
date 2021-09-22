@@ -142,7 +142,9 @@ export class SheetStateModel {
       hasError: false,
       msg: '',
       status: 0,
-      notes: ''
+      notes: '',
+      entrezLink:'',
+      uniprotLink:''
     },
     bottomSheetDOI: [],
     fullAsData: []
@@ -808,6 +810,8 @@ export class SheetState {
             name: data.name,
             ontologyId: data.ontologyId,
             ontologyCode: '',
+            entrezLink:'',
+            uniprotLink:'',
             iri: '',
             label: '',
             desc: '',

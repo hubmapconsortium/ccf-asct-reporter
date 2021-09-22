@@ -89,6 +89,9 @@ export interface SheetInfo {
   msg: string;
   status: number;
   notes: string;
+  entrezLink?:string;
+  uniprotLink?:string;
+
 }
 
 export interface DOI {

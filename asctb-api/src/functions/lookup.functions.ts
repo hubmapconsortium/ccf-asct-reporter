@@ -8,6 +8,16 @@ export function buildHGNCApiUrl(id: string): string {
   return `https://rest.genenames.org/fetch/hgnc_id/${id}`;
 }
 
+export function buildUniprotLink(id: string): string {
+  return `https://www.uniprot.org/uniprot/${id}`; 
+}
+
+
+export function buildEntrezLink(id: string): string {
+  return `https://www.ncbi.nlm.nih.gov/gene/?term=${id}`; 
+}
+
+
 export function buildHGNCLink(id: string): string {
   return `https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/${id}`;
 }
