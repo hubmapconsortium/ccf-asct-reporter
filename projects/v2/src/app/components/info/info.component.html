@@ -60,22 +60,15 @@
         <a [href]="info.iri" target="_blank" class="text-info">{{info.iri ? info.iri : 'No IRI found.'}}</a>
       </div>
 
-      
-      <div *ngIf="info.entrezLink">
-      <div class="pt-3"></div>
-
-      <label ><strong>Entrez Link</strong></label>
-      <div>
-        <a [href]="info.entrezLink" target="_blank" class="text-info">{{info.entrezLink ? info.entrezLink : 'No Entrez Link found.'}}</a>
-      </div>
-    </div>
-
-    <div *ngIf="info.uniprotLink">
-      <div class="pt-3"></div>
-      <label ><strong>Uniprot Link</strong></label>
-      <div>
-        <a [href]="info.uniprotLink" target="_blank" class="text-info">{{info.uniprotLink ? info.uniprotLink : 'No Uniprot Link found.'}}</a>
-      </div>
+    <div *ngIf="info.ontologyCode === 'HGNC'">
+        <div *ngFor="let item of info.extraLinks | keyvalue">
+        
+          <div class="pt-3"></div>
+          <label ><strong>{{item.key}}</strong></label>
+          <div>
+            <a [href]="item.value" target="_blank" class="text-info">{{item.value ? item.value : 'No '+ item.key +' found.'}}</a>
+          </div>
+        </div>
     </div>
 
     <div class="pt-3"></div>

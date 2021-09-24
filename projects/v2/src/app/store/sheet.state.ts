@@ -143,8 +143,10 @@ export class SheetStateModel {
       msg: '',
       status: 0,
       notes: '',
-      entrezLink:'',
-      uniprotLink:''
+      extraLinks:{
+        entrez_link:'',
+        uniprot_link:''
+      }
     },
     bottomSheetDOI: [],
     fullAsData: []
@@ -810,8 +812,10 @@ export class SheetState {
             name: data.name,
             ontologyId: data.ontologyId,
             ontologyCode: '',
-            entrezLink:'',
-            uniprotLink:'',
+            extraLinks:{
+              entrez_link:'',
+              uniprot_link:''
+            },
             iri: '',
             label: '',
             desc: '',
