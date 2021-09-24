@@ -39,14 +39,14 @@
 
   <ng-template #infoBlock>
     <div *ngIf="!error.hasError" class="py-3 info">
-      <label><b>Description</b></label>
+      <label><strong>Description</strong></label>
       <div>
         {{info.desc ? info.desc : 'No description found.'}}
       </div>
 
       <div class="pt-3"></div>
 
-      <label><b>Ontology ID</b></label>
+      <label><strong>Ontology ID</strong></label>
       <div>
         {{info.ontologyId ? info.ontologyId : 'No ID found.'}}
       </div>
@@ -55,7 +55,7 @@
 
       <div class="pt-3"></div>
 
-      <label><b>{{ info.ontologyCode === 'HGNC' ? 'Link' : 'IRI'}}</b></label>
+      <label><strong>{{ info.ontologyCode === 'HGNC' ? 'Link' : 'IRI'}}</strong></label>
       <div>
         <a [href]="info.iri" target="_blank" class="text-info">{{info.iri ? info.iri : 'No IRI found.'}}</a>
       </div>
@@ -69,7 +69,7 @@
       <div *ngIf="info.entrezLink">
       <div class="pt-3"></div>
 
-      <label ><b>Entrez Link</b></label>
+      <label ><strong>Entrez Link</strong></label>
       <div>
         <a [href]="info.entrezLink" target="_blank" class="text-info">{{info.entrezLink ? info.entrezLink : 'No Entrez Link found.'}}</a>
       </div>
@@ -77,7 +77,7 @@
 
     <div *ngIf="info.uniprotLink">
       <div class="pt-3"></div>
-      <label ><b>Uniprot Link</b></label>
+      <label ><strong>Uniprot Link</strong></label>
       <div>
         <a [href]="info.uniprotLink" target="_blank" class="text-info">{{info.uniprotLink ? info.uniprotLink : 'No Uniprot Link found.'}}</a>
       </div>
