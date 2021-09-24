@@ -60,12 +60,7 @@
         <a [href]="info.iri" target="_blank" class="text-info">{{info.iri ? info.iri : 'No IRI found.'}}</a>
       </div>
 
-      <div class="pt-3"></div>
-
-      <label><strong>Notes</strong></label>
-      <div>
-        {{info.notes? info.notes : 'No Notes Found'}}
-      </div>
+      
       <div *ngIf="info.entrezLink">
       <div class="pt-3"></div>
 
@@ -82,6 +77,13 @@
         <a [href]="info.uniprotLink" target="_blank" class="text-info">{{info.uniprotLink ? info.uniprotLink : 'No Uniprot Link found.'}}</a>
       </div>
     </div>
+
+    <div class="pt-3"></div>
+
+      <label><strong>Notes</strong></label>
+      <div>
+        {{info.notes? info.notes : 'No notes found'}}
+      </div>
 
       
     </div>
