@@ -3,6 +3,7 @@ export interface LookupResponse {
   label: string;
   description: string;
   link: string;
+  additionalInfo?: string;
 }
 
 export enum OntologyCode {

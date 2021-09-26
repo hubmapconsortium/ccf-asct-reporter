@@ -13,6 +13,7 @@ export function buildgraphAS(data: Row[], graphData: GraphData) {
     data[0].anatomical_structures[0].rdfs_label,
     Node_type.R
   );
+  const idNameSet: { [key: string]: string; } = {};
   root.comparator = root.metadata.name;
   root.comparatorName = root.metadata.name;
   root.comparatorId = root.metadata.ontologyId;
@@ -24,7 +25,7 @@ export function buildgraphAS(data: Row[], graphData: GraphData) {
 
     row.anatomical_structures.forEach((structure) => {
       let s: number;
-      if (structure.id) {
+      if (structure.id && structure.id.toLowerCase() !== 'not found') {
         s = graphData.nodes.findIndex(
           (i: any) =>
             i.type !== 'root' &&
@@ -41,7 +42,7 @@ export function buildgraphAS(data: Row[], graphData: GraphData) {
         id += 1;
         const newNode = new GNode(
           id,
-          structure.name,
+          structure.id.toLowerCase() !== 'not found' && structure.id && idNameSet[structure.id] ? idNameSet[structure.id]  : structure.name,
           parent.id,
           structure.id,
           structure.rdfs_label,
@@ -50,7 +51,9 @@ export function buildgraphAS(data: Row[], graphData: GraphData) {
         newNode.comparatorName = parent.comparatorName + newNode.metadata.name;
         newNode.comparatorId =
           parent.comparatorId + newNode.metadata.ontologyId;
-
+        if (idNameSet[newNode.metadata.ontologyId] === undefined) {
+          idNameSet[newNode.metadata.ontologyId] = newNode.name;
+        }
         graphData.nodes.push(newNode);
         graphData.edges.push({ source: parent.id, target: id });
         parent = newNode;
@@ -76,7 +79,7 @@ export function buildgraphCT(data: Row[], graphData: GraphData, id: number) {
 
       row.cell_types.forEach((structure) => {
         let s: number;
-        if (structure.id) {
+        if (structure.id && structure.id.toLowerCase() !== 'not found') {
           s = graphData.nodes.findIndex(
             (i: any) => i.comparatorId === structure.id
           );
@@ -123,7 +126,7 @@ export function buildgraphBM(data: Row[], graphData: GraphData, id: number) {
 
         row.biomarkers.forEach((biomarker) => {
           let s: number;
-          if (structure.id) {
+          if (structure.id && structure.id.toLowerCase() !== 'not found')  {
             s = graphData.nodes.findIndex(
               (i: any) => i.comparatorId === biomarker.id
             );
@@ -140,7 +143,8 @@ export function buildgraphBM(data: Row[], graphData: GraphData, id: number) {
               parent.id,
               biomarker.id,
               biomarker.rdfs_label,
-              biomarker.b_type ?? Node_type.BM
+              Node_type.BM,
+              biomarker.b_type
             );
             newNode.comparatorName = newNode.metadata.name;
             newNode.comparatorId = newNode.metadata.ontologyId;
