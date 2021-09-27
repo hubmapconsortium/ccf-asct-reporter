@@ -101,12 +101,18 @@ export class NavbarComponent implements OnInit {
       this.selectedOrgans = organs;
       this.selectedOrgansValues =
       organs
-        ?.map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+        ?.map((s) => {
+          s = s.split('-')[0];
+          return s.charAt(0).toUpperCase() + s.substring(1);
+        })
         .join(', ')
         .replace('_', ' ').length > 64
         ? `${organs.length} organs selected`
         : organs
-          ?.map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+          ?.map((s) => {
+            s = s.split('-')[0];
+            return s.charAt(0).toUpperCase() + s.substring(1);
+          })
           .join(', ')
           .replace('_', ' ');
     });
