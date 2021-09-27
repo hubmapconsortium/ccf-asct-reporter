@@ -44,8 +44,8 @@ export interface ResponseData {
 
 export interface Sheet {
   name: string;
-  sheetId: string;
-  gid: string;
+  sheetId?: string;
+  gid?: string;
   display: string;
   config: SheetConfig;
   title: string;
@@ -101,14 +101,16 @@ export interface VersionDetail {
   value: string;
   viewValue: string;
   csvUrl?: string;
+  sheetId: string;
+  gid: string;
 }
 
 export interface SheetDetails {
   name: string;
   display: string;
   body?: string;
-  sheetId: string;
-  gid: string;
+  sheetId?: string;
+  gid?: string;
   config: {
       bimodal_distance_x: number;
       bimodal_distance_y: number;

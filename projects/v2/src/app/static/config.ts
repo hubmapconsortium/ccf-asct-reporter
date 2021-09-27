@@ -44,8 +44,6 @@ export const SHEET_CONFIG: SheetDetails[] = [
   {
     name: 'spleen',
     display: 'Spleen',
-    sheetId: SHEET_ID,
-    gid: '22580074',
     body: 'Spleen',
     config: {
       bimodal_distance_x: 250,
@@ -55,13 +53,17 @@ export const SHEET_CONFIG: SheetDetails[] = [
     },
     version: [
       {
+        sheetId: SHEET_ID,
+        gid: '22580074',
         value: 'spleen-v1.0',
         viewValue: 'v1.0',
-        csvUrl: `${version1Url}ASCT-B_VH_Spleen.csv`
+        // csvUrl: `${version1Url}ASCT-B_VH_Spleen.csv`
       },
       {
-        value: 'spleen-v1.5',
-        viewValue: 'v1.5',
+        sheetId: SHEET_ID,
+        gid: '984946629',
+        value: 'spleen-v1.1-Draft',
+        viewValue: 'v1.1 Draft',
       },
     ],
     title: 'Anatomical Structures',
@@ -69,8 +71,6 @@ export const SHEET_CONFIG: SheetDetails[] = [
   {
     name: 'thymus',
     display: 'Thymus',
-    sheetId: SHEET_ID,
-    gid: '314238819',
     body: 'Thymus',
     config: {
       bimodal_distance_x: 250,
@@ -80,13 +80,17 @@ export const SHEET_CONFIG: SheetDetails[] = [
     },
     version: [
       {
+        sheetId: SHEET_ID,
+        gid: '314238819',
         value: 'thymus-v1.0',
         viewValue: 'v1.0',
-        csvUrl: `${version1Url}ASCT-B_VH_Thymus.csv`
+        // csvUrl: `${version1Url}ASCT-B_VH_Thymus.csv`
       },
       {
-        value: 'thymus-v1.5',
-        viewValue: 'v1.5',
+        sheetId: SHEET_ID,
+        gid: '1823527529',
+        value: 'thymus-v1.1-Draft',
+        viewValue: 'v1.1 Draft',
       },
     ],
     title: 'Anatomical Structures',
@@ -94,8 +98,6 @@ export const SHEET_CONFIG: SheetDetails[] = [
   {
     name: 'kidney',
     display: 'Kidney',
-    sheetId: SHEET_ID,
-    gid: '1760639962',
     config: {
       bimodal_distance_x: 250,
       bimodal_distance_y: 60,
@@ -104,13 +106,17 @@ export const SHEET_CONFIG: SheetDetails[] = [
     },
     version: [
       {
+        sheetId: SHEET_ID,
+        gid: '1760639962',
         value: 'kidney-v1.0',
         viewValue: 'v1.0',
-        csvUrl: `${version1Url}ASCT-B_VH_Kidney.csv`
+        // csvUrl: `${version1Url}ASCT-B_VH_Kidney.csv`
       },
       {
-        value: 'kidney-v1.5',
-        viewValue: 'v1.5',
+        sheetId: SHEET_ID,
+        gid: '2137043090',
+        value: 'kidney-v1.1-Draft',
+        viewValue: 'v1.1 Draft',
       },
     ],
     title: 'Anatomical Structures',
@@ -131,8 +137,6 @@ export const SHEET_CONFIG: SheetDetails[] = [
   {
     name: 'lymph_nodes',
     display: 'Lymph Nodes',
-    sheetId: SHEET_ID,
-    gid: '272157091',
     config: {
       bimodal_distance_x: 250,
       bimodal_distance_y: 60,
@@ -141,13 +145,17 @@ export const SHEET_CONFIG: SheetDetails[] = [
     },
     version: [
       {
+        sheetId: SHEET_ID,
+        gid: '272157091',
         value: 'lymph_nodes-v1.0',
         viewValue: 'v1.0',
-        csvUrl: `${version1Url}ASCT-B_NIH_Lymph_Node.csv`
+        // csvUrl: `${version1Url}ASCT-B_NIH_Lymph_Node.csv`
       },
       {
-        value: 'lymph_nodes-v1.5',
-        viewValue: 'v1.5',
+        sheetId: SHEET_ID,
+        gid: '1440276882',
+        value: 'lymph_nodes-v1.1-Draft',
+        viewValue: 'v1.1 Draft',
       },
     ],
     title: 'Anatomical Structures',
@@ -155,8 +163,6 @@ export const SHEET_CONFIG: SheetDetails[] = [
   {
     name: 'heart',
     display: 'Heart',
-    sheetId: SHEET_ID,
-    gid: '1240281363',
     config: {
       bimodal_distance_x: 300,
       bimodal_distance_y: 60,
@@ -165,13 +171,17 @@ export const SHEET_CONFIG: SheetDetails[] = [
     },
     version: [
       {
+        sheetId: SHEET_ID,
+        gid: '1240281363',
         value: 'heart-v1.0',
         viewValue: 'v1.0',
-        csvUrl: `${version1Url}ASCT-B_VH_Heart.csv`
+        // csvUrl: `${version1Url}ASCT-B_VH_Heart.csv`
       },
       {
-        value: 'heart-v1.5',
-        viewValue: 'v1.5',
+        sheetId: SHEET_ID,
+        gid: '2133445058',
+        value: 'heart-v1.1-Draft',
+        viewValue: 'v1.1 Draft',
       },
     ],
     title: 'Anatomical Structures',
@@ -179,8 +189,6 @@ export const SHEET_CONFIG: SheetDetails[] = [
   {
     name: 'brain',
     display: 'Brain',
-    sheetId: SHEET_ID,
-    gid: '345174398',
     config: {
       bimodal_distance_x: 200,
       bimodal_distance_y: 50,
@@ -189,13 +197,17 @@ export const SHEET_CONFIG: SheetDetails[] = [
     },
     version: [
       {
+        sheetId: SHEET_ID,
+        gid: '345174398',
         value: 'brain-v1.0',
         viewValue: 'v1.0',
-        csvUrl: `${version1Url}ASCT-B_Allen_Brain.csv`
+        // csvUrl: `${version1Url}ASCT-B_Allen_Brain.csv`
       },
       {
-        value: 'brain-v1.5',
-        viewValue: 'v1.5',
+        sheetId: SHEET_ID,
+        gid: '1379088218',
+        value: 'brain-v1.1-Draft',
+        viewValue: 'v1.1 Draft',
       },
     ],
     title: 'Anatomical Structures',
@@ -204,8 +216,6 @@ export const SHEET_CONFIG: SheetDetails[] = [
   {
     name: 'large_intestine',
     display: 'Intestine, Large',
-    sheetId: SHEET_ID,
-    gid: '1687995716',
     config: {
       bimodal_distance_x: 200,
       bimodal_distance_y: 50,
@@ -214,13 +224,17 @@ export const SHEET_CONFIG: SheetDetails[] = [
     },
     version: [
       {
+        sheetId: SHEET_ID,
+        gid: '1687995716',
         value: 'large_intestine-v1.0',
         viewValue: 'v1.0',
-        csvUrl: `${version1Url}ASCT-B_VH_Intestine_Large.csv`
+        // csvUrl: `${version1Url}ASCT-B_VH_Intestine_Large.csv`
       },
       {
-        value: 'large_intestine-v1.5',
-        viewValue: 'v1.5',
+        sheetId: SHEET_ID,
+        gid: '512613979',
+        value: 'large_intestine-v1.1-Draft',
+        viewValue: 'v1.1 Draft',
       },
     ],
     title: 'Anatomical Structures',
@@ -229,8 +243,6 @@ export const SHEET_CONFIG: SheetDetails[] = [
   {
     name: 'vasculature',
     display: 'Vasculature',
-    sheetId: SHEET_ID,
-    gid: '1896956438',
     config: {
       bimodal_distance_x: 200,
       bimodal_distance_y: 50,
@@ -239,13 +251,17 @@ export const SHEET_CONFIG: SheetDetails[] = [
     },
     version: [
       {
+        sheetId: SHEET_ID,
+        gid: '1896956438',
         value: 'vasculature-v1.0',
         viewValue: 'v1.0',
-        csvUrl: `${version1Url}ASCT-B_VH_Vasculature.csv`
+        // csvUrl: `${version1Url}ASCT-B_VH_Vasculature.csv`
       },
       {
-        value: 'vasculature-v1.5',
-        viewValue: 'v1.5',
+        sheetId: SHEET_ID,
+        gid: '361657182',
+        value: 'vasculature-v1.1-Draft',
+        viewValue: 'v1.1 Draft',
       },
     ],
     title: 'Anatomical Structures',
@@ -254,8 +270,6 @@ export const SHEET_CONFIG: SheetDetails[] = [
   {
     name: 'bone_marrow',
     display: 'Bone Marrow',
-    sheetId: SHEET_ID,
-    gid: '1852470103',
     config: {
       bimodal_distance_x: 200,
       bimodal_distance_y: 50,
@@ -264,13 +278,17 @@ export const SHEET_CONFIG: SheetDetails[] = [
     },
     version: [
       {
+        sheetId: SHEET_ID,
+        gid: '1852470103',
         value: 'bone_marrow-v1.0',
         viewValue: 'v1.0',
-        csvUrl: `${version1Url}ASCT-B_VH_BM_Blood_Pelvis.csv`
+        // csvUrl: `${version1Url}ASCT-B_VH_BM_Blood_Pelvis.csv`
       },
       {
-        value: 'bone_marrow-v1.5',
-        viewValue: 'v1.5',
+        sheetId: SHEET_ID,
+        gid: '1845311048',
+        value: 'bone_marrow-v1.1-Draft',
+        viewValue: 'v1.1 Draft',
       },
     ],
     title: 'Anatomical Structures',
@@ -279,8 +297,6 @@ export const SHEET_CONFIG: SheetDetails[] = [
   {
     name: 'skin',
     display: 'Skin',
-    sheetId: SHEET_ID,
-    gid: '104836770',
     config: {
       bimodal_distance_x: 200,
       bimodal_distance_y: 50,
@@ -289,13 +305,17 @@ export const SHEET_CONFIG: SheetDetails[] = [
     },
     version: [
       {
+        sheetId: SHEET_ID,
+        gid: '104836770',
         value: 'skin-v1.0',
         viewValue: 'v1.0',
-        csvUrl: `${version1Url}ASCT-B_VH_Skin.csv`
+        // csvUrl: `${version1Url}ASCT-B_VH_Skin.csv`
       },
       {
-        value: 'skin-v1.5',
-        viewValue: 'v1.5',
+        sheetId: SHEET_ID,
+        gid: '1158675184',
+        value: 'skin-v1.1-Draft',
+        viewValue: 'v1.1 Draft',
       },
     ],
     title: 'Anatomical Structures',
@@ -304,8 +324,6 @@ export const SHEET_CONFIG: SheetDetails[] = [
   {
     name: 'lung',
     display: 'Lung DRAFT',
-    sheetId: SHEET_ID,
-    gid: '1824552484',
     config: {
       bimodal_distance_x: 200,
       bimodal_distance_y: 50,
@@ -314,13 +332,17 @@ export const SHEET_CONFIG: SheetDetails[] = [
     },
     version: [
       {
+        sheetId: SHEET_ID,
+        gid: '925712902',
         value: 'lung-v1.0',
         viewValue: 'v1.0',
-        csvUrl: `${version1Url}ASCT-B_VH_Lung.csv`
+        // csvUrl: `${version1Url}ASCT-B_VH_Lung.csv`
       },
       {
-        value: 'lung-v1.5',
-        viewValue: 'v1.5',
+        sheetId: SHEET_ID,
+        gid: '1824552484',
+        value: 'lung-v1.1-Draft',
+        viewValue: 'v1.1 Draft',
       },
     ],
     title: 'Anatomical Structures',
@@ -359,8 +381,8 @@ export const SHEET_OPTIONS: SheetOptions[] = [
         viewValue: 'v1.0',
       },
       {
-        value: 'bone_marrow-v1.5',
-        viewValue: 'v1.5',
+        value: 'bone_marrow-v1.1-Draft',
+        viewValue: 'v1.1 Draft',
       },
     ],
   },
@@ -369,7 +391,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     sheet: 'brain',
     version: [
       { value: 'brain-v1.0', viewValue: 'v1.0' },
-      { value: 'brain-v1.5', viewValue: 'v1.5' },
+      { value: 'brain-v1.1-Draft', viewValue: 'v1.1 Draft' },
     ],
   },
   {
@@ -377,7 +399,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     sheet: 'heart',
     version: [
       { value: 'heart-v1.0', viewValue: 'v1.0' },
-      { value: 'heart-v1.5', viewValue: 'v1.5' },
+      { value: 'heart-v1.1-Draft', viewValue: 'v1.1 Draft' },
     ],
   },
   {
@@ -385,7 +407,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     sheet: 'kidney',
     version: [
       { value: 'kidney-v1.0', viewValue: 'v1.0' },
-      { value: 'kidney-v1.5', viewValue: 'v1.5' },
+      { value: 'kidney-v1.1-Draft', viewValue: 'v1.1 Draft' },
     ],
   },
   {
@@ -393,7 +415,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     sheet: 'large_intestine',
     version: [
       { value: 'large_intestine-v1.0', viewValue: 'v1.0' },
-      { value: 'large_intestine-v1.5', viewValue: 'v1.5' },
+      { value: 'large_intestine-v1.1-Draft', viewValue: 'v1.1 Draft' },
     ],
   },
   // {
@@ -405,7 +427,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     sheet: 'lung',
     version: [
       { value: 'lung-v1.0', viewValue: 'v1.0' },
-      { value: 'lung-v1.5', viewValue: 'v1.5' },
+      { value: 'lung-v1.1-Draft', viewValue: 'v1.1 Draft' },
     ],
   },
   {
@@ -413,7 +435,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     sheet: 'lymph_nodes',
     version: [
       { value: 'lymph_nodes-v1.0', viewValue: 'v1.0' },
-      { value: 'lymph_nodes-v1.5', viewValue: 'v1.5' },
+      { value: 'lymph_nodes-v1.1-Draft', viewValue: 'v1.1 Draft' },
     ],
   },
   {
@@ -421,7 +443,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     sheet: 'skin',
     version: [
       { value: 'skin-v1.0', viewValue: 'v1.0' },
-      { value: 'skin-v1.5', viewValue: 'v1.5' },
+      { value: 'skin-v1.1-Draft', viewValue: 'v1.1 Draft' },
     ],
   },
   // {
@@ -433,7 +455,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     sheet: 'spleen',
     version: [
       { value: 'spleen-v1.0', viewValue: 'v1.0' },
-      { value: 'spleen-v1.5', viewValue: 'v1.5' },
+      { value: 'spleen-v1.1-Draft', viewValue: 'v1.1 Draft' },
     ],
   },
   {
@@ -441,7 +463,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     sheet: 'thymus',
     version: [
       { value: 'thymus-v1.0', viewValue: 'v1.0' },
-      { value: 'thymus-v1.5', viewValue: 'v1.5' },
+      { value: 'thymus-v1.1-Draft', viewValue: 'v1.1 Draft' },
     ],
   },
   {
@@ -449,7 +471,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     sheet: 'vasculature',
     version: [
       { value: 'vasculature-v1.0', viewValue: 'v1.0' },
-      { value: 'vasculature-v1.5', viewValue: 'v1.5' },
+      { value: 'vasculature-v1.1-Draft', viewValue: 'v1.1 Draft' },
     ],
   },
 ];

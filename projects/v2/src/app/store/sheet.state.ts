@@ -414,7 +414,7 @@ export class SheetState {
       SHEET_CONFIG.forEach((config) => {
         config.version?.forEach((version: VersionDetail) => {
           if (version.value === organ) {
-            requests$.push(this.sheetService.fetchSheetData(config.sheetId, config.gid, version.csvUrl));
+            requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl));
             organsNames.push(config.name);
           }
         });
