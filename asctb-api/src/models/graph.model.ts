@@ -73,7 +73,7 @@ export class Metadata {
       }
       ontologyId = 'UBERON:' + ontologyId;
     }
-    [this.ontologyType, this.ontologyTypeId] = ontologyId.split(':')
+    [this.ontologyType, this.ontologyTypeId] = ontologyId.split(':');
     this.name = name;
     this.label = label;
     this.bmType = bmType;
