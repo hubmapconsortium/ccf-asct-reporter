@@ -30,7 +30,7 @@ export function setupOntologyLookupRoutes(app: Express): void {
           description: firstResult.name ? firstResult.name : ''
         };
         res.send({
-          ...(output == 'graph' && {'additionalInfo':  firstResult}),
+          ...(output === 'graph' && {'additionalInfo':  firstResult}),
           ...details
         } as LookupResponse);
 
@@ -52,7 +52,7 @@ export function setupOntologyLookupRoutes(app: Express): void {
           description: firstResult.annotation.definition ? firstResult.annotation.definition[0] : ''
         };
         res.send({
-          ...(output == 'graph' && {'additionalInfo':  firstResult}),
+          ...(output === 'graph' && {'additionalInfo':  firstResult}),
           ...details
         } as LookupResponse);
 
