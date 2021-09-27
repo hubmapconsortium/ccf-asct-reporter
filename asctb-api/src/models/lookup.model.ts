@@ -1,9 +1,8 @@
 export interface LookupResponse {
-  name: string;
   label: string;
   description: string;
   link: string;
-  extraLinks:{'Uniprot Link':string, 'Entrez Link':string};
+  extraLinks?: Record<string, string>;
 }
 
 export enum OntologyCode {
