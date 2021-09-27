@@ -89,10 +89,7 @@ export interface SheetInfo {
   msg: string;
   status: number;
   notes: string;
-  extraLinks?:{
-    entrez_link:string;
-    uniprot_link:string;
-  }
+  extraLinks?:Record<string,string>;
 
 }
 
