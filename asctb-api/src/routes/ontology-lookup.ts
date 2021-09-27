@@ -59,13 +59,6 @@ export function setupOntologyLookupRoutes(app: Express): void {
       } else {
         res.status(response.status).end();
       }
-      break;
-    }
-    default: {
-      // 400
-      res.statusMessage = 'Invalid ID';
-      res.status(400).end();
-      break;
     }
     }
   });
