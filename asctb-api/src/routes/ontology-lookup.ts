@@ -29,11 +29,11 @@ export function setupOntologyLookupRoutes(app: Express): void {
         res.send({
           extraLinks: {
             'Uniprot Link': buildUniprotLink(firstResult.uniprot_ids[0]),
-            'Entrez Link': buildEntrezLink(firstResult.entrez_id),
+            'Entrez Link': buildEntrezLink(firstResult.entrez_id)
           },
           label: firstResult.symbol,
           link: buildHGNCLink(firstResult.hgnc_id),
-          description: firstResult.name ? firstResult.name : '',
+          description: firstResult.name ? firstResult.name : ''
         } as LookupResponse);
       } else {
         res.status(response.status).end();

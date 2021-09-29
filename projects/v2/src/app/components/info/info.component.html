@@ -60,7 +60,7 @@
         <a [href]="info.iri" target="_blank" class="text-info">{{info.iri ? info.iri : 'No IRI found.'}}</a>
       </div>
 
-    <div *ngIf="info.ontologyCode === 'HGNC'">
+    <div *ngIf="info.extraLinks">
         <div *ngFor="let item of info.extraLinks | keyvalue">
         
           <div class="pt-3"></div>
