@@ -20,6 +20,11 @@ export class FetchAllOrganData {
   constructor(public sheet: Sheet) {}
 }
 
+export class FetchSelectedOrganData {
+  static readonly type = '[FETCH] Selected Organs Data';
+  constructor(public sheet: Sheet, public selectedOrgans: Array<string>) {}
+}
+
 export class FetchCompareData {
   static readonly type = '[FETCH] Compare Data';
   constructor(public compareData: CompareData[]) {}

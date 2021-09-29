@@ -148,14 +148,23 @@
           <div class="h5 mt-3 mb-3">Details</div>
 
           <div class="details pr-4">
-            <div *ngIf="currentSheet.name === 'all'">
-              <p class="text-muted mb-3">
-                <small class="font-weight-normal">Counts by Organ</small>
-              </p>
+            <div *ngIf="currentSheet.name === 'all' || (currentSheet.name === 'some' && countsByOrgan.length > 1)">
+              <div class="count-by-organ-title">
+                <p class="text-muted mb-3">
+                  <small class="font-weight-normal">Counts by Organ</small>
+                </p>
+                <div class="display-option" #tooltip="matTooltip" matTooltip="Exoport as Csv">
+                  <button mat-icon-button (click)="exporter.exportTable('csv')" class="mr-2" >
+                    <mat-icon>get_app</mat-icon>
+                  </button>
+                </div>
+              </div>
 
               <table
                 mat-table
+                matTableExporter
                 [dataSource]="countsByOrgan"
+                #exporter="matTableExporter"
                 class="mat-elevation-z8 count_by_organ_table"
               >
                 <caption class="sr-only">

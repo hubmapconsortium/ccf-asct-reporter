@@ -23,18 +23,18 @@
     <div class="search ml-1">
       <app-search [disabled]="(ui$ | async).error.hasError"></app-search>
     </div>
-    <mat-form-field  class="mx-2 orgon-selection-box">
-      <button class="secondary select-border orgon-selection-button" mat-flat-button  #tooltip="matTooltip"
-        matTooltip="Select Organ Set" matTooltipPosition="below">
-        <mat-select (selectionChange)="getSheetSelection(selectedSheetOption, $event)"
-          [(ngModel)]="selectedSheetOption">
-
-          <mat-option *ngFor="let option of SHEET_OPTIONS" [value]="option.title">
-            {{ option.title }}
-          </mat-option>
-        </mat-select>
-      </button>
-    </mat-form-field>
+   
+      <button mat-flat-button
+      id="selectedorgansBtn"
+      (click)="openSelectOrgansDialog()"
+      class="select-organs-button secondary ch text-left"
+      #tooltip="matTooltip"
+      [disabled]="(mode$ | async) !== 'vis'"
+      matTooltip="Select Organ Set"
+      matTooltipPosition="below">
+      <span>&nbsp; {{(mode$ | async) === 'vis' ? selectedOrgansValues: "Example"}}</span>
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
 
     <app-nav-item
       #tooltip="matTooltip"

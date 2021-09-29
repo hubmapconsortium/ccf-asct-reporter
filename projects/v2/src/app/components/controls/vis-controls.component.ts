@@ -14,6 +14,7 @@ export class VisControlsComponent implements OnInit {
   @Input() config: SheetConfig;
   @Input() error: Error;
   @Input() currentSheet: Sheet;
+  @Input() selectedOrgans: string[];
 
 
   @Output() updatedConfig: EventEmitter<any>  = new EventEmitter<any>();

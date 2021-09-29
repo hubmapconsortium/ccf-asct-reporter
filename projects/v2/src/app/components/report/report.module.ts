@@ -10,6 +10,8 @@ import { OrderModule } from 'ngx-order-pipe';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
+import {MatTableExporterModule } from 'mat-table-exporter';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -24,7 +26,9 @@ import {MatTableModule} from '@angular/material/table';
     OrderModule,
     MatIconModule,
     MatButtonModule,
-    MatTableModule
+    MatTableModule,
+    MatTableExporterModule,
+    MatTooltipModule,
   ],
   exports: [ReportComponent]
 })

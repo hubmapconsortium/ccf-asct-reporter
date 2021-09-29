@@ -12,17 +12,15 @@ import { TreeState } from './../../store/tree.state';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import {
-  FetchSheetData,
-  FetchDataFromAssets,
-  FetchAllOrganData,
   FetchCompareData,
   UpdateReport,
   DeleteCompareSheet,
   UpdateMode,
   FetchInitialPlaygroundData,
+  FetchSelectedOrganData,
 } from './../../actions/sheet.actions';
 import { TreeService } from './../tree/tree.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UIState } from '../../store/ui.state';
 import {
   HasError,
@@ -54,6 +52,7 @@ import { CompareData, DOI, Row, SheetConfig, SheetInfo } from '../../models/shee
 import { DoiComponent } from '../../components/doi/doi.component';
 import { SearchStructure } from '../../models/tree.model';
 import { SheetService } from '../../services/sheet.service';
+import { OrganTableSelectorComponent } from '../../components/organ-table-selector/organ-table-selector.component';
 import { TreeComponent } from '../tree/tree.component';
 
 @Component({
@@ -156,7 +155,8 @@ export class RootComponent implements OnInit, OnDestroy {
     public indent: IndentedListService,
     public report: ReportService,
     private readonly infoSheet: MatBottomSheet,
-    public sheetService: SheetService
+    public sheetService: SheetService,
+    public router: Router
   ) {
 
     this.data$.subscribe(data => {
@@ -176,30 +176,42 @@ export class RootComponent implements OnInit, OnDestroy {
     });
 
     this.route.queryParamMap.subscribe(query => {
-      const version = query.get('version');
-      const sheet = query.get('sheet');
+      const selectedOrgans = query.get('selectedOrgans');
+      console.log(selectedOrgans);
       const playground = query.get('playground');
+      if (!selectedOrgans && playground !== 'true') {
+        store.dispatch(new CloseLoading('Select Organ Model Rendered'));
+        const config = new MatDialogConfig();
+        config.disableClose = true;
+        config.autoFocus = true;
+        config.id = 'OrganTableSelector';
+        config.width = '40vw';
 
-      if (playground === 'true') {
+        const dialogRef = this.dialog.open(OrganTableSelectorComponent, config);
+        dialogRef.afterClosed().subscribe((organs) => {
+          if (organs !== false){
+            this.router.navigate(['/vis'], {
+              queryParams: {
+                selectedOrgans: organs?.join(','),
+                playground: false,
+              },
+              queryParamsHandling: 'merge',
+            });
+          }
+        });
+      }
+      else if (selectedOrgans && playground !== 'true') {
+        store.dispatch(new UpdateMode('vis'));
+        this.sheet =  SHEET_CONFIG.find(i => i.name === 'some');
+        store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(',')));
+        sessionStorage.setItem('selectedOrgans', selectedOrgans);
+      }
+      else if (playground === 'true') {
         store.dispatch(new UpdateMode('playground'));
         this.sheet = SHEET_CONFIG.find(i => i.name === 'example');
         this.store.dispatch(new FetchInitialPlaygroundData());
         store.dispatch(new CloseLoading());
-      } else {
-        store.dispatch(new UpdateMode('vis'));
-        this.sheet =  SHEET_CONFIG.find(i => i.name === sheet);
-        localStorage.setItem('sheet', this.sheet.name);
-        if (version === 'latest') {
-          if (this.sheet.name === 'all') {
-            store.dispatch(new FetchAllOrganData(this.sheet));
-          } else { store.dispatch(new FetchSheetData(this.sheet)); }
-
-        } else {
-          store.dispatch(new FetchDataFromAssets(version, this.sheet));
-        }
       }
-
-
     });
 
     this.loading$.subscribe(l => {

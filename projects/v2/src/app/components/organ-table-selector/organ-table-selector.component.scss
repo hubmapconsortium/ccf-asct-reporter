@@ -1,0 +1,56 @@
+
+  .button-container {
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+    margin-top: 1rem;
+  }
+  .version-dropdown {
+    position: relative;
+    top: 10px;
+  }
+  .select-deselect-all{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 15px;
+  }
+  .add-cancel-button {
+    border: 0.063rem solid rgb(196, 196, 196);
+    border-radius: 0.5rem !important;
+  }
+  .orgon-selection-box {
+    margin-bottom: 0;
+  }
+  .orgon-selection-button {
+    width: 100%;
+  }
+  ::ng-deep .orgon-selection-box .mat-form-field-underline {
+    display: none;
+  }
+
+  .mat-table {
+    overflow-x: scroll;
+  }
+  
+  .mat-cell,
+  .mat-header-cell {
+    word-wrap: initial;
+    display: table-cell;
+    padding: 0px 10px;
+    line-break: unset;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+  }
+  
+  .mat-row,
+  .mat-header-row {
+    display: table-row;
+  }
+
+  .table-container {
+    margin-top: 10px;
+    max-height: 300px;
+    overflow: auto;
+  }

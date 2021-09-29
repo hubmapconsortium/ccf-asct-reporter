@@ -107,7 +107,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
           zindex: {value: -1},
           opacity: [
             {
-              test: 'node__click === null && indata(\'discrepencyLabel\', \'id\', datum.datum.id)',
+              test: 'node__click === null && indata(\'discrepencyLabel\', \'id\', datum.datum.id) && datum.datum.children !=0',
               value: 1
             },
             {
@@ -147,7 +147,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
           zindex: {value: -1},
           opacity: [
             {
-              test: 'node__click === null && indata(\'discrepencyId\', \'id\', datum.datum.id)',
+              test: 'node__click === null && indata(\'discrepencyId\', \'id\', datum.datum.id) && datum.datum.children !=0',
               value: 1
             },
             {
@@ -187,7 +187,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
           zindex: {value: -1},
           opacity: [
             {
-              test: 'node__click === null && indata(\'duplicateId\', \'id\', datum.datum.id)',
+              test: 'node__click === null && indata(\'duplicateId\', \'id\', datum.datum.id) && datum.datum.children !=0',
               value: 1
             },
             {

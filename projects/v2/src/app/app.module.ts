@@ -24,6 +24,7 @@ import { RootModule } from './modules/root/root.module';
 import { HomeModule } from './components/home/home.module';
 import { FooterModule } from './components/footer/footer.module';
 import { FileUploadModule } from './components/file-upload/file-upload.module';
+import { OrganTableSelectorModule } from './components/organ-table-selector/organ-table-selector.module';
 
 @NgModule({
   declarations: [
@@ -46,8 +47,9 @@ import { FileUploadModule } from './components/file-upload/file-upload.module';
     DocsModule,
     RootModule,
     HomeModule,
-    FooterModule,
-    FileUploadModule
+    FileUploadModule,
+    OrganTableSelectorModule,
+    FooterModule
   ],
   providers: [GoogleAnalyticsService],
   bootstrap: [AppComponent]

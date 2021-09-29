@@ -61,24 +61,24 @@ export class BimodalService {
           if (td.ontologyId && td.ontologyId.toLowerCase() !== 'not found') {
             newLeaf.indegree = anatomicalStructuresData.find((a: AS) => {
               return (a.comparatorId === td.ontologyId);
-            }).indegree;
+            })?.indegree;
             newLeaf.outdegree = anatomicalStructuresData.find((a: AS) => {
               return (a.comparatorId === td.ontologyId);
-            }).outdegree;
+            })?.outdegree;
             newLeaf.label = anatomicalStructuresData.find((a: AS) => {
               return (a.comparatorId === td.ontologyId);
-            }).label;
+            })?.label;
           }
           else{
             newLeaf.indegree = anatomicalStructuresData.find((a: AS) => {
               return (a.comparatorName === td.name);
-            }).indegree;
+            })?.indegree;
             newLeaf.outdegree = anatomicalStructuresData.find((a: AS) => {
               return (a.comparatorName === td.name);
-            }).outdegree;
+            })?.outdegree;
             newLeaf.label = anatomicalStructuresData.find((a: AS) => {
               return (a.comparatorName === td.name); 
-            }).label;
+            })?.label;
           }
           nodes.push(newLeaf);
           id += 1;
@@ -236,7 +236,7 @@ export class BimodalService {
       nodes.forEach((node, index) => {
         if (node.group === 1) {
           node.sources = [];
-          node.outdegree.forEach(str => {
+          node.outdegree?.forEach(str => {
             let foundIndex: number;
             if (str.id && str.id.toLowerCase() !== 'not found') {
               foundIndex = nodes.findIndex(
