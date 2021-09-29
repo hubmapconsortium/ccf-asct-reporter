@@ -422,7 +422,7 @@ export class RootComponent implements OnInit, OnDestroy {
       document.body.appendChild(downloadAnchorNode);
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
-    } else if (option === 'JSON LD') {
+    } else if (option === 'JSON-LD') {
       const sheet = this.store.selectSnapshot(SheetState.getSheet);
       this.sheetService
         .fetchSheetData(sheet.sheetId, sheet.gid, sheet.csvUrl, null, 'jsonld')

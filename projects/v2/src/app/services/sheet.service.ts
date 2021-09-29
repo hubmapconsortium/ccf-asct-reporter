@@ -28,7 +28,7 @@ export class SheetService {
       return this.http.get(`${URL}/v2/csv`, {
         params: {
           csvUrl: csvFileUrl,
-          output: output ? output : 'json',
+          output: output ? output : 'json'
         },
       });
     } else if (formData) {
@@ -41,7 +41,7 @@ export class SheetService {
         return this.http.get(`${URL}/v2/csv`, {
           params: {
             csvUrl: `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`,
-            output: output ? output : 'jsonld',
+            output: output ? output : 'jsonld'
           },
         });
       }
@@ -58,7 +58,7 @@ export class SheetService {
    */
   fetchDataFromAssets(dataVersion: string, currentSheet: any) {
     return this.http.get(getAssetsURL(dataVersion, currentSheet), {
-      responseType: 'text',
+      responseType: 'text'
     });
   }
 
