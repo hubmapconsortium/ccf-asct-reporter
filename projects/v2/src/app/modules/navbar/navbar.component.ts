@@ -1,9 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { SHEET_OPTIONS, VERSION, MORE_OPTIONS, IMG_OPTIONS, PLAYGROUND_SHEET_OPTIONS, MASTER_SHEET_LINK } from '../../static/config';
+import { SHEET_OPTIONS, VERSION, MORE_OPTIONS, IMG_OPTIONS, PLAYGROUND_SHEET_OPTIONS, MASTER_SHEET_LINK, SHEET_CONFIG } from '../../static/config';
 import { Store, Select } from '@ngxs/store';
 import { SheetState, SheetStateModel } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
-import { Sheet } from '../../models/sheet.model';
+import { Sheet, SheetDetails, VersionDetail } from '../../models/sheet.model';
 import { Router } from '@angular/router';
 import { FetchSheetData, FetchAllOrganData } from '../../actions/sheet.actions';
 import { ToggleControlPane, ToggleIndentList, ToggleReport, ToggleDebugLogs, OpenCompare } from '../../actions/ui.actions';
@@ -99,22 +99,18 @@ export class NavbarComponent implements OnInit {
 
     this.selectedOrgans$.subscribe((organs) => {
       this.selectedOrgans = organs;
+      const selectedOrgansNames = [];
+      for (const organ of organs) {
+        SHEET_CONFIG.forEach((config: SheetDetails) => {
+          config.version?.forEach((version: VersionDetail) => {
+            if (version.value === organ) {
+              selectedOrgansNames.push(config.display);
+            }
+          });
+        });
+      }
       this.selectedOrgansValues =
-      organs
-        ?.map((s) => {
-          s = s.split('-')[0];
-          return s.charAt(0).toUpperCase() + s.substring(1);
-        })
-        .join(', ')
-        .replace('_', ' ').length > 64
-        ? `${organs.length} organs selected`
-        : organs
-          ?.map((s) => {
-            s = s.split('-')[0];
-            return s.charAt(0).toUpperCase() + s.substring(1);
-          })
-          .join(', ')
-          .replace('_', ' ');
+      selectedOrgansNames?.join(', ').length > 64 ? `${organs.length} organs selected`: selectedOrgansNames?.join(', ');
     });
   }
 
