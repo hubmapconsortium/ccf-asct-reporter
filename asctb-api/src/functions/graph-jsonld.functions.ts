@@ -17,7 +17,7 @@ export function makeJsonLdData(data: GraphData): any {
     if (!iri) {
       const suffix = node.name?.toLowerCase().trim().replace(/\W+/g, '-').replace(/[^a-z0-9-]+/g, '');
       ontologyId = `ASCTB-TEMP:${suffix}`;
-      iri = `https://purl.org/ccf/ASCTB-TEMP/${suffix}`;
+      iri = `https://purl.org/ccf/ASCTB-TEMP_${suffix}`;
     }
     iriLookup[index] = iri;
 
