@@ -36,6 +36,7 @@ export function setupOntologyLookupRoutes(app: Express): void {
     }
     case OntologyCode.UBERON:
     case OntologyCode.CL:
+    case OntologyCode.LMHA:
     case OntologyCode.FMA: {
       const response = await axios.get(
         buildASCTApiUrl(`${ontologyCode}:${termId}`)

@@ -10,4 +10,5 @@ export enum OntologyCode {
   CL = 'CL',
   FMA = 'FMA',
   HGNC = 'HGNC',
+  LMHA = 'LMHA',
 }
