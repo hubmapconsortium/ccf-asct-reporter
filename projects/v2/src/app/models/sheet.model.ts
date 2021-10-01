@@ -89,6 +89,8 @@ export interface SheetInfo {
   msg: string;
   status: number;
   notes: string;
+  extraLinks?:Record<string,string>;
+
 }
 
 export interface DOI {

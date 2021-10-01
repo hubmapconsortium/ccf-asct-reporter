@@ -1,10 +1,9 @@
 import { Express, Request, Response } from 'express';
 import { LookupResponse, OntologyCode } from '../models/lookup.model';
-import { buildASCTApiUrl, buildHGNCApiUrl, buildHGNCLink } from '../functions/lookup.functions';
+import { buildASCTApiUrl, buildHGNCApiUrl, buildHGNCLink, buildUniprotLink, buildEntrezLink } from '../functions/lookup.functions';
 import axios from 'axios';
 
 export function setupOntologyLookupRoutes(app: Express): void {
-
   /**
    * Given an ontology code (UBERON, FMA, CL, or HGNC), and a numerical ID of a term,
    * call the corresponding external ontology API to fetch data about that term, including
@@ -17,18 +16,19 @@ export function setupOntologyLookupRoutes(app: Express): void {
     switch (ontologyCode) {
     case OntologyCode.HGNC: {
       const response = await axios.get(buildHGNCApiUrl(termId), {
-        headers: { 'Content-Type': 'application/json' }
-      }
-      );
+        headers: { 'Content-Type': 'application/json' },
+      });
       if (response.status === 200 && response.data) {
         const firstResult = response.data.response.docs[0];
-
         res.send({
+          extraLinks: {
+            'Uniprot Link': buildUniprotLink(firstResult.uniprot_ids[0]),
+            'Entrez Link': buildEntrezLink(firstResult.entrez_id)
+          },
           label: firstResult.symbol,
           link: buildHGNCLink(firstResult.hgnc_id),
           description: firstResult.name ? firstResult.name : ''
         } as LookupResponse);
-
       } else {
         res.status(response.status).end();
       }
@@ -37,26 +37,22 @@ export function setupOntologyLookupRoutes(app: Express): void {
     case OntologyCode.UBERON:
     case OntologyCode.CL:
     case OntologyCode.FMA: {
-      const response = await axios.get(buildASCTApiUrl(`${ontologyCode}:${termId}`));
+      const response = await axios.get(
+        buildASCTApiUrl(`${ontologyCode}:${termId}`)
+      );
       if (response.status === 200 && response.data) {
         const firstResult = response.data._embedded.terms[0];
 
         res.send({
           label: firstResult.label,
           link: firstResult.iri,
-          description: firstResult.annotation.definition ? firstResult.annotation.definition[0] : ''
+          description: firstResult.annotation.definition
+            ? firstResult.annotation.definition[0]
+            : ''
         } as LookupResponse);
-
       } else {
         res.status(response.status).end();
       }
-      break;
-    }
-    default: {
-      // 400
-      res.statusMessage = 'Invalid ID';
-      res.status(400).end();
-      break;
     }
     }
   });

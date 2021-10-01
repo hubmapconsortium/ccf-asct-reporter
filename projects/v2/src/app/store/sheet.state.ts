@@ -148,7 +148,8 @@ export class SheetStateModel {
       hasError: false,
       msg: '',
       status: 0,
-      notes: ''
+      notes: '',
+      extraLinks: {},
     },
     bottomSheetDOI: [],
     fullAsData: [],
@@ -157,7 +158,7 @@ export class SheetStateModel {
 })
 @Injectable()
 export class SheetState {
-  constructor(private sheetService: SheetService) { }
+  constructor(private sheetService: SheetService) {}
   faliureMsg = 'Failed to fetch data';
   bodyId = 'UBERON:0013702';
   bodyLabel: 'body proper';
@@ -324,55 +325,62 @@ export class SheetState {
     const organ: Structure = {
       name: 'Body',
       id: this.bodyId,
-      rdfs_label: this.bodyLabel,
+      rdfs_label: this.bodyLabel
     };
 
     for await (const [_unused, compareSheet] of compareData.entries()) {
-      this.sheetService.fetchSheetData(compareSheet.sheetId, compareSheet.gid, compareSheet.csvUrl, compareSheet.formData).subscribe(
-        (res: ResponseData) => {
-          for (const row of res.data) {
-            for (const i of row.anatomical_structures) {
-              i.isNew = true;
-              i.color = compareSheet.color;
-            }
-            row.anatomical_structures.unshift(organ);
-            row.organName = compareSheet.title;
+      this.sheetService
+        .fetchSheetData(
+          compareSheet.sheetId,
+          compareSheet.gid,
+          compareSheet.csvUrl,
+          compareSheet.formData
+        )
+        .subscribe(
+          (res: ResponseData) => {
+            for (const row of res.data) {
+              for (const i of row.anatomical_structures) {
+                i.isNew = true;
+                i.color = compareSheet.color;
+              }
+              row.anatomical_structures.unshift(organ);
+              row.organName = compareSheet.title;
 
-            for (const i of row.cell_types) {
-              i.isNew = true;
-              i.color = compareSheet.color;
+              for (const i of row.cell_types) {
+                i.isNew = true;
+                i.color = compareSheet.color;
+              }
+
+              for (const i of row.biomarkers) {
+                i.isNew = true;
+                i.color = compareSheet.color;
+              }
             }
 
-            for (const i of row.biomarkers) {
-              i.isNew = true;
-              i.color = compareSheet.color;
-            }
+            const currentData = getState().data;
+            const currentCompare = getState().compareSheets;
+            const currentCompareData = getState().compareData;
+            patchState({
+              data: [...currentData, ...res.data],
+              compareSheets: [...currentCompare, ...[compareSheet]],
+              compareData: [...currentCompareData, ...res.data],
+            });
+          },
+          (error) => {
+            console.log(error);
+            const err: Error = {
+              msg: `${error.name} (Status: ${error.status})`,
+              status: error.status,
+              hasError: true,
+              hasGidError: !(compareSheet.gid || compareSheet.gid === '0'),
+            };
+            dispatch(
+              new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
+            );
+            dispatch(new HasError(err));
+            return of('');
           }
-
-          const currentData = getState().data;
-          const currentCompare = getState().compareSheets;
-          const currentCompareData = getState().compareData;
-          patchState({
-            data: [...currentData, ...res.data],
-            compareSheets: [...currentCompare, ...[compareSheet]],
-            compareData: [...currentCompareData, ...res.data],
-          });
-        },
-        (error) => {
-          console.log(error);
-          const err: Error = {
-            msg: `${error.name} (Status: ${error.status})`,
-            status: error.status,
-            hasError: true,
-            hasGidError: !(compareSheet.gid || compareSheet.gid === '0')
-          };
-          dispatch(
-            new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
-          );
-          dispatch(new HasError(err));
-          return of('');
-        }
-      );
+        );
     }
   }
 
@@ -505,7 +513,9 @@ export class SheetState {
       if (s.name === 'all' || s.name === 'example' || s.name === 'some') {
         continue;
       } else {
-        requests$.push(this.sheetService.fetchSheetData(s.sheetId, s.gid, s.csvUrl));
+        requests$.push(
+          this.sheetService.fetchSheetData(s.sheetId, s.gid, s.csvUrl)
+        );
         organsNames.push(s.name);
       }
     }
@@ -571,50 +581,52 @@ export class SheetState {
     patchState({ sheet });
     const state = getState();
 
-    return this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid, sheet.csvUrl, sheet.formData).pipe(
-      tap((res: ResponseData) => {
-        res.data = this.sheetService.getDataWithBody(res.data, sheet.name);
-        setState({
-          ...state,
-          compareData: [],
-          compareSheets: [],
-          reportData: [],
-          csv: res.csv,
-          data: res.data,
-          version: 'latest',
-          parsed: res.parsed,
-          mode,
-          sheetConfig: { ...sheet.config, show_ontology: true },
-        });
+    return this.sheetService
+      .fetchSheetData(sheet.sheetId, sheet.gid, sheet.csvUrl, sheet.formData)
+      .pipe(
+        tap((res: ResponseData) => {
+          res.data = this.sheetService.getDataWithBody(res.data, sheet.name);
+          setState({
+            ...state,
+            compareData: [],
+            compareSheets: [],
+            reportData: [],
+            csv: res.csv,
+            data: res.data,
+            version: 'latest',
+            parsed: res.parsed,
+            mode,
+            sheetConfig: { ...sheet.config, show_ontology: true },
+          });
 
-        dispatch(
-          new ReportLog(
-            LOG_TYPES.MSG,
-            `${sheet.display} data successfully fetched.`,
-            LOG_ICONS.success
-          )
-        );
-        dispatch(
-          new UpdateLoadingText(
-            'Fetch data successful. Building Visualization..'
-          )
-        );
-      }),
-      catchError((error) => {
-        console.log(error);
-        const err: Error = {
-          msg: `${error.name} (Status: ${error.status})`,
-          status: error.status,
-          hasError: true,
-          hasGidError: !(sheet.gid || sheet.gid === '0')
-        };
-        dispatch(
-          new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
-        );
-        dispatch(new HasError(err));
-        return of('');
-      })
-    );
+          dispatch(
+            new ReportLog(
+              LOG_TYPES.MSG,
+              `${sheet.display} data successfully fetched.`,
+              LOG_ICONS.success
+            )
+          );
+          dispatch(
+            new UpdateLoadingText(
+              'Fetch data successful. Building Visualization..'
+            )
+          );
+        }),
+        catchError((error) => {
+          console.log(error);
+          const err: Error = {
+            msg: `${error.name} (Status: ${error.status})`,
+            status: error.status,
+            hasError: true,
+            hasGidError: !(sheet.gid || sheet.gid === '0'),
+          };
+          dispatch(
+            new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
+          );
+          dispatch(new HasError(err));
+          return of('');
+        })
+      );
   }
 
   /**
@@ -886,7 +898,6 @@ export class SheetState {
     { getState, setState, dispatch }: StateContext<SheetStateModel>,
     { data }: UpdateBottomSheetInfo
   ) {
-
     // Get initial state and blank it out while fetching new data.
     const state = getState();
     setState({
@@ -895,49 +906,52 @@ export class SheetState {
         ...state.bottomSheetInfo,
         name: '',
         desc: '',
-        iri: ''
+        iri: '',
       }
     });
 
     // Call the appropriate API and fetch ontology data
-    return this.sheetService.fetchBottomSheetData(data.ontologyId, data.name).pipe(
-      tap((res: any) => {
-        setState({
-          ...state,
-          bottomSheetInfo: {
-            ...res,
-            notes: data?.notes,
-          }
-        });
-      }),
-      catchError((error) => {
-        setState({
-          ...state,
-          bottomSheetInfo: {
-            name: data.name,
-            ontologyId: data.ontologyId,
-            ontologyCode: '',
-            iri: '',
-            label: '',
-            desc: '',
-            hasError: true,
-            msg: error.message,
+    return this.sheetService
+      .fetchBottomSheetData(data.ontologyId, data.name)
+      .pipe(
+        tap((res: any) => {
+          setState({
+            ...state,
+            bottomSheetInfo: {
+              ...res,
+              notes: data?.notes,
+            },
+          });
+        }),
+        catchError((error) => {
+          setState({
+            ...state,
+            bottomSheetInfo: {
+              name: data.name,
+              ontologyId: data.ontologyId,
+              ontologyCode: '',
+              extraLinks: {},
+              iri: '',
+              label: '',
+              desc: '',
+              hasError: true,
+              msg: error.message,
+              status: error.status,
+              notes: data?.notes,
+            },
+          });
+          const err: Error = {
+            msg: `${error.name} (Status: ${error.status})`,
             status: error.status,
-            notes: data?.notes
-          },
-        });
-        const err: Error = {
-          msg: `${error.name} (Status: ${error.status})`,
-          status: error.status,
-          hasError: true,
-        };
-        console.log(err);
-        dispatch(
-          new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
-        );
-        return of('');
-      })
-    );
+            hasError: true,
+          };
+          console.log(err);
+          dispatch(
+            new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
+          );
+          return of('');
+        })
+      );
   }
 
   /**

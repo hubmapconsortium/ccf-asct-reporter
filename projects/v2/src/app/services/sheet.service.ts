@@ -81,6 +81,7 @@ export class SheetService {
         ontologyCode,
         desc: res.description,
         iri: res.link,
+        extraLinks:res.extraLinks,
         label: res.label,
         hasError: false,
         msg: '',
