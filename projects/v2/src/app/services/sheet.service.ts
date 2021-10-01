@@ -124,4 +124,14 @@ export class SheetService {
     });
     return data;
   }
+
+  /**
+   * Translate the sheet ID and GID to the google sheet URL
+   *
+   * @param sheetID id of the sheet
+   * @param gID of the sheet
+   */
+  formURL(sheetID: string, gID: string) {
+    return `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv&gid=${gID}`;
+  }
 }
