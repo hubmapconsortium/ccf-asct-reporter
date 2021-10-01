@@ -1,12 +1,6 @@
 import { Express, Request, Response } from 'express';
 import { LookupResponse, OntologyCode } from '../models/lookup.model';
-import {
-  buildASCTApiUrl,
-  buildHGNCApiUrl,
-  buildHGNCLink,
-  buildUniprotLink,
-  buildEntrezLink,
-} from '../functions/lookup.functions';
+import { buildASCTApiUrl, buildHGNCApiUrl, buildHGNCLink, buildUniprotLink, buildEntrezLink } from '../functions/lookup.functions';
 import axios from 'axios';
 
 export function setupOntologyLookupRoutes(app: Express): void {
@@ -54,7 +48,7 @@ export function setupOntologyLookupRoutes(app: Express): void {
           link: firstResult.iri,
           description: firstResult.annotation.definition
             ? firstResult.annotation.definition[0]
-            : '',
+            : ''
         } as LookupResponse);
       } else {
         res.status(response.status).end();

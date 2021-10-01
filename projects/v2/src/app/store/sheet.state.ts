@@ -146,7 +146,7 @@ export class SheetStateModel {
       extraLinks: {},
     },
     bottomSheetDOI: [],
-    fullAsData: [],
+    fullAsData: []
   },
 })
 @Injectable()
@@ -310,7 +310,7 @@ export class SheetState {
     const organ: Structure = {
       name: 'Body',
       id: this.bodyId,
-      rdfs_label: this.bodyLabel,
+      rdfs_label: this.bodyLabel
     };
 
     for await (const [_unused, compareSheet] of compareData.entries()) {
@@ -436,7 +436,7 @@ export class SheetState {
         });
         patchState({
           data: dataAll,
-          fullAsData: asData,
+          fullAsData: asData
         });
       },
       (error) => {
@@ -798,7 +798,7 @@ export class SheetState {
         name: '',
         desc: '',
         iri: '',
-      },
+      }
     });
 
     // Call the appropriate API and fetch ontology data
