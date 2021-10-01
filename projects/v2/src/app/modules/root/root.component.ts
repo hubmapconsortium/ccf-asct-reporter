@@ -48,7 +48,7 @@ import {
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
 import { InfoComponent } from '../../components/info/info.component';
-import { CompareData, DOI, Row, SheetConfig, SheetInfo } from '../../models/sheet.model';
+import { CompareData, DOI, Row, SheetConfig, SheetInfo, VersionDetail } from '../../models/sheet.model';
 import { DoiComponent } from '../../components/doi/doi.component';
 import { SearchStructure } from '../../models/tree.model';
 import { SheetService } from '../../services/sheet.service';
@@ -177,7 +177,6 @@ export class RootComponent implements OnInit, OnDestroy {
 
     this.route.queryParamMap.subscribe(query => {
       const selectedOrgans = query.get('selectedOrgans');
-      console.log(selectedOrgans);
       const playground = query.get('playground');
       if (!selectedOrgans && playground !== 'true') {
         store.dispatch(new CloseLoading('Select Organ Model Rendered'));
@@ -384,9 +383,30 @@ export class RootComponent implements OnInit, OnDestroy {
     const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
     const sn = this.sheet.display.toLowerCase().replace(' ', '_');
     const formatType = option.toLowerCase();
+    let csvURL;
     if (option === 'Graph Data') {
       const sheet = this.store.selectSnapshot(SheetState.getSheet);
-      this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid, sheet.csvUrl, null, 'graph').subscribe((graphData: any) => {
+      const selectedOrgans = this.store.selectSnapshot(SheetState.getSelectedOrgans);
+      const urls = [];
+      if (sheet.name === 'all' || sheet.name === 'some'){
+        for (const organ of selectedOrgans) {
+          SHEET_CONFIG.forEach((config) => {
+            config.version?.forEach((version: VersionDetail) => {
+              if (version.value === organ) {
+                if (version.csvUrl) {
+                  urls.push(version.csvUrl);
+                }
+                else {
+                  urls.push(this.sheetService.formURL(version.sheetId, version.gid));
+                }
+              }
+            });
+          });
+        }
+        csvURL = urls.join('|');
+      }
+      
+      this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid, csvURL? csvURL : sheet.csvUrl, null, 'graph').subscribe((graphData: any) => {
         const graphDataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(graphData.data));
         const downloadAnchorNode = document.createElement('a');
         downloadAnchorNode.setAttribute('href',     graphDataStr);
