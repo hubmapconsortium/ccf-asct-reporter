@@ -4,7 +4,7 @@ import {
   OnDestroy,
   Output,
   EventEmitter,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { SHEET_CONFIG } from './../../static/config';
 import { SheetState } from './../../store/sheet.state';
@@ -19,7 +19,7 @@ import {
   UpdateReport,
   DeleteCompareSheet,
   UpdateMode,
-  FetchInitialPlaygroundData,
+  FetchInitialPlaygroundData
 } from './../../actions/sheet.actions';
 import { TreeService } from './../tree/tree.service';
 import { ActivatedRoute } from '@angular/router';
@@ -30,7 +30,7 @@ import {
   CloseRightSideNav,
   CloseCompare,
   CloseLoading,
-  OpenBottomSheet,
+  OpenBottomSheet
 } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -44,7 +44,7 @@ import { LogsState } from '../../store/logs.state';
 import * as moment from 'moment';
 import {
   MatBottomSheet,
-  MatBottomSheetRef,
+  MatBottomSheetRef
 } from '@angular/material/bottom-sheet';
 import { InfoComponent } from '../../components/info/info.component';
 import {
@@ -62,7 +62,7 @@ import { TreeComponent } from '../tree/tree.component';
 @Component({
   selector: 'app-root',
   templateUrl: './root.component.html',
-  styleUrls: ['./root.component.scss'],
+  styleUrls: ['./root.component.scss']
 })
 export class RootComponent implements OnInit, OnDestroy {
   /**
@@ -264,7 +264,7 @@ export class RootComponent implements OnInit, OnDestroy {
           hasBackdrop: false,
           autoFocus: false,
           panelClass: 'bottom-sheet-style',
-          data,
+          data
         });
       } else {
         if (this.infoSheetRef) {
@@ -300,7 +300,7 @@ export class RootComponent implements OnInit, OnDestroy {
         }
         if (yPos > yScrollPos + contentHeight || yPos < yScrollPos) {
           this.verticalScrollEntity.treeElementRef.nativeElement.scrollTo({
-            top: yPos - contentHeight / 2,
+            top: yPos - contentHeight / 2
           });
         }
       }
