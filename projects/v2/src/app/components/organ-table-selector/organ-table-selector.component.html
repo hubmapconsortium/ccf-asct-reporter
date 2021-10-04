@@ -35,7 +35,7 @@
             (selectionChange)="changeVersion($event.value,element);"
             [(ngModel)] = "element.symbol"
             >
-                <mat-option *ngFor="let option of element.version" [value]="option.value">
+                <mat-option *ngFor="let option of element.version" [value]="option.value" [disabled]="element.sheet === 'lung' && option.value === 'lung-v1.0'">
                 {{ option.viewValue }}
                 </mat-option>
             </mat-select>

@@ -323,7 +323,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
   },
   {
     name: 'lung',
-    display: 'Lung DRAFT',
+    display: 'Lung',
     config: {
       bimodal_distance_x: 200,
       bimodal_distance_y: 50,
@@ -423,7 +423,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
   //   sheet: 'liver',
   // },
   {
-    title: 'Lung DRAFT',
+    title: 'Lung',
     sheet: 'lung',
     version: [
       { value: 'lung-v1.0', viewValue: 'v1.0' },
