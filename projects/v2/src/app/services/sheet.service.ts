@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { SheetInfo, Structure } from '../models/sheet.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SheetService {
   constructor(private http: HttpClient) {}
@@ -133,7 +133,7 @@ export class SheetService {
     const organ: Structure = {
       name: 'Body',
       id: 'UBERON:0013702',
-      rdfs_label: 'body proper'
+      rdfs_label: 'body proper',
     };
     data.forEach((row) => {
       row.anatomical_structures.unshift(organ);
