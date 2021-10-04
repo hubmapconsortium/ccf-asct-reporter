@@ -16,11 +16,11 @@ import {
   UpdateReport,
   DeleteCompareSheet,
   UpdateMode,
-  FetchInitialPlaygroundData,
   FetchSelectedOrganData,
   FetchAllOrganData,
   FetchSheetData,
   FetchDataFromAssets,
+  FetchInitialPlaygroundData
 } from './../../actions/sheet.actions';
 import { TreeService } from './../tree/tree.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -58,7 +58,7 @@ import { TreeComponent } from '../tree/tree.component';
 @Component({
   selector: 'app-root',
   templateUrl: './root.component.html',
-  styleUrls: ['./root.component.scss'],
+  styleUrls: ['./root.component.scss']
 })
 export class RootComponent implements OnInit, OnDestroy {
   /**
@@ -289,7 +289,7 @@ export class RootComponent implements OnInit, OnDestroy {
           hasBackdrop: false,
           autoFocus: false,
           panelClass: 'bottom-sheet-style',
-          data,
+          data
         });
       } else {
         if (this.infoSheetRef) {
