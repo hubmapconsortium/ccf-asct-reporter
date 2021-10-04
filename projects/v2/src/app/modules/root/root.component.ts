@@ -416,8 +416,7 @@ export class RootComponent implements OnInit, OnDestroy {
     const sn = this.sheet.display.toLowerCase().replace(' ', '_');
     const formatType = option.toLowerCase();
     let csvURL;
-    if (option === 'Graph Data') {
-      const sheet = this.store.selectSnapshot(SheetState.getSheet);
+    const sheet = this.store.selectSnapshot(SheetState.getSheet);
       const selectedOrgans = this.store.selectSnapshot(SheetState.getSelectedOrgans);
       const urls = [];
       if (sheet.name === 'all' || sheet.name === 'some'){
@@ -437,7 +436,9 @@ export class RootComponent implements OnInit, OnDestroy {
         }
         csvURL = urls.join('|');
       }
-      
+
+    if (option === 'Graph Data') {
+
       this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid, csvURL? csvURL : sheet.csvUrl, null, 'graph').subscribe((graphData: any) => {
         const graphDataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(graphData.data));
         const downloadAnchorNode = document.createElement('a');
@@ -463,9 +464,9 @@ export class RootComponent implements OnInit, OnDestroy {
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
     } else if (option === 'JSON-LD') {
-      const sheet = this.store.selectSnapshot(SheetState.getSheet);
+
       this.sheetService
-        .fetchSheetData(sheet.sheetId, sheet.gid, sheet.csvUrl, null, 'jsonld')
+        .fetchSheetData(sheet.sheetId, sheet.gid, csvURL? csvURL : sheet.csvUrl, null, 'jsonld')
         .subscribe((graphData: any) => {
           const graphDataStr =
             'data:text/json;charset=utf-8,' +
