@@ -417,25 +417,25 @@ export class RootComponent implements OnInit, OnDestroy {
     const formatType = option.toLowerCase();
     let csvURL;
     const sheet = this.store.selectSnapshot(SheetState.getSheet);
-      const selectedOrgans = this.store.selectSnapshot(SheetState.getSelectedOrgans);
-      const urls = [];
-      if (sheet.name === 'all' || sheet.name === 'some'){
-        for (const organ of selectedOrgans) {
-          SHEET_CONFIG.forEach((config) => {
-            config.version?.forEach((version: VersionDetail) => {
-              if (version.value === organ) {
-                if (version.csvUrl) {
-                  urls.push(version.csvUrl);
-                }
-                else {
-                  urls.push(this.sheetService.formURL(version.sheetId, version.gid));
-                }
+    const selectedOrgans = this.store.selectSnapshot(SheetState.getSelectedOrgans);
+    const urls = [];
+    if (sheet.name === 'all' || sheet.name === 'some'){
+      for (const organ of selectedOrgans) {
+        SHEET_CONFIG.forEach((config) => {
+          config.version?.forEach((version: VersionDetail) => {
+            if (version.value === organ) {
+              if (version.csvUrl) {
+                urls.push(version.csvUrl);
               }
-            });
+              else {
+                urls.push(this.sheetService.formURL(version.sheetId, version.gid));
+              }
+            }
           });
-        }
-        csvURL = urls.join('|');
+        });
       }
+      csvURL = urls.join('|');
+    }
 
     if (option === 'Graph Data') {
 
