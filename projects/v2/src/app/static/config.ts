@@ -333,13 +333,6 @@ export const SHEET_CONFIG: SheetDetails[] = [
     version: [
       {
         sheetId: SHEET_ID,
-        gid: '925712902',
-        value: 'lung-v1.0',
-        viewValue: 'v1.0',
-        // csvUrl: `${version1Url}ASCT-B_VH_Lung.csv`
-      },
-      {
-        sheetId: SHEET_ID,
         gid: '1824552484',
         value: 'lung-v1.1-Draft',
         viewValue: 'v1.1 Draft',
@@ -426,7 +419,6 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     title: 'Lung',
     sheet: 'lung',
     version: [
-      { value: 'lung-v1.0', viewValue: 'v1.0' },
       { value: 'lung-v1.1-Draft', viewValue: 'v1.1 Draft' },
     ],
   },
