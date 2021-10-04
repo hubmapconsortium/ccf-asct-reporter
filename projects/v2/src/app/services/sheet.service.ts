@@ -9,8 +9,7 @@ import { SheetInfo, Structure } from '../models/sheet.model';
   providedIn: 'root'
 })
 export class SheetService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * Service to fetch the data for a sheet from CSV file or Google sheet using the api
@@ -18,17 +17,33 @@ export class SheetService {
    * @param gid gid of the sheet
    * @param csvFileUrl is the optional parameter that contains the value to the csv file url of the sheet
    */
-  fetchSheetData(sheetId: string, gid: string, csvFileUrl?: string, formData?: FormData, output?: string) {
+  fetchSheetData(
+    sheetId: string,
+    gid: string,
+    csvFileUrl?: string,
+    formData?: FormData,
+    output?: string
+  ) {
     if (csvFileUrl) {
-      return this.http.get(`${URL}/v2/csv`, { params: {
-        csvUrl: csvFileUrl,
-        output: output ? output : 'json'
-      }});
+      return this.http.get(`${URL}/v2/csv`, {
+        params: {
+          csvUrl: csvFileUrl,
+          output: output ? output : 'json'
+        },
+      });
     } else if (formData) {
       return this.http.post(`${URL}/v2/csv`, formData);
     } else {
       if (output === 'graph') {
         return this.http.get(`${URL}/v2/${sheetId}/${gid}/graph`);
+      } 
+      else if (output === 'jsonld') {
+        return this.http.get(`${URL}/v2/csv`, {
+          params: {
+            csvUrl: `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`,
+            output: output ? output : 'jsonld'
+          },
+        });
       }
       return this.http.get(`${URL}/v2/${sheetId}/${gid}`);
     }
@@ -42,7 +57,9 @@ export class SheetService {
    * @param currentSheet current sheet
    */
   fetchDataFromAssets(dataVersion: string, currentSheet: any) {
-    return this.http.get(getAssetsURL(dataVersion, currentSheet), { responseType: 'text' });
+    return this.http.get(getAssetsURL(dataVersion, currentSheet), {
+      responseType: 'text'
+    });
   }
 
   testCallback(data: JSON) {
@@ -107,7 +124,6 @@ export class SheetService {
   updatePlaygroundData(data: string[][]) {
     return this.http.post(`${URL}/v2/playground`, { data });
   }
-
 
   /**
    * Service to add body for each AS to the data
