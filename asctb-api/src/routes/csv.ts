@@ -5,6 +5,7 @@ import papa from 'papaparse';
 
 import { makeASCTBData } from '../functions/api.functions';
 import { makeJsonLdData } from '../functions/graph-jsonld.functions';
+import { makeOwlData } from '../functions/graph-owl.functions';
 import { makeGraphData } from '../functions/graph.functions';
 import { UploadedFile } from '../models/api.model';
 
@@ -38,7 +39,11 @@ export function setupCSVRoutes(app: Express): void {
       );
       const asctbData = ([] as any[]).concat(...asctbDataResponses);
 
-      if (output === 'jsonld') {
+      if (output === 'owl') {
+        const graphData = await makeOwlData(makeJsonLdData(makeGraphData(asctbData)));
+        res.type('application/rdf+xml');
+        return res.send(graphData);
+      } else if (output === 'jsonld') {
         let graphData = makeJsonLdData(makeGraphData(asctbData));
         if (expanded) {
           graphData = await expand(graphData);

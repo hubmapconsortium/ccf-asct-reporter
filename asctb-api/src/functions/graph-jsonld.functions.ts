@@ -1,8 +1,9 @@
+import { JsonLd } from 'jsonld/jsonld-spec';
 import { Edge_type, GraphData } from '../models/graph.model';
 import { fixOntologyId, guessIri } from './lookup.functions';
 
 
-export function makeJsonLdData(data: GraphData): any {
+export function makeJsonLdData(data: GraphData): JsonLd {
   const { nodes, edges } = data;
   const iriLookup: Record<number, string> = {};
   const nodeMap = new Map<string, any>();
