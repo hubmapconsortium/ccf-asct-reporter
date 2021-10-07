@@ -9,17 +9,15 @@ export function buildHGNCApiUrl(id: string): string {
 }
 
 export function buildUniprotLink(id: string): string {
-  return `https://www.uniprot.org/uniprot/${id}`; 
+  return `https://www.uniprot.org/uniprot/${id}`;
 }
-
 
 export function buildEntrezLink(id: string): string {
-  return `https://www.ncbi.nlm.nih.gov/gene/?term=${id}`; 
+  return `https://www.ncbi.nlm.nih.gov/gene/?term=${id}`;
 }
 
-
 export function buildHGNCLink(id: string): string {
-  return `https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/${id}`;
+  return `http://identifiers.org/hgnc/${id}`;
 }
 
 export function fixOntologyId(id: string): string {
@@ -45,7 +43,7 @@ export function guessIri(id: string): string {
     case OntologyCode.FMA:
       return `http://purl.org/sig/ont/fma/fma${idNumber}`;
     case OntologyCode.HGNC:
-      return `http://ncicb.nci.nih.gov/xml/owl/EVS/Hugo.owl#HGNC_${idNumber}`;
+      return `http://identifiers.org/hgnc/${idNumber}`;
     case OntologyCode.UBERON:
       return `http://purl.obolibrary.org/obo/UBERON_${idNumber}`;
     default:
