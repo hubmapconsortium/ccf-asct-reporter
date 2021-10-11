@@ -487,8 +487,8 @@ export class RootComponent implements OnInit, OnDestroy {
         .fetchSheetData(sheet.sheetId, sheet.gid, csvURL? csvURL : sheet.csvUrl, null, 'owl')
         .subscribe((graphData: any) => {
           const graphDataStr =
-            'data:text/json;charset=utf-8,' +
-            encodeURIComponent(JSON.stringify(graphData));
+            'data:application/rdf+xml;charset=utf-8,' +
+            encodeURIComponent(graphData);
           const downloadAnchorNode = document.createElement('a');
           downloadAnchorNode.setAttribute('href', graphDataStr);
           downloadAnchorNode.setAttribute(

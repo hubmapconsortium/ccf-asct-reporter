@@ -47,6 +47,7 @@ export class SheetService {
       }
       else if (output === 'owl') {
         return this.http.get(`${URL}/v2/csv`, {
+          responseType: "text" ,
           params: {
             csvUrl: `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`,
             output: output ? output : 'owl'
