@@ -2,6 +2,7 @@ import { Reference } from './sheet.model';
 export const AS_RED = '#E41A1C';
 export const CT_BLUE = '#377EB8';
 export const B_GREEN = '#4DAF4A';
+export const AN_PURPLE = '#984EA3';
 
 export const ST_ID = 2;
 
@@ -110,10 +111,24 @@ export interface B extends Base{
   link: string;
   isNew: boolean;
   color: string;
+  label?: string;
   indegree?: Set<Degree>;
   outdegree?: Set<Degree>;
   nodeSize?: number;
   bType?: string;
+  organName?: string;
+  notes: string;
+}
+
+export interface AN extends Base{
+  structure: string;
+  link: string;
+  isNew: boolean;
+  color: string;
+  label?: string;
+  indegree?: Set<Degree>;
+  outdegree?: Set<Degree>;
+  nodeSize?: number;
   organName?: string;
   notes: string;
 }

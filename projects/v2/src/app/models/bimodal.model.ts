@@ -5,6 +5,7 @@ const groupNameMapper = {
   1: 'Anatomical Structures',
   2: 'Cell Types',
   3: 'Biomarkers',
+  4: 'Anti Bodies'
 };
 
 export class BMNode {

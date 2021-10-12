@@ -6,6 +6,8 @@ import {
   CT_BLUE,
   B_GREEN,
   ST_ID,
+  AN,
+  AN_PURPLE,
 } from '../../models/tree.model';
 import { Row, Structure } from '../../models/sheet.model';
 type TypeStructue = AS | CT | B;
@@ -220,6 +222,7 @@ export function makeBioMarkers(
             color: 'isNew' in str ? str.color : B_GREEN,
             outdegree: new Set(),
             indegree: new Set(),
+            label: str.rdfs_label,
             comparator: `${str.name}${str.id}`,
             comparatorId: str.id,
             comparatorName: str.name,
@@ -237,12 +240,28 @@ export function makeBioMarkers(
               });
             });
           }
+          if (row.antibodies?.length) {
+            row.antibodies.forEach((marker) => {
+              newStructure.outdegree.add({
+                id: marker.id,
+                name: marker.name,
+              });
+            });
+          }
 
           bioMarkers.push(newStructure);
         } else {
           if ('isNew' in str) {
             bioMarkers[foundIndex].color = str.color;
             bioMarkers[foundIndex].pathColor = str.color;
+          }
+          if (row.antibodies?.length) {
+            row.antibodies.forEach((marker) => {
+              bioMarkers[foundIndex].outdegree.add({
+                id: marker.id,
+                name: marker.name,
+              });
+            });
           }
           if (row.cell_types.length) {
             row.cell_types.forEach((cell) => {
@@ -258,6 +277,67 @@ export function makeBioMarkers(
     return bioMarkers;
   } catch (error) {
     throw new Error(`Could not process Biomarkers - ${error}`);
+  }
+}
+
+export function makeAntibodies(
+  data: Row[],
+  type?: string,
+  isForReport = false
+): Array<AN> {
+  const antibodies = [];
+  try {
+    data.forEach((row) => {
+      const currentAntibodies = row?.antibodies;
+      currentAntibodies?.forEach((str) => {
+        const foundIndex = getFoundIndex(str, antibodies, isForReport, row);
+        let newStructure: AN;
+        if (foundIndex === -1) {
+          newStructure = {
+            structure: str.name,
+            link: str.id,
+            isNew: 'isNew' in str ? true : false,
+            color: 'isNew' in str ? str.color : AN_PURPLE,
+            label: str.rdfs_label,
+            outdegree: new Set(),
+            indegree: new Set(),
+            comparator: `${str.name}${str.id}`,
+            comparatorId: str.id,
+            comparatorName: str.name,
+            nodeSize: 300,
+            organName: row.organName,
+            notes: str.notes
+          };
+
+          if (row.biomarkers.length) {
+            row.biomarkers.forEach((bio) => {
+              newStructure.indegree.add({
+                id: bio.id,
+                name: bio.name,
+              });
+            });
+          }
+
+          antibodies.push(newStructure);
+        } else {
+          if ('isNew' in str) {
+            antibodies[foundIndex].color = str.color;
+            antibodies[foundIndex].pathColor = str.color;
+          }
+          if (row.biomarkers.length) {
+            row.biomarkers.forEach((bio) => {
+              antibodies[foundIndex].indegree.add({
+                id: bio.id,
+                name: bio.name,
+              });
+            });
+          }
+        }
+      });
+    });
+    return antibodies;
+  } catch (error) {
+    throw new Error(`Could not process Antibodies - ${error}`);
   }
 }
 

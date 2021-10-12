@@ -432,7 +432,9 @@ export class SheetState {
     forkJoin(requests$).subscribe(
       (allResults) => {
         allResults.map((res: ResponseData, index: number) => {
+          let i =0;
           for (const row of res.data) {
+
             row.organName = organsNames[index];
 
             const newStructure: Structure = {
@@ -442,6 +444,26 @@ export class SheetState {
             };
 
             row.anatomical_structures.unshift(newStructure);
+            if (i === 0) {
+              row.antibodies = [
+                {
+                  'name': 'CD45 PE-iFluor™ 594',
+                  'id': 'P08575',
+                  'rdfs_label': 'Essential, pan-immune cell marker',
+                },
+                {
+                  'name': 'PE anti-IRF4',
+                  'id': 'Q15306',
+                  'rdfs_label': 'Transcription factor expressed by plasma cells, Tregs, many cells',
+                },
+                {
+                  'name': 'PE anti-human CD1c',
+                  'id': 'P29017',
+                  'rdfs_label': 'Essential marker for cDC2 dendritic cells',
+                }
+              ];
+            }
+            i++;
           }
 
           asDeltails = JSON.parse(JSON.stringify([...asDeltails, ...res.data]));

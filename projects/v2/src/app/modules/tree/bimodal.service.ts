@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { BMNode, Link, BimodalConfig } from '../../models/bimodal.model';
-import { makeCellTypes, makeAS, makeBioMarkers } from './tree.functions';
-import { CT_BLUE, B_GREEN, TNode, AS, CT, B } from '../../models/tree.model';
+import { makeCellTypes, makeAS, makeBioMarkers, makeAntibodies } from './tree.functions';
+import { CT_BLUE, B_GREEN, TNode, AS, CT, B, AN, AN_PURPLE } from '../../models/tree.model';
 import { UpdateBimodal, UpdateVegaSpec, UpdateLinksData } from '../../actions/tree.actions';
 import { CloseLoading, HasError } from '../../actions/ui.actions';
 import { ReportLog } from '../../actions/logs.actions';
@@ -47,6 +47,7 @@ export class BimodalService {
       const distanceY = sheetConfig.bimodal_distance_y;
       let id = treeData.length + 1;
       let biomarkers = [];
+      let antibodies = [];
       treeData.forEach((td) => {
         if (td.children === 0) {
 
@@ -224,6 +225,7 @@ export class BimodalService {
         newNode.isNew = marker.isNew;
         newNode.pathColor = marker.color;
         newNode.color = marker.color;
+        newNode.label = marker.label;
         newNode.indegree = marker.indegree;
         newNode.outdegree = marker.outdegree;
         newNode.bType = marker.bType;
@@ -232,7 +234,35 @@ export class BimodalService {
         treeY += distanceY;
         id += 1;
       });
+      treeY = distanceY;
+      treeX += distance;
 
+      antibodies  = await makeAntibodies(sheetData);
+      antibodies.forEach((marker: AN, i) => {
+        const newNode = new BMNode(
+          marker.structure,
+          4,
+          treeX,
+          treeY,
+          14,
+          marker.notes,
+          marker.organName,
+          marker.link,
+          AN_PURPLE,
+          marker.nodeSize
+        );
+        newNode.id = id;
+        newNode.isNew = marker.isNew;
+        newNode.pathColor = marker.color;
+        newNode.color = marker.color;
+        newNode.label = marker.label;
+        newNode.indegree = marker.indegree;
+        newNode.outdegree = marker.outdegree;
+
+        nodes.push(newNode);
+        treeY += distanceY;
+        id += 1;
+      });
       nodes.forEach((node, index) => {
         if (node.group === 1) {
           node.sources = [];
@@ -273,10 +303,29 @@ export class BimodalService {
             links.push({ s: nodes[foundIndex].id, t: node.id });
           });
         }
+        if (node.group === 4) {
+          node?.indegree?.forEach(str => {
+
+            let foundIndex: number;
+            if (str.id) {
+              foundIndex = nodes.findIndex(
+                (i: BMNode) => i.ontologyId === str.id
+              );
+            } else {
+              foundIndex = nodes.findIndex(
+                (i: BMNode) => i.name === str.name
+              );
+            }
+            if (node.sources.findIndex(l => l ===nodes[foundIndex].id) === -1){
+              node.sources.push(nodes[foundIndex].id);
+            }
+            links.push({ s: nodes[foundIndex].id, t: node.id });
+          });
+        }
       });
 
       nodes.forEach((node : BMNode, i) => {
-        if (node.group === 2) {
+        if (node.group === 2 || node.group === 3) {
           node.outdegree.forEach((str) => {
             const tt = nodes
               .map((val, idx) => ({ val, idx }))
@@ -289,11 +338,12 @@ export class BimodalService {
                 }
               })
               .map(({ val, idx }) => idx);
+            
             const targets = [];
             tt.forEach((s) => {
               targets.push(nodes[s].id);
             });
-
+            
             // make targets only if there is a link from CT to B
             targets.forEach((s) => {
               if (links.some((l) => l.s === node.id && l.t === s)) {

@@ -34,6 +34,7 @@ export interface Row {
   biomarkers_prot: Array<Structure>;
   references: Reference[];
   organName: string;
+  antibodies?: Array<Structure>;
 }
 
 export interface ResponseData {
