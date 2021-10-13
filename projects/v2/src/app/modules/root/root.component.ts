@@ -481,7 +481,7 @@ export class RootComponent implements OnInit, OnDestroy {
           downloadAnchorNode.click();
           downloadAnchorNode.remove();
         });
-    } else if (option === 'OWL') {
+    } else if (option === 'OWL (RDF/XML)') {
 
       this.sheetService
         .fetchSheetData(sheet.sheetId, sheet.gid, csvURL? csvURL : sheet.csvUrl, null, 'owl')

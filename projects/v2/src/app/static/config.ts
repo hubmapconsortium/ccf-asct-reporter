@@ -2,7 +2,7 @@ import { SheetDetails, SheetOptions } from '../models/sheet.model';
 
 export const HEADER_COUNT = 11;
 
-export const IMG_OPTIONS = ['PNG', 'SVG', 'Vega Spec', 'Graph Data', 'JSON-LD','OWL'];
+export const IMG_OPTIONS = ['PNG', 'SVG', 'Vega Spec', 'Graph Data', 'JSON-LD','OWL (RDF/XML)'];
 
 export const MASTER_SHEET_LINK =
   'https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=2034682742';
