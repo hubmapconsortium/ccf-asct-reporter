@@ -481,7 +481,25 @@ export class RootComponent implements OnInit, OnDestroy {
           downloadAnchorNode.click();
           downloadAnchorNode.remove();
         });
-    } else {
+    } else if (option === 'OWL (RDF/XML)') {
+
+      this.sheetService
+        .fetchSheetData(sheet.sheetId, sheet.gid, csvURL? csvURL : sheet.csvUrl, null, 'owl')
+        .subscribe((graphData: any) => {
+          const graphDataStr =
+            'data:application/rdf+xml;charset=utf-8,' +
+            encodeURIComponent(graphData);
+          const downloadAnchorNode = document.createElement('a');
+          downloadAnchorNode.setAttribute('href', graphDataStr);
+          downloadAnchorNode.setAttribute(
+            'download',
+            `asct+b_owl_${sn}_${dt}` + '.owl'
+          );
+          document.body.appendChild(downloadAnchorNode);
+          downloadAnchorNode.click();
+          downloadAnchorNode.remove();
+        });
+    }else {
       const view = this.store.selectSnapshot(TreeState.getVegaView);
       const fileName = `asct+b_${sn}_${dt}.${formatType}`;
       view.background('#fafafa');
