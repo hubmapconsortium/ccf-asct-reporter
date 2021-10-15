@@ -605,7 +605,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
   data: '',
 },
 {
-  name: 'Blood_Vasculature',
+  name: 'blood_vasculature',
   display: 'Blood Vasculature',
   config: {
     bimodal_distance_x: 250,
@@ -1260,8 +1260,8 @@ export const SHEET_OPTIONS: SheetOptions[] = [
 
 },
 {
-  sheet: 'Blood_Vasculature',
-  title: 'Blood_Vasculature_v1.1',
+  sheet: 'blood_vasculature',
+  title: 'Blood Vasculature',
   
   version: [
     {
