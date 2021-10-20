@@ -718,7 +718,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
   },
   {
     name: 'large_intestine',
-    display: 'Intestine, Large',
+    display: 'Large Intestine',
     config: {
       bimodal_distance_x: 200,
       bimodal_distance_y: 50,
@@ -907,7 +907,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     ],
   },
   {
-    title: 'Intestine, Large',
+    title: 'Large Intestine',
     sheet: 'large_intestine',
     version: [
       { value: 'large_intestine-v1.0', viewValue: 'v1.0' },
@@ -1128,132 +1128,12 @@ export const SHEET_OPTIONS: SheetOptions[] = [
 
   },
   {
-    sheet: 'brain',
-    title: 'Brain',
-    
-    version: [
-      {
-        value: 'Brain_v1.1',
-        viewValue: 'v1.0',
-      }
-    ],
-
-  },
-  {
     sheet: 'blood',
     title: 'Blood',
     
     version: [
       {
         value: 'Blood_v1.1',
-        viewValue: 'v1.0',
-      }
-    ],
-
-  },
-  {
-    sheet: 'bone_marrow',
-    title: 'Bone Marrow',
-    
-    version: [
-      {
-        value: 'Bone_Marrow_v1.1',
-        viewValue: 'v1.0',
-      }
-    ],
-
-  },
-  {
-    sheet: 'heart',
-    title: 'Heart',
-    
-    version: [
-      {
-        value: 'Heart_v1.1',
-        viewValue: 'v1.0',
-      }
-    ],
-
-  },
-  {
-    sheet: 'lymph_node',
-    title: 'Lymph Node',
-    
-    version: [
-      {
-        value: 'Lymph_Node_v1.1',
-        viewValue: 'v1.0',
-      }
-    ],
-
-  },
-  {
-    sheet: 'kidney',
-    title: 'Kidney',
-    
-    version: [
-      {
-        value: 'Kidney_v1.1',
-        viewValue: 'v1.0',
-      }
-    ],
-
-  },
-  {
-    sheet: 'large_intestine',
-    title: 'Large Intestine',
-    
-    version: [
-      {
-        value: 'Large_Intestine_v1.1',
-        viewValue: 'v1.0',
-      }
-    ],
-
-  },
-  {
-    sheet: 'lung',
-    title: 'Lung',
-    
-    version: [
-      {
-        value: 'Lung_v1.1',
-        viewValue: 'v1.0',
-      }
-    ],
-
-  },
-  {
-    sheet: 'skin',
-    title: 'Skin',
-    
-    version: [
-      {
-        value: 'Skin_v1.1',
-        viewValue: 'v1.0',
-      }
-    ],
-
-  },
-  {
-    sheet: 'spleen',
-    title: 'Spleen',
-    
-    version: [
-      {
-        value: 'Spleen_v1.1',
-        viewValue: 'v1.0',
-      }
-    ],
-
-  },
-  {
-    sheet: 'thymus',
-    title: 'Thymus',
-    
-    version: [
-      {
-        value: 'Thymus_v1.1',
         viewValue: 'v1.0',
       }
     ],
