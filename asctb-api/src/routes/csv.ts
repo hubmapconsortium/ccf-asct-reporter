@@ -21,6 +21,7 @@ export function setupCSVRoutes(app: Express): void {
     // query parameters
     const url = req.query.csvUrl as string;
     const expanded = req.query.expanded !== 'false';
+    const withSubclasses = req.query.subclasses !== 'false';
     const output = req.query.output as 'json' | 'graph' | 'jsonld' | string;
 
     try {
@@ -40,11 +41,11 @@ export function setupCSVRoutes(app: Express): void {
       const asctbData = ([] as any[]).concat(...asctbDataResponses);
 
       if (output === 'owl') {
-        const graphData = await makeOwlData(makeJsonLdData(makeGraphData(asctbData)));
+        const graphData = await makeOwlData(makeJsonLdData(makeGraphData(asctbData), withSubclasses));
         res.type('application/rdf+xml');
         return res.send(graphData);
       } else if (output === 'jsonld') {
-        let graphData = makeJsonLdData(makeGraphData(asctbData));
+        let graphData = makeJsonLdData(makeGraphData(asctbData), withSubclasses);
         if (expanded) {
           graphData = await expand(graphData);
         }
