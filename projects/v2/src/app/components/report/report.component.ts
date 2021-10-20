@@ -229,8 +229,8 @@ export class ReportComponent implements OnInit, AfterViewInit {
       if (i < this.reportData.biomarkers.length) {
         row['Unique Biomarkers'] = this.reportData.biomarkers[i].structure;
       }
-      if (i <this.reportData.BWithNoLink.length){
-        row['Biomarkers with no links'] =this.reportData.BWithNoLink[i].structure;
+      if (i < this.reportData.BWithNoLink.length){
+        row['Biomarkers with no links'] = this.reportData.BWithNoLink[i].structure;
       }
       download.push(row);
     }
