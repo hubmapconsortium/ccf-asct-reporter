@@ -121,6 +121,509 @@ export const SHEET_CONFIG: SheetDetails[] = [
     ],
     title: 'Anatomical Structures',
   },
+
+
+
+  {
+    name: 'eye',
+    display: 'Eye',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '1593659227',
+        value: 'Eye-v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures', 
+    data: '',
+  },
+  {
+    name: 'fallopian_tube',
+    display: 'Fallopian Tube',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '1417514103',
+        value: 'Fallopian_Tube_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures',
+    data: '',
+  },
+  {
+    name: 'knee',
+    display: 'Knee',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '1572314003',
+        value: 'Knee_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures', 
+    data: '',
+  },
+  {
+    name: 'liver',
+    display: 'Liver',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '2079993346',
+        value: 'Liver_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures', 
+    data: '',
+  },
+  {
+    name: 'lymph_vasculature',
+    display: 'Lymph Vasculature',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '598065183',
+        value: 'Lymph_Vasculature_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures',
+    data: '',
+  },
+  {
+    name: 'pancreas',
+    display: 'Pancreas',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '1044871154',
+        value: 'Pancreas_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures',
+    data: '',
+  },
+  {
+    name: 'peripheral_nervous_system',
+    display: 'Peripheral Nervous System',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '887132317',
+        value: 'Peripheral_Nervous_System_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures', 
+    data: '',
+  },
+  {
+    name: 'prostate',
+    display: 'Prostate',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '1921589208',
+        value: 'Prostate_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures', 
+    data: '',
+  },
+  {
+    name: 'ovary',
+    display: 'Ovary',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '1072160013',
+        value: 'Ovary_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures',
+    data: '',
+  },
+  {
+    name: 'small_intestine',
+    display: 'Small Intestine',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '1247909220',
+        value: 'Small_Intestine_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures', 
+    data: '',
+  },
+  {
+    name: 'ureter',
+    display: 'Ureter',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '1106564583',
+        value: 'Ureter_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures', 
+    data: '',
+  },
+  {
+    name: 'urinary_bladder',
+    display: 'Urinary Bladder',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '498800030',
+        value: 'Urinary_Bladder_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures',
+    data: '',
+  },
+  {
+    name: 'uterus',
+    display: 'Uterus',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '877379009',
+        value: 'Uterus_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures', 
+    data: '',
+  },
+  {
+    name: 'brain',
+    display: 'Brain',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '1379088218',
+        value: 'Brain_v1.1',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures', 
+    data: '',
+  },
+  {
+    name: 'blood',
+    display: 'Blood',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '1315753355',
+        value: 'Blood_v1.1',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures',
+    data: '',
+  },
+  {
+    name: 'bone_marrow',
+    display: 'Bone Marrow',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '1845311048',
+        value: 'Bone_Marrow_v1.1',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures',
+    data: '',
+  },
+  {
+    name: 'heart',
+    display: 'Heart',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '2133445058',
+        value: 'Heart_v1.1',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures', 
+    data: '',
+  },
+  {
+    name: 'lymph_node',
+    display: 'Lymph Node',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '1440276882',
+        value: 'Lymph_Node_v1.1',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures', 
+    data: '',
+  },
+  {
+    name: 'kidney',
+    display: 'Kidney',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '2137043090',
+        value: 'Kidney_v1.1',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures',
+    data: '',
+  },
+  {
+    name: 'large_intestine',
+    display: 'Large Intestine',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '512613979',
+        value: 'Large_Intestine_v1.1',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures',
+    data: '',
+  },
+  {
+    name: 'lung',
+    display: 'Lung',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '1824552484',
+        value: 'Lung_v1.1',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures', 
+    data: '',
+  },
+  {
+    name: 'skin',
+    display: 'Skin',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '1158675184',
+        value: 'Skin_v1.1',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures',
+    data: '',
+  },
+  {
+    name: 'spleen',
+    display: 'Spleen',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '984946629',
+        value: 'Spleen_v1.1',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures', 
+    data: '',
+  },
+  {
+    name: 'thymus',
+    display: 'Thymus',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '1823527529',
+        value: 'Thymus_v1.1',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures', 
+    data: '',
+  },
+  {
+    name: 'blood_vasculature',
+    display: 'Blood Vasculature',
+    config: {
+      bimodal_distance_x: 250,
+      bimodal_distance_y: 60,
+      width: 700,
+      height: 2250,
+    },
+    version: [
+      {
+        sheetId: SHEET_ID,
+        gid: '361657182',
+        value: 'Blood_Vasculature_v1.1',
+        viewValue: 'v1.0',
+      }
+    ],
+    title: 'Anatomical Structures', 
+    data: '',
+  },
   // {
   //   name: 'liver',
   //   display: 'Liver',
@@ -215,7 +718,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
   },
   {
     name: 'large_intestine',
-    display: 'Intestine, Large',
+    display: 'Large Intestine',
     config: {
       bimodal_distance_x: 200,
       bimodal_distance_y: 50,
@@ -404,7 +907,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     ],
   },
   {
-    title: 'Intestine, Large',
+    title: 'Large Intestine',
     sheet: 'large_intestine',
     version: [
       { value: 'large_intestine-v1.0', viewValue: 'v1.0' },
@@ -466,6 +969,190 @@ export const SHEET_OPTIONS: SheetOptions[] = [
       { value: 'vasculature-v1.1-Draft', viewValue: 'v1.1 Draft' },
     ],
   },
+  
+
+
+  {
+    sheet: 'eye',
+    title: 'Eye',
+    
+    version: [
+      {
+        value: 'Eye-v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+
+  },
+  {
+    sheet: 'fallopian_tube',
+    title: 'Fallopian Tube',
+    
+    version: [
+      {
+        value: 'Fallopian_Tube_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+
+  },
+  {
+    sheet: 'knee',
+    title: 'Knee',
+    
+    version: [
+      {
+        value: 'Knee_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+
+  },
+  {
+    sheet: 'liver',
+    title: 'Liver',
+    
+    version: [
+      {
+        value: 'Liver_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+
+  },
+  {
+    sheet: 'lymph_vasculature',
+    title: 'Lymph Vasculature',
+    
+    version: [
+      {
+        value: 'Lymph_Vasculature_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+
+  },
+  {
+    sheet: 'pancreas',
+    title: 'Pancreas',
+    
+    version: [
+      {
+        value: 'Pancreas_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+
+  },
+  {
+    sheet: 'peripheral_nervous_system',
+    title: 'Peripheral Nervous System',
+    
+    version: [
+      {
+        value: 'Peripheral_Nervous_System_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+
+  },
+  {
+    sheet: 'prostate',
+    title: 'Prostate',
+    
+    version: [
+      {
+        value: 'Prostate_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+
+  },
+  {
+    sheet: 'ovary',
+    title: 'Ovary',
+    
+    version: [
+      {
+        value: 'Ovary_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+
+  },
+  {
+    sheet: 'small_intestine',
+    title: 'Small Intestine',
+    
+    version: [
+      {
+        value: 'Small_Intestine_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+  },
+  {
+    sheet: 'ureter',
+    title: 'Ureter',
+    
+    version: [
+      {
+        value: 'Ureter_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+
+  },
+  {
+    sheet: 'urinary_bladder',
+    title: 'Urinary Bladder',
+    
+    version: [
+      {
+        value: 'Urinary_Bladder_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+
+  },
+  {
+    sheet: 'uterus',
+    title: 'Uterus',
+    
+    version: [
+      {
+        value: 'Uterus_v1.0',
+        viewValue: 'v1.0',
+      }
+    ],
+
+  },
+  {
+    sheet: 'blood',
+    title: 'Blood',
+    
+    version: [
+      {
+        value: 'Blood_v1.1',
+        viewValue: 'v1.0',
+      }
+    ],
+
+  },
+  {
+    sheet: 'blood_vasculature',
+    title: 'Blood Vasculature',
+    
+    version: [
+      {
+        value: 'Blood_Vasculature_v1.1',
+        viewValue: 'v1.0',
+      }
+    ],
+
+  }
+
+
 ];
 
 export const VERSION = [
