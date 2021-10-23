@@ -29,7 +29,8 @@ export class BimodalService {
     sheetData: Row[],
     treeData: TNode[],
     bimodalConfig: BimodalConfig,
-    sheetConfig?: SheetConfig
+    sheetConfig?: SheetConfig,
+    isReport? : boolean
   ) {
 
     try {
@@ -48,7 +49,7 @@ export class BimodalService {
       let id = treeData.length + 1;
       let biomarkers = [];
       treeData.forEach((td) => {
-        if (td.children === 0) {
+        if (td.children === 0 || isReport) {
 
           const leaf = td.name;
           const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.notes, td.organName, td.ontologyId);
@@ -343,16 +344,20 @@ export class BimodalService {
         }
       });
 
-      this.store.dispatch(new UpdateLinksData(AS_CT_LINKS, CT_BM_LINKS, AS_CT, CT_BM));
+      if (!isReport) {
+        this.store.dispatch(new UpdateLinksData(AS_CT_LINKS, CT_BM_LINKS, AS_CT, CT_BM));
 
-      this.store.dispatch(new UpdateBimodal(nodes, links)).subscribe(newData => {
-        const view = newData.treeState.view;
-        const updatedNodes = newData.treeState.bimodal.nodes;
-        const updatedLinks = newData.treeState.bimodal.links;
-        const spec = newData.treeState.spec;
+        this.store.dispatch(new UpdateBimodal(nodes, links)).subscribe(newData => {
+          const view = newData.treeState.view;
+          const updatedNodes = newData.treeState.bimodal.nodes;
+          const updatedLinks = newData.treeState.bimodal.links;
+          const spec = newData.treeState.spec;
 
-        this.updateBimodalData(view, spec, updatedNodes, updatedLinks);
-      });
+          this.updateBimodalData(view, spec, updatedNodes, updatedLinks);
+        });
+      } else {
+        this.store.dispatch(new UpdateLinksData(AS_CT_LINKS, CT_BM_LINKS, AS_CT, CT_BM, 0, null,true));
+      }
 
     } catch (error) {
       console.log(error);

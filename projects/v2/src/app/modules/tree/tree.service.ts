@@ -7,12 +7,13 @@ import { Observable } from 'rxjs';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { ReportLog } from '../../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
-import { UpdateVegaSpec } from '../../actions/tree.actions';
+import { UpdateLinksData, UpdateVegaSpec } from '../../actions/tree.actions';
 import { Sheet, SheetConfig } from '../../models/sheet.model';
 import { HasError } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { SheetState } from '../../store/sheet.state';
 import { Row } from '../../models/sheet.model';
+import { BimodalService } from './bimodal.service';
 
 @Injectable({
   providedIn: 'root',
@@ -46,7 +47,7 @@ export class TreeService {
    */
   @Select(SheetState.getSheetConfig) sc$: Observable<SheetConfig>;
 
-  constructor(public readonly store: Store, public readonly vs: VegaService) {
+  constructor(public readonly store: Store, public readonly vs: VegaService, public readonly bm: BimodalService,) {
     this.tree$.subscribe((state) => {
       this.height = state.height;
       const view = state.view;
@@ -100,12 +101,13 @@ export class TreeService {
    * @param data data from the miner of the sheet
    * @param compareData compare data (depricated)
    */
-  public makeTreeData(currentSheet: Sheet, data: Row[], compareData?: any) {
+  public makeTreeData(currentSheet: Sheet, data: Row[], compareData?: any, isReport?: boolean): void {
     try {
       const idNameSet = {};
       let id = 1;
       let parent: TNode;
       const nodes = [];
+      const allParentIds = new Set();
       const root = new TNode(
         id,
         data[0].anatomical_structures[0].name,
@@ -120,6 +122,8 @@ export class TreeService {
       root.type = NODE_TYPE.R;
       delete root.parent;
       nodes.push(root);
+      let flag = 0;
+      const AS_AS_organWise = {};
 
       data.forEach((row) => {
         parent = root;
@@ -128,18 +132,36 @@ export class TreeService {
           let s: number;
           if (structure.id && structure.id.toLowerCase() !== 'not found') {
             s = nodes.findIndex(
-              (i: any) =>
-                i.type !== 'root' &&
-                i.comparatorId === parent.comparatorId + structure.id
+              (i: any) => {
+                if (!isReport) {
+                  return i.type !== 'root' &&
+                  i.comparatorId === parent.comparatorId + structure.id;
+                } else {
+                  return i.type !== 'root' &&
+                  (i.comparatorId === parent.comparatorId + structure.id) && i.organName === row.organName;
+                }
+              }
             );
           } else {
             s = nodes.findIndex(
-              (i: any) =>
-                i.type !== 'root' &&
-                i.comparatorName === parent.comparatorName + structure.name
+              (i: any) => {
+                if (!isReport) {
+                  return i.type !== 'root' &&
+                  i.comparatorName === parent.comparatorName + structure.name;
+                } else {
+                  return i.type !== 'root' &&
+                  (i.comparatorName === parent.comparatorName + structure.name) && i.organName === row.organName;
+                }
+              }
             );
           }
           if (s === -1) {
+            if (Object.prototype.hasOwnProperty.call(AS_AS_organWise, row?.organName) && flag >= 2) {
+              AS_AS_organWise[row?.organName] += 1;
+            } else {
+              flag += 1;
+              AS_AS_organWise[row?.organName] = 1;
+            }
             id += 1;
             const newNode = new TNode(
               id,
@@ -168,6 +190,7 @@ export class TreeService {
             }
 
             nodes.push(newNode);
+            allParentIds.add(parent.id);
             parent = newNode;
           } else {
             const node = nodes[s];
@@ -189,8 +212,21 @@ export class TreeService {
         nodes,
         this.sheetConfig
       );
-      this.store.dispatch(new UpdateVegaSpec(spec));
-      this.vs.renderGraph(spec);
+      allParentIds.delete(1);
+      const allParentIdsArray = [...allParentIds];
+      if (!isReport) {
+        this.store.dispatch(new UpdateLinksData(0, 0, {}, {}, 0, AS_AS_organWise));
+        this.store.dispatch(new UpdateVegaSpec(spec));
+        this.vs.renderGraph(spec);
+      } else {
+        this.store.dispatch(new UpdateLinksData(0, 0, {}, {}, 0, AS_AS_organWise));
+        this.bm.makeBimodalData(
+          data,
+          spec.data[0].values.filter(x => !allParentIdsArray.includes(x.id)),
+          this.store.selectSnapshot(TreeState.getBimodalConfig),
+          this.store.selectSnapshot(SheetState.getSheetConfig),
+          true);
+      }
     } catch (error) {
       console.log(error);
       const err: Error = {
