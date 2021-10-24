@@ -30,7 +30,7 @@ export class BimodalService {
     treeData: TNode[],
     bimodalConfig: BimodalConfig,
     sheetConfig?: SheetConfig,
-    isReport? : boolean
+    isReport = false
   ) {
 
     try {

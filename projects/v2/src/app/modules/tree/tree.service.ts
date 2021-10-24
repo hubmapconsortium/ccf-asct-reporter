@@ -101,7 +101,7 @@ export class TreeService {
    * @param data data from the miner of the sheet
    * @param compareData compare data (depricated)
    */
-  public makeTreeData(currentSheet: Sheet, data: Row[], compareData?: any, isReport?: boolean): void {
+  public makeTreeData(currentSheet: Sheet, data: Row[], compareData?: any, isReport = false): void {
     try {
       const idNameSet = {};
       let id = 1;
