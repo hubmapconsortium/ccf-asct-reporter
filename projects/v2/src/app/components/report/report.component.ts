@@ -147,7 +147,6 @@ export class ReportComponent implements OnInit, AfterViewInit {
       this.biomarkersSeperateNames.forEach((bm) => {
         this.biomarkersCounts.push({ name: bm.name, value: this.countsByOrgan[0][bm.name] });
       });
-      console.log(this.countsByOrgan);
     });
     return [
       {
