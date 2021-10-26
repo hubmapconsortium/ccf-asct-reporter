@@ -16,7 +16,13 @@ export class ReportService {
   reportData$ = this.reportData.asObservable();
   private compareData = new Subject<any>();
   compareData$ = this.compareData.asObservable();
-
+  BM_TYPE =  {
+    'gene' : 'BG',
+    'protein' : 'BP',
+    'lipids' : 'BL',
+    'metalloids' : 'BM',
+    'proteoforms' : 'BF',
+  }
   constructor() {}
 
   async makeReportData(currentSheet: Sheet, data: any, biomarkerType?: string) {
@@ -83,13 +89,14 @@ export class ReportService {
     };
 
     try {
-      result.anatomicalStructures = makeAS(asFullData, true).reduce(
+      const as = makeAS(asFullData, true);
+      result.anatomicalStructures = as.reduce(
         (acc, curr) => {
           return this.countOrganWise(acc, curr, 'anatomicalStructures');
         },
         []
       );
-      result.ASWithNoLink = reportData.ASWithNoLink.reduce((acc, curr) => {
+      result.ASWithNoLink = this.getASWithNoLink(as).reduce((acc, curr) => {
         return this.countOrganWise(acc, curr, 'ASWithNoLink');
       }, []);
       result.BWithNoLink = reportData.BWithNoLink.reduce((acc, curr) => {
@@ -106,7 +113,10 @@ export class ReportService {
         result[bType] = biomarkersSeperate[bType].reduce((acc, curr) => {
           return this.countOrganWise(acc, curr, bType);
         }, []);
-        biomarkersSeperateNames.push(bType);
+        biomarkersSeperateNames.push({
+          'type' : this.BM_TYPE[bType],
+          'name' : bType, 
+        });
       });
       result.biomarkers = reportData.biomarkers.reduce((acc, curr) => {
         return this.countOrganWise(acc, curr, 'biomarkers');

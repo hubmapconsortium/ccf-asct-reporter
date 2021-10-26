@@ -259,6 +259,9 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
    */
   tabChange(tab: MatTabChangeEvent) {
     if (this.prevTab === 1 && tab.index === 0) {
+      this.spreadSheetData  = this.spreadSheetData.filter((row) => {
+        return (row.some((cell) => cell.length > 0 && cell !== '\u0000'));
+      });
       this.store.dispatch(new UpdatePlaygroundData(this.spreadSheetData));
     }
     this.prevTab = tab.index;

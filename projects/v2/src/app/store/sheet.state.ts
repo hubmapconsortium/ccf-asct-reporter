@@ -102,7 +102,11 @@ export class SheetStateModel {
   /**
    * Stores the selected organs details.
    */
-   selectedOrgans: string[];
+  selectedOrgans: string[];
+  /**
+   * Full data by organ
+   */
+  fullDataByOrgan: any;  
 }
 
 @State<SheetStateModel>({
@@ -154,6 +158,7 @@ export class SheetStateModel {
     bottomSheetDOI: [],
     fullAsData: [],
     selectedOrgans: [],
+    fullDataByOrgan: [],
   },
 })
 @Injectable()
@@ -265,6 +270,14 @@ export class SheetState {
   }
 
   /**
+   * Returns an observable that watches the fullDataByOrgan  data
+   */
+  @Selector()
+  static getFullDataByOrgan(state: SheetStateModel) {
+    return state.fullDataByOrgan;
+  }
+
+  /**
    * Returns an observable that watches the mode
    * values: [playground, vis]
    */
@@ -358,12 +371,16 @@ export class SheetState {
             }
 
             const currentData = getState().data;
+            const currentFullASData = getState().fullAsData;
+            const currentFullDataByOrgan = getState().fullDataByOrgan;
             const currentCompare = getState().compareSheets;
             const currentCompareData = getState().compareData;
             patchState({
               data: [...currentData, ...res.data],
+              fullAsData: [...currentFullASData, ...res.data],
               compareSheets: [...currentCompare, ...[compareSheet]],
               compareData: [...currentCompareData, ...res.data],
+              fullDataByOrgan: [...currentFullDataByOrgan, res.data],
             });
           },
           (error) => {
@@ -429,6 +446,7 @@ export class SheetState {
       });
     }
     let asDeltails = [];
+    const fullDataByOrgan = [];
     forkJoin(requests$).subscribe(
       (allResults) => {
         allResults.map((res: ResponseData, index: number) => {
@@ -445,7 +463,7 @@ export class SheetState {
           }
 
           asDeltails = JSON.parse(JSON.stringify([...asDeltails, ...res.data]));
-
+          fullDataByOrgan.push(JSON.parse(JSON.stringify([...res.data])));
           for (const row of res.data) {
             if (!state.sheetConfig.show_all_AS && selectedOrgans.length > 8) {
               row.anatomical_structures.splice(
@@ -459,7 +477,8 @@ export class SheetState {
         });
         patchState({
           data: dataAll,
-          fullAsData: asDeltails
+          fullAsData: asDeltails,
+          fullDataByOrgan
         });
       },
       (err) => {
@@ -811,6 +830,8 @@ export class SheetState {
           version: 'latest',
           mode,
           sheet,
+          fullAsData: res.data,
+          fullDataByOrgan: [res.data],
           sheetConfig: { ...sheet.config, show_ontology: true },
         });
       }),

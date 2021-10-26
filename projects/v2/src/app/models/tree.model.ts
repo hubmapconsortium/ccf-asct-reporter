@@ -183,3 +183,12 @@ export interface BottomSheetData {
   text: any;
   data: any;
 }
+
+export interface linksASCTBData {
+  AS_CT: number;
+  CT_B: number;
+  AS_AS: number;
+  AS_CT_organWise: Record<string, number>;
+  CT_B_organWise: Record<string, number>;
+  AS_AS_organWise: Record<string, number>;
+}

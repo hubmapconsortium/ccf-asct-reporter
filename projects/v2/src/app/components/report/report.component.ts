@@ -8,13 +8,15 @@ import {
 } from '@angular/core';
 import { ReportService } from './report.service';
 import { CByOrgan, Report } from '../../models/report.model';
-import { Sheet, SheetConfig } from '../../models/sheet.model';
+import { Row, Sheet, SheetConfig } from '../../models/sheet.model';
 
 import * as XLSX from 'xlsx';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory } from '../../models/ga.model';
+import { TreeService } from '../../modules/tree/tree.service';
+import { linksASCTBData } from '../../models/tree.model';
 
 @Component({
   selector: 'app-report',
@@ -41,8 +43,14 @@ export class ReportComponent implements OnInit, AfterViewInit {
   countsByOrgan: CByOrgan[];
   displayedColumns: string[] = [
     'organName',
+    'ASWithNoLink',
+    'CTWithNoLink',
+    'BWithNoLink',
+    'AS_AS',
+    'AS_CT',
+    'CT_BM',
     'anatomicalStructures',
-    'cellTypes',
+    'cellTypes'
   ];
   biomarkersSeperateNames: any;
   compareReport: any;
@@ -51,12 +59,15 @@ export class ReportComponent implements OnInit, AfterViewInit {
 
   ontologyLinkGraphData = [];
   SheetConfig: SheetConfig;
+  total_AS_AS: number;
+  biomarkersCounts: any = [];
 
   @Input() compareSheets: any;
   @Input() sheetData: any;
   @Input() asFullData: any;
+  @Input() fullDataByOrgan: Array<Row[]>;
   @Input() currentSheet: Sheet;
-  @Input() linksData: any;
+  @Input() linksData$: Observable<linksASCTBData>;
   @Input() inputReportData: Observable<any>;
   @Input() currentSheetConfig: Observable<any>;
   @Input() compareData: Observable<any>;
@@ -64,9 +75,12 @@ export class ReportComponent implements OnInit, AfterViewInit {
   @Output() closeReport: EventEmitter<any> = new EventEmitter<any>();
   @Output() computedReport: EventEmitter<any> = new EventEmitter<any>();
   @Output() deleteSheet: EventEmitter<any> = new EventEmitter<any>();
+  total_AS_CT: number;
+  total_CT_B: number;
 
   constructor(
     public reportService: ReportService,
+    public ts: TreeService,
     public ga: GoogleAnalyticsService
   ) { }
 
@@ -76,6 +90,12 @@ export class ReportComponent implements OnInit, AfterViewInit {
       this.computedReport.emit(data.data);
 
       this.ontologyLinkGraphData = this.makeOntologyLinksGraphData(data.data);
+      
+    });
+    this.linksData$.subscribe((data) => {
+      this.total_AS_AS = data.AS_AS;
+      this.total_AS_CT = data.AS_CT;
+      this.total_CT_B = data.CT_B;
     });
 
     this.reportService.compareData$.subscribe((data) => {
@@ -96,6 +116,10 @@ export class ReportComponent implements OnInit, AfterViewInit {
       }
     });
 
+    this.fullDataByOrgan.forEach((data) => {
+      this.ts.makeTreeData(this.currentSheet, data, this.compareData, true);
+    });
+
     this.reportService.makeReportData(
       this.currentSheet,
       this.sheetData,
@@ -106,17 +130,24 @@ export class ReportComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() { }
 
   makeOntologyLinksGraphData(reportData: Report) {
-    if (this.currentSheet.name === 'all' || this.currentSheet.name === 'some') {
-      const { result, biomarkersSeperateNames } =
-        this.reportService.makeAllOrganReportDataByOrgan(reportData, this.asFullData);
-      this.displayedColumns = [
-        ...this.displayedColumns,
-        ...biomarkersSeperateNames,
-      ];
-      this.biomarkersSeperateNames = biomarkersSeperateNames;
+    const { result, biomarkersSeperateNames } =
+      this.reportService.makeAllOrganReportDataByOrgan(reportData, this.asFullData);
+    this.displayedColumns = [
+      ...this.displayedColumns
+    ];
+    biomarkersSeperateNames.forEach((bm) => {
+      this.displayedColumns.push(bm.name);
+    });
+
+    this.biomarkersSeperateNames = biomarkersSeperateNames;
+    this.linksData$.subscribe((data) => {
       this.countsByOrgan =
-        this.reportService.makeAllOrganReportDataCountsByOrgan(result, this.linksData);
-    }
+        this.reportService.makeAllOrganReportDataCountsByOrgan(result, data);
+      this.biomarkersCounts = [];
+      this.biomarkersSeperateNames.forEach((bm) => {
+        this.biomarkersCounts.push({ name: bm.name, value: this.countsByOrgan[0][bm.name] });
+      });
+    });
     return [
       {
         results: [
@@ -285,6 +316,16 @@ export class ReportComponent implements OnInit, AfterViewInit {
     }
 
     XLSX.writeFile(wb, allReport[0].name);
+  }
+
+  downloadReportByOrgan() {
+    const  sheetName = 'countByOrgan';
+    const fileName  = 'countsByOrgans';
+    const targetTableElm = document.getElementById('countsByOrgans');
+    const wb = XLSX.utils.table_to_book(targetTableElm, {
+      sheet: sheetName
+    } as XLSX.Table2SheetOpts);
+    XLSX.writeFile(wb, `${fileName}.xlsx`);
   }
 
   downloadCompareSheetReport(i: number) {
