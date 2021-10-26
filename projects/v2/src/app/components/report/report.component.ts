@@ -133,17 +133,21 @@ export class ReportComponent implements OnInit, AfterViewInit {
     const { result, biomarkersSeperateNames } =
       this.reportService.makeAllOrganReportDataByOrgan(reportData, this.asFullData);
     this.displayedColumns = [
-      ...this.displayedColumns,
-      ...biomarkersSeperateNames,
+      ...this.displayedColumns
     ];
+    biomarkersSeperateNames.forEach((bm) => {
+      this.displayedColumns.push(bm.name);
+    });
+
     this.biomarkersSeperateNames = biomarkersSeperateNames;
     this.linksData$.subscribe((data) => {
       this.countsByOrgan =
         this.reportService.makeAllOrganReportDataCountsByOrgan(result, data);
       this.biomarkersCounts = [];
       this.biomarkersSeperateNames.forEach((bm) => {
-        this.biomarkersCounts.push({ name: bm, value: this.countsByOrgan[0][bm] });
+        this.biomarkersCounts.push({ name: bm.name, value: this.countsByOrgan[0][bm.name] });
       });
+      console.log(this.countsByOrgan);
     });
     return [
       {
@@ -313,6 +317,16 @@ export class ReportComponent implements OnInit, AfterViewInit {
     }
 
     XLSX.writeFile(wb, allReport[0].name);
+  }
+
+  downloadReportByOrgan() {
+    const  sheetName = 'countByOrgan';
+    const fileName  = 'countsByOrgans';
+    const targetTableElm = document.getElementById('countsByOrgans');
+    const wb = XLSX.utils.table_to_book(targetTableElm, <XLSX.Table2SheetOpts>{
+      sheet: sheetName
+    });
+    XLSX.writeFile(wb, `${fileName}.xlsx`);
   }
 
   downloadCompareSheetReport(i: number) {
