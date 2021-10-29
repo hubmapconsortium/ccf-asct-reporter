@@ -322,9 +322,20 @@ export class ReportComponent implements OnInit, AfterViewInit {
     const  sheetName = 'countByOrgan';
     const fileName  = 'countsByOrgans';
     const targetTableElm = document.getElementById('countsByOrgans');
+
+    const allReport = [];
+    allReport.push(this.downloadData());
+    
+
+   
     const wb = XLSX.utils.table_to_book(targetTableElm, {
       sheet: sheetName
     } as XLSX.Table2SheetOpts);
+
+    for (const book of allReport) {
+      XLSX.utils.book_append_sheet(wb, book.sheet, book.sheetName);
+    }
+    
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   }
 
