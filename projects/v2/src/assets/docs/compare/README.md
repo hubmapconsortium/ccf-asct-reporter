@@ -16,11 +16,13 @@ You can now compare your own data with that visualized by the ASCT+B Reporter. I
 2. A drawer will pop up from the side that will show a few instructions and the various input fields.
    - **Title** (optional): This is the title by which the uploaded sheet can be identified. By default it is given a title in the format `Sheet <number>`. This number corresponds to the index of the sheet in the compare feature. If you have added sheets, the default title of the sheets would be `Sheet 1` and `Sheet 2` respectively.
    - **Description** (optional): This field holds a small description of your data. It is empty by default. 
-   - **Google Sheet Link (or CSV)** (required): This field will hold the sheet link to your data. Your data has to be in the specified format that can be found [here](https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=559906129).
+   - **Google Sheet Link (or CSV)** (optional): This field will hold the sheet link to your data. Your data has to be in the specified format that can be found [here](https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=559906129).
+   - **Upload File** (optional): You can upload your own file by clicking the **Upload** attachments icon.
+   We should upload a file or a link to a Google Sheet. This is required if you want to compare your data with the data in the ASCT+B Master Tables.
    - **Color selector** (optional): This is a swatch that will allow you to choose the color. A random color is assigned by default. 
    
    <br>
-   <img src="assets/docs/compare/cmp.png" alt="Compare Dialog" class="md-img p-2 w-50">
+   <img src="assets/docs/compare/cmp-updated.png" alt="Compare Dialog" class="md-img p-2 w-50">
    <br>
    <br>
 
