@@ -136,7 +136,9 @@ export class ReportComponent implements OnInit, AfterViewInit {
       ...this.displayedColumns
     ];
     biomarkersSeperateNames.forEach((bm) => {
-      this.displayedColumns.push(bm.name);
+      if (this.displayedColumns.includes(bm.name) === false){
+        this.displayedColumns.push(bm.name);
+      }    
     });
 
     this.biomarkersSeperateNames = biomarkersSeperateNames;
@@ -280,6 +282,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
     };
   }
 
+  
   downloadReport(i = -1) {
     const wb = XLSX.utils.book_new();
     const allReport = [];
@@ -322,9 +325,37 @@ export class ReportComponent implements OnInit, AfterViewInit {
     const  sheetName = 'countByOrgan';
     const fileName  = 'countsByOrgans';
     const targetTableElm = document.getElementById('countsByOrgans');
+    const allReport = [];
+
+    const organsList:string[] = [];
+
+   
     const wb = XLSX.utils.table_to_book(targetTableElm, {
       sheet: sheetName
     } as XLSX.Table2SheetOpts);
+
+    this.fullDataByOrgan.forEach((data) => {
+      organsList.push(data[0].organName);
+      this.reportService.makeReportData(
+        this.currentSheet,
+        data,
+        this.bmType,
+      );
+      allReport.push(this.downloadData());
+    });
+
+    this.reportService.makeReportData(
+      this.currentSheet,
+      this.sheetData,
+      this.bmType
+    );
+
+    let i = 0;
+    for (const book of allReport) {
+      XLSX.utils.book_append_sheet(wb, book.sheet, organsList[i] );
+      i += 1;
+    }
+    
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   }
 
