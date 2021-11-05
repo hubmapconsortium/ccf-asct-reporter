@@ -166,7 +166,7 @@ export class SheetStateModel {
 })
 @Injectable()
 export class SheetState {
-  constructor(private sheetService: SheetService, public readonly ga: GoogleAnalyticsService, public reportService: ReportService) {}
+  constructor(private readonly sheetService: SheetService, public readonly ga: GoogleAnalyticsService, public reportService: ReportService) {}
   faliureMsg = 'Failed to fetch data';
   bodyId = 'UBERON:0013702';
   bodyLabel: 'body proper';
