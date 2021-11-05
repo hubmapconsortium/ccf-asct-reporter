@@ -16,6 +16,16 @@ This section goes over what the visualization is comprised of, how it works, and
 <br>
 <br>
 
+A organ selector table pops up. Select the organ you would like to view. The table will show the organ's name, the organ's Version drop down. If you would like to view the organ's version, select the version from the drop down. If there is only one version for any organ, the drop down will not show but instead a simple label will be shown.
+
+<br>
+<img src="assets/docs/visualization/organ-selector-table.png" class="md-img p-2 w-50">
+
+<br>
+<br>
+
+After you select the organ, when you click on the **Submit** button, the organ sheets will be loaded and Visualization will be rendered.
+
 
 The visualization in the ASCT+B Reporter consists of a tree structure that representing the relationships between **Anatomical Structures** (AS) and their substructures (colored in red). This tree is combined with a bimodal network that represents the relationships between these AS and their **Cell Types** (CT, colored in blue) and their **Biomarkers** (B, colored in green).
 
