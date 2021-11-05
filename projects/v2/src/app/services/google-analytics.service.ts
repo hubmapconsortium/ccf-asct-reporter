@@ -16,8 +16,8 @@ export class GoogleAnalyticsService {
     eventCategory: GaCategory,
     eventLabel: string = null,
     eventAction: GaAction,
-    // Unused parameter for now, as the GA report is not displaying event values.
-    eventValue: any = 0) {
+    eventValue: any = 0,
+    eventDetails?: any) {
     // Make this check true to enable GA on local development
     if (environment.tag !== 'Development') {
       gtag('event', eventName, {
@@ -25,13 +25,16 @@ export class GoogleAnalyticsService {
         // Concatenating name and label into the event_label field, as otherwise the eventName is unused in the GA report.
         event_label: `${eventName}: ${eventLabel}`,
         event_action: eventAction.toString(),
-        value: 0
+        event_value: eventValue,
+        ...(eventDetails && {'details':  eventDetails})
       });
     }
   }
 
   public makeNodeInfoString(node: any) {
     const nodeInfo: GaNodeInfo = {
+      name: node.name,
+      groupName: node.groupName,
       oid: node.ontologyId,
       type: node.type,
       x: node.x,

@@ -990,7 +990,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     
     version: [
       {
-        value: 'Fallopian_Tube_v1.0',
+        value: 'Fallopian_Tube-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -1002,7 +1002,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     
     version: [
       {
-        value: 'Knee_v1.0',
+        value: 'Knee-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -1014,7 +1014,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     
     version: [
       {
-        value: 'Liver_v1.0',
+        value: 'Liver-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -1026,7 +1026,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     
     version: [
       {
-        value: 'Lymph_Vasculature_v1.0',
+        value: 'Lymph_Vasculature-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -1038,7 +1038,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     
     version: [
       {
-        value: 'Pancreas_v1.0',
+        value: 'Pancreas-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -1050,7 +1050,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     
     version: [
       {
-        value: 'Peripheral_Nervous_System_v1.0',
+        value: 'Peripheral_Nervous_System-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -1062,7 +1062,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     
     version: [
       {
-        value: 'Prostate_v1.0',
+        value: 'Prostate-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -1074,7 +1074,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     
     version: [
       {
-        value: 'Ovary_v1.0',
+        value: 'Ovary-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -1086,7 +1086,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     
     version: [
       {
-        value: 'Small_Intestine_v1.0',
+        value: 'Small_Intestine-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -1097,7 +1097,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     
     version: [
       {
-        value: 'Ureter_v1.0',
+        value: 'Ureter-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -1109,7 +1109,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     
     version: [
       {
-        value: 'Urinary_Bladder_v1.0',
+        value: 'Urinary_Bladder-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -1121,7 +1121,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     
     version: [
       {
-        value: 'Uterus_v1.0',
+        value: 'Uterus-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -1133,7 +1133,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     
     version: [
       {
-        value: 'Blood_v1.1',
+        value: 'Blood-v1.1',
         viewValue: 'v1.0',
       }
     ],
@@ -1145,7 +1145,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     
     version: [
       {
-        value: 'Blood_Vasculature_v1.1',
+        value: 'Blood_Vasculature-v1.1',
         viewValue: 'v1.0',
       }
     ],

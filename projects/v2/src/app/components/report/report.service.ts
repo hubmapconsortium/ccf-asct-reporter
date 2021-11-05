@@ -54,6 +54,18 @@ export class ReportService {
     }
   }
 
+  countsGA(data) {
+    const output = {
+      AS : 0,
+      CT : 0,
+      B : 0,
+    };
+    output.AS = makeAS(data, true).length;
+    output.CT = makeCellTypes(data, true).length;
+    output.B = makeBioMarkers(data).length;
+    return output;
+  }
+
   countOrganWise(acc, curr, type) {
     let item = acc.find((x) => x.organName === curr.organName);
     if (!item) {

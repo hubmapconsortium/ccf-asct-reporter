@@ -44,6 +44,9 @@ import { StateReset } from 'ngxs-reset-plugin';
 import { TreeState } from './tree.state';
 import { ReportLog } from '../actions/logs.actions';
 import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
+import { GoogleAnalyticsService } from '../services/google-analytics.service';
+import { GaAction, GaCategory } from '../models/ga.model';
+import { ReportService } from '../components/report/report.service';
 
 /** Class to keep track of the sheet */
 export class SheetStateModel {
@@ -163,7 +166,7 @@ export class SheetStateModel {
 })
 @Injectable()
 export class SheetState {
-  constructor(private sheetService: SheetService) {}
+  constructor(private sheetService: SheetService, public readonly ga: GoogleAnalyticsService, public reportService: ReportService) {}
   faliureMsg = 'Failed to fetch data';
   bodyId = 'UBERON:0013702';
   bodyLabel: 'body proper';
@@ -375,6 +378,13 @@ export class SheetState {
             const currentFullDataByOrgan = getState().fullDataByOrgan;
             const currentCompare = getState().compareSheets;
             const currentCompareData = getState().compareData;
+            const gaData = {
+              sheetName: compareSheet.title,
+              counts: {},
+            };
+            gaData.counts = this.reportService.countsGA(res.data);
+            this.ga.eventEmitter('counts_comaparison', GaCategory.COMPARISON, 'Adding sheet or file to Compare', GaAction.INPUT, 0, JSON.stringify(gaData));
+            
             patchState({
               data: [...currentData, ...res.data],
               fullAsData: [...currentFullASData, ...res.data],
@@ -617,7 +627,15 @@ export class SheetState {
             mode,
             sheetConfig: { ...sheet.config, show_ontology: true },
           });
-
+          if (sheet.name === 'example') {
+            const gaData = {
+              sheetName: sheet.name,
+              counts: {},
+            };
+            gaData.sheetName = sheet.name;
+            gaData.counts = this.reportService.countsGA(res.data);
+            this.ga.eventEmitter('counts_playground', GaCategory.PLAYGROUND, 'Adding sheet link or file to Playground', GaAction.INPUT, 0, JSON.stringify(gaData));
+          }
           dispatch(
             new ReportLog(
               LOG_TYPES.MSG,

@@ -12,6 +12,11 @@ export interface Reference {
   notes?: string;
 }
 
+export interface OrganTableSelect {
+  organs?: string[];
+  isIntilalSelect: boolean;
+}
+
 export interface Structure {
   name?: string;
   id?: string;
