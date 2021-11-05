@@ -210,7 +210,7 @@ export function makeBioMarkers(
         currentBiomarkers = row.biomarkers;
       }
       currentBiomarkers.forEach((str) => {
-        const foundIndex = getFoundIndex(str, bioMarkers, isForReport, row);
+        const foundIndex = getFoundIndex(str, bioMarkers, isForReport, row, true);
         let newStructure: B;
         if (foundIndex === -1) {
           newStructure = {
@@ -270,23 +270,23 @@ export function makeBioMarkers(
  * @param row - Row of the sheet
  * @returns - Index of the object in the array
  */
-function getFoundIndex(str: Structure, typeData: Array<TypeStructue>, isForReport: boolean, row: Row) {
+function getFoundIndex(str: Structure, typeData: Array<TypeStructue>, isForReport: boolean, row: Row, isBiomarker = false): number {
   let foundIndex: number;
   if (str.id  && str.id.toLowerCase() !== 'not found') {
-    foundIndex = typeData.findIndex((i: TypeStructue) => {
+    foundIndex = typeData.findIndex((i: any) => {
       if (!isForReport) {
-        return i.comparatorId === str.id;
+        return i.comparatorId === str.id && (!isBiomarker || i.bType === str.b_type);
       } else {
-        return i.comparatorId === str.id && i.organName === row.organName;
+        return i.comparatorId === str.id && i.organName === row.organName && (!isBiomarker || i.bType === str.b_type);
       }
     });
   } else {
-    foundIndex = typeData.findIndex((i: TypeStructue) => {
+    foundIndex = typeData.findIndex((i: any) => {
       if (!isForReport) {
-        return i.comparatorName === str.name;
+        return i.comparatorName === str.name && (!isBiomarker || i.bType === str.b_type);
       } else {
         return (
-          i.comparatorName === str.name && i.organName === row.organName
+          i.comparatorName === str.name && i.organName === row.organName && (!isBiomarker || i.bType === str.b_type)
         );
       }
     });

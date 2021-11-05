@@ -86,7 +86,7 @@
                 <span class="badge badge-danger">part_of</span> AS links
               </span>
               <span class="number font-weight-bolder">{{
-                linksData.AS_AS
+                total_AS_AS
               }}</span>
             </div>
             <hr />
@@ -104,7 +104,7 @@
                 <span class="badge badge-primary">located_in</span> AS links
               </span>
               <span class="number font-weight-bolder">{{
-                linksData.AS_CT
+                total_AS_CT
               }}</span>
             </div>
             <hr />
@@ -122,7 +122,7 @@
                 <span class="badge badge-success">characterizes</span> CT links
               </span>
               <span class="number font-weight-bolder">{{
-                linksData.CT_B
+                total_CT_B
               }}</span>
             </div>
             <hr />
@@ -148,13 +148,15 @@
           <div class="h5 mt-3 mb-3">Details</div>
 
           <div class="details pr-4">
-            <div *ngIf="currentSheet.name === 'all' || (currentSheet.name === 'some' && countsByOrgan.length > 1)">
+            <div *ngIf="countsByOrgan.length > 1">
               <div class="count-by-organ-title">
                 <p class="text-muted mb-3">
                   <small class="font-weight-normal">Counts by Organ</small>
                 </p>
-                <div class="display-option" #tooltip="matTooltip" matTooltip="Exoport as Csv">
-                  <button mat-icon-button (click)="exporter.exportTable('csv')" class="mr-2" >
+                <div class="display-option" #tooltip="matTooltip" matTooltip="Exoport as Xlsx">
+                  <button mat-icon-button 
+                   (click)="downloadReportByOrgan()" 
+                   class="mr-2" >
                     <mat-icon>get_app</mat-icon>
                   </button>
                 </div>
@@ -163,6 +165,7 @@
               <table
                 mat-table
                 matTableExporter
+                id="countsByOrgans"
                 [dataSource]="countsByOrgan"
                 #exporter="matTableExporter"
                 class="mat-elevation-z8 count_by_organ_table"
@@ -176,12 +179,128 @@
                     mat-header-cell
                     *matHeaderCellDef
                     id="organName"
-                    style="display: none"
                   >
-                    Name
+                    Organ
                   </th>
                   <td mat-cell *matCellDef="let element">
                     {{ element.organName | titlecase }}
+                  </td>
+                </ng-container>
+
+                <!-- ASWithNoLink Column -->
+                <ng-container matColumnDef="ASWithNoLink">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    [hidden]="true"
+                    class="center_align"
+                    id="ASWithNoLink"
+                  >
+                  ASWithNoLink
+                  </th>
+                  <td mat-cell [hidden]="true" *matCellDef="let element" class="center_align">
+                    {{
+                      element.ASWithNoLink
+                        ? element.ASWithNoLink
+                        : 0
+                    }}
+                  </td>
+                </ng-container>
+
+                <!-- CTWithNoLink Column -->
+                <ng-container matColumnDef="CTWithNoLink">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    [hidden]="true"
+                    class="center_align"
+                    id="CTWithNoLink"
+                  >
+                  CTWithNoLink
+                  </th>
+                  <td mat-cell [hidden]="true" *matCellDef="let element" class="center_align">
+                    {{
+                      element.CTWithNoLink
+                        ? element.CTWithNoLink
+                        : 0
+                    }}
+                  </td>
+                </ng-container>
+
+                <!-- BWithNoLink Column -->
+                <ng-container matColumnDef="BWithNoLink">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    [hidden]="true"
+                    class="center_align"
+                    id="BWithNoLink"
+                  >
+                  BWithNoLink
+                  </th>
+                  <td mat-cell [hidden]="true" *matCellDef="let element" class="center_align">
+                    {{
+                      element.BWithNoLink
+                        ? element.BWithNoLink
+                        : 0
+                    }}
+                  </td>
+                </ng-container>
+
+                <!-- AS_AS Column -->
+                <ng-container matColumnDef="AS_AS">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    class="center_align"
+                    id="AS_AS"
+                  >
+                    AS_AS
+                  </th>
+                  <td mat-cell *matCellDef="let element" class="center_align">
+                    {{
+                      element.AS_AS
+                        ? element.AS_AS
+                        : 0
+                    }}
+                  </td>
+                </ng-container>
+
+                <!-- AS_CT Column -->
+                <ng-container matColumnDef="AS_CT">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    class="center_align"
+                    id="AS_CT"
+                  >
+                    AS_CT
+                  </th>
+                  <td mat-cell *matCellDef="let element" class="center_align">
+                    {{
+                      element.AS_CT
+                        ? element.AS_CT
+                        : 0
+                    }}
+                  </td>
+                </ng-container>
+
+                 <!-- CT_BM Column -->
+                 <ng-container matColumnDef="CT_BM">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    class="center_align"
+                    id="CT_BM"
+                  >
+                    CT_BM
+                  </th>
+                  <td mat-cell *matCellDef="let element" class="center_align">
+                    {{
+                      element.CT_BM
+                        ? element.CT_BM
+                        : 0
+                    }}
                   </td>
                 </ng-container>
 
@@ -192,9 +311,8 @@
                     *matHeaderCellDef
                     class="center_align"
                     id="anatomicalStructures"
-                    style="display: none"
                   >
-                    Anatomical Structures
+                    AS
                   </th>
                   <td mat-cell *matCellDef="let element" class="center_align">
                     {{
@@ -212,9 +330,8 @@
                     *matHeaderCellDef
                     class="center_align"
                     id="cellTypes"
-                    style="display: none"
                   >
-                    Cell Types
+                    CT
                   </th>
                   <td mat-cell *matCellDef="let element" class="center_align">
                     {{ element.cellTypes ? element.cellTypes : 0 }}
@@ -223,75 +340,21 @@
 
                 <!-- Biomarkers Columns -->
                 <ng-container
-                  *ngFor="let name of biomarkersSeperateNames"
-                  matColumnDef="{{ name }}"
+                  *ngFor="let biomarker of biomarkersSeperateNames"
+                  matColumnDef="{{ biomarker.name }}"
                 >
                   <th
                     mat-header-cell
                     class="center_align"
-                    id="{{ name }}"
+                    id="{{ biomarker.name }}"
                     *matHeaderCellDef
                   >
-                    {{ name | titlecase }}
+                    {{ biomarker.type }}
                   </th>
                   <td mat-cell class="center_align" *matCellDef="let element">
-                    {{ element[name] ? element[name] : 0 }}
+                    {{ element[biomarker.name] ? element[biomarker.name] : 0 }}
                   </td>
                 </ng-container>
-
-                <!-- Secondary Headers -->
-                <ng-container matColumnDef="name-group">
-                  <th
-                    mat-header-cell
-                    *matHeaderCellDef
-                    [attr.rowspan]="2"
-                    id="name"
-                  >
-                    Name
-                  </th>
-                </ng-container>
-                <ng-container matColumnDef="anatomicalstructures-group">
-                  <th
-                    mat-header-cell
-                    *matHeaderCellDef
-                    class="center_align"
-                    [attr.rowspan]="2"
-                    id="AS"
-                  >
-                    AS
-                  </th>
-                </ng-container>
-                <ng-container matColumnDef="celltype-group">
-                  <th
-                    mat-header-cell
-                    *matHeaderCellDef
-                    class="center_align"
-                    [attr.rowspan]="2"
-                    id="CT"
-                  >
-                    Cell Types
-                  </th>
-                </ng-container>
-                <ng-container matColumnDef="biomarker-group">
-                  <th
-                    mat-header-cell
-                    *matHeaderCellDef
-                    [attr.colspan]="biomarkersSeperateNames.length"
-                    class="center_align"
-                    id="B"
-                  >
-                    Biomarkers
-                  </th>
-                </ng-container>
-                <tr
-                  mat-header-row
-                  *matHeaderRowDef="[
-                    'name-group',
-                    'anatomicalstructures-group',
-                    'celltype-group',
-                    'biomarker-group'
-                  ]"
-                ></tr>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr
                   mat-row
@@ -398,6 +461,32 @@
 
                   <div>
                     <span>{{ a.link }}</span>
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <br />
+
+            <mat-expansion-panel *ngIf="countsByOrgan.length === 1">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <div class="h6 m-0">
+                    Biomarker Counts By Type
+                  </div>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div class="mt-2">
+                <div
+                  *ngFor="let a of biomarkersCounts"
+                  class="py-1 d-flex justify-content-between align-items-center"
+                >
+                  <div class="h6">
+                    <span class="font-weight-normal">{{ a.name + ' Biomarkers' | titlecase}}</span>
+                  </div>
+
+                  <div>
+                    <span>{{ a.value }}</span>
                   </div>
                 </div>
               </div>
