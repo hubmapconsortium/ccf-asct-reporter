@@ -3,6 +3,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SHEET_OPTIONS } from '../../static/config';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
+import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GaAction, GaCategory, GaOrgansInfo } from '../../models/ga.model';
+import { OrganTableSelect } from '../../models/sheet.model';
 
 @Component({
   selector: 'app-organ-table-selector',
@@ -33,9 +36,10 @@ export class OrganTableSelectorComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<OrganTableSelectorComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Array<string>
+    @Inject(MAT_DIALOG_DATA) public data: OrganTableSelect,
+    public ga: GoogleAnalyticsService
   ) {
-    this.organs = data ? data : [];
+    this.organs = data.organs ? data.organs : [];
     this.dataSource.data.forEach((dataElement: any) => {
       dataElement?.version?.forEach((v, i) => {
         if (i === 0) {
@@ -59,13 +63,27 @@ export class OrganTableSelectorComponent implements OnInit {
   ngOnInit(): void {}
 
   addSheets(sheets) {
-    console.log(this.selection.selected);
+    const ga_details: GaOrgansInfo = {
+      selectedOrgans: [],
+      numOrgans: 0,
+    };
     this.organs = [];
     this.selection.selected.map((item) => {
       if (item.symbol) {
         this.organs.push(item.symbol);
+        ga_details.selectedOrgans.push({
+          organ: item.title,
+          version: item.symbol.split('-').slice(1).join('-')
+        });
       }
     });
+    ga_details.numOrgans = ga_details.selectedOrgans.length;
+    console.log(ga_details);
+    if (this.data.isIntilalSelect === true) {
+      this.ga.eventEmitter('organs_select_initial', GaCategory.NAVBAR, 'SELECTED ORGANS', GaAction.CLICK, 0, JSON.stringify(ga_details));
+    } else {
+      this.ga.eventEmitter('organs_select_edit', GaCategory.NAVBAR, 'SELECTED ORGANS', GaAction.CLICK, 0, JSON.stringify(ga_details));
+    }
     this.dialogRef.close(this.organs);
   }
 

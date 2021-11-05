@@ -170,7 +170,7 @@ export class NavbarComponent implements OnInit {
 
   exportImage(imageType: string) {
     this.export.emit(imageType);
-    this.ga.eventEmitter('nav_export_image', GaCategory.NAVBAR, 'Export Image', GaAction.CLICK, imageType);
+    this.ga.eventEmitter('nav_export_image', GaCategory.NAVBAR, 'Export Image', GaAction.CLICK, 0, imageType);
   }
 
   onOptionClick(type: string, url: string) {
@@ -191,7 +191,7 @@ export class NavbarComponent implements OnInit {
     config.autoFocus = true;
     config.id = 'OrganTableSelector';
     config.width = '40vw';
-    config.data = this.selectedOrgans;
+    config.data = {organs: this.selectedOrgans, isIntilalSelect: false};
 
     const dialogRef = this.dialog.open(OrganTableSelectorComponent, config);
     dialogRef.afterClosed().subscribe((organs) => {

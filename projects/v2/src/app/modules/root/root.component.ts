@@ -194,6 +194,7 @@ export class RootComponent implements OnInit, OnDestroy {
         config.autoFocus = true;
         config.id = 'OrganTableSelector';
         config.width = '40vw';
+        config.data = {isIntilalSelect: true};
 
         const dialogRef = this.dialog.open(OrganTableSelectorComponent, config);
         dialogRef.afterClosed().subscribe((organs) => {
