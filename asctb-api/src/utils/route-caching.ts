@@ -4,13 +4,11 @@ import mcache from 'memory-cache';
 
 export function routeCache(duration: number): RequestHandler {
   return (req, res, next) => {
-    console.log("helllooooooooooooooo")
     res.set('Content-Type', 'application/json');
     res.set('Cache-control', `public, max-age=${duration}`);
     const key = '__express__' + req.originalUrl || req.url;
     const cachedBody = mcache.get(key);
     if (cachedBody) {
-        console.log(key)
       res.send(cachedBody);
     } else {
       const sendResponse = res.send;
