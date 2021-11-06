@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../../')));
 app.use(fileUpload());
 app.use(routeCache(12000));
-
+console.log("here")
 setupCSVRoutes(app);
 setupPlaygroundRoutes(app);
 setupOntologyLookupRoutes(app);

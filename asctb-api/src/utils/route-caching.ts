@@ -10,6 +10,7 @@ export function routeCache(duration: number): RequestHandler {
     const key = '__express__' + req.originalUrl || req.url;
     const cachedBody = mcache.get(key);
     if (cachedBody) {
+        console.log(key)
       res.send(cachedBody);
     } else {
       const sendResponse = res.send;
