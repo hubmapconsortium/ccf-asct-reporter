@@ -11,7 +11,7 @@ export function routeCache(duration: number): RequestHandler {
     if (cachedBody) {
       res.send(cachedBody);
     } else {
-      if (req.query.cache){
+      if (req.params.cache){
         const sendResponse = res.send;
         res.send = (body) => {
         mcache.put(key, body, duration * 1000);
