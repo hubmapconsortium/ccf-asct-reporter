@@ -12,12 +12,12 @@ export function routeCache(duration: number): RequestHandler {
       res.send(cachedBody);
     } else {
       if (req.params.cache){
-          const sendResponse = res.send;
-          res.send = (body) => {
+        const sendResponse = res.send;
+        res.send = (body) => {
           mcache.put(key, body, duration * 1000);
           sendResponse.call(res, body);
           return body;
-          }
+        }
       }
       next();
     }
