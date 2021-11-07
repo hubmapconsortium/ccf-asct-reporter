@@ -22,7 +22,8 @@ export class SheetService {
     gid: string,
     csvFileUrl?: string,
     formData?: FormData,
-    output?: string
+    output?: string,
+    cache = false
   ) {
     if (csvFileUrl) {
       return this.http.get(`${URL}/v2/csv`, {
@@ -46,7 +47,11 @@ export class SheetService {
           },
         });
       }
-      return this.http.get(`${URL}/v2/${sheetId}/${gid}`);
+      return this.http.get(`${URL}/v2/${sheetId}/${gid}`, {
+        params: {
+          cache
+        }
+      });
     }
   }
 

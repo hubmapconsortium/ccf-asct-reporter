@@ -1,11 +1,11 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { SHEET_OPTIONS, VERSION, MORE_OPTIONS, IMG_OPTIONS, PLAYGROUND_SHEET_OPTIONS, MASTER_SHEET_LINK, SHEET_CONFIG } from '../../static/config';
 import { Store, Select } from '@ngxs/store';
 import { SheetState, SheetStateModel } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
 import { Sheet, SheetDetails, VersionDetail } from '../../models/sheet.model';
 import { Router } from '@angular/router';
-import { FetchSheetData, FetchAllOrganData, FetchSelectedOrganData } from '../../actions/sheet.actions';
+import { FetchSheetData, FetchAllOrganData, FetchSelectedOrganData, UpdateGetFromCache } from '../../actions/sheet.actions';
 import { ToggleControlPane, ToggleIndentList, ToggleReport, ToggleDebugLogs, OpenCompare } from '../../actions/ui.actions';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { ClearSheetLogs } from '../../actions/logs.actions';
@@ -71,6 +71,7 @@ export class NavbarComponent implements OnInit {
   @Select(SheetState.getMode) mode$: Observable<string>;
   @Select(SheetState.getSelectedOrgans) selectedOrgans$: Observable<Array<string>>;
 
+  @Input() cache: boolean;
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(public store: Store, public router: Router, public ga: GoogleAnalyticsService, public dialog: MatDialog,
@@ -191,10 +192,15 @@ export class NavbarComponent implements OnInit {
     config.autoFocus = true;
     config.id = 'OrganTableSelector';
     config.width = '40vw';
-    config.data = {organs: this.selectedOrgans, isIntilalSelect: false};
+    config.data = {
+      organs: this.selectedOrgans, 
+      isIntilalSelect: false,
+      getFromCache: this.cache,
+    };
 
     const dialogRef = this.dialog.open(OrganTableSelectorComponent, config);
-    dialogRef.afterClosed().subscribe((organs) => {
+    dialogRef.afterClosed().subscribe(({organs,cache}) => {
+      this.store.dispatch(new UpdateGetFromCache(cache));
       if(organs !== false){
         this.router.navigate(['/vis'], {
           queryParams: {

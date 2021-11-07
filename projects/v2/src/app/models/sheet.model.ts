@@ -15,6 +15,12 @@ export interface Reference {
 export interface OrganTableSelect {
   organs?: string[];
   isIntilalSelect: boolean;
+  getFromCache: boolean;
+}
+
+export interface OrganTableOnClose {
+  organs: boolean;
+  cache: boolean;
 }
 
 export interface Structure {

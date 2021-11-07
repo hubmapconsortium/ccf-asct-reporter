@@ -20,7 +20,8 @@ import {
   FetchAllOrganData,
   FetchSheetData,
   FetchDataFromAssets,
-  FetchInitialPlaygroundData
+  FetchInitialPlaygroundData,
+  UpdateGetFromCache
 } from './../../actions/sheet.actions';
 import { TreeService } from './../tree/tree.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -123,6 +124,7 @@ export class RootComponent implements OnInit, OnDestroy {
   @Select(SheetState.getSheetConfig) sheetConfig$: Observable<SheetConfig>;
   @Select(SheetState.getFullAsData) fullAsData$: Observable<any>;
   @Select(SheetState.getFullDataByOrgan) fullDataByOrgan$: Observable<any>;
+  @Select(SheetState.getDataFromCache) getFromCache$: Observable<boolean>;
 
   // Tree Observables
   @Select(TreeState.getTreeData) treeData$: Observable<any>;
@@ -194,10 +196,13 @@ export class RootComponent implements OnInit, OnDestroy {
         config.autoFocus = true;
         config.id = 'OrganTableSelector';
         config.width = '40vw';
-        config.data = {isIntilalSelect: true};
-
+        config.data = {
+          isIntilalSelect: true,
+          getFromCache: true
+        };
         const dialogRef = this.dialog.open(OrganTableSelectorComponent, config);
-        dialogRef.afterClosed().subscribe((organs) => {
+        dialogRef.afterClosed().subscribe(({organs,cache}) => {
+          store.dispatch(new UpdateGetFromCache(cache));
           if (organs !== false){
             this.router.navigate(['/vis'], {
               queryParams: {

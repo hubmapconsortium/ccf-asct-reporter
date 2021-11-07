@@ -65,7 +65,7 @@
       ></app-compare>
     </mat-drawer>
     <mat-drawer-content>
-      <app-navbar (export)="exportVis($event)"></app-navbar>
+      <app-navbar (export)="exportVis($event)" [cache]="getFromCache$ | async"></app-navbar>
       <div id="content"  class="h-100 w-100">
 
         <app-error *ngIf="error.hasError" [error]="error"></app-error>

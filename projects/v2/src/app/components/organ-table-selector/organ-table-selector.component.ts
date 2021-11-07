@@ -5,7 +5,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { GaAction, GaCategory, GaOrgansInfo } from '../../models/ga.model';
-import { OrganTableSelect } from '../../models/sheet.model';
+import { OrganTableOnClose, OrganTableSelect } from '../../models/sheet.model';
 
 @Component({
   selector: 'app-organ-table-selector',
@@ -30,15 +30,25 @@ export class OrganTableSelectorComponent implements OnInit {
    */
   selectedSheetOption: string;
   organs = [];
+  getFromCache: boolean;
   displayedColumns: string[] = ['select', 'name', 'version'];
   dataSource = new MatTableDataSource(SHEET_OPTIONS);
   selection = new SelectionModel(true, []);
+  /**
+   * Data to emit when dialog is closed
+   */
+  onClose: OrganTableOnClose = {
+    'organs': false,
+    'cache': true,
+  }
 
   constructor(
     public dialogRef: MatDialogRef<OrganTableSelectorComponent>,
     @Inject(MAT_DIALOG_DATA) public data: OrganTableSelect,
     public ga: GoogleAnalyticsService
   ) {
+    this.getFromCache = data.getFromCache;
+    this.onClose.cache = data.getFromCache;
     this.organs = data.organs ? data.organs : [];
     this.dataSource.data.forEach((dataElement: any) => {
       dataElement?.version?.forEach((v, i) => {
@@ -78,13 +88,15 @@ export class OrganTableSelectorComponent implements OnInit {
       }
     });
     ga_details.numOrgans = ga_details.selectedOrgans.length;
-    console.log(ga_details);
     if (this.data.isIntilalSelect === true) {
       this.ga.eventEmitter('organs_select_initial', GaCategory.NAVBAR, 'SELECTED ORGANS', GaAction.CLICK, 0, JSON.stringify(ga_details));
     } else {
       this.ga.eventEmitter('organs_select_edit', GaCategory.NAVBAR, 'SELECTED ORGANS', GaAction.CLICK, 0, JSON.stringify(ga_details));
     }
-    this.dialogRef.close(this.organs);
+    this.dialogRef.close({
+      'organs': this.organs,
+      'cache': this.getFromCache
+    });
   }
 
   selectAllOrgans() {

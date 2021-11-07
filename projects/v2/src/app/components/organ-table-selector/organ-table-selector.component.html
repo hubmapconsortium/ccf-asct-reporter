@@ -1,5 +1,18 @@
 
-<h2 mat-dialog-title>Select one or more ASCT+B Tables</h2>
+<div class="selector-title-container">
+  <h2 class="title" mat-dialog-title>Select one or more ASCT+B Tables</h2>
+  <div class="toggle-container">
+    <mat-slide-toggle
+        [checked]="getFromCache"
+        color="primary"
+        (change)="getFromCache = !getFromCache"
+        matTooltip="Toggle to get data from Cache"
+        matTooltipPosition="below"
+      >
+        <span class="cache-slider">Cache</span>
+      </mat-slide-toggle>
+  </div>
+</div>
 <div class="table-container">
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <caption class="sr-only">
@@ -59,7 +72,7 @@
       mat-flat-button
       color="primary"
       class="add-cancel-button"
-      [mat-dialog-close]="false"
+      [mat-dialog-close]="onClose"
       [disabled]="!hasSomeOrgans"
     >
       Cancel
