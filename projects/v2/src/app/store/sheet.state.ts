@@ -33,6 +33,7 @@ import {
   UpdateBottomSheetInfo,
   UpdateBottomSheetDOI,
   FetchSelectedOrganData,
+  UpdateGetFromCache,
 } from '../actions/sheet.actions';
 import {
   OpenLoading,
@@ -109,7 +110,11 @@ export class SheetStateModel {
   /**
    * Full data by organ
    */
-  fullDataByOrgan: any;  
+  fullDataByOrgan: any;
+  /**
+   * Update the flag is data should be fetched from cache
+   */
+  getFromCache: boolean; 
 }
 
 @State<SheetStateModel>({
@@ -162,6 +167,7 @@ export class SheetStateModel {
     fullAsData: [],
     selectedOrgans: [],
     fullDataByOrgan: [],
+    getFromCache: true,
   },
 })
 @Injectable()
@@ -287,6 +293,14 @@ export class SheetState {
   @Selector()
   static getMode(state: SheetStateModel) {
     return state.mode;
+  }
+
+  /**
+   * Returns an observable that watches the getFromCache flag
+   */
+  @Selector()
+  static getDataFromCache(state: SheetStateModel) {
+    return state.getFromCache;
   }
 
   /**
@@ -449,7 +463,7 @@ export class SheetState {
       SHEET_CONFIG.forEach((config) => {
         config.version?.forEach((version: VersionDetail) => {
           if (version.value === organ) {
-            requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl));
+            requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
             organsNames.push(config.name);
           }
         });
@@ -1006,6 +1020,18 @@ export class SheetState {
     setState({
       ...state,
       bottomSheetDOI: data,
+    });
+  }
+
+  /**
+   * Action to update the flag to get the data from cache
+   */
+  @Action(UpdateGetFromCache)
+  updateGetFromCache({ getState, setState }: StateContext<SheetStateModel>, { cache}: UpdateGetFromCache) {
+    const state = getState();
+    setState({
+      ...state,
+      getFromCache: cache,
     });
   }
 }

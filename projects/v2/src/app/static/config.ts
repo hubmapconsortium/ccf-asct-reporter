@@ -157,7 +157,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '1417514103',
-        value: 'Fallopian_Tube_v1.0',
+        value: 'Fallopian_Tube-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -177,7 +177,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '1572314003',
-        value: 'Knee_v1.0',
+        value: 'Knee-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -197,7 +197,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '2079993346',
-        value: 'Liver_v1.0',
+        value: 'Liver-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -217,7 +217,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '598065183',
-        value: 'Lymph_Vasculature_v1.0',
+        value: 'Lymph_Vasculature-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -237,7 +237,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '1044871154',
-        value: 'Pancreas_v1.0',
+        value: 'Pancreas-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -257,7 +257,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '887132317',
-        value: 'Peripheral_Nervous_System_v1.0',
+        value: 'Peripheral_Nervous_System-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -277,7 +277,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '1921589208',
-        value: 'Prostate_v1.0',
+        value: 'Prostate-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -297,7 +297,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '1072160013',
-        value: 'Ovary_v1.0',
+        value: 'Ovary-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -317,7 +317,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '1247909220',
-        value: 'Small_Intestine_v1.0',
+        value: 'Small_Intestine-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -337,7 +337,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '1106564583',
-        value: 'Ureter_v1.0',
+        value: 'Ureter-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -357,7 +357,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '498800030',
-        value: 'Urinary_Bladder_v1.0',
+        value: 'Urinary_Bladder-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -377,7 +377,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '877379009',
-        value: 'Uterus_v1.0',
+        value: 'Uterus-v1.0',
         viewValue: 'v1.0',
       }
     ],
@@ -397,7 +397,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '1379088218',
-        value: 'Brain_v1.1',
+        value: 'Brain-v1.1',
         viewValue: 'v1.0',
       }
     ],
@@ -417,7 +417,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '1315753355',
-        value: 'Blood_v1.1',
+        value: 'Blood-v1.1',
         viewValue: 'v1.0',
       }
     ],
@@ -437,7 +437,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '1845311048',
-        value: 'Bone_Marrow_v1.1',
+        value: 'Bone_Marrow-v1.1',
         viewValue: 'v1.0',
       }
     ],
@@ -457,7 +457,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '2133445058',
-        value: 'Heart_v1.1',
+        value: 'Heart-v1.1',
         viewValue: 'v1.0',
       }
     ],
@@ -477,7 +477,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '1440276882',
-        value: 'Lymph_Node_v1.1',
+        value: 'Lymph_Node-v1.1',
         viewValue: 'v1.0',
       }
     ],
@@ -497,7 +497,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '2137043090',
-        value: 'Kidney_v1.1',
+        value: 'Kidney-v1.1',
         viewValue: 'v1.0',
       }
     ],
@@ -517,7 +517,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '512613979',
-        value: 'Large_Intestine_v1.1',
+        value: 'Large_Intestine-v1.1',
         viewValue: 'v1.0',
       }
     ],
@@ -537,7 +537,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '1824552484',
-        value: 'Lung_v1.1',
+        value: 'Lung-v1.1',
         viewValue: 'v1.0',
       }
     ],
@@ -557,7 +557,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '1158675184',
-        value: 'Skin_v1.1',
+        value: 'Skin-v1.1',
         viewValue: 'v1.0',
       }
     ],
@@ -577,7 +577,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '984946629',
-        value: 'Spleen_v1.1',
+        value: 'Spleen-v1.1',
         viewValue: 'v1.0',
       }
     ],
@@ -597,7 +597,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '1823527529',
-        value: 'Thymus_v1.1',
+        value: 'Thymus-v1.1',
         viewValue: 'v1.0',
       }
     ],
@@ -617,7 +617,7 @@ export const SHEET_CONFIG: SheetDetails[] = [
       {
         sheetId: SHEET_ID,
         gid: '361657182',
-        value: 'Blood_Vasculature_v1.1',
+        value: 'Blood_Vasculature-v1.1',
         viewValue: 'v1.0',
       }
     ],

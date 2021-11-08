@@ -54,3 +54,22 @@
     max-height: 300px;
     overflow: auto;
   }
+
+  .selector-title-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+  .title{
+    margin-bottom: 0rem !important;
+  }
+
+  .toggle-container{
+    display: flex;
+    align-items: center;
+  }
+
+  .cache-slider {
+    font-weight: 500;
+  }
