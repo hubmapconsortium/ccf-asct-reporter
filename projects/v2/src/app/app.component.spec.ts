@@ -1,22 +1,33 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { NgModule } from '@angular/core';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { ConsentService } from './services/consent.service';
+
+import { Shallow } from 'shallow-render';
+
 import { AppComponent } from './app.component';
+import { AppModule } from './app.module';
+
+
+@NgModule({})
+class EmptyModule {}
 
 describe('AppComponent', () => {
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        AppComponent
-      ],
-    }).compileComponents();
-  }));
+  let shallow: Shallow<AppComponent>;
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  beforeEach(() => {
+    const mockConsentService = jasmine.createSpyObj<ConsentService>(['setConsent']);
+    shallow = new Shallow(AppComponent, AppModule)
+      .mock(ConsentService, {
+        ...mockConsentService,
+        consent: 'not-set'
+      })
+      .mock(MatSnackBar, {
+        openFromComponent: (): MatSnackBarRef<unknown> => ({} as unknown as MatSnackBarRef<unknown>)
+      })
+  });
+
+  it('should create', async () => {
+    const { instance } = await shallow.render();
+    expect(instance).toBeDefined();
   });
 });
