@@ -17,8 +17,8 @@ describe('AppComponent', () => {
         consent: 'not-set'
       })
       .mock(MatSnackBar, {
-        openFromComponent: (): MatSnackBarRef<unknown> => ({} as unknown as MatSnackBarRef<unknown>);
-      })
+        openFromComponent: (): MatSnackBarRef<unknown> => ({} as unknown as MatSnackBarRef<unknown>)
+      });
   });
 
   it('should create', async () => {
