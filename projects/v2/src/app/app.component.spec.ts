@@ -1,4 +1,3 @@
-import { NgModule } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { ConsentService } from './services/consent.service';
 
@@ -6,10 +5,6 @@ import { Shallow } from 'shallow-render';
 
 import { AppComponent } from './app.component';
 import { AppModule } from './app.module';
-
-
-@NgModule({})
-class EmptyModule {}
 
 describe('AppComponent', () => {
   let shallow: Shallow<AppComponent>;
@@ -22,7 +17,7 @@ describe('AppComponent', () => {
         consent: 'not-set'
       })
       .mock(MatSnackBar, {
-        openFromComponent: (): MatSnackBarRef<unknown> => ({} as unknown as MatSnackBarRef<unknown>)
+        openFromComponent: (): MatSnackBarRef<unknown> => ({} as unknown as MatSnackBarRef<unknown>);
       })
   });
 
