@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, Injector, ModuleWithProviders, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { IGoogleAnalyticsCommand, NgxGoogleAnalyticsModule } from 'ngx-google-analytics';
 
 import { ConsentService } from './consent.service';

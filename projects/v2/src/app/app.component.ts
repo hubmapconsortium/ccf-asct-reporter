@@ -5,7 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationEnd } from '@angular/router';
 import { environment } from '../environments/environment';
 import { ConsentService } from './services/consent.service';
-import { TrackingPopupComponent } from './components/tracking-popup/tracking-popup.component'
+import { TrackingPopupComponent } from './components/tracking-popup/tracking-popup.component';
 
 declare let gtag: (arg1?, arg2?, arg3?) => void;
 

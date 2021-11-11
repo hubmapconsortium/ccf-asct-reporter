@@ -41,11 +41,11 @@ export class LocalStorageSyncService implements OnDestroy {
 
     const value = rawValue.trim().toLowerCase();
     switch (value) {
-      case 'given': /* fallthrough */
-      case 'rescinded':
-        return value;
-      default:
-        return 'not-set';
+    case 'given': /* fallthrough */
+    case 'rescinded':
+      return value;
+    default:
+      return 'not-set';
     }
   }
 
