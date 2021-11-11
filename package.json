@@ -46,6 +46,7 @@
     "jexcel": "^4.5.2",
     "mat-table-exporter": "^10.2.3",
     "moment": "^2.29.1",
+    "ngx-google-analytics": "^11.2.1",
     "ngx-markdown": "^11.1.2",
     "ngx-mat-select-search": "^3.3.0",
     "ngx-order-pipe": "^2.1.1",

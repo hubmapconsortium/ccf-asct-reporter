@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationEnd } from '@angular/router';
 import { environment } from '../environments/environment';
+import { ConsentService } from './services/consent.service';
+import { TrackingPopupComponent } from './components/tracking-popup/tracking-popup.component'
 
 declare let gtag: (arg1?, arg2?, arg3?) => void;
 
@@ -11,9 +14,11 @@ declare let gtag: (arg1?, arg2?, arg3?) => void;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   constructor(
+    readonly consentService: ConsentService,
+    readonly snackbar: MatSnackBar,
     private matIconRegistry: MatIconRegistry,
     private readonly domSanitizer: DomSanitizer,
     public router: Router) {
@@ -57,6 +62,17 @@ export class AppComponent {
           }
         );
       }
+    });
+  }
+
+  ngOnInit(): void {
+    const snackBar = this.snackbar.openFromComponent(TrackingPopupComponent, {
+      data: {
+        preClose: () => {
+          snackBar.dismiss();
+        }
+      },
+      duration: this.consentService.consent === 'not-set' ? Infinity : 3000
     });
   }
 }

@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  align-items: center;
+  min-width: 400px;
+  color: rgba(255, 255, 255, 0.7);
+  background: #323232;
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+  z-index: 9999;
+  padding: 14px 16px;
+
+  p {
+    margin: 24px;
+  }
+
+  button {
+    margin: 1rem;
+    min-width: 6rem;
+    background-color: #007cbe;
+    display: flex;
+    justify-content: center;
+  }
+}
