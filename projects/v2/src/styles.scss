@@ -127,6 +127,5 @@ markdown strong {
 }
 
 .mat-snack-bar-container {
-  padding: 0 !important;
-  max-width: none !important;
+  min-width: fit-content !important; 
 }

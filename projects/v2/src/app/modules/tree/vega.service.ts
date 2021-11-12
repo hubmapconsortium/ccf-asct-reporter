@@ -99,7 +99,6 @@ export class VegaService {
     // node click listener to emit ga event
     view.addSignalListener('node__click', (signal: Signal, nodeId: any) => {
       if (nodeId != null) {
-        const clickedNode = this.store.selectSnapshot(TreeState.getBimodal).nodes.find(node => node.id === nodeId);
         this.ga.event(GaAction.CLICK, GaCategory.GRAPH, 'Selected (clicked) a node', 0);
       } else {
         this.ga.event(GaAction.CLICK, GaCategory.GRAPH, 'Deselected a node');

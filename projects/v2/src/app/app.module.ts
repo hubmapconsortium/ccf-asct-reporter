@@ -26,6 +26,7 @@ import { FooterModule } from './components/footer/footer.module';
 import { FileUploadModule } from './components/file-upload/file-upload.module';
 import { OrganTableSelectorModule } from './components/organ-table-selector/organ-table-selector.module';
 import { TrackingPopupModule } from './components/tracking-popup/tracking-popup.module';
+import { MousePositionTrackerModule } from './services/mouse-position-tracker.module';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { TrackingPopupModule } from './components/tracking-popup/tracking-popup.
       gaToken: environment.googleAnalyticsId,
       appName: 'reporter'
     }),
-    TrackingPopupModule
+    TrackingPopupModule,
+    MousePositionTrackerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
