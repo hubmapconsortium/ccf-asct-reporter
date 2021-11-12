@@ -18,7 +18,6 @@ import { TNode } from '../../models/tree.model';
 import { Signal } from 'vega';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory, GaNodeInfo } from '../../models/ga.model';
-import { TreeState } from '../../store/tree.state';
 
 @Injectable({
   providedIn: 'root'
