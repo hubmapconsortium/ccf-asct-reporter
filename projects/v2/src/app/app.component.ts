@@ -53,6 +53,7 @@ export class AppComponent implements OnInit {
       'playground',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/playground.svg')
     );
+    console.log(this.router.events)
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {

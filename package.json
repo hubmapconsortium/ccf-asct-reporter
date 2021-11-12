@@ -54,7 +54,6 @@
     "ngxs-reset-plugin": "^1.4.0",
     "papaparse": "^5.3.0",
     "rxjs": "^6.5.5",
-    "shallow-render": "^12.0.1",
     "tslib": "^2.0.0",
     "vega": "^5.17.0",
     "vega-embed": "^6.14.2",
@@ -90,6 +89,7 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "protractor": "~7.0.0",
+    "shallow-render": "^12.0.1",
     "ts-node": "~8.3.0",
     "typedoc": "^0.21.2",
     "typescript": "^4.3.5"
