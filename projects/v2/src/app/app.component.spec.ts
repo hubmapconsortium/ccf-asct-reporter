@@ -1,4 +1,5 @@
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ConsentService } from './services/consent.service';
 
 import { Shallow } from 'shallow-render';
@@ -12,6 +13,7 @@ describe('AppComponent', () => {
   beforeEach(() => {
     const mockConsentService = jasmine.createSpyObj<ConsentService>(['setConsent']);
     shallow = new Shallow(AppComponent, AppModule)
+      .replaceModule(BrowserAnimationsModule, NoopAnimationsModule)
       .mock(ConsentService, {
         ...mockConsentService,
         consent: 'not-set'
