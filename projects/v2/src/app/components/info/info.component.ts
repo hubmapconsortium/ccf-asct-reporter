@@ -9,7 +9,7 @@ import {
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
 import { Error } from '../../models/response.model';
-import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { SheetInfo } from '../../models/sheet.model';
 
@@ -55,7 +55,7 @@ export class InfoComponent implements OnInit {
   }
 
   close() {
-    this.ga.eventEmitter('graph_bottom_sheet_close', GaCategory.GRAPH, 'Close Bottom Sheet Information', GaAction.CLICK, false);
+    this.ga.event(GaAction.CLICK, GaCategory.GRAPH, 'Close Bottom Sheet Information', +false);
     this.sheetRef.dismiss();
   }
 }

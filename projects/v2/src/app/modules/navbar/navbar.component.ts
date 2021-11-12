@@ -9,7 +9,7 @@ import { FetchSheetData, FetchAllOrganData, FetchSelectedOrganData, UpdateGetFro
 import { ToggleControlPane, ToggleIndentList, ToggleReport, ToggleDebugLogs, OpenCompare } from '../../actions/ui.actions';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { ClearSheetLogs } from '../../actions/logs.actions';
-import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { OrganTableSelectorComponent } from '../../components/organ-table-selector/organ-table-selector.component';
@@ -122,7 +122,7 @@ export class NavbarComponent implements OnInit {
       queryParams: { sheet: selectedSheet.sheet },
       queryParamsHandling: 'merge',
     });
-    this.ga.eventEmitter('nav_select_sheet', GaCategory.NAVBAR, 'Select Organ Set Dropdown', GaAction.CLICK, selectedSheet.sheet);
+    this.ga.event(GaAction.CLICK, GaCategory.NAVBAR, `Select Organ Set Dropdown: ${selectedSheet.sheet}`);
   }
 
   getVersionSelection(version, event) {
@@ -134,7 +134,7 @@ export class NavbarComponent implements OnInit {
   }
 
   openMasterDataTables() {
-    this.ga.eventEmitter('nav_master_data', GaCategory.NAVBAR, 'Go to Master Data Tables', GaAction.NAV, null);
+    this.ga.event(GaAction.NAV, GaCategory.NAVBAR, 'Go to Master Data Tables', null);
     window.open(MASTER_SHEET_LINK, '_blank');
   }
 
@@ -146,7 +146,7 @@ export class NavbarComponent implements OnInit {
     } else {
       this.store.dispatch(new FetchSheetData(this.currentSheet));
     }
-    this.ga.eventEmitter('nav_refresh', GaCategory.NAVBAR, 'Refresh Visualization Button', GaAction.CLICK, null);
+    this.ga.event(GaAction.CLICK, GaCategory.NAVBAR, 'Refresh Visualization Button', null);
   }
 
   togglePane() {
@@ -171,7 +171,7 @@ export class NavbarComponent implements OnInit {
 
   exportImage(imageType: string) {
     this.export.emit(imageType);
-    this.ga.eventEmitter('nav_export_image', GaCategory.NAVBAR, 'Export Image', GaAction.CLICK, 0, imageType);
+    this.ga.event(GaAction.CLICK, GaCategory.NAVBAR, `Export Image: ${imageType}`, 0);
   }
 
   onOptionClick(type: string, url: string) {
@@ -219,7 +219,7 @@ export class NavbarComponent implements OnInit {
         queryParams: {  playground: true, selectedOrgans: 'example'},
         queryParamsHandling: 'merge',
       });
-      this.ga.eventEmitter('nav_enter_playground', GaCategory.NAVBAR, 'Enter Playground Mode', GaAction.NAV, null);
+      this.ga.event(GaAction.NAV, GaCategory.NAVBAR, 'Enter Playground Mode', null);
     } else if (this.mode === 'playground') {
       this.router.navigate(['/vis'], {
         queryParams: {
@@ -228,7 +228,7 @@ export class NavbarComponent implements OnInit {
         },
         queryParamsHandling: 'merge',
       });
-      this.ga.eventEmitter('nav_exit_playground', GaCategory.NAVBAR, 'Exit Playground Mode', GaAction.NAV, null);
+      this.ga.event(GaAction.NAV, GaCategory.NAVBAR, 'Exit Playground Mode', null);
     }
   }
 }

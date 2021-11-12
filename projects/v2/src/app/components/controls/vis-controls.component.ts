@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Sheet, SheetConfig } from '../../models/sheet.model';
 import { Error } from '../../models/response.model';
-import {GoogleAnalyticsService} from '../../services/google-analytics.service';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 
 @Component({
@@ -28,7 +28,7 @@ export class VisControlsComponent implements OnInit {
       property: 'width',
       config: this.config
     });
-    this.ga.eventEmitter('vc_change_width', GaCategory.CONTROLS, 'Width Slider', GaAction.SLIDE, this.config.width);
+    this.ga.event(GaAction.SLIDE, GaCategory.CONTROLS, 'Width Slider', this.config.width);
   }
 
   changeHeight() {
@@ -36,7 +36,7 @@ export class VisControlsComponent implements OnInit {
       property: 'height',
       config: this.config
     });
-    this.ga.eventEmitter('vc_change_height', GaCategory.CONTROLS, 'Height Slider', GaAction.SLIDE, this.config.height);
+    this.ga.event(GaAction.SLIDE, GaCategory.CONTROLS, 'Height Slider', this.config.height);
   }
 
   changeShowOntology() {
@@ -45,7 +45,7 @@ export class VisControlsComponent implements OnInit {
       property: 'show-ontology',
       config: this.config
     });
-    this.ga.eventEmitter('vc_toggle_ontology', GaCategory.CONTROLS, 'Toggle Ontology', GaAction.TOGGLE, this.config.show_ontology);
+    this.ga.event(GaAction.TOGGLE, GaCategory.CONTROLS, 'Toggle Ontology', +this.config.show_ontology);
   }
 
   showDiscrepencyLabel() {
@@ -56,8 +56,7 @@ export class VisControlsComponent implements OnInit {
       property: 'show-discrepency-label',
       config: this.config
     });
-    this.ga.eventEmitter('vc_toggle_discrepency_label', GaCategory.CONTROLS, 'Toggle Discrepency Label',
-      GaAction.TOGGLE, this.config.discrepencyLabel);
+    this.ga.event(GaAction.TOGGLE, GaCategory.CONTROLS, 'Toggle Discrepency Label', +this.config.discrepencyLabel);
   }
 
   showDiscrepencyId() {
@@ -68,8 +67,7 @@ export class VisControlsComponent implements OnInit {
       property: 'show-discrepency-id',
       config: this.config
     });
-    this.ga.eventEmitter('vc_toggle_discrepency_id', GaCategory.CONTROLS, 'Toggle Discrepency ID',
-      GaAction.TOGGLE, this.config.discrepencyLabel);
+    this.ga.event(GaAction.TOGGLE, GaCategory.CONTROLS, 'Toggle Discrepency ID', +this.config.discrepencyLabel);
   }
 
   showDuplicateId() {
@@ -80,8 +78,7 @@ export class VisControlsComponent implements OnInit {
       property: 'show-duplicate-id',
       config: this.config
     });
-    this.ga.eventEmitter('vc_toggle_duplicate_id', GaCategory.CONTROLS, 'Toggle Duplicate ID',
-      GaAction.TOGGLE, this.config.duplicateId);
+    this.ga.event(GaAction.TOGGLE, GaCategory.CONTROLS, 'Toggle Duplicate ID', +this.config.duplicateId);
   }
 
 
@@ -90,8 +87,7 @@ export class VisControlsComponent implements OnInit {
       property: 'bm-x',
       config: this.config
     });
-    this.ga.eventEmitter('vc_change_bimodalX', GaCategory.CONTROLS, 'Bimodal Distance X Slider', GaAction.SLIDE,
-      this.config.bimodal_distance_x);
+    this.ga.event(GaAction.SLIDE, GaCategory.CONTROLS, 'Bimodal Distance X Slider', this.config.bimodal_distance_x);
   }
 
   changeBimodalDistanceY() {
@@ -99,8 +95,7 @@ export class VisControlsComponent implements OnInit {
       property: 'bm-y',
       config: this.config
     });
-    this.ga.eventEmitter('vc_change_bimodalY', GaCategory.CONTROLS, 'Bimodal Distance Y Slider', GaAction.SLIDE,
-      this.config.bimodal_distance_y);
+    this.ga.event(GaAction.SLIDE, GaCategory.CONTROLS, 'Bimodal Distance Y Slider', this.config.bimodal_distance_y);
   }
 
   changeShowAS() {
@@ -108,7 +103,7 @@ export class VisControlsComponent implements OnInit {
       property: 'show-as',
       config: this.config
     });
-    this.ga.eventEmitter('vc_toggle_showAS', GaCategory.CONTROLS, 'Toggle AS Visibility', GaAction.TOGGLE, this.config.show_all_AS);
+    this.ga.event(GaAction.TOGGLE, GaCategory.CONTROLS, 'Toggle AS Visibility', +this.config.show_all_AS);
   }
 
   exportControls(event: any) {
@@ -122,7 +117,7 @@ export class VisControlsComponent implements OnInit {
     element.click();
     document.body.removeChild(element);
 
-    this.ga.eventEmitter('vc_export_controls', GaCategory.CONTROLS, 'Export Vis Controls', GaAction.CLICK, null);
+    this.ga.event(GaAction.CLICK, GaCategory.CONTROLS, 'Export Vis Controls', null);
   }
 
 }

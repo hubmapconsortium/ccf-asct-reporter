@@ -45,7 +45,7 @@ import { StateReset } from 'ngxs-reset-plugin';
 import { TreeState } from './tree.state';
 import { ReportLog } from '../actions/logs.actions';
 import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
-import { GoogleAnalyticsService } from '../services/google-analytics.service';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../models/ga.model';
 import { ReportService } from '../components/report/report.service';
 
@@ -397,7 +397,7 @@ export class SheetState {
               counts: {},
             };
             gaData.counts = this.reportService.countsGA(res.data);
-            this.ga.eventEmitter('counts_comaparison', GaCategory.COMPARISON, 'Adding sheet or file to Compare', GaAction.INPUT, 0, JSON.stringify(gaData));
+            this.ga.event(GaAction.INPUT, GaCategory.COMPARISON, `Adding sheet or file to Compare: ${JSON.stringify(gaData)}`, 0);
             
             patchState({
               data: [...currentData, ...res.data],
@@ -648,7 +648,7 @@ export class SheetState {
             };
             gaData.sheetName = sheet.name;
             gaData.counts = this.reportService.countsGA(res.data);
-            this.ga.eventEmitter('counts_playground', GaCategory.PLAYGROUND, 'Adding sheet link or file to Playground', GaAction.INPUT, 0, JSON.stringify(gaData));
+            this.ga.event(GaAction.INPUT, GaCategory.PLAYGROUND, `Adding sheet link or file to Playground : ${JSON.stringify(gaData)}`, 0);
           }
           dispatch(
             new ReportLog(
