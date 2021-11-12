@@ -255,14 +255,14 @@ export class ReportComponent implements OnInit, AfterViewInit {
       }
       if (i < this.reportData.cellTypes.length) {
         row['Unique Cell Types'] = this.reportData.cellTypes[i].structure;
-        row['CT ID'] = this.reportData.cellTypes[i].link
+        row['CT ID'] = this.reportData.cellTypes[i].link;
         if (!this.reportData.cellTypes[i].link.includes('CL')) {
           row['CL with no Link'] = this.reportData.cellTypes[i].structure;
         }
       }
       if (i < this.reportData.biomarkers.length) {
         row['Unique Biomarkers'] = this.reportData.biomarkers[i].structure;
-        row['BM ID'] = this.reportData.biomarkers[i].link
+        row['BM ID'] = this.reportData.biomarkers[i].link;
 
       }
       if (i < this.reportData.BWithNoLink.length){
