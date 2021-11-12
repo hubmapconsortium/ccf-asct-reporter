@@ -10,7 +10,7 @@ import { TrackingPopupComponent } from './components/tracking-popup/tracking-pop
 declare let gtag: (arg1?, arg2?, arg3?) => void;
 
 @Component({
-  selector: 'ccf-reporter',
+  selector: 'app-reporter',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
