@@ -89,7 +89,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
       this.reportData = data.data;
       this.computedReport.emit(data.data);
 
-      this.ontologyLinkGraphData = this.makeOntologyLinksGraphData(data.data);
+      this.ontologyLinkGraphData = this.makeOntologyLinksGraphData(data.data, this.sheetData);
       
     });
     this.linksData$.subscribe((data) => {
@@ -123,15 +123,16 @@ export class ReportComponent implements OnInit, AfterViewInit {
     this.reportService.makeReportData(
       this.currentSheet,
       this.sheetData,
-      this.bmType
+      this.bmType,
+      true
     );
   }
 
   ngAfterViewInit() { }
 
-  makeOntologyLinksGraphData(reportData: Report) {
+  makeOntologyLinksGraphData(reportData: Report,sheetData: Row[]) {
     const { result, biomarkersSeperateNames } =
-      this.reportService.makeAllOrganReportDataByOrgan(reportData, this.asFullData);
+      this.reportService.makeAllOrganReportDataByOrgan(sheetData, this.asFullData);
     this.displayedColumns = [
       ...this.displayedColumns
     ];
