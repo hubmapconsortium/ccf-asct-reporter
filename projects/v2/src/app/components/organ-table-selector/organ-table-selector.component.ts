@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SHEET_OPTIONS } from '../../static/config';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
-import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory, GaOrgansInfo } from '../../models/ga.model';
 import { OrganTableOnClose, OrganTableSelect } from '../../models/sheet.model';
 
@@ -89,9 +89,9 @@ export class OrganTableSelectorComponent implements OnInit {
     });
     ga_details.numOrgans = ga_details.selectedOrgans.length;
     if (this.data.isIntilalSelect === true) {
-      this.ga.eventEmitter('organs_select_initial', GaCategory.NAVBAR, 'SELECTED ORGANS', GaAction.CLICK, 0, JSON.stringify(ga_details));
+      this.ga.event(GaAction.CLICK, GaCategory.NAVBAR, `SELECTED ORGANS INITIAL: ${JSON.stringify(ga_details)}`, 0);
     } else {
-      this.ga.eventEmitter('organs_select_edit', GaCategory.NAVBAR, 'SELECTED ORGANS', GaAction.CLICK, 0, JSON.stringify(ga_details));
+      this.ga.event(GaAction.CLICK, GaCategory.NAVBAR, `SELECTED ORGANS EDIT: ${JSON.stringify(ga_details)}`, 0);
     }
     this.dialogRef.close({
       'organs': this.organs,

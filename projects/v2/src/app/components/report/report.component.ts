@@ -13,7 +13,7 @@ import { Row, Sheet, SheetConfig } from '../../models/sheet.model';
 import * as XLSX from 'xlsx';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { TreeService } from '../../modules/tree/tree.service';
 import { linksASCTBData } from '../../models/tree.model';
@@ -220,11 +220,10 @@ export class ReportComponent implements OnInit, AfterViewInit {
     this.compareReport.splice(i, 1);
     this.deleteSheet.emit(i);
 
-    this.ga.eventEmitter(
-      'report_compare_delete',
+    this.ga.event(
+      GaAction.CLICK,
       GaCategory.REPORT,
       'Delete a sheet comparison',
-      GaAction.CLICK,
       i
     );
   }
@@ -298,11 +297,10 @@ export class ReportComponent implements OnInit, AfterViewInit {
       allReport.push(this.downloadData());
 
       // Tracking the 'Download All' use case from the header button.
-      this.ga.eventEmitter(
-        'report_download_full',
+      this.ga.event(
+        GaAction.CLICK,
         GaCategory.REPORT,
-        'Download Full Report',
-        GaAction.CLICK
+        'Download Full Report'
       );
 
       if (this.compareReport) {
@@ -402,11 +400,10 @@ export class ReportComponent implements OnInit, AfterViewInit {
     const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
     const sn = sheet.title.toLowerCase().replace(' ', '_');
 
-    this.ga.eventEmitter(
-      'report_compare_download',
+    this.ga.event(
+      GaAction.CLICK,
       GaCategory.REPORT,
       'Compare sheet download',
-      GaAction.CLICK,
       sn
     );
 
