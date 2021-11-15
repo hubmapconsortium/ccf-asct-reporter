@@ -9,6 +9,7 @@
     "build": "ng build v2 --base-href=/ccf-asct-reporter/ --configuration=production --configuration production",
     "build:staging": "ng build v2 --base-href=/ --configuration=staging",
     "test": "ng test",
+    "test:wsl": "ng test --browsers=ChromeHeadlessWSL",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -46,6 +47,7 @@
     "jexcel": "^4.5.2",
     "mat-table-exporter": "^10.2.3",
     "moment": "^2.29.1",
+    "ngx-google-analytics": "^11.2.1",
     "ngx-markdown": "^11.1.2",
     "ngx-mat-select-search": "^3.3.0",
     "ngx-order-pipe": "^2.1.1",
@@ -87,6 +89,7 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "protractor": "~7.0.0",
+    "shallow-render": "^12.0.1",
     "ts-node": "~8.3.0",
     "typedoc": "^0.21.2",
     "typescript": "^4.3.5"

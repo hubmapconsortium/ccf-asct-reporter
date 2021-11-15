@@ -16,9 +16,8 @@ import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
 import { Sheet, SheetConfig } from '../../models/sheet.model';
 import { TNode } from '../../models/tree.model';
 import { Signal } from 'vega';
-import { GoogleAnalyticsService } from '../../services/google-analytics.service';
-import { GaAction, GaCategory } from '../../models/ga.model';
-import { TreeState } from '../../store/tree.state';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
+import { GaAction, GaCategory, GaNodeInfo } from '../../models/ga.model';
 
 @Injectable({
   providedIn: 'root'
@@ -69,6 +68,18 @@ export class VegaService {
     }
   }
 
+  public makeNodeInfoString(node: any) {
+    const nodeInfo: GaNodeInfo = {
+      name: node.name,
+      groupName: node.groupName,
+      oid: node.ontologyId,
+      type: node.type,
+      x: node.x,
+      y: node.y
+    };
+    return JSON.stringify(nodeInfo);
+  }
+
   /**
    * Function to add various event listeners to the visualization
    *
@@ -81,17 +92,15 @@ export class VegaService {
         this.store.dispatch(new OpenBottomSheet(node));
       }
 
-      this.ga.eventEmitter('graph_label_click', GaCategory.GRAPH, 'Clicked a node label', GaAction.CLICK, this.ga.makeNodeInfoString(node));
+      this.ga.event(GaAction.CLICK, GaCategory.GRAPH, `Clicked a node label: ${this.makeNodeInfoString(node)}`);
     });
 
     // node click listener to emit ga event
     view.addSignalListener('node__click', (signal: Signal, nodeId: any) => {
       if (nodeId != null) {
-        const clickedNode = this.store.selectSnapshot(TreeState.getBimodal).nodes.find(node => node.id === nodeId);
-        this.ga.eventEmitter('graph_node_select', GaCategory.GRAPH, 'Selected (clicked) a node', GaAction.CLICK,
-          0, this.ga.makeNodeInfoString(clickedNode));
+        this.ga.event(GaAction.CLICK, GaCategory.GRAPH, 'Selected (clicked) a node', 0);
       } else {
-        this.ga.eventEmitter('graph_node_deselect', GaCategory.GRAPH, 'Deselected a node', GaAction.CLICK);
+        this.ga.event(GaAction.CLICK, GaCategory.GRAPH, 'Deselected a node');
       }
     });
 
