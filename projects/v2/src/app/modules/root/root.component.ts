@@ -6,7 +6,7 @@ import {
   EventEmitter,
   ViewChild
 } from '@angular/core';
-import { SHEET_CONFIG } from './../../static/config';
+import SHEET_CONFIG from "../../static/sheet-config.json";
 import { SheetState } from './../../store/sheet.state';
 import { TreeState } from './../../store/tree.state';
 import { Select, Store } from '@ngxs/store';

@@ -14,7 +14,8 @@ import {
 import { Error } from '../models/response.model';
 import { tap, catchError } from 'rxjs/operators';
 import { forkJoin, Observable, of } from 'rxjs';
-import { HEADER_COUNT, SHEET_CONFIG } from '../static/config';
+import { HEADER_COUNT } from '../static/config';
+import SHEET_CONFIG from "../static/sheet-config.json";
 import { Injectable } from '@angular/core';
 import { parse } from 'papaparse';
 import {
