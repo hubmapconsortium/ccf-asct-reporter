@@ -229,6 +229,10 @@ export class ReportComponent implements OnInit, AfterViewInit {
     );
   }
 
+  getTotals(data: CByOrgan[], key: string) {
+    return data.map(t => t[key]? t[key] : 0).reduce((acc, value) => acc + value, 0);
+  }
+
   downloadData() {
     const download = [];
     const totalRows = 6;
