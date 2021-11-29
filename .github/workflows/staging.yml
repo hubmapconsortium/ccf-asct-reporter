@@ -35,13 +35,10 @@ jobs:
           npm run build:staging
           cp dist/v2/index.html dist/v2/404.html
           touch dist/v2/.nojekyll
-      - name: Deploy to Netlify
-        uses: jsmrcaga/action-netlify-deploy@master
-        with:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_DEPLOY_MESSAGE: "Staging deploy to Netlify"
-          NETLIFY_DEPLOY_TO_PROD: true
-          build_command: false
-          build_directory: dist/v2
 
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dist/v2
+          publish_branch: staging
+          commit_message: "Staging deploy -- ${{ github.event.head_commit.message }}"
