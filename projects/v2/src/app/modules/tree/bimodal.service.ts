@@ -241,11 +241,11 @@ export class BimodalService {
             let foundIndex: number;
             if (str.id && str.id.toLowerCase() !== 'not found') {
               foundIndex = nodes.findIndex(
-                (i: BMNode) => i.ontologyId === str.id
+                (i: BMNode) => i.ontologyId === str.id && i.group !== 1
               );
             } else {
               foundIndex = nodes.findIndex(
-                (i: BMNode) => i.name === str.name
+                (i: BMNode) => i.name === str.name  && i.group !== 1
               );
             }
             if (node.targets.findIndex(l => l ===nodes[foundIndex].id) === -1){
