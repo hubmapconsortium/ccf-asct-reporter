@@ -874,7 +874,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     'version': [
       {
         'value': 'Blood-v1.1',
-        'viewValue': 'v1.0'
+        'viewValue': 'v1.1'
       }
     ]
   },
@@ -884,7 +884,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     'version': [
       {
         'value': 'Blood_Vasculature-v1.1',
-        'viewValue': 'v1.0'
+        'viewValue': 'v1.1'
       }
     ]
   },
