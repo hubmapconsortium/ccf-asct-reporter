@@ -185,6 +185,7 @@
                   <td mat-cell *matCellDef="let element">
                     {{ element.organName | titlecase }}
                   </td>
+                  <td mat-footer-cell *matFooterCellDef> Total Counts</td>
                 </ng-container>
 
                 <!-- ASWithNoLink Column -->
@@ -205,6 +206,7 @@
                         : 0
                     }}
                   </td>
+                  <td mat-footer-cell class="center_align" [hidden]="true" *matFooterCellDef> {{getTotals(countsByOrgan, 'ASWithNoLink')}} </td>
                 </ng-container>
 
                 <!-- CTWithNoLink Column -->
@@ -225,6 +227,8 @@
                         : 0
                     }}
                   </td>
+                  <td mat-footer-cell class="center_align" [hidden]="true" *matFooterCellDef> {{getTotals(countsByOrgan, 'CTWithNoLink')}} </td>
+
                 </ng-container>
 
                 <!-- BWithNoLink Column -->
@@ -245,6 +249,8 @@
                         : 0
                     }}
                   </td>
+                  <td mat-footer-cell class="center_align" [hidden]="true" *matFooterCellDef> {{getTotals(countsByOrgan, 'BWithNoLink')}} </td>
+
                 </ng-container>
 
                 <!-- AS_AS Column -->
@@ -264,6 +270,8 @@
                         : 0
                     }}
                   </td>
+                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{getTotals(countsByOrgan, 'AS_AS')}} </td>
+
                 </ng-container>
 
                 <!-- AS_CT Column -->
@@ -283,6 +291,8 @@
                         : 0
                     }}
                   </td>
+                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{getTotals(countsByOrgan, 'AS_CT')}} </td>
+
                 </ng-container>
 
                  <!-- CT_BM Column -->
@@ -302,6 +312,8 @@
                         : 0
                     }}
                   </td>
+                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{getTotals(countsByOrgan, 'CT_BM')}} </td>
+
                 </ng-container>
 
                 <!-- Anatomical Structures Column -->
@@ -321,6 +333,8 @@
                         : 0
                     }}
                   </td>
+                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{getTotals(countsByOrgan, 'anatomicalStructures')}} </td>
+
                 </ng-container>
 
                 <!-- Cell Types Column -->
@@ -336,6 +350,8 @@
                   <td mat-cell *matCellDef="let element" class="center_align">
                     {{ element.cellTypes ? element.cellTypes : 0 }}
                   </td>
+                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{getTotals(countsByOrgan, 'cellTypes')}} </td>
+
                 </ng-container>
 
                 <!-- Biomarkers Columns -->
@@ -354,12 +370,15 @@
                   <td mat-cell class="center_align" *matCellDef="let element">
                     {{ element[biomarker.name] ? element[biomarker.name] : 0 }}
                   </td>
+                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{getTotals(countsByOrgan, biomarker.name)}} </td>
+
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr
                   mat-row
                   *matRowDef="let row; columns: displayedColumns"
                 ></tr>
+                <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
               </table>
             </div>
             <p class="text-muted my-3">
