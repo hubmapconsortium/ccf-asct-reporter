@@ -144,11 +144,54 @@ export class OrganTableSelectorComponent implements OnInit {
   }
 
   changeVersion(value: any, element: any) {
-    element.symbol = value;
+    if (element.title == 'All Organs'){
+      this.selection.select(...this.dataSource.data);
+      if (value == 'All_Organs-v1.1'){
+        this.dataSource.data.forEach((dataElement: any) => {
+          if (dataElement.version.length == 1 && dataElement.version[0].viewValue != 'v1.1') {
+            this.selection.toggle(dataElement);
+          }
+          dataElement?.version?.forEach((v, i) => {
+            if (i === 1) {
+              dataElement.symbol = v.value;
+            }
+          });
+        });
+        this.hasSomeOrgans = this.selection.selected.length > 0;
+      }
+      else{
+        this.dataSource.data.forEach((dataElement: any) => {
+          if (dataElement.version.length == 1 && dataElement.version[0].viewValue != 'v1.0') {
+            this.selection.toggle(dataElement);
+          }
+          dataElement?.version?.forEach((v, i) => {
+            if (i === 0) {
+              dataElement.symbol = v.value;
+            }
+          });
+        });
+        this.hasSomeOrgans = this.selection.selected.length > 0;
+      }
+    }
+    else{
+      element.symbol = value;
+    }
   }
 
   selectRow(row) {
-    this.selection.toggle(row);
-    this.hasSomeOrgans = this.selection.selected.length > 0;
+    
+    if (row.title == 'All Organs'){
+      if(this.isAllSelected()){
+        this.selection.clear();
+      }
+      else{
+        this.selection.select(...this.dataSource.data);
+        this.hasSomeOrgans = this.selection.selected.length > 0;
+      }
+    }
+    else{
+      this.selection.toggle(row);
+      this.hasSomeOrgans = this.selection.selected.length > 0;
+    }
   }
 }

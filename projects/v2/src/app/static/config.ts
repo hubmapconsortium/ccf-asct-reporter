@@ -869,6 +869,20 @@ export const PLAYGROUND_SHEET_OPTIONS: SheetOptions[] = [
 
 export const SHEET_OPTIONS: SheetOptions[] = [
   {
+    'sheet': 'All Organs',
+    'title': 'All Organs',
+    'version': [
+      {
+        'value': 'All_Organs-v1.0',
+        'viewValue': 'v1.0'
+      },
+      {
+        'value': 'All_Organs-v1.1',
+        'viewValue': 'v1.1'
+      }
+    ]
+  },
+  {
     'sheet': 'blood',
     'title': 'Blood',
     'version': [
