@@ -144,11 +144,11 @@ export class OrganTableSelectorComponent implements OnInit {
   }
 
   changeVersion(value: any, element: any) {
-    if (element.title == 'All Organs'){
+    if (element.title === 'All Organs'){
       this.selection.select(...this.dataSource.data);
-      if (value == 'All_Organs-v1.1'){
+      if (value === 'All_Organs-v1.1'){
         this.dataSource.data.forEach((dataElement: any) => {
-          if (dataElement.version.length == 1 && dataElement.version[0].viewValue != 'v1.1') {
+          if (dataElement.version.length === 1 && dataElement.version[0].viewValue !== 'v1.1') {
             this.selection.toggle(dataElement);
           }
           dataElement?.version?.forEach((v, i) => {
@@ -161,7 +161,7 @@ export class OrganTableSelectorComponent implements OnInit {
       }
       else{
         this.dataSource.data.forEach((dataElement: any) => {
-          if (dataElement.version.length == 1 && dataElement.version[0].viewValue != 'v1.0') {
+          if (dataElement.version.length === 1 && dataElement.version[0].viewValue !== 'v1.0') {
             this.selection.toggle(dataElement);
           }
           dataElement?.version?.forEach((v, i) => {
@@ -180,7 +180,7 @@ export class OrganTableSelectorComponent implements OnInit {
 
   selectRow(row) {
     
-    if (row.title == 'All Organs'){
+    if (row.title === 'All Organs'){
       if(this.isAllSelected()){
         this.selection.clear();
       }
