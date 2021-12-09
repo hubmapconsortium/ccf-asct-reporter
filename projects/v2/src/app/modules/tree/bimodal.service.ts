@@ -257,7 +257,7 @@ export class BimodalService {
 
         if (node.group === 3) {
           node.indegree.forEach(str => {
-            let pathColor: boolean;
+            let pathColor: string;
             let foundIndex: number;
             if (str.id) {
               foundIndex = nodes.findIndex(
@@ -273,10 +273,14 @@ export class BimodalService {
             }
             nodes[foundIndex].outdegree.forEach(cellOut => {
               if(cellOut.name === node.name){
-                pathColor = cellOut.proteinPresence;
+                if (cellOut.proteinPresence) {
+                  pathColor = '#1D72E8';
+                }
+                else if (cellOut.proteinPresence === false) {
+                  pathColor = '#E16156';
+                }
               }
             });
-            console.log(pathColor);
             links.push({ s: nodes[foundIndex].id, t: node.id, pathColor});
           });
         }
