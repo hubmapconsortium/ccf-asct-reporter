@@ -139,6 +139,7 @@ export function makeCellTypes(data: Row[], isForReport = false, isReportNotOrgan
             newStructure.outdegree.add({
               id: marker.id,
               name: marker.name,
+              proteinPresence: marker.proteinPresence
             });
           });
           cellTypes.push(newStructure);
@@ -151,6 +152,7 @@ export function makeCellTypes(data: Row[], isForReport = false, isReportNotOrgan
             cellTypes[foundIndex].outdegree.add({
               id: marker.id,
               name: marker.name,
+              proteinPresence: marker.proteinPresence,
             });
           });
           const sn =
