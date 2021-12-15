@@ -35,7 +35,7 @@ export class FooterComponent implements OnInit {
 
   openFaq() {
     this.router.navigate(['/docs/faq']);
-    this.ga.eventEmitter('footer_link_click', GaCategory.FOOTER, 'Open FAQ', GaAction.NAV);
+    this.ga.event(GaAction.NAV, GaCategory.FOOTER, 'Open FAQ');
   }
 
   openData() {
