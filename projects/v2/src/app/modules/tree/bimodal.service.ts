@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { BMNode, Link, BimodalConfig } from '../../models/bimodal.model';
 import { makeCellTypes, makeAS, makeBioMarkers } from './tree.functions';
-import { CT_BLUE, B_GREEN, TNode } from '../../models/tree.model';
+import { CT_BLUE, B_GREEN, TNode, AS, CT, B } from '../../models/tree.model';
 import { UpdateBimodal, UpdateVegaSpec, UpdateLinksData } from '../../actions/tree.actions';
 import { CloseLoading, HasError } from '../../actions/ui.actions';
 import { ReportLog } from '../../actions/logs.actions';
@@ -29,7 +29,8 @@ export class BimodalService {
     sheetData: Row[],
     treeData: TNode[],
     bimodalConfig: BimodalConfig,
-    sheetConfig?: SheetConfig
+    sheetConfig?: SheetConfig,
+    isReport = false
   ) {
 
     try {
@@ -41,25 +42,45 @@ export class BimodalService {
       let treeY = 50;
       let AS_CT_LINKS = 0;
       let CT_BM_LINKS = 0;
+      const CT_BM = {};
+      const AS_CT = {};
       const distance = sheetConfig.bimodal_distance_x;
       const distanceY = sheetConfig.bimodal_distance_y;
       let id = treeData.length + 1;
       let biomarkers = [];
-
       treeData.forEach((td) => {
-        if (td.children === 0) {
+        if (td.children === 0 || isReport) {
 
           const leaf = td.name;
-          const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.ontologyId);
+          const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.notes, td.organName, td.ontologyId);
           newLeaf.id = id;
           newLeaf.problem = td.problem;
           newLeaf.pathColor = td.pathColor;
           newLeaf.isNew = td.isNew;
           newLeaf.color = td.color;
           newLeaf.ontologyId = td.ontologyId;
-          newLeaf.indegree = anatomicalStructuresData.find(a => a.structure === leaf).indegree;
-          newLeaf.outdegree = anatomicalStructuresData.find(a => a.structure === leaf).outdegree;
-          newLeaf.label = anatomicalStructuresData.find(a => a.structure === leaf).label;
+          if (td.ontologyId && td.ontologyId.toLowerCase() !== 'not found') {
+            newLeaf.indegree = anatomicalStructuresData.find((a: AS) => {
+              return (a.comparatorId === td.ontologyId);
+            })?.indegree;
+            newLeaf.outdegree = anatomicalStructuresData.find((a: AS) => {
+              return (a.comparatorId === td.ontologyId);
+            })?.outdegree;
+            newLeaf.label = anatomicalStructuresData.find((a: AS) => {
+              return (a.comparatorId === td.ontologyId);
+            })?.label;
+          }
+          else{
+            newLeaf.indegree = anatomicalStructuresData.find((a: AS) => {
+              return (a.comparatorName === td.name);
+            })?.indegree;
+            newLeaf.outdegree = anatomicalStructuresData.find((a: AS) => {
+              return (a.comparatorName === td.name);
+            })?.outdegree;
+            newLeaf.label = anatomicalStructuresData.find((a: AS) => {
+              return (a.comparatorName === td.name); 
+            })?.label;
+          }
           nodes.push(newLeaf);
           id += 1;
           treeX = td.x;
@@ -107,13 +128,15 @@ export class BimodalService {
 
       }
 
-      cellTypes.forEach((cell) => {
+      cellTypes.forEach((cell: CT) => {
         const newNode = new BMNode(
           cell.structure,
           2,
           treeX,
           treeY,
           14,
+          cell.notes,
+          cell.organName,
           cell.link,
           CT_BLUE,
           cell.nodeSize
@@ -185,13 +208,15 @@ export class BimodalService {
 
 
       // making group 3: bio markers
-      biomarkers.forEach((marker, i) => {
+      biomarkers.forEach((marker: B, i) => {
         const newNode = new BMNode(
           marker.structure,
           3,
           treeX,
           treeY,
           14,
+          marker.notes,
+          marker.organName,
           marker.link,
           B_GREEN,
           marker.nodeSize
@@ -209,32 +234,71 @@ export class BimodalService {
         id += 1;
       });
 
-      nodes.forEach((node, i) => {
+      nodes.forEach((node, index) => {
         if (node.group === 1) {
           node.sources = [];
-          node.outdegree.forEach(str => {
-            const foundIndex = nodes.findIndex(n => `${n.name}${n.ontologyId}` === str);
-            node.targets.push(nodes[foundIndex].id);
+          node.outdegree?.forEach(str => {
+            let foundIndex: number;
+            if (str.id && str.id.toLowerCase() !== 'not found') {
+              foundIndex = nodes.findIndex(
+                (i: BMNode) => i.ontologyId === str.id && i.group !== 1
+              );
+            } else {
+              foundIndex = nodes.findIndex(
+                (i: BMNode) => i.name === str.name  && i.group !== 1
+              );
+            }
+            if (node.targets.findIndex(l => l ===nodes[foundIndex].id) === -1){
+              node.targets.push(nodes[foundIndex].id);
+            }
             links.push({ s: node.id, t: nodes[foundIndex].id });
           });
         }
 
         if (node.group === 3) {
           node.indegree.forEach(str => {
-
-            const foundIndex = nodes.findIndex(n => `${n.name}${n.ontologyId}` === str);
-            node.sources.push(nodes[foundIndex].id);
-            links.push({ s: nodes[foundIndex].id, t: node.id });
+            let pathColor: string;
+            let foundIndex: number;
+            if (str.id) {
+              foundIndex = nodes.findIndex(
+                (i: BMNode) => i.ontologyId === str.id
+              );
+            } else {
+              foundIndex = nodes.findIndex(
+                (i: BMNode) => i.name === str.name
+              );
+            }
+            if (node.sources.findIndex(l => l ===nodes[foundIndex].id) === -1){
+              node.sources.push(nodes[foundIndex].id);
+            }
+            nodes[foundIndex].outdegree.forEach(cellOut => {
+              if(cellOut.name === node.name){
+                if (cellOut.proteinPresence) {
+                  pathColor = '#1D72E8';
+                }
+                else if (cellOut.proteinPresence === false) {
+                  pathColor = '#E16156';
+                }
+              }
+            });
+            links.push({ s: nodes[foundIndex].id, t: node.id, pathColor});
           });
         }
       });
 
-      nodes.forEach((node, i) => {
+      nodes.forEach((node : BMNode, i) => {
         if (node.group === 2) {
           node.outdegree.forEach((str) => {
             const tt = nodes
               .map((val, idx) => ({ val, idx }))
-              .filter(({ val, idx }) => `${val.name}${val.ontologyId}` === str)
+              .filter(({ val, idx }) => {
+                if (str.id) {
+                  return val.ontologyId === str.id;
+                }
+                else {
+                  return val.name === str.name;
+                }
+              })
               .map(({ val, idx }) => idx);
             const targets = [];
             tt.forEach((s) => {
@@ -244,17 +308,30 @@ export class BimodalService {
             // make targets only if there is a link from CT to B
             targets.forEach((s) => {
               if (links.some((l) => l.s === node.id && l.t === s)) {
-                CT_BM_LINKS += 1;
-                node.targets.push(s);
+                if (node.targets.findIndex(l => l === s) === -1) {
+                  if (Object.prototype.hasOwnProperty.call(CT_BM, node.organName)) {
+                    CT_BM[node.organName] += 1;
+                  } else {
+                    CT_BM[node.organName] = 1;
+                  }
+                  CT_BM_LINKS += 1;
+                  node.targets.push(s);
+                }
               }
             });
           });
-
           // make sources only if there is a link from AS to CT
           node.indegree.forEach((str) => {
             const ss = nodes
               .map((val, idx) => ({ val, idx }))
-              .filter(({ val, idx }) => `${val.name}${val.ontologyId}` === str)
+              .filter(({ val, idx }) => {
+                if (str.id && str.id.toLowerCase() !== 'not found') {
+                  return val.ontologyId === str.id;
+                }
+                else {
+                  return val.name === str.name;
+                }
+              })
               .map(({ val, idx }) => idx);
             const sources = [];
             ss.forEach((s) => {
@@ -262,24 +339,35 @@ export class BimodalService {
             });
             sources.forEach((s) => {
               if (links.some((l) => l.s === s && l.t === node.id)) {
-                AS_CT_LINKS += 1;
-                node.sources.push(s);
+                if (node.sources.findIndex(l => l === s) === -1) {
+                  if (Object.prototype.hasOwnProperty.call(AS_CT, node.organName)) {
+                    AS_CT[node.organName] += 1;
+                  } else {
+                    AS_CT[node.organName] = 1;
+                  }
+                  AS_CT_LINKS += 1;
+                  node.sources.push(s);
+                }
               }
             });
           });
         }
       });
 
-      this.store.dispatch(new UpdateLinksData(AS_CT_LINKS, CT_BM_LINKS));
+      if (!isReport) {
+        this.store.dispatch(new UpdateLinksData(AS_CT_LINKS, CT_BM_LINKS, AS_CT, CT_BM));
 
-      this.store.dispatch(new UpdateBimodal(nodes, links)).subscribe(newData => {
-        const view = newData.treeState.view;
-        const updatedNodes = newData.treeState.bimodal.nodes;
-        const updatedLinks = newData.treeState.bimodal.links;
-        const spec = newData.treeState.spec;
+        this.store.dispatch(new UpdateBimodal(nodes, links)).subscribe(newData => {
+          const view = newData.treeState.view;
+          const updatedNodes = newData.treeState.bimodal.nodes;
+          const updatedLinks = newData.treeState.bimodal.links;
+          const spec = newData.treeState.spec;
 
-        this.updateBimodalData(view, spec, updatedNodes, updatedLinks);
-      });
+          this.updateBimodalData(view, spec, updatedNodes, updatedLinks);
+        });
+      } else {
+        this.store.dispatch(new UpdateLinksData(AS_CT_LINKS, CT_BM_LINKS, AS_CT, CT_BM, 0, null,true));
+      }
 
     } catch (error) {
       console.log(error);

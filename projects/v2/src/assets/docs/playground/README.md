@@ -25,9 +25,9 @@ This feature allows you to play around with a sample visualization and upload yo
       <br>
       <br>
 
-   - **Upload**: This is where you can upload your own sheet. In the input field, paste your Google Sheet (or CSV) URL from your browser and hit the **Link** button to visualize your data.
+   - **Upload**: This is where you can upload your own sheet. In the input fields, paste your Google Sheet (or CSV) URL from your browser and hit the **Link** button to visualize your data or you can upload your own file by clicking the **Upload** attachments icon.
 
-      <img src="assets/docs/playground/link.png" alt="Playground" class="md-img p-2 w-75">
+      <img src="assets/docs/playground/upload.png" alt="Playground" class="md-img p-2 w-75">
       <br>
       <br>
 

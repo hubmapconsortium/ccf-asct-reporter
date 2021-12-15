@@ -21,12 +21,12 @@
         <div class="mt-1 text-muted">
           <ul class="pl-3">
             <li class="text-justify">
-              Through this feature, you can compare your own data by pasting the Browser url 
+              Through this feature, you can compare your own data by pasting the Browser url
               address for the Google sheet of your data in the fields mentioned below.
               Multiple data sources can be added by clicking on the '+ Add'
-              button at the bottom. In order to successfully link your sheet, make sure the sheet 
+              button at the bottom. In order to successfully link your sheet, make sure the sheet
               has
-              <strong>public access by selecting Share --> Get link --> selecting "Anyone with the link" option and "Viewer" 
+              <strong>public access by selecting Share --> Get link --> selecting "Anyone with the link" option and "Viewer"
                 privileges, select "Done" to save.</strong>
             </li>
             <li>
@@ -56,7 +56,7 @@
               <div
                 class="w-100 title-sheet-container"
               >
-                <div class="w-75 mr-1">
+                <div class="w-75 mr-1 flex-container">
                   <!-- <mat-form-field
                     [floatLabel]="'always'"
                     class="link-input-field"
@@ -78,33 +78,44 @@
                     </mat-form-field>
                   </p>
                 </div>
-                <div class="w-75 ml-1">
-                  <p>
-                    <mat-form-field appearance="legacy">
+                <div class="title-sheet-sub-container">
+                  <div class="w-75">
+                    <p>
+                      <mat-form-field appearance="legacy">
+                        <mat-label>Description</mat-label>
+                        <input matInput placeholder="This data maps amazing structures!" formControlName="description">
+                        <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                        <mat-hint>A suitable description</mat-hint>
+                      </mat-form-field>
+                    </p>
+                    <!-- <mat-form-field
+                      [floatLabel]="'always'"
+                      class="link-input-field"
+                    >
                       <mat-label>Description</mat-label>
-                      <input matInput placeholder="This data maps amazing structures!" formControlName="description">
-                      <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                      <input
+                        matInput
+                        placeholder="This data maps amazing structures!"
+                        formControlName="description"
+                      />
                       <mat-hint>A suitable description</mat-hint>
-                    </mat-form-field>
-                  </p>
-                  <!-- <mat-form-field
-                    [floatLabel]="'always'"
-                    class="link-input-field"
-                  >
-                    <mat-label>Description</mat-label>
-                    <input
-                      matInput
-                      placeholder="This data maps amazing structures!"
-                      formControlName="description"
-                    />
-                    <mat-hint>A suitable description</mat-hint>
-                  </mat-form-field> -->
-                </div>
+                    </mat-form-field> -->
+                  </div>
+                  <div class="ml-2">
+                    <button
+                      mat-icon-button
+                      [disabled]="formGroup.value.sheets.length === 1"
+                      (click)="removeCompareSheetRow(i)"
+                    >
+                      <mat-icon color="red">delete</mat-icon>
+                    </button>
+                  </div>
+              </div>
               </div>
               <div
                 class="w-100 mt-4 sheet-link-container"
               >
-                <div class="w-100">
+                <div class="w-100 flex-container">
                   <p>
                     <mat-form-field appearance="legacy" class="w-75">
                   <!-- <mat-form-field
@@ -117,17 +128,18 @@
                       matInput
                       placeholder="Enter link..."
                       formControlName="link"
-                      required
+
                     />
                     <mat-hint>Enter Browser URL address for your public Google Sheet (or CSV)</mat-hint>
-                    <mat-error
-                      *ngIf="
-                        sheet.get('link').hasError('required') ||
-                        sheet.get('link').hasError('pattern')
-                      "
-                      >Invalid link</mat-error
-                    >
                   </mat-form-field>
+                </div>
+                <div class="title-sheet-sub-container">
+                  
+                <div class="w-100">
+                  <p>
+                    <app-file-upload formControlName="fileName" (fileFormDataEvent)="upload($event, sheet)"></app-file-upload>
+                    <mat-label class="file-upload">Upload a CSV file</mat-label>
+                  </p>
                 </div>
                 <div class="pick-color-container">
                   <mat-label class="pick-color-title"
@@ -140,15 +152,7 @@
                     [style.backgroundColor]="sheet.get('color').value"
                   />
                 </div>
-                <div class="mt-1 ml-2">
-                  <button
-                    mat-icon-button
-                    [disabled]="formGroup.value.sheets.length === 1"
-                    (click)="removeCompareSheetRow(i)"
-                  >
-                    <mat-icon color="red">delete</mat-icon>
-                  </button>
-                </div>
+              </div>
               </div>
             </div>
             <hr />

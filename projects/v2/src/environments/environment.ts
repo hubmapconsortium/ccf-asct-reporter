@@ -5,8 +5,10 @@
 export const environment = {
   production: false,
   tag: 'Development',
-  googleAnalyticsId: 'UA-136932895-6',
+  googleAnalyticsId: 'G-77K2VNZRJ2',
   asctbApiUrl: 'https://asctb-api--staging.herokuapp.com'
+  // use the following url for localhost API development
+  // asctbApiUrl: 'http://localhost:5000'
 };
 
 /*

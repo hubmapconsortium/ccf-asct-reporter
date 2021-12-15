@@ -66,6 +66,9 @@ export class TreeStateModel {
     AS_CT: number;
     CT_B: number;
     AS_AS: number;
+    AS_CT_organWise: Record<string, number>;
+    CT_B_organWise: Record<string, number>;
+    AS_AS_organWise: Record<string, number>;
   };
   /**
    * Store the discrepency label data
@@ -94,7 +97,14 @@ export class TreeStateModel {
     search: [],
     lastSearch: null,
     bottomSheetData: {},
-    links: { AS_CT: 0, CT_B: 0, AS_AS: 0 },
+    links: { 
+      AS_CT: 0,
+      CT_B: 0,
+      AS_AS: 0,
+      AS_CT_organWise: {},
+      CT_B_organWise: {},
+      AS_AS_organWise: {}
+    },
     discrepencyLabel: [],
     discrepencyId: [],
     duplicateId: []
@@ -299,17 +309,31 @@ export class TreeState {
    * Updates the links data that is displayed in the report
    */
   @Action(UpdateLinksData)
-  updateLinksData({ getState, setState }: StateContext<TreeStateModel>, { AS_CT, CT_B, AS_AS }: UpdateLinksData) {
+  updateLinksData({ getState, setState }: StateContext<TreeStateModel>, { AS_CT, CT_B,  AS_CT_organWise, CT_B_organWise, AS_AS, AS_AS_organWise, allOrgans }: UpdateLinksData) {
     const state = getState();
     if (AS_AS) {
       setState({
         ...state,
-        links: { AS_CT, CT_B, AS_AS }
+        links: { ...state.links, AS_AS}
+      });
+    } else if (AS_AS_organWise) {
+      setState({
+        ...state,
+        links: { ...state.links,
+          AS_AS_organWise: {...state.links.AS_AS_organWise, ...AS_AS_organWise}
+        }
       });
     } else {
       setState({
         ...state,
-        links: { AS_CT, CT_B, AS_AS: state.links.AS_AS }
+        links: { 
+          AS_CT : allOrgans ? state.links.AS_CT : AS_CT,
+          CT_B : allOrgans ? state.links.CT_B : CT_B,
+          CT_B_organWise: {...state.links.CT_B_organWise, ...CT_B_organWise},
+          AS_CT_organWise: {...state.links.AS_CT_organWise, ...AS_CT_organWise},
+          AS_AS: state.links.AS_AS,
+          AS_AS_organWise: state.links.AS_AS_organWise
+        }
       });
     }
 

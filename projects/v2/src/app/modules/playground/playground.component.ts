@@ -9,7 +9,7 @@ import * as jexcel from 'jexcel';
 import { UpdatePlaygroundData, FetchSheetData } from '../../actions/sheet.actions';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Sheet } from '../../models/sheet.model';
-import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 
 @Component({
@@ -259,16 +259,19 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
    */
   tabChange(tab: MatTabChangeEvent) {
     if (this.prevTab === 1 && tab.index === 0) {
+      this.spreadSheetData  = this.spreadSheetData.filter((row) => {
+        return (row.some((cell) => cell.length > 0 && cell !== '\u0000'));
+      });
       this.store.dispatch(new UpdatePlaygroundData(this.spreadSheetData));
     }
     this.prevTab = tab.index;
-    this.ga.eventEmitter('playground_tabchange', GaCategory.PLAYGROUND, 'Change playground tab', GaAction.NAV, tab.index);
+    this.ga.event(GaAction.NAV, GaCategory.PLAYGROUND, 'Change playground tab', tab.index);
   }
 
   /**
    * Read the google sheet link and upload
    */
-  upload() {
+  upload(formDataEvent?: FormData) {
     const data = this.checkLinkFormat(this.linkFormControl.value);
     const sheet = JSON.parse(JSON.stringify(this.currentSheet));
     sheet.gid = data.gid;
@@ -276,8 +279,13 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
     sheet.csvUrl = data.csvUrl;
     this.tabIndex = 0;
     sheet.config.height = 1400;
+
+    if (formDataEvent) {
+      sheet.formData = formDataEvent;
+    }
+
     this.store.dispatch(new FetchSheetData(sheet));
-    this.ga.eventEmitter('playground_upload', GaCategory.PLAYGROUND, 'Upload Playground Sheet', GaAction.CLICK, sheet.sheetId);
+    this.ga.event(GaAction.CLICK, GaCategory.PLAYGROUND, 'Upload Playground Sheet', sheet.sheetId);
   }
 
   /**

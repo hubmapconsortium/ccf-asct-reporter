@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { CompareData } from '../../models/sheet.model';
 import { Observable } from 'rxjs';
-import {GoogleAnalyticsService} from '../../services/google-analytics.service';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory, GaCompareInfo } from '../../models/ga.model';
 
 @Component({
@@ -13,7 +13,7 @@ import { GaAction, GaCategory, GaCompareInfo } from '../../models/ga.model';
 export class CompareComponent implements OnInit {
 
   @Output() closeCompare: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() compareData: EventEmitter<any> = new EventEmitter<any>();
+  @Output() compareData: EventEmitter<CompareData[]> = new EventEmitter<CompareData[]>();
 
   @Input() compareSheets: Observable<CompareData[]>;
 
@@ -37,7 +37,9 @@ export class CompareComponent implements OnInit {
               source.link,
               source.color,
               source.title,
-              source.description
+              source.description,
+              source.formData,
+              source.fileName
             )
           );
         }
@@ -46,6 +48,22 @@ export class CompareComponent implements OnInit {
       }
     });
 
+    this.formGroup.valueChanges
+      .subscribe(sheets => {
+        const formArray =this.formGroup.controls.sheets as FormArray;    
+        formArray.controls.forEach((sheet: FormGroup) => {
+          const file = sheet.controls.formData;
+          const link = sheet.controls.link;   
+          if (file.value != null) {
+            link.clearValidators();
+            link.updateValueAndValidity({emitEvent: false});
+          }
+        });
+      });
+  }
+
+  upload(fileFormDataEvent: FormData, sheet: FormGroup) {
+    sheet.controls.formData.setValue(fileFormDataEvent);
   }
 
   compare() {
@@ -68,9 +86,9 @@ export class CompareComponent implements OnInit {
         title: sheet.title,
         desc: sheet.description,
         link: sheet.link,
-        color: sheet.color
+        color: sheet.color,
       };
-      this.ga.eventEmitter('compare_sheet', GaCategory.COMPARE, 'Add new sheet to compare', GaAction.CLICK, JSON.stringify(sheetInfo));
+      this.ga.event(GaAction.CLICK, GaCategory.COMPARE, `Add new sheet to compare: ${JSON.stringify(sheetInfo)}`);
     }
 
     this.compareData.emit(data);
@@ -95,7 +113,7 @@ export class CompareComponent implements OnInit {
     }
   }
 
-  createCompareForm(link= '', color?: string, title= '', description= ''): FormGroup {
+  createCompareForm(link= '', color?: string, title= '', description= '', formData?: FormData, fileName?: string): FormGroup {
     if (!color) {
       color = this.getRandomColor();
     }
@@ -104,10 +122,19 @@ export class CompareComponent implements OnInit {
       title: [title],
       description: [description],
       link: [link, Validators.compose([Validators.required, Validators.pattern(/\/([\w-_]{15,})\/(.*?gid=(\d+))?|\w*csv$/)])],
-      color: [color]
-    });
+      color: [color],
+      formData: [formData],
+      fileName: [fileName]
+    }, { validators: [this.atLeastOnePhoneRequired]});
   }
-
+  atLeastOnePhoneRequired(group : FormGroup) : {[s:string ]: boolean} {
+    if (group) {
+      if(group.controls.link.value || group.controls.fileName.value) {
+        return null;
+      }
+    }
+    return {'error': true};
+  }
   get CSControls() {
     return this.formGroup.get('sheets') as FormArray;
   }
@@ -128,12 +155,12 @@ export class CompareComponent implements OnInit {
   addCompareSheetRow() {
     const sheet = this.createCompareForm();
     this.formSheets.push(sheet);
-    this.ga.eventEmitter('compare_add_row', GaCategory.COMPARE, 'Add new compare row', GaAction.CLICK, null);
+    this.ga.event(GaAction.CLICK, GaCategory.COMPARE, 'Add new compare row', null);
   }
 
   removeCompareSheetRow(i: number) {
     this.formSheets.removeAt(i);
-    this.ga.eventEmitter('compare_delete_row', GaCategory.COMPARE, 'Delete compare row', GaAction.CLICK, i);
+    this.ga.event(GaAction.CLICK, GaCategory.COMPARE, 'Delete compare row', i);
   }
 
 }

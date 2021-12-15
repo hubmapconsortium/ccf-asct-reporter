@@ -41,7 +41,7 @@
           </mat-form-field>
           <br>
           <p>
-            Show only:
+            <span id="label">Show<br>only:</span>
             <mat-button-toggle-group multiple
               #group="matButtonToggleGroup"
               (change)="filterToggleChange(group.value)"
@@ -51,7 +51,10 @@
               <mat-button-toggle value="Cell Types" matTooltip="Cell Types">CT</mat-button-toggle>
               <mat-button-toggle value="Biomarkers" matTooltip="Biomarkers">B</mat-button-toggle>
             </mat-button-toggle-group>
-            <button id="deselectBtn" mat-stroked-button
+            <button class="selectBtn" mat-stroked-button
+              aria-label="Select All"
+              (click)="selectAllOptions()">Select All</button>
+            <button class="selectBtn" mat-stroked-button
               aria-label="Deselect All"
               (click)="deselectAllOptions()">Deselect All</button>
           </p>

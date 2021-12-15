@@ -12,7 +12,7 @@
     </mat-panel-description>
   </mat-expansion-panel-header>
 
-  <div class="py-1 pb-4" *ngIf="currentSheet.name === 'all'">
+  <div class="py-1 pb-4" *ngIf="currentSheet.name === 'all' || (currentSheet.name === 'some' && selectedOrgans.length > 8)">
     <mat-slide-toggle
       [checked]="config.show_all_AS"
       color="primary"

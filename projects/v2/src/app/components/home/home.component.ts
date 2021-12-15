@@ -5,7 +5,7 @@ import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faGlobe, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { Router } from '@angular/router';
-import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { YouTubePlayer } from '@angular/youtube-player';
 
@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.player.seekTo(seconds, true);
     this.player.playVideo();
 
-    this.ga.eventEmitter('home_video_section', GaCategory.HOME, 'Jump to video section', GaAction.CLICK, VIDEO_ACTIONS[id].header);
+    this.ga.event(GaAction.CLICK, GaCategory.HOME, `Jump to video section: ${VIDEO_ACTIONS[id].header}`);
   }
 
   openGithub() {
@@ -61,13 +61,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
       'https://github.com/hubmapconsortium/ccf-asct-reporter',
       '_blank'
     );
-    this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Github', GaAction.NAV);
+    this.ga.event(GaAction.NAV, GaCategory.HOME, 'Open Github');
   }
 
 
   openDocs() {
     this.router.navigate(['/docs']);
-    this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Docs', GaAction.NAV);
+    this.ga.event(GaAction.NAV, GaCategory.HOME, 'Open Docs');
   }
 
   openData() {
@@ -75,7 +75,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       MASTER_SHEET_LINK,
       '_blank'
     );
-    this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Master Tables', GaAction.NAV);
+    this.ga.event(GaAction.NAV, GaCategory.HOME, 'Open Master Tables');
   }
 
   openDataOld() {
@@ -83,7 +83,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       'https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1268820100',
       '_blank'
     );
-    this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Old Data Tables', GaAction.NAV);
+    this.ga.event(GaAction.NAV, GaCategory.HOME, 'Open Old Data Tables');
   }
 
   onResize(e) {

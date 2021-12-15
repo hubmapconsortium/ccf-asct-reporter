@@ -28,9 +28,13 @@ export class TNode {
   y: number;
   type: string;
   comparator: string;
+  comparatorName: string;
+  comparatorId: string;
   label: string;
+  notes: string;
+  organName: string;
 
-  constructor(id, name, parent, uId, color = '#808080') {
+  constructor(id, name, parent, uId, notes, organName, color = '#808080') {
     this.id = id;
     this.name = name;
     this.parent = parent;
@@ -43,6 +47,10 @@ export class TNode {
     this.parents = [];
     this.type = NODE_TYPE.AS;
     this.comparator = '';
+    this.comparatorId = '';
+    this.comparatorName = '';
+    this.notes = notes;
+    this.organName = organName;
   }
 }
 
@@ -55,17 +63,26 @@ export class TreeAndMultiParent {
 export interface Base {
   id?: number;
   comparator?: string;
+  comparatorId?: string;
+  comparatorName?: string;
 }
 
 export interface AS extends Base {
   structure: string;
   uberon: string;
-  indegree?: Set<string>;
-  outdegree?: Set<string>;
+  indegree?: Set<Degree>;
+  outdegree?: Set<Degree>;
   label?: string;
   isNew?: boolean;
   color?: string;
   organName?: string;
+  notes: string;
+}
+
+export interface Degree {
+  id: string;
+  name: string;
+  proteinPresence?: boolean;
 }
 
 export interface ASCTBConfig {
@@ -82,10 +99,11 @@ export interface CT extends Base{
   isNew: boolean;
   color: string;
   label?: string;
-  indegree?: Set<string>;
-  outdegree?: Set<string>;
+  indegree?: Set<Degree>;
+  outdegree?: Set<Degree>;
   references?: Reference[];
   organName?: string;
+  notes: string;
 }
 
 export interface B extends Base{
@@ -93,11 +111,13 @@ export interface B extends Base{
   link: string;
   isNew: boolean;
   color: string;
-  indegree?: Set<string>;
-  outdegree?: Set<string>;
+  indegree?: Set<Degree>;
+  outdegree?: Set<Degree>;
   nodeSize?: number;
   bType?: string;
+  proteinPresence?: boolean;
   organName?: string;
+  notes: string;
 }
 
 
@@ -164,4 +184,13 @@ export interface BottomSheetData {
   status: string;
   text: any;
   data: any;
+}
+
+export interface linksASCTBData {
+  AS_CT: number;
+  CT_B: number;
+  AS_AS: number;
+  AS_CT_organWise: Record<string, number>;
+  CT_B_organWise: Record<string, number>;
+  AS_AS_organWise: Record<string, number>;
 }

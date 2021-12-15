@@ -10,7 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
-import { GoogleAnalyticsService } from './services/google-analytics.service';
+import { AnalyticsModule } from './services/analytics.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +23,10 @@ import { DocsModule } from './modules/docs/docs.module';
 import { RootModule } from './modules/root/root.module';
 import { HomeModule } from './components/home/home.module';
 import { FooterModule } from './components/footer/footer.module';
+import { FileUploadModule } from './components/file-upload/file-upload.module';
+import { OrganTableSelectorModule } from './components/organ-table-selector/organ-table-selector.module';
+import { TrackingPopupModule } from './components/tracking-popup/tracking-popup.module';
+import { MousePositionTrackerModule } from './services/mouse-position-tracker.module';
 
 @NgModule({
   declarations: [
@@ -45,9 +49,17 @@ import { FooterModule } from './components/footer/footer.module';
     DocsModule,
     RootModule,
     HomeModule,
-    FooterModule
+    FileUploadModule,
+    OrganTableSelectorModule,
+    FooterModule,
+    AnalyticsModule.forRoot({
+      gaToken: environment.googleAnalyticsId,
+      appName: 'reporter'
+    }),
+    TrackingPopupModule,
+    MousePositionTrackerModule
   ],
-  providers: [GoogleAnalyticsService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

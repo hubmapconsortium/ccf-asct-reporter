@@ -30,7 +30,10 @@ export class BMNode {
   outdegree?: any;
   label?: string;
   bType?: string;
+  proteinPresence: boolean;
   references?: Reference[];
+  notes: string;
+  organName: string;
 
   constructor(
     name,
@@ -38,9 +41,12 @@ export class BMNode {
     x,
     y,
     fontSize,
+    notes,
+    organName,
     ontologyId = '',
     color = '#E41A1C',
-    nodeSize = 300
+    nodeSize = 300,
+    proteinPresence = false,
   ) {
     this.name = name;
     this.group = group;
@@ -57,6 +63,9 @@ export class BMNode {
     this.isNew = false;
     this.type = NODE_TYPE.BM;
     this.label = '';
+    this.notes = notes;
+    this.organName = organName;
+    this.proteinPresence = proteinPresence;
   }
 }
 

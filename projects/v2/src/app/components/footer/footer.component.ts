@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { faGithub, faFacebookSquare, faTwitterSquare } from '@fortawesome/free-brands-svg-icons';
 import { faGlobe, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
-import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { Router } from '@angular/router';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { MASTER_SHEET_LINK } from '../../static/config';
@@ -30,7 +30,7 @@ export class FooterComponent implements OnInit {
 
   openDocs() {
     this.router.navigate(['/docs']);
-    this.ga.eventEmitter('footer_link_click', GaCategory.FOOTER, 'Open Docs', GaAction.NAV);
+    this.ga.event(GaAction.NAV, GaCategory.FOOTER, 'Open Docs');
   }
 
   openFaq() {
@@ -43,6 +43,6 @@ export class FooterComponent implements OnInit {
       MASTER_SHEET_LINK,
       '_blank'
     );
-    this.ga.eventEmitter('footer_link_click', GaCategory.FOOTER, 'Open Master Tables', GaAction.NAV);
+    this.ga.event(GaAction.NAV, GaCategory.FOOTER, 'Open Master Tables');
   }
 }

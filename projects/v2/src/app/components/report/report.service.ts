@@ -16,10 +16,16 @@ export class ReportService {
   reportData$ = this.reportData.asObservable();
   private compareData = new Subject<any>();
   compareData$ = this.compareData.asObservable();
-
+  BM_TYPE =  {
+    'gene' : 'BG',
+    'protein' : 'BP',
+    'lipids' : 'BL',
+    'metalloids' : 'BM',
+    'proteoforms' : 'BF',
+  }
   constructor() {}
 
-  async makeReportData(currentSheet: Sheet, data: any, biomarkerType?: string) {
+  async makeReportData(currentSheet: Sheet, data: any, biomarkerType?: string, isReportNotOrganWise = false) {
     const output: Report = {
       anatomicalStructures: [],
       cellTypes: [],
@@ -30,9 +36,9 @@ export class ReportService {
     };
 
     try {
-      output.anatomicalStructures = makeAS(data);
-      output.cellTypes = makeCellTypes(data);
-      output.biomarkers = makeBioMarkers(data, biomarkerType);
+      output.anatomicalStructures = makeAS(data, true, isReportNotOrganWise);
+      output.cellTypes = makeCellTypes(data, true, isReportNotOrganWise);
+      output.biomarkers = makeBioMarkers(data, biomarkerType, true, isReportNotOrganWise);
 
       output.ASWithNoLink = this.getASWithNoLink(output.anatomicalStructures);
       output.CTWithNoLink = this.getCTWithNoLink(output.cellTypes);
@@ -46,6 +52,18 @@ export class ReportService {
       console.log(err);
       throw err;
     }
+  }
+
+  countsGA(data) {
+    const output = {
+      AS : 0,
+      CT : 0,
+      B : 0,
+    };
+    output.AS = makeAS(data, true).length;
+    output.CT = makeCellTypes(data, true).length;
+    output.B = makeBioMarkers(data).length;
+    return output;
   }
 
   countOrganWise(acc, curr, type) {
@@ -72,7 +90,7 @@ export class ReportService {
     }, {});
   }
 
-  makeAllOrganReportDataByOrgan(reportData: any, asFullData: any) {
+  makeAllOrganReportDataByOrgan(sheetData: Row[], asFullData: any) {
     const result = {
       anatomicalStructures: [],
       cellTypes: [],
@@ -83,36 +101,43 @@ export class ReportService {
     };
 
     try {
-      result.anatomicalStructures = makeAS(asFullData).reduce(
+      const as = makeAS(asFullData, true);
+      const ct = makeCellTypes(sheetData, true, false);
+      const b = makeBioMarkers(sheetData, 'All', true, false);
+      result.anatomicalStructures = as.reduce(
         (acc, curr) => {
           return this.countOrganWise(acc, curr, 'anatomicalStructures');
         },
         []
       );
-      result.ASWithNoLink = reportData.ASWithNoLink.reduce((acc, curr) => {
+      result.ASWithNoLink = this.getASWithNoLink(as).reduce((acc, curr) => {
         return this.countOrganWise(acc, curr, 'ASWithNoLink');
       }, []);
-      result.BWithNoLink = reportData.BWithNoLink.reduce((acc, curr) => {
-        return this.countOrganWise(acc, curr, 'BWithNoLink');
-      }, []);
-      result.CTWithNoLink = reportData.CTWithNoLink.reduce((acc, curr) => {
-        return this.countOrganWise(acc, curr, 'CTWithNoLink');
-      }, []);
+      
       const biomarkersSeperate = this.countSeperateBiomarkers(
-        reportData.biomarkers
+        b
       );
       const biomarkersSeperateNames = [];
       Object.keys(biomarkersSeperate).forEach((bType) => {
         result[bType] = biomarkersSeperate[bType].reduce((acc, curr) => {
           return this.countOrganWise(acc, curr, bType);
         }, []);
-        biomarkersSeperateNames.push(bType);
+        biomarkersSeperateNames.push({
+          'type' : this.BM_TYPE[bType],
+          'name' : bType, 
+        });
       });
-      result.biomarkers = reportData.biomarkers.reduce((acc, curr) => {
+      result.biomarkers = b.reduce((acc, curr) => {
         return this.countOrganWise(acc, curr, 'biomarkers');
       }, []);
-      result.cellTypes = reportData.cellTypes.reduce((acc, curr) => {
+      result.cellTypes = ct.reduce((acc, curr) => {
         return this.countOrganWise(acc, curr, 'cellTypes');
+      }, []);
+      result.BWithNoLink = this.getCTWithNoLink(ct).reduce((acc, curr) => {
+        return this.countOrganWise(acc, curr, 'BWithNoLink');
+      }, []);
+      result.CTWithNoLink = this.getBMWithNoLink(b).reduce((acc, curr) => {
+        return this.countOrganWise(acc, curr, 'CTWithNoLink');
       }, []);
       return {result, biomarkersSeperateNames};
     } catch (err) {
@@ -121,12 +146,12 @@ export class ReportService {
     }
   }
 
-  makeAllOrganReportDataCountsByOrgan(data) {
+  makeAllOrganReportDataCountsByOrgan(data, linksByOrgan) {
     let allData = [];
     Object.keys(data).forEach((type) => {
       allData = [...allData, ...data[type]];
     });
-    return allData.reduce((acc, curr) => {
+    allData =  allData.reduce((acc, curr) => {
       let item = acc.find((x) => x.organName === curr.organName);
       const index = acc.findIndex((x) => x.organName === curr.organName);
       if (!item) {
@@ -141,6 +166,12 @@ export class ReportService {
       }
       return acc;
     }, []);
+    allData.forEach((countsByOrgan) => {
+      countsByOrgan.AS_AS = linksByOrgan.AS_AS_organWise[countsByOrgan.organName];
+      countsByOrgan.CT_BM = linksByOrgan.CT_B_organWise[countsByOrgan.organName];
+      countsByOrgan.AS_CT = linksByOrgan.AS_CT_organWise[countsByOrgan.organName];
+    });
+    return allData;
   }
 
   async makeCompareData(
@@ -188,7 +219,7 @@ export class ReportService {
     const identicalStructuresAS = [];
     const newStructuresAS = [];
     try {
-      const compareAS = makeAS(compareData);
+      const compareAS = makeAS(compareData, true);
       const mainASData = reportdata.anatomicalStructures.filter(
         (i) => !i.isNew
       );
@@ -222,7 +253,7 @@ export class ReportService {
     const identicalStructuresCT = [];
     const newStructuresCT = [];
     try {
-      const compareCT = makeCellTypes(compareData);
+      const compareCT = makeCellTypes(compareData, true);
       const mainCTData = reportdata.cellTypes.filter((i) => !i.isNew);
       const compareCTData = compareCT.filter((i) => i.isNew);
 
@@ -254,7 +285,7 @@ export class ReportService {
     const identicalStructuresB = [];
     const newStructuresB = [];
     try {
-      const compareB = makeBioMarkers(compareData);
+      const compareB = makeBioMarkers(compareData, '', true);
       const mainBData = reportdata.biomarkers.filter((i) => !i.isNew);
       const compareBData = compareB.filter((i) => i.isNew);
 

@@ -12,6 +12,17 @@ export interface Reference {
   notes?: string;
 }
 
+export interface OrganTableSelect {
+  organs?: string[];
+  isIntilalSelect: boolean;
+  getFromCache: boolean;
+}
+
+export interface OrganTableOnClose {
+  organs: boolean;
+  cache: boolean;
+}
+
 export interface Structure {
   name?: string;
   id?: string;
@@ -20,6 +31,8 @@ export interface Structure {
   isNew?: boolean;
   color?: string;
   organName?: string;
+  notes?: string;
+  proteinPresence?: boolean;
 }
 
 export interface Row {
@@ -32,7 +45,7 @@ export interface Row {
   biomarkers_meta: Array<Structure>;
   biomarkers_prot: Array<Structure>;
   references: Reference[];
-  organName?: string;
+  organName: string;
 }
 
 export interface ResponseData {
@@ -43,13 +56,14 @@ export interface ResponseData {
 
 export interface Sheet {
   name: string;
-  sheetId: string;
-  gid: string;
+  sheetId?: string;
+  gid?: string;
   display: string;
   config: SheetConfig;
   title: string;
   data?: string;
   csvUrl?: string;
+  formData?: FormData;
 }
 
 export interface CompareData {
@@ -60,6 +74,8 @@ export interface CompareData {
   sheetId: string;
   gid: string;
   csvUrl?: string;
+  formData?: FormData;
+  fileName?: string;
 }
 
 export interface SheetConfig {
@@ -84,6 +100,9 @@ export interface SheetInfo {
   hasError: boolean;
   msg: string;
   status: number;
+  notes: string;
+  extraLinks?:Record<string,string>;
+
 }
 
 export interface DOI {
@@ -92,12 +111,20 @@ export interface DOI {
   notes: string;
 }
 
+export interface VersionDetail {
+  value: string;
+  viewValue: string;
+  csvUrl?: string;
+  sheetId: string;
+  gid: string;
+}
+
 export interface SheetDetails {
   name: string;
   display: string;
   body?: string;
-  sheetId: string;
-  gid: string;
+  sheetId?: string;
+  gid?: string;
   config: {
       bimodal_distance_x: number;
       bimodal_distance_y: number;
@@ -105,6 +132,16 @@ export interface SheetDetails {
       height: number;
   };
   title: string;
+  version?: Array<VersionDetail>;
   data?: any;
   csvUrl?: string;
+}
+
+export interface SheetOptions {
+  title: string;
+  sheet: string;
+  version?: {
+    value: string;
+    viewValue: string;
+  }[];
 }
