@@ -1,12 +1,10 @@
 ## Frequently Asked Questions
 ---
 
-[Content pending]
+#### Question 1: Why do I get an error when I try to compare my own experimental ASCT+B table to an existing Master ASCT+B table?
 
-#### Question 1:Why do I get an error when I try to compare my own experimental ASCT+B table to an existing Master ASCT+B table?
+Answer 1: The reasons this can occur are as follows:
 
-Answer 1:
-The reasons this can occur are as follows: 
 1) You did not include the 11 rows of the header from the Google sheet template https://docs.google.com/spreadsheets/d/1qLnwCdtU6H4pqHAfA1JtyVvvTw2Lewd_BgXYuQ0QAk4/edit#gid=559906129 in your google sheet you wish to compare to a Master table. You must include the top 11 rows of the template file in your table that you wish to compare to the Master table.  Row 11 column headers  of the template are read by the ASCT+B Reporter to know what data exists. 
 2) You did not set the Google sheet share permissions of your google sheet to “anyone can view”.
 3) You did not copy the browser url for your google sheet, but instead used the google sheet share "copy link".
@@ -42,7 +40,7 @@ Answer 6: The ASCT+B Reporter visualization can be exported in PNG (Portable Net
 
 #### Question 7: What available formats can I export the ASCT+B table data in?
 
-Answer 7: 1)Vega specification (Vega spec) defines an interactive visualization in JavaScript Object Notation (JSON), 2) Graph Data, 3) JSON-LD, and 4) Web Ontology Language (OWL)/Resource Description Framework (RDF) 
+Answer 7: 1) Vega specification (Vega spec) defines an interactive visualization in JavaScript Object Notation (JSON), 2) Graph Data, 3) JSON-LD, and 4) Web Ontology Language (OWL)/Resource Description Framework (RDF) 
 
 #### Question 8: Can I upload an Excel spreadsheet version of my ASCT+B to Compare it to a Master ASCT+B table or to visualize it with the Playground features?
 
@@ -66,8 +64,3 @@ Answer 11: You can read the release notes here: https://github.com/hubmapconsort
 #### Question 12: How do I report a problem or request a new feature?
 
 Answer 12: There are several ways you may contact us to report problems: 1) Create a **New Issue** on our GitHub repository: https://github.com/hubmapconsortium/ccf-asct-reporter/issues 2) send an email to infoccf@indiana.edu 3) Click the **Contact us** button in the lower left panel of the ASCT+B Reporter
-
-
-
-
-
