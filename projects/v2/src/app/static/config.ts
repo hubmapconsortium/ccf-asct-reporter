@@ -744,33 +744,6 @@ export const SHEET_CONFIG: SheetDetails[] = [
     data: '',
   },
   {
-    name: 'vasculature',
-    display: 'Vasculature',
-    config: {
-      bimodal_distance_x: 200,
-      bimodal_distance_y: 50,
-      width: 1500,
-      height: 15000,
-    },
-    version: [
-      {
-        sheetId: SHEET_ID,
-        gid: '1896956438',
-        value: 'vasculature-v1.0',
-        viewValue: 'v1.0',
-        // csvUrl: `${version1Url}ASCT-B_VH_Vasculature.csv`
-      },
-      {
-        sheetId: SHEET_ID,
-        gid: '361657182',
-        value: 'vasculature-v1.1-Draft',
-        viewValue: 'v1.1 Draft',
-      },
-    ],
-    title: 'Anatomical Structures',
-    data: '',
-  },
-  {
     name: 'bone_marrow',
     display: 'Bone Marrow',
     config: {
@@ -896,6 +869,10 @@ export const SHEET_OPTIONS: SheetOptions[] = [
     'sheet': 'blood_vasculature',
     'title': 'Blood Vasculature',
     'version': [
+      {
+        'value': 'Blood_Vasculature-v1.0',
+        'viewValue': 'v1.0'
+      },
       {
         'value': 'Blood_Vasculature-v1.1',
         'viewValue': 'v1.1'
@@ -1168,20 +1145,6 @@ export const SHEET_OPTIONS: SheetOptions[] = [
       }
     ]
   },
-  {
-    'title': 'Vasculature',
-    'sheet': 'vasculature',
-    'version': [
-      {
-        'value': 'vasculature-v1.0',
-        'viewValue': 'v1.0'
-      },
-      {
-        'value': 'vasculature-v1.1-Draft',
-        'viewValue': 'v1.1 Draft'
-      }
-    ]
-  }
 ];
 
 export const VERSION = [

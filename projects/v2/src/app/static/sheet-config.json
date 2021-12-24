@@ -45,6 +45,12 @@
       "version": [
           {
               "sheetId": "1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0",
+              "gid": "1896956438",
+              "value": "Blood_Vasculature-v1.0",
+              "viewValue": "v1.0"
+          },
+          {
+              "sheetId": "1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0",
               "gid": "361657182",
               "value": "Blood_Vasculature-v1.1",
               "viewValue": "v1.1"
@@ -786,32 +792,6 @@
               "gid": "877379009",
               "value": "Uterus-v1.0",
               "viewValue": "v1.0"
-          }
-      ],
-      "title": "Anatomical Structures",
-      "data": ""
-  },
-  {
-      "name": "vasculature",
-      "display": "Vasculature",
-      "config": {
-          "bimodal_distance_x": 200,
-          "bimodal_distance_y": 50,
-          "width": 1500,
-          "height": 15000
-      },
-      "version": [
-          {
-              "sheetId": "1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0",
-              "gid": "1896956438",
-              "value": "vasculature-v1.0",
-              "viewValue": "v1.0"
-          },
-          {
-              "sheetId": "1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0",
-              "gid": "361657182",
-              "value": "vasculature-v1.1-Draft",
-              "viewValue": "v1.1 Draft"
           }
       ],
       "title": "Anatomical Structures",
