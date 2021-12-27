@@ -201,8 +201,8 @@ export class ReportService {
         reportdata,
         compareData
       );
-      newEntry.identicalB = identicalStructuresB;
-      newEntry.newB = newStructuresB;
+      newEntry.identicalB = newStructuresB;
+      newEntry.newB =  identicalStructuresB;
       newEntry.color = sheet.color;
       newEntry.title = sheet.title;
       newEntry.description = sheet.description;
