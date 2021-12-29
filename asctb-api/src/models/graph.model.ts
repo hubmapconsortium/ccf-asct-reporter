@@ -1,4 +1,4 @@
-import { Reference } from "./api.model";
+import { Reference } from './api.model';
 
 /* tslint:disable:variable-name */
 export enum Node_type {
