@@ -1,3 +1,5 @@
+import { Reference } from "./api.model";
+
 /* tslint:disable:variable-name */
 export enum Node_type {
   AS = 'AS',
@@ -35,7 +37,8 @@ export class GNode {
     parent: number,
     ontologyId: string,
     label: string,
-    type: string
+    type: string,
+    references: Reference[]
   ) {
     this.id = id;
     this.parent = parent;
@@ -44,7 +47,7 @@ export class GNode {
     this.comparatorId = '';
     this.comparatorName = '';
     this.name = name;
-    this.metadata = new Metadata(name, ontologyId, label);
+    this.metadata = new Metadata(name, ontologyId, label, references);
   }
 }
 
@@ -52,11 +55,13 @@ export class Metadata {
   ontologyId: string;
   label: string;
   name: string;
+  references: Reference[];
 
-  constructor(name: string, ontologyId: string, label: string) {
+  constructor(name: string, ontologyId: string, label: string, references: Reference[]) {
     this.name = name;
     this.ontologyId = ontologyId;
     this.label = label;
+    this.references = references;
   }
 }
 
