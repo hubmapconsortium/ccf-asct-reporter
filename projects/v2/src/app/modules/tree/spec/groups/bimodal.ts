@@ -378,7 +378,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             ],
           stroke: { signal: 'datum.problem ? "#000" : datum.isNew ? datum.color : "#fff"' },
           strokeWidth: { signal: 'datum.isNew ? 4 : 0' },
-          strokeDash: { signal: 'datum.isNew ? 3 : 0' }
+          strokeDash: { signal: 'datum.isNew ? [3, 3] : [0, 0]' }
         }
       }
     };
