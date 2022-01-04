@@ -187,6 +187,7 @@ export class RootComponent implements OnInit, OnDestroy {
     this.route.queryParamMap.subscribe((query) => {
       const selectedOrgans = query.get('selectedOrgans');
       const version = query.get('version');
+      const comparsionCSV = query.get('comparsionCSVURL');
       const sheet = query.get('sheet');
       const playground = query.get('playground');
       if (!selectedOrgans && playground !== 'true') {
@@ -213,6 +214,22 @@ export class RootComponent implements OnInit, OnDestroy {
             });
           }
         });
+      }
+      else if (selectedOrgans && playground !== 'true' && comparsionCSV) {
+        store.dispatch(new UpdateMode('vis'));
+        this.sheet =  SHEET_CONFIG.find(i => i.name === 'some');
+        const comparsionDetails = [{
+          title: 'Sheet 1',
+          description: '',
+          link: comparsionCSV,
+          color: '#444A65',
+          sheetId: this.checkLinkFormat(comparsionCSV).sheetID,
+          gid: this.checkLinkFormat(comparsionCSV).gid,
+          csvUrl: this.checkLinkFormat(comparsionCSV).csvUrl
+        }];
+        
+        store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(','), comparsionDetails));
+        sessionStorage.setItem('selectedOrgans', selectedOrgans);
       }
       else if (selectedOrgans && playground !== 'true') {
         store.dispatch(new UpdateMode('vis'));
@@ -377,6 +394,25 @@ export class RootComponent implements OnInit, OnDestroy {
     config.width = '300px';
 
     this.dialog.open(LoadingComponent, config);
+  }
+
+  checkLinkFormat(url: string) {
+    if (url.startsWith('https://docs.google.com/spreadsheets/d/')) {
+      const splitUrl = url.split('/');
+      if (splitUrl.length === 7) {
+        return {
+          sheetID: splitUrl[5],
+          gid: splitUrl[6].split('=')[1],
+          csvUrl: ''
+        };
+      }
+    } else {
+      return {
+        sheetID: '0',
+        gid: '0',
+        csvUrl: url
+      };
+    }
   }
 
   /**

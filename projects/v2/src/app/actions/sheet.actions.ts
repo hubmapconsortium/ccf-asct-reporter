@@ -22,7 +22,7 @@ export class FetchAllOrganData {
 
 export class FetchSelectedOrganData {
   static readonly type = '[FETCH] Selected Organs Data';
-  constructor(public sheet: Sheet, public selectedOrgans: Array<string>) {}
+  constructor(public sheet: Sheet, public selectedOrgans: Array<string>, public comparsionDetails?: CompareData[]) {}
 }
 
 export class FetchCompareData {
