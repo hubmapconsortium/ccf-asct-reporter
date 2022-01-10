@@ -220,7 +220,7 @@ export class RootComponent implements OnInit, OnDestroy {
       }
       else if (selectedOrgans && playground !== 'true') {
         store.dispatch(new UpdateMode('vis'));
-        this.sheet =  this.SHEET_CONFIG.find(i => i.name === 'some');
+        this.sheet = this.SHEET_CONFIG.find(i => i.name === 'some');
         store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(',')));
         sessionStorage.setItem('selectedOrgans', selectedOrgans);
       }
