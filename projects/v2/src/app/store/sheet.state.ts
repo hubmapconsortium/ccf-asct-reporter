@@ -10,6 +10,7 @@ import {
   SheetInfo,
   DOI,
   VersionDetail,
+  SheetDetails,
 } from '../models/sheet.model';
 import { Error } from '../models/response.model';
 import { tap, catchError } from 'rxjs/operators';
@@ -176,7 +177,7 @@ export class SheetStateModel {
 @Injectable()
 
 export class SheetState {
-  SHEET_CONFIG:any;
+  SHEET_CONFIG:SheetDetails[];
   constructor(public initConfig: AppInitService, private readonly sheetService: SheetService, public readonly ga: GoogleAnalyticsService, public reportService: ReportService) {
   }
   faliureMsg = 'Failed to fetch data';

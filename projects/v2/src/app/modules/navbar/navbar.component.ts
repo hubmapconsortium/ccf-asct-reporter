@@ -15,6 +15,8 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { OrganTableSelectorComponent } from '../../components/organ-table-selector/organ-table-selector.component';
 import { AppInitService } from '../../app-init.service';
 
+
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -66,7 +68,7 @@ export class NavbarComponent implements OnInit {
    */
   selectedOrgansValues: string;
 
-  SHEET_CONFIG:any;
+  SHEET_CONFIG:SheetDetails[];
 
   // state observables
   @Select(SheetState) sheet$: Observable<SheetStateModel>;

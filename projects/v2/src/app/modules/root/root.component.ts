@@ -48,7 +48,7 @@ import {
   MatBottomSheetRef
 } from '@angular/material/bottom-sheet';
 import { InfoComponent } from '../../components/info/info.component';
-import { CompareData, DOI, Row, SheetConfig, SheetInfo, VersionDetail } from '../../models/sheet.model';
+import { CompareData, DOI, Row, SheetConfig, SheetDetails, SheetInfo, VersionDetail } from '../../models/sheet.model';
 import { DoiComponent } from '../../components/doi/doi.component';
 import { SearchStructure } from '../../models/tree.model';
 import { SheetService } from '../../services/sheet.service';
@@ -153,7 +153,7 @@ export class RootComponent implements OnInit, OnDestroy {
   // Logs Oberservables
   @Select(LogsState) logs$: Observable<any>;
 
-  SHEET_CONFIG:any;
+  SHEET_CONFIG:SheetDetails[];
 
   constructor(
     public initConfig: AppInitService,
