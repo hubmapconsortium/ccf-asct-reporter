@@ -294,13 +294,13 @@ export class ReportService {
           let found = false;
           for (const b of mainBData) {
             if (a.structure === b.structure && !b.isNew) {
-              identicalStructuresB.push(a.structure);
+              newStructuresB.push(a.structure);
               found = true;
             }
           }
 
           if (!found) {
-            newStructuresB.push(a.structure);
+            identicalStructuresB.push(a.structure);
           }
         }
       }
