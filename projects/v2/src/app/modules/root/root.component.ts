@@ -6,7 +6,6 @@ import {
   EventEmitter,
   ViewChild
 } from '@angular/core';
-import {SHEET_CONFIG } from '../../static/config';
 import { SheetState } from './../../store/sheet.state';
 import { TreeState } from './../../store/tree.state';
 import { Select, Store } from '@ngxs/store';
@@ -55,6 +54,7 @@ import { SearchStructure } from '../../models/tree.model';
 import { SheetService } from '../../services/sheet.service';
 import { OrganTableSelectorComponent } from '../../components/organ-table-selector/organ-table-selector.component';
 import { TreeComponent } from '../tree/tree.component';
+import { AppInitService } from '../../app-init.service';
 
 @Component({
   selector: 'app-root',
@@ -153,7 +153,10 @@ export class RootComponent implements OnInit, OnDestroy {
   // Logs Oberservables
   @Select(LogsState) logs$: Observable<any>;
 
+  SHEET_CONFIG:any;
+
   constructor(
+    public initConfig: AppInitService,
     public store: Store,
     public ts: TreeService,
     public route: ActivatedRoute,
@@ -165,6 +168,7 @@ export class RootComponent implements OnInit, OnDestroy {
     public sheetService: SheetService,
     public router: Router
   ) {
+    this.SHEET_CONFIG = this.initConfig.SHEET_CONFIGURATION;
     this.data$.subscribe((data) => {
       if (data.length) {
         this.data = data;
@@ -216,18 +220,18 @@ export class RootComponent implements OnInit, OnDestroy {
       }
       else if (selectedOrgans && playground !== 'true') {
         store.dispatch(new UpdateMode('vis'));
-        this.sheet =  SHEET_CONFIG.find(i => i.name === 'some');
+        this.sheet =  this.SHEET_CONFIG.find(i => i.name === 'some');
         store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(',')));
         sessionStorage.setItem('selectedOrgans', selectedOrgans);
       }
       else if (playground === 'true') {
         store.dispatch(new UpdateMode('playground'));
-        this.sheet = SHEET_CONFIG.find((i) => i.name === 'example');
+        this.sheet = this.SHEET_CONFIG.find((i) => i.name === 'example');
         this.store.dispatch(new FetchInitialPlaygroundData());
         store.dispatch(new CloseLoading());
       } else {
         store.dispatch(new UpdateMode('vis'));
-        this.sheet = SHEET_CONFIG.find((i) => i.name === sheet);
+        this.sheet = this.SHEET_CONFIG.find((i) => i.name === sheet);
         localStorage.setItem('sheet', this.sheet.name);
         if (version === 'latest') {
           if (this.sheet.name === 'all') {
@@ -428,7 +432,7 @@ export class RootComponent implements OnInit, OnDestroy {
     const urls = [];
     if (sheet.name === 'all' || sheet.name === 'some'){
       for (const organ of selectedOrgans) {
-        SHEET_CONFIG.forEach((config) => {
+        this.SHEET_CONFIG.forEach((config) => {
           config.version?.forEach((version: VersionDetail) => {
             if (version.value === organ) {
               if (version.csvUrl) {

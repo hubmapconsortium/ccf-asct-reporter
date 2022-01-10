@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { SHEET_OPTIONS, VERSION, MORE_OPTIONS, IMG_OPTIONS, PLAYGROUND_SHEET_OPTIONS, MASTER_SHEET_LINK, SHEET_CONFIG } from '../../static/config';
+import { SHEET_OPTIONS, VERSION, MORE_OPTIONS, IMG_OPTIONS, PLAYGROUND_SHEET_OPTIONS, MASTER_SHEET_LINK} from '../../static/config';
 import { Store, Select } from '@ngxs/store';
 import { SheetState, SheetStateModel } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
@@ -13,6 +13,7 @@ import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { OrganTableSelectorComponent } from '../../components/organ-table-selector/organ-table-selector.component';
+import { AppInitService } from '../../app-init.service';
 
 @Component({
   selector: 'app-navbar',
@@ -65,6 +66,8 @@ export class NavbarComponent implements OnInit {
    */
   selectedOrgansValues: string;
 
+  SHEET_CONFIG:any;
+
   // state observables
   @Select(SheetState) sheet$: Observable<SheetStateModel>;
   @Select(UIState) ui$: Observable<UIStateModel>;
@@ -74,8 +77,10 @@ export class NavbarComponent implements OnInit {
   @Input() cache: boolean;
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(public store: Store, public router: Router, public ga: GoogleAnalyticsService, public dialog: MatDialog,
-  ) {}
+  constructor(public initConfig: AppInitService,public store: Store, public router: Router, public ga: GoogleAnalyticsService, public dialog: MatDialog,
+  ) {
+    this.SHEET_CONFIG = this.initConfig.SHEET_CONFIGURATION;
+  }
 
   ngOnInit(): void {
     this.sheet$.subscribe((sheet) => {
@@ -102,7 +107,7 @@ export class NavbarComponent implements OnInit {
       this.selectedOrgans = organs;
       const selectedOrgansNames = [];
       for (const organ of organs) {
-        SHEET_CONFIG.forEach((config: SheetDetails) => {
+        this.SHEET_CONFIG.forEach((config: SheetDetails) => {
           config.version?.forEach((version: VersionDetail) => {
             if (version.value === organ) {
               selectedOrgansNames.push(config.display);

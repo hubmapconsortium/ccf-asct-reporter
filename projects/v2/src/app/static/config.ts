@@ -1,6 +1,4 @@
-import { SheetDetails, SheetOptions } from '../models/sheet.model';
-import SHEET_CONFIGURATION  from '../../assets/sheet-config.json';
-
+import { SheetOptions } from '../models/sheet.model';
 
 export const HEADER_COUNT = 11;
 
@@ -12,9 +10,6 @@ export const MASTER_SHEET_LINK =
 export const SHEET_ID = '1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0';
 
 export const version1Url = 'https://hubmapconsortium.github.io/ccf-releases/v1.0/asct-b/';
-
-
-export const SHEET_CONFIG: SheetDetails[] = SHEET_CONFIGURATION;
 
 export const PLAYGROUND_SHEET_OPTIONS: SheetOptions[] = [
   {

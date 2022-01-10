@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { SheetState } from './store/sheet.state';
 import { TreeState } from './store/tree.state';
 import { NgxsModule } from '@ngxs/store';
@@ -27,6 +27,14 @@ import { FileUploadModule } from './components/file-upload/file-upload.module';
 import { OrganTableSelectorModule } from './components/organ-table-selector/organ-table-selector.module';
 import { TrackingPopupModule } from './components/tracking-popup/tracking-popup.module';
 import { MousePositionTrackerModule } from './services/mouse-position-tracker.module';
+
+import { AppInitService } from './app-init.service';
+ 
+export function initializeApp(appInitService: AppInitService) {
+  return (): Promise<any> => { 
+    return appInitService.Init();
+  };
+}
 
 @NgModule({
   declarations: [
@@ -59,7 +67,10 @@ import { MousePositionTrackerModule } from './services/mouse-position-tracker.mo
     TrackingPopupModule,
     MousePositionTrackerModule
   ],
-  providers: [],
+  // providers: [],
+  providers: [AppInitService,
+    { provide: APP_INITIALIZER,useFactory: initializeApp, deps: [AppInitService], multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
