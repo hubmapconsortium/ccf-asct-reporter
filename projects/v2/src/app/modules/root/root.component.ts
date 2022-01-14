@@ -54,7 +54,7 @@ import { SearchStructure } from '../../models/tree.model';
 import { SheetService } from '../../services/sheet.service';
 import { OrganTableSelectorComponent } from '../../components/organ-table-selector/organ-table-selector.component';
 import { TreeComponent } from '../tree/tree.component';
-import { AppInitService } from '../../app-init.service';
+import { ConfigService } from '../../app-config.service';
 
 @Component({
   selector: 'app-root',
@@ -156,7 +156,7 @@ export class RootComponent implements OnInit, OnDestroy {
   SHEET_CONFIG:SheetDetails[];
 
   constructor(
-    public initConfig: AppInitService,
+    public configService: ConfigService,
     public store: Store,
     public ts: TreeService,
     public route: ActivatedRoute,
@@ -168,7 +168,10 @@ export class RootComponent implements OnInit, OnDestroy {
     public sheetService: SheetService,
     public router: Router
   ) {
-    this.SHEET_CONFIG = this.initConfig.SHEET_CONFIGURATION;
+    
+    this.configService.SHEET_CONFIGURATION.subscribe(data=>{
+      this.SHEET_CONFIG = data;
+    });
     this.data$.subscribe((data) => {
       if (data.length) {
         this.data = data;

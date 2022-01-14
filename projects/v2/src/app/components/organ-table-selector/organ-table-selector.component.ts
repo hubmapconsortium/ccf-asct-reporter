@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SHEET_OPTIONS } from '../../static/config';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory, GaOrgansInfo } from '../../models/ga.model';
 import { OrganTableOnClose, OrganTableSelect } from '../../models/sheet.model';
+import { ConfigService } from '../../app-config.service';
 
 @Component({
   selector: 'app-organ-table-selector',
@@ -16,7 +16,7 @@ export class OrganTableSelectorComponent implements OnInit {
   /**
    * Sheet configs
    */
-  SHEET_OPTIONS = SHEET_OPTIONS;
+  SHEET_OPTIONS;
   /**
    * Has some selected organs
    */
@@ -32,7 +32,6 @@ export class OrganTableSelectorComponent implements OnInit {
   organs = [];
   getFromCache: boolean;
   displayedColumns: string[] = ['select', 'name', 'version'];
-  dataSource = new MatTableDataSource(SHEET_OPTIONS);
   selection = new SelectionModel(true, []);
   /**
    * Data to emit when dialog is closed
@@ -41,12 +40,20 @@ export class OrganTableSelectorComponent implements OnInit {
     'organs': false,
     'cache': true,
   }
+  dataSource: MatTableDataSource<unknown>;
 
   constructor(
+    public configService: ConfigService,
     public dialogRef: MatDialogRef<OrganTableSelectorComponent>,
     @Inject(MAT_DIALOG_DATA) public data: OrganTableSelect,
     public ga: GoogleAnalyticsService
   ) {
+
+    this.configService.CONFIG.subscribe(config=>{
+      this.SHEET_OPTIONS = config['SHEET_OPTIONS'];
+      this.dataSource = new MatTableDataSource(this.SHEET_OPTIONS);
+    });
+
     this.getFromCache = data.getFromCache;
     this.onClose.cache = data.getFromCache;
     this.organs = data.organs ? data.organs : [];

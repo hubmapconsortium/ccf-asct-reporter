@@ -1,5 +1,4 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { SHEET_OPTIONS, VERSION, MORE_OPTIONS, IMG_OPTIONS, PLAYGROUND_SHEET_OPTIONS, MASTER_SHEET_LINK} from '../../static/config';
 import { Store, Select } from '@ngxs/store';
 import { SheetState, SheetStateModel } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
@@ -13,7 +12,8 @@ import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { OrganTableSelectorComponent } from '../../components/organ-table-selector/organ-table-selector.component';
-import { AppInitService } from '../../app-init.service';
+import { ConfigService } from '../../app-config.service';
+import { SheetService } from '../../services/sheet.service';
 
 
 
@@ -26,19 +26,19 @@ export class NavbarComponent implements OnInit {
   /**
    * Available Data versions (depricated)
    */
-  VERSIONS = VERSION;
+  VERSIONS;
   /**
    * Menu options
    */
-  MORE_OPTIONS = MORE_OPTIONS;
+  MORE_OPTIONS;
   /**
    * Export options
    */
-  IMG_OPTIONS = IMG_OPTIONS;
+  IMG_OPTIONS;
   /**
    * Sheet configs
    */
-  SHEET_OPTIONS = SHEET_OPTIONS;
+  SHEET_OPTIONS;
   /**
    * Document window object
    */
@@ -78,10 +78,26 @@ export class NavbarComponent implements OnInit {
 
   @Input() cache: boolean;
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
+  PLAYGROUND_SHEET_OPTIONS: any;
+  MASTER_SHEET_LINK: string;
 
-  constructor(public initConfig: AppInitService,public store: Store, public router: Router, public ga: GoogleAnalyticsService, public dialog: MatDialog,
+  constructor(public sheetservice: SheetService, public configService: ConfigService,public store: Store, public router: Router, public ga: GoogleAnalyticsService, public dialog: MatDialog,
   ) {
-    this.SHEET_CONFIG = this.initConfig.SHEET_CONFIGURATION;
+
+    this.configService.SHEET_CONFIGURATION.subscribe(data=>{
+      this.SHEET_CONFIG = data;
+    });
+
+    this.configService.CONFIG.subscribe(config => {
+      this.SHEET_OPTIONS = config['SHEET_OPTIONS'];
+      this.VERSIONS = config['VERSION'];
+      this.MORE_OPTIONS = config['MORE_OPTIONS'];
+      this.IMG_OPTIONS = config['IMG_OPTIONS'];
+      this.PLAYGROUND_SHEET_OPTIONS = config['PLAYGROUND_SHEET_OPTIONS'];
+      this.MASTER_SHEET_LINK = config['MASTER_SHEET_LINK'];
+    });
+
+
   }
 
   ngOnInit(): void {
@@ -98,10 +114,7 @@ export class NavbarComponent implements OnInit {
     this.mode$.subscribe((mode) => {
       this.mode = mode;
       if (mode === 'playground') {
-        this.SHEET_OPTIONS = PLAYGROUND_SHEET_OPTIONS;
-      }
-      if (mode === 'vis') {
-        this.SHEET_OPTIONS = SHEET_OPTIONS;
+        this.SHEET_OPTIONS = this.PLAYGROUND_SHEET_OPTIONS;
       }
     });
 
@@ -123,7 +136,7 @@ export class NavbarComponent implements OnInit {
   }
 
   getSheetSelection(sheet, event) {
-    const selectedSheet = SHEET_OPTIONS.find((s) => s.title === sheet);
+    const selectedSheet = this.SHEET_OPTIONS.find((s) => s.title === sheet);
     this.store.dispatch(new ClearSheetLogs());
     this.router.navigate(['/vis'], {
       queryParams: { sheet: selectedSheet.sheet },
@@ -142,7 +155,7 @@ export class NavbarComponent implements OnInit {
 
   openMasterDataTables() {
     this.ga.event(GaAction.NAV, GaCategory.NAVBAR, 'Go to Master Data Tables', null);
-    window.open(MASTER_SHEET_LINK, '_blank');
+    window.open(this.MASTER_SHEET_LINK, '_blank');
   }
 
   refreshData() {

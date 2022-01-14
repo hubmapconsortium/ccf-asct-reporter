@@ -15,7 +15,6 @@ import {
 import { Error } from '../models/response.model';
 import { tap, catchError } from 'rxjs/operators';
 import { forkJoin, Observable, of } from 'rxjs';
-import { HEADER_COUNT} from '../static/config';
 import { Injectable } from '@angular/core';
 import { parse } from 'papaparse';
 import {
@@ -49,7 +48,7 @@ import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../models/ga.model';
 import { ReportService } from '../components/report/report.service';
-import { AppInitService } from '../app-init.service';
+import { ConfigService } from '../app-config.service';
 
 /** Class to keep track of the sheet */
 export class SheetStateModel {
@@ -178,7 +177,15 @@ export class SheetStateModel {
 
 export class SheetState {
   SHEET_CONFIG:SheetDetails[];
-  constructor(public initConfig: AppInitService, private readonly sheetService: SheetService, public readonly ga: GoogleAnalyticsService, public reportService: ReportService) {
+  HEADER_COUNT: number;
+  constructor(public configService: ConfigService, private readonly sheetService: SheetService, public readonly ga: GoogleAnalyticsService, public reportService: ReportService) {
+    this.configService.SHEET_CONFIGURATION.subscribe(data=>{
+      this.SHEET_CONFIG = data;
+    });
+
+    this.configService.CONFIG.subscribe(config=>{
+      this.HEADER_COUNT = config['HEADER_COUNT'];
+    });
   }
   faliureMsg = 'Failed to fetch data';
   bodyId = 'UBERON:0013702';
@@ -467,7 +474,6 @@ export class SheetState {
 
     const organsNames: string[] = [];
     for (const organ of selectedOrgans) {
-      this.SHEET_CONFIG = this.initConfig.SHEET_CONFIGURATION;
       this.SHEET_CONFIG.forEach((config) => {
         config.version?.forEach((version: VersionDetail) => {
           if (version.value === organ) {
@@ -560,7 +566,7 @@ export class SheetState {
     const requests$: Array<Observable<any>> = [];
     let dataAll: Row[] = [];
     const organsNames: string[] = [];
-    this.SHEET_CONFIG = this.initConfig.SHEET_CONFIGURATION;
+
     for (const s of this.SHEET_CONFIG) {
       if (s.name === 'all' || s.name === 'example' || s.name === 'some') {
         continue;
@@ -709,7 +715,7 @@ export class SheetState {
     return this.sheetService.fetchDataFromAssets(version, sheet).pipe(
       tap((res) => {
         const parsedData = parse(res, { skipEmptyLines: true });
-        parsedData.data.splice(0, HEADER_COUNT);
+        parsedData.data.splice(0, this.HEADER_COUNT);
         parsedData.data.map((i) => {
           i.push(false);
           i.push('#ccc');
@@ -841,7 +847,6 @@ export class SheetState {
     setState,
     dispatch,
   }: StateContext<SheetStateModel>) {
-    this.SHEET_CONFIG = this.initConfig.SHEET_CONFIGURATION;
     const sheet: Sheet = this.SHEET_CONFIG.find((i) => i.name === 'example');
     const mode = getState().mode;
     dispatch(new OpenLoading('Fetching playground data...'));
@@ -902,7 +907,7 @@ export class SheetState {
     { getState, setState, dispatch }: StateContext<SheetStateModel>,
     { data }: UpdatePlaygroundData
   ) {
-    this.SHEET_CONFIG = this.initConfig.SHEET_CONFIGURATION;
+
     const sheet: Sheet = this.SHEET_CONFIG.find((i) => i.name === 'example');
     const state = getState();
     dispatch(new OpenLoading('Fetching playground data...'));

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { URL, getAssetsURL } from './../static/url';
-import { Observable, throwError } from 'rxjs';
+import { Observable, Subject, throwError } from 'rxjs';
 import {  map } from 'rxjs/operators';
 import { SheetInfo, Structure } from '../models/sheet.model';
 
@@ -9,6 +9,8 @@ import { SheetInfo, Structure } from '../models/sheet.model';
   providedIn: 'root'
 })
 export class SheetService {
+
+  subject_sheetservice = new Subject();
   constructor(private http: HttpClient) {}
 
   /**

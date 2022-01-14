@@ -28,9 +28,9 @@ import { OrganTableSelectorModule } from './components/organ-table-selector/orga
 import { TrackingPopupModule } from './components/tracking-popup/tracking-popup.module';
 import { MousePositionTrackerModule } from './services/mouse-position-tracker.module';
 
-import { AppInitService } from './app-init.service';
+import { ConfigService } from './app-config.service';
  
-export function initializeApp(appInitService: AppInitService) {
+export function initializeApp(appInitService: ConfigService) {
   return (): Promise<any> => { 
     return appInitService.Init();
   };
@@ -68,8 +68,8 @@ export function initializeApp(appInitService: AppInitService) {
     MousePositionTrackerModule
   ],
   // providers: [],
-  providers: [AppInitService,
-    { provide: APP_INITIALIZER,useFactory: initializeApp, deps: [AppInitService], multi: true}
+  providers: [ConfigService,
+    { provide: APP_INITIALIZER,useFactory: initializeApp, deps: [ConfigService], multi: true}
   ],
   bootstrap: [AppComponent]
 })
