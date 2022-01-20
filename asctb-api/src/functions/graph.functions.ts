@@ -11,7 +11,8 @@ export function buildgraphAS(data: Row[], graphData: GraphData) {
     0,
     data[0].anatomical_structures[0].id,
     data[0].anatomical_structures[0].rdfs_label,
-    Node_type.R
+    Node_type.R,
+    []
   );
   root.comparator = root.metadata.name;
   root.comparatorName = root.metadata.name;
@@ -45,7 +46,8 @@ export function buildgraphAS(data: Row[], graphData: GraphData) {
           parent.id,
           structure.id,
           structure.rdfs_label,
-          Node_type.AS
+          Node_type.AS,
+          row.references
         );
         newNode.comparatorName = parent.comparatorName + newNode.metadata.name;
         newNode.comparatorId =
@@ -93,7 +95,8 @@ export function buildgraphCT(data: Row[], graphData: GraphData, id: number) {
             parent.id,
             structure.id,
             structure.rdfs_label,
-            Node_type.CT
+            Node_type.CT,
+            row.references
           );
           newNode.comparatorName = newNode.metadata.name;
           newNode.comparatorId = newNode.metadata.ontologyId;
@@ -140,7 +143,8 @@ export function buildgraphBM(data: Row[], graphData: GraphData, id: number) {
               parent.id,
               biomarker.id,
               biomarker.rdfs_label,
-              biomarker.b_type ?? Node_type.BM
+              biomarker.b_type ?? Node_type.BM,
+              row.references
             );
             newNode.comparatorName = newNode.metadata.name;
             newNode.comparatorId = newNode.metadata.ontologyId;

@@ -82,6 +82,7 @@ export interface AS extends Base {
 export interface Degree {
   id: string;
   name: string;
+  proteinPresence?: boolean;
 }
 
 export interface ASCTBConfig {
@@ -114,6 +115,7 @@ export interface B extends Base{
   outdegree?: Set<Degree>;
   nodeSize?: number;
   bType?: string;
+  proteinPresence?: boolean;
   organName?: string;
   notes: string;
 }

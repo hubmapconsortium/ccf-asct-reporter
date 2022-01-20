@@ -29,7 +29,8 @@ export function makeJsonLdData(data: GraphData, withSubclasses = true): JsonLd {
         'id': ontologyId,
         'asctb_type': node.type,
         'label': node.metadata.label || node.metadata.name,
-        'preferred_label': node.name || node.metadata.label
+        'preferred_label': node.name || node.metadata.label,
+        'references': node.metadata.references,
       });
     }
   });
@@ -156,6 +157,7 @@ export function makeJsonLdData(data: GraphData, withSubclasses = true): JsonLd {
       label: 'rdfs:label',
       preferred_label: 'ccf:ccf_preferred_label',
       asctb_type: 'ccf:asctb_type',
+      references: 'ccf:ccf_references',
       defines: {
         '@reverse': 'rdfs:isDefinedBy'
       },
