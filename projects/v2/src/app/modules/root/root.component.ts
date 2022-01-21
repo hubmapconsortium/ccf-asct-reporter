@@ -236,7 +236,7 @@ export class RootComponent implements OnInit, OnDestroy {
           ];
           comparisonCSVURLList.forEach((linkUrl, index) => {
             comparisonDetails.push({
-              title: 'Sheet ' + (index + 1),
+              title: `Sheet ${index + 1}`,
               description: '',
               link: linkUrl,
               color: colors[index],
@@ -471,7 +471,6 @@ export class RootComponent implements OnInit, OnDestroy {
       queryParams: { comparisonCSVURL: compareDataString },
       queryParamsHandling: 'merge',
     });
-    // this.store.dispatch(new FetchCompareData(data));
 
 
   }
