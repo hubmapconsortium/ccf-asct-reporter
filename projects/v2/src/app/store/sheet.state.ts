@@ -432,7 +432,7 @@ export class SheetState {
   @Action(FetchSelectedOrganData)
   async fetchSelectedOrganData(
     { getState, dispatch, patchState }: StateContext<SheetStateModel>,
-    { sheet, selectedOrgans, comparsionDetails }: FetchSelectedOrganData
+    { sheet, selectedOrgans, comparisonDetails }: FetchSelectedOrganData
   ) {
     dispatch(new OpenLoading('Fetching data...'));
 
@@ -504,8 +504,8 @@ export class SheetState {
           fullAsData: asDeltails,
           fullDataByOrgan
         });
-        if (comparsionDetails) {
-          dispatch(new FetchCompareData(comparsionDetails));
+        if (comparisonDetails) {
+          dispatch(new FetchCompareData(comparisonDetails));
         }
       },
       (err) => {

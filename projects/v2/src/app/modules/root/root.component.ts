@@ -12,7 +12,6 @@ import { TreeState } from './../../store/tree.state';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import {
-  FetchCompareData,
   UpdateReport,
   DeleteCompareSheet,
   UpdateMode,
@@ -187,7 +186,7 @@ export class RootComponent implements OnInit, OnDestroy {
     this.route.queryParamMap.subscribe((query) => {
       const selectedOrgans = query.get('selectedOrgans');
       const version = query.get('version');
-      const comparsionCSV = query.get('comparsionCSVURL');
+      const comparisonCSV = query.get('comparisonCSVURL');
       const sheet = query.get('sheet');
       const playground = query.get('playground');
       if (!selectedOrgans && playground !== 'true') {
@@ -215,20 +214,41 @@ export class RootComponent implements OnInit, OnDestroy {
           }
         });
       }
-      else if (selectedOrgans && playground !== 'true' && comparsionCSV) {
+      else if (selectedOrgans && playground !== 'true' && comparisonCSV) {
         store.dispatch(new UpdateMode('vis'));
+        const comparisonCSVURLList = comparisonCSV.split('|');
+
+        const comparisonDetails = JSON.parse(localStorage.getItem('compareData')) || [];
         this.sheet =  SHEET_CONFIG.find(i => i.name === 'some');
-        const comparsionDetails = [{
-          title: 'Sheet 1',
-          description: '',
-          link: comparsionCSV,
-          color: '#444A65',
-          sheetId: this.checkLinkFormat(comparsionCSV).sheetID,
-          gid: this.checkLinkFormat(comparsionCSV).gid,
-          csvUrl: this.checkLinkFormat(comparsionCSV).csvUrl
-        }];
+
+        if (!comparisonDetails.length) {
+          const colors = [
+            '#6457A6',
+            '#2C666E',
+            '#72A98F',
+            '#3D5A6C',
+            '#F37748',
+            '#FB4B4E',
+            '#FFCBDD',
+            '#7C0B2B',
+            '#067BC2',
+            '#ECC30B'
+          ];
+          comparisonCSVURLList.forEach((linkUrl, index) => {
+            comparisonDetails.push({
+              title: 'Sheet ' + (index + 1),
+              description: '',
+              link: linkUrl,
+              color: colors[index],
+              sheetId: this.checkLinkFormat(linkUrl).sheetID,
+              gid: this.checkLinkFormat(linkUrl).gid,
+              csvUrl: this.checkLinkFormat(linkUrl).csvUrl
+            });
+          });
+        }
+        console.log(comparisonCSVURLList,comparisonDetails);
         
-        store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(','), comparsionDetails));
+        store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(','), comparisonDetails));
         sessionStorage.setItem('selectedOrgans', selectedOrgans);
       }
       else if (selectedOrgans && playground !== 'true') {
@@ -438,7 +458,22 @@ export class RootComponent implements OnInit, OnDestroy {
    */
   compareData(data: CompareData[]) {
     this.store.dispatch(new CloseCompare());
-    this.store.dispatch(new FetchCompareData(data));
+    // set data in local storage with key as compareData
+    localStorage.setItem('compareData', JSON.stringify(data));
+
+    // make a strng joined by | for link property if is not empty in data
+
+    const compareDataString = data
+      .filter((compareData: CompareData) => compareData.link !== '')
+      .map((compareData: CompareData) => compareData.link)
+      .join('|');
+    this.router.navigate(['/vis'], {
+      queryParams: { comparisonCSVURL: compareDataString },
+      queryParamsHandling: 'merge',
+    });
+    // this.store.dispatch(new FetchCompareData(data));
+
+
   }
 
   /**
