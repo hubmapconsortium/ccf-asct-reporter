@@ -419,10 +419,10 @@ export class RootComponent implements OnInit, OnDestroy {
   /**
    * 
    * @param url  of the sheet to compare
-   * @returns a object with the sheetID, gID, and CsvUrl
+   * @returns a object with the sheetID, gid, and CsvUrl
    */
 
-  parseSheetUrl(url: string) {
+  parseSheetUrl(url: string): { sheetID: string, gid: string, csvUrl: string } {
     if (url.startsWith('https://docs.google.com/spreadsheets/d/')) {
       const splitUrl = url.split('/');
       if (splitUrl.length === 7) {
