@@ -242,9 +242,9 @@ export class RootComponent implements OnInit, OnDestroy {
               description: '',
               link: linkUrl,
               color:  comparisonColorList?.length-1 <= index ? comparisonColorList[index] : colors[index],
-              sheetId: this.checkLinkFormat(linkUrl).sheetID,
-              gid: this.checkLinkFormat(linkUrl).gid,
-              csvUrl: this.checkLinkFormat(linkUrl).csvUrl
+              sheetId: this.parseSheetUrl(linkUrl).sheetID,
+              gid: this.parseSheetUrl(linkUrl).gid,
+              csvUrl: this.parseSheetUrl(linkUrl).csvUrl
             });
           });
         }
@@ -416,7 +416,13 @@ export class RootComponent implements OnInit, OnDestroy {
     this.dialog.open(LoadingComponent, config);
   }
 
-  checkLinkFormat(url: string) {
+  /**
+   * 
+   * @param url  of the sheet to compare
+   * @returns a object with the sheetID, gID, and CsvUrl
+   */
+
+  parseSheetUrl(url: string) {
     if (url.startsWith('https://docs.google.com/spreadsheets/d/')) {
       const splitUrl = url.split('/');
       if (splitUrl.length === 7) {
@@ -426,6 +432,11 @@ export class RootComponent implements OnInit, OnDestroy {
           csvUrl: ''
         };
       }
+      return {
+        sheetID: '0',
+        gid: '0',
+        csvUrl: url
+      };
     } else {
       return {
         sheetID: '0',
