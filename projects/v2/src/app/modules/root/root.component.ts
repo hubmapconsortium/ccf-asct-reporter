@@ -187,6 +187,7 @@ export class RootComponent implements OnInit, OnDestroy {
       const selectedOrgans = query.get('selectedOrgans');
       const version = query.get('version');
       const comparisonCSV = query.get('comparisonCSVURL');
+      const comparisonColor = query.get('comparisonColor');
       const sheet = query.get('sheet');
       const playground = query.get('playground');
       if (!selectedOrgans && playground !== 'true') {
@@ -217,6 +218,7 @@ export class RootComponent implements OnInit, OnDestroy {
       else if (selectedOrgans && playground !== 'true' && comparisonCSV) {
         store.dispatch(new UpdateMode('vis'));
         const comparisonCSVURLList = comparisonCSV.split('|');
+        const comparisonColorList = comparisonColor?.split('|');
 
         const comparisonDetails = JSON.parse(localStorage.getItem('compareData')) || [];
         this.sheet =  SHEET_CONFIG.find(i => i.name === 'some');
@@ -239,15 +241,13 @@ export class RootComponent implements OnInit, OnDestroy {
               title: `Sheet ${index + 1}`,
               description: '',
               link: linkUrl,
-              color: colors[index],
+              color:  comparisonColorList?.length-1 <= index ? comparisonColorList[index] : colors[index],
               sheetId: this.checkLinkFormat(linkUrl).sheetID,
               gid: this.checkLinkFormat(linkUrl).gid,
               csvUrl: this.checkLinkFormat(linkUrl).csvUrl
             });
           });
         }
-        console.log(comparisonCSVURLList,comparisonDetails);
-        
         store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(','), comparisonDetails));
         sessionStorage.setItem('selectedOrgans', selectedOrgans);
       }
@@ -461,17 +461,21 @@ export class RootComponent implements OnInit, OnDestroy {
     // set data in local storage with key as compareData
     localStorage.setItem('compareData', JSON.stringify(data));
 
-    // make a strng joined by | for link property if is not empty in data
-
     const compareDataString = data
       .filter((compareData: CompareData) => compareData.link !== '')
       .map((compareData: CompareData) => compareData.link)
       .join('|');
+
+    const compareColorString = data
+      .filter((compareData: CompareData) => compareData.color !== '')
+      .map((compareData: CompareData) => compareData.color)
+      .join('|');
+
     this.router.navigate(['/vis'], {
-      queryParams: { comparisonCSVURL: compareDataString },
+      queryParams: { comparisonCSVURL: compareDataString,
+        comparisonColor: compareColorString },
       queryParamsHandling: 'merge',
     });
-
 
   }
 
