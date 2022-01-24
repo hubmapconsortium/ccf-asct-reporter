@@ -12,7 +12,6 @@ import { TreeState } from './../../store/tree.state';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import {
-  FetchCompareData,
   UpdateReport,
   DeleteCompareSheet,
   UpdateMode,
@@ -187,6 +186,8 @@ export class RootComponent implements OnInit, OnDestroy {
     this.route.queryParamMap.subscribe((query) => {
       const selectedOrgans = query.get('selectedOrgans');
       const version = query.get('version');
+      const comparisonCSV = query.get('comparisonCSVURL');
+      const comparisonColor = query.get('comparisonColor');
       const sheet = query.get('sheet');
       const playground = query.get('playground');
       if (!selectedOrgans && playground !== 'true') {
@@ -213,6 +214,42 @@ export class RootComponent implements OnInit, OnDestroy {
             });
           }
         });
+      }
+      else if (selectedOrgans && playground !== 'true' && comparisonCSV) {
+        store.dispatch(new UpdateMode('vis'));
+        const comparisonCSVURLList = comparisonCSV.split('|');
+        const comparisonColorList = comparisonColor?.split('|');
+
+        const comparisonDetails = JSON.parse(localStorage.getItem('compareData')) || [];
+        this.sheet =  SHEET_CONFIG.find(i => i.name === 'some');
+
+        if (!comparisonDetails.length) {
+          const colors = [
+            '#6457A6',
+            '#2C666E',
+            '#72A98F',
+            '#3D5A6C',
+            '#F37748',
+            '#FB4B4E',
+            '#FFCBDD',
+            '#7C0B2B',
+            '#067BC2',
+            '#ECC30B'
+          ];
+          comparisonCSVURLList.forEach((linkUrl, index) => {
+            comparisonDetails.push({
+              title: `Sheet ${index + 1}`,
+              description: '',
+              link: linkUrl,
+              color:  comparisonColorList?.length-1 <= index ? comparisonColorList[index] : colors[index],
+              sheetId: this.parseSheetUrl(linkUrl).sheetID,
+              gid: this.parseSheetUrl(linkUrl).gid,
+              csvUrl: this.parseSheetUrl(linkUrl).csvUrl
+            });
+          });
+        }
+        store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(','), comparisonDetails));
+        sessionStorage.setItem('selectedOrgans', selectedOrgans);
       }
       else if (selectedOrgans && playground !== 'true') {
         store.dispatch(new UpdateMode('vis'));
@@ -380,6 +417,36 @@ export class RootComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * 
+   * @param url  of the sheet to compare
+   * @returns a object with the sheetID, gid, and CsvUrl
+   */
+
+  parseSheetUrl(url: string): { sheetID: string, gid: string, csvUrl: string } {
+    if (url.startsWith('https://docs.google.com/spreadsheets/d/')) {
+      const splitUrl = url.split('/');
+      if (splitUrl.length === 7) {
+        return {
+          sheetID: splitUrl[5],
+          gid: splitUrl[6].split('=')[1],
+          csvUrl: ''
+        };
+      }
+      return {
+        sheetID: '0',
+        gid: '0',
+        csvUrl: url
+      };
+    } else {
+      return {
+        sheetID: '0',
+        gid: '0',
+        csvUrl: url
+      };
+    }
+  }
+
+  /**
    * Close loading dialog
    */
   closeLoading() {
@@ -402,7 +469,25 @@ export class RootComponent implements OnInit, OnDestroy {
    */
   compareData(data: CompareData[]) {
     this.store.dispatch(new CloseCompare());
-    this.store.dispatch(new FetchCompareData(data));
+    // set data in local storage with key as compareData
+    localStorage.setItem('compareData', JSON.stringify(data));
+
+    const compareDataString = data
+      .filter((compareData: CompareData) => compareData.link !== '')
+      .map((compareData: CompareData) => compareData.link)
+      .join('|');
+
+    const compareColorString = data
+      .filter((compareData: CompareData) => compareData.color !== '')
+      .map((compareData: CompareData) => compareData.color)
+      .join('|');
+
+    this.router.navigate(['/vis'], {
+      queryParams: { comparisonCSVURL: compareDataString,
+        comparisonColor: compareColorString },
+      queryParamsHandling: 'merge',
+    });
+
   }
 
   /**
