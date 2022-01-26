@@ -10,7 +10,6 @@ import { SheetInfo, Structure } from '../models/sheet.model';
 })
 export class SheetService {
 
-  subject_sheetservice = new Subject();
   constructor(private http: HttpClient) {}
 
   /**

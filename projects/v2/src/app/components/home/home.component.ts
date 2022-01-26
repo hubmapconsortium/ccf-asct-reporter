@@ -8,8 +8,6 @@ import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { YouTubePlayer } from '@angular/youtube-player';
 import { ConfigService } from '../../app-config.service';
-import { SheetOptions } from '../../models/sheet.model';
-
 
 @Component({
   selector: 'app-home',
@@ -37,7 +35,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   @ViewChild('tutorialVideo') player: YouTubePlayer;
 
-  constructor(public configService: ConfigService, private router: Router, public ga: GoogleAnalyticsService) { 
+  constructor(public configService: ConfigService, private readonly router: Router, public ga: GoogleAnalyticsService) { 
     this.configService.config$.subscribe(config=>{
       this.masterSheetLink = config.masterSheetLink;
       this.sheetOptions = config.sheetOptions;
