@@ -241,7 +241,7 @@ export class RootComponent implements OnInit, OnDestroy {
               title: `Sheet ${index + 1}`,
               description: '',
               link: linkUrl,
-              color:  comparisonColorList?.length-1 <= index ? comparisonColorList[index] : colors[index],
+              color:  comparisonColorList?.length-1 <= index ? comparisonColorList[index] : colors[index % colors.length],
               sheetId: this.parseSheetUrl(linkUrl).sheetID,
               gid: this.parseSheetUrl(linkUrl).gid,
               csvUrl: this.parseSheetUrl(linkUrl).csvUrl
