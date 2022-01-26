@@ -176,15 +176,15 @@ export class SheetStateModel {
 @Injectable()
 
 export class SheetState {
-  SHEET_CONFIG:SheetDetails[];
-  HEADER_COUNT: number;
+  sheetConfig:SheetDetails[];
+  headerCount: number;
   constructor(public configService: ConfigService, private readonly sheetService: SheetService, public readonly ga: GoogleAnalyticsService, public reportService: ReportService) {
-    this.configService.SHEET_CONFIGURATION.subscribe(data=>{
-      this.SHEET_CONFIG = data;
+    this.configService.sheetConfiguration.subscribe(data=>{
+      this.sheetConfig = data;
     });
 
-    this.configService.CONFIG.subscribe(config=>{
-      this.HEADER_COUNT = config['HEADER_COUNT'];
+    this.configService.config.subscribe(config=>{
+      this.headerCount = config['headerCount'];
     });
   }
   faliureMsg = 'Failed to fetch data';
@@ -474,7 +474,7 @@ export class SheetState {
 
     const organsNames: string[] = [];
     for (const organ of selectedOrgans) {
-      this.SHEET_CONFIG.forEach((config) => {
+      this.sheetConfig.forEach((config) => {
         config.version?.forEach((version: VersionDetail) => {
           if (version.value === organ) {
             requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
@@ -567,7 +567,7 @@ export class SheetState {
     let dataAll: Row[] = [];
     const organsNames: string[] = [];
 
-    for (const s of this.SHEET_CONFIG) {
+    for (const s of this.sheetConfig) {
       if (s.name === 'all' || s.name === 'example' || s.name === 'some') {
         continue;
       } else {
@@ -715,7 +715,7 @@ export class SheetState {
     return this.sheetService.fetchDataFromAssets(version, sheet).pipe(
       tap((res) => {
         const parsedData = parse(res, { skipEmptyLines: true });
-        parsedData.data.splice(0, this.HEADER_COUNT);
+        parsedData.data.splice(0, this.headerCount);
         parsedData.data.map((i) => {
           i.push(false);
           i.push('#ccc');
@@ -847,7 +847,7 @@ export class SheetState {
     setState,
     dispatch,
   }: StateContext<SheetStateModel>) {
-    const sheet: Sheet = this.SHEET_CONFIG.find((i) => i.name === 'example');
+    const sheet: Sheet = this.sheetConfig.find((i) => i.name === 'example');
     const mode = getState().mode;
     dispatch(new OpenLoading('Fetching playground data...'));
     dispatch(new StateReset(TreeState));
@@ -908,7 +908,7 @@ export class SheetState {
     { data }: UpdatePlaygroundData
   ) {
 
-    const sheet: Sheet = this.SHEET_CONFIG.find((i) => i.name === 'example');
+    const sheet: Sheet = this.sheetConfig.find((i) => i.name === 'example');
     const state = getState();
     dispatch(new OpenLoading('Fetching playground data...'));
     dispatch(new StateReset(TreeState));

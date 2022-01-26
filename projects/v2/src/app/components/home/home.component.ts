@@ -32,15 +32,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
   faEnvelope = faEnvelope;
 
   copyrightYear = new Date().getFullYear();
-  MASTER_SHEET_LINK:string;
-  SHEET_OPTIONS:SheetOptions;
+  masterSheetLink:string;
+  sheetOptions:SheetOptions;
 
   @ViewChild('tutorialVideo') player: YouTubePlayer;
 
   constructor(public configService: ConfigService, private router: Router, public ga: GoogleAnalyticsService) { 
-    this.configService.CONFIG.subscribe(config=>{
-      this.MASTER_SHEET_LINK = config['MASTER_SHEET_LINK'];
-      this.SHEET_OPTIONS = config['SHEET_OPTIONS'];
+    this.configService.config.subscribe(config=>{
+      this.masterSheetLink = config['masterSheetLink'];
+      this.sheetOptions = config['sheetOptions'];
     });
   }
 
@@ -80,7 +80,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   openData() {
     window.open(
-      this.MASTER_SHEET_LINK,
+      this.masterSheetLink,
       '_blank'
     );
     this.ga.event(GaAction.NAV, GaCategory.HOME, 'Open Master Tables');

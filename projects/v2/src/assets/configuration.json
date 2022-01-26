@@ -1,24 +1,24 @@
 {
    
-"HEADER_COUNT" : "11",
+"headerCount" : "11",
 
-"IMG_OPTIONS" : ["PNG", "SVG", "Vega Spec", "Graph Data", "JSON-LD","OWL (RDF/XML)"],
+"imgOptions" : ["PNG", "SVG", "Vega Spec", "Graph Data", "JSON-LD","OWL (RDF/XML)"],
 
-"MASTER_SHEET_LINK" :
+"masterSheetLink" :
   "https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=2034682742",
 
-"SHEET_ID" : "1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0",
+"sheetId" : "1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0",
 
 "version1Url" : "https://hubmapconsortium.github.io/ccf-releases/v1.0/asct-b/",
 
-"PLAYGROUND_SHEET_OPTIONS" : [
+"playgroundSheetOptions" : [
   {
     "title": "Example",
     "sheet": "example"
   }
 ],
 
-"SHEET_OPTIONS" : [
+"sheetOptions" : [
   {
     "sheet": "All Organs",
     "title": "All Organs",
@@ -325,7 +325,7 @@
   }
 ],
 
-"VERSION" : [
+"version" : [
   {
     "display": "Latest",
     "folder": "latest"
@@ -340,7 +340,7 @@
   }
 ],
 
-"MORE_OPTIONS" : [
+"moreOptions" : [
   {
     "name": "About",
     "url": "/docs",

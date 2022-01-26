@@ -26,19 +26,19 @@ export class NavbarComponent implements OnInit {
   /**
    * Available Data versions (depricated)
    */
-  VERSIONS;
+  versions;
   /**
    * Menu options
    */
-  MORE_OPTIONS;
+  moreOptions;
   /**
    * Export options
    */
-  IMG_OPTIONS;
+  imgOptions;
   /**
    * Sheet configs
    */
-  SHEET_OPTIONS;
+  sheetOptions;
   /**
    * Document window object
    */
@@ -68,7 +68,7 @@ export class NavbarComponent implements OnInit {
    */
   selectedOrgansValues: string;
 
-  SHEET_CONFIG:SheetDetails[];
+  sheetConfig:SheetDetails[];
 
   // state observables
   @Select(SheetState) sheet$: Observable<SheetStateModel>;
@@ -78,23 +78,23 @@ export class NavbarComponent implements OnInit {
 
   @Input() cache: boolean;
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
-  PLAYGROUND_SHEET_OPTIONS: any;
-  MASTER_SHEET_LINK: string;
+  playgroundSheetOptions: any;
+  masterSheetLink: string;
 
   constructor(public sheetservice: SheetService, public configService: ConfigService,public store: Store, public router: Router, public ga: GoogleAnalyticsService, public dialog: MatDialog,
   ) {
 
-    this.configService.SHEET_CONFIGURATION.subscribe(data=>{
-      this.SHEET_CONFIG = data;
+    this.configService.sheetConfiguration.subscribe(data=>{
+      this.sheetConfig = data;
     });
 
-    this.configService.CONFIG.subscribe(config => {
-      this.SHEET_OPTIONS = config['SHEET_OPTIONS'];
-      this.VERSIONS = config['VERSION'];
-      this.MORE_OPTIONS = config['MORE_OPTIONS'];
-      this.IMG_OPTIONS = config['IMG_OPTIONS'];
-      this.PLAYGROUND_SHEET_OPTIONS = config['PLAYGROUND_SHEET_OPTIONS'];
-      this.MASTER_SHEET_LINK = config['MASTER_SHEET_LINK'];
+    this.configService.config.subscribe(config => {
+      this.sheetOptions = config['sheetOptions'];
+      this.versions = config['version'];
+      this.moreOptions = config['moreOptions'];
+      this.imgOptions = config['imgOptions'];
+      this.playgroundSheetOptions = config['playgroundSheetOptions'];
+      this.masterSheetLink = config['masterSheetLink'];
     });
 
 
@@ -105,7 +105,7 @@ export class NavbarComponent implements OnInit {
       if (sheet.sheet) {
         this.currentSheet = sheet.sheet;
         this.selectedSheetOption = sheet.sheet.display;
-        this.selectedVersion = this.VERSIONS.find(
+        this.selectedVersion = this.versions.find(
           (s) => s.folder === sheet.version
         ).display;
       }
@@ -114,7 +114,7 @@ export class NavbarComponent implements OnInit {
     this.mode$.subscribe((mode) => {
       this.mode = mode;
       if (mode === 'playground') {
-        this.SHEET_OPTIONS = this.PLAYGROUND_SHEET_OPTIONS;
+        this.sheetOptions = this.playgroundSheetOptions;
       }
     });
 
@@ -122,7 +122,7 @@ export class NavbarComponent implements OnInit {
       this.selectedOrgans = organs;
       const selectedOrgansNames = [];
       for (const organ of organs) {
-        this.SHEET_CONFIG.forEach((config: SheetDetails) => {
+        this.sheetConfig.forEach((config: SheetDetails) => {
           config.version?.forEach((version: VersionDetail) => {
             if (version.value === organ) {
               selectedOrgansNames.push(config.display);
@@ -136,7 +136,7 @@ export class NavbarComponent implements OnInit {
   }
 
   getSheetSelection(sheet, event) {
-    const selectedSheet = this.SHEET_OPTIONS.find((s) => s.title === sheet);
+    const selectedSheet = this.sheetOptions.find((s) => s.title === sheet);
     this.store.dispatch(new ClearSheetLogs());
     this.router.navigate(['/vis'], {
       queryParams: { sheet: selectedSheet.sheet },
@@ -146,7 +146,7 @@ export class NavbarComponent implements OnInit {
   }
 
   getVersionSelection(version, event) {
-    const selectedVersion = this.VERSIONS.find((s) => s.display === version);
+    const selectedVersion = this.versions.find((s) => s.display === version);
     this.router.navigate(['/vis'], {
       queryParams: { version: selectedVersion.folder },
       queryParamsHandling: 'merge',
@@ -155,7 +155,7 @@ export class NavbarComponent implements OnInit {
 
   openMasterDataTables() {
     this.ga.event(GaAction.NAV, GaCategory.NAVBAR, 'Go to Master Data Tables', null);
-    window.open(this.MASTER_SHEET_LINK, '_blank');
+    window.open(this.masterSheetLink, '_blank');
   }
 
   refreshData() {

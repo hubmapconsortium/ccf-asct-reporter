@@ -1,24 +1,24 @@
 import { SheetOptions } from '../models/sheet.model';
 
-export const HEADER_COUNT = 11;
+export const headerCount = 11;
 
-export const IMG_OPTIONS = ['PNG', 'SVG', 'Vega Spec', 'Graph Data', 'JSON-LD','OWL (RDF/XML)'];
+export const imgOptions = ['PNG', 'SVG', 'Vega Spec', 'Graph Data', 'JSON-LD','OWL (RDF/XML)'];
 
-export const MASTER_SHEET_LINK =
+export const masterSheetLink =
   'https://docs.google.com/spreadsheets/d/1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0/edit#gid=2034682742';
 
 export const SHEET_ID = '1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0';
 
 export const version1Url = 'https://hubmapconsortium.github.io/ccf-releases/v1.0/asct-b/';
 
-export const PLAYGROUND_SHEET_OPTIONS: SheetOptions[] = [
+export const playgroundSheetOptions: SheetOptions[] = [
   {
     title: 'Example',
     sheet: 'example',
   },
 ];
 
-export const SHEET_OPTIONS: SheetOptions[] = [
+export const sheetOptions: SheetOptions[] = [
   {
     'sheet': 'All Organs',
     'title': 'All Organs',
@@ -325,7 +325,7 @@ export const SHEET_OPTIONS: SheetOptions[] = [
   },
 ];
 
-export const VERSION = [
+export const version = [
   {
     display: 'Latest',
     folder: 'latest',
@@ -340,7 +340,7 @@ export const VERSION = [
   },
 ];
 
-export const MORE_OPTIONS = [
+export const moreOptions = [
   {
     name: 'About',
     url: '/docs',

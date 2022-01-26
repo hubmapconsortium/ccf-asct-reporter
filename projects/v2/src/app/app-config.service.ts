@@ -7,8 +7,8 @@ import { SheetDetails } from './models/sheet.model';
 @Injectable()
 export class ConfigService {
 
-    CONFIG = new ReplaySubject(2);
-    SHEET_CONFIGURATION = new ReplaySubject<SheetDetails[]>(2);
+    config = new ReplaySubject(2);
+    sheetConfiguration = new ReplaySubject<SheetDetails[]>(2);
  
     constructor(private readonly http: HttpClient,public sheetservice: SheetService) {
     }
@@ -18,7 +18,7 @@ export class ConfigService {
 
         const promise1 = new Promise<void>(() => { 
           this.http.get<SheetDetails[]>('assets/sheet-config.json').subscribe(data=>{
-            this.SHEET_CONFIGURATION.next(data);
+            this.sheetConfiguration.next(data);
             this.sheetservice.subject_sheetservice.next(data);
             resolve();
           });
@@ -27,7 +27,7 @@ export class ConfigService {
         const promise2 = new Promise<void>(() => { 
 
           this.http.get('assets/configuration.json').subscribe(data=>{
-            this.CONFIG.next(data);
+            this.config.next(data);
             resolve();
           });
         });

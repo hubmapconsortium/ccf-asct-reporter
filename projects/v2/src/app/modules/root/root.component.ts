@@ -153,7 +153,7 @@ export class RootComponent implements OnInit, OnDestroy {
   // Logs Oberservables
   @Select(LogsState) logs$: Observable<any>;
 
-  SHEET_CONFIG:SheetDetails[];
+  sheetConfig:SheetDetails[];
 
   constructor(
     public configService: ConfigService,
@@ -169,8 +169,8 @@ export class RootComponent implements OnInit, OnDestroy {
     public router: Router
   ) {
     
-    this.configService.SHEET_CONFIGURATION.subscribe(data=>{
-      this.SHEET_CONFIG = data;
+    this.configService.sheetConfiguration.subscribe(data=>{
+      this.sheetConfig = data;
     });
     this.data$.subscribe((data) => {
       if (data.length) {
@@ -223,18 +223,18 @@ export class RootComponent implements OnInit, OnDestroy {
       }
       else if (selectedOrgans && playground !== 'true') {
         store.dispatch(new UpdateMode('vis'));
-        this.sheet = this.SHEET_CONFIG.find(i => i.name === 'some');
+        this.sheet = this.sheetConfig.find(i => i.name === 'some');
         store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(',')));
         sessionStorage.setItem('selectedOrgans', selectedOrgans);
       }
       else if (playground === 'true') {
         store.dispatch(new UpdateMode('playground'));
-        this.sheet = this.SHEET_CONFIG.find((i) => i.name === 'example');
+        this.sheet = this.sheetConfig.find((i) => i.name === 'example');
         this.store.dispatch(new FetchInitialPlaygroundData());
         store.dispatch(new CloseLoading());
       } else {
         store.dispatch(new UpdateMode('vis'));
-        this.sheet = this.SHEET_CONFIG.find((i) => i.name === sheet);
+        this.sheet = this.sheetConfig.find((i) => i.name === sheet);
         localStorage.setItem('sheet', this.sheet.name);
         if (version === 'latest') {
           if (this.sheet.name === 'all') {
@@ -435,7 +435,7 @@ export class RootComponent implements OnInit, OnDestroy {
     const urls = [];
     if (sheet.name === 'all' || sheet.name === 'some'){
       for (const organ of selectedOrgans) {
-        this.SHEET_CONFIG.forEach((config) => {
+        this.sheetConfig.forEach((config) => {
           config.version?.forEach((version: VersionDetail) => {
             if (version.value === organ) {
               if (version.csvUrl) {

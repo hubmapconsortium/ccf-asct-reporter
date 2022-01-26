@@ -22,11 +22,11 @@ export class FooterComponent implements OnInit {
   faTwitterSquare = faTwitterSquare;
 
   copyrightYear = new Date().getFullYear();
-  MASTER_SHEET_LINK ='';
+  masterSheetLink ='';
 
   constructor(public configService: ConfigService, private readonly router: Router, public ga: GoogleAnalyticsService) { 
-    this.configService.CONFIG.subscribe(config=>{
-      this.MASTER_SHEET_LINK = config['MASTER_SHEET_LINK'];
+    this.configService.config.subscribe(config=>{
+      this.masterSheetLink = config['masterSheetLink'];
     });
   }
 
@@ -40,7 +40,7 @@ export class FooterComponent implements OnInit {
 
   openData() {
     window.open(
-      this.MASTER_SHEET_LINK,
+      this.masterSheetLink,
       '_blank'
     );
     this.ga.event(GaAction.NAV, GaCategory.FOOTER, 'Open Master Tables');

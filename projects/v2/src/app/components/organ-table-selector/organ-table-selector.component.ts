@@ -16,7 +16,7 @@ export class OrganTableSelectorComponent implements OnInit {
   /**
    * Sheet configs
    */
-  SHEET_OPTIONS;
+  sheetOptions;
   /**
    * Has some selected organs
    */
@@ -49,9 +49,9 @@ export class OrganTableSelectorComponent implements OnInit {
     public ga: GoogleAnalyticsService
   ) {
 
-    this.configService.CONFIG.subscribe(config=>{
-      this.SHEET_OPTIONS = config['SHEET_OPTIONS'];
-      this.dataSource = new MatTableDataSource(this.SHEET_OPTIONS);
+    this.configService.config.subscribe(config=>{
+      this.sheetOptions = config['sheetOptions'];
+      this.dataSource = new MatTableDataSource(this.sheetOptions);
     });
 
     this.getFromCache = data.getFromCache;
@@ -108,7 +108,7 @@ export class OrganTableSelectorComponent implements OnInit {
 
   selectAllOrgans() {
     const allOrgans = [];
-    this.SHEET_OPTIONS.forEach((s: any) => {
+    this.sheetOptions.forEach((s: any) => {
       s.version?.forEach((v) => {
         allOrgans.push(v.value);
       });

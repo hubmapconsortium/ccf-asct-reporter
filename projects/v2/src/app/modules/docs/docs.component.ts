@@ -22,7 +22,7 @@ export class DocsComponent implements OnInit {
   REGISTRY = REGISTRY;
   selected: number;
   copyrightYear = new Date().getFullYear();
-  MASTER_SHEET_LINK: string;
+  masterSheetLink: string;
 
   constructor(
     public configService: ConfigService,
@@ -30,8 +30,8 @@ export class DocsComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     public docsService: DocsService,
     public ga: GoogleAnalyticsService) { 
-    this.configService.CONFIG.subscribe(config=>{
-      this.MASTER_SHEET_LINK = config['MASTER_SHEET_LINK'];
+    this.configService.config.subscribe(config=>{
+      this.masterSheetLink = config['masterSheetLink'];
     });
   }
 
@@ -80,7 +80,7 @@ export class DocsComponent implements OnInit {
 
   openData() {
     window.open(
-      this.MASTER_SHEET_LINK,
+      this.masterSheetLink,
       '_blank'
     );
     this.ga.event(GaAction.NAV, GaCategory.DOCS, 'Open Data Tables');
