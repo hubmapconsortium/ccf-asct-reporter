@@ -26,7 +26,7 @@ export class FooterComponent implements OnInit {
 
   constructor(public configService: ConfigService, private readonly router: Router, public ga: GoogleAnalyticsService) { 
     this.configService.config$.subscribe(config=>{
-      this.masterSheetLink = config['masterSheetLink'];
+      this.masterSheetLink = config.masterSheetLink;
     });
   }
 

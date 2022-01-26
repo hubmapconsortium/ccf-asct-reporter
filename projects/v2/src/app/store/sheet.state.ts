@@ -184,7 +184,7 @@ export class SheetState {
     });
 
     this.configService.config$.subscribe(config=>{
-      this.headerCount = config['headerCount'];
+      this.headerCount = config.headerCount;
     });
   }
   faliureMsg = 'Failed to fetch data';

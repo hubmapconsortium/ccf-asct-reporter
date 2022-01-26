@@ -50,7 +50,7 @@ export class OrganTableSelectorComponent implements OnInit {
   ) {
 
     this.configService.config$.subscribe(config=>{
-      this.sheetOptions = config['sheetOptions'];
+      this.sheetOptions = config.sheetOptions;
       this.dataSource = new MatTableDataSource(this.sheetOptions);
     });
 

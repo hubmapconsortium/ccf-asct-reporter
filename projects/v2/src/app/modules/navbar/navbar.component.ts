@@ -89,12 +89,12 @@ export class NavbarComponent implements OnInit {
     });
 
     this.configService.config$.subscribe(config => {
-      this.sheetOptions = config['sheetOptions'];
-      this.versions = config['version'];
-      this.moreOptions = config['moreOptions'];
-      this.imgOptions = config['imgOptions'];
-      this.playgroundSheetOptions = config['playgroundSheetOptions'];
-      this.masterSheetLink = config['masterSheetLink'];
+      this.sheetOptions = config.sheetOptions;
+      this.versions = config.version;
+      this.moreOptions = config.moreOptions;
+      this.imgOptions = config.imgOptions;
+      this.playgroundSheetOptions = config.playgroundSheetOptions;
+      this.masterSheetLink = config.masterSheetLink;
     });
 
 
