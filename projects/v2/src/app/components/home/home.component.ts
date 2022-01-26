@@ -32,8 +32,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   faEnvelope = faEnvelope;
 
   copyrightYear = new Date().getFullYear();
-  masterSheetLink:string;
-  sheetOptions:SheetOptions;
+  masterSheetLink;
+  sheetOptions;
 
   @ViewChild('tutorialVideo') player: YouTubePlayer;
 

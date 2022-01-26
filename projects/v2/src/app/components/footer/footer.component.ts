@@ -22,7 +22,7 @@ export class FooterComponent implements OnInit {
   faTwitterSquare = faTwitterSquare;
 
   copyrightYear = new Date().getFullYear();
-  masterSheetLink ='';
+  masterSheetLink;
 
   constructor(public configService: ConfigService, private readonly router: Router, public ga: GoogleAnalyticsService) { 
     this.configService.config$.subscribe(config=>{

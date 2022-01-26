@@ -79,7 +79,7 @@ export class NavbarComponent implements OnInit {
   @Input() cache: boolean;
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
   playgroundSheetOptions: any;
-  masterSheetLink: string;
+  masterSheetLink;
 
   constructor(public sheetservice: SheetService, public configService: ConfigService,public store: Store, public router: Router, public ga: GoogleAnalyticsService, public dialog: MatDialog,
   ) {

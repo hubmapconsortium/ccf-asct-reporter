@@ -22,7 +22,7 @@ export class DocsComponent implements OnInit {
   REGISTRY = REGISTRY;
   selected: number;
   copyrightYear = new Date().getFullYear();
-  masterSheetLink: string;
+  masterSheetLink;
 
   constructor(
     public configService: ConfigService,
