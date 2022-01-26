@@ -179,11 +179,11 @@ export class SheetState {
   sheetConfig:SheetDetails[];
   headerCount: number;
   constructor(public configService: ConfigService, private readonly sheetService: SheetService, public readonly ga: GoogleAnalyticsService, public reportService: ReportService) {
-    this.configService.sheetConfiguration.subscribe(data=>{
+    this.configService.sheetConfiguration$.subscribe(data=>{
       this.sheetConfig = data;
     });
 
-    this.configService.config.subscribe(config=>{
+    this.configService.config$.subscribe(config=>{
       this.headerCount = config['headerCount'];
     });
   }

@@ -49,7 +49,7 @@ export class OrganTableSelectorComponent implements OnInit {
     public ga: GoogleAnalyticsService
   ) {
 
-    this.configService.config.subscribe(config=>{
+    this.configService.config$.subscribe(config=>{
       this.sheetOptions = config['sheetOptions'];
       this.dataSource = new MatTableDataSource(this.sheetOptions);
     });

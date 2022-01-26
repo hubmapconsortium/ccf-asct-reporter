@@ -30,7 +30,7 @@ export class DocsComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     public docsService: DocsService,
     public ga: GoogleAnalyticsService) { 
-    this.configService.config.subscribe(config=>{
+    this.configService.config$.subscribe(config=>{
       this.masterSheetLink = config['masterSheetLink'];
     });
   }

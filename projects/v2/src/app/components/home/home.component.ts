@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild('tutorialVideo') player: YouTubePlayer;
 
   constructor(public configService: ConfigService, private router: Router, public ga: GoogleAnalyticsService) { 
-    this.configService.config.subscribe(config=>{
+    this.configService.config$.subscribe(config=>{
       this.masterSheetLink = config['masterSheetLink'];
       this.sheetOptions = config['sheetOptions'];
     });

@@ -84,11 +84,11 @@ export class NavbarComponent implements OnInit {
   constructor(public sheetservice: SheetService, public configService: ConfigService,public store: Store, public router: Router, public ga: GoogleAnalyticsService, public dialog: MatDialog,
   ) {
 
-    this.configService.sheetConfiguration.subscribe(data=>{
+    this.configService.sheetConfiguration$.subscribe(data=>{
       this.sheetConfig = data;
     });
 
-    this.configService.config.subscribe(config => {
+    this.configService.config$.subscribe(config => {
       this.sheetOptions = config['sheetOptions'];
       this.versions = config['version'];
       this.moreOptions = config['moreOptions'];
