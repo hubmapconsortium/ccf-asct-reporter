@@ -9,7 +9,6 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxsResetPluginModule } from 'ngxs-reset-plugin';
-import { lastValueFrom } from 'rxjs';
 
 import { environment } from '../environments/environment';
 import { ConfigService } from './app-config.service';
@@ -32,8 +31,8 @@ import { UIState } from './store/ui.state';
 
 export function initializeApp(configService: ConfigService): () => Promise<void> {
   return () => Promise.all([
-    lastValueFrom(configService.sheetConfiguration$),
-    lastValueFrom(configService.config$)
+    configService.sheetConfiguration$.toPromise(),
+    configService.config$.toPromise()
   ]).then(() => { });
 }
 
