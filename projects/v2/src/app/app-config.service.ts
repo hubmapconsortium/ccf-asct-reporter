@@ -11,5 +11,5 @@ export class ConfigService {
     sheetConfiguration$ = this.http.get<SheetDetails[]>('assets/sheet-config.json').pipe(shareReplay(1));
     config$ = this.http.get<Record<string, unknown>>('assets/configuration.json').pipe(shareReplay(1));
  
-    constructor(private readonly http: HttpClient,public sheetservice: SheetService) {}
+    constructor(private readonly http: HttpClient) {}
 }
