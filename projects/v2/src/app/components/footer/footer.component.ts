@@ -5,7 +5,7 @@ import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { Router } from '@angular/router';
 import { GaAction, GaCategory } from '../../models/ga.model';
-import { MASTER_SHEET_LINK } from '../../static/config';
+import { ConfigService } from '../../app-config.service';
 
 @Component({
   selector: 'app-footer',
@@ -22,8 +22,13 @@ export class FooterComponent implements OnInit {
   faTwitterSquare = faTwitterSquare;
 
   copyrightYear = new Date().getFullYear();
+  masterSheetLink;
 
-  constructor(private readonly router: Router, public ga: GoogleAnalyticsService) { }
+  constructor(public configService: ConfigService, private readonly router: Router, public ga: GoogleAnalyticsService) { 
+    this.configService.config$.subscribe(config=>{
+      this.masterSheetLink = config.masterSheetLink;
+    });
+  }
 
   ngOnInit(): void {
   }
@@ -33,9 +38,14 @@ export class FooterComponent implements OnInit {
     this.ga.event(GaAction.NAV, GaCategory.FOOTER, 'Open Docs');
   }
 
+  openFaq() {
+    this.router.navigate(['/docs/faq']);
+    this.ga.event(GaAction.NAV, GaCategory.FOOTER, 'Open FAQ');
+  }
+
   openData() {
     window.open(
-      MASTER_SHEET_LINK,
+      this.masterSheetLink,
       '_blank'
     );
     this.ga.event(GaAction.NAV, GaCategory.FOOTER, 'Open Master Tables');

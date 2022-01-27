@@ -1,5 +1,4 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { SHEET_OPTIONS, MASTER_SHEET_LINK } from '../../static/config';
 import { VIDEO_ACTIONS, CONTIRBUTORS, IMAGES } from '../../static/home';
 import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faGlobe, faPhone } from '@fortawesome/free-solid-svg-icons';
@@ -8,6 +7,7 @@ import { Router } from '@angular/router';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { YouTubePlayer } from '@angular/youtube-player';
+import { ConfigService } from '../../app-config.service';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +17,6 @@ import { YouTubePlayer } from '@angular/youtube-player';
 export class HomeComponent implements OnInit, AfterViewInit {
   window = window;
   dataVersion = 'latest';
-  SHEET_OPTIONS = SHEET_OPTIONS;
   VIDEO_ACTIONS = VIDEO_ACTIONS;
   CONTIRBUTORS = CONTIRBUTORS;
   IMAGES = IMAGES;
@@ -31,10 +30,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
   faEnvelope = faEnvelope;
 
   copyrightYear = new Date().getFullYear();
+  masterSheetLink;
+  sheetOptions;
 
   @ViewChild('tutorialVideo') player: YouTubePlayer;
 
-  constructor(private router: Router, public ga: GoogleAnalyticsService) { }
+  constructor(public configService: ConfigService, private readonly router: Router, public ga: GoogleAnalyticsService) { 
+    this.configService.config$.subscribe(config=>{
+      this.masterSheetLink = config.masterSheetLink;
+      this.sheetOptions = config.sheetOptions;
+    });
+  }
 
   ngOnInit(): void {
 
@@ -72,7 +78,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   openData() {
     window.open(
-      MASTER_SHEET_LINK,
+      this.masterSheetLink,
       '_blank'
     );
     this.ga.event(GaAction.NAV, GaCategory.HOME, 'Open Master Tables');

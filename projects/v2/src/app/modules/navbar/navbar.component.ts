@@ -1,5 +1,4 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { SHEET_OPTIONS, VERSION, MORE_OPTIONS, IMG_OPTIONS, PLAYGROUND_SHEET_OPTIONS, MASTER_SHEET_LINK, SHEET_CONFIG } from '../../static/config';
 import { Store, Select } from '@ngxs/store';
 import { SheetState, SheetStateModel } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
@@ -13,6 +12,10 @@ import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { OrganTableSelectorComponent } from '../../components/organ-table-selector/organ-table-selector.component';
+import { ConfigService } from '../../app-config.service';
+import { SheetService } from '../../services/sheet.service';
+
+
 
 @Component({
   selector: 'app-navbar',
@@ -23,19 +26,19 @@ export class NavbarComponent implements OnInit {
   /**
    * Available Data versions (depricated)
    */
-  VERSIONS = VERSION;
+  versions;
   /**
    * Menu options
    */
-  MORE_OPTIONS = MORE_OPTIONS;
+  moreOptions;
   /**
    * Export options
    */
-  IMG_OPTIONS = IMG_OPTIONS;
+  imgOptions;
   /**
    * Sheet configs
    */
-  SHEET_OPTIONS = SHEET_OPTIONS;
+  sheetOptions;
   /**
    * Document window object
    */
@@ -65,6 +68,8 @@ export class NavbarComponent implements OnInit {
    */
   selectedOrgansValues: string;
 
+  sheetConfig:SheetDetails[];
+
   // state observables
   @Select(SheetState) sheet$: Observable<SheetStateModel>;
   @Select(UIState) ui$: Observable<UIStateModel>;
@@ -73,16 +78,34 @@ export class NavbarComponent implements OnInit {
 
   @Input() cache: boolean;
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
+  playgroundSheetOptions: any;
+  masterSheetLink;
 
-  constructor(public store: Store, public router: Router, public ga: GoogleAnalyticsService, public dialog: MatDialog,
-  ) {}
+  constructor(public sheetservice: SheetService, public configService: ConfigService,public store: Store, public router: Router, public ga: GoogleAnalyticsService, public dialog: MatDialog,
+  ) {
+
+    this.configService.sheetConfiguration$.subscribe(data=>{
+      this.sheetConfig = data;
+    });
+
+    this.configService.config$.subscribe(config => {
+      this.sheetOptions = config.sheetOptions;
+      this.versions = config.version;
+      this.moreOptions = config.moreOptions;
+      this.imgOptions = config.imgOptions;
+      this.playgroundSheetOptions = config.playgroundSheetOptions;
+      this.masterSheetLink = config.masterSheetLink;
+    });
+
+
+  }
 
   ngOnInit(): void {
     this.sheet$.subscribe((sheet) => {
       if (sheet.sheet) {
         this.currentSheet = sheet.sheet;
         this.selectedSheetOption = sheet.sheet.display;
-        this.selectedVersion = this.VERSIONS.find(
+        this.selectedVersion = this.versions.find(
           (s) => s.folder === sheet.version
         ).display;
       }
@@ -91,10 +114,7 @@ export class NavbarComponent implements OnInit {
     this.mode$.subscribe((mode) => {
       this.mode = mode;
       if (mode === 'playground') {
-        this.SHEET_OPTIONS = PLAYGROUND_SHEET_OPTIONS;
-      }
-      if (mode === 'vis') {
-        this.SHEET_OPTIONS = SHEET_OPTIONS;
+        this.sheetOptions = this.playgroundSheetOptions;
       }
     });
 
@@ -102,7 +122,7 @@ export class NavbarComponent implements OnInit {
       this.selectedOrgans = organs;
       const selectedOrgansNames = [];
       for (const organ of organs) {
-        SHEET_CONFIG.forEach((config: SheetDetails) => {
+        this.sheetConfig.forEach((config: SheetDetails) => {
           config.version?.forEach((version: VersionDetail) => {
             if (version.value === organ) {
               selectedOrgansNames.push(config.display);
@@ -116,7 +136,7 @@ export class NavbarComponent implements OnInit {
   }
 
   getSheetSelection(sheet, event) {
-    const selectedSheet = SHEET_OPTIONS.find((s) => s.title === sheet);
+    const selectedSheet = this.sheetOptions.find((s) => s.title === sheet);
     this.store.dispatch(new ClearSheetLogs());
     this.router.navigate(['/vis'], {
       queryParams: { sheet: selectedSheet.sheet },
@@ -126,7 +146,7 @@ export class NavbarComponent implements OnInit {
   }
 
   getVersionSelection(version, event) {
-    const selectedVersion = this.VERSIONS.find((s) => s.display === version);
+    const selectedVersion = this.versions.find((s) => s.display === version);
     this.router.navigate(['/vis'], {
       queryParams: { version: selectedVersion.folder },
       queryParamsHandling: 'merge',
@@ -135,7 +155,7 @@ export class NavbarComponent implements OnInit {
 
   openMasterDataTables() {
     this.ga.event(GaAction.NAV, GaCategory.NAVBAR, 'Go to Master Data Tables', null);
-    window.open(MASTER_SHEET_LINK, '_blank');
+    window.open(this.masterSheetLink, '_blank');
   }
 
   refreshData() {

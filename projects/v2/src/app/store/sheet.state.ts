@@ -10,11 +10,11 @@ import {
   SheetInfo,
   DOI,
   VersionDetail,
+  SheetDetails,
 } from '../models/sheet.model';
 import { Error } from '../models/response.model';
 import { tap, catchError } from 'rxjs/operators';
 import { forkJoin, Observable, of } from 'rxjs';
-import { HEADER_COUNT, SHEET_CONFIG } from '../static/config';
 import { Injectable } from '@angular/core';
 import { parse } from 'papaparse';
 import {
@@ -48,6 +48,7 @@ import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../models/ga.model';
 import { ReportService } from '../components/report/report.service';
+import { ConfigService } from '../app-config.service';
 
 /** Class to keep track of the sheet */
 export class SheetStateModel {
@@ -170,9 +171,22 @@ export class SheetStateModel {
     getFromCache: true,
   },
 })
+
+
 @Injectable()
+
 export class SheetState {
-  constructor(private readonly sheetService: SheetService, public readonly ga: GoogleAnalyticsService, public reportService: ReportService) {}
+  sheetConfig:SheetDetails[];
+  headerCount: unknown;
+  constructor(public configService: ConfigService, private readonly sheetService: SheetService, public readonly ga: GoogleAnalyticsService, public reportService: ReportService) {
+    this.configService.sheetConfiguration$.subscribe(data=>{
+      this.sheetConfig = data;
+    });
+
+    this.configService.config$.subscribe(config=>{
+      this.headerCount = config.headerCount;
+    });
+  }
   faliureMsg = 'Failed to fetch data';
   bodyId = 'UBERON:0013702';
   bodyLabel: 'body proper';
@@ -460,7 +474,7 @@ export class SheetState {
 
     const organsNames: string[] = [];
     for (const organ of selectedOrgans) {
-      SHEET_CONFIG.forEach((config) => {
+      this.sheetConfig.forEach((config) => {
         config.version?.forEach((version: VersionDetail) => {
           if (version.value === organ) {
             requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
@@ -555,7 +569,8 @@ export class SheetState {
     const requests$: Array<Observable<any>> = [];
     let dataAll: Row[] = [];
     const organsNames: string[] = [];
-    for (const s of SHEET_CONFIG) {
+
+    for (const s of this.sheetConfig) {
       if (s.name === 'all' || s.name === 'example' || s.name === 'some') {
         continue;
       } else {
@@ -703,7 +718,7 @@ export class SheetState {
     return this.sheetService.fetchDataFromAssets(version, sheet).pipe(
       tap((res) => {
         const parsedData = parse(res, { skipEmptyLines: true });
-        parsedData.data.splice(0, HEADER_COUNT);
+        parsedData.data.splice(0, this.headerCount);
         parsedData.data.map((i) => {
           i.push(false);
           i.push('#ccc');
@@ -835,7 +850,7 @@ export class SheetState {
     setState,
     dispatch,
   }: StateContext<SheetStateModel>) {
-    const sheet: Sheet = SHEET_CONFIG.find((i) => i.name === 'example');
+    const sheet: Sheet = this.sheetConfig.find((i) => i.name === 'example');
     const mode = getState().mode;
     dispatch(new OpenLoading('Fetching playground data...'));
     dispatch(new StateReset(TreeState));
@@ -895,7 +910,8 @@ export class SheetState {
     { getState, setState, dispatch }: StateContext<SheetStateModel>,
     { data }: UpdatePlaygroundData
   ) {
-    const sheet: Sheet = SHEET_CONFIG.find((i) => i.name === 'example');
+
+    const sheet: Sheet = this.sheetConfig.find((i) => i.name === 'example');
     const state = getState();
     dispatch(new OpenLoading('Fetching playground data...'));
     dispatch(new StateReset(TreeState));
