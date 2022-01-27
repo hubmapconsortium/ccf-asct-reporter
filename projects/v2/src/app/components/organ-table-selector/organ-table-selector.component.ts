@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SHEET_OPTIONS } from '../../static/config';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory, GaOrgansInfo } from '../../models/ga.model';
 import { OrganTableOnClose, OrganTableSelect } from '../../models/sheet.model';
+import { ConfigService } from '../../app-config.service';
 
 @Component({
   selector: 'app-organ-table-selector',
@@ -16,7 +16,7 @@ export class OrganTableSelectorComponent implements OnInit {
   /**
    * Sheet configs
    */
-  SHEET_OPTIONS = SHEET_OPTIONS;
+  sheetOptions;
   /**
    * Has some selected organs
    */
@@ -32,7 +32,6 @@ export class OrganTableSelectorComponent implements OnInit {
   organs = [];
   getFromCache: boolean;
   displayedColumns: string[] = ['select', 'name', 'version'];
-  dataSource = new MatTableDataSource(SHEET_OPTIONS);
   selection = new SelectionModel(true, []);
   /**
    * Data to emit when dialog is closed
@@ -41,18 +40,26 @@ export class OrganTableSelectorComponent implements OnInit {
     'organs': false,
     'cache': true,
   }
+  dataSource: MatTableDataSource<unknown>;
 
   constructor(
+    public configService: ConfigService,
     public dialogRef: MatDialogRef<OrganTableSelectorComponent>,
     @Inject(MAT_DIALOG_DATA) public data: OrganTableSelect,
     public ga: GoogleAnalyticsService
   ) {
+
+    this.configService.config$.subscribe(config=>{
+      this.sheetOptions = config.sheetOptions;
+      this.dataSource = new MatTableDataSource(this.sheetOptions);
+    });
+
     this.getFromCache = data.getFromCache;
     this.onClose.cache = data.getFromCache;
     this.organs = data.organs ? data.organs : [];
     this.dataSource.data.forEach((dataElement: any) => {
       dataElement?.version?.forEach((v, i) => {
-        if (i === 0) {
+        if (i === 1) {
           dataElement.symbol = v.value;
         }
       });
@@ -101,7 +108,7 @@ export class OrganTableSelectorComponent implements OnInit {
 
   selectAllOrgans() {
     const allOrgans = [];
-    this.SHEET_OPTIONS.forEach((s: any) => {
+    this.sheetOptions.forEach((s: any) => {
       s.version?.forEach((v) => {
         allOrgans.push(v.value);
       });
@@ -144,11 +151,54 @@ export class OrganTableSelectorComponent implements OnInit {
   }
 
   changeVersion(value: any, element: any) {
-    element.symbol = value;
+    if (element.title === 'All Organs'){
+      this.selection.select(...this.dataSource.data);
+      if (value === 'All_Organs-v1.1'){
+        this.dataSource.data.forEach((dataElement: any) => {
+          if (dataElement.version.length === 1 && dataElement.version[0].viewValue !== 'v1.1') {
+            this.selection.toggle(dataElement);
+          }
+          dataElement?.version?.forEach((v, i) => {
+            if (i === 1) {
+              dataElement.symbol = v.value;
+            }
+          });
+        });
+        this.hasSomeOrgans = this.selection.selected.length > 0;
+      }
+      else{
+        this.dataSource.data.forEach((dataElement: any) => {
+          if (dataElement.version.length === 1 && dataElement.version[0].viewValue !== 'v1.0') {
+            this.selection.toggle(dataElement);
+          }
+          dataElement?.version?.forEach((v, i) => {
+            if (i === 0) {
+              dataElement.symbol = v.value;
+            }
+          });
+        });
+        this.hasSomeOrgans = this.selection.selected.length > 0;
+      }
+    }
+    else{
+      element.symbol = value;
+    }
   }
 
   selectRow(row) {
-    this.selection.toggle(row);
-    this.hasSomeOrgans = this.selection.selected.length > 0;
+    
+    if (row.title === 'All Organs'){
+      if(this.isAllSelected()){
+        this.selection.clear();
+      }
+      else{
+        this.selection.select(...this.dataSource.data);
+        this.hasSomeOrgans = this.selection.selected.length > 0;
+      }
+    }
+    else{
+      this.selection.toggle(row);
+      this.hasSomeOrgans = this.selection.selected.length > 0;
+    }
   }
 }

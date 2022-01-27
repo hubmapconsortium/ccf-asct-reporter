@@ -5,7 +5,7 @@ import { REGISTRY } from '../../static/docs';
 import { faPhone, faEnvelope, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
-import { MASTER_SHEET_LINK } from '../../static/config';
+import { ConfigService } from '../../app-config.service';
 
 @Component({
   selector: 'app-docs',
@@ -22,12 +22,18 @@ export class DocsComponent implements OnInit {
   REGISTRY = REGISTRY;
   selected: number;
   copyrightYear = new Date().getFullYear();
+  masterSheetLink;
 
   constructor(
+    public configService: ConfigService,
     private readonly router: Router,
     public activatedRoute: ActivatedRoute,
     public docsService: DocsService,
-    public ga: GoogleAnalyticsService) { }
+    public ga: GoogleAnalyticsService) { 
+    this.configService.config$.subscribe(config=>{
+      this.masterSheetLink = config.masterSheetLink;
+    });
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -74,7 +80,7 @@ export class DocsComponent implements OnInit {
 
   openData() {
     window.open(
-      MASTER_SHEET_LINK,
+      this.masterSheetLink,
       '_blank'
     );
     this.ga.event(GaAction.NAV, GaCategory.DOCS, 'Open Data Tables');
