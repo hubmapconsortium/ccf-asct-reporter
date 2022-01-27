@@ -14,14 +14,4 @@ export class ConfigService {
 
     constructor(private readonly http: HttpClient) {}
     
-    Init(){
-        return new Promise<void>((resolve, reject) => {
-         Promise.all([
-            this.sheetConfiguration$.toPromise(),
-            this.config$.toPromise()
-          ]).then(()=>{
-              resolve();
-          })
-        });
-    }
 }

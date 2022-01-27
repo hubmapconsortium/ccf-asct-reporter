@@ -29,13 +29,12 @@ import { TrackingPopupModule } from './components/tracking-popup/tracking-popup.
 import { MousePositionTrackerModule } from './services/mouse-position-tracker.module';
 import { ConfigService } from './app-config.service';
 
-
-export function initializeApp(appInitService: ConfigService) {
-  return (): Promise<any> => { 
-    return appInitService.Init();
-  };
+export function initializeApp(configService: ConfigService): () => Promise<void> {
+  return () => Promise.all([
+    configService.sheetConfiguration$.toPromise(),
+    configService.config$.toPromise()
+  ]).then(() => { });
 }
-
 @NgModule({
   declarations: [
     AppComponent
@@ -68,7 +67,7 @@ export function initializeApp(appInitService: ConfigService) {
     MousePositionTrackerModule
   ],
   providers: [ConfigService,
-    { provide: APP_INITIALIZER,useFactory: initializeApp, deps: [ConfigService], multi: true}],
+    { provide: APP_INITIALIZER, useFactory: initializeApp, deps: [ConfigService], multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
