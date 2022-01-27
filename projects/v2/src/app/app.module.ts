@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { SheetState } from './store/sheet.state';
 import { TreeState } from './store/tree.state';
 import { NgxsModule } from '@ngxs/store';
@@ -29,6 +29,12 @@ import { TrackingPopupModule } from './components/tracking-popup/tracking-popup.
 import { MousePositionTrackerModule } from './services/mouse-position-tracker.module';
 import { ConfigService } from './app-config.service';
 
+
+export function initializeApp(appInitService: ConfigService) {
+  return (): Promise<any> => { 
+    return appInitService.Init();
+  };
+}
 
 @NgModule({
   declarations: [
@@ -61,7 +67,8 @@ import { ConfigService } from './app-config.service';
     TrackingPopupModule,
     MousePositionTrackerModule
   ],
-  providers: [ConfigService],
+  providers: [ConfigService,
+    { provide: APP_INITIALIZER,useFactory: initializeApp, deps: [ConfigService], multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
