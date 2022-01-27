@@ -148,12 +148,12 @@
           <div class="h5 mt-3 mb-3">Details</div>
 
           <div class="details pr-4">
-            <div *ngIf="countsByOrgan.length > 1">
+            <div *ngIf="countsByOrgan.data.length > 1">
               <div class="count-by-organ-title">
                 <p class="text-muted mb-3">
                   <small class="font-weight-normal">Counts by Organ</small>
                 </p>
-                <div class="display-option" #tooltip="matTooltip" matTooltip="Exoport as Xlsx">
+                <div class="display-option" #tooltip="matTooltip" matTooltip="Export as Xlsx">
                   <button mat-icon-button 
                    (click)="downloadReportByOrgan()" 
                    class="mr-2" >
@@ -164,6 +164,7 @@
 
               <table
                 mat-table
+                matSort
                 matTableExporter
                 id="countsByOrgans"
                 [dataSource]="countsByOrgan"
@@ -176,6 +177,7 @@
                 <!-- Organ Name  -->
                 <ng-container matColumnDef="organName">
                   <th
+                    mat-sort-header
                     mat-header-cell
                     *matHeaderCellDef
                     id="organName"
@@ -206,7 +208,7 @@
                         : 0
                     }}
                   </td>
-                  <td mat-footer-cell class="center_align" [hidden]="true" *matFooterCellDef> {{getTotals(countsByOrgan, 'ASWithNoLink')}} </td>
+                  <td mat-footer-cell class="center_align" [hidden]="true" *matFooterCellDef> {{getTotals(countsByOrgan.data, 'ASWithNoLink')}} </td>
                 </ng-container>
 
                 <!-- CTWithNoLink Column -->
@@ -227,7 +229,7 @@
                         : 0
                     }}
                   </td>
-                  <td mat-footer-cell class="center_align" [hidden]="true" *matFooterCellDef> {{getTotals(countsByOrgan, 'CTWithNoLink')}} </td>
+                  <td mat-footer-cell class="center_align" [hidden]="true" *matFooterCellDef> {{getTotals(countsByOrgan.data, 'CTWithNoLink')}} </td>
 
                 </ng-container>
 
@@ -249,7 +251,7 @@
                         : 0
                     }}
                   </td>
-                  <td mat-footer-cell class="center_align" [hidden]="true" *matFooterCellDef> {{getTotals(countsByOrgan, 'BWithNoLink')}} </td>
+                  <td mat-footer-cell class="center_align" [hidden]="true" *matFooterCellDef> {{getTotals(countsByOrgan.data, 'BWithNoLink')}} </td>
 
                 </ng-container>
 
@@ -270,7 +272,7 @@
                         : 0
                     }}
                   </td>
-                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{getTotals(countsByOrgan, 'AS_AS')}} </td>
+                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{getTotals(countsByOrgan.data, 'AS_AS')}} </td>
 
                 </ng-container>
 
@@ -291,7 +293,7 @@
                         : 0
                     }}
                   </td>
-                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{getTotals(countsByOrgan, 'AS_CT')}} </td>
+                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{getTotals(countsByOrgan.data, 'AS_CT')}} </td>
 
                 </ng-container>
 
@@ -312,7 +314,7 @@
                         : 0
                     }}
                   </td>
-                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{getTotals(countsByOrgan, 'CT_BM')}} </td>
+                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{getTotals(countsByOrgan.data, 'CT_BM')}} </td>
 
                 </ng-container>
 
@@ -333,7 +335,7 @@
                         : 0
                     }}
                   </td>
-                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{getTotals(countsByOrgan, 'anatomicalStructures')}} </td>
+                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{getTotals(countsByOrgan.data, 'anatomicalStructures')}} </td>
 
                 </ng-container>
 
@@ -350,11 +352,26 @@
                   <td mat-cell *matCellDef="let element" class="center_align">
                     {{ element.cellTypes ? element.cellTypes : 0 }}
                   </td>
-                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{getTotals(countsByOrgan, 'cellTypes')}} </td>
+                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{getTotals(countsByOrgan.data, 'cellTypes')}} </td>
 
                 </ng-container>
 
                 <!-- Biomarkers Columns -->
+                <ng-container matColumnDef="b_total">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    class="center_align"
+                    id="b_total"
+                  >
+                    B_Total
+                  </th>
+                  <td mat-cell *matCellDef="let element" class="center_align">
+                    {{ element.biomarkers ? element.biomarkers : 0 }}
+                  </td>
+                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{getTotals(countsByOrgan.data, 'biomarkers')}} </td>
+
+                </ng-container>
                 <ng-container
                   *ngFor="let biomarker of biomarkersSeperateNames"
                   matColumnDef="{{ biomarker.name }}"
@@ -370,7 +387,7 @@
                   <td mat-cell class="center_align" *matCellDef="let element">
                     {{ element[biomarker.name] ? element[biomarker.name] : 0 }}
                   </td>
-                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{getTotals(countsByOrgan, biomarker.name)}} </td>
+                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{getTotals(countsByOrgan.data, biomarker.name)}} </td>
 
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -486,7 +503,7 @@
             </mat-expansion-panel>
             <br />
 
-            <mat-expansion-panel *ngIf="countsByOrgan.length === 1">
+            <mat-expansion-panel *ngIf="countsByOrgan.data.length === 1">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <div class="h6 m-0">

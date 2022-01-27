@@ -8,6 +8,14 @@ function addBiomarker(rowHeader: any, s: any) {
     s.b_type = BM_TYPE.G;
   }
   if (rowHeader[0] === 'BProtein' || rowHeader[0] === 'BP') {
+    s.name = s.name.replace('Protein', '');
+    if (s.name.indexOf('+') > -1){
+      s.name = s.name.replace('+', '');
+      s.proteinPresence = true;
+    } else if (s.name.indexOf('-') > -1){
+      s.name = s.name.replace('-', '');
+      s.proteinPresence = false;
+    }
     s.b_type = BM_TYPE.P;
   }
   if (rowHeader[0] === 'BLipid' || rowHeader[0] === 'BL') {

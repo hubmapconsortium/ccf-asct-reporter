@@ -38,6 +38,11 @@ export class FooterComponent implements OnInit {
     this.ga.event(GaAction.NAV, GaCategory.FOOTER, 'Open Docs');
   }
 
+  openFaq() {
+    this.router.navigate(['/docs/faq']);
+    this.ga.event(GaAction.NAV, GaCategory.FOOTER, 'Open FAQ');
+  }
+
   openData() {
     window.open(
       this.masterSheetLink,

@@ -32,6 +32,7 @@ export interface Structure {
   color?: string;
   organName?: string;
   notes?: string;
+  proteinPresence?: boolean;
 }
 
 export interface Row {
