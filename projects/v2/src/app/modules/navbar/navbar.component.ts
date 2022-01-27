@@ -4,7 +4,7 @@ import { SheetState, SheetStateModel } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
 import { Sheet, SheetDetails, VersionDetail } from '../../models/sheet.model';
 import { Router } from '@angular/router';
-import { FetchSheetData, FetchAllOrganData, FetchSelectedOrganData, UpdateGetFromCache } from '../../actions/sheet.actions';
+import { UpdateGetFromCache } from '../../actions/sheet.actions';
 import { ToggleControlPane, ToggleIndentList, ToggleReport, ToggleDebugLogs, OpenCompare } from '../../actions/ui.actions';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { ClearSheetLogs } from '../../actions/logs.actions';
@@ -159,13 +159,10 @@ export class NavbarComponent implements OnInit {
   }
 
   refreshData() {
-    if (this.mode === 'vis' && this.currentSheet.name === 'all') {
-      this.store.dispatch(new FetchAllOrganData(this.currentSheet));
-    } else if (this.mode === 'vis' && this.currentSheet.name === 'some') {
-      this.store.dispatch(new FetchSelectedOrganData(this.currentSheet, this.selectedOrgans));
-    } else {
-      this.store.dispatch(new FetchSheetData(this.currentSheet));
-    }
+    this.router.navigate(['/vis'], {
+      queryParams: {  selectedOrgans: this.selectedOrgans?.join(','), playground: false},
+    });
+    
     this.ga.event(GaAction.CLICK, GaCategory.NAVBAR, 'Refresh Visualization Button', null);
   }
 

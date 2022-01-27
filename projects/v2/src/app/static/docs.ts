@@ -13,66 +13,72 @@ export const REGISTRY = [
   },
   {
     id: 3,
+    title: 'FAQ',
+    urlTitle: 'faq',
+    path: 'assets/docs/faq/README.md'
+  },
+  {
+    id: 4,
     title: 'Data Format',
     urlTitle: 'data-format',
     path: 'assets/docs/data-format/README.md'
   },
   {
-    id: 4,
+    id: 5,
     title: 'Visualization',
     urlTitle: 'visualization',
     path: 'assets/docs/visualization/README.md'
   },
   {
-    id: 5,
+    id: 6,
     title: 'Visualization Functions',
     urlTitle: 'visualization-functions',
     path: 'assets/docs/vis-functions/README.md'
   },
   {
-    id: 6,
+    id: 7,
     title: 'Visualization Controls',
     urlTitle: 'visualization-controls',
     path: 'assets/docs/vis-controls/README.md'
   },
   {
-    id: 7,
+    id: 8,
     title: 'Compare',
     urlTitle: 'compare',
     path: 'assets/docs/compare/README.md'
   },
   {
-    id: 8,
+    id: 9,
     title: 'Playground',
     urlTitle: 'playground',
     path: 'assets/docs/playground/README.md'
   },
   {
-    id: 9,
+    id: 10,
     title: 'Report',
     urlTitle: 'report',
     path: 'assets/docs/report/README.md'
   },
   {
-    id: 10,
+    id: 11,
     title: 'Indented List',
     urlTitle: 'indented-list',
     path: 'assets/docs/indented-list/README.md'
   },
   {
-    id: 11,
+    id: 12,
     title: 'Search',
     urlTitle: 'search',
     path: 'assets/docs/search/README.md'
   },
   {
-    id: 12,
+    id: 13,
     title: 'Debug Log',
     urlTitle: 'debug-log',
     path: 'assets/docs/log/README.md'
   },
   {
-    id: 13,
+    id: 14,
     title: 'Export',
     urlTitle: 'export',
     path: 'assets/docs/export/README.md'

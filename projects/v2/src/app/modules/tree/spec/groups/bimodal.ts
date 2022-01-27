@@ -264,7 +264,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
                 'indata(\'sources_clicked_array\', \'id\', datum.target.id) && datum.source.group !== 2',
               value: '#377EB8',
             },
-            { signal: 'datum.source.pathColor === datum.target.pathColor ? datum.source.pathColor : "#ccc"' },
+            { signal: 'datum.pathColor? datum.pathColor :datum.source.pathColor === datum.target.pathColor ? datum.source.pathColor : "#ccc"' },
           ],
           opacity: [
             { test: 'datum.target.id === node__click', value: 0.5 },
@@ -378,7 +378,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             ],
           stroke: { signal: 'datum.problem ? "#000" : datum.isNew ? datum.color : "#fff"' },
           strokeWidth: { signal: 'datum.isNew ? 4 : 0' },
-          strokeDash: { signal: 'datum.isNew ? 3 : 0' }
+          strokeDash: { signal: 'datum.isNew ? [3, 3] : [0, 0]' }
         }
       }
     };
