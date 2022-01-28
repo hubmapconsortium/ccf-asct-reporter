@@ -24,9 +24,9 @@ export class AppComponent implements OnInit {
     public router: Router) {
 
     switch (environment.tag) {
-    case 'Staging': document.title = 'CCF Reporter | Staging'; break;
-    case 'Development': document.title = 'CCF Reporter | Development'; break;
-    default: document.title = 'CCF Reporter';
+    case 'Staging': document.title = 'ASCT+B Reporter | Staging'; break;
+    case 'Development': document.title = 'ASCT+B Reporter | Development'; break;
+    default: document.title = 'ASCT+B Reporter';
     }
 
     this.matIconRegistry.addSvgIcon(
