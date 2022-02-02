@@ -41,10 +41,11 @@
       matTooltip="Master Data Tables"
       matTooltipPosition="below"
       [label]="'Data Tables'"
-      (click)="openMasterDataTables()">
+      [matMenuTriggerFor]="nestedMenu.childMenu">
       <mat-icon class="toolbar-icons">table_view</mat-icon>
+      <app-table-nested-menu #nestedMenu [sheetDetails]="configService.sheetConfiguration$ | async"></app-table-nested-menu>
     </app-nav-item>
-
+    
     <app-nav-item
     [label]="'Refresh'"
     (click)="refreshData()"
