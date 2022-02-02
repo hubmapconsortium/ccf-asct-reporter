@@ -1,0 +1,20 @@
+<mat-menu #childMenu="matMenu" [overlapTrigger]="false">
+  <span *ngFor="let sheets of sheetDetails">
+    <!-- Organ Names node menu items -->
+    <span *ngIf="sheets.version">
+      <button mat-menu-item color="primary" [matMenuTriggerFor]="menu">
+        <span>{{sheets.display}}</span>
+      </button>
+    </span>
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+      <span *ngFor="let version of sheets?.version">
+        <!-- Versions node menu items -->
+        <span *ngIf="version">
+          <button (click)="openURL(version.sheetId, version.gid)" mat-menu-item color="primary">
+            <span>{{version.viewValue}}</span>
+          </button>
+        </span>
+      </span>
+    </mat-menu>
+  </span>
+</mat-menu>

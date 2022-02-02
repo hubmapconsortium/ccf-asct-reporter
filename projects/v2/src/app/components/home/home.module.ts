@@ -8,6 +8,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule } from '@angular/router';
 import { FooterModule } from '../footer/footer.module';
 import { YouTubePlayerModule } from '@angular/youtube-player';
+import { TableNestedMenuModule } from '../table-nested-menu/table-nested-menu.module';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -19,7 +20,8 @@ import { YouTubePlayerModule } from '@angular/youtube-player';
     FontAwesomeModule,
     RouterModule,
     FooterModule,
-    YouTubePlayerModule
+    YouTubePlayerModule,
+    TableNestedMenuModule
   ],
   exports: [HomeComponent]
 })

@@ -66,7 +66,7 @@
         "viewValue": "v1.0"
       },
       {
-        "value": "bone_marrow-v1.1-Draft",
+        "value": "bone_marrow-v1.1",
         "viewValue": "v1.1"
       }
     ]
@@ -80,7 +80,7 @@
         "viewValue": "v1.0"
       },
       {
-        "value": "brain-v1.1-Draft",
+        "value": "brain-v1.1",
         "viewValue": "v1.1"
       }
     ]
@@ -114,7 +114,7 @@
         "viewValue": "v1.0"
       },
       {
-        "value": "heart-v1.1-Draft",
+        "value": "heart-v1.1",
         "viewValue": "v1.1"
       }
     ]
@@ -128,7 +128,7 @@
         "viewValue": "v1.0"
       },
       {
-        "value": "kidney-v1.1-Draft",
+        "value": "kidney-v1.1",
         "viewValue": "v1.1"
       }
     ]
@@ -152,7 +152,7 @@
         "viewValue": "v1.0"
       },
       {
-        "value": "large_intestine-v1.1-Draft",
+        "value": "large_intestine-v1.1",
         "viewValue": "v1.1"
       }
     ]
@@ -172,7 +172,7 @@
     "sheet": "lung",
     "version": [
       {
-        "value": "lung-v1.1-Draft",
+        "value": "lung-v1.1",
         "viewValue": "v1.1"
       }
     ]
@@ -186,7 +186,7 @@
         "viewValue": "v1.0"
       },
       {
-        "value": "lymph_nodes-v1.1-Draft",
+        "value": "lymph_nodes-v1.1",
         "viewValue": "v1.1"
       }
     ]
@@ -250,7 +250,7 @@
         "viewValue": "v1.0"
       },
       {
-        "value": "skin-v1.1-Draft",
+        "value": "skin-v1.1",
         "viewValue": "v1.1"
       }
     ]
@@ -274,7 +274,7 @@
         "viewValue": "v1.0"
       },
       {
-        "value": "spleen-v1.1-Draft",
+        "value": "spleen-v1.1",
         "viewValue": "v1.1"
       }
     ]
@@ -288,7 +288,7 @@
         "viewValue": "v1.0"
       },
       {
-        "value": "thymus-v1.1-Draft",
+        "value": "thymus-v1.1",
         "viewValue": "v1.1"
       }
     ]
