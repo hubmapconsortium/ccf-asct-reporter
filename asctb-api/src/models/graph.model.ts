@@ -15,7 +15,7 @@ export enum Edge_type {
   CT_G = 'CTgene',
   CT_P = 'CTprotein',
   CT_BL = 'CTlipids',
-  CT_BM = 'CTmetalloids',
+  CT_BM = 'CTmetabolites',
   CT_BF = 'CTproteoforms',
   AS_G = 'ASgene', // Not supported, but shows up in the data
   AS_P = 'ASprotein' // Not supported, but shows up in the data

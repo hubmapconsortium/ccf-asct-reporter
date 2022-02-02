@@ -339,7 +339,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
               `datum.bType === "gene" ?
               "circle" : datum.bType === "protein" ?
               "diamond" : datum.bType === "lipids" ?
-              "square" : datum.bType === "metalloids" ?
+              "square" : datum.bType === "metabolites" ?
               "triangle": datum.bType === "proteoforms" ?
               "cross" : "circle"`,
           },

@@ -20,7 +20,7 @@ export class ReportService {
     'gene' : 'BG',
     'protein' : 'BP',
     'lipids' : 'BL',
-    'metalloids' : 'BM',
+    'metabolites' : 'BM',
     'proteoforms' : 'BF',
   }
   constructor() {}

@@ -203,7 +203,7 @@ export function makeBioMarkers(
       case 'Lipids':
         currentBiomarkers = row.biomarkers_lipids;
         break;
-      case 'Metalloids':
+      case 'Metabolites':
         currentBiomarkers = row.biomarkers_meta;
         break;
       case 'Proteoforms':
