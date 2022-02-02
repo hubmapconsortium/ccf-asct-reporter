@@ -18,6 +18,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DoiModule } from '../../components/doi/doi.module';
 import { InfoModule } from '../../components/info/info.module';
+import { TableNestedMenuModule } from '../../components/table-nested-menu/table-nested-menu.module';
 
 
 
@@ -41,7 +42,8 @@ import { InfoModule } from '../../components/info/info.module';
     MatBottomSheetModule,
     DragDropModule,
     DoiModule,
-    InfoModule
+    InfoModule,
+    TableNestedMenuModule
 
   ],
   exports: [RootComponent]
