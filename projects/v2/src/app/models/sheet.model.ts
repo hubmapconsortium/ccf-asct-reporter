@@ -2,7 +2,7 @@ enum BM_TYPE {
   G = 'gene',
   P = 'protein',
   BL = 'lipids',
-  BM = 'metalloids',
+  BM = 'metabolites',
   BF = 'proteoforms'
 }
 

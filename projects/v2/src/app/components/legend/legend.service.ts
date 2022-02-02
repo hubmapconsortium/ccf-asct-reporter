@@ -91,9 +91,9 @@ export class LegendService {
           });
           addedBMBL = true;
         }
-        if (!addedBMBM && i.bType === 'metalloids'){
+        if (!addedBMBM && i.bType === 'metabolites'){
           legends.push({
-            name: 'Metalloids Biomarkers',
+            name: 'Metabolites Biomarkers',
             color: '#4DAF4A', style: '', bmType: 'biomarker'
           });
           addedBMBM = true;
