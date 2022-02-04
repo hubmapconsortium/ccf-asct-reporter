@@ -37,11 +37,6 @@
       "sheet": "blood",
       "title": "Blood",
       "version": [
-        
-        {
-          "value": "Blood-v1.2-Draft",
-          "viewValue": "v1.2 Draft"
-        },
         {
           "value": "Blood-v1.1",
           "viewValue": "v1.1"
@@ -59,10 +54,6 @@
         {
           "value": "Blood_Vasculature-v1.1",
           "viewValue": "v1.1"
-        },
-        {
-          "value": "Blood_Vasculature-v1.2-Draft",
-          "viewValue": "v1.2 Draft"
         }
       ]
     },
@@ -77,10 +68,6 @@
         {
           "value": "bone_marrow-v1.1",
           "viewValue": "v1.1"
-        },
-        {
-          "value": "bone_marrow-v1.2-Draft",
-          "viewValue": "v1.2 Draft"
         }
       ]
     },
@@ -95,10 +82,6 @@
         {
           "value": "brain-v1.1",
           "viewValue": "v1.1"
-        },
-        {
-          "value": "brain-v1.2-Draft",
-          "viewValue": "v1.1 Draft"
         }
       ]
     },
@@ -109,10 +92,6 @@
         {
           "value": "Eye-v1.0",
           "viewValue": "v1.0"
-        },
-        {
-          "value": "Eye-v1.1",
-          "viewValue": "v1.1"
         }
       ]
     },
@@ -155,10 +134,6 @@
         {
           "value": "kidney-v1.1",
           "viewValue": "v1.1"
-        },
-        {
-          "value": "kidney-v1.2-Draft",
-          "viewValue": "v1.2 Draft"
         }
       ]
     },
@@ -169,10 +144,6 @@
         {
           "value": "Knee-v1.0",
           "viewValue": "v1.0"
-        },
-        {
-          "value": "Knee-v1.1",
-          "viewValue": "v1.1"
         }
       ]
     },
@@ -187,10 +158,6 @@
         {
           "value": "large_intestine-v1.1",
           "viewValue": "v1.1"
-        },
-        {
-          "value": "large_intestine-v1.2-Draft",
-          "viewValue": "v1.1 Draft"
         }
       ]
     },
@@ -201,10 +168,6 @@
         {
           "value": "Liver-v1.0",
           "viewValue": "v1.0"
-        },
-        {
-          "value": "Liver-v1.1",
-          "viewValue": "v1.1"
         }
       ]
     },
@@ -229,10 +192,6 @@
         {
           "value": "lymph_nodes-v1.1",
           "viewValue": "v1.1"
-        },
-        {
-          "value": "lymph_nodes-v1.2-Draft",
-          "viewValue": "v1.1 Draft"
         }
       ]
     },
@@ -243,10 +202,6 @@
         {
           "value": "Lymph_Vasculature-v1.0",
           "viewValue": "v1.0"
-        },
-        {
-          "value": "Lymph_Vasculature-v1.1",
-          "viewValue": "v1.1"
         }
       ]
     },
@@ -257,10 +212,6 @@
         {
           "value": "Ovary-v1.0",
           "viewValue": "v1.0"
-        },
-        {
-          "value": "Ovary-v1.1",
-          "viewValue": "v1.1"
         }
       ]
     },
@@ -271,10 +222,6 @@
         {
           "value": "Pancreas-v1.0",
           "viewValue": "v1.0"
-        },
-        {
-          "value": "Pancreas-v1.1",
-          "viewValue": "v1.1"
         }
       ]
     },
@@ -289,26 +236,12 @@
       ]
     },
     {
-      "sheet": "placenta",
-      "title": "Placenta",
-      "version": [
-        {
-          "value": "Placenta-v1.0",
-          "viewValue": "v1.0"
-        }
-      ]
-    },
-    {
       "sheet": "prostate",
       "title": "Prostate",
       "version": [
         {
           "value": "Prostate-v1.0",
           "viewValue": "v1.0"
-        },
-        {
-          "value": "Prostate-v1.1",
-          "viewValue": "v1.1"
         }
       ]
     },
@@ -323,10 +256,6 @@
         {
           "value": "skin-v1.1",
           "viewValue": "v1.1"
-        },
-        {
-          "value": "skin-v1.2-Draft",
-          "viewValue": "v1.2 Draft"
         }
       ]
     },
@@ -351,20 +280,6 @@
         {
           "value": "spleen-v1.1",
           "viewValue": "v1.1"
-        },
-        {
-          "value": "spleen-v1.2-Draft",
-          "viewValue": "v1.2 Draft"
-        }
-      ]
-    },
-    {
-      "title": "Spinal Cord",
-      "sheet": "spinal cord",
-      "version": [
-        {
-          "value": "Spinal_Cord-v1.0-DRAFT",
-          "viewValue": "v1.0 Draft"
         }
       ]
     },
@@ -379,10 +294,6 @@
         {
           "value": "thymus-v1.1",
           "viewValue": "v1.1"
-        },
-        {
-          "value": "thymus-v1.2-Draft",
-          "viewValue": "v1.1 Draft"
         }
       ]
     },
@@ -403,10 +314,6 @@
         {
           "value": "Urinary_Bladder-v1.0",
           "viewValue": "v1.0"
-        },
-        {
-          "value": "Urinary_Bladder-v1.1",
-          "viewValue": "v1.1"
         }
       ]
     },
@@ -417,10 +324,6 @@
         {
           "value": "Uterus-v1.0",
           "viewValue": "v1.0"
-        },
-        {
-          "value": "Uterus-v1.1",
-          "viewValue": "v1.1"
         }
       ]
     }
