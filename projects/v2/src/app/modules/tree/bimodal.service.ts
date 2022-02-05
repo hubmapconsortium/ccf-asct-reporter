@@ -219,7 +219,8 @@ export class BimodalService {
           marker.organName,
           marker.link,
           B_GREEN,
-          marker.nodeSize
+          marker.nodeSize,
+          marker.proteinPresence
         );
         newNode.id = id;
         newNode.isNew = marker.isNew;
@@ -273,10 +274,10 @@ export class BimodalService {
             }
             nodes[foundIndex].outdegree.forEach(cellOut => {
               if(cellOut.name === node.name){
-                if (cellOut.proteinPresence) {
-                  pathColor = '#1D72E8';
+                if (cellOut.proteinPresence === 'Positive') {
+                  pathColor = '#00008B';
                 }
-                else if (cellOut.proteinPresence === false) {
+                else if (cellOut.proteinPresence === 'Negative') {
                   pathColor = '#E16156';
                 }
               }

@@ -14,6 +14,12 @@ export enum BM_TYPE {
   BF = 'proteoforms',
 }
 
+export enum PRO_PRES {
+  P = 'Positive',
+  N = 'Negative',
+  U = 'Unknown'
+}
+
 export class Structure {
   name?: string;
   id?: string;
