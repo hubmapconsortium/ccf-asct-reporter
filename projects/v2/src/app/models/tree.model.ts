@@ -79,10 +79,16 @@ export interface AS extends Base {
   notes: string;
 }
 
+enum PRO_PRES {
+  P = 'Positive',
+  N = 'Negative',
+  U = 'Unknown'
+}
+
 export interface Degree {
   id: string;
   name: string;
-  proteinPresence?: boolean;
+  proteinPresence?: PRO_PRES;
 }
 
 export interface ASCTBConfig {
@@ -115,7 +121,7 @@ export interface B extends Base{
   outdegree?: Set<Degree>;
   nodeSize?: number;
   bType?: string;
-  proteinPresence?: boolean;
+  proteinPresence?: PRO_PRES;
   organName?: string;
   notes: string;
 }

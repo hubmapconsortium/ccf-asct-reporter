@@ -229,7 +229,8 @@ export function makeBioMarkers(
             nodeSize: 300,
             bType: str.b_type,
             organName: row.organName,
-            notes: str.notes
+            notes: str.notes,
+            proteinPresence: str.proteinPresence,
           };
 
           if (row.cell_types.length) {
