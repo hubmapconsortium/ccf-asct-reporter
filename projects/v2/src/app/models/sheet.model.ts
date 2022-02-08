@@ -6,6 +6,12 @@ enum BM_TYPE {
   BF = 'proteoforms'
 }
 
+export enum PROTEIN_PRESENCE {
+  POS = 'Positive',
+  NEG = 'Negative',
+  UNKNOWN = 'Unknown'
+}
+
 export interface Reference {
   id?: string;
   doi?: string;
@@ -32,7 +38,7 @@ export interface Structure {
   color?: string;
   organName?: string;
   notes?: string;
-  proteinPresence?: boolean;
+  proteinPresence?: PROTEIN_PRESENCE;
 }
 
 export interface Row {

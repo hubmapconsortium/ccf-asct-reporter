@@ -207,8 +207,18 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             }, // for hover
             {
               test:
-                'datum.source.id === node__hover && datum.source.group == 2',
+                'datum.source.id === node__hover && datum.source.group == 2 && datum.target.proteinPresence == "Unknown"',
               value: '#377EB8',
+            }, // for hover
+            {
+              test:
+                'datum.source.id === node__hover && datum.source.group == 2 && datum.target.proteinPresence == "Positive"',
+              value: '#131385',
+            }, // for hover
+            {
+              test:
+                'datum.source.id === node__hover && datum.source.group == 2 && datum.target.proteinPresence == "Negative"',
+              value: '#E16156',
             }, // for hover
             {
               test:
@@ -217,10 +227,19 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             }, // for hover
             {
               test:
-                'datum.target.id === node__hover && datum.target.group == 3',
+                'datum.target.id === node__hover && datum.target.group == 3 && datum.target.proteinPresence == "Unknown"',
               value: '#4DAF4A',
             }, // for hover
-
+            {
+              test:
+                'datum.target.id === node__hover && datum.target.group == 3 && datum.target.proteinPresence == "Positive"',
+              value: '#131385',
+            }, // for hover
+            {
+              test:
+                'datum.target.id === node__hover && datum.target.group == 3 && datum.target.proteinPresence == "Negative"',
+              value: '#E16156',
+            }, // for hover
             {
               test:
                 'datum.source.id === node__click && datum.source.group == 1',
@@ -228,8 +247,18 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             }, // for click
             {
               test:
-                'datum.source.id === node__click && datum.source.group == 2',
+                'datum.source.id === node__click && datum.source.group == 2 && datum.target.proteinPresence == "Unknown"',
               value: '#377EB8',
+            }, // for click
+            {
+              test:
+                'datum.source.id === node__click && datum.source.group == 2 && datum.target.proteinPresence == "Positive"',
+              value: '#131385',
+            }, // for click
+            {
+              test:
+                'datum.source.id === node__click && datum.source.group == 2 && datum.target.proteinPresence == "Negative"',
+              value: '#E16156',
             }, // for click
             {
               test:
@@ -238,9 +267,27 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             }, // for click
             {
               test:
-                'datum.target.id === node__click && datum.target.group == 3',
+                'datum.target.id === node__click && datum.target.group == 3 && datum.target.proteinPresence == "Unknown"',
               value: '#4DAF4A',
             }, // for click
+            {
+              test:
+                'datum.target.id === node__click && datum.target.group == 3 && datum.target.proteinPresence == "Positive"',
+              value: '#131385', // for click
+            },
+            {
+              test:
+                'datum.target.id === node__click && datum.target.group == 3 && datum.target.proteinPresence == "Negative"',
+              value: '#E16156', // for click
+            },
+            {
+              test:'(node__click !== null || node__hover !== null) && datum.target.group == 3',
+              value: '#ccc', // for greying out other paths when clicking on a node
+            },
+            {
+              test:'(node__click !== null || node__hover !== null) && datum.target.group == 2',
+              value: '#ccc', // for greying out other paths when clicking on a node
+            },
             // for getting AS -> CT -> B
             {
               test:

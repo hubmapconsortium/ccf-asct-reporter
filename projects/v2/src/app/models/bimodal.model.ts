@@ -1,5 +1,5 @@
 import { NODE_TYPE } from './tree.model';
-import { Reference } from './sheet.model';
+import { PROTEIN_PRESENCE, Reference } from './sheet.model';
 
 const groupNameMapper = {
   1: 'Anatomical Structures',
@@ -30,7 +30,7 @@ export class BMNode {
   outdegree?: any;
   label?: string;
   bType?: string;
-  proteinPresence: boolean;
+  proteinPresence: PROTEIN_PRESENCE;
   references?: Reference[];
   notes: string;
   organName: string;
@@ -46,7 +46,7 @@ export class BMNode {
     ontologyId = '',
     color = '#E41A1C',
     nodeSize = 300,
-    proteinPresence = false,
+    proteinPresence = PROTEIN_PRESENCE.UNKNOWN,
   ) {
     this.name = name;
     this.group = group;
