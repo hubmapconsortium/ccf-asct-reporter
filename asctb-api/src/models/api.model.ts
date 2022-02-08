@@ -17,7 +17,7 @@ export enum BM_TYPE {
 export enum PROTEIN_PRESENCE {
   POS = 'Positive',
   NEG = 'Negative',
-  UNKONWN = 'Unknown'
+  UNKNOWN = 'Unknown'
 }
 
 export class Structure {

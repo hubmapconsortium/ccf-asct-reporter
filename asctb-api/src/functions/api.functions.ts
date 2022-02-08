@@ -16,7 +16,7 @@ function addBiomarker(rowHeader: any, s: any) {
       s.name = s.name.replace('-', '');
       s.proteinPresence = PROTEIN_PRESENCE.NEG;
     } else {
-      s.proteinPresence = PROTEIN_PRESENCE.UNKONWN;
+      s.proteinPresence = PROTEIN_PRESENCE.UNKNOWN;
     }
     s.b_type = BM_TYPE.P;
   }
