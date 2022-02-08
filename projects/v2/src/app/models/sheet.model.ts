@@ -6,10 +6,10 @@ enum BM_TYPE {
   BF = 'proteoforms'
 }
 
-enum PROTEIN_PRESENCE {
-  P = 'POS',
-  N = 'NEG',
-  U = 'UNKNOWN'
+export enum PROTEIN_PRESENCE {
+  POS = 'Positive',
+  NEG = 'Negative',
+  UNKNOWN = 'Unknown'
 }
 
 export interface Reference {

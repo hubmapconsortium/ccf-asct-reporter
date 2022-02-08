@@ -1,4 +1,4 @@
-import { Reference } from './sheet.model';
+import { PROTEIN_PRESENCE, Reference } from './sheet.model';
 export const AS_RED = '#E41A1C';
 export const CT_BLUE = '#377EB8';
 export const B_GREEN = '#4DAF4A';
@@ -77,12 +77,6 @@ export interface AS extends Base {
   color?: string;
   organName?: string;
   notes: string;
-}
-
-enum PROTEIN_PRESENCE {
-  P = 'POS',
-  N = 'NEG',
-  U = 'UNKNOWN'
 }
 
 export interface Degree {

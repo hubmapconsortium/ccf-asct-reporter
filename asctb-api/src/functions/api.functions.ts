@@ -11,12 +11,12 @@ function addBiomarker(rowHeader: any, s: any) {
     s.name = s.name.replace('Protein', '');
     if (s.name.indexOf('+') > -1){
       s.name = s.name.replace('+', '');
-      s.proteinPresence = PROTEIN_PRESENCE.P;
+      s.proteinPresence = PROTEIN_PRESENCE.POS;
     } else if (s.name.indexOf('-') > -1){
       s.name = s.name.replace('-', '');
-      s.proteinPresence = PROTEIN_PRESENCE.N;
+      s.proteinPresence = PROTEIN_PRESENCE.NEG;
     } else {
-      s.proteinPresence = PROTEIN_PRESENCE.U;
+      s.proteinPresence = PROTEIN_PRESENCE.UNKONWN;
     }
     s.b_type = BM_TYPE.P;
   }

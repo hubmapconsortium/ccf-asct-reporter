@@ -3,8 +3,7 @@ import { Subject } from 'rxjs';
 import { Legend } from '../../models/legend.model';
 import { TNode } from '../../models/tree.model';
 import { BMNode } from '../../models/bimodal.model';
-import { CompareData } from '../../models/sheet.model';
-import { PROTEIN_PRESENCE } from 'asctb-api/src/models/api.model';
+import { CompareData, PROTEIN_PRESENCE } from '../../models/sheet.model';
 
 @Injectable({
   providedIn: 'root'
@@ -87,14 +86,14 @@ export class LegendService {
           });
           addedBMBP = true;
         }
-        if (!addedBMProteinPresencePath && i.proteinPresence === PROTEIN_PRESENCE.P && i.bType === 'protein'){
+        if (!addedBMProteinPresencePath && i.proteinPresence === PROTEIN_PRESENCE.POS && i.bType === 'protein'){
           legends.push({
             name: 'Protein Presence',
             color: '#00008B', style: '', sortOrder: 97
           });
           addedBMProteinPresencePath = true;
         }
-        if (!addedBMProteinAbsencePath && i.proteinPresence === PROTEIN_PRESENCE.N && i.bType === 'protein'){
+        if (!addedBMProteinAbsencePath && i.proteinPresence === PROTEIN_PRESENCE.NEG && i.bType === 'protein'){
           legends.push({
             name: 'Protein Absence',
             color: '#E16156', style: '', sortOrder: 98

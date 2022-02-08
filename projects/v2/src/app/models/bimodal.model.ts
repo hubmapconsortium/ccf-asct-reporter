@@ -1,17 +1,11 @@
 import { NODE_TYPE } from './tree.model';
-import { Reference } from './sheet.model';
+import { PROTEIN_PRESENCE, Reference } from './sheet.model';
 
 const groupNameMapper = {
   1: 'Anatomical Structures',
   2: 'Cell Types',
   3: 'Biomarkers',
 };
-
-enum PROTEIN_PRESENCE {
-  P = 'POS',
-  N = 'NEG',
-  U = 'UNKNOWN'
-}
 
 export class BMNode {
   name: string;
@@ -52,7 +46,7 @@ export class BMNode {
     ontologyId = '',
     color = '#E41A1C',
     nodeSize = 300,
-    proteinPresence = PROTEIN_PRESENCE.U,
+    proteinPresence = PROTEIN_PRESENCE.UNKNOWN,
   ) {
     this.name = name;
     this.group = group;
