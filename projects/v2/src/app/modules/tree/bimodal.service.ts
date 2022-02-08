@@ -9,6 +9,7 @@ import { ReportLog } from '../../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
 import { Error } from '../../models/response.model';
 import { Row, SheetConfig } from '../../models/sheet.model';
+import { PROTEIN_PRESENCE } from 'asctb-api/src/models/api.model';
 
 @Injectable({
   providedIn: 'root'
@@ -274,10 +275,10 @@ export class BimodalService {
             }
             nodes[foundIndex].outdegree.forEach(cellOut => {
               if(cellOut.name === node.name){
-                if (cellOut.proteinPresence === 'Positive') {
+                if (cellOut.proteinPresence === PROTEIN_PRESENCE.P) {
                   pathColor = '#00008B';
                 }
-                else if (cellOut.proteinPresence === 'Negative') {
+                else if (cellOut.proteinPresence === PROTEIN_PRESENCE.N) {
                   pathColor = '#E16156';
                 }
               }

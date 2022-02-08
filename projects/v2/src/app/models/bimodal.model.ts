@@ -7,10 +7,10 @@ const groupNameMapper = {
   3: 'Biomarkers',
 };
 
-enum PRO_PRES {
-  P = 'Positive',
-  N = 'Negative',
-  U = 'Unknown'
+enum PROTEIN_PRESENCE {
+  P = 'POS',
+  N = 'NEG',
+  U = 'UNKNOWN'
 }
 
 export class BMNode {
@@ -36,7 +36,7 @@ export class BMNode {
   outdegree?: any;
   label?: string;
   bType?: string;
-  proteinPresence: PRO_PRES;
+  proteinPresence: PROTEIN_PRESENCE;
   references?: Reference[];
   notes: string;
   organName: string;
@@ -52,7 +52,7 @@ export class BMNode {
     ontologyId = '',
     color = '#E41A1C',
     nodeSize = 300,
-    proteinPresence = PRO_PRES.U,
+    proteinPresence = PROTEIN_PRESENCE.U,
   ) {
     this.name = name;
     this.group = group;

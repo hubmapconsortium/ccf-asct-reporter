@@ -14,10 +14,10 @@ export enum BM_TYPE {
   BF = 'proteoforms',
 }
 
-export enum PRO_PRES {
-  P = 'Positive',
-  N = 'Negative',
-  U = 'Unknown'
+export enum PROTEIN_PRESENCE {
+  P = 'POS',
+  N = 'NEG',
+  U = 'UNKNOWN'
 }
 
 export class Structure {

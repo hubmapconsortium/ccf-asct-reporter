@@ -207,17 +207,17 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             }, // for hover
             {
               test:
-                'datum.source.id === node__hover && datum.source.group == 2 && datum.target.proteinPresence == "Unknown"',
+                'datum.source.id === node__hover && datum.source.group == 2 && datum.target.proteinPresence == "UNKNOWN"',
               value: '#377EB8',
             }, // for hover
             {
               test:
-                'datum.source.id === node__hover && datum.source.group == 2 && datum.target.proteinPresence == "Positive"',
+                'datum.source.id === node__hover && datum.source.group == 2 && datum.target.proteinPresence == "POS"',
               value: '#131385',
             }, // for hover
             {
               test:
-                'datum.source.id === node__hover && datum.source.group == 2 && datum.target.proteinPresence == "Negative"',
+                'datum.source.id === node__hover && datum.source.group == 2 && datum.target.proteinPresence == "NEG"',
               value: '#E16156',
             }, // for hover
             {
@@ -227,17 +227,17 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             }, // for hover
             {
               test:
-                'datum.target.id === node__hover && datum.target.group == 3 && datum.target.proteinPresence == "Unknown"',
+                'datum.target.id === node__hover && datum.target.group == 3 && datum.target.proteinPresence == "UNKNOWN"',
               value: '#4DAF4A',
             }, // for hover
             {
               test:
-                'datum.target.id === node__hover && datum.target.group == 3 && datum.target.proteinPresence == "Positive"',
+                'datum.target.id === node__hover && datum.target.group == 3 && datum.target.proteinPresence == "POS"',
               value: '#131385',
             }, // for hover
             {
               test:
-                'datum.target.id === node__hover && datum.target.group == 3 && datum.target.proteinPresence == "Negative"',
+                'datum.target.id === node__hover && datum.target.group == 3 && datum.target.proteinPresence == "NEG"',
               value: '#E16156',
             }, // for hover
             {
@@ -247,17 +247,17 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             }, // for click
             {
               test:
-                'datum.source.id === node__click && datum.source.group == 2 && datum.target.proteinPresence == "Unknown"',
+                'datum.source.id === node__click && datum.source.group == 2 && datum.target.proteinPresence == "UNKNOWN"',
               value: '#377EB8',
             }, // for click
             {
               test:
-                'datum.source.id === node__click && datum.source.group == 2 && datum.target.proteinPresence == "Positive"',
+                'datum.source.id === node__click && datum.source.group == 2 && datum.target.proteinPresence == "POS"',
               value: '#131385',
             }, // for click
             {
               test:
-                'datum.source.id === node__click && datum.source.group == 2 && datum.target.proteinPresence == "Negative"',
+                'datum.source.id === node__click && datum.source.group == 2 && datum.target.proteinPresence == "NEG"',
               value: '#E16156',
             }, // for click
             {
@@ -267,17 +267,17 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             }, // for click
             {
               test:
-                'datum.target.id === node__click && datum.target.group == 3 && datum.target.proteinPresence == "Unknown"',
+                'datum.target.id === node__click && datum.target.group == 3 && datum.target.proteinPresence == "UNKNOWN"',
               value: '#4DAF4A',
             }, // for click
             {
               test:
-                'datum.target.id === node__click && datum.target.group == 3 && datum.target.proteinPresence == "Positive"',
+                'datum.target.id === node__click && datum.target.group == 3 && datum.target.proteinPresence == "POS"',
               value: '#131385', // for click
             },
             {
               test:
-                'datum.target.id === node__click && datum.target.group == 3 && datum.target.proteinPresence == "Negative"',
+                'datum.target.id === node__click && datum.target.group == 3 && datum.target.proteinPresence == "NEG"',
               value: '#E16156', // for click
             },
             {

@@ -1,5 +1,5 @@
 /* tslint:disable:variable-name */
-import { BM_TYPE, headerMap, Reference, Row, Structure, PRO_PRES } from '../models/api.model';
+import { BM_TYPE, headerMap, Reference, Row, Structure, PROTEIN_PRESENCE } from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
 
 
@@ -11,12 +11,12 @@ function addBiomarker(rowHeader: any, s: any) {
     s.name = s.name.replace('Protein', '');
     if (s.name.indexOf('+') > -1){
       s.name = s.name.replace('+', '');
-      s.proteinPresence = PRO_PRES.P;
+      s.proteinPresence = PROTEIN_PRESENCE.P;
     } else if (s.name.indexOf('-') > -1){
       s.name = s.name.replace('-', '');
-      s.proteinPresence = PRO_PRES.N;
+      s.proteinPresence = PROTEIN_PRESENCE.N;
     } else {
-      s.proteinPresence = PRO_PRES.U;
+      s.proteinPresence = PROTEIN_PRESENCE.U;
     }
     s.b_type = BM_TYPE.P;
   }
