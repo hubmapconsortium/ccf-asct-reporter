@@ -228,7 +228,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             {
               test:
                 'datum.target.id === node__hover && datum.target.group == 3 && datum.pathColor',
-                field: 'pathColor'
+              field: 'pathColor'
             }, // for hover
             {
               test:
@@ -243,7 +243,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             {
               test:
                 'datum.source.id === node__click && datum.source.group == 2 && datum.pathColor',
-                field: 'pathColor'
+              field: 'pathColor'
             }, // for click
             {
               test:
