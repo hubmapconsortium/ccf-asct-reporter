@@ -207,18 +207,13 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             }, // for hover
             {
               test:
-                'datum.source.id === node__hover && datum.source.group == 2 && datum.target.proteinPresence == "Unknown"',
+                'datum.source.id === node__hover && datum.source.group == 2 && !datum.pathColor',
               value: '#377EB8',
             }, // for hover
             {
               test:
-                'datum.source.id === node__hover && datum.source.group == 2 && datum.target.proteinPresence == "Positive"',
-              value: '#131385',
-            }, // for hover
-            {
-              test:
-                'datum.source.id === node__hover && datum.source.group == 2 && datum.target.proteinPresence == "Negative"',
-              value: '#E16156',
+                'datum.source.id === node__hover && datum.source.group == 2 && datum.pathColor',
+              field: 'pathColor'
             }, // for hover
             {
               test:
@@ -227,18 +222,13 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             }, // for hover
             {
               test:
-                'datum.target.id === node__hover && datum.target.group == 3 && datum.target.proteinPresence == "Unknown"',
+                'datum.target.id === node__hover && datum.target.group == 3 && !datum.pathColor',
               value: '#4DAF4A',
             }, // for hover
             {
               test:
-                'datum.target.id === node__hover && datum.target.group == 3 && datum.target.proteinPresence == "Positive"',
-              value: '#131385',
-            }, // for hover
-            {
-              test:
-                'datum.target.id === node__hover && datum.target.group == 3 && datum.target.proteinPresence == "Negative"',
-              value: '#E16156',
+                'datum.target.id === node__hover && datum.target.group == 3 && datum.pathColor',
+                field: 'pathColor'
             }, // for hover
             {
               test:
@@ -247,18 +237,13 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             }, // for click
             {
               test:
-                'datum.source.id === node__click && datum.source.group == 2 && datum.target.proteinPresence == "Unknown"',
+                'datum.source.id === node__click && datum.source.group == 2 && !datum.pathColor',
               value: '#377EB8',
             }, // for click
             {
               test:
-                'datum.source.id === node__click && datum.source.group == 2 && datum.target.proteinPresence == "Positive"',
-              value: '#131385',
-            }, // for click
-            {
-              test:
-                'datum.source.id === node__click && datum.source.group == 2 && datum.target.proteinPresence == "Negative"',
-              value: '#E16156',
+                'datum.source.id === node__click && datum.source.group == 2 && datum.pathColor',
+                field: 'pathColor'
             }, // for click
             {
               test:
@@ -267,19 +252,14 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             }, // for click
             {
               test:
-                'datum.target.id === node__click && datum.target.group == 3 && datum.target.proteinPresence == "Unknown"',
+                'datum.target.id === node__click && datum.target.group == 3 && !datum.pathColor',
               value: '#4DAF4A',
             }, // for click
             {
               test:
-                'datum.target.id === node__click && datum.target.group == 3 && datum.target.proteinPresence == "Positive"',
-              value: '#131385', // for click
-            },
-            {
-              test:
-                'datum.target.id === node__click && datum.target.group == 3 && datum.target.proteinPresence == "Negative"',
-              value: '#E16156', // for click
-            },
+                'datum.target.id === node__click && datum.target.group == 3 && datum.pathColor',
+              field: 'pathColor'
+            }, // for click
             {
               test:'(node__click !== null || node__hover !== null) && datum.target.group == 3',
               value: '#ccc', // for greying out other paths when clicking on a node
