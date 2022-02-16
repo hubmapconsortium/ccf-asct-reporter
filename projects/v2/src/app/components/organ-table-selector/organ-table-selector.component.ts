@@ -49,8 +49,12 @@ export class OrganTableSelectorComponent implements OnInit {
     public ga: GoogleAnalyticsService
   ) {
 
-    this.configService.config$.subscribe(config=>{
-      this.sheetOptions = config.sheetOptions;
+    this.configService.sheetConfiguration$.subscribe(sheetConfig=>{
+      const filteredData = sheetConfig.map((element) => {
+        return {...element, version: element.version?.filter((version) => !version.viewValue.includes('DRAFT'))};
+      });
+      this.sheetOptions = filteredData.filter(organ => organ.version != undefined);
+      this.sheetOptions = this.sheetOptions.filter(organ => organ.version.length != 0);
       this.dataSource = new MatTableDataSource(this.sheetOptions);
     });
 
@@ -89,7 +93,7 @@ export class OrganTableSelectorComponent implements OnInit {
       if (item.symbol) {
         this.organs.push(item.symbol);
         ga_details.selectedOrgans.push({
-          organ: item.title,
+          organ: item.display,
           version: item.symbol.split('-').slice(1).join('-')
         });
       }
@@ -151,7 +155,7 @@ export class OrganTableSelectorComponent implements OnInit {
   }
 
   changeVersion(value: any, element: any) {
-    if (element.title === 'All Organs'){
+    if (element.display === 'All Organs'){
       this.selection.select(...this.dataSource.data);
       if (value === 'All_Organs-v1.1'){
         this.dataSource.data.forEach((dataElement: any) => {
@@ -187,7 +191,7 @@ export class OrganTableSelectorComponent implements OnInit {
 
   selectRow(row) {
     
-    if (row.title === 'All Organs'){
+    if (row.display === 'All Organs'){
       if(this.isAllSelected()){
         this.selection.clear();
       }

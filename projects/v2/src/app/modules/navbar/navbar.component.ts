@@ -86,10 +86,10 @@ export class NavbarComponent implements OnInit {
 
     this.configService.sheetConfiguration$.subscribe(data=>{
       this.sheetConfig = data;
+      this.sheetOptions = data;
     });
 
     this.configService.config$.subscribe(config => {
-      this.sheetOptions = config.sheetOptions;
       this.versions = config.version;
       this.moreOptions = config.moreOptions;
       this.imgOptions = config.imgOptions;
@@ -136,7 +136,7 @@ export class NavbarComponent implements OnInit {
   }
 
   getSheetSelection(sheet, event) {
-    const selectedSheet = this.sheetOptions.find((s) => s.title === sheet);
+    const selectedSheet = this.sheetOptions.find((s) => s.name === sheet);
     this.store.dispatch(new ClearSheetLogs());
     this.router.navigate(['/vis'], {
       queryParams: { sheet: selectedSheet.sheet },

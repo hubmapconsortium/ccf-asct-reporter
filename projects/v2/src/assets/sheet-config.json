@@ -11,6 +11,16 @@
             "width": 700,
             "height": 5000
         },
+        "version": [
+            {
+              "value": "All_Organs-v1.0",
+              "viewValue": "v1.0"
+            },
+            {
+              "value": "All_Organs-v1.1",
+              "viewValue": "v1.1"
+            }
+          ],
         "title": "Organs"
     },
     {
