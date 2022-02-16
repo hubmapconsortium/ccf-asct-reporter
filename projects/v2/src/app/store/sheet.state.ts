@@ -162,6 +162,7 @@ export class SheetStateModel {
       msg: '',
       status: 0,
       notes: '',
+      references: [],
       extraLinks: {},
     },
     bottomSheetDOI: [],
@@ -992,6 +993,7 @@ export class SheetState {
             bottomSheetInfo: {
               ...res,
               notes: data?.notes,
+              ...(data.group === 2 ? {references: data?.references} : {}),
             },
           });
         }),
@@ -1010,6 +1012,7 @@ export class SheetState {
               msg: error.message,
               status: error.status,
               notes: data?.notes,
+              ...(data.group === 2 ? {references: data?.references} : {}),
             },
           });
           const err: Error = {

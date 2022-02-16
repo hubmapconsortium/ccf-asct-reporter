@@ -33,6 +33,15 @@
           {{info.notes}}
         </div>
       </div>
+      <div *ngIf="info?.references.length">
+        <div class="pt-3"></div>
+        <label><strong>DOI</strong></label>
+        <ul class="pl-3 pt-2">
+          <li *ngFor="let refer of info.references">
+            {{ refer.doi }}
+          </li>
+        </ul>
+      </div>
     </div>
   </ng-template>
 
