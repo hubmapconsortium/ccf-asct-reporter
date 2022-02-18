@@ -63,7 +63,7 @@
             *ngFor="let option of sheetOptions"
             class="menu-button-item"
             routerLink="/vis"
-            [queryParams]="{ sheet: option.sheet, version: dataVersion }"
+            [queryParams]="{ sheet: option.name, version: dataVersion }"
           >
             <span>{{ option.title }}</span>
           </button>

@@ -36,9 +36,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild('tutorialVideo') player: YouTubePlayer;
 
   constructor(public configService: ConfigService, private readonly router: Router, public ga: GoogleAnalyticsService) { 
+    
     this.configService.config$.subscribe(config=>{
       this.masterSheetLink = config.masterSheetLink;
-      this.sheetOptions = config.sheetOptions;
+    });
+
+    this.configService.sheetConfiguration$.subscribe(data=>{
+      const filteredData = data.map((element) => {
+        return {...element, version: element.version?.filter((version) => !version.viewValue.includes('DRAFT'))};
+      });
+      this.sheetOptions = filteredData.filter(organ => organ.version !== undefined);
+      this.sheetOptions = this.sheetOptions.filter(organ => organ.version.length !== 0);
     });
   }
 

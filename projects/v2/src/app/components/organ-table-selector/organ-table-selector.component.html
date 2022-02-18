@@ -37,7 +37,7 @@
     </ng-container>
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef id="organ-name"> Organ Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.display}} </td>
     </ng-container>
     <ng-container matColumnDef="version">
       <th mat-header-cell *matHeaderCellDef id="version"> Version </th>
@@ -49,7 +49,7 @@
             [(ngModel)] = "element.symbol"
             >
                 <mat-option *ngFor="let option of element.version" [value]="option.value">
-                {{ option.viewValue }}
+                    {{ option.viewValue }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
