@@ -53,8 +53,8 @@ export class OrganTableSelectorComponent implements OnInit {
       const filteredData = sheetConfig.map((element) => {
         return {...element, version: element.version?.filter((version) => !version.viewValue.includes('DRAFT'))};
       });
-      this.sheetOptions = filteredData.filter(organ => organ.version != undefined);
-      this.sheetOptions = this.sheetOptions.filter(organ => organ.version.length != 0);
+      this.sheetOptions = filteredData.filter(organ => organ.version !== undefined);
+      this.sheetOptions = this.sheetOptions.filter(organ => organ.version.length !== 0);
       this.dataSource = new MatTableDataSource(this.sheetOptions);
     });
 
