@@ -41,7 +41,7 @@ export function setupOntologyLookupRoutes(app: Express): void {
       const response = await axios.get(
         buildASCTApiUrl(`${ontologyCode}:${termId}`)
       );
-      if (response.status === 200 && response.data) {
+      if (response.status === 200 && response.data?._embedded?.terms?.length > 0) {
         const firstResult = response.data._embedded.terms[0];
 
         res.send({
