@@ -86,7 +86,19 @@
       <div>
         {{info.notes? info.notes : 'No notes found'}}
       </div>
+      <div class="pt-3"></div>
 
+      <label><strong>DOI</strong></label>
+      <div *ngIf="info?.references.length">
+        <ul class="pl-3 pt-2">
+          <li *ngFor="let refer of info.references">
+            {{ refer.doi }}
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="!info?.references.length">
+        No DOI references found
+      </div>
       
     </div>
   </ng-template>
