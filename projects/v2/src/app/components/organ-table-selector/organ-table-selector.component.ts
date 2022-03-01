@@ -90,6 +90,9 @@ export class OrganTableSelectorComponent implements OnInit {
     };
     this.organs = [];
     this.selection.selected.map((item) => {
+      if (item.title === 'All Organs') {
+        return;
+      }
       if (item.symbol) {
         this.organs.push(item.symbol);
         ga_details.selectedOrgans.push({
