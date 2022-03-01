@@ -24,6 +24,19 @@
         "title": "Organs"
     },
     {
+        "name": "example",
+        "display": "Example",
+        "sheetId": "0",
+        "gid": "0",
+        "config": {
+          "bimodal_distance_x": 200,
+          "bimodal_distance_y": 50,
+          "width": 500,
+          "height": 500
+        },
+        "title": "Anatomical Structures"
+    },
+    {
         "name": "blood",
         "display": "Blood",
         "config": {
