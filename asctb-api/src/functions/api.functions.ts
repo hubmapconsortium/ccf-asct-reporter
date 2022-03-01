@@ -40,9 +40,17 @@ function addingIDNotesLabels(rowHeader: any, newRow: any, key: any, data: any, i
     const n = newRow[key][parseInt(rowHeader[1]) - 1];
     assignNotesDOIData(n, data[i][j], 'rdfs_label');
   } else if (rowHeader.length === 3 && rowHeader[2] === 'DOI') {
+    if (!newRow[key][parseInt(rowHeader[1]) - 1]) {
+      const ref: Reference = {};
+      newRow[key].push(ref);
+    }
     const n: Reference = newRow[key][parseInt(rowHeader[1]) - 1];
     assignNotesDOIData(n, data[i][j], 'doi');
   } else if (rowHeader.length === 3 && rowHeader[2] === 'NOTES') {
+    if (!newRow[key][parseInt(rowHeader[1]) - 1]) {
+      const ref: Reference = {};
+      newRow[key].push(ref);
+    }
     const n: Reference = newRow[key][parseInt(rowHeader[1]) - 1];
     assignNotesDOIData(n, data[i][j], 'notes');
   }
