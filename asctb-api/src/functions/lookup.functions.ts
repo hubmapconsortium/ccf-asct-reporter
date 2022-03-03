@@ -45,7 +45,7 @@ export function guessIri(id: string): string {
     case OntologyCode.HGNC:
       return `http://identifiers.org/hgnc/${idNumber}`;
     case OntologyCode.LMHA:
-      return `http://purl.obolibrary.org/obo/LHMA_${idNumber}`;
+      return `http://purl.obolibrary.org/obo/LMHA_${idNumber}`;
     case OntologyCode.UBERON:
       return `http://purl.obolibrary.org/obo/UBERON_${idNumber}`;
     default:
