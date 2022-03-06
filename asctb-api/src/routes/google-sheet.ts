@@ -28,7 +28,7 @@ export function setupGoogleSheetRoutes(app: Express): void {
         );
       }
       const data = papa.parse(response.data).data;
-      const generalPublications = await fetchGeneralPublicationsData(data)
+      const generalPublications = await fetchGeneralPublicationsData(data);
       const asctbData = await makeASCTBData(data);
 
       return res.send({
