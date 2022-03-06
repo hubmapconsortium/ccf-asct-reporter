@@ -60,6 +60,8 @@
         <a [href]="info.iri" target="_blank" class="text-info">{{info.iri ? info.iri : 'No IRI found.'}}</a>
       </div>
 
+
+    
     <div *ngIf="info.extraLinks">
         <div *ngFor="let item of info.extraLinks | keyvalue">
         
@@ -77,8 +79,14 @@
       <div>
         {{info.notes? info.notes : 'No notes found'}}
       </div>
-
-      
     </div>
+
+    <label><strong>General Publications</strong></label>
+      <div *ngFor="let item of info.generalPublications">
+        <div class="pt-1"></div>
+        <label >{{item}}</label>
+      </div>
   </ng-template>
+
+
 </div>

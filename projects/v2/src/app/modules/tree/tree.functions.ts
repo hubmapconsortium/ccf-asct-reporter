@@ -43,6 +43,7 @@ export function makeAS(data: Row[], isForReport = false, isReportNotOrganWise = 
               label: str.rdfs_label,
               id,
               organName: row.organName,
+              generalPublications: row.generalPublications,
               notes: str.notes
             };
             id += 1;
@@ -118,6 +119,7 @@ export function makeCellTypes(data: Row[], isForReport = false, isReportNotOrgan
             label: str.rdfs_label,
             references: row.references,
             organName: row.organName,
+            generalPublications: row.generalPublications,
             notes: str.notes
           };
 
@@ -229,6 +231,7 @@ export function makeBioMarkers(
             nodeSize: 300,
             bType: str.b_type,
             organName: row.organName,
+            generalPublications: row.generalPublications,
             notes: str.notes,
             proteinPresence: str.proteinPresence,
           };

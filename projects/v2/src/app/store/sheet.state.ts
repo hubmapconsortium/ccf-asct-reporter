@@ -162,6 +162,7 @@ export class SheetStateModel {
       msg: '',
       status: 0,
       notes: '',
+      generalPublications:[],
       extraLinks: {},
     },
     bottomSheetDOI: [],
@@ -490,6 +491,7 @@ export class SheetState {
         allResults.map((res: ResponseData, index: number) => {
           for (const row of res.data) {
             row.organName = organsNames[index];
+            row.generalPublications = res.generalPublications;  //nikhil
 
             const newStructure: Structure = {
               name: 'Body',
@@ -606,7 +608,7 @@ export class SheetState {
         });
         patchState({
           data: dataAll,
-          fullAsData: asData
+          fullAsData: asData,
         });
       },
       (error) => {
@@ -992,6 +994,7 @@ export class SheetState {
             bottomSheetInfo: {
               ...res,
               notes: data?.notes,
+              generalPublications: data?.generalPublications
             },
           });
         }),
@@ -1010,6 +1013,7 @@ export class SheetState {
               msg: error.message,
               status: error.status,
               notes: data?.notes,
+              generalPublications: data?.generalPublications
             },
           });
           const err: Error = {

@@ -90,6 +90,14 @@ function addREF(rowHeader: any, newRow: any, key: any, data: any) {
   }
 }
 
+export function fetchGeneralPublicationsData(data:any[]): Promise<Row[]>{
+  return new Promise((res, rej) => {
+    const publications = data[5][1].split(';');
+    res(publications);
+  });
+
+}
+
 export function makeASCTBData(data: any[]): Promise<Row[]> {
   return new Promise((res, rej) => {
     const rows = [];

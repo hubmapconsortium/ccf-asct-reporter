@@ -33,8 +33,9 @@ export class TNode {
   label: string;
   notes: string;
   organName: string;
+  generalPublications: Array<string>;
 
-  constructor(id, name, parent, uId, notes, organName, color = '#808080') {
+  constructor(id, name, parent, uId, notes, organName, generalPublications, color = '#808080') {
     this.id = id;
     this.name = name;
     this.parent = parent;
@@ -51,6 +52,7 @@ export class TNode {
     this.comparatorName = '';
     this.notes = notes;
     this.organName = organName;
+    this.generalPublications = generalPublications;
   }
 }
 
@@ -76,6 +78,7 @@ export interface AS extends Base {
   isNew?: boolean;
   color?: string;
   organName?: string;
+  generalPublications?: Array<string>;
   notes: string;
 }
 
@@ -103,6 +106,7 @@ export interface CT extends Base{
   outdegree?: Set<Degree>;
   references?: Reference[];
   organName?: string;
+  generalPublications?: Array<string>;
   notes: string;
 }
 
@@ -117,6 +121,7 @@ export interface B extends Base{
   bType?: string;
   proteinPresence?: PROTEIN_PRESENCE;
   organName?: string;
+  generalPublications?: Array<string>;
   notes: string;
 }
 

@@ -51,12 +51,14 @@ export interface Row {
   biomarkers_meta: Array<Structure>;
   biomarkers_prot: Array<Structure>;
   references: Reference[];
+  generalPublications: Array<string>;
   organName: string;
 }
 
 export interface ResponseData {
   csv: string;
   data: Row[];
+  generalPublications: Array<string>;
   parsed: [];
 }
 
@@ -107,6 +109,7 @@ export interface SheetInfo {
   msg: string;
   status: number;
   notes: string;
+  generalPublications: Array<string>;
   extraLinks?:Record<string,string>;
 
 }

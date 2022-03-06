@@ -34,6 +34,7 @@ export class BMNode {
   references?: Reference[];
   notes: string;
   organName: string;
+  generalPublications: Array<string>;
 
   constructor(
     name,
@@ -43,6 +44,7 @@ export class BMNode {
     fontSize,
     notes,
     organName,
+    generalPublications,
     ontologyId = '',
     color = '#E41A1C',
     nodeSize = 300,
@@ -65,6 +67,7 @@ export class BMNode {
     this.label = '';
     this.notes = notes;
     this.organName = organName;
+    this.generalPublications = generalPublications;
     this.proteinPresence = proteinPresence;
   }
 }

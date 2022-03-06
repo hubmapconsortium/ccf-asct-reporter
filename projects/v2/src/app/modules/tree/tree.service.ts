@@ -170,6 +170,7 @@ export class TreeService {
               structure.id,
               structure.notes,
               row.organName,
+              row.generalPublications,
               AS_RED
             );
             newNode.label = structure.rdfs_label;

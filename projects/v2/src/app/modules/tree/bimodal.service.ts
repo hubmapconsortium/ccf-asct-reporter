@@ -55,6 +55,7 @@ export class BimodalService {
           const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.notes, td.organName, td.ontologyId);
           newLeaf.id = id;
           newLeaf.problem = td.problem;
+          newLeaf.generalPublications = td.generalPublications;
           newLeaf.pathColor = td.pathColor;
           newLeaf.isNew = td.isNew;
           newLeaf.color = td.color;
@@ -137,6 +138,7 @@ export class BimodalService {
           14,
           cell.notes,
           cell.organName,
+          cell.generalPublications,
           cell.link,
           CT_BLUE,
           cell.nodeSize
@@ -217,6 +219,7 @@ export class BimodalService {
           14,
           marker.notes,
           marker.organName,
+          marker.generalPublications,
           marker.link,
           B_GREEN,
           marker.nodeSize,
