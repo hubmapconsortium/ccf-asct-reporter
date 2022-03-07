@@ -167,7 +167,7 @@ export class RootComponent implements OnInit, OnDestroy {
     private readonly infoSheet: MatBottomSheet,
     public sheetService: SheetService,
     public router: Router,
-    private compareService: CompareService,
+    private readonly compareService: CompareService,
   ) {
 
     this.configService.sheetConfiguration$.subscribe(data=>{
