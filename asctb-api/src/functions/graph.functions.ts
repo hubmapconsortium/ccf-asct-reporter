@@ -14,6 +14,7 @@ export function buildgraphAS(data: Row[], graphData: GraphData) {
     Node_type.R,
     []
   );
+  const idNameSet: { [key: string]: string; } = {};
   root.comparator = root.metadata.name;
   root.comparatorName = root.metadata.name;
   root.comparatorId = root.metadata.ontologyId;
@@ -42,7 +43,7 @@ export function buildgraphAS(data: Row[], graphData: GraphData) {
         id += 1;
         const newNode = new GNode(
           id,
-          structure.name,
+          structure.id && idNameSet[structure.id] ? idNameSet[structure.id]  : structure.name,
           parent.id,
           structure.id,
           structure.rdfs_label,
@@ -52,7 +53,9 @@ export function buildgraphAS(data: Row[], graphData: GraphData) {
         newNode.comparatorName = parent.comparatorName + newNode.metadata.name;
         newNode.comparatorId =
           parent.comparatorId + newNode.metadata.ontologyId;
-
+        if (idNameSet[newNode.metadata.ontologyId] === undefined) {
+          idNameSet[newNode.metadata.ontologyId] = newNode.name;
+        }
         graphData.nodes.push(newNode);
         graphData.edges.push({ source: parent.id, target: id });
         parent = newNode;
@@ -126,7 +129,7 @@ export function buildgraphBM(data: Row[], graphData: GraphData, id: number) {
 
         row.biomarkers.forEach((biomarker) => {
           let s: number;
-          if (structure.id) {
+          if (structure.id)  {
             s = graphData.nodes.findIndex(
               (i: any) => i.comparatorId === biomarker.id
             );
@@ -143,8 +146,9 @@ export function buildgraphBM(data: Row[], graphData: GraphData, id: number) {
               parent.id,
               biomarker.id,
               biomarker.rdfs_label,
-              biomarker.b_type ?? Node_type.BM,
-              row.references
+              Node_type.BM,
+              row.references,
+              biomarker.b_type
             );
             newNode.comparatorName = newNode.metadata.name;
             newNode.comparatorId = newNode.metadata.ontologyId;

@@ -21,7 +21,7 @@ export function buildHGNCLink(id: string): string {
 }
 
 export function fixOntologyId(id: string): string {
-  if (id?.toLowerCase() === 'n/a') {
+  if (id?.toLowerCase() === 'n/a' || id?.toLowerCase() === 'not found') {
     return '';
   }
   // Fix IDs from ASCT+B Tables. Ideally, these changes are made up stream for next release and no transformation is necessary

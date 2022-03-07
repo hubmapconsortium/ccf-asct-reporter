@@ -12,6 +12,7 @@ export function setupOntologyLookupRoutes(app: Express): void {
   app.get('/lookup/:ontology/:id', async (req: Request, res: Response) => {
     const ontologyCode = req.params.ontology.toUpperCase();
     const termId = req.params.id;
+    const output = req.query.output as 'graph' | string;
 
     switch (ontologyCode) {
     case OntologyCode.HGNC: {
@@ -20,7 +21,8 @@ export function setupOntologyLookupRoutes(app: Express): void {
       });
       if (response.status === 200 && response.data) {
         const firstResult = response.data.response.docs[0];
-        res.send({
+
+        const details = {
           extraLinks: {
             'Uniprot Link': buildUniprotLink(firstResult.uniprot_ids[0]),
             'Entrez Link': buildEntrezLink(firstResult.entrez_id)
@@ -28,6 +30,10 @@ export function setupOntologyLookupRoutes(app: Express): void {
           label: firstResult.symbol,
           link: buildHGNCLink(firstResult.hgnc_id),
           description: firstResult.name ? firstResult.name : ''
+        };
+        res.send({
+          ...(output === 'graph' && {'additionalInfo':  firstResult}),
+          ...details
         } as LookupResponse);
       } else {
         res.status(response.status).end();
@@ -44,12 +50,17 @@ export function setupOntologyLookupRoutes(app: Express): void {
       if (response.status === 200 && response.data?._embedded?.terms?.length > 0) {
         const firstResult = response.data._embedded.terms[0];
 
-        res.send({
+        const details = {
           label: firstResult.label,
           link: firstResult.iri,
           description: firstResult.annotation.definition
             ? firstResult.annotation.definition[0]
             : ''
+        };
+        res.send({
+          ...(output === 'graph' && {'additionalInfo':  firstResult}),
+          ...details
+          
         } as LookupResponse);
       } else {
         res.status(response.status).end();
