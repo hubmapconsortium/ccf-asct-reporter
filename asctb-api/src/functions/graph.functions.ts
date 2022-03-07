@@ -26,7 +26,7 @@ export function buildgraphAS(data: Row[], graphData: GraphData) {
 
     row.anatomical_structures.forEach((structure) => {
       let s: number;
-      if (structure.id && structure.id.toLowerCase() !== 'not found') {
+      if (structure.id) {
         s = graphData.nodes.findIndex(
           (i: any) =>
             i.type !== 'root' &&
@@ -81,7 +81,7 @@ export function buildgraphCT(data: Row[], graphData: GraphData, id: number) {
 
       row.cell_types.forEach((structure) => {
         let s: number;
-        if (structure.id && structure.id.toLowerCase() !== 'not found') {
+        if (structure.id) {
           s = graphData.nodes.findIndex(
             (i: any) => i.comparatorId === structure.id
           );
@@ -129,7 +129,7 @@ export function buildgraphBM(data: Row[], graphData: GraphData, id: number) {
 
         row.biomarkers.forEach((biomarker) => {
           let s: number;
-          if (structure.id && structure.id.toLowerCase() !== 'not found')  {
+          if (structure.id)  {
             s = graphData.nodes.findIndex(
               (i: any) => i.comparatorId === biomarker.id
             );
