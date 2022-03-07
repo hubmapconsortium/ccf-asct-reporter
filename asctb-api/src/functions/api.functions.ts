@@ -1,5 +1,5 @@
 /* tslint:disable:variable-name */
-import { BM_TYPE, headerMap, Reference, Row, Structure } from '../models/api.model';
+import { BM_TYPE, headerMap, Reference, Row, Structure, PROTEIN_PRESENCE } from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
 
 
@@ -8,6 +8,16 @@ function addBiomarker(rowHeader: any, s: any) {
     s.b_type = BM_TYPE.G;
   }
   if (rowHeader[0] === 'BProtein' || rowHeader[0] === 'BP') {
+    s.name = s.name.replace('Protein', '');
+    if (s.name.indexOf('+') > -1){
+      s.name = s.name.replace('+', '');
+      s.proteinPresence = PROTEIN_PRESENCE.POS;
+    } else if (s.name.indexOf('-') > -1){
+      s.name = s.name.replace('-', '');
+      s.proteinPresence = PROTEIN_PRESENCE.NEG;
+    } else {
+      s.proteinPresence = PROTEIN_PRESENCE.UNKNOWN;
+    }
     s.b_type = BM_TYPE.P;
   }
   if (rowHeader[0] === 'BLipid' || rowHeader[0] === 'BL') {
@@ -30,9 +40,17 @@ function addingIDNotesLabels(rowHeader: any, newRow: any, key: any, data: any, i
     const n = newRow[key][parseInt(rowHeader[1]) - 1];
     assignNotesDOIData(n, data[i][j], 'rdfs_label');
   } else if (rowHeader.length === 3 && rowHeader[2] === 'DOI') {
+    if (!newRow[key][parseInt(rowHeader[1]) - 1]) {
+      const ref: Reference = {};
+      newRow[key].push(ref);
+    }
     const n: Reference = newRow[key][parseInt(rowHeader[1]) - 1];
     assignNotesDOIData(n, data[i][j], 'doi');
   } else if (rowHeader.length === 3 && rowHeader[2] === 'NOTES') {
+    if (!newRow[key][parseInt(rowHeader[1]) - 1]) {
+      const ref: Reference = {};
+      newRow[key].push(ref);
+    }
     const n: Reference = newRow[key][parseInt(rowHeader[1]) - 1];
     assignNotesDOIData(n, data[i][j], 'notes');
   }

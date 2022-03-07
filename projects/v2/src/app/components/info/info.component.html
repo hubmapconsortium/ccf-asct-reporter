@@ -33,37 +33,73 @@
           {{info.notes}}
         </div>
       </div>
+      <div *ngIf="info?.references.length">
+        <div class="pt-3"></div>
+        <label><strong>DOI</strong></label>
+        <ul class="pl-3 pt-2">
+          <li *ngFor="let refer of info.references">
+            {{ refer.doi }}
+          </li>
+        </ul>
+      </div>
     </div>
   </ng-template>
 
 
   <ng-template #infoBlock>
     <div *ngIf="!error.hasError" class="py-3 info">
-      <label><b>Description</b></label>
+      <label><strong>Description</strong></label>
       <div>
         {{info.desc ? info.desc : 'No description found.'}}
       </div>
 
       <div class="pt-3"></div>
 
-      <label><b>Ontology ID</b></label>
+      <label><strong>Ontology ID</strong></label>
       <div>
         {{info.ontologyId ? info.ontologyId : 'No ID found.'}}
       </div>
 
+      
+
       <div class="pt-3"></div>
 
-      <label><b>{{ info.ontologyCode === 'HGNC' ? 'Link' : 'IRI'}}</b></label>
+      <label><strong>{{ info.ontologyCode === 'HGNC' ? 'Link' : 'IRI'}}</strong></label>
       <div>
         <a [href]="info.iri" target="_blank" class="text-info">{{info.iri ? info.iri : 'No IRI found.'}}</a>
       </div>
 
-      <div class="pt-3"></div>
+    <div *ngIf="info.extraLinks">
+        <div *ngFor="let item of info.extraLinks | keyvalue">
+        
+          <div class="pt-3"></div>
+          <label ><strong>{{item.key}}</strong></label>
+          <div>
+            <a [href]="item.value" target="_blank" class="text-info">{{item.value ? item.value : 'No '+ item.key +' found.'}}</a>
+          </div>
+        </div>
+    </div>
+
+    <div class="pt-3"></div>
 
       <label><strong>Notes</strong></label>
       <div>
-        {{info.notes? info.notes : 'No Notes Found'}}
+        {{info.notes? info.notes : 'No notes found'}}
       </div>
+      <div class="pt-3"></div>
+
+      <label><strong>DOI</strong></label>
+      <div *ngIf="info?.references?.length">
+        <ul class="pl-3 pt-2">
+          <li *ngFor="let refer of info?.references">
+            {{ refer.doi }}
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="!info?.references?.length ">
+        No DOI references found
+      </div>
+      
     </div>
   </ng-template>
 </div>

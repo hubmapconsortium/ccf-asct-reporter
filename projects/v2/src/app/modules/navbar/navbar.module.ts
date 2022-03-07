@@ -12,6 +12,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { TableNestedMenuModule } from '../../components/table-nested-menu/table-nested-menu.module';
 
 
 
@@ -30,7 +31,8 @@ import { RouterModule } from '@angular/router';
     MatMenuModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    TableNestedMenuModule
   ],
   exports: [NavbarComponent]
 })

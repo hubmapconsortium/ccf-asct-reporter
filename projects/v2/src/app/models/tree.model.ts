@@ -1,4 +1,4 @@
-import { Reference } from './sheet.model';
+import { PROTEIN_PRESENCE, Reference } from './sheet.model';
 export const AS_RED = '#E41A1C';
 export const CT_BLUE = '#377EB8';
 export const B_GREEN = '#4DAF4A';
@@ -82,6 +82,7 @@ export interface AS extends Base {
 export interface Degree {
   id: string;
   name: string;
+  proteinPresence?: PROTEIN_PRESENCE;
 }
 
 export interface ASCTBConfig {
@@ -114,6 +115,7 @@ export interface B extends Base{
   outdegree?: Set<Degree>;
   nodeSize?: number;
   bType?: string;
+  proteinPresence?: PROTEIN_PRESENCE;
   organName?: string;
   notes: string;
 }
@@ -182,4 +184,13 @@ export interface BottomSheetData {
   status: string;
   text: any;
   data: any;
+}
+
+export interface linksASCTBData {
+  AS_CT: number;
+  CT_B: number;
+  AS_AS: number;
+  AS_CT_organWise: Record<string, number>;
+  CT_B_organWise: Record<string, number>;
+  AS_AS_organWise: Record<string, number>;
 }

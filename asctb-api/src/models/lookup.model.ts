@@ -1,9 +1,9 @@
 export interface LookupResponse {
-  name: string;
   label: string;
   description: string;
   link: string;
   additionalInfo?: string;
+  extraLinks?: Record<string, string>;
 }
 
 export enum OntologyCode {
@@ -11,4 +11,5 @@ export enum OntologyCode {
   CL = 'CL',
   FMA = 'FMA',
   HGNC = 'HGNC',
+  LMHA = 'LMHA',
 }

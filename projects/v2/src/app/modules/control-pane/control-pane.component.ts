@@ -9,7 +9,7 @@ import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { DiscrepencyStructure, TNode } from '../../models/tree.model';
 import { VegaService } from '../tree/vega.service';
 import { DiscrepencyId, DiscrepencyLabel, DuplicateId } from '../../actions/tree.actions';
-import { UpdateConfig, ToggleShowAllAS, FetchAllOrganData } from '../../actions/sheet.actions';
+import { UpdateConfig, ToggleShowAllAS, FetchSelectedOrganData } from '../../actions/sheet.actions';
 import { BimodalService } from '../tree/bimodal.service';
 import { BMNode } from '../../models/bimodal.model';
 
@@ -24,6 +24,7 @@ export class ControlPaneComponent implements OnInit {
   @Select(SheetState.getSheetConfig) config$: Observable<SheetConfig>;
   @Select(SheetState.getSheet) sheet$: Observable<Sheet>;
   @Select(TreeState.getVegaView) view$: Observable<any>;
+  @Select(SheetState.getSelectedOrgans) selectedOrgans$: Observable<string[]>;
 
   @Select(TreeState.getTreeData) td$: Observable<TNode[]>;
   @Select(TreeState.getBimodal) bm$: Observable<any>;
@@ -73,7 +74,8 @@ export class ControlPaneComponent implements OnInit {
   showAllAS() {
     this.store.dispatch(new ToggleShowAllAS()).subscribe(states => {
       const sheet = states.sheetState.sheet;
-      this.store.dispatch(new FetchAllOrganData(sheet));
+      const selectedOrgans = states.sheetState.selectedOrgans;
+      this.store.dispatch(new FetchSelectedOrganData(sheet, selectedOrgans));
     });
   }
 

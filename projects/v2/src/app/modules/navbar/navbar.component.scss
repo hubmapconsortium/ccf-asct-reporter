@@ -5,6 +5,24 @@
   align-items: center;
 }
 
+.select-organs-button{
+  width: 20%;
+  mat-icon {
+    float:right;
+    position: absolute;
+    top:9px;
+    right:10px;
+  }
+
+  ::ng-deep .mat-button-wrapper {
+    text-overflow: ellipsis;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    padding-right:10px;
+  }
+
+}
 .nav-wrapper > * {
   margin-right: 0.625rem;
 }

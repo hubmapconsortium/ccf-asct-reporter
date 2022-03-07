@@ -16,7 +16,11 @@
       <div>
         <a (click)="openDocs()" class="text-white">Docs</a>
         <a (click)="openGithub()" class="ml-4 text-white">GitHub</a>
-        <a (click)="openData()" class="text-white ml-4">Master Tables</a>
+        <a class="ml-4 text-white menu" [matMenuTriggerFor]="nestedMenu.childMenu">
+          Master Tables
+          <mat-icon class="icon">expand_more</mat-icon>
+        </a>
+        <app-table-nested-menu #nestedMenu [sheetDetails]="configService.sheetConfiguration$ | async"></app-table-nested-menu>
         <a (click)="window.open('https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1268820100')" class="text-white ml-4">Old Tables</a>
       </div>
     </div>
@@ -49,17 +53,17 @@
         <button
           mat-flat-button
           class="go-to-vis"
-          [matMenuTriggerFor]="menu"
+          routerLink="/vis"
         >
           Go to Visualization
         </button>
         <mat-menu #menu="matMenu" class="organMenu">
           <button
             mat-menu-item
-            *ngFor="let option of SHEET_OPTIONS"
+            *ngFor="let option of sheetOptions"
             class="menu-button-item"
             routerLink="/vis"
-            [queryParams]="{ sheet: option.sheet, version: dataVersion }"
+            [queryParams]="{ sheet: option.name, version: dataVersion }"
           >
             <span>{{ option.title }}</span>
           </button>
@@ -110,7 +114,7 @@
         <div class="w-100 video-tutorial" id="tutorialVideo">
           <youtube-player
             #tutorialVideo
-            videoId="I5RZzYX8quQ"
+            videoId="pzUFmDhQEO8"
             width="100%"
             height="100%"
             [playerVars]="{rel: 0, showinfo: 0, ecver: 2}"

@@ -1,4 +1,4 @@
-// @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+// @import "@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "https://fonts.googleapis.com/icon?family=Material+Icons";
 @import "assets/stylesheets/colors.scss";
@@ -124,4 +124,8 @@ markdown .md-img {
 
 markdown strong {
   font-weight: 600;
+}
+
+.mat-snack-bar-container {
+  min-width: fit-content !important; 
 }

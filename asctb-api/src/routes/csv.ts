@@ -5,6 +5,7 @@ import papa from 'papaparse';
 
 import { makeASCTBData } from '../functions/api.functions';
 import { makeJsonLdData } from '../functions/graph-jsonld.functions';
+import { makeOwlData } from '../functions/graph-owl.functions';
 import { makeGraphData } from '../functions/graph.functions';
 import { UploadedFile } from '../models/api.model';
 
@@ -20,6 +21,7 @@ export function setupCSVRoutes(app: Express): void {
     // query parameters
     const url = req.query.csvUrl as string;
     const expanded = req.query.expanded !== 'false';
+    const withSubclasses = req.query.subclasses !== 'false';
     const output = req.query.output as 'json' | 'graph' | 'jsonld' | string;
 
     try {
@@ -38,8 +40,12 @@ export function setupCSVRoutes(app: Express): void {
       );
       const asctbData = ([] as any[]).concat(...asctbDataResponses);
 
-      if (output === 'jsonld') {
-        let graphData = makeJsonLdData(makeGraphData(asctbData));
+      if (output === 'owl') {
+        const graphData = await makeOwlData(makeJsonLdData(makeGraphData(asctbData), withSubclasses));
+        res.type('application/rdf+xml');
+        return res.send(graphData);
+      } else if (output === 'jsonld') {
+        let graphData = makeJsonLdData(makeGraphData(asctbData), withSubclasses);
         if (expanded) {
           graphData = await expand(graphData);
         }
@@ -71,6 +77,13 @@ export function setupCSVRoutes(app: Express): void {
    */
   app.post('/v2/csv', async (req: Request, res: Response) => {
     console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
+    
+    if (!req.files || !req.files.csvFile) {
+      return res.status(400).send({
+        msg: 'This route only accepts CSVs POSTed and called csvFile',
+        code: 400
+      });
+    }
 
     const file = req.files.csvFile as UploadedFile;
 

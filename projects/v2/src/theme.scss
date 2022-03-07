@@ -1,5 +1,5 @@
-@use '~@angular/material' as mat;
-// @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@use '@angular/material' as mat;
+// @import "@angular/material/prebuilt-themes/indigo-pink.css";
 
 $mat-reporter-primary: (
   50: #e9e9ed,
@@ -35,20 +35,20 @@ $mat-reporter-primary: (
 );
 
 $mat-reporter-accent: (
-  50: #fffaed,
-  100: #fff4d1,
-  200: #ffecb3,
-  300: #ffe494,
-  400: #ffdf7d,
-  500: #ffd966,
-  600: #ffd55e,
-  700: #ffcf53,
-  800: #ffca49,
-  900: #ffc038,
-  A100: #ffffff,
-  A200: #ffffff,
-  A400: #fff5e1,
-  A700: #ffedc8,
+  50: #e9e9ed,
+  100: #c7c9d1,
+  200: #a2a5b2,
+  300: #7c8093,
+  400: #60657c,
+  500: #444a65,
+  600: #3e435d,
+  700: #353a53,
+  800: #2d3249,
+  900: #1f2237,
+  A100: #7e8fff,
+  A200: #4b63ff,
+  A400: #1837ff,
+  A700: #0023fd,
   contrast: (
     50: #000000,
     100: #000000,

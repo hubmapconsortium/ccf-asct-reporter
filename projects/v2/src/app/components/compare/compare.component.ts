@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { CompareData } from '../../models/sheet.model';
 import { Observable } from 'rxjs';
-import {GoogleAnalyticsService} from '../../services/google-analytics.service';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory, GaCompareInfo } from '../../models/ga.model';
 
 @Component({
@@ -88,7 +88,7 @@ export class CompareComponent implements OnInit {
         link: sheet.link,
         color: sheet.color,
       };
-      this.ga.eventEmitter('compare_sheet', GaCategory.COMPARE, 'Add new sheet to compare', GaAction.CLICK, JSON.stringify(sheetInfo));
+      this.ga.event(GaAction.CLICK, GaCategory.COMPARE, `Add new sheet to compare: ${JSON.stringify(sheetInfo)}`);
     }
 
     this.compareData.emit(data);
@@ -155,12 +155,12 @@ export class CompareComponent implements OnInit {
   addCompareSheetRow() {
     const sheet = this.createCompareForm();
     this.formSheets.push(sheet);
-    this.ga.eventEmitter('compare_add_row', GaCategory.COMPARE, 'Add new compare row', GaAction.CLICK, null);
+    this.ga.event(GaAction.CLICK, GaCategory.COMPARE, 'Add new compare row', null);
   }
 
   removeCompareSheetRow(i: number) {
     this.formSheets.removeAt(i);
-    this.ga.eventEmitter('compare_delete_row', GaCategory.COMPARE, 'Delete compare row', GaAction.CLICK, i);
+    this.ga.event(GaAction.CLICK, GaCategory.COMPARE, 'Delete compare row', i);
   }
 
 }

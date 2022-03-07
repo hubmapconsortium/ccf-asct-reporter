@@ -1,0 +1,5 @@
+<p>We log usage to improve this service.</p>
+<button *ngIf="showButton('opt-in')" mat-button color="basic" (click)="submit(true)">
+  {{allowTelemetry === 'not-set' ? 'I understand' : 'Opt in'}}
+</button>
+<button *ngIf="showButton('opt-out')" mat-button color="basic" (click)="submit(false)">Opt out</button>

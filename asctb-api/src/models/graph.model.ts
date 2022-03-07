@@ -1,3 +1,5 @@
+import { Reference } from './api.model';
+
 /* tslint:disable:variable-name */
 export enum Node_type {
   AS = 'AS',
@@ -13,7 +15,7 @@ export enum Edge_type {
   CT_G = 'CTgene',
   CT_P = 'CTprotein',
   CT_BL = 'CTlipids',
-  CT_BM = 'CTmetalloids',
+  CT_BM = 'CTmetabolites',
   CT_BF = 'CTproteoforms',
   AS_G = 'ASgene', // Not supported, but shows up in the data
   AS_P = 'ASprotein' // Not supported, but shows up in the data
@@ -36,6 +38,7 @@ export class GNode {
     ontologyId: string,
     label: string,
     type: string,
+    references: Reference[],
     bType?: string,
   ) {
     this.id = id;
@@ -45,7 +48,7 @@ export class GNode {
     this.comparatorId = '';
     this.comparatorName = '';
     this.name = name;
-    this.metadata = new Metadata(name, ontologyId, label, bType);
+    this.metadata = new Metadata(name, ontologyId, label, references, bType);
   }
 }
 
@@ -56,8 +59,10 @@ export class Metadata {
   name: string;
   ontologyId: string;
   bmType?: string;
+  references: Reference[];
 
-  constructor(name: string, ontologyId: string, label: string, bmType?: string) {
+  constructor(name: string, ontologyId: string, label: string, references: Reference[], bmType?: string) {
+    this.name = name;
     this.ontologyId = ontologyId;
     if (ontologyId.toLowerCase().startsWith('fma')) {
       ontologyId = ontologyId.substring(3);
@@ -77,6 +82,7 @@ export class Metadata {
     this.name = name;
     this.label = label;
     this.bmType = bmType;
+    this.references = references;
   }
 }
 

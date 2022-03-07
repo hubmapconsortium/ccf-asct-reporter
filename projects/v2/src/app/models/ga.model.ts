@@ -22,7 +22,8 @@ export enum GaCategory {
   PLAYGROUND = 'playground',
   GRAPH = 'graph',
   COMPARE = 'compare',
-  CONTROLS = 'controls'
+  CONTROLS = 'controls',
+  COMPARISON = 'comparison',
 }
 
 // Information to be emitted on each Comparison event
@@ -39,4 +40,18 @@ export interface GaNodeInfo {
   type: string;
   x: number;
   y: number;
+  name: string;
+  groupName: string;
+}
+
+// Information to be emitted on organs selection events
+export interface GaOrgansInfo {
+  selectedOrgans: GaOrganInfo[];
+  numOrgans: number;
+}
+
+// Organs Information
+export interface GaOrganInfo {
+  organ: string;
+  version: string;
 }

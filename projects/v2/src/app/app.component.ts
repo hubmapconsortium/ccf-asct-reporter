@@ -1,27 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationEnd } from '@angular/router';
 import { environment } from '../environments/environment';
+import { ConsentService } from './services/consent.service';
+import { TrackingPopupComponent } from './components/tracking-popup/tracking-popup.component';
 
 declare let gtag: (arg1?, arg2?, arg3?) => void;
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-reporter',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   constructor(
+    readonly consentService: ConsentService,
+    readonly snackbar: MatSnackBar,
     private matIconRegistry: MatIconRegistry,
     private readonly domSanitizer: DomSanitizer,
     public router: Router) {
 
     switch (environment.tag) {
-    case 'Staging': document.title = 'CCF Reporter | Staging'; break;
-    case 'Development': document.title = 'CCF Reporter | Development'; break;
-    default: document.title = 'CCF Reporter';
+    case 'Staging': document.title = 'ASCT+B Reporter | Staging'; break;
+    case 'Development': document.title = 'ASCT+B Reporter | Development'; break;
+    default: document.title = 'ASCT+B Reporter';
     }
 
     this.matIconRegistry.addSvgIcon(
@@ -57,6 +62,17 @@ export class AppComponent {
           }
         );
       }
+    });
+  }
+
+  ngOnInit(): void {
+    const snackBar = this.snackbar.openFromComponent(TrackingPopupComponent, {
+      data: {
+        preClose: () => {
+          snackBar.dismiss();
+        }
+      },
+      duration: this.consentService.consent === 'not-set' ? Infinity : 3000
     });
   }
 }

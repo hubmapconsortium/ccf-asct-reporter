@@ -10,8 +10,14 @@ export enum BM_TYPE {
   G = 'gene',
   P = 'protein',
   BL = 'lipids',
-  BM = 'metalloids',
+  BM = 'metabolites',
   BF = 'proteoforms',
+}
+
+export enum PROTEIN_PRESENCE {
+  POS = 'Positive',
+  NEG = 'Negative',
+  UNKNOWN = 'Unknown'
 }
 
 export class Structure {

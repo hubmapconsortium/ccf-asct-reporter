@@ -12,52 +12,57 @@ export const VIDEO_ACTIONS = [
   {
     header: 'Search',
     desc: 'Search entities by typing their names.',
-    sec: 70
+    sec: 117
   },
   {
     header: 'Indented List',
     desc: 'View the data in a hierarchical format.',
-    sec: 123
+    sec: 207
   },
   {
     header: 'Report Generator',
     desc: 'The Reporter computes various statistics from the data - which is downloadable.',
-    sec: 143
+    sec: 232
   },
   {
     header: 'Debug Log',
     desc: 'The Log lists warnings and errors that occurred during data parsing and visualization creation',
-    sec: 165
+    sec: 247
+  },
+  {
+    header: 'Export',
+    desc: 'The menu lists the formats that can be exported through the reporter.',
+    sec: 270
   },
   {
     header: 'Tree Visualization',
     desc: 'See how to explore the tree visualization.',
-    sec: 211
+    sec: 304
   },
   {
     header: 'Graph Functions',
     desc: 'See how you can sort, size and filter different nodes.',
-    sec: 306
+    sec: 400
   },
   {
     header: 'Graph Controls',
     desc: 'Constomize the visualization on the fly.',
-    sec: 337
+    sec: 480
   },
   {
     header: 'Compare',
     desc: 'Compare your data to that of the master tables.',
-    sec: 381
+    sec: 540
   },
   {
     header: 'Playground',
     desc: 'Play with the visualization and upload your own data.',
-    sec: 488
+    sec: 669
   },
   {
     header: 'Docs',
     desc: 'Take a look at the Reporter Documentation.',
-    sec: 607
+    sec: 796
   }
 ];
 
@@ -114,6 +119,15 @@ export const CONTIRBUTORS = [
     mail: 'madvogel@iu.edu',
     link: 'https://cns.iu.edu/current_team/bio/mac-vogelsang.html',
     linkedin: 'https://www.linkedin.com/in/mac-vogelsang',
+    github: ''
+  },
+  {
+    img: 'assets/contributors/nikhil.jpeg',
+    name: 'Nikhil Mahadevaswamy',
+    desc: 'Angular Developer',
+    mail: 'nmahade@iu.edu',
+    link: 'https://cns.iu.edu/current_team/bio/nikhil-mahadevaswamy.html',
+    linkedin: 'https://www.linkedin.com/in/nikhilm2395',
     github: ''
   }
 ];
