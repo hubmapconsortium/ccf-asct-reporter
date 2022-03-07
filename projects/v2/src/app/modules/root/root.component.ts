@@ -54,7 +54,6 @@ import { SheetService } from '../../services/sheet.service';
 import { OrganTableSelectorComponent } from '../../components/organ-table-selector/organ-table-selector.component';
 import { TreeComponent } from '../tree/tree.component';
 import { ConfigService } from '../../app-config.service';
-import { CompareService } from '../../components/compare/compare.service';
 
 @Component({
   selector: 'app-root',
@@ -103,6 +102,10 @@ export class RootComponent implements OnInit, OnDestroy {
    * Default is vis
    */
   mode = 'vis';
+  /**
+   * Comparison sheets details
+   */
+  compareDetails: CompareData[] = [];
 
   // The container used for vertical scrolling of the viz is different than the one used for horizontal scrolling
   // Here we get references to both values.
@@ -167,7 +170,6 @@ export class RootComponent implements OnInit, OnDestroy {
     private readonly infoSheet: MatBottomSheet,
     public sheetService: SheetService,
     public router: Router,
-    private readonly compareService: CompareService,
   ) {
 
     this.configService.sheetConfiguration$.subscribe(data=>{
@@ -232,7 +234,7 @@ export class RootComponent implements OnInit, OnDestroy {
         const comparisonColorList = comparisonColor?.split('|');
         const comparisonNameList = comparisonName?.split('|');
 
-        const comparisonDetails = this.compareService.getCompareDetails();
+        const comparisonDetails = this.compareDetails;
         this.sheet = this.sheetConfig.find(i => i.name === 'some');
 
         if (!comparisonDetails.length) {
@@ -482,7 +484,7 @@ export class RootComponent implements OnInit, OnDestroy {
    */
   compareData(data: CompareData[]) {
     this.store.dispatch(new CloseCompare());
-    this.compareService.setCompareDetails(data);
+    this.compareDetails = data;
     const compareDataString = data
       .filter((compareData: CompareData) => compareData.link !== '')
       .map((compareData: CompareData) => compareData.link)
