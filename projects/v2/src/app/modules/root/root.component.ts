@@ -102,6 +102,10 @@ export class RootComponent implements OnInit, OnDestroy {
    * Default is vis
    */
   mode = 'vis';
+  /**
+   * Comparison sheets details
+   */
+  compareDetails: CompareData[] = [];
 
   // The container used for vertical scrolling of the viz is different than the one used for horizontal scrolling
   // Here we get references to both values.
@@ -165,7 +169,7 @@ export class RootComponent implements OnInit, OnDestroy {
     public report: ReportService,
     private readonly infoSheet: MatBottomSheet,
     public sheetService: SheetService,
-    public router: Router
+    public router: Router,
   ) {
 
     this.configService.sheetConfiguration$.subscribe(data=>{
@@ -194,7 +198,9 @@ export class RootComponent implements OnInit, OnDestroy {
       const selectedOrgans = query.get('selectedOrgans');
       const version = query.get('version');
       const comparisonCSV = query.get('comparisonCSVURL');
+      const comparisonName = query.get('comparisonName');
       const comparisonColor = query.get('comparisonColor');
+      const comparisonHasFile = query.get('comparisonHasFile');
       const sheet = query.get('sheet');
       const playground = query.get('playground');
       if (!selectedOrgans && playground !== 'true') {
@@ -222,12 +228,13 @@ export class RootComponent implements OnInit, OnDestroy {
           }
         });
       }
-      else if (selectedOrgans && playground !== 'true' && comparisonCSV) {
+      else if (selectedOrgans && playground !== 'true' && (comparisonCSV || comparisonHasFile)) {
         store.dispatch(new UpdateMode('vis'));
         const comparisonCSVURLList = comparisonCSV.split('|');
         const comparisonColorList = comparisonColor?.split('|');
+        const comparisonNameList = comparisonName?.split('|');
 
-        const comparisonDetails = JSON.parse(localStorage.getItem('compareData')) || [];
+        const comparisonDetails = this.compareDetails;
         this.sheet = this.sheetConfig.find(i => i.name === 'some');
 
         if (!comparisonDetails.length) {
@@ -244,11 +251,12 @@ export class RootComponent implements OnInit, OnDestroy {
             '#ECC30B'
           ];
           comparisonCSVURLList.forEach((linkUrl, index) => {
+            linkUrl = linkUrl.trim();
             comparisonDetails.push({
-              title: `Sheet ${index + 1}`,
+              title: comparisonNameList?.length-1 >= index ? comparisonNameList[index] : `Sheet ${index + 1}`,
               description: '',
               link: linkUrl,
-              color:  comparisonColorList?.length-1 <= index ? comparisonColorList[index] : colors[index % colors.length],
+              color:  comparisonColorList?.length-1 >= index ? comparisonColorList[index] : colors[index % colors.length],
               sheetId: this.parseSheetUrl(linkUrl).sheetID,
               gid: this.parseSheetUrl(linkUrl).gid,
               csvUrl: this.parseSheetUrl(linkUrl).csvUrl
@@ -476,9 +484,7 @@ export class RootComponent implements OnInit, OnDestroy {
    */
   compareData(data: CompareData[]) {
     this.store.dispatch(new CloseCompare());
-    // set data in local storage with key as compareData
-    localStorage.setItem('compareData', JSON.stringify(data));
-
+    this.compareDetails = data;
     const compareDataString = data
       .filter((compareData: CompareData) => compareData.link !== '')
       .map((compareData: CompareData) => compareData.link)
@@ -489,9 +495,19 @@ export class RootComponent implements OnInit, OnDestroy {
       .map((compareData: CompareData) => compareData.color)
       .join('|');
 
+    const compareNameString = data
+      .filter((compareData: CompareData) => compareData.title !== '')
+      .map((compareData: CompareData) => compareData.title)
+      .join('|');
+
+    const compareHasFile = data // check if any of the sheets has a file
+      .some((compareData: CompareData) => compareData.formData !== null || compareData.formData !== undefined);
+
     this.router.navigate(['/vis'], {
       queryParams: { comparisonCSVURL: compareDataString,
-        comparisonColor: compareColorString },
+        comparisonName: compareNameString,
+        comparisonColor: compareColorString,
+        comparisonHasFile: compareHasFile ? 'true' : 'false' },
       queryParamsHandling: 'merge',
     });
 
