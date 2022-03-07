@@ -43,7 +43,7 @@ export function buildgraphAS(data: Row[], graphData: GraphData) {
         id += 1;
         const newNode = new GNode(
           id,
-          structure.id.toLowerCase() !== 'not found' && structure.id && idNameSet[structure.id] ? idNameSet[structure.id]  : structure.name,
+          structure.id && idNameSet[structure.id] ? idNameSet[structure.id]  : structure.name,
           parent.id,
           structure.id,
           structure.rdfs_label,
