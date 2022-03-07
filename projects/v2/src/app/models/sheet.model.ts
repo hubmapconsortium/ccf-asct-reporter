@@ -107,6 +107,7 @@ export interface SheetInfo {
   msg: string;
   status: number;
   notes: string;
+  references?: Array<Reference>;
   extraLinks?:Record<string,string>;
 
 }
