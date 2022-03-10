@@ -1,11 +1,5 @@
 /* tslint:disable:variable-name */
 
-export interface Reference {
-  id?: string;
-  doi?: string;
-  notes?: string;
-}
-
 export enum BM_TYPE {
   G = 'gene',
   P = 'protein',
@@ -20,46 +14,10 @@ export enum PROTEIN_PRESENCE {
   UNKNOWN = 'Unknown'
 }
 
-export class Structure {
-  name?: string;
-  id?: string;
-  rdfs_label?: string;
-  b_type?: BM_TYPE;
-
-  constructor(name: string) {
-    this.name = name;
-    this.id = '';
-    this.rdfs_label = '';
-  }
-}
-
-export class Row {
-  anatomical_structures: Array<Structure>;
-  cell_types: Array<Structure>;
-  biomarkers: Array<Structure>;
-  biomarkers_protein: Array<Structure>;
-  biomarkers_gene: Array<Structure>;
-  biomarkers_lipids: Array<Structure>;
-  biomarkers_meta: Array<Structure>;
-  biomarkers_prot: Array<Structure>;
-  references: Reference[];
-
-  constructor() {
-    this.anatomical_structures = [];
-    this.cell_types = [];
-    this.biomarkers_protein = [];
-    this.biomarkers_gene = [];
-    this.biomarkers = [];
-    this.biomarkers_lipids = [];
-    this.biomarkers_meta = [];
-    this.biomarkers_prot = [];
-    this.references = [];
-  }
-}
-
-export const headerMap: any = {
+export const arrayNameMap: Record<string, string> = {
   AS: 'anatomical_structures',
   CT: 'cell_types',
+  FTU: 'ftu_types',
   BG: 'biomarkers_gene',
   BP: 'biomarkers_protein',
   BGene: 'biomarkers_gene',
@@ -70,8 +28,92 @@ export const headerMap: any = {
   BProteoform: 'biomarkers_prot',
   BL: 'biomarkers_lipids',
   BM: 'biomarkers_meta',
-  BF: 'biomarkers_prot',
+  BF: 'biomarkers_prot'
 };
+
+export const objectFieldMap: Record<string, string> = {
+  ID: 'id',
+  LABEL: 'rdfs_label',
+  DOI: 'doi',
+  NOTES: 'notes'
+};
+
+export class Reference {
+  id?: string;
+  doi?: string;
+  notes?: string;
+
+  constructor(id: string) {
+    this.id = id;
+  }
+}
+
+export class Structure {
+  name?: string;
+  id?: string = '';
+  rdfs_label?: string = '';
+  b_type?: BM_TYPE;
+  proteinPresence?: PROTEIN_PRESENCE;
+
+  constructor(name: string, structureType: string) {
+    this.name = name;
+    this.setBiomarkerProperties(structureType, name);
+  }
+
+  setBiomarkerProperties(structureType: string, name: string): void {
+    if (structureType === 'BGene' || structureType === 'BG') {
+      this.b_type = BM_TYPE.G;
+    }
+    if (structureType === 'BProtein' || structureType === 'BP') {
+      name = this.name = name.replace('Protein', '');
+      const hasPos = name.indexOf('+') > -1;
+      const hasNeg = name.indexOf('-') > -1;
+
+      if (hasPos && hasNeg || (!hasPos && !hasNeg)) {
+        this.proteinPresence = PROTEIN_PRESENCE.UNKNOWN;
+      } else if (hasPos){
+        this.name = name.slice(name.lastIndexOf('+'));
+        this.proteinPresence = PROTEIN_PRESENCE.POS;
+      } else if (hasNeg){
+        this.name = name.slice(name.lastIndexOf('-'));
+        this.proteinPresence = PROTEIN_PRESENCE.NEG;
+      }
+      this.b_type = BM_TYPE.P;
+    }
+    if (structureType === 'BLipid' || structureType === 'BL') {
+      this.b_type = BM_TYPE.BL;
+    }
+    if (structureType === 'BMetabolites' || structureType === 'BM') {
+      this.b_type = BM_TYPE.BM;
+    }
+    if (structureType === 'BProteoform' || structureType === 'BF') {
+      this.b_type = BM_TYPE.BF;
+    }
+  }
+}
+
+export class Row {
+  anatomical_structures: Array<Structure> = [];
+  cell_types: Array<Structure> = [];
+  biomarkers: Array<Structure> = [];
+  biomarkers_protein: Array<Structure> = [];
+  biomarkers_gene: Array<Structure> = [];
+  biomarkers_lipids: Array<Structure> = [];
+  biomarkers_meta: Array<Structure> = [];
+  biomarkers_prot: Array<Structure> = [];
+  ftu_types: Array<Structure> = [];
+  references: Reference[] = [];
+
+  finalize(): void {
+    this.biomarkers = [
+      ...this.biomarkers_gene,
+      ...this.biomarkers_protein,
+      ...this.biomarkers_lipids,
+      ...this.biomarkers_meta,
+      ...this.biomarkers_prot
+    ];
+  }
+}
 
 // Copied interface out of @types/express-fileupload to avoid type casting failure
 export interface UploadedFile {

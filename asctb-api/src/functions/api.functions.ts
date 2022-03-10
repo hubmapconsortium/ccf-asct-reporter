@@ -1,140 +1,62 @@
 /* tslint:disable:variable-name */
-import { BM_TYPE, headerMap, Reference, Row, Structure, PROTEIN_PRESENCE } from '../models/api.model';
+import { arrayNameMap, objectFieldMap, Reference, Row, Structure } from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
 
+function setData(column: string[], row: any, value: any): void {
+  if (column.length > 1) {
+    const key = arrayNameMap[column[0]];
+    const arrayName = column[0];
+    const array: any[] = row[key] || [];
 
-function addBiomarker(rowHeader: any, s: any) {
-  if (rowHeader[0] === 'BGene' || rowHeader[0] === 'BG') {
-    s.b_type = BM_TYPE.G;
-  }
-  if (rowHeader[0] === 'BProtein' || rowHeader[0] === 'BP') {
-    s.name = s.name.replace('Protein', '');
-    if (s.name.indexOf('+') > -1){
-      s.name = s.name.replace('+', '');
-      s.proteinPresence = PROTEIN_PRESENCE.POS;
-    } else if (s.name.indexOf('-') > -1){
-      s.name = s.name.replace('-', '');
-      s.proteinPresence = PROTEIN_PRESENCE.NEG;
-    } else {
-      s.proteinPresence = PROTEIN_PRESENCE.UNKNOWN;
+    if (column.length === 2) {
+      if (array.length === 0) {
+        row[key] = array;
+      }
+      if (arrayName === 'REF') {
+        array.push(new Reference(value));
+      } else {
+        array.push(new Structure(value, arrayName));
+      }
+    } else if (column.length === 3) {
+      const arrayIndex = parseInt(column[1], 10) - 1;
+      const fieldName = objectFieldMap[column[2]] || column[2]?.toLowerCase();
+      if (arrayIndex >= 0 && fieldName) {
+        if (arrayIndex < array.length) {
+          switch (fieldName) {
+          case 'id':
+            value = fixOntologyId(value);
+            break;
+          }
+          array[arrayIndex][fieldName] = value;
+        } else {
+          // TODO: log warning blank fields found
+        }
+      }
     }
-    s.b_type = BM_TYPE.P;
-  }
-  if (rowHeader[0] === 'BLipid' || rowHeader[0] === 'BL') {
-    s.b_type = BM_TYPE.BL;
-  }
-  if (rowHeader[0] === 'BMetabolites' || rowHeader[0] === 'BM') {
-    s.b_type = BM_TYPE.BM;
-  }
-  if (rowHeader[0] === 'BProteoform' || rowHeader[0] === 'BF') {
-    s.b_type = BM_TYPE.BF;
-  }
-  return s;
-}
-
-function addingIDNotesLabels(rowHeader: any, newRow: any, key: any, data: any, i: number, j: number) {
-  if (rowHeader.length === 3 && rowHeader[2] === 'ID') {
-    const n = newRow[key][parseInt(rowHeader[1]) - 1];
-    assignNotesDOIData(n, data[i][j], 'id');
-  } else if (rowHeader.length === 3 && rowHeader[2] === 'LABEL') {
-    const n = newRow[key][parseInt(rowHeader[1]) - 1];
-    assignNotesDOIData(n, data[i][j], 'rdfs_label');
-  } else if (rowHeader.length === 3 && rowHeader[2] === 'DOI') {
-    if (!newRow[key][parseInt(rowHeader[1]) - 1]) {
-      const ref: Reference = {};
-      newRow[key].push(ref);
-    }
-    const n: Reference = newRow[key][parseInt(rowHeader[1]) - 1];
-    assignNotesDOIData(n, data[i][j], 'doi');
-  } else if (rowHeader.length === 3 && rowHeader[2] === 'NOTES') {
-    if (!newRow[key][parseInt(rowHeader[1]) - 1]) {
-      const ref: Reference = {};
-      newRow[key].push(ref);
-    }
-    const n: Reference = newRow[key][parseInt(rowHeader[1]) - 1];
-    assignNotesDOIData(n, data[i][j], 'notes');
   }
 }
 
-function assignNotesDOIData(n:any, data: any, type: string) {
-  if (type === 'id') {
-    data = fixOntologyId(data);
-  }
-
-  if (n) {
-    n[type] = data;
-  }
-}
-
-function checkForHeader(headerRow: number, dataLength: number, data: any) {
-  for (let i = headerRow; i < dataLength; i++) {
-    if (data[i][0] !== 'AS/1') {
-      continue;
+function findHeaderIndex(headerRow: number, data: any[], firstColumnName: string): number {
+  for (let i = headerRow; i < data.length; i++) {
+    if (data[i][0] === firstColumnName) {
+      return i;
     }
-    headerRow = i + 1;
-    break;
   }
   return headerRow;
 }
 
-function addAllBiomarkersToRow(rows: any) {
-  for (const row of rows) {
-    row.biomarkers = row.biomarkers_gene
-      .concat(row.biomarkers_protein)
-      .concat(row.biomarkers_lipids)
-      .concat(row.biomarkers_meta)
-      .concat(row.biomarkers_prot);
-  }
-}
+export function makeASCTBData(data: any[]): Row[] {
+  const headerRow = findHeaderIndex(0, data, 'AS/1');
+  const columns = data[headerRow].map((col: string) => col.split('/'));
 
-function addREF(rowHeader: any, newRow: any, key: any, data: any) {
-  if (rowHeader[0] === 'REF') {
-    const ref: Reference = { id: data };
-    newRow[key].push(ref);
-  } else {
-    let s = new Structure(data);
-    s = addBiomarker(rowHeader, s);
-    newRow[key].push(s);
-  }
-}
-
-export function makeASCTBData(data: any[]): Promise<Row[]> {
-  return new Promise((res, rej) => {
-    const rows = [];
-    let headerRow = 0;
-    const dataLength = data.length;
-
-    try {
-      headerRow = checkForHeader(headerRow, dataLength, data);
-
-      for (let i = headerRow; i < dataLength; i++) {
-        const newRow = new Row();
-
-        for (let j = 0; j < data[0].length; j++) {
-          if (data[i][j] === '') {
-            continue;
-          }
-
-          const rowHeader = data[headerRow - 1][j].split('/');
-          const key = headerMap[rowHeader[0]];
-
-          if (key === undefined) {
-            continue;
-          }
-
-          if (rowHeader.length === 2 && Number(rowHeader[1])) {
-            addREF(rowHeader, newRow, key, data[i][j]);
-          }
-          addingIDNotesLabels(rowHeader, newRow, key, data, i, j);
-
-        }
-        rows.push(newRow);
+  return data.slice(headerRow + 1).map((rowData: any[]) => {
+    const row = new Row();
+    rowData.forEach((value, index) => {
+      if (value !== '') {
+        setData(columns[index], row, value);
       }
-
-      addAllBiomarkersToRow(rows);
-      res(rows);
-    } catch (err) {
-      rej(err);
-    }
+    });
+    row.finalize();
+    return row;
   });
 }
