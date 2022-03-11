@@ -1,5 +1,5 @@
 /* tslint:disable:variable-name */
-import { arrayNameMap, objectFieldMap, Reference, Row, Structure } from '../models/api.model';
+import { arrayNameMap, createObject, HEADER_FIRST_COLUMN, objectFieldMap, Row } from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
 
 function setData(column: string[], row: any, value: any): void {
@@ -9,20 +9,16 @@ function setData(column: string[], row: any, value: any): void {
     const objectArray: any[] = row[arrayName] || [];
 
     if (column.length === 2) {
-      if (objectArray.length === 0) {
+      if (objectArray.length === 0 && arrayName) {
         row[arrayName] = objectArray;
       }
-      if (originalArrayName === 'REF') {
-        objectArray.push(new Reference(value));
-      } else {
-        objectArray.push(new Structure(value, originalArrayName));
-      }
+      objectArray.push(createObject(value, originalArrayName));
     } else if (column.length === 3) {
       let arrayIndex = parseInt(column[1], 10) - 1;
-      const fieldName = objectFieldMap[column[2].trim()] || column[2].toLowerCase();
+      const fieldName = objectFieldMap[column[2]] || column[2]?.toLowerCase();
       if (arrayIndex >= 0 && fieldName) {
-        // FIXME: Temporarily deal with blank columns since so many tables are not conformant
-        arrayIndex = objectArray.length -1;
+        // FIXME: Temporarily deal with blank columns since so many tables are non-conformant
+        arrayIndex = objectArray.length - 1;
         if (arrayIndex < objectArray.length) {
           switch (fieldName) {
           case 'id':
@@ -48,13 +44,13 @@ function findHeaderIndex(headerRow: number, data: any[], firstColumnName: string
 }
 
 export function makeASCTBData(data: any[]): Row[] {
-  const headerRow = findHeaderIndex(0, data, 'AS/1');
-  const columns = data[headerRow].map((col: string) => col.split('/'));
+  const headerRow = findHeaderIndex(0, data, HEADER_FIRST_COLUMN);
+  const columns = data[headerRow].map((col: string) => col.split('/').map(s => s.trim()));
 
-  return data.slice(headerRow + 1).map((rowData: any[]) => {
-    const row = new Row();
+  return data.slice(headerRow + 1).map((rowData: any[], rowNumber) => {
+    const row = new Row(headerRow + rowNumber + 2);
     rowData.forEach((value, index) => {
-      if (value !== '') {
+      if (index < columns.length && columns[index].length > 1) {
         setData(columns[index], row, value);
       }
     });

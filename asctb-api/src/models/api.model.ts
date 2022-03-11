@@ -14,6 +14,8 @@ export enum PROTEIN_PRESENCE {
   UNKNOWN = 'Unknown'
 }
 
+export const HEADER_FIRST_COLUMN = 'AS/1';
+
 export const arrayNameMap: Record<string, string> = {
   AS: 'anatomical_structures',
   CT: 'cell_types',
@@ -38,6 +40,16 @@ export const objectFieldMap: Record<string, string> = {
   NOTES: 'notes'
 };
 
+export function createObject(name: string, structureType: string): any {
+  switch (structureType) {
+  case 'REF':
+    return new Reference(name);
+  case 'AS':
+  default:
+    return new Structure(name, structureType);
+  }
+}
+
 export class Reference {
   id?: string;
   doi?: string;
@@ -45,6 +57,10 @@ export class Reference {
 
   constructor(id: string) {
     this.id = id;
+  }
+
+  isValid(): boolean {
+    return !!this.id || !!this.doi || !!this.notes;
   }
 }
 
@@ -90,6 +106,10 @@ export class Structure {
       this.b_type = BM_TYPE.BF;
     }
   }
+
+  isValid(): boolean {
+    return !!this.id || !!this.name || !!this.rdfs_label;
+  }
 }
 
 export class Row {
@@ -104,7 +124,20 @@ export class Row {
   ftu_types: Array<Structure> = [];
   references: Reference[] = [];
 
+  constructor(public rowNumber: number) {}
+
   finalize(): void {
+    this.anatomical_structures = this.anatomical_structures.filter(s => s.isValid());
+    this.cell_types = this.cell_types.filter(s => s.isValid());
+    this.ftu_types = this.ftu_types.filter(s => s.isValid());
+    this.references = this.references.filter(s => s.isValid());
+
+    this.biomarkers_gene = this.biomarkers_gene.filter(s => s.isValid());
+    this.biomarkers_protein = this.biomarkers_protein.filter(s => s.isValid());
+    this.biomarkers_lipids = this.biomarkers_lipids.filter(s => s.isValid());
+    this.biomarkers_meta = this.biomarkers_meta.filter(s => s.isValid());
+    this.biomarkers_prot = this.biomarkers_prot.filter(s => s.isValid());
+
     this.biomarkers = [
       ...this.biomarkers_gene,
       ...this.biomarkers_protein,
