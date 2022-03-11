@@ -19,7 +19,7 @@ function setData(column: string[], row: any, value: any): void {
       }
     } else if (column.length === 3) {
       let arrayIndex = parseInt(column[1], 10) - 1;
-      const fieldName = objectFieldMap[column[2]] || column[2]?.toLowerCase();
+      const fieldName = objectFieldMap[column[2].trim()] || column[2].toLowerCase();
       if (arrayIndex >= 0 && fieldName) {
         // FIXME: Temporarily deal with blank columns since so many tables are not conformant
         arrayIndex = objectArray.length -1;
