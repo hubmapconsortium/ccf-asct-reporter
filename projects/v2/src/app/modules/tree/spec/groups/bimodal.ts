@@ -193,7 +193,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             },
             {
               test: 'node__click === null && datum.target.group !== 2',
-              signal: 'length(datum.source.references) > 0 ? \'Click to see DOI References\' : \'No DOI References\''
+              signal: 'isValid(datum.source.references) && length(datum.source.references) > 0 ? \'Click to see DOI References\' : \'No DOI References\''
             },
           ],
           strokeWidth: { value: 1.5 },

@@ -85,14 +85,17 @@ export class Structure {
       const hasPos = name.indexOf('+') > -1;
       const hasNeg = name.indexOf('-') > -1;
 
-      if (hasPos && hasNeg || (!hasPos && !hasNeg)) {
+      if (hasPos && hasNeg) {
+        this.name = name.replace(/[+-/]/g, '');
         this.proteinPresence = PROTEIN_PRESENCE.UNKNOWN;
       } else if (hasPos){
-        this.name = name.slice(name.lastIndexOf('+'));
+        this.name = name.replace(/\+/g, '');
         this.proteinPresence = PROTEIN_PRESENCE.POS;
       } else if (hasNeg){
-        this.name = name.slice(name.lastIndexOf('-'));
+        this.name = name.replace(/-/g, '');
         this.proteinPresence = PROTEIN_PRESENCE.NEG;
+      } else {
+        this.proteinPresence = PROTEIN_PRESENCE.UNKNOWN;
       }
       this.b_type = BM_TYPE.P;
     }

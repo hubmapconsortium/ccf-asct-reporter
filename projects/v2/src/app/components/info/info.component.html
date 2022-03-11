@@ -33,11 +33,11 @@
           {{info.notes}}
         </div>
       </div>
-      <div *ngIf="info?.references.length">
+      <div *ngIf="info?.references?.length">
         <div class="pt-3"></div>
         <label><strong>DOI</strong></label>
         <ul class="pl-3 pt-2">
-          <li *ngFor="let refer of info.references">
+          <li *ngFor="let refer of info?.references ?? []">
             {{ refer.doi }}
           </li>
         </ul>
@@ -60,7 +60,7 @@
         {{info.ontologyId ? info.ontologyId : 'No ID found.'}}
       </div>
 
-      
+
 
       <div class="pt-3"></div>
 
@@ -71,7 +71,7 @@
 
     <div *ngIf="info.extraLinks">
         <div *ngFor="let item of info.extraLinks | keyvalue">
-        
+
           <div class="pt-3"></div>
           <label ><strong>{{item.key}}</strong></label>
           <div>
@@ -91,7 +91,7 @@
       <label><strong>DOI</strong></label>
       <div *ngIf="info?.references?.length">
         <ul class="pl-3 pt-2">
-          <li *ngFor="let refer of info?.references">
+          <li *ngFor="let refer of info?.references ?? []">
             {{ refer.doi }}
           </li>
         </ul>
@@ -99,7 +99,7 @@
       <div *ngIf="!info?.references?.length ">
         No DOI references found
       </div>
-      
+
     </div>
   </ng-template>
 </div>

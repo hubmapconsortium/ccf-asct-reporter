@@ -88,11 +88,10 @@ export class VegaService {
   addSignalListeners(view: any) {
     // node name click event to open bottom sheet
     view.addSignalListener('bimodal_text__click', (signal: Signal, node: any) => {
-      if (Object.entries(node).length) {
+      if (node && Object.entries(node).length) {
         this.store.dispatch(new OpenBottomSheet(node));
+        this.ga.event(GaAction.CLICK, GaCategory.GRAPH, `Clicked a node label: ${this.makeNodeInfoString(node)}`);
       }
-
-      this.ga.event(GaAction.CLICK, GaCategory.GRAPH, `Clicked a node label: ${this.makeNodeInfoString(node)}`);
     });
 
     // node click listener to emit ga event
