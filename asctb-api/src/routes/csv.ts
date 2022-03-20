@@ -19,7 +19,7 @@ export function setupCSVRoutes(app: Express): void {
     console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
 
     // query parameters
-    const url = req.query.csvUrl as string;
+    const csvUrls = req.query.csvUrl as string;
     const expanded = req.query.expanded !== 'false';
     const withSubclasses = req.query.subclasses !== 'false';
     const output = req.query.output as 'json' | 'graph' | 'jsonld' | string;
@@ -29,7 +29,7 @@ export function setupCSVRoutes(app: Express): void {
       let parsedCsvData: any[] = [];
 
       const asctbDataResponses = await Promise.all(
-        url.split('|').map(async (csvUrl) => {
+        csvUrls.split('|').map(async (csvUrl) => {
           const parsedUrl = parseSheetUrl(csvUrl.trim());
           let url: string;
           if (parsedUrl.csvUrl) {
