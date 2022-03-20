@@ -501,7 +501,7 @@ export class RootComponent implements OnInit, OnDestroy {
       .join('|');
 
     const compareHasFile = data // check if any of the sheets has a file
-      .some((compareData: CompareData) => compareData.formData !== null || compareData.formData !== undefined);
+      .some((compareData: CompareData) => compareData.formData !== null);
 
     this.router.navigate(['/vis'], {
       queryParams: { comparisonCSVURL: compareDataString,

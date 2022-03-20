@@ -3,7 +3,7 @@ import { Express, Request, Response } from 'express';
 import { expand } from 'jsonld';
 import papa from 'papaparse';
 
-import { makeASCTBData } from '../functions/api.functions';
+import { makeASCTBData, parseSheetUrl } from '../functions/api.functions';
 import { makeJsonLdData } from '../functions/graph-jsonld.functions';
 import { makeOwlData } from '../functions/graph-owl.functions';
 import { makeGraphData } from '../functions/graph.functions';
@@ -30,7 +30,15 @@ export function setupCSVRoutes(app: Express): void {
 
       const asctbDataResponses = await Promise.all(
         url.split('|').map(async (csvUrl) => {
-          const response = await axios.get(csvUrl);
+          const parsedUrl = parseSheetUrl(csvUrl.trim());
+          let url: string;
+          if (parsedUrl.csvUrl) {
+            url = parsedUrl.csvUrl;
+          }
+          else {
+            url = `https://docs.google.com/spreadsheets/d/${parsedUrl.sheetID}/export?format=csv&gid=${parsedUrl.gid}`;
+          }
+          const response = await axios.get(url);
           csvData = response.data;
 
           const data = papa.parse(response.data, { skipEmptyLines: 'greedy' }).data;
@@ -66,7 +74,7 @@ export function setupCSVRoutes(app: Express): void {
     } catch (err) {
       console.log(err);
       return res.status(500).send({
-        msg: 'Please check the CSV format',
+        msg: 'Please provide a either a valid csv url or a valid public google sheet url. If you are uploading either of these methods, please check the CSV format',
         code: 500,
       });
     }

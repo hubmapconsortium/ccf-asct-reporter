@@ -2,6 +2,36 @@
 import { arrayNameMap, createObject, HEADER_FIRST_COLUMN, objectFieldMap, Row } from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
 
+/**
+ *
+ * @param url  of the sheet to compare
+ * @returns a object with the sheetID, gid, and CsvUrl
+ */
+
+export function parseSheetUrl(url: string): { sheetID: string, gid: string, csvUrl: string } {
+  if (url.startsWith('https://docs.google.com/spreadsheets/d/')) {
+    const splitUrl = url.split('/');
+    if (splitUrl.length === 7) {
+      return {
+        sheetID: splitUrl[5],
+        gid: splitUrl[6].split('=')[1],
+        csvUrl: ''
+      };
+    }
+    return {
+      sheetID: '0',
+      gid: '0',
+      csvUrl: url
+    };
+  } else {
+    return {
+      sheetID: '0',
+      gid: '0',
+      csvUrl: url
+    };
+  }
+}
+
 function setData(column: string[], row: any, value: any): void {
   if (column.length > 1) {
     const arrayName = arrayNameMap[column[0]];
