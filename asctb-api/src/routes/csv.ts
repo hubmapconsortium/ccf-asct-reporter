@@ -3,7 +3,7 @@ import { Express, Request, Response } from 'express';
 import { expand } from 'jsonld';
 import papa from 'papaparse';
 
-import { makeASCTBData, parseSheetUrl } from '../functions/api.functions';
+import { makeASCTBData, normalizeCsvUrl } from '../functions/api.functions';
 import { makeJsonLdData } from '../functions/graph-jsonld.functions';
 import { makeOwlData } from '../functions/graph-owl.functions';
 import { makeGraphData } from '../functions/graph.functions';
@@ -30,15 +30,8 @@ export function setupCSVRoutes(app: Express): void {
 
       const asctbDataResponses = await Promise.all(
         csvUrls.split('|').map(async (csvUrl) => {
-          const parsedUrl = parseSheetUrl(csvUrl.trim());
-          let url: string;
-          if (parsedUrl.csvUrl) {
-            url = parsedUrl.csvUrl;
-          }
-          else {
-            url = `https://docs.google.com/spreadsheets/d/${parsedUrl.sheetID}/export?format=csv&gid=${parsedUrl.gid}`;
-          }
-          const response = await axios.get(url);
+          const parsedUrl = normalizeCsvUrl(csvUrl.trim());
+          const response = await axios.get(parsedUrl);
           csvData = response.data;
 
           const data = papa.parse(response.data, { skipEmptyLines: 'greedy' }).data;

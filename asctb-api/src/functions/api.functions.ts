@@ -5,31 +5,19 @@ import { fixOntologyId } from './lookup.functions';
 /**
  *
  * @param url  of the sheet to compare
- * @returns a object with the sheetID, gid, and CsvUrl
+ * @returns a csvUrl
  */
 
-export function parseSheetUrl(url: string): { sheetID: string, gid: string, csvUrl: string } {
+export function normalizeCsvUrl(url: string): string {
   if (url.startsWith('https://docs.google.com/spreadsheets/d/')) {
     const splitUrl = url.split('/');
     if (splitUrl.length === 7) {
-      return {
-        sheetID: splitUrl[5],
-        gid: splitUrl[6].split('=')[1],
-        csvUrl: ''
-      };
+      const sheetId = splitUrl[5];
+      const gid = splitUrl[6].split('=')[1];
+      return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
     }
-    return {
-      sheetID: '0',
-      gid: '0',
-      csvUrl: url
-    };
-  } else {
-    return {
-      sheetID: '0',
-      gid: '0',
-      csvUrl: url
-    };
   }
+  return url;
 }
 
 function setData(column: string[], row: any, value: any): void {
