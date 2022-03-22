@@ -2,6 +2,19 @@
 import { arrayNameMap, createObject, HEADER_FIRST_COLUMN, objectFieldMap, Row } from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
 
+
+export function normalizeCsvUrl(url: string): string {
+  if (url.startsWith('https://docs.google.com/spreadsheets/d/')) {
+    const splitUrl = url.split('/');
+    if (splitUrl.length === 7) {
+      const sheetId = splitUrl[5];
+      const gid = splitUrl[6].split('=')[1];
+      return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
+    }
+  }
+  return url;
+}
+
 function setData(column: string[], row: any, value: any, warnings: Set<string>): void {
   if (column.length > 1) {
     let arrayName = arrayNameMap[column[0]];

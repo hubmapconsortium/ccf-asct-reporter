@@ -3,7 +3,7 @@ import { Express, Request, Response } from 'express';
 import { expand } from 'jsonld';
 import papa from 'papaparse';
 
-import { makeASCTBData } from '../functions/api.functions';
+import { makeASCTBData, normalizeCsvUrl } from '../functions/api.functions';
 import { makeJsonLdData } from '../functions/graph-jsonld.functions';
 import { makeOwlData } from '../functions/graph-owl.functions';
 import { makeGraphData } from '../functions/graph.functions';
@@ -19,7 +19,7 @@ export function setupCSVRoutes(app: Express): void {
     console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
 
     // query parameters
-    const url = req.query.csvUrl as string;
+    const csvUrls = req.query.csvUrl as string;
     const expanded = req.query.expanded !== 'false';
     const withSubclasses = req.query.subclasses !== 'false';
     const output = req.query.output as 'json' | 'graph' | 'jsonld' | string;
@@ -29,8 +29,9 @@ export function setupCSVRoutes(app: Express): void {
       let parsedCsvData: any[] = [];
 
       const asctbDataResponses = await Promise.all(
-        url.split('|').map(async (csvUrl) => {
-          const response = await axios.get(csvUrl);
+        csvUrls.split('|').map(async (csvUrl) => {
+          const parsedUrl = normalizeCsvUrl(csvUrl.trim());
+          const response = await axios.get(parsedUrl);
           csvData = response.data;
 
           const data = papa.parse(response.data, { skipEmptyLines: 'greedy' }).data;
@@ -66,7 +67,7 @@ export function setupCSVRoutes(app: Express): void {
     } catch (err) {
       console.log(err);
       return res.status(500).send({
-        msg: 'Please check the CSV format',
+        msg: 'Please provide a either a valid csv url or a valid public google sheet url. If you are uploading either of these methods, please check the CSV format',
         code: 500,
       });
     }
