@@ -19,7 +19,7 @@ export const browserRoute: RequestHandler = (_req, res, _next) => {
 };
 
 export const openApiRoute: RequestHandler = (_req, res, _next) => {
-  const apiFile = resolve('./src/open-api-spec.yaml');
+  const apiFile = resolve('../asctb-api-spec.yaml');
   res.sendFile(apiFile);
 };
 

@@ -3,15 +3,16 @@ info:
   title: ASCT+B API
   description: |
     This API provides programmatic access to data registered to the CCF ASCT+B Repoter.
-    See the [HuBMAP CCF ASCT+B Reporter Portal](https://hubmapconsortium.github.io/ccf-asct-reporter/) for details.
+    See the [HuBMAP CCF ASCT+B Reporter](https://hubmapconsortium.github.io/ccf-asct-reporter/) for details.
   version: 2.0.0
 servers:
+  - description: ASCTB-API
+    url: /
   - description: Production Server
     url: https://asctb-api.herokuapp.com
   - description: Staging Server
     url: https://asctb-api--staging.herokuapp.com
-  - description: Development Server
-    url: http://localhost:3500
+
 
 paths:
   /v2/csv:
@@ -58,7 +59,7 @@ paths:
                 type: array
                 items:
                   type: string
-  
+
   /v2/{sheetId}/{gId}:
     get:
       summary: Get the ASCT+B table data in JSON format
@@ -88,7 +89,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GraphDataResult'
-  
+
   /lookup/{ontologyCode}/{termId}:
     get:
       summary: Get the information about a term in the ontology
@@ -103,7 +104,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LookupResult'
-    
+
   /lookup/{ontologyCode}/{termId}:
     get:
       summary: Get the information about a term in the ontology
@@ -157,7 +158,7 @@ components:
       required: true
       schema:
         type: string
-    
+
     output:
       name: output
       description: The output format of the data in owl, jsonld, graph or json (default) format.
@@ -170,7 +171,7 @@ components:
             - jsonld
             - graph
             - json
-    
+
     expanded:
       name: expanded
       description: To expand the ontology terms in the data of the json-ld output format. The default is true.
@@ -178,7 +179,7 @@ components:
       required: false
       schema:
         type: boolean
-    
+
     subclasses:
       name: subclasses
       description: To include subclasses of the ontology terms in the data of the json-ld output format. The default is true.
@@ -186,7 +187,7 @@ components:
       required: false
       schema:
         type: boolean
-    
+
     sheetId:
       name: sheetId
       description: Sheet ID of the google sheet to get the data.
@@ -194,7 +195,7 @@ components:
       required: true
       schema:
         type: string
-    
+
     gId:
       name: gId
       description: gId of the google sheet to get the data.
@@ -202,7 +203,7 @@ components:
       required: true
       schema:
         type: string
-    
+
     ontologyCode:
       name: ontologyCode
       description: The ontology type of the terms id to get the information.
@@ -216,7 +217,7 @@ components:
             - CL
             - FMA
             - LMHA
-    
+
     termId:
       name: termId
       description: The ontology term id to get the information.
@@ -224,7 +225,7 @@ components:
       required: true
       schema:
         type: string
-    
+
     outputFor:
       name: outputFor
       description: The output format of the data in graph.
@@ -234,7 +235,7 @@ components:
         type: string
         enum:
             - graph
-  
+
   schemas:
     csvResult:
       type: object
@@ -269,7 +270,7 @@ components:
           type: array
           items:
             type: string
- 
+
     GraphDataResult:
       type: object
       properties:
@@ -284,7 +285,7 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/GraphEdge'
-    
+
     RowData:
       type: object
       properties:
@@ -328,7 +329,7 @@ components:
     Structure:
       type: object
       properties:
-        name: 
+        name:
           type: string
           required: true
         id:
@@ -340,7 +341,7 @@ components:
         b_type:
           type: string
           required: false
-    
+
     Reference:
       type: object
       properties:
@@ -358,7 +359,7 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/GraphNodeItem'
-    
+
     GraphNodeItem:
       type: object
       properties:
@@ -373,7 +374,7 @@ components:
           required: true
         metadata:
           $ref: '#/components/schemas/Metadata'
-    
+
     Metadata:
       type: object
       properties:
@@ -396,7 +397,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Reference'
-      
+
     GraphEdge:
       type: array
       items:
@@ -428,7 +429,7 @@ components:
               type: url
             Entrez Link:
               type: url
-    
+
     LookupResultGraph:
       type: object
       properties:
@@ -447,4 +448,3 @@ components:
               type: url
             Entrez Link:
               type: url
-    
