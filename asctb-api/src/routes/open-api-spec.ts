@@ -25,6 +25,6 @@ export const openApiRoute: RequestHandler = (_req, res, _next) => {
 
 
 export function setupOpenApiSpecRoutes(app: Express): void {
-    app.get('/', browserRoute);
-    app.get('/open-api-spec.yaml', openApiRoute);
+  app.get('/', browserRoute);
+  app.get('/open-api-spec.yaml', openApiRoute);
 }
