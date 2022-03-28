@@ -100,6 +100,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.ga.event(GaAction.NAV, GaCategory.HOME, 'Open Old Data Tables');
   }
 
+  goToPlayground() {
+    this.router.navigate(['/vis'], {
+      queryParams: {  playground: 'true', selectedOrgans: 'example' },
+      queryParamsHandling: 'merge',
+    });
+    this.ga.event(GaAction.NAV, GaCategory.HOME, 'Launch Playground Tool');
+  }
+
   onResize(e) {
     console.log(e);
   }
