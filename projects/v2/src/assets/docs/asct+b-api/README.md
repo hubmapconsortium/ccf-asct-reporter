@@ -24,6 +24,8 @@ The current version of the ASCT+B API is v2
 
 #### Services
 
+You can try out all the below api services that are built with [OpenAPI](https://swagger.io/specification/) at the base url ([Production](https://asctb-api.herokuapp.com/) | [Staging](https://asctb-api--staging.herokuapp.com/)).
+
 <br>
 
 ### GET /{sheetid}/{gid}

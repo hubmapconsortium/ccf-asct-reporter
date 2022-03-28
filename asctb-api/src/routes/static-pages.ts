@@ -8,7 +8,7 @@ export function setupStaticPageRoutes(app: Express): void {
   });
 
 
-  app.get('/', (req: Request, res: Response) => {
+  app.get('/home.html', (req: Request, res: Response) => {
     res.sendFile('views/home.html', { root: path.join(__dirname, '../../../') });
   });
 }
