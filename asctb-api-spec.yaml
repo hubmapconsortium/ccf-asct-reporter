@@ -97,21 +97,6 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ontologyCode'
         - $ref: '#/components/parameters/termId'
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LookupResult'
-
-  /lookup/{ontologyCode}/{termId}:
-    get:
-      summary: Get the information about a term in the ontology
-      operationId: lookup-by-ontologyType-and-termId
-      parameters:
-        - $ref: '#/components/parameters/ontologyCode'
-        - $ref: '#/components/parameters/termId'
         - $ref: '#/components/parameters/outputFor'
       responses:
         '200':
@@ -227,7 +212,7 @@ components:
         type: string
 
     outputFor:
-      name: outputFor
+      name: output
       description: The output format of the data in graph.
       in: query
       required: false
