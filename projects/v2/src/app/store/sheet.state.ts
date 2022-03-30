@@ -491,7 +491,7 @@ export class SheetState {
         allResults.map((res: ResponseData, index: number) => {
           for (const row of res.data) {
             row.organName = organsNames[index];
-            row.generalPublications = res.generalPublications;  //nikhil
+            row.generalPublications = res.metaData['General Publication(s)'];
 
             const newStructure: Structure = {
               name: 'Body',

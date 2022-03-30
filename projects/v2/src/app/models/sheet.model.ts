@@ -58,7 +58,8 @@ export interface Row {
 export interface ResponseData {
   csv: string;
   data: Row[];
-  generalPublications: Array<string>;
+  metaData: any[];
+
   parsed: [];
 }
 

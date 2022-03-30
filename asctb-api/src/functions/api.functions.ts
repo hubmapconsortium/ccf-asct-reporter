@@ -66,6 +66,7 @@ function checkForHeader(headerRow: number, dataLength: number, data: any) {
     headerRow = i + 1;
     break;
   }
+  console.log(headerRow)
   return headerRow;
 }
 
@@ -90,10 +91,17 @@ function addREF(rowHeader: any, newRow: any, key: any, data: any) {
   }
 }
 
-export function fetchGeneralPublicationsData(data:any[]): Promise<Row[]>{
+export function fetchMetaData(data:any[]): Promise<{}>{
   return new Promise((res, rej) => {
-    const publications = data[5][1].split(';');
-    res(publications);
+
+    let metaData:Record<string,string>  = {};
+
+    for (let i = 1 ; i< 11; i++){
+        if (data[i][0].includes(':')){
+          metaData[data[i][0].replace(/:\s*/g, "")]= data[i][1].split(';')
+      }
+    }
+    res(metaData);
   });
 
 }

@@ -1,6 +1,6 @@
 
 import { Express, Request, Response } from 'express';
-import { fetchGeneralPublicationsData, makeASCTBData } from '../functions/api.functions';
+import { fetchMetaData, makeASCTBData } from '../functions/api.functions';
 import { PLAYGROUND_CSV } from '../../const';
 import { makeGraphData } from '../functions/graph.functions';
 import axios from 'axios';
@@ -28,12 +28,12 @@ export function setupGoogleSheetRoutes(app: Express): void {
         );
       }
       const data = papa.parse(response.data).data;
-      const generalPublications = await fetchGeneralPublicationsData(data);
+      const metaData= await fetchMetaData(data);
       const asctbData = await makeASCTBData(data);
 
       return res.send({
         data: asctbData,
-        generalPublications: generalPublications,
+        metaData: metaData,
         csv: response.data,
         parsed: data,
       });
