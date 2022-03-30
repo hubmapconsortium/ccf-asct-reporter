@@ -66,7 +66,6 @@ function checkForHeader(headerRow: number, dataLength: number, data: any) {
     headerRow = i + 1;
     break;
   }
-  console.log(headerRow)
   return headerRow;
 }
 
