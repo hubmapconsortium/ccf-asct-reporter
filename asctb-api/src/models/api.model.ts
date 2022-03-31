@@ -81,7 +81,7 @@ export class Structure {
       this.b_type = BM_TYPE.G;
     }
     if (structureType === 'BProtein' || structureType === 'BP') {
-      name = this.name = name.replace('Protein', '');
+      name = this.name = name.replace('Protein', '').trim();
       const hasPos = name.endsWith('+');
       const hasNeg = name.endsWith('-');
 
