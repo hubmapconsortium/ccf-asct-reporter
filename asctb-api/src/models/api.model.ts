@@ -82,17 +82,14 @@ export class Structure {
     }
     if (structureType === 'BProtein' || structureType === 'BP') {
       name = this.name = name.replace('Protein', '');
-      const hasPos = name.indexOf('+') > -1;
-      const hasNeg = name.indexOf('-') > -1;
+      const hasPos = name.endsWith('+');
+      const hasNeg = name.endsWith('-');
 
-      if (hasPos && hasNeg) {
-        this.name = name.replace(/[+-/]/g, '');
-        this.proteinPresence = PROTEIN_PRESENCE.UNKNOWN;
-      } else if (hasPos){
-        this.name = name.replace(/\+/g, '');
+      if (hasPos){
+        this.name = name.slice(0, -1);
         this.proteinPresence = PROTEIN_PRESENCE.POS;
       } else if (hasNeg){
-        this.name = name.replace(/-/g, '');
+        this.name = name.slice(0, -1);
         this.proteinPresence = PROTEIN_PRESENCE.NEG;
       } else {
         this.proteinPresence = PROTEIN_PRESENCE.UNKNOWN;
