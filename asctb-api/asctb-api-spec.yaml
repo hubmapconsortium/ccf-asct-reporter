@@ -1,0 +1,435 @@
+openapi: '3.0.3'
+info:
+  title: ASCT+B API
+  description: |
+    This API provides programmatic access to data registered to the CCF ASCT+B Repoter.
+    See the [HuBMAP CCF ASCT+B Reporter](https://hubmapconsortium.github.io/ccf-asct-reporter/) for details.
+  version: 2.0.0
+servers:
+  - description: ASCTB-API
+    url: /
+  - description: Production Server
+    url: https://asctb-api.herokuapp.com
+  - description: Staging Server
+    url: https://asctb-api--staging.herokuapp.com
+
+
+paths:
+  /v2/csv:
+    get:
+      summary: Get the ASCT+B table data in different formats(JSON, JSON-LD, OWL, Graph)
+      operationId: csv-get
+      parameters:
+        - $ref: '#/components/parameters/csvUrl'
+        - $ref: '#/components/parameters/output'
+        - $ref: '#/components/parameters/expanded'
+        - $ref: '#/components/parameters/subClasses'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TableDataResult'
+    post:
+      summary: Get the ASCT+B table data from file upload in the form of form-data
+      operationId: csv-post
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: object
+                  properties:
+                    csvFile:
+                      type: string
+                      format: binary
+                      description: The file to upload
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  /v2/{sheetId}/{gId}:
+    get:
+      summary: Get the ASCT+B table data in JSON format
+      operationId: get-table-data-by-sheetId-and-gId
+      parameters:
+        - $ref: '#/components/parameters/sheetId'
+        - $ref: '#/components/parameters/gId'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableDataResult'
+
+  /v2/{sheetId}/{gId}/graph:
+    get:
+      summary: Get the ASCT+B table data in JSON graph format
+      operationId: get-table-data-by-sheetId-and-gId
+      parameters:
+        - $ref: '#/components/parameters/sheetId'
+        - $ref: '#/components/parameters/gId'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GraphDataResult'
+
+  /lookup/{ontologyCode}/{termId}:
+    get:
+      summary: Get the information about a term in the ontology
+      operationId: lookup-by-ontologyType-and-termId
+      parameters:
+        - $ref: '#/components/parameters/ontologyCode'
+        - $ref: '#/components/parameters/termId'
+        - $ref: '#/components/parameters/outputFor'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LookupResultGraph'
+
+  /v2/playground:
+    get:
+      summary: Get the ASCT+B reporter playground data in JSON format
+      operationId: playground-get
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableDataResult'
+    post:
+      summary: Get the ASCT+B reporter playground data in JSON format
+      operationId: playground-post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaygroundPostData'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableDataResult'
+
+components:
+  parameters:
+    csvUrl:
+      name: csvUrl
+      description: The URLs of the CSV file or google sheets separated by | (pipe) to get the data.
+      in: query
+      required: true
+      schema:
+        type: string
+
+    output:
+      name: output
+      description: The output format of the data in owl, jsonld, graph or json (default) format.
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+            - owl
+            - jsonld
+            - graph
+            - json
+
+    expanded:
+      name: expanded
+      description: To expand the ontology terms in the data of the json-ld output format. The default is true.
+      in: query
+      required: false
+      schema:
+        type: boolean
+
+    subclasses:
+      name: subclasses
+      description: To include subclasses of the ontology terms in the data of the json-ld output format. The default is true.
+      in: query
+      required: false
+      schema:
+        type: boolean
+
+    sheetId:
+      name: sheetId
+      description: Sheet ID of the google sheet to get the data.
+      in: path
+      required: true
+      schema:
+        type: string
+
+    gId:
+      name: gId
+      description: gId of the google sheet to get the data.
+      in: path
+      required: true
+      schema:
+        type: string
+
+    ontologyCode:
+      name: ontologyCode
+      description: The ontology type of the terms id to get the information.
+      in: path
+      required: true
+      schema:
+        type: string
+        enum:
+            - HGNC
+            - UBERON
+            - CL
+            - FMA
+            - LMHA
+
+    termId:
+      name: termId
+      description: The ontology term id to get the information.
+      in: path
+      required: true
+      schema:
+        type: string
+
+    outputFor:
+      name: output
+      description: The output format of the data in graph.
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+            - graph
+
+  schemas:
+    csvResult:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TableDataResult'
+        csv:
+          type: string
+        parsedData:
+          type: array
+
+    TableDataResult:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/RowData'
+        csv:
+          type: string
+        parsedData:
+          type: array
+          items:
+            type: string
+
+    PlaygroundPostData:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: string
+
+    GraphDataResult:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            nodes:
+              type: array
+              items:
+                $ref: '#/components/schemas/GraphNode'
+            edges:
+              type: array
+              items:
+                $ref: '#/components/schemas/GraphEdge'
+
+    RowData:
+      type: object
+      properties:
+        anatomical_structures:
+          type: array
+          items:
+            $ref: '#/components/schemas/Structure'
+        cell_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/Structure'
+        biomarkers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Structure'
+        biomarkers_protein:
+          type: array
+          items:
+            $ref: '#/components/schemas/Structure'
+        biomarkers_gene:
+          type: array
+          items:
+            $ref: '#/components/schemas/Structure'
+        biomarkers_lipids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Structure'
+        biomarkers_meta:
+          type: array
+          items:
+            $ref: '#/components/schemas/Structure'
+        biomarkers_prot:
+          type: array
+          items:
+            $ref: '#/components/schemas/Structure'
+        references:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reference'
+
+    Structure:
+      type: object
+      properties:
+        name:
+          type: string
+          required: true
+        id:
+          type: string
+          required: true
+        rdfs_label:
+          type: string
+          required: true
+        b_type:
+          type: string
+          required: false
+
+    Reference:
+      type: object
+      properties:
+        id:
+          type: string
+          required: false
+      doi:
+        type: string
+        required: false
+      notes:
+        type: string
+        required: false
+
+    GraphNode:
+      type: array
+      items:
+        $ref: '#/components/schemas/GraphNodeItem'
+
+    GraphNodeItem:
+      type: object
+      properties:
+        id:
+          type: string
+          required: true
+        type:
+          type: string
+          required: true
+        name:
+          type: string
+          required: true
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+
+    Metadata:
+      type: object
+      properties:
+        name:
+          type: string
+          required: true
+        ontologyId:
+          type: string
+          required: true
+        ontologyType:
+          type: string
+          required: true
+        OntologyTypeId:
+          type: string
+          required: true
+        label:
+          type: string
+          required: true
+        referenes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reference'
+
+    GraphEdge:
+      type: array
+      items:
+        $ref: '#/components/schemas/GraphEdgeItem'
+
+    GraphEdgeItem:
+      type: object
+      properties:
+        source:
+          type: integer
+          required: true
+        target:
+          type: integer
+          required: true
+
+    LookupResult:
+      type: object
+      properties:
+        label:
+          type: string
+        link:
+          type: url
+        description:
+          type: string
+        extraLinks:
+          type: object
+          properties:
+            Uniprot Link:
+              type: url
+            Entrez Link:
+              type: url
+
+    LookupResultGraph:
+      type: object
+      properties:
+        label:
+          type: string
+        link:
+          type: url
+        description:
+          type: string
+        additionalInfo:
+          type: object
+        extraLinks:
+          type: object
+          properties:
+            Uniprot Link:
+              type: url
+            Entrez Link:
+              type: url

@@ -13,18 +13,18 @@ export const browserRoute: RequestHandler = (_req, res, _next) => {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@stoplight/elements/styles.min.css">
     </head>
     <body>
-        <elements-api apiDescriptionUrl="open-api-spec.yaml" router="hash" />
+        <elements-api apiDescriptionUrl="asctb-api-spec.yaml" router="hash" />
     </body>
     </html>`);
 };
 
 export const openApiRoute: RequestHandler = (_req, res, _next) => {
-  const apiFile = resolve('../asctb-api-spec.yaml');
+  const apiFile = resolve('asctb-api-spec.yaml');
   res.sendFile(apiFile);
 };
 
 
 export function setupOpenApiSpecRoutes(app: Express): void {
   app.get('/', browserRoute);
-  app.get('/open-api-spec.yaml', openApiRoute);
+  app.get('/asctb-api-spec.yaml', openApiRoute);
 }
