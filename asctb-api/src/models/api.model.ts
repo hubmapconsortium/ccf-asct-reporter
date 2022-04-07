@@ -1,5 +1,14 @@
 /* tslint:disable:variable-name */
 
+export const metadataNameMap: Record<string, string> = {
+  'Author Name(s):': 'author_names',
+  'Author ORCID(s):': 'author_orcids',
+  'Reviewer(s):': 'reviewers',
+  'General Publication(s):': 'general_publications',
+  'Data DOI:': 'data_doi',
+  'Date:': 'date',
+  'Version Number:': 'version'
+};
 export enum BM_TYPE {
   G = 'gene',
   P = 'protein',
