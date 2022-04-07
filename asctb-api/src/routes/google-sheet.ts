@@ -1,10 +1,10 @@
-
-import { Express, Request, Response } from 'express';
-import { makeASCTBData } from '../functions/api.functions';
-import { PLAYGROUND_CSV } from '../../const';
-import { makeGraphData } from '../functions/graph.functions';
 import axios from 'axios';
+import { Express, Request, Response } from 'express';
 import papa from 'papaparse';
+
+import { PLAYGROUND_CSV } from '../../const';
+import { makeASCTBData } from '../functions/api.functions';
+import { makeGraphData } from '../functions/graph.functions';
 
 export function setupGoogleSheetRoutes(app: Express): void {
 
@@ -18,7 +18,7 @@ export function setupGoogleSheetRoutes(app: Express): void {
     const f2 = req.params.gid;
 
     try {
-      let response: any;
+      let response: {data: string};
 
       if (f1 === '0' && f2 === '0') {
         response = { data: PLAYGROUND_CSV };
@@ -27,7 +27,7 @@ export function setupGoogleSheetRoutes(app: Express): void {
           `https://docs.google.com/spreadsheets/d/${f1}/export?format=csv&gid=${f2}`
         );
       }
-      const data = papa.parse(response.data).data;
+      const { data } = papa.parse(response.data);
 
       const asctbData = await makeASCTBData(data);
 
@@ -53,7 +53,7 @@ export function setupGoogleSheetRoutes(app: Express): void {
     const sheetID = req.params.sheetid;
     const gID = req.params.gid;
     try {
-      let resp: any;
+      let resp: {data: string};
 
       if (sheetID === '0' && gID === '0') {
         resp = { data: PLAYGROUND_CSV };
@@ -62,7 +62,7 @@ export function setupGoogleSheetRoutes(app: Express): void {
           `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv&gid=${gID}`
         );
       }
-      const data = papa.parse(resp.data).data;
+      const { data } = papa.parse(resp.data);
       const asctbData = await makeASCTBData(data);
       const graphData = makeGraphData(asctbData);
 
