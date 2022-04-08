@@ -1,8 +1,8 @@
-
 import { Express, Request, Response } from 'express';
-import { makeASCTBData } from '../functions/api.functions';
-import { PLAYGROUND_CSV } from '../../const';
 import papa from 'papaparse';
+
+import { PLAYGROUND_CSV } from '../../const';
+import { makeASCTBData } from '../functions/api.functions';
 
 export function setupPlaygroundRoutes(app: Express): void {
 
@@ -16,8 +16,10 @@ export function setupPlaygroundRoutes(app: Express): void {
       const asctbData = await makeASCTBData(parsed);
       return res.send({
         data: asctbData.data,
+        metadata: asctbData.metadata,
         csv: PLAYGROUND_CSV,
         parsed: parsed,
+        warnings: asctbData.warnings
       });
     } catch (err) {
       console.log(err);
@@ -37,8 +39,10 @@ export function setupPlaygroundRoutes(app: Express): void {
       const asctbData = await makeASCTBData(req.body.data);
       return res.send({
         data: asctbData.data,
+        metadata: asctbData.metadata,
         parsed: req.body,
         csv: csv,
+        warnings: asctbData.warnings,
       });
     } catch (err) {
       console.log(err);
