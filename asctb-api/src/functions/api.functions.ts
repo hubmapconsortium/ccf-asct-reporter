@@ -3,7 +3,7 @@ import { fixOntologyId } from './lookup.functions';
 
 export interface ASCTBData {
   data: Row[],
-  metadata: Record<string, Array<string>>,
+  metadata: Record<string, string>,
   warnings: string[]
 }
 
@@ -71,9 +71,9 @@ function setData(column: string[], row: any, value: any, warnings: Set<string>):
  * @param warnings = warnings generated during the process are pushed to this set
  * @returns = returns key value pairs of metadata
  */
-const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<string, string[]> => {
+const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<string, string> => {
   const result = metadataRows
-    .reduce((metadata: Record<string, string[]>, rowData: string[], rowNumber: number,) => {
+    .reduce((metadata: Record<string, string>, rowData: string[], rowNumber: number,) => {
       const [metadataIdentifier, metadataValue, ..._] = rowData;
       if (!metadataIdentifier) {
         return metadata;
@@ -83,7 +83,7 @@ const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<
         metadataKey = metadataIdentifier.toLowerCase();
         warnings.add(`WARNING: unmapped metadata found ${metadataIdentifier}`);
       }
-      metadata[metadataKey] = metadataValue.split(DELIMETER).map(item => item.trim());
+      metadata[metadataKey] = metadataValue.split(DELIMETER).map(item => item.trim()).join(', ');
       return metadata;
     }, {}
     );
@@ -119,7 +119,7 @@ export function makeASCTBData(data: string[][]): ASCTBData {
   const metadataRows = data.slice(1, headerRow);
   const metadata = buildMetadata(metadataRows, warnings);
   
-  console.log('metadata', metadata);
+  // console.log('metadata', metadata);
   console.log([...warnings].sort().join('\n'));
 
   return {
