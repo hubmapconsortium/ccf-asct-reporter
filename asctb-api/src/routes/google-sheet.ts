@@ -33,6 +33,8 @@ export function setupGoogleSheetRoutes(app: Express): void {
 
       return res.send({
         data: asctbData.data,
+        metadata: asctbData.metadata,
+        warnings: asctbData.warnings,
         csv: response.data,
         parsed: data,
       });
