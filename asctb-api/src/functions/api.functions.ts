@@ -72,7 +72,7 @@ function setData(column: string[], row: any, value: any, warnings: Set<string>):
  * @returns = returns key value pairs of metadata
  */
 const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<string, string> => {
-  const result = metadataRows
+  return metadataRows
     .reduce((metadata: Record<string, string>, rowData: string[], rowNumber: number,) => {
       const [metadataIdentifier, metadataValue, ..._] = rowData;
       if (!metadataIdentifier) {
@@ -87,7 +87,6 @@ const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<
       return metadata;
     }, {}
     );
-  return result;
 };
 
 function findHeaderIndex(headerRow: number, data: string[][], firstColumnName: string): number {
@@ -119,7 +118,6 @@ export function makeASCTBData(data: string[][]): ASCTBData {
   const metadataRows = data.slice(1, headerRow);
   const metadata = buildMetadata(metadataRows, warnings);
   
-  // console.log('metadata', metadata);
   console.log([...warnings].sort().join('\n'));
 
   return {

@@ -9,7 +9,6 @@ import { makeOwlData } from '../functions/graph-owl.functions';
 import { makeGraphData } from '../functions/graph.functions';
 import { UploadedFile } from '../models/api.model';
 
-
 export function setupCSVRoutes(app: Express): void {
 
   /**
@@ -101,7 +100,7 @@ export function setupCSVRoutes(app: Express): void {
 
     try {
       const { data } = papa.parse<string[]>(dataString, { skipEmptyLines: 'greedy' });
-      const asctbData = await makeASCTBData(data);
+      const asctbData = makeASCTBData(data);
 
       return res.send({
         data: asctbData.data,
