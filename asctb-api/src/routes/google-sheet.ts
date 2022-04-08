@@ -32,7 +32,7 @@ export function setupGoogleSheetRoutes(app: Express): void {
       const asctbData = await makeASCTBData(data);
 
       return res.send({
-        data: asctbData,
+        data: asctbData.data,
         csv: response.data,
         parsed: data,
       });
@@ -64,7 +64,7 @@ export function setupGoogleSheetRoutes(app: Express): void {
       }
       const { data } = papa.parse(resp.data);
       const asctbData = await makeASCTBData(data);
-      const graphData = makeGraphData(asctbData);
+      const graphData = makeGraphData(asctbData.data);
 
       return res.send({
         data: graphData

@@ -1,7 +1,11 @@
-/* tslint:disable:variable-name */
 import { arrayNameMap, createObject, HEADER_FIRST_COLUMN, objectFieldMap, Row } from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
 
+export interface ASCTBData {
+  data: Row[],
+  metadata: string[][],
+  warnings: string[]
+}
 
 export function normalizeCsvUrl(url: string): string {
   if (url.startsWith('https://docs.google.com/spreadsheets/d/')) {
@@ -70,7 +74,7 @@ function findHeaderIndex(headerRow: number, data: any[], firstColumnName: string
   return headerRow;
 }
 
-export function makeASCTBData(data: any[]): Row[] {
+export function makeASCTBData(data: any[]): ASCTBData {
   const headerRow = findHeaderIndex(0, data, HEADER_FIRST_COLUMN);
   const columns = data[headerRow].map((col: string) => col.split('/').map(s => s.trim()));
   const warnings = new Set<string>();
@@ -86,6 +90,13 @@ export function makeASCTBData(data: any[]): Row[] {
     return row;
   });
 
-  console.log([ ...warnings ].sort().join('\n'));
-  return results;
+  const metadata = data.slice(0, headerRow);
+  console.log(metadata);
+  console.log([...warnings].sort().join('\n'));
+
+  return {
+    data: results,
+    metadata: metadata,
+    warnings: [...warnings]
+  };
 }

@@ -6,9 +6,9 @@ export const environment = {
   production: false,
   tag: 'Development',
   googleAnalyticsId: 'G-77K2VNZRJ2',
-  asctbApiUrl: 'https://asctb-api--staging.herokuapp.com'
+  // asctbApiUrl: 'https://asctb-api--staging.herokuapp.com'
   // use the following url for localhost API development
-  // asctbApiUrl: 'http://localhost:5000'
+  asctbApiUrl: 'http://localhost:5000'
 };
 
 /*

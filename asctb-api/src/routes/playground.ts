@@ -13,9 +13,9 @@ export function setupPlaygroundRoutes(app: Express): void {
     console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
     try {
       const parsed = papa.parse(PLAYGROUND_CSV).data;
-      const data = await makeASCTBData(parsed);
+      const asctbData = await makeASCTBData(parsed);
       return res.send({
-        data: data,
+        data: asctbData.data,
         csv: PLAYGROUND_CSV,
         parsed: parsed,
       });
@@ -34,9 +34,9 @@ export function setupPlaygroundRoutes(app: Express): void {
   app.post('/v2/playground', async (req: Request, res: Response) => {
     const csv = papa.unparse(req.body);
     try {
-      const data = await makeASCTBData(req.body.data);
+      const asctbData = await makeASCTBData(req.body.data);
       return res.send({
-        data: data,
+        data: asctbData.data,
         parsed: req.body,
         csv: csv,
       });
