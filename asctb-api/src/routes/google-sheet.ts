@@ -27,7 +27,7 @@ export function setupGoogleSheetRoutes(app: Express): void {
           `https://docs.google.com/spreadsheets/d/${f1}/export?format=csv&gid=${f2}`
         );
       }
-      const data: string[][] = papa.parse<string[]>(response.data).data;
+      const { data } = papa.parse<string[]>(response.data);
 
       const asctbData = await makeASCTBData(data);
 
