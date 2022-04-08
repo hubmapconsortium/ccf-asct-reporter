@@ -1,9 +1,9 @@
-import { arrayNameMap, createObject, HEADER_FIRST_COLUMN, objectFieldMap, Row } from '../models/api.model';
+import { arrayNameMap, createObject, DELIMETER, HEADER_FIRST_COLUMN, metadataNameMap, objectFieldMap, Row } from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
 
 export interface ASCTBData {
   data: Row[],
-  metadata: string[][],
+  metadata: Record<string, Array<string>>,
   warnings: string[]
 }
 
@@ -65,6 +65,31 @@ function setData(column: string[], row: any, value: any, warnings: Set<string>):
   }
 }
 
+/*
+ * buildMetadata - build metadata key value store
+ * @param metadataRows = rows from metadata to be extracted
+ * @param warnings = warnings generated during the process are pushed to this set
+ * @returns = returns key value pairs of metadata
+ */
+const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<string, string[]> => {
+  const result = metadataRows
+    .reduce((metadata: Record<string, string[]>, rowData: string[], rowNumber: number,) => {
+      const [metadataIdentifier, metadataValue, ..._] = rowData;
+      if (!metadataIdentifier) {
+        return metadata;
+      }
+      let metadataKey = metadataNameMap[metadataIdentifier];
+      if (!metadataKey) {
+        metadataKey = metadataIdentifier.toLowerCase();
+        warnings.add(`WARNING: unmapped metadata found ${metadataIdentifier}`);
+      }
+      metadata[metadataKey] = metadataValue.split(DELIMETER).map(item => item.trim());
+      return metadata;
+    }, {}
+    );
+  return result;
+};
+
 function findHeaderIndex(headerRow: number, data: string[][], firstColumnName: string): number {
   for (let i = headerRow; i < data.length; i++) {
     if (data[i][0] === firstColumnName) {
@@ -90,11 +115,11 @@ export function makeASCTBData(data: string[][]): ASCTBData {
     return row;
   });
 
-  const metadata = data.slice(0, headerRow).map((rowData: string[], rowNumber) => {
-    console.log(rowData);
-    return rowData;
-  });
-  console.log(metadata);
+  // build metadata key value store.
+  const metadataRows = data.slice(1, headerRow);
+  const metadata = buildMetadata(metadataRows, warnings);
+  
+  console.log('metadata', metadata);
   console.log([...warnings].sort().join('\n'));
 
   return {

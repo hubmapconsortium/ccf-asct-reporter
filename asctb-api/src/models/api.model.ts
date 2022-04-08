@@ -1,4 +1,5 @@
 /* tslint:disable:variable-name */
+export const DELIMETER = ';';
 
 export const metadataNameMap: Record<string, string> = {
   'Author Name(s):': 'author_names',
