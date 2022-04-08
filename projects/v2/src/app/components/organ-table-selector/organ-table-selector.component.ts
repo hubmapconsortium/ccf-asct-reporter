@@ -90,7 +90,7 @@ export class OrganTableSelectorComponent implements OnInit {
     };
     this.organs = [];
     this.selection.selected.map((item) => {
-      if (item.title === 'All Organs') {
+      if (item.display === 'All Organs') {
         return;
       }
       if (item.symbol) {
