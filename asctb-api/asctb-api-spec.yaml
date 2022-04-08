@@ -232,6 +232,7 @@ components:
           items:
             $ref: '#/components/schemas/RowData'
         metadata:
+          description: Metadata extracted from google sheet
           type: object
         csv:
           description: The CSV file is returned as a string.
@@ -246,6 +247,7 @@ components:
               description: The data in each cell.
               type: string
         warnings:
+          description: List of warnings generated while parsing
           type: array
           items:
             type: string
