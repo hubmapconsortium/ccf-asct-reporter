@@ -65,7 +65,7 @@ function setData(column: string[], row: any, value: any, warnings: Set<string>):
   }
 }
 
-function findHeaderIndex(headerRow: number, data: any[], firstColumnName: string): number {
+function findHeaderIndex(headerRow: number, data: string[][], firstColumnName: string): number {
   for (let i = headerRow; i < data.length; i++) {
     if (data[i][0] === firstColumnName) {
       return i;
@@ -74,13 +74,13 @@ function findHeaderIndex(headerRow: number, data: any[], firstColumnName: string
   return headerRow;
 }
 
-export function makeASCTBData(data: any[]): ASCTBData {
+export function makeASCTBData(data: string[][]): ASCTBData {
   const headerRow = findHeaderIndex(0, data, HEADER_FIRST_COLUMN);
   const columns = data[headerRow].map((col: string) => col.split('/').map(s => s.trim()));
   const warnings = new Set<string>();
 
   const results = data.slice(headerRow + 1).map((rowData: any[], rowNumber) => {
-    const row = new Row(headerRow + rowNumber + 2);
+    const row: Row = new Row(headerRow + rowNumber + 2);
     rowData.forEach((value, index) => {
       if (index < columns.length && columns[index].length > 1) {
         setData(columns[index], row, value, warnings);
@@ -90,7 +90,10 @@ export function makeASCTBData(data: any[]): ASCTBData {
     return row;
   });
 
-  const metadata = data.slice(0, headerRow);
+  const metadata = data.slice(0, headerRow).map((rowData: string[], rowNumber) => {
+    console.log(rowData);
+    return rowData;
+  });
   console.log(metadata);
   console.log([...warnings].sort().join('\n'));
 

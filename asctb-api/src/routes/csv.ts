@@ -34,7 +34,7 @@ export function setupCSVRoutes(app: Express): void {
           const response = await axios.get(parsedUrl);
           csvData = response.data;
 
-          const { data } = papa.parse(response.data, { skipEmptyLines: 'greedy' });
+          const { data } = papa.parse<string[]>(response.data, { skipEmptyLines: 'greedy' });
           parsedCsvData = data;
           const asctbData = makeASCTBData(data);
           return asctbData.data;
@@ -100,7 +100,7 @@ export function setupCSVRoutes(app: Express): void {
     console.log('File uploaded: ', file.name);
 
     try {
-      const { data } = papa.parse(dataString, { skipEmptyLines: 'greedy' });
+      const { data } = papa.parse<string[]>(dataString, { skipEmptyLines: 'greedy' });
       const asctbData = await makeASCTBData(data);
 
       return res.send({

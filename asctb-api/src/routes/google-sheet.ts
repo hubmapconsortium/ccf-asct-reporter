@@ -27,7 +27,7 @@ export function setupGoogleSheetRoutes(app: Express): void {
           `https://docs.google.com/spreadsheets/d/${f1}/export?format=csv&gid=${f2}`
         );
       }
-      const { data } = papa.parse(response.data);
+      const data: string[][] = papa.parse<string[]>(response.data).data;
 
       const asctbData = await makeASCTBData(data);
 
@@ -62,7 +62,7 @@ export function setupGoogleSheetRoutes(app: Express): void {
           `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv&gid=${gID}`
         );
       }
-      const { data } = papa.parse(resp.data);
+      const { data } = papa.parse<string[]>(resp.data);
       const asctbData = await makeASCTBData(data);
       const graphData = makeGraphData(asctbData.data);
 
