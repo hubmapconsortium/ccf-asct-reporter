@@ -6,7 +6,7 @@ This section goes over the API services that ASCT+B Reporter fetches the data. w
 
 These services supports CORS and requires no authentication to use. All responses are sent over HTTPS as well.
 
-API services also has support for openApi specification and the link to the specification is [Production](https://asctb-api.herokuapp.com/) | [Staging](https://asctb-api--staging.herokuapp.com/)
+API services also has support for openAPI specification and the link to the specification is [Production](https://asctb-api.herokuapp.com/) | [Staging](https://asctb-api--staging.herokuapp.com/)
 
 <br>
 
