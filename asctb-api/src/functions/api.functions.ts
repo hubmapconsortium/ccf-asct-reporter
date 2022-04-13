@@ -2,9 +2,9 @@ import { arrayNameMap, createObject, DELIMETER, HEADER_FIRST_COLUMN, metadataNam
 import { fixOntologyId } from './lookup.functions';
 
 export interface ASCTBData {
-  data: Row[],
-  metadata: Record<string, string>,
-  warnings: string[]
+  data: Row[];
+  metadata: Record<string, string>;
+  warnings: string[];
 }
 
 export function normalizeCsvUrl(url: string): string {
