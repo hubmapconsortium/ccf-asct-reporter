@@ -1,7 +1,7 @@
 <mat-menu #childMenu="matMenu" [overlapTrigger]="false">
   <span *ngFor="let sheets of sheetDetails">
     <!-- Organ Names node menu items -->
-    <span *ngIf="sheets.version">
+    <span *ngIf="sheets.version && sheets.display !=='All Organs'">
       <button mat-menu-item color="primary" [matMenuTriggerFor]="menu">
         <span>{{sheets.display}}</span>
       </button>
