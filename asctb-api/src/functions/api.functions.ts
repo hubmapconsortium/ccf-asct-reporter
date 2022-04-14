@@ -8,7 +8,7 @@ export interface ASCTBData {
 }
 
 export function normalizeCsvUrl(url: string): string {
-  if (url.startsWith('https://docs.google.com/spreadsheets/d/')) {
+  if (url.startsWith('https://docs.google.com/spreadsheets/d/') && url.indexOf('export?format=csv') === -1) {
     const splitUrl = url.split('/');
     if (splitUrl.length === 7) {
       const sheetId = splitUrl[5];
