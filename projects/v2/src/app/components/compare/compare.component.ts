@@ -67,7 +67,7 @@ export class CompareComponent implements OnInit {
   }
 
   markFormGroupTouched(formGroup: FormGroup) {
-    (<any>Object).values(formGroup.controls).forEach(control => {
+    (Object as any).values(formGroup.controls).forEach(control => {
       control.markAsTouched();
 
       if (control.controls) {
@@ -78,7 +78,7 @@ export class CompareComponent implements OnInit {
 
   compare() {
     this.markFormGroupTouched(this.formGroup);
-    if (this.formGroup.status != 'VALID') {
+    if (this.formGroup.status !== 'VALID') {
       return;
     }
     const data: CompareData[] = [];
