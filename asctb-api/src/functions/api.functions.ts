@@ -1,4 +1,4 @@
-import { arrayNameMap, createObject, DELIMETER, HEADER_FIRST_COLUMN, metadataNameMap, objectFieldMap, Row, TITLE_ROW } from '../models/api.model';
+import { arrayNameMap, createObject, DELIMETER, HEADER_FIRST_COLUMN, metadataNameMap, objectFieldMap, Row, TITLE_ROW_INDEX } from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
 
 export interface ASCTBData {
@@ -72,7 +72,7 @@ function setData(column: string[], row: any, value: any, warnings: Set<string>):
  * @returns = returns key value pairs of metadata
  */
 const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<string, string | string[]> => {
-  const [titleRow] = metadataRows.splice(TITLE_ROW, 1);
+  const [titleRow] = metadataRows.splice(TITLE_ROW_INDEX, 1);
   const [title] = titleRow;
 
   const result: Record<string, string | string[]> = {

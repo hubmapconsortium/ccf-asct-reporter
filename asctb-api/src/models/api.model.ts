@@ -1,9 +1,8 @@
 /* tslint:disable:variable-name */
 export const DELIMETER = ';';
-export const TITLE_ROW = 0;
+export const TITLE_ROW_INDEX = 0;
 
 export const metadataNameMap: Record<string, string> = {
-  // 'title': 'title',
   'Author Name(s):': 'author_names',
   'Author ORCID(s):': 'author_orcids',
   'Reviewer(s):': 'reviewers',
