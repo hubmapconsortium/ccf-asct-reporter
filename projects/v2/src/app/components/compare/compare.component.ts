@@ -19,7 +19,7 @@ export class CompareComponent implements OnInit {
 
   formGroup: FormGroup;
   formSheets: FormArray;
-  formValid: boolean = true;
+  formValid = true;
 
   constructor(public fb: FormBuilder, public ga: GoogleAnalyticsService) { }
 
