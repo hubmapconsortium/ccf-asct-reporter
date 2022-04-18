@@ -79,7 +79,7 @@ const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<
     title
   };
     
-  metadataRows
+  return metadataRows
     .reduce((metadata: Record<string, string | string[]>, rowData: string[], rowNumber: number,) => {
       const [metadataIdentifier, metadataValue, ..._] = rowData;
       if (!metadataIdentifier) {
@@ -98,7 +98,6 @@ const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<
       return metadata;
     }, result
     );
-  return result;
 };
 
 function findHeaderIndex(headerRow: number, data: string[][], firstColumnName: string): number {
