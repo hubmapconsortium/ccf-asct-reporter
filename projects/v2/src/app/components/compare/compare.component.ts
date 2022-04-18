@@ -19,6 +19,7 @@ export class CompareComponent implements OnInit {
 
   formGroup: FormGroup;
   formSheets: FormArray;
+  formValid: boolean = true;
 
   constructor(public fb: FormBuilder, public ga: GoogleAnalyticsService) { }
 
@@ -78,6 +79,7 @@ export class CompareComponent implements OnInit {
 
   compare() {
     this.markFormGroupTouched(this.formGroup);
+    this.formValid = this.formGroup.status === 'VALID';
     if (this.formGroup.status !== 'VALID') {
       return;
     }

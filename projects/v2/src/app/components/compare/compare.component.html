@@ -176,6 +176,7 @@
         color="primary"
         (click)="compare()"
         class="compare-button"
+        [ngClass]="{'compare-button-color': !formValid}"
       >
         Compare
       </button>
