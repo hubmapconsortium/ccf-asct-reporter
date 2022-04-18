@@ -1,7 +1,11 @@
-/* tslint:disable:variable-name */
-import { arrayNameMap, createObject, HEADER_FIRST_COLUMN, objectFieldMap, Row } from '../models/api.model';
+import { arrayNameMap, createObject, DELIMETER, HEADER_FIRST_COLUMN, metadataNameMap, objectFieldMap, Row } from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
 
+export interface ASCTBData {
+  data: Row[];
+  metadata: Record<string, string>;
+  warnings: string[];
+}
 
 export function normalizeCsvUrl(url: string): string {
   if (url.startsWith('https://docs.google.com/spreadsheets/d/') && url.indexOf('export?format=csv') === -1) {
@@ -61,7 +65,31 @@ function setData(column: string[], row: any, value: any, warnings: Set<string>):
   }
 }
 
-function findHeaderIndex(headerRow: number, data: any[], firstColumnName: string): number {
+/*
+ * buildMetadata - build metadata key value store
+ * @param metadataRows = rows from metadata to be extracted
+ * @param warnings = warnings generated during the process are pushed to this set
+ * @returns = returns key value pairs of metadata
+ */
+const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<string, string> => {
+  return metadataRows
+    .reduce((metadata: Record<string, string>, rowData: string[], rowNumber: number,) => {
+      const [metadataIdentifier, metadataValue, ..._] = rowData;
+      if (!metadataIdentifier) {
+        return metadata;
+      }
+      let metadataKey = metadataNameMap[metadataIdentifier];
+      if (!metadataKey) {
+        metadataKey = metadataIdentifier.toLowerCase();
+        warnings.add(`WARNING: unmapped metadata found ${metadataIdentifier}`);
+      }
+      metadata[metadataKey] = metadataValue.split(DELIMETER).map(item => item.trim()).join(', ');
+      return metadata;
+    }, {}
+    );
+};
+
+function findHeaderIndex(headerRow: number, data: string[][], firstColumnName: string): number {
   for (let i = headerRow; i < data.length; i++) {
     if (data[i][0] === firstColumnName) {
       return i;
@@ -70,13 +98,13 @@ function findHeaderIndex(headerRow: number, data: any[], firstColumnName: string
   return headerRow;
 }
 
-export function makeASCTBData(data: any[]): Row[] {
+export function makeASCTBData(data: string[][]): ASCTBData {
   const headerRow = findHeaderIndex(0, data, HEADER_FIRST_COLUMN);
   const columns = data[headerRow].map((col: string) => col.split('/').map(s => s.trim()));
   const warnings = new Set<string>();
 
   const results = data.slice(headerRow + 1).map((rowData: any[], rowNumber) => {
-    const row = new Row(headerRow + rowNumber + 2);
+    const row: Row = new Row(headerRow + rowNumber + 2);
     rowData.forEach((value, index) => {
       if (index < columns.length && columns[index].length > 1) {
         setData(columns[index], row, value, warnings);
@@ -86,6 +114,15 @@ export function makeASCTBData(data: any[]): Row[] {
     return row;
   });
 
-  console.log([ ...warnings ].sort().join('\n'));
-  return results;
+  // build metadata key value store.
+  const metadataRows = data.slice(1, headerRow);
+  const metadata = buildMetadata(metadataRows, warnings);
+  
+  console.log([...warnings].sort().join('\n'));
+
+  return {
+    data: results,
+    metadata: metadata,
+    warnings: [...warnings]
+  };
 }

@@ -1,5 +1,4 @@
 /* tslint:disable:variable-name */
-import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import fileUpload from 'express-fileupload';
@@ -13,11 +12,10 @@ import { setupPlaygroundRoutes } from './routes/playground';
 import { setupStaticPageRoutes } from './routes/static-pages';
 import { routeCache } from './utils/route-caching';
 
-
 export const app = express();
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(express.static(path.join(__dirname, '../../')));
 app.use(fileUpload());
 app.use(routeCache(12000));
