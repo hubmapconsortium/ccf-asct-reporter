@@ -26,20 +26,34 @@ export function setupCSVRoutes(app: Express): void {
     try {
       let csvData = '';
       let parsedCsvData: any[] = [];
-
+      
+      let warnings: string[] = [];
       const asctbDataResponses = await Promise.all(
         csvUrls.split('|').map(async (csvUrl) => {
           const parsedUrl = normalizeCsvUrl(csvUrl.trim());
           const response = await axios.get(parsedUrl);
           csvData = response.data;
-
           const { data } = papa.parse<string[]>(response.data, { skipEmptyLines: 'greedy' });
           parsedCsvData = data;
           const asctbData = makeASCTBData(data);
-          return asctbData.data;
+          warnings = warnings.concat(asctbData.warnings);
+          return {
+            data: asctbData.data,
+            metadata: asctbData.metadata,
+            csv: csvData,
+            parsed: parsedCsvData,
+            warnings: asctbData.warnings,
+          };
         })
       );
-      const asctbData = ([] as any[]).concat(...asctbDataResponses);
+      const asctbData = asctbDataResponses
+        .map(response => response.data)
+        .reduce((result, data) => {
+          result = result.concat(data);
+          return result;
+        }, []);
+
+      const asctbDataResponse = asctbDataResponses[0];
 
       if (output === 'owl') {
         const graphData = await makeOwlData(makeJsonLdData(makeGraphData(asctbData), withSubclasses));
@@ -60,8 +74,10 @@ export function setupCSVRoutes(app: Express): void {
         // The default is returning the json
         return res.send({
           data: asctbData,
-          csv: csvData,
-          parsed: parsedCsvData,
+          metadata: asctbDataResponse.metadata,
+          csv: asctbDataResponse.csv,
+          parsed: asctbDataResponse.parsed,
+          warnings: warnings
         });
       }
     } catch (err) {
@@ -104,8 +120,10 @@ export function setupCSVRoutes(app: Express): void {
 
       return res.send({
         data: asctbData.data,
+        metadata: asctbData.metadata,
         csv: dataString,
         parsed: data,
+        warnings: asctbData.warnings
       });
 
     } catch (err) {
