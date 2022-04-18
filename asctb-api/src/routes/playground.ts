@@ -1,8 +1,8 @@
-
 import { Express, Request, Response } from 'express';
-import { makeASCTBData } from '../functions/api.functions';
-import { PLAYGROUND_CSV } from '../../const';
 import papa from 'papaparse';
+
+import { PLAYGROUND_CSV } from '../../const';
+import { makeASCTBData } from '../functions/api.functions';
 
 export function setupPlaygroundRoutes(app: Express): void {
 
@@ -12,12 +12,14 @@ export function setupPlaygroundRoutes(app: Express): void {
   app.get('/v2/playground', async (req: Request, res: Response) => {
     console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
     try {
-      const parsed = papa.parse(PLAYGROUND_CSV).data;
-      const data = await makeASCTBData(parsed);
+      const parsed = papa.parse<string[]>(PLAYGROUND_CSV).data;
+      const asctbData = makeASCTBData(parsed);
       return res.send({
-        data: data,
+        data: asctbData.data,
+        metadata: asctbData.metadata,
         csv: PLAYGROUND_CSV,
         parsed: parsed,
+        warnings: asctbData.warnings
       });
     } catch (err) {
       console.log(err);
@@ -34,11 +36,13 @@ export function setupPlaygroundRoutes(app: Express): void {
   app.post('/v2/playground', async (req: Request, res: Response) => {
     const csv = papa.unparse(req.body);
     try {
-      const data = await makeASCTBData(req.body.data);
+      const asctbData = makeASCTBData(req.body.data);
       return res.send({
-        data: data,
+        data: asctbData.data,
+        metadata: asctbData.metadata,
         parsed: req.body,
         csv: csv,
+        warnings: asctbData.warnings,
       });
     } catch (err) {
       console.log(err);

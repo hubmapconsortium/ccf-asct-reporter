@@ -231,6 +231,9 @@ components:
           description: The data of the CSV file or google sheets in JSON format.
           items:
             $ref: '#/components/schemas/RowData'
+        metadata:
+          description: Metadata extracted from google sheet
+          type: object
         csv:
           description: The CSV file is returned as a string.
           type: string
@@ -243,6 +246,11 @@ components:
             items:
               description: The data in each cell.
               type: string
+        warnings:
+          description: List of warnings generated while parsing
+          type: array
+          items:
+            type: string
 
     PlaygroundPostData:
       description: The data to get the ASCT+B visualization JSON Data from the playground table data.

@@ -9,7 +9,6 @@ import { makeOwlData } from '../functions/graph-owl.functions';
 import { makeGraphData } from '../functions/graph.functions';
 import { UploadedFile } from '../models/api.model';
 
-
 export function setupCSVRoutes(app: Express): void {
 
   /**
@@ -27,19 +26,34 @@ export function setupCSVRoutes(app: Express): void {
     try {
       let csvData = '';
       let parsedCsvData: any[] = [];
-
+      
+      let warnings: string[] = [];
       const asctbDataResponses = await Promise.all(
         csvUrls.split('|').map(async (csvUrl) => {
           const parsedUrl = normalizeCsvUrl(csvUrl.trim());
           const response = await axios.get(parsedUrl);
           csvData = response.data;
-
-          const data = papa.parse(response.data, { skipEmptyLines: 'greedy' }).data;
+          const { data } = papa.parse<string[]>(response.data, { skipEmptyLines: 'greedy' });
           parsedCsvData = data;
-          return makeASCTBData(data);
+          const asctbData = makeASCTBData(data);
+          warnings = warnings.concat(asctbData.warnings);
+          return {
+            data: asctbData.data,
+            metadata: asctbData.metadata,
+            csv: csvData,
+            parsed: parsedCsvData,
+            warnings: asctbData.warnings,
+          };
         })
       );
-      const asctbData = ([] as any[]).concat(...asctbDataResponses);
+      const asctbData = asctbDataResponses
+        .map(response => response.data)
+        .reduce((result, data) => {
+          result = result.concat(data);
+          return result;
+        }, []);
+
+      const asctbDataResponse = asctbDataResponses[0];
 
       if (output === 'owl') {
         const graphData = await makeOwlData(makeJsonLdData(makeGraphData(asctbData), withSubclasses));
@@ -60,8 +74,10 @@ export function setupCSVRoutes(app: Express): void {
         // The default is returning the json
         return res.send({
           data: asctbData,
-          csv: csvData,
-          parsed: parsedCsvData,
+          metadata: asctbDataResponse.metadata,
+          csv: asctbDataResponse.csv,
+          parsed: asctbDataResponse.parsed,
+          warnings: warnings
         });
       }
     } catch (err) {
@@ -99,13 +115,15 @@ export function setupCSVRoutes(app: Express): void {
     console.log('File uploaded: ', file.name);
 
     try {
-      const data = papa.parse(dataString, { skipEmptyLines: 'greedy' }).data;
-      const asctbData = await makeASCTBData(data);
+      const { data } = papa.parse<string[]>(dataString, { skipEmptyLines: 'greedy' });
+      const asctbData = makeASCTBData(data);
 
       return res.send({
-        data: asctbData,
+        data: asctbData.data,
+        metadata: asctbData.metadata,
         csv: dataString,
         parsed: data,
+        warnings: asctbData.warnings
       });
 
     } catch (err) {
