@@ -1,10 +1,13 @@
 /* tslint:disable:variable-name */
 export const DELIMETER = ';';
+export const TITLE_ROW = 0;
 
 export const metadataNameMap: Record<string, string> = {
+  // 'title': 'title',
   'Author Name(s):': 'author_names',
   'Author ORCID(s):': 'author_orcids',
   'Reviewer(s):': 'reviewers',
+  'Reviewer ORCID(s):': 'reviewer_orcids',
   'General Publication(s):': 'general_publications',
   'Data DOI:': 'data_doi',
   'Date:': 'date',
