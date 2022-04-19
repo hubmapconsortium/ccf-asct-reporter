@@ -234,6 +234,14 @@ components:
         metadata:
           description: Metadata extracted from google sheet
           type: object
+          patternProperties: {
+            '^[a-zA-Z0-9_]+$': {
+              anyOf: [ 
+                { type: string },
+                { type: array, items: { type: string }}]
+              }
+          }
+          additionalProperties: false
         csv:
           description: The CSV file is returned as a string.
           type: string
