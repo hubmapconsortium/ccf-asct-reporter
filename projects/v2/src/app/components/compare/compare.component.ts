@@ -19,6 +19,7 @@ export class CompareComponent implements OnInit {
 
   formGroup: FormGroup;
   formSheets: FormArray;
+  formValid = true;
 
   constructor(public fb: FormBuilder, public ga: GoogleAnalyticsService) { }
 
@@ -66,7 +67,22 @@ export class CompareComponent implements OnInit {
     sheet.controls.formData.setValue(fileFormDataEvent);
   }
 
+  markFormGroupTouched(formGroup: FormGroup) {
+    (Object as any).values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+
+      if (control.controls) {
+        this.markFormGroupTouched(control);
+      }
+    });
+  }
+
   compare() {
+    this.markFormGroupTouched(this.formGroup);
+    this.formValid = this.formGroup.status === 'VALID';
+    if (this.formGroup.status !== 'VALID') {
+      return;
+    }
     const data: CompareData[] = [];
     for (const [idx, sheet] of this.formGroup.value.sheets.entries()) {
       if (sheet.title === '') {
@@ -149,7 +165,12 @@ export class CompareComponent implements OnInit {
   }
 
   doesFormHaveError() {
-    return this.formGroup.status !== 'VALID';
+ 
+    this.formGroup.controls.sheets.value.forEach(sheet => {
+      // mark as touched for all controls
+      sheet.controls.link.markAsTouched();
+    });
+    return this.formGroup.status !== 'VALID' ;
   }
 
   addCompareSheetRow() {
