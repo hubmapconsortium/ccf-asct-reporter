@@ -73,7 +73,7 @@ function setData(column: string[], row: any, value: any, warnings: Set<string>):
  */
 const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<string, string | string[]> => {
   const [titleRow] = metadataRows.splice(TITLE_ROW_INDEX, 1);
-  const [title] = titleRow;
+  const [title] = titleRow.slice(0, 1);
 
   const result: Record<string, string | string[]> = {
     title
