@@ -2,6 +2,7 @@
 export const DELIMETER = ';';
 export const TITLE_ROW_INDEX = 0;
 
+export const metadataArrayFields = ['author_names', 'author_orcids', 'reviewers', 'reviewer_orcids', 'general_publications'];
 export const metadataNameMap: Record<string, string> = {
   'Author Name(s):': 'author_names',
   'Author ORCID(s):': 'author_orcids',

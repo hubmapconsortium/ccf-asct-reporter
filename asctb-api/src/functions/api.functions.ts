@@ -1,4 +1,4 @@
-import { arrayNameMap, createObject, DELIMETER, HEADER_FIRST_COLUMN, metadataNameMap, objectFieldMap, Row, TITLE_ROW_INDEX } from '../models/api.model';
+import { arrayNameMap, createObject, DELIMETER, HEADER_FIRST_COLUMN, metadataArrayFields, metadataNameMap, objectFieldMap, Row, TITLE_ROW_INDEX } from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
 
 export interface ASCTBData {
@@ -90,7 +90,7 @@ const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<
         metadataKey = metadataIdentifier.toLowerCase();
         warnings.add(`WARNING: unmapped metadata found ${metadataIdentifier}`);
       }
-      if (metadataValue.includes(DELIMETER)) {
+      if (metadataArrayFields.includes(metadataKey)) {
         metadata[metadataKey] = metadataValue.split(DELIMETER).map(item => item.trim());
       } else {
         metadata[metadataKey] = metadataValue.trim();  
