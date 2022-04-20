@@ -1,8 +1,8 @@
-name: Deploy to Heroku (staging)
+name: Deploy to Heroku (production)
 
 on:
   push:
-    branches: [develop]
+    branches: [main]
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
         with:
           email: ${{ secrets.HEROKU_EMAIL }}
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}--staging
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
 
           dockerfile_directory: ./asctb-api/
           dockerfile_name: Dockerfile
