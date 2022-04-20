@@ -2,7 +2,7 @@ FROM node:14 AS build
 WORKDIR /usr/src/app
 COPY . .
 RUN npm ci
-RUN npm prune --production
+RUN npm run build-ts && npm prune --production
 
 FROM node:14
 RUN npm install pm2 -g
