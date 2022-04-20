@@ -13,7 +13,6 @@ servers:
   - description: Staging Server
     url: https://asctb-api--staging.herokuapp.com
 
-
 paths:
   /v2/csv:
     get:
@@ -23,7 +22,7 @@ paths:
         - $ref: '#/components/parameters/csvUrl'
         - $ref: '#/components/parameters/output'
         - $ref: '#/components/parameters/expanded'
-        - $ref: '#/components/parameters/subClasses'
+        - $ref: '#/components/parameters/subclasses'
       responses:
         '200':
           description: successful operation
@@ -78,7 +77,7 @@ paths:
   /v2/{sheetId}/{gId}/graph:
     get:
       summary: Get the ASCT+B table data in JSON graph format
-      operationId: get-table-data-by-sheetId-and-gId
+      operationId: get-graph-data-by-sheetId-and-gId
       parameters:
         - $ref: '#/components/parameters/sheetId'
         - $ref: '#/components/parameters/gId'
@@ -352,26 +351,26 @@ components:
     Structure:
       description: The data in each item of the denormalized column of the CSV file or google sheets is returned as an object with the following keys.
       type: object
+      required:
+        - name
+        - id
+        - rdfs_label
       properties:
         name:
           description: The data in the columns in the format of '*/n' is tagged as 'name'. (n is the index starting from 1).
           example: 'AS/1, AS/2, AS/3, CT/1, CT/2, CT/3, BGene/1, BGene/2, BProteim/1 ...'
           type: string
-          required: true
         id:
           description: The data in the columns in the format of '*/n/ID' is tagged as 'id'. (n is the index starting from 1).
           example: 'AS/1/ID, AS/2/ID, AS/3/ID, CT/1/ID, CT/2/ID, CT/3/ID, BGene/1/ID, BGene/2/ID, BProteim/1/ID ...'
           type: string
-          required: true
         rdfs_label:
           description: The data in the columns in the format of '*/n/LABEL' is tagged as 'rdfs_label'. (n is the index starting from 1).
           type: string
-          required: true
         b_type:
           description: The data in the biomarker columns will have a 'b_type' key with the value of type of the biomarker.
-          example: 'protein, gene, lipids, metabolites, proteoforms' 
+          example: 'protein, gene, lipids, metabolites, proteoforms'
           type: string
-          required: false
 
     Reference:
       description: The data in each item of the references key in the json data is returned as an object with the following keys.
@@ -380,15 +379,12 @@ components:
         id:
           description: The data in the columns in the format of 'REF/n' is tagged as 'id'. (n is the index starting from 1).
           type: string
-          required: false
         doi:
           description: The data in the columns in the format of 'REF/n/DOI' is tagged as 'doi'. (n is the index starting from 1).
           type: string
-          required: false
         notes:
           description: The data in the columns in the format of 'REF/n/NOTES' is tagged as 'notes'. (n is the index starting from 1).
           type: string
-          required: false
 
     GraphNode:
       description: The graph nodes in the json data is returned as an array of objects with each object containing following keys.
@@ -398,48 +394,50 @@ components:
 
     GraphNodeItem:
       type: object
+      required:
+        - id
+        - type
+        - name
       properties:
         id:
           description: The id of the graph node.
           type: string
-          required: true
         type:
-          description: The type of the graph node is tagged from the column name. 
+          description: The type of the graph node is tagged from the column name.
           example: 'AS, CT, BM'
           type: string
-          required: true
         name:
           description: The name of the graph node data in the columns in the format of '*/n' is tagged as 'name'. (n is the index starting from 1).
           type: string
-          required: true
         metadata:
           $ref: '#/components/schemas/Metadata'
 
     Metadata:
       description: The metadata of the graph node is as an object with the following keys.
       type: object
+      required:
+        - name
+        - ontologyId
+        - ontologyType
+        - OntologyTypeId
+        - label
       properties:
         name:
           description: The name of the graph node data in the columns in the format of '*/n' is tagged as 'name'. (n is the index starting from 1).
           type: string
-          required: true
         ontologyId:
           description: The ontology id of the graph node data in the columns in the format of '*/n/ID' is tagged as 'ontologyId'. (n is the index starting from 1).
           type: string
-          required: true
         ontologyType:
           description: The ontology type of the graph node data in the columns in the format of '*/n/ID' is denormalized into the type of ontology is tagged as 'ontologyType'. (n is the index starting from 1)
           example: 'HGNC, UBERON, CL, FMA'
           type: string
-          required: true
         OntologyTypeId:
           description: The ontologyId is split into the ontologyType and the ontologyTypeId by ':'.
           type: string
-          required: true
         label:
           description: The label of the graph node data in the columns in the format of '*/n/LABEL' is tagged as 'label'. (n is the index starting from 1).
           type: string
-          required: true
         referenes:
           description: The references present in the row of the CSV file or google sheets is returned as an array of objects.
           type: array
@@ -455,15 +453,16 @@ components:
     GraphEdgeItem:
       description: Each graph edge is returned as an object with the following keys.
       type: object
+      required:
+        - source
+        - target
       properties:
         source:
           description: The source id of the graph edge.
           type: integer
-          required: true
         target:
           description: The target id of the graph edge.
           type: integer
-          required: true
 
     LookupResult:
       description: The lookup result is returned as an object with the following keys.
@@ -474,7 +473,8 @@ components:
           type: string
         link:
           description: The ontology url obtained from the ontology id.
-          type: url
+          type: string
+          format: uri
         description:
           description: The description about the ontology term.
           type: string
@@ -484,10 +484,12 @@ components:
           properties:
             Uniprot Link:
               description: The uniprot link of the ontology term.
-              type: url
+              type: string
+              format: uri
             Entrez Link:
               description: The entrez link of the ontology term.
-              type: url
+              type: string
+              format: uri
 
     LookupResultGraph:
       description: The lookup result graph is returned as an object with the following keys.
@@ -498,7 +500,8 @@ components:
           type: string
         link:
           description: The ontology url obtained from the ontology id.
-          type: url
+          type: string
+          format: uri
         description:
           description: The description about the ontology term.
           type: string
@@ -511,7 +514,9 @@ components:
           properties:
             Uniprot Link:
               description: The uniprot link of the ontology term.
-              type: url
+              type: string
+              format: uri
             Entrez Link:
               description: The entrez link of the ontology term.
-              type: url
+              type: string
+              format: uri
