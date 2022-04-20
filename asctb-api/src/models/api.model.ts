@@ -1,10 +1,13 @@
 /* tslint:disable:variable-name */
 export const DELIMETER = ';';
+export const TITLE_ROW_INDEX = 0;
 
+export const metadataArrayFields = ['author_names', 'author_orcids', 'reviewer_names', 'reviewer_orcids', 'general_publications'];
 export const metadataNameMap: Record<string, string> = {
   'Author Name(s):': 'author_names',
   'Author ORCID(s):': 'author_orcids',
-  'Reviewer(s):': 'reviewers',
+  'Reviewer(s):': 'reviewer_names',
+  'Reviewer ORCID(s):': 'reviewer_orcids',
   'General Publication(s):': 'general_publications',
   'Data DOI:': 'data_doi',
   'Date:': 'date',

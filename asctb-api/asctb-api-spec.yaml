@@ -234,6 +234,17 @@ components:
         metadata:
           description: Metadata extracted from google sheet
           type: object
+          properties:
+            title: { type: string }
+            author_names: { type: array, items: { type: string }}
+            author_orcids:  { type: array, items: { type: string }}
+            reviewer_names:  { type: array, items: { type: string }}
+            reviewer_orcids:  { type: array, items: { type: string }}
+            general_publications:  { type: array, items: { type: string }}
+            data_doi:  { type: string }
+            date:  { type: string }
+            version:  { type: string }
+          additionalProperties: true
         csv:
           description: The CSV file is returned as a string.
           type: string

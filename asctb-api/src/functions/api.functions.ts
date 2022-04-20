@@ -1,9 +1,9 @@
-import { arrayNameMap, createObject, DELIMETER, HEADER_FIRST_COLUMN, metadataNameMap, objectFieldMap, Row } from '../models/api.model';
+import { arrayNameMap, createObject, DELIMETER, HEADER_FIRST_COLUMN, metadataArrayFields, metadataNameMap, objectFieldMap, Row, TITLE_ROW_INDEX } from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
 
 export interface ASCTBData {
   data: Row[];
-  metadata: Record<string, string>;
+  metadata: Record<string, string | string[]>;
   warnings: string[];
 }
 
@@ -71,9 +71,16 @@ function setData(column: string[], row: any, value: any, warnings: Set<string>):
  * @param warnings = warnings generated during the process are pushed to this set
  * @returns = returns key value pairs of metadata
  */
-const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<string, string> => {
+const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<string, string | string[]> => {
+  const [titleRow] = metadataRows.splice(TITLE_ROW_INDEX, 1);
+  const [title] = titleRow.slice(0, 1);
+
+  const result: Record<string, string | string[]> = {
+    title
+  };
+    
   return metadataRows
-    .reduce((metadata: Record<string, string>, rowData: string[], rowNumber: number,) => {
+    .reduce((metadata: Record<string, string | string[]>, rowData: string[], rowNumber: number,) => {
       const [metadataIdentifier, metadataValue, ..._] = rowData;
       if (!metadataIdentifier) {
         return metadata;
@@ -83,9 +90,13 @@ const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<
         metadataKey = metadataIdentifier.toLowerCase();
         warnings.add(`WARNING: unmapped metadata found ${metadataIdentifier}`);
       }
-      metadata[metadataKey] = metadataValue.split(DELIMETER).map(item => item.trim()).join(', ');
+      if (metadataArrayFields.includes(metadataKey)) {
+        metadata[metadataKey] = metadataValue.split(DELIMETER).map(item => item.trim());
+      } else {
+        metadata[metadataKey] = metadataValue.trim();  
+      }
       return metadata;
-    }, {}
+    }, result
     );
 };
 
@@ -115,7 +126,7 @@ export function makeASCTBData(data: string[][]): ASCTBData {
   });
 
   // build metadata key value store.
-  const metadataRows = data.slice(1, headerRow);
+  const metadataRows = data.slice(0, headerRow);
   const metadata = buildMetadata(metadataRows, warnings);
   
   console.log([...warnings].sort().join('\n'));
