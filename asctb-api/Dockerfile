@@ -1,10 +1,10 @@
-FROM node:14 AS build
+FROM node:18 AS build
 WORKDIR /usr/src/app
 COPY . .
 RUN npm ci
 RUN npm run build-ts && npm prune --production
 
-FROM node:14
+FROM node:18
 RUN npm install pm2 -g
 ENV NODE_ENV production
 ENV PORT 8080
