@@ -21,12 +21,12 @@ export function normalizeCsvUrl(url: string): string {
 
 function setData(column: string[], row: any, value: any, warnings: Set<string>): void {
   if (column.length > 1) {
-    let arrayName = arrayNameMap[column[0]];
+    const arrayName = arrayNameMap[column[0]];
     const originalArrayName = column[0];
     const objectArray: any[] = row[arrayName] || [];
 
     if (!arrayName) {
-      arrayName = originalArrayName.toLowerCase();
+      // arrayName = originalArrayName.toLowerCase();
       warnings.add(`WARNING: unmapped array found ${originalArrayName}`);
     }
     if (column.length === 3 && !objectFieldMap[column[2]]) {
@@ -42,9 +42,9 @@ function setData(column: string[], row: any, value: any, warnings: Set<string>):
         row[arrayName] = objectArray;
       }
       objectArray.push(createObject(value, originalArrayName));
-    } else if (column.length === 3) {
+    } else if (column.length === 3 && arrayName) {
       let arrayIndex = parseInt(column[1], 10) - 1;
-      const fieldName = objectFieldMap[column[2]] || (column[2]?.toLowerCase() ?? '').trim();
+      const fieldName = objectFieldMap[column[2]]; // || (column[2]?.toLowerCase() ?? '').trim();
 
       if (arrayIndex >= 0 && fieldName) {
         if (arrayIndex >= objectArray.length) {
@@ -58,7 +58,11 @@ function setData(column: string[], row: any, value: any, warnings: Set<string>):
             value = fixOntologyId(value);
             break;
           }
-          objectArray[arrayIndex][fieldName] = value;
+          if (objectArray[arrayIndex]) {
+            objectArray[arrayIndex][fieldName] = value;
+          } else {
+            warnings.add(`WARNING: bad column: ${column.join('/')}`);
+          }
         }
       }
     }
@@ -78,7 +82,7 @@ const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<
   const result: Record<string, string | string[]> = {
     title
   };
-    
+
   return metadataRows
     .reduce((metadata: Record<string, string | string[]>, rowData: string[], rowNumber: number,) => {
       const [metadataIdentifier, metadataValue, ..._] = rowData;
@@ -93,7 +97,7 @@ const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<
       if (metadataArrayFields.includes(metadataKey)) {
         metadata[metadataKey] = metadataValue.split(DELIMETER).map(item => item.trim());
       } else {
-        metadata[metadataKey] = metadataValue.trim();  
+        metadata[metadataKey] = metadataValue.trim();
       }
       return metadata;
     }, result
@@ -111,7 +115,7 @@ function findHeaderIndex(headerRow: number, data: string[][], firstColumnName: s
 
 export function makeASCTBData(data: string[][]): ASCTBData {
   const headerRow = findHeaderIndex(0, data, HEADER_FIRST_COLUMN);
-  const columns = data[headerRow].map((col: string) => col.split('/').map(s => s.trim()));
+  const columns = data[headerRow].map((col: string) => col.toUpperCase().split('/').map(s => s.trim()));
   const warnings = new Set<string>();
 
   const results = data.slice(headerRow + 1).map((rowData: any[], rowNumber) => {
@@ -128,7 +132,7 @@ export function makeASCTBData(data: string[][]): ASCTBData {
   // build metadata key value store.
   const metadataRows = data.slice(0, headerRow);
   const metadata = buildMetadata(metadataRows, warnings);
-  
+
   console.log([...warnings].sort().join('\n'));
 
   return {

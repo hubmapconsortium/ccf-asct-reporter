@@ -35,12 +35,12 @@ export const arrayNameMap: Record<string, string> = {
   FTU: 'ftu_types',
   BG: 'biomarkers_gene',
   BP: 'biomarkers_protein',
-  BGene: 'biomarkers_gene',
-  BProtein: 'biomarkers_protein',
+  BGENE: 'biomarkers_gene',
+  BPROTEIN: 'biomarkers_protein',
   REF: 'references',
-  BLipid: 'biomarkers_lipids',
-  BMetabolites: 'biomarkers_meta',
-  BProteoform: 'biomarkers_prot',
+  BLIPID: 'biomarkers_lipids',
+  BMETABOLITES: 'biomarkers_meta',
+  BPROTEOFORM: 'biomarkers_prot',
   BL: 'biomarkers_lipids',
   BM: 'biomarkers_meta',
   BF: 'biomarkers_prot'
@@ -50,7 +50,8 @@ export const objectFieldMap: Record<string, string> = {
   ID: 'id',
   LABEL: 'rdfs_label',
   DOI: 'doi',
-  NOTES: 'notes'
+  NOTES: 'notes',
+  NOTE: 'notes'
 };
 
 export function createObject(name: string, structureType: string): any {
