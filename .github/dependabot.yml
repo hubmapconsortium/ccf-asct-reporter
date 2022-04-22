@@ -1,0 +1,45 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    schedule:
+      timezone: 05:00 UTC
+      interval: weekly
+      day: tuesday
+      time: "9:00"
+    directory: /
+    target-branch: develop
+    commit-message:
+      prefix: npm
+
+  - package-ecosystem: npm
+    schedule:
+      timezone: 05:00 UTC
+      interval: weekly
+      day: tuesday
+      time: "9:00"
+    directory: /asctb-api
+    target-branch: develop
+    commit-message:
+      prefix: npm
+
+  - package-ecosystem: docker
+    schedule:
+      timezone: 05:00 UTC
+      interval: weekly
+      day: tuesday
+      time: "9:00"
+    directory: /asctb-api
+    target-branch: develop
+    commit-message:
+      prefix: docker
+
+  - package-ecosystem: github-actions
+    schedule:
+      timezone: 05:00 UTC
+      interval: weekly
+      day: tuesday
+      time: "9:00"
+    directory: /
+    target-branch: develop
+    commit-message:
+      prefix: github-actions
