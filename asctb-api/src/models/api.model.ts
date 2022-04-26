@@ -91,10 +91,10 @@ export class Structure {
   }
 
   setBiomarkerProperties(structureType: string, name: string): void {
-    if (structureType === 'BGene' || structureType === 'BG') {
+    if (structureType === 'BGENE' || structureType === 'BG') {
       this.b_type = BM_TYPE.G;
     }
-    if (structureType === 'BProtein' || structureType === 'BP') {
+    if (structureType === 'BPROTEIN' || structureType === 'BP') {
       name = this.name = name.replace('Protein', '').trim();
       const hasPos = name.endsWith('+');
       const hasNeg = name.endsWith('-');
@@ -110,13 +110,13 @@ export class Structure {
       }
       this.b_type = BM_TYPE.P;
     }
-    if (structureType === 'BLipid' || structureType === 'BL') {
+    if (structureType === 'BLIPID' || structureType === 'BL') {
       this.b_type = BM_TYPE.BL;
     }
-    if (structureType === 'BMetabolites' || structureType === 'BM') {
+    if (structureType === 'BMETABOLITES' || structureType === 'BM') {
       this.b_type = BM_TYPE.BM;
     }
-    if (structureType === 'BProteoform' || structureType === 'BF') {
+    if (structureType === 'BPROTEOFORM' || structureType === 'BF') {
       this.b_type = BM_TYPE.BF;
     }
   }
