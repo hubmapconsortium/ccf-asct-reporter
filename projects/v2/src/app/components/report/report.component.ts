@@ -34,6 +34,8 @@ export class ReportComponent implements OnInit, AfterViewInit {
     ASWithNoLink: [],
     CTWithNoLink: [],
     BWithNoLink: [],
+    ASWithNoCT: [],
+    CTWithNoB: [],
   };
   resultDataByOrganName: Report = {
     anatomicalStructures: [],
@@ -42,6 +44,8 @@ export class ReportComponent implements OnInit, AfterViewInit {
     BWithNoLink: [],
     cellTypes: [],
     biomarkers: [],
+    ASWithNoCT: [],
+    CTWithNoB: [],
   };
   countsByOrgan: MatTableDataSource<CByOrgan[]> = new MatTableDataSource();
   displayedColumns: string[] = [
@@ -49,6 +53,8 @@ export class ReportComponent implements OnInit, AfterViewInit {
     'ASWithNoLink',
     'CTWithNoLink',
     'BWithNoLink',
+    'ASWithNoCT',
+    'CTWithNoB',
     'AS_AS',
     'AS_CT',
     'CT_BM',
@@ -152,6 +158,8 @@ export class ReportComponent implements OnInit, AfterViewInit {
         'ASWithNoLink',
         'CTWithNoLink',
         'BWithNoLink',
+        'ASWithNoCT',
+        'CTWithNoB',
         'AS_AS',
         'AS_CT',
         'CT_BM',
