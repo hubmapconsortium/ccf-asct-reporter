@@ -189,6 +189,47 @@
                   </td>
                   <td mat-footer-cell *matFooterCellDef> Total Counts</td>
                 </ng-container>
+                <!-- ASWithNoCT Column -->
+                <ng-container matColumnDef="ASWithNoCT">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    [hidden]="true"
+                    class="center_align"
+                    id="ASWithNoCT"
+                  >
+                  ASWithNoCT
+                  </th>
+                  <td mat-cell [hidden]="true" *matCellDef="let element" class="center_align">
+                    {{
+                      element.ASWithNoCT
+                        ? element.ASWithNoCT
+                        : 0
+                    }}
+                  </td>
+                  <td mat-footer-cell class="center_align" [hidden]="true" *matFooterCellDef> {{getTotals(countsByOrgan.data, 'ASWithNoCT')}} </td>
+                </ng-container>
+
+                <!-- CTWithNoB Column -->
+                <ng-container matColumnDef="CTWithNoB">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    [hidden]="true"
+                    class="center_align"
+                    id="CTWithNoB"
+                  >
+                  CTWithNoB
+                  </th>
+                  <td mat-cell [hidden]="true" *matCellDef="let element" class="center_align">
+                    {{
+                      element.CTWithNoB
+                        ? element.CTWithNoB
+                        : 0
+                    }}
+                  </td>
+                  <td mat-footer-cell class="center_align" [hidden]="true" *matFooterCellDef> {{getTotals(countsByOrgan.data, 'CTWithNoB')}} </td>
+                </ng-container>
 
                 <!-- ASWithNoLink Column -->
                 <ng-container matColumnDef="ASWithNoLink">

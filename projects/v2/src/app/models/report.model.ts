@@ -7,6 +7,8 @@ export interface Report {
   anatomicalStructures: AS[];
   cellTypes: CT[];
   biomarkers: B[];
+  ASWithNoCT: EnityWithNoOtherEntity[];
+  CTWithNoB: EnityWithNoOtherEntity[];
 }
 
 export interface CByOrgan {
@@ -14,4 +16,11 @@ export interface CByOrgan {
   anatomicalStructures?: number;
   cellTypes?: number;
   biomarkers?: number;
+}
+
+export interface EnityWithNoOtherEntity {
+  structure: string;
+  organName: string;
+  link: string;
+  label: string;
 }
