@@ -51,7 +51,7 @@ export class OrganTableSelectorComponent implements OnInit {
 
     this.configService.sheetConfiguration$.subscribe(sheetConfig=>{
       const filteredData = sheetConfig.map((element) => {
-        return {...element, version: element.version?.filter((version) => true)};
+        return {...element, version: element.version?.filter((version) => !version.viewValue.includes('DRAFT'))};
       });
       this.sheetOptions = filteredData.filter(organ => organ.version !== undefined);
       this.sheetOptions = this.sheetOptions.filter(organ => organ.version.length !== 0);
