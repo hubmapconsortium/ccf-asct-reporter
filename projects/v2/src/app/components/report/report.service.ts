@@ -369,7 +369,7 @@ export class ReportService {
     try {
       data.forEach((row: Row) => {
         if (row.cell_types.length === 0) {
-          const asLeaf: Structure = row.anatomical_structures[row.anatomical_structures.length - 1]
+          const asLeaf: Structure = row.anatomical_structures[row.anatomical_structures.length - 1];
           let foundIndex:number;
           if (asLeaf.id) {
             foundIndex = asWithNoCT.findIndex((i: EnityWithNoOtherEntity) => {
