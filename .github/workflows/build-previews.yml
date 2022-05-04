@@ -27,9 +27,11 @@ jobs:
       - run: npm ci
       - run: npm run build:staging
 
+      - run: node -v > .nvmrc
       - uses: jsmrcaga/action-netlify-deploy@master
         with:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          build_command: false
+          build_command: echo
+          install_command: echo
           build_directory: dist/v2

@@ -8,7 +8,7 @@ import { CloseLoading, HasError } from '../../actions/ui.actions';
 import { ReportLog } from '../../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
 import { Error } from '../../models/response.model';
-import { Row, SheetConfig } from '../../models/sheet.model';
+import { Row, SheetConfig, PROTEIN_PRESENCE } from '../../models/sheet.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +29,8 @@ export class BimodalService {
     sheetData: Row[],
     treeData: TNode[],
     bimodalConfig: BimodalConfig,
-    sheetConfig?: SheetConfig
+    sheetConfig?: SheetConfig,
+    isReport = false
   ) {
 
     try {
@@ -49,7 +50,7 @@ export class BimodalService {
       let biomarkers = [];
       let antibodies = [];
       treeData.forEach((td) => {
-        if (td.children === 0) {
+        if (td.children === 0 || isReport) {
 
           const leaf = td.name;
           const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.notes, td.organName, td.ontologyId);
@@ -198,8 +199,8 @@ export class BimodalService {
       case 'Lipids':
         biomarkers = biomarkers.filter(b => b.bType === 'lipids');
         break;
-      case 'Metalloids':
-        biomarkers = biomarkers.filter(b => b.bType === 'metalloids');
+      case 'Metabolites':
+        biomarkers = biomarkers.filter(b => b.bType === 'metabolites');
         break;
       case 'Proteoforms':
         biomarkers = biomarkers.filter(b => b.bType === 'proteoforms');
@@ -219,7 +220,8 @@ export class BimodalService {
           marker.organName,
           marker.link,
           B_GREEN,
-          marker.nodeSize
+          marker.nodeSize,
+          marker.proteinPresence
         );
         newNode.id = id;
         newNode.isNew = marker.isNew;
@@ -270,11 +272,11 @@ export class BimodalService {
             let foundIndex: number;
             if (str.id && str.id.toLowerCase() !== 'not found') {
               foundIndex = nodes.findIndex(
-                (i: BMNode) => i.ontologyId === str.id
+                (i: BMNode) => i.ontologyId === str.id && i.group !== 1
               );
             } else {
               foundIndex = nodes.findIndex(
-                (i: BMNode) => i.name === str.name
+                (i: BMNode) => i.name === str.name  && i.group !== 1
               );
             }
             if (node.targets.findIndex(l => l ===nodes[foundIndex].id) === -1){
@@ -286,7 +288,7 @@ export class BimodalService {
 
         if (node.group === 3) {
           node.indegree.forEach(str => {
-
+            let pathColor: string;
             let foundIndex: number;
             if (str.id) {
               foundIndex = nodes.findIndex(
@@ -300,7 +302,17 @@ export class BimodalService {
             if (node.sources.findIndex(l => l ===nodes[foundIndex].id) === -1){
               node.sources.push(nodes[foundIndex].id);
             }
-            links.push({ s: nodes[foundIndex].id, t: node.id });
+            nodes[foundIndex].outdegree.forEach(cellOut => {
+              if(cellOut.name === node.name){
+                if (cellOut.proteinPresence === PROTEIN_PRESENCE.POS) {
+                  pathColor = '#00008B';
+                }
+                else if (cellOut.proteinPresence === PROTEIN_PRESENCE.NEG) {
+                  pathColor = '#E16156';
+                }
+              }
+            });
+            links.push({ s: nodes[foundIndex].id, t: node.id, pathColor});
           });
         }
         if (node.group === 4) {
@@ -393,16 +405,20 @@ export class BimodalService {
         }
       });
 
-      this.store.dispatch(new UpdateLinksData(AS_CT_LINKS, CT_BM_LINKS, AS_CT, CT_BM));
+      if (!isReport) {
+        this.store.dispatch(new UpdateLinksData(AS_CT_LINKS, CT_BM_LINKS, AS_CT, CT_BM));
 
-      this.store.dispatch(new UpdateBimodal(nodes, links)).subscribe(newData => {
-        const view = newData.treeState.view;
-        const updatedNodes = newData.treeState.bimodal.nodes;
-        const updatedLinks = newData.treeState.bimodal.links;
-        const spec = newData.treeState.spec;
+        this.store.dispatch(new UpdateBimodal(nodes, links)).subscribe(newData => {
+          const view = newData.treeState.view;
+          const updatedNodes = newData.treeState.bimodal.nodes;
+          const updatedLinks = newData.treeState.bimodal.links;
+          const spec = newData.treeState.spec;
 
-        this.updateBimodalData(view, spec, updatedNodes, updatedLinks);
-      });
+          this.updateBimodalData(view, spec, updatedNodes, updatedLinks);
+        });
+      } else {
+        this.store.dispatch(new UpdateLinksData(AS_CT_LINKS, CT_BM_LINKS, AS_CT, CT_BM, 0, null,true));
+      }
 
     } catch (error) {
       console.log(error);

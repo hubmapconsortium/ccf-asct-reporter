@@ -21,7 +21,7 @@ export function buildHGNCLink(id: string): string {
 }
 
 export function fixOntologyId(id: string): string {
-  if (id?.toLowerCase() === 'n/a') {
+  if (id?.toLowerCase() === 'n/a' || id?.toLowerCase() === 'not found') {
     return '';
   }
   // Fix IDs from ASCT+B Tables. Ideally, these changes are made up stream for next release and no transformation is necessary
@@ -44,6 +44,8 @@ export function guessIri(id: string): string {
       return `http://purl.org/sig/ont/fma/fma${idNumber}`;
     case OntologyCode.HGNC:
       return `http://identifiers.org/hgnc/${idNumber}`;
+    case OntologyCode.LMHA:
+      return `http://purl.obolibrary.org/obo/LMHA_${idNumber}`;
     case OntologyCode.UBERON:
       return `http://purl.obolibrary.org/obo/UBERON_${idNumber}`;
     default:

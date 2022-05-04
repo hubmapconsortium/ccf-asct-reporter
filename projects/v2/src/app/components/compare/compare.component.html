@@ -112,6 +112,10 @@
                   </div>
               </div>
               </div>
+              <div class="data-upload-title">Data *
+                <span class="data-disclaimer-text"> ( Upload a csv file or link to the data)</span>
+              </div>
+
               <div
                 class="w-100 mt-4 sheet-link-container"
               >
@@ -170,9 +174,9 @@
       <button
         mat-flat-button
         color="primary"
-        [disabled]="doesFormHaveError()"
         (click)="compare()"
         class="compare-button"
+        [ngClass]="{'compare-button-color': !formValid}"
       >
         Compare
       </button>

@@ -309,21 +309,28 @@ export class TreeState {
    * Updates the links data that is displayed in the report
    */
   @Action(UpdateLinksData)
-  updateLinksData({ getState, setState }: StateContext<TreeStateModel>, { AS_CT, CT_B,  AS_CT_organWise, CT_B_organWise, AS_AS, AS_AS_organWise }: UpdateLinksData) {
+  updateLinksData({ getState, setState }: StateContext<TreeStateModel>, { AS_CT, CT_B,  AS_CT_organWise, CT_B_organWise, AS_AS, AS_AS_organWise, allOrgans }: UpdateLinksData) {
     const state = getState();
     if (AS_AS) {
       setState({
         ...state,
-        links: { AS_CT, CT_B, AS_AS, AS_CT_organWise, CT_B_organWise, AS_AS_organWise }
+        links: { ...state.links, AS_AS}
+      });
+    } else if (AS_AS_organWise) {
+      setState({
+        ...state,
+        links: { ...state.links,
+          AS_AS_organWise: {...state.links.AS_AS_organWise, ...AS_AS_organWise}
+        }
       });
     } else {
       setState({
         ...state,
         links: { 
-          AS_CT,
-          CT_B,
-          AS_CT_organWise,
-          CT_B_organWise,
+          AS_CT : allOrgans ? state.links.AS_CT : AS_CT,
+          CT_B : allOrgans ? state.links.CT_B : CT_B,
+          CT_B_organWise: {...state.links.CT_B_organWise, ...CT_B_organWise},
+          AS_CT_organWise: {...state.links.AS_CT_organWise, ...AS_CT_organWise},
           AS_AS: state.links.AS_AS,
           AS_AS_organWise: state.links.AS_AS_organWise
         }

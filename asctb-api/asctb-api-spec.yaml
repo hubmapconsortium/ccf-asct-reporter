@@ -1,0 +1,522 @@
+openapi: '3.0.3'
+info:
+  title: ASCT+B API
+  description: |
+    This API provides programmatic access to data registered to the CCF ASCT+B Repoter.
+    See the [HuBMAP CCF ASCT+B Reporter](https://hubmapconsortium.github.io/ccf-asct-reporter/) for details.
+  version: 2.0.0
+servers:
+  - description: ASCTB-API
+    url: /
+  - description: Production Server
+    url: https://asctb-api.herokuapp.com
+  - description: Staging Server
+    url: https://asctb-api--staging.herokuapp.com
+
+paths:
+  /v2/csv:
+    get:
+      summary: Get the ASCT+B table data in different formats (JSON, JSON-LD, OWL, Graph)
+      operationId: csv-get
+      parameters:
+        - $ref: '#/components/parameters/csvUrl'
+        - $ref: '#/components/parameters/output'
+        - $ref: '#/components/parameters/expanded'
+        - $ref: '#/components/parameters/subclasses'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TableDataResult'
+    post:
+      summary: Get the ASCT+B table data from file upload in the form of form-data
+      operationId: csv-post
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: object
+                  properties:
+                    csvFile:
+                      type: string
+                      format: binary
+                      description: The file to upload
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  /v2/{sheetId}/{gId}:
+    get:
+      summary: Get the ASCT+B table data in JSON format
+      operationId: get-table-data-by-sheetId-and-gId
+      parameters:
+        - $ref: '#/components/parameters/sheetId'
+        - $ref: '#/components/parameters/gId'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableDataResult'
+
+  /v2/{sheetId}/{gId}/graph:
+    get:
+      summary: Get the ASCT+B table data in JSON graph format
+      operationId: get-graph-data-by-sheetId-and-gId
+      parameters:
+        - $ref: '#/components/parameters/sheetId'
+        - $ref: '#/components/parameters/gId'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GraphDataResult'
+
+  /lookup/{ontologyCode}/{termId}:
+    get:
+      summary: Get the information about a term in the ontology
+      operationId: lookup-by-ontologyType-and-termId
+      parameters:
+        - $ref: '#/components/parameters/ontologyCode'
+        - $ref: '#/components/parameters/termId'
+        - $ref: '#/components/parameters/outputFor'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LookupResultGraph'
+
+  /v2/playground:
+    get:
+      summary: Get the ASCT+B reporter playground data in JSON format
+      operationId: playground-get
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableDataResult'
+    post:
+      summary: Get the ASCT+B reporter playground data in JSON format
+      operationId: playground-post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaygroundPostData'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableDataResult'
+
+components:
+  parameters:
+    csvUrl:
+      name: csvUrl
+      description: The URLs of the CSV file or google sheets separated by | (pipe) to get the data.
+      in: query
+      required: true
+      schema:
+        type: string
+
+    output:
+      name: output
+      description: The output format of the data in owl, jsonld, graph or json (default) format.
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+            - owl
+            - jsonld
+            - graph
+            - json
+
+    expanded:
+      name: expanded
+      description: To expand the ontology terms in the data of the json-ld output format. The default is true.
+      in: query
+      required: false
+      schema:
+        type: boolean
+
+    subclasses:
+      name: subclasses
+      description: To include subclasses of the ontology terms in the data of the json-ld output format. The default is true.
+      in: query
+      required: false
+      schema:
+        type: boolean
+
+    sheetId:
+      name: sheetId
+      description: Sheet ID of the google sheet to get the data.
+      in: path
+      required: true
+      schema:
+        type: string
+
+    gId:
+      name: gId
+      description: gId of the google sheet to get the data.
+      in: path
+      required: true
+      schema:
+        type: string
+
+    ontologyCode:
+      name: ontologyCode
+      description: The ontology type of the terms id to get the information.
+      in: path
+      required: true
+      schema:
+        type: string
+        enum:
+            - HGNC
+            - UBERON
+            - CL
+            - FMA
+            - LMHA
+
+    termId:
+      name: termId
+      description: The ontology term id to get the information.
+      in: path
+      required: true
+      schema:
+        type: string
+
+    outputFor:
+      name: output
+      description: The output format of the data in graph.
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+            - graph
+
+  schemas:
+    TableDataResult:
+      type: object
+      description: The result of the CSV file or google sheets.
+      properties:
+        data:
+          type: array
+          description: The data of the CSV file or google sheets in JSON format.
+          items:
+            $ref: '#/components/schemas/RowData'
+        metadata:
+          description: Metadata extracted from google sheet
+          type: object
+          properties:
+            title: { type: string }
+            author_names: { type: array, items: { type: string }}
+            author_orcids:  { type: array, items: { type: string }}
+            reviewer_names:  { type: array, items: { type: string }}
+            reviewer_orcids:  { type: array, items: { type: string }}
+            general_publications:  { type: array, items: { type: string }}
+            data_doi:  { type: string }
+            date:  { type: string }
+            version:  { type: string }
+          additionalProperties: true
+        csv:
+          description: The CSV file is returned as a string.
+          type: string
+        parsedData:
+          description: The CSV file's parsed data is returned as an array of string arrays. where each item is the data in the cell and each string array is a row.
+          type: array
+          items:
+            description: The data in each string array is a row.
+            type: array
+            items:
+              description: The data in each cell.
+              type: string
+        warnings:
+          description: List of warnings generated while parsing
+          type: array
+          items:
+            type: string
+
+    PlaygroundPostData:
+      description: The data to get the ASCT+B visualization JSON Data from the playground table data.
+      type: object
+      properties:
+        data:
+          description: The plyground data is parsed data as an array of string arrays. where each item is the data in the cell and each string array is a row.
+          type: array
+          items:
+            description: The data in each string array is a row.
+            type: array
+            items:
+              description: The data in each cell.
+              type: string
+
+    GraphDataResult:
+      description: The graph data result of the CSV file or google sheets.
+      type: object
+      properties:
+        data:
+          description: The graph data of the CSV file or google sheets in JSON format.
+          type: object
+          properties:
+            nodes:
+              description: The nodes of the graph.
+              type: array
+              items:
+                $ref: '#/components/schemas/GraphNode'
+            edges:
+              description: The edges of the graph in a JSON array with the source and target node ids.
+              type: array
+              items:
+                $ref: '#/components/schemas/GraphEdge'
+
+    RowData:
+      description: The data in each row of the CSV file or google sheets is return as an object with denormalized column names as keys.
+      type: object
+      properties:
+        rowNumber:
+          description: The row number of the CSV file or google sheets.
+          type: integer
+        anatomical_structures:
+          description: The anatomical structures present in the row of the CSV file or google sheets is returned as an array of objects.
+          type: array
+          items:
+            $ref: '#/components/schemas/Structure'
+        cell_types:
+          description: The cell types present in the row of the CSV file or google sheets is returned as an array of objects.
+          type: array
+          items:
+            $ref: '#/components/schemas/Structure'
+        biomarkers:
+          description: The complete biomarkers present in the row of the CSV file or google sheets is returned as an array of objects.
+          type: array
+          items:
+            $ref: '#/components/schemas/Structure'
+        biomarkers_protein:
+          description: The protein biomarkers present in the row of the CSV file or google sheets is returned as an array of objects.
+          type: array
+          items:
+            $ref: '#/components/schemas/Structure'
+        biomarkers_gene:
+          description: The gene biomarkers present in the row of the CSV file or google sheets is returned as an array of objects.
+          type: array
+          items:
+            $ref: '#/components/schemas/Structure'
+        biomarkers_lipids:
+          description: The lipids biomarkers present in the row of the CSV file or google sheets is returned as an array of objects.
+          type: array
+          items:
+            $ref: '#/components/schemas/Structure'
+        biomarkers_meta:
+          description: The meta biomarkers present in the row of the CSV file or google sheets is returned as an array of objects.
+          type: array
+          items:
+            $ref: '#/components/schemas/Structure'
+        biomarkers_prot:
+          description: The prot biomarkers present in the row of the CSV file or google sheets is returned as an array of objects.
+          type: array
+          items:
+            $ref: '#/components/schemas/Structure'
+        references:
+          description: The references present in the row of the CSV file or google sheets is returned as an array of objects.
+          type: array
+          items:
+            $ref: '#/components/schemas/Reference'
+
+    Structure:
+      description: The data in each item of the denormalized column of the CSV file or google sheets is returned as an object with the following keys.
+      type: object
+      required:
+        - name
+        - id
+        - rdfs_label
+      properties:
+        name:
+          description: The data in the columns in the format of '*/n' is tagged as 'name'. (n is the index starting from 1).
+          example: 'AS/1, AS/2, AS/3, CT/1, CT/2, CT/3, BGene/1, BGene/2, BProteim/1 ...'
+          type: string
+        id:
+          description: The data in the columns in the format of '*/n/ID' is tagged as 'id'. (n is the index starting from 1).
+          example: 'AS/1/ID, AS/2/ID, AS/3/ID, CT/1/ID, CT/2/ID, CT/3/ID, BGene/1/ID, BGene/2/ID, BProteim/1/ID ...'
+          type: string
+        rdfs_label:
+          description: The data in the columns in the format of '*/n/LABEL' is tagged as 'rdfs_label'. (n is the index starting from 1).
+          type: string
+        b_type:
+          description: The data in the biomarker columns will have a 'b_type' key with the value of type of the biomarker.
+          example: 'protein, gene, lipids, metabolites, proteoforms'
+          type: string
+
+    Reference:
+      description: The data in each item of the references key in the json data is returned as an object with the following keys.
+      type: object
+      properties:
+        id:
+          description: The data in the columns in the format of 'REF/n' is tagged as 'id'. (n is the index starting from 1).
+          type: string
+        doi:
+          description: The data in the columns in the format of 'REF/n/DOI' is tagged as 'doi'. (n is the index starting from 1).
+          type: string
+        notes:
+          description: The data in the columns in the format of 'REF/n/NOTES' is tagged as 'notes'. (n is the index starting from 1).
+          type: string
+
+    GraphNode:
+      description: The graph nodes in the json data is returned as an array of objects with each object containing following keys.
+      type: array
+      items:
+        $ref: '#/components/schemas/GraphNodeItem'
+
+    GraphNodeItem:
+      type: object
+      required:
+        - id
+        - type
+        - name
+      properties:
+        id:
+          description: The id of the graph node.
+          type: string
+        type:
+          description: The type of the graph node is tagged from the column name.
+          example: 'AS, CT, BM'
+          type: string
+        name:
+          description: The name of the graph node data in the columns in the format of '*/n' is tagged as 'name'. (n is the index starting from 1).
+          type: string
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+
+    Metadata:
+      description: The metadata of the graph node is as an object with the following keys.
+      type: object
+      required:
+        - name
+        - ontologyId
+        - ontologyType
+        - OntologyTypeId
+        - label
+      properties:
+        name:
+          description: The name of the graph node data in the columns in the format of '*/n' is tagged as 'name'. (n is the index starting from 1).
+          type: string
+        ontologyId:
+          description: The ontology id of the graph node data in the columns in the format of '*/n/ID' is tagged as 'ontologyId'. (n is the index starting from 1).
+          type: string
+        ontologyType:
+          description: The ontology type of the graph node data in the columns in the format of '*/n/ID' is denormalized into the type of ontology is tagged as 'ontologyType'. (n is the index starting from 1)
+          example: 'HGNC, UBERON, CL, FMA'
+          type: string
+        OntologyTypeId:
+          description: The ontologyId is split into the ontologyType and the ontologyTypeId by ':'.
+          type: string
+        label:
+          description: The label of the graph node data in the columns in the format of '*/n/LABEL' is tagged as 'label'. (n is the index starting from 1).
+          type: string
+        referenes:
+          description: The references present in the row of the CSV file or google sheets is returned as an array of objects.
+          type: array
+          items:
+            $ref: '#/components/schemas/Reference'
+
+    GraphEdge:
+      description: The graph edges in the json data is returned as an array of objects with each object containing following keys.
+      type: array
+      items:
+        $ref: '#/components/schemas/GraphEdgeItem'
+
+    GraphEdgeItem:
+      description: Each graph edge is returned as an object with the following keys.
+      type: object
+      required:
+        - source
+        - target
+      properties:
+        source:
+          description: The source id of the graph edge.
+          type: integer
+        target:
+          description: The target id of the graph edge.
+          type: integer
+
+    LookupResult:
+      description: The lookup result is returned as an object with the following keys.
+      type: object
+      properties:
+        label:
+          description: The label of the graph node data in the columns in the format of '*/n/LABEL' is tagged as 'label'.(n is the index starting from 1).
+          type: string
+        link:
+          description: The ontology url obtained from the ontology id.
+          type: string
+          format: uri
+        description:
+          description: The description about the ontology term.
+          type: string
+        extraLinks:
+          description: The extra links (Uniprot, Entrez) about the ontology term.
+          type: object
+          properties:
+            Uniprot Link:
+              description: The uniprot link of the ontology term.
+              type: string
+              format: uri
+            Entrez Link:
+              description: The entrez link of the ontology term.
+              type: string
+              format: uri
+
+    LookupResultGraph:
+      description: The lookup result graph is returned as an object with the following keys.
+      type: object
+      properties:
+        label:
+          description: The label of the graph node data in the columns in the format of '*/n/LABEL' is tagged as 'label'.(n is the index starting from 1).
+          type: string
+        link:
+          description: The ontology url obtained from the ontology id.
+          type: string
+          format: uri
+        description:
+          description: The description about the ontology term.
+          type: string
+        additionalInfo:
+          description: The additional information about the ontology term.
+          type: object
+        extraLinks:
+          description: The extra links (Uniprot, Entrez) about the ontology term.
+          type: object
+          properties:
+            Uniprot Link:
+              description: The uniprot link of the ontology term.
+              type: string
+              format: uri
+            Entrez Link:
+              description: The entrez link of the ontology term.
+              type: string
+              format: uri

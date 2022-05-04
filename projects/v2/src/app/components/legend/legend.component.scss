@@ -25,6 +25,12 @@
   display: inline-block;
 }
 
+.rect {
+  height: 0.125rem;
+  width: 0.9375rem;
+  display: inline-block;
+}
+
 .protein {
   height: 1.063rem;
   width: 1.063rem;
@@ -43,7 +49,7 @@
   background-position: -0.438rem -0.438rem;
 }
 
-.metalloids {
+.metabolites {
   height: 1.063rem;
   width: 1.063rem;
   background-image: url(../../../assets/legends/triangleSymbol.svg);

@@ -1,13 +1,13 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { SHEET_OPTIONS, MASTER_SHEET_LINK } from '../../static/config';
 import { VIDEO_ACTIONS, CONTIRBUTORS, IMAGES } from '../../static/home';
 import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faGlobe, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { Router } from '@angular/router';
-import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { YouTubePlayer } from '@angular/youtube-player';
+import { ConfigService } from '../../app-config.service';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +17,6 @@ import { YouTubePlayer } from '@angular/youtube-player';
 export class HomeComponent implements OnInit, AfterViewInit {
   window = window;
   dataVersion = 'latest';
-  SHEET_OPTIONS = SHEET_OPTIONS;
   VIDEO_ACTIONS = VIDEO_ACTIONS;
   CONTIRBUTORS = CONTIRBUTORS;
   IMAGES = IMAGES;
@@ -31,10 +30,25 @@ export class HomeComponent implements OnInit, AfterViewInit {
   faEnvelope = faEnvelope;
 
   copyrightYear = new Date().getFullYear();
+  masterSheetLink;
+  sheetOptions;
 
   @ViewChild('tutorialVideo') player: YouTubePlayer;
 
-  constructor(private router: Router, public ga: GoogleAnalyticsService) { }
+  constructor(public configService: ConfigService, private readonly router: Router, public ga: GoogleAnalyticsService) { 
+    
+    this.configService.config$.subscribe(config=>{
+      this.masterSheetLink = config.masterSheetLink;
+    });
+
+    this.configService.sheetConfiguration$.subscribe(data=>{
+      const filteredData = data.map((element) => {
+        return {...element, version: element.version?.filter((version) => !version.viewValue.includes('DRAFT'))};
+      });
+      this.sheetOptions = filteredData.filter(organ => organ.version !== undefined);
+      this.sheetOptions = this.sheetOptions.filter(organ => organ.version.length !== 0);
+    });
+  }
 
   ngOnInit(): void {
 
@@ -53,7 +67,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.player.seekTo(seconds, true);
     this.player.playVideo();
 
-    this.ga.eventEmitter('home_video_section', GaCategory.HOME, 'Jump to video section', GaAction.CLICK, VIDEO_ACTIONS[id].header);
+    this.ga.event(GaAction.CLICK, GaCategory.HOME, `Jump to video section: ${VIDEO_ACTIONS[id].header}`);
   }
 
   openGithub() {
@@ -61,21 +75,21 @@ export class HomeComponent implements OnInit, AfterViewInit {
       'https://github.com/hubmapconsortium/ccf-asct-reporter',
       '_blank'
     );
-    this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Github', GaAction.NAV);
+    this.ga.event(GaAction.NAV, GaCategory.HOME, 'Open Github');
   }
 
 
   openDocs() {
     this.router.navigate(['/docs']);
-    this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Docs', GaAction.NAV);
+    this.ga.event(GaAction.NAV, GaCategory.HOME, 'Open Docs');
   }
 
   openData() {
     window.open(
-      MASTER_SHEET_LINK,
+      this.masterSheetLink,
       '_blank'
     );
-    this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Master Tables', GaAction.NAV);
+    this.ga.event(GaAction.NAV, GaCategory.HOME, 'Open Master Tables');
   }
 
   openDataOld() {
@@ -83,7 +97,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
       'https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1268820100',
       '_blank'
     );
-    this.ga.eventEmitter('home_link_click', GaCategory.HOME, 'Open Old Data Tables', GaAction.NAV);
+    this.ga.event(GaAction.NAV, GaCategory.HOME, 'Open Old Data Tables');
+  }
+
+  goToPlayground() {
+    this.router.navigate(['/vis'], {
+      queryParams: {  playground: 'true', selectedOrgans: 'example' },
+      queryParamsHandling: 'merge',
+    });
+    this.ga.event(GaAction.NAV, GaCategory.HOME, 'Launch Playground Tool');
   }
 
   onResize(e) {

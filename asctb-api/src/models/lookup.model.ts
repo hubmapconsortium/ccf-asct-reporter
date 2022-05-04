@@ -2,6 +2,7 @@ export interface LookupResponse {
   label: string;
   description: string;
   link: string;
+  additionalInfo?: string;
   extraLinks?: Record<string, string>;
 }
 

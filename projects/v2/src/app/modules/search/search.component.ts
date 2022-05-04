@@ -7,7 +7,7 @@ import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { SearchStructure, TNode } from '../../models/tree.model';
 import { DiscrepencyId, DiscrepencyLabel, DoSearch, DuplicateId } from '../../actions/tree.actions';
 import { BMNode } from '../../models/bimodal.model';
-import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { CloseSearch, OpenSearch } from '../../actions/ui.actions';
@@ -105,7 +105,7 @@ export class SearchComponent {
     // Build values for search bar UI text
     this.selectedValues = this.selectedOptions.map(obj => obj.name).join(', ');
 
-    this.ga.eventEmitter('nav_search_filter_select', GaCategory.NAVBAR, 'Select/Deselect Search Filters', GaAction.CLICK);
+    this.ga.event(GaAction.CLICK, GaCategory.NAVBAR, 'Select/Deselect Search Filters');
   }
 
   selectFirstOption() {
@@ -122,7 +122,7 @@ export class SearchComponent {
     this.selectionMemory = [];
     this.selectedValues = '';
     this.store.dispatch(new DoSearch(this.selectedOptions, null));
-    this.ga.eventEmitter('nav_search_deselect_all', GaCategory.NAVBAR, 'Deselect All Search Filters', GaAction.CLICK);
+    this.ga.event(GaAction.CLICK, GaCategory.NAVBAR, 'Deselect All Search Filters');
   }
 
   selectAllOptions() {
@@ -130,7 +130,7 @@ export class SearchComponent {
     this.selectionMemory = this.selectedOptions.slice();
     this.selectedValues = this.selectedOptions.map(obj => obj.name).join(', ');
     this.store.dispatch(new DoSearch(this.selectedOptions, this.selectedOptions[0]));
-    this.ga.eventEmitter('nav_search_select_all', GaCategory.NAVBAR, 'Select All Searched Options', GaAction.CLICK);
+    this.ga.event(GaAction.CLICK, GaCategory.NAVBAR, 'Select All Searched Options');
   }
 
   openSearchList() {
@@ -205,11 +205,11 @@ export class SearchComponent {
     this.searchFilteredStructures = this.structures.filter(structures =>
       structures.name.toLowerCase().includes(this.searchValue.toLowerCase()));
     // This event fires for every letter typed
-    this.ga.eventEmitter('nav_search_term', GaCategory.NAVBAR, 'Search term typed in', GaAction.INPUT, this.searchValue);
+    this.ga.event(GaAction.INPUT, GaCategory.NAVBAR, `Search term typed in: ${this.searchValue}`);
   }
 
   filterToggleChange(value: string[]) {
-    this.ga.eventEmitter('nav_search_group_toggle', GaCategory.NAVBAR, 'Structure Group Name Toggle', GaAction.TOGGLE, this.searchValue);
+    this.ga.event(GaAction.TOGGLE, GaCategory.NAVBAR, `Structure Group Name Toggle: ${this.searchValue}`);
 
     if (value.length === 0) {
       this.groupFilteredStructures = this.structures.slice();

@@ -1,30 +1,40 @@
+import { HttpClientModule } from '@angular/common/http';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { SheetState } from './store/sheet.state';
-import { TreeState } from './store/tree.state';
-import { NgxsModule } from '@ngxs/store';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
-import { NgxsDataPluginModule } from '@ngxs-labs/data';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { NgxsModule } from '@ngxs/store';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MarkdownModule } from 'ngx-markdown';
+import { NgxsResetPluginModule } from 'ngxs-reset-plugin';
 
-import { GoogleAnalyticsService } from './services/google-analytics.service';
-
+import { environment } from '../environments/environment';
+import { ConfigService } from './app-config.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { UIState } from './store/ui.state';
-import { NgxsResetPluginModule } from 'ngxs-reset-plugin';
-import { LogsState } from './store/logs.state';
-import { MarkdownModule } from 'ngx-markdown';
-import { environment } from '../environments/environment';
+import { FileUploadModule } from './components/file-upload/file-upload.module';
+import { FooterModule } from './components/footer/footer.module';
+import { HomeModule } from './components/home/home.module';
+import { OrganTableSelectorModule } from './components/organ-table-selector/organ-table-selector.module';
+import { TrackingPopupModule } from './components/tracking-popup/tracking-popup.module';
 import { DocsModule } from './modules/docs/docs.module';
 import { RootModule } from './modules/root/root.module';
-import { HomeModule } from './components/home/home.module';
-import { FooterModule } from './components/footer/footer.module';
-import { FileUploadModule } from './components/file-upload/file-upload.module';
-import { OrganTableSelectorModule } from './components/organ-table-selector/organ-table-selector.module';
+import { AnalyticsModule } from './services/analytics.module';
+import { MousePositionTrackerModule } from './services/mouse-position-tracker.module';
+import { LogsState } from './store/logs.state';
+import { SheetState } from './store/sheet.state';
+import { TreeState } from './store/tree.state';
+import { UIState } from './store/ui.state';
+
+
+export function initializeApp(configService: ConfigService): () => Promise<void> {
+  return () => Promise.all([
+    configService.sheetConfiguration$.toPromise(),
+    configService.config$.toPromise()
+  ]).then(() => { });
+}
 
 @NgModule({
   declarations: [
@@ -49,9 +59,16 @@ import { OrganTableSelectorModule } from './components/organ-table-selector/orga
     HomeModule,
     FileUploadModule,
     OrganTableSelectorModule,
-    FooterModule
+    FooterModule,
+    AnalyticsModule.forRoot({
+      gaToken: environment.googleAnalyticsId,
+      appName: 'reporter'
+    }),
+    TrackingPopupModule,
+    MousePositionTrackerModule
   ],
-  providers: [GoogleAnalyticsService],
+  providers: [ConfigService,
+    { provide: APP_INITIALIZER, useFactory: initializeApp, deps: [ConfigService], multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

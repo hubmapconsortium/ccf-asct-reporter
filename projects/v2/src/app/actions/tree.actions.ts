@@ -61,6 +61,7 @@ export class UpdateLinksData {
     public AS_CT_organWise: Record<string, number>,
     public CT_B_organWise: Record<string, number>,
     public AS_AS?: number,
-    public AS_AS_organWise?: Record<string, number>
+    public AS_AS_organWise?: Record<string, number>,
+    public allOrgans?: boolean
   ) {}
 }

@@ -1,5 +1,5 @@
 import { NODE_TYPE } from './tree.model';
-import { Reference } from './sheet.model';
+import { PROTEIN_PRESENCE, Reference } from './sheet.model';
 
 const groupNameMapper = {
   1: 'Anatomical Structures',
@@ -31,6 +31,7 @@ export class BMNode {
   outdegree?: any;
   label?: string;
   bType?: string;
+  proteinPresence: PROTEIN_PRESENCE;
   references?: Reference[];
   notes: string;
   organName: string;
@@ -45,7 +46,8 @@ export class BMNode {
     organName,
     ontologyId = '',
     color = '#E41A1C',
-    nodeSize = 300
+    nodeSize = 300,
+    proteinPresence = PROTEIN_PRESENCE.UNKNOWN,
   ) {
     this.name = name;
     this.group = group;
@@ -64,6 +66,7 @@ export class BMNode {
     this.label = '';
     this.notes = notes;
     this.organName = organName;
+    this.proteinPresence = proteinPresence;
   }
 }
 
@@ -86,7 +89,7 @@ export interface ASCTD {
 export const bimodalSortOptions = ['Alphabetically', 'Degree'];
 export const bimodalBSizeOptions = ['None', 'Degree'];
 export const bimodalCTSizeOptions = ['None', 'Degree', 'Indegree', 'Outdegree'];
-export const bimodalBTypeOptions = ['All', 'Gene', 'Protein', 'Lipids', 'Metalloids', 'Proteoforms'];
+export const bimodalBTypeOptions = ['All', 'Gene', 'Protein', 'Lipids', 'Metabolites', 'Proteoforms'];
 
 export interface BimodalConfig {
   CT: {

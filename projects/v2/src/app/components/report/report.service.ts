@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Sheet, Row, CompareData } from '../../models/sheet.model';
-import { Report } from '../../models/report.model';
+import { Sheet, Row, CompareData, Structure } from '../../models/sheet.model';
+import { EnityWithNoOtherEntity, Report } from '../../models/report.model';
 import {
   makeAS,
   makeCellTypes,
@@ -16,10 +16,16 @@ export class ReportService {
   reportData$ = this.reportData.asObservable();
   private compareData = new Subject<any>();
   compareData$ = this.compareData.asObservable();
-
+  BM_TYPE =  {
+    'gene' : 'BG',
+    'protein' : 'BP',
+    'lipids' : 'BL',
+    'metabolites' : 'BM',
+    'proteoforms' : 'BF',
+  }
   constructor() {}
 
-  async makeReportData(currentSheet: Sheet, data: any, biomarkerType?: string) {
+  async makeReportData(currentSheet: Sheet, data: any, biomarkerType?: string, isReportNotOrganWise = false) {
     const output: Report = {
       anatomicalStructures: [],
       cellTypes: [],
@@ -27,16 +33,21 @@ export class ReportService {
       ASWithNoLink: [],
       CTWithNoLink: [],
       BWithNoLink: [],
+      ASWithNoCT: [],
+      CTWithNoB: [],
     };
 
     try {
-      output.anatomicalStructures = makeAS(data, true);
-      output.cellTypes = makeCellTypes(data, true);
-      output.biomarkers = makeBioMarkers(data, biomarkerType, true);
+      output.anatomicalStructures = makeAS(data, true, isReportNotOrganWise);
+      output.cellTypes = makeCellTypes(data, true, isReportNotOrganWise);
+      output.biomarkers = makeBioMarkers(data, biomarkerType, true, isReportNotOrganWise);
 
       output.ASWithNoLink = this.getASWithNoLink(output.anatomicalStructures);
       output.CTWithNoLink = this.getCTWithNoLink(output.cellTypes);
       output.BWithNoLink = this.getBMWithNoLink(output.biomarkers);
+      const {asWithNoCT, ctWithNoB} = this.getASWithNoCT(data);
+      output.ASWithNoCT = asWithNoCT;
+      output.CTWithNoB = ctWithNoB;
 
       this.reportData.next({
         data: output,
@@ -46,6 +57,18 @@ export class ReportService {
       console.log(err);
       throw err;
     }
+  }
+
+  countsGA(data) {
+    const output = {
+      AS : 0,
+      CT : 0,
+      B : 0,
+    };
+    output.AS = makeAS(data, true).length;
+    output.CT = makeCellTypes(data, true).length;
+    output.B = makeBioMarkers(data).length;
+    return output;
   }
 
   countOrganWise(acc, curr, type) {
@@ -72,7 +95,7 @@ export class ReportService {
     }, {});
   }
 
-  makeAllOrganReportDataByOrgan(reportData: any, asFullData: any) {
+  makeAllOrganReportDataByOrgan(sheetData: Row[], asFullData: any) {
     const result = {
       anatomicalStructures: [],
       cellTypes: [],
@@ -80,39 +103,56 @@ export class ReportService {
       ASWithNoLink: [],
       CTWithNoLink: [],
       BWithNoLink: [],
+      ASWithNoCT: [],
+      CTWithNoB: [],
     };
 
     try {
-      result.anatomicalStructures = makeAS(asFullData, true).reduce(
+      const as = makeAS(asFullData, true);
+      const ct = makeCellTypes(sheetData, true, false);
+      const b = makeBioMarkers(sheetData, 'All', true, false);
+      result.anatomicalStructures = as.reduce(
         (acc, curr) => {
           return this.countOrganWise(acc, curr, 'anatomicalStructures');
         },
         []
       );
-      result.ASWithNoLink = reportData.ASWithNoLink.reduce((acc, curr) => {
+      result.ASWithNoLink = this.getASWithNoLink(as).reduce((acc, curr) => {
         return this.countOrganWise(acc, curr, 'ASWithNoLink');
       }, []);
-      result.BWithNoLink = reportData.BWithNoLink.reduce((acc, curr) => {
-        return this.countOrganWise(acc, curr, 'BWithNoLink');
+      const {asWithNoCT, ctWithNoB} = this.getASWithNoCT(asFullData);
+      result.ASWithNoCT = asWithNoCT.reduce((acc, curr) => {
+        return this.countOrganWise(acc, curr, 'ASWithNoCT');
       }, []);
-      result.CTWithNoLink = reportData.CTWithNoLink.reduce((acc, curr) => {
-        return this.countOrganWise(acc, curr, 'CTWithNoLink');
+
+      result.CTWithNoB = ctWithNoB.reduce((acc, curr) => {
+        return this.countOrganWise(acc, curr, 'CTWithNoB');
       }, []);
+
       const biomarkersSeperate = this.countSeperateBiomarkers(
-        reportData.biomarkers
+        b
       );
       const biomarkersSeperateNames = [];
       Object.keys(biomarkersSeperate).forEach((bType) => {
         result[bType] = biomarkersSeperate[bType].reduce((acc, curr) => {
           return this.countOrganWise(acc, curr, bType);
         }, []);
-        biomarkersSeperateNames.push(bType);
+        biomarkersSeperateNames.push({
+          'type' : this.BM_TYPE[bType],
+          'name' : bType, 
+        });
       });
-      result.biomarkers = reportData.biomarkers.reduce((acc, curr) => {
+      result.biomarkers = b.reduce((acc, curr) => {
         return this.countOrganWise(acc, curr, 'biomarkers');
       }, []);
-      result.cellTypes = reportData.cellTypes.reduce((acc, curr) => {
+      result.cellTypes = ct.reduce((acc, curr) => {
         return this.countOrganWise(acc, curr, 'cellTypes');
+      }, []);
+      result.BWithNoLink = this.getCTWithNoLink(ct).reduce((acc, curr) => {
+        return this.countOrganWise(acc, curr, 'BWithNoLink');
+      }, []);
+      result.CTWithNoLink = this.getBMWithNoLink(b).reduce((acc, curr) => {
+        return this.countOrganWise(acc, curr, 'CTWithNoLink');
       }, []);
       return {result, biomarkersSeperateNames};
     } catch (err) {
@@ -322,4 +362,61 @@ export class ReportService {
     });
     return noLinks;
   }
+
+  getASWithNoCT(data) {
+    const asWithNoCT: EnityWithNoOtherEntity[] = [];
+    const ctWithNoB: EnityWithNoOtherEntity[] = [];
+    try {
+      data.forEach((row: Row) => {
+        if (row.cell_types.length === 0) {
+          const asLeaf: Structure = row.anatomical_structures[row.anatomical_structures.length - 1];
+          let foundIndex:number;
+          if (asLeaf.id) {
+            foundIndex = asWithNoCT.findIndex((i: EnityWithNoOtherEntity) => {
+              return i.link === asLeaf.id && (i.organName === row.organName);
+            });
+          } else {
+            foundIndex = asWithNoCT.findIndex((i: EnityWithNoOtherEntity) => {
+              return i.structure === asLeaf.name && (i.organName === row.organName);
+            });
+          }
+          if (foundIndex === -1) {
+            asWithNoCT.push({
+              structure: asLeaf.name,
+              link: asLeaf.id,
+              label: asLeaf.rdfs_label,
+              organName: row.organName
+            });
+          }
+        }
+        if (row.biomarkers.length === 0) {
+          row.cell_types.forEach((ct: Structure) => {
+            let foundIndex:number;
+            if (ct.id) {
+              foundIndex = ctWithNoB.findIndex((i: EnityWithNoOtherEntity) => {
+                return i.link === ct.id && (i.organName === row.organName);
+              });
+            } else {
+              foundIndex = ctWithNoB.findIndex((i: EnityWithNoOtherEntity) => {
+                return i.structure === ct.name && (i.organName === row.organName);
+              });
+            }
+            if (foundIndex === -1) {
+              ctWithNoB.push({
+                structure: ct.name,
+                link: ct.id,
+                label: ct.rdfs_label,
+                organName: row.organName
+              });
+            }
+          });
+        }
+      });
+  
+      return { asWithNoCT, ctWithNoB };
+    } catch (error) {
+      throw new Error(`Could not process Sheet Data - ${error}`);
+    }
+  }
+
 }

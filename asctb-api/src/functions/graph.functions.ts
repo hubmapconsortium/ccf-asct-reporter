@@ -11,8 +11,10 @@ export function buildgraphAS(data: Row[], graphData: GraphData) {
     0,
     data[0].anatomical_structures[0].id,
     data[0].anatomical_structures[0].rdfs_label,
-    Node_type.R
+    Node_type.R,
+    []
   );
+  const idNameSet: { [key: string]: string; } = {};
   root.comparator = root.metadata.name;
   root.comparatorName = root.metadata.name;
   root.comparatorId = root.metadata.ontologyId;
@@ -41,16 +43,19 @@ export function buildgraphAS(data: Row[], graphData: GraphData) {
         id += 1;
         const newNode = new GNode(
           id,
-          structure.name,
+          structure.id && idNameSet[structure.id] ? idNameSet[structure.id]  : structure.name,
           parent.id,
           structure.id,
           structure.rdfs_label,
-          Node_type.AS
+          Node_type.AS,
+          row.references
         );
         newNode.comparatorName = parent.comparatorName + newNode.metadata.name;
         newNode.comparatorId =
           parent.comparatorId + newNode.metadata.ontologyId;
-
+        if (idNameSet[newNode.metadata.ontologyId] === undefined) {
+          idNameSet[newNode.metadata.ontologyId] = newNode.name;
+        }
         graphData.nodes.push(newNode);
         graphData.edges.push({ source: parent.id, target: id });
         parent = newNode;
@@ -93,7 +98,8 @@ export function buildgraphCT(data: Row[], graphData: GraphData, id: number) {
             parent.id,
             structure.id,
             structure.rdfs_label,
-            Node_type.CT
+            Node_type.CT,
+            row.references
           );
           newNode.comparatorName = newNode.metadata.name;
           newNode.comparatorId = newNode.metadata.ontologyId;
@@ -123,7 +129,7 @@ export function buildgraphBM(data: Row[], graphData: GraphData, id: number) {
 
         row.biomarkers.forEach((biomarker) => {
           let s: number;
-          if (structure.id) {
+          if (structure.id)  {
             s = graphData.nodes.findIndex(
               (i: any) => i.comparatorId === biomarker.id
             );
@@ -140,7 +146,9 @@ export function buildgraphBM(data: Row[], graphData: GraphData, id: number) {
               parent.id,
               biomarker.id,
               biomarker.rdfs_label,
-              biomarker.b_type ?? Node_type.BM
+              Node_type.BM,
+              row.references,
+              biomarker.b_type
             );
             newNode.comparatorName = newNode.metadata.name;
             newNode.comparatorId = newNode.metadata.ontologyId;

@@ -1,18 +1,21 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { SHEET_OPTIONS, VERSION, MORE_OPTIONS, IMG_OPTIONS, PLAYGROUND_SHEET_OPTIONS, MASTER_SHEET_LINK, SHEET_CONFIG } from '../../static/config';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { SheetState, SheetStateModel } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
 import { Sheet, SheetDetails, VersionDetail } from '../../models/sheet.model';
 import { Router } from '@angular/router';
-import { FetchSheetData, FetchAllOrganData, FetchSelectedOrganData } from '../../actions/sheet.actions';
+import { UpdateGetFromCache } from '../../actions/sheet.actions';
 import { ToggleControlPane, ToggleIndentList, ToggleReport, ToggleDebugLogs, OpenCompare } from '../../actions/ui.actions';
 import { UIState, UIStateModel } from '../../store/ui.state';
 import { ClearSheetLogs } from '../../actions/logs.actions';
-import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { OrganTableSelectorComponent } from '../../components/organ-table-selector/organ-table-selector.component';
+import { ConfigService } from '../../app-config.service';
+import { SheetService } from '../../services/sheet.service';
+
+
 
 @Component({
   selector: 'app-navbar',
@@ -23,19 +26,19 @@ export class NavbarComponent implements OnInit {
   /**
    * Available Data versions (depricated)
    */
-  VERSIONS = VERSION;
+  versions;
   /**
    * Menu options
    */
-  MORE_OPTIONS = MORE_OPTIONS;
+  moreOptions;
   /**
    * Export options
    */
-  IMG_OPTIONS = IMG_OPTIONS;
+  imgOptions;
   /**
    * Sheet configs
    */
-  SHEET_OPTIONS = SHEET_OPTIONS;
+  sheetOptions;
   /**
    * Document window object
    */
@@ -65,23 +68,44 @@ export class NavbarComponent implements OnInit {
    */
   selectedOrgansValues: string;
 
+  sheetConfig:SheetDetails[];
+
   // state observables
   @Select(SheetState) sheet$: Observable<SheetStateModel>;
   @Select(UIState) ui$: Observable<UIStateModel>;
   @Select(SheetState.getMode) mode$: Observable<string>;
   @Select(SheetState.getSelectedOrgans) selectedOrgans$: Observable<Array<string>>;
 
+  @Input() cache: boolean;
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
+  playgroundSheetOptions: any;
+  masterSheetLink;
 
-  constructor(public store: Store, public router: Router, public ga: GoogleAnalyticsService, public dialog: MatDialog,
-  ) {}
+  constructor(public sheetservice: SheetService, public configService: ConfigService,public store: Store, public router: Router, public ga: GoogleAnalyticsService, public dialog: MatDialog,
+  ) {
+
+    this.configService.sheetConfiguration$.subscribe(data=>{
+      this.sheetConfig = data;
+      this.sheetOptions = data;
+    });
+
+    this.configService.config$.subscribe(config => {
+      this.versions = config.version;
+      this.moreOptions = config.moreOptions;
+      this.imgOptions = config.imgOptions;
+      this.playgroundSheetOptions = config.playgroundSheetOptions;
+      this.masterSheetLink = config.masterSheetLink;
+    });
+
+
+  }
 
   ngOnInit(): void {
     this.sheet$.subscribe((sheet) => {
       if (sheet.sheet) {
         this.currentSheet = sheet.sheet;
         this.selectedSheetOption = sheet.sheet.display;
-        this.selectedVersion = this.VERSIONS.find(
+        this.selectedVersion = this.versions.find(
           (s) => s.folder === sheet.version
         ).display;
       }
@@ -90,10 +114,7 @@ export class NavbarComponent implements OnInit {
     this.mode$.subscribe((mode) => {
       this.mode = mode;
       if (mode === 'playground') {
-        this.SHEET_OPTIONS = PLAYGROUND_SHEET_OPTIONS;
-      }
-      if (mode === 'vis') {
-        this.SHEET_OPTIONS = SHEET_OPTIONS;
+        this.sheetOptions = this.playgroundSheetOptions;
       }
     });
 
@@ -101,7 +122,7 @@ export class NavbarComponent implements OnInit {
       this.selectedOrgans = organs;
       const selectedOrgansNames = [];
       for (const organ of organs) {
-        SHEET_CONFIG.forEach((config: SheetDetails) => {
+        this.sheetConfig.forEach((config: SheetDetails) => {
           config.version?.forEach((version: VersionDetail) => {
             if (version.value === organ) {
               selectedOrgansNames.push(config.display);
@@ -115,17 +136,17 @@ export class NavbarComponent implements OnInit {
   }
 
   getSheetSelection(sheet, event) {
-    const selectedSheet = SHEET_OPTIONS.find((s) => s.title === sheet);
+    const selectedSheet = this.sheetOptions.find((s) => s.name === sheet);
     this.store.dispatch(new ClearSheetLogs());
     this.router.navigate(['/vis'], {
       queryParams: { sheet: selectedSheet.sheet },
       queryParamsHandling: 'merge',
     });
-    this.ga.eventEmitter('nav_select_sheet', GaCategory.NAVBAR, 'Select Organ Set Dropdown', GaAction.CLICK, selectedSheet.sheet);
+    this.ga.event(GaAction.CLICK, GaCategory.NAVBAR, `Select Organ Set Dropdown: ${selectedSheet.sheet}`);
   }
 
   getVersionSelection(version, event) {
-    const selectedVersion = this.VERSIONS.find((s) => s.display === version);
+    const selectedVersion = this.versions.find((s) => s.display === version);
     this.router.navigate(['/vis'], {
       queryParams: { version: selectedVersion.folder },
       queryParamsHandling: 'merge',
@@ -133,19 +154,16 @@ export class NavbarComponent implements OnInit {
   }
 
   openMasterDataTables() {
-    this.ga.eventEmitter('nav_master_data', GaCategory.NAVBAR, 'Go to Master Data Tables', GaAction.NAV, null);
-    window.open(MASTER_SHEET_LINK, '_blank');
+    this.ga.event(GaAction.NAV, GaCategory.NAVBAR, 'Go to Master Data Tables', null);
+    window.open(this.masterSheetLink, '_blank');
   }
 
   refreshData() {
-    if (this.mode === 'vis' && this.currentSheet.name === 'all') {
-      this.store.dispatch(new FetchAllOrganData(this.currentSheet));
-    } else if (this.mode === 'vis' && this.currentSheet.name === 'some') {
-      this.store.dispatch(new FetchSelectedOrganData(this.currentSheet, this.selectedOrgans));
-    } else {
-      this.store.dispatch(new FetchSheetData(this.currentSheet));
-    }
-    this.ga.eventEmitter('nav_refresh', GaCategory.NAVBAR, 'Refresh Visualization Button', GaAction.CLICK, null);
+    this.router.navigate(['/vis'], {
+      queryParams: {  selectedOrgans: this.selectedOrgans?.join(','), playground: false},
+    });
+    
+    this.ga.event(GaAction.CLICK, GaCategory.NAVBAR, 'Refresh Visualization Button', null);
   }
 
   togglePane() {
@@ -170,7 +188,7 @@ export class NavbarComponent implements OnInit {
 
   exportImage(imageType: string) {
     this.export.emit(imageType);
-    this.ga.eventEmitter('nav_export_image', GaCategory.NAVBAR, 'Export Image', GaAction.CLICK, imageType);
+    this.ga.event(GaAction.CLICK, GaCategory.NAVBAR, `Export Image: ${imageType}`, 0);
   }
 
   onOptionClick(type: string, url: string) {
@@ -191,10 +209,15 @@ export class NavbarComponent implements OnInit {
     config.autoFocus = true;
     config.id = 'OrganTableSelector';
     config.width = '40vw';
-    config.data = this.selectedOrgans;
+    config.data = {
+      organs: this.selectedOrgans, 
+      isIntilalSelect: false,
+      getFromCache: this.cache,
+    };
 
     const dialogRef = this.dialog.open(OrganTableSelectorComponent, config);
-    dialogRef.afterClosed().subscribe((organs) => {
+    dialogRef.afterClosed().subscribe(({organs,cache}) => {
+      this.store.dispatch(new UpdateGetFromCache(cache));
       if(organs !== false){
         this.router.navigate(['/vis'], {
           queryParams: {
@@ -213,7 +236,7 @@ export class NavbarComponent implements OnInit {
         queryParams: {  playground: true, selectedOrgans: 'example'},
         queryParamsHandling: 'merge',
       });
-      this.ga.eventEmitter('nav_enter_playground', GaCategory.NAVBAR, 'Enter Playground Mode', GaAction.NAV, null);
+      this.ga.event(GaAction.NAV, GaCategory.NAVBAR, 'Enter Playground Mode', null);
     } else if (this.mode === 'playground') {
       this.router.navigate(['/vis'], {
         queryParams: {
@@ -222,7 +245,7 @@ export class NavbarComponent implements OnInit {
         },
         queryParamsHandling: 'merge',
       });
-      this.ga.eventEmitter('nav_exit_playground', GaCategory.NAVBAR, 'Exit Playground Mode', GaAction.NAV, null);
+      this.ga.event(GaAction.NAV, GaCategory.NAVBAR, 'Exit Playground Mode', null);
     }
   }
 }

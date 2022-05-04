@@ -2,14 +2,31 @@ enum BM_TYPE {
   G = 'gene',
   P = 'protein',
   BL = 'lipids',
-  BM = 'metalloids',
+  BM = 'metabolites',
   BF = 'proteoforms'
+}
+
+export enum PROTEIN_PRESENCE {
+  POS = 'Positive',
+  NEG = 'Negative',
+  UNKNOWN = 'Unknown'
 }
 
 export interface Reference {
   id?: string;
   doi?: string;
   notes?: string;
+}
+
+export interface OrganTableSelect {
+  organs?: string[];
+  isIntilalSelect: boolean;
+  getFromCache: boolean;
+}
+
+export interface OrganTableOnClose {
+  organs: boolean;
+  cache: boolean;
 }
 
 export interface Structure {
@@ -21,6 +38,7 @@ export interface Structure {
   color?: string;
   organName?: string;
   notes?: string;
+  proteinPresence?: PROTEIN_PRESENCE;
 }
 
 export interface Row {
@@ -90,6 +108,7 @@ export interface SheetInfo {
   msg: string;
   status: number;
   notes: string;
+  references?: Array<Reference>;
   extraLinks?:Record<string,string>;
 
 }

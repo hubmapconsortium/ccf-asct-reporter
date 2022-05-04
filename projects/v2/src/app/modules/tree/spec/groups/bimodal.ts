@@ -195,6 +195,10 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
               test: 'node__click === null && datum.target.group !== 2 && datum.target.group !== 4',
               signal: 'length(datum.source.references) > 0 ? \'Click to see DOI References\' : \'No DOI References\''
             },
+            {
+              test: 'node__click === null && datum.target.group !== 2',
+              signal: 'isValid(datum.source.references) && length(datum.source.references) > 0 ? \'Click to see DOI References\' : \'No DOI References\''
+            },
           ],
           strokeWidth: { value: 1.5 },
           path: { field: 'path' },
@@ -207,8 +211,13 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             }, // for hover
             {
               test:
-                'datum.source.id === node__hover && datum.source.group == 2',
+                'datum.source.id === node__hover && datum.source.group == 2 && !datum.pathColor',
               value: '#377EB8',
+            }, // for hover
+            {
+              test:
+                'datum.source.id === node__hover && datum.source.group == 2 && datum.pathColor',
+              field: 'pathColor'
             }, // for hover
             {
               test:
@@ -222,13 +231,17 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             }, // for hover
             {
               test:
-                'datum.source.id === node__hover && datum.target.group == 3',
+                'datum.target.id === node__hover && datum.target.group == 3 && !datum.pathColor',
               value: '#4DAF4A',
             }, // for hover
             {
               test:
                 'datum.target.id === node__hover && datum.target.group == 4',
               value: '#984EA3',
+            },
+            {
+              test:  'datum.target.id === node__hover && datum.target.group == 3 && datum.pathColor',
+              field: 'pathColor'
             }, // for hover
             {
               test:
@@ -237,8 +250,13 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             }, // for click
             {
               test:
-                'datum.source.id === node__click && datum.source.group == 2',
+                'datum.source.id === node__click && datum.source.group == 2 && !datum.pathColor',
               value: '#377EB8',
+            }, // for click
+            {
+              test:
+                'datum.source.id === node__click && datum.source.group == 2 && datum.pathColor',
+              field: 'pathColor'
             }, // for click
             {
               test:
@@ -252,7 +270,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             }, // for click
             {
               test:
-                'datum.target.id === node__click && datum.target.group == 3',
+                'datum.target.id === node__click && datum.target.group == 3 && !datum.pathColor',
               value: '#4DAF4A',
             }, // for click
             {
@@ -260,6 +278,18 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
                 'datum.target.id === node__click && datum.target.group == 4',
               value: '#984EA3',
             }, // for click
+            {
+              test:  'datum.target.id === node__click && datum.target.group == 3 && datum.pathColor',
+              field: 'pathColor'
+            }, // for click
+            {
+              test:'(node__click !== null || node__hover !== null) && datum.target.group == 3',
+              value: '#ccc', // for greying out other paths when clicking on a node
+            },
+            {
+              test:'(node__click !== null || node__hover !== null) && datum.target.group == 2',
+              value: '#ccc', // for greying out other paths when clicking on a node
+            },
             // for getting AS -> CT -> B
             {
               test:
@@ -294,7 +324,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
                 'indata(\'sources_clicked_array\', \'id\', datum.target.id) && datum.source.group != 4',
               value: '#4DAF4A',
             },
-            { signal: 'datum.source.pathColor === datum.target.pathColor ? datum.source.pathColor : "#ccc"' },
+            { signal: 'datum.pathColor? datum.pathColor :datum.source.pathColor === datum.target.pathColor ? datum.source.pathColor : "#ccc"' },
           ],
           opacity: [
             { test: 'datum.target.id === node__click', value: 0.5 },
@@ -369,7 +399,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
               `datum.bType === "gene" ?
               "circle" : datum.bType === "protein" ?
               "diamond" : datum.bType === "lipids" ?
-              "square" : datum.bType === "metalloids" ?
+              "square" : datum.bType === "metabolites" ?
               "triangle": datum.bType === "proteoforms" ?
               "cross" : "circle"`,
           },
@@ -408,7 +438,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
             ],
           stroke: { signal: 'datum.problem ? "#000" : datum.isNew ? datum.color : "#fff"' },
           strokeWidth: { signal: 'datum.isNew ? 4 : 0' },
-          strokeDash: { signal: 'datum.isNew ? 3 : 0' }
+          strokeDash: { signal: 'datum.isNew ? [3, 3] : [0, 0]' }
         }
       }
     };

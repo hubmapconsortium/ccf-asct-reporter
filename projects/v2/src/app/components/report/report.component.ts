@@ -5,16 +5,21 @@ import {
   Output,
   EventEmitter,
   AfterViewInit,
+  ViewChild,
 } from '@angular/core';
 import { ReportService } from './report.service';
 import { CByOrgan, Report } from '../../models/report.model';
-import { Sheet, SheetConfig } from '../../models/sheet.model';
+import { Row, Sheet, SheetConfig } from '../../models/sheet.model';
 
 import * as XLSX from 'xlsx';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
+import { TreeService } from '../../modules/tree/tree.service';
+import { linksASCTBData } from '../../models/tree.model';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-report',
@@ -29,6 +34,8 @@ export class ReportComponent implements OnInit, AfterViewInit {
     ASWithNoLink: [],
     CTWithNoLink: [],
     BWithNoLink: [],
+    ASWithNoCT: [],
+    CTWithNoB: [],
   };
   resultDataByOrganName: Report = {
     anatomicalStructures: [],
@@ -37,26 +44,40 @@ export class ReportComponent implements OnInit, AfterViewInit {
     BWithNoLink: [],
     cellTypes: [],
     biomarkers: [],
+    ASWithNoCT: [],
+    CTWithNoB: [],
   };
-  countsByOrgan: CByOrgan[];
+  countsByOrgan: MatTableDataSource<CByOrgan[]> = new MatTableDataSource();
   displayedColumns: string[] = [
     'organName',
+    'ASWithNoLink',
+    'CTWithNoLink',
+    'BWithNoLink',
+    'ASWithNoCT',
+    'CTWithNoB',
+    'AS_AS',
+    'AS_CT',
+    'CT_BM',
     'anatomicalStructures',
-    'cellTypes',
+    'cellTypes'
   ];
   biomarkersSeperateNames: any;
   compareReport: any;
   compareDataAndSheets: any;
   clickButton = false; // for mat expansion panel download button
 
+  @ViewChild(MatSort) sort: MatSort;
   ontologyLinkGraphData = [];
   SheetConfig: SheetConfig;
+  total_AS_AS: number;
+  biomarkersCounts: any = [];
 
   @Input() compareSheets: any;
   @Input() sheetData: any;
   @Input() asFullData: any;
+  @Input() fullDataByOrgan: Array<Row[]>;
   @Input() currentSheet: Sheet;
-  @Input() linksData: any;
+  @Input() linksData$: Observable<linksASCTBData>;
   @Input() inputReportData: Observable<any>;
   @Input() currentSheetConfig: Observable<any>;
   @Input() compareData: Observable<any>;
@@ -64,9 +85,12 @@ export class ReportComponent implements OnInit, AfterViewInit {
   @Output() closeReport: EventEmitter<any> = new EventEmitter<any>();
   @Output() computedReport: EventEmitter<any> = new EventEmitter<any>();
   @Output() deleteSheet: EventEmitter<any> = new EventEmitter<any>();
+  total_AS_CT: number;
+  total_CT_B: number;
 
   constructor(
     public reportService: ReportService,
+    public ts: TreeService,
     public ga: GoogleAnalyticsService
   ) { }
 
@@ -75,7 +99,13 @@ export class ReportComponent implements OnInit, AfterViewInit {
       this.reportData = data.data;
       this.computedReport.emit(data.data);
 
-      this.ontologyLinkGraphData = this.makeOntologyLinksGraphData(data.data);
+      this.ontologyLinkGraphData = this.makeOntologyLinksGraphData(data.data, this.sheetData);
+      
+    });
+    this.linksData$.subscribe((data) => {
+      this.total_AS_AS = data.AS_AS;
+      this.total_AS_CT = data.AS_CT;
+      this.total_CT_B = data.CT_B;
     });
 
     this.reportService.compareData$.subscribe((data) => {
@@ -96,27 +126,56 @@ export class ReportComponent implements OnInit, AfterViewInit {
       }
     });
 
+    this.fullDataByOrgan.forEach((data) => {
+      this.ts.makeTreeData(this.currentSheet, data, this.compareData, true);
+    });
+
     this.reportService.makeReportData(
       this.currentSheet,
       this.sheetData,
-      this.bmType
+      this.bmType,
+      true
     );
   }
 
   ngAfterViewInit() { }
 
-  makeOntologyLinksGraphData(reportData: Report) {
-    if (this.currentSheet.name === 'all' || this.currentSheet.name === 'some') {
-      const { result, biomarkersSeperateNames } =
-        this.reportService.makeAllOrganReportDataByOrgan(reportData, this.asFullData);
+  makeOntologyLinksGraphData(reportData: Report,sheetData: Row[]) {
+    const { result, biomarkersSeperateNames } =
+      this.reportService.makeAllOrganReportDataByOrgan(sheetData, this.asFullData);
+    
+    const biomarkerCols = [];
+    biomarkersSeperateNames.forEach((bm) => {
+      if (this.displayedColumns.includes(bm.name) === false){
+        biomarkerCols.push(bm.name);
+      }    
       this.displayedColumns = [
-        ...this.displayedColumns,
-        ...biomarkersSeperateNames,
+        'organName',
+        'anatomicalStructures',
+        'cellTypes',
+        'b_total',
+        ...biomarkerCols,
+        'ASWithNoLink',
+        'CTWithNoLink',
+        'BWithNoLink',
+        'ASWithNoCT',
+        'CTWithNoB',
+        'AS_AS',
+        'AS_CT',
+        'CT_BM',
       ];
-      this.biomarkersSeperateNames = biomarkersSeperateNames;
+    });
+
+    this.biomarkersSeperateNames = biomarkersSeperateNames;
+    this.linksData$.subscribe((data) => {
       this.countsByOrgan =
-        this.reportService.makeAllOrganReportDataCountsByOrgan(result, this.linksData);
-    }
+        new MatTableDataSource(this.reportService.makeAllOrganReportDataCountsByOrgan(result, data).sort((a, b) => a.organName.localeCompare(b.organName)));
+      this.biomarkersCounts = [];
+      this.biomarkersSeperateNames.forEach((bm) => {
+        this.biomarkersCounts.push({ name: bm.name, value: this.countsByOrgan.data[0][bm.name] });
+      });
+      this.countsByOrgan.sort = this.sort;
+    });
     return [
       {
         results: [
@@ -163,8 +222,8 @@ export class ReportComponent implements OnInit, AfterViewInit {
         ? 'Total Protein Biomarkers'
         : bmType === 'Lipids'
           ? 'Total Lipids Biomarkers'
-          : bmType === 'Metalloids'
-            ? 'Total Metalloids Biomarkers'
+          : bmType === 'Metabolites'
+            ? 'Total Metabolites Biomarkers'
             : bmType === 'Proteoforms'
               ? 'Total Proteoforms Biomarkers'
               : 'Total Biomarkers';
@@ -187,13 +246,16 @@ export class ReportComponent implements OnInit, AfterViewInit {
     this.compareReport.splice(i, 1);
     this.deleteSheet.emit(i);
 
-    this.ga.eventEmitter(
-      'report_compare_delete',
+    this.ga.event(
+      GaAction.CLICK,
       GaCategory.REPORT,
       'Delete a sheet comparison',
-      GaAction.CLICK,
       i
     );
+  }
+
+  getTotals(data: CByOrgan[][], key: string) {
+    return data.map(t => t[key]? t[key] : 0).reduce((acc, value) => acc + value, 0);
   }
 
   downloadData() {
@@ -222,14 +284,18 @@ export class ReportComponent implements OnInit, AfterViewInit {
       }
       if (i < this.reportData.cellTypes.length) {
         row['Unique Cell Types'] = this.reportData.cellTypes[i].structure;
+        row['CT ID'] = this.reportData.cellTypes[i].link;
         if (!this.reportData.cellTypes[i].link.includes('CL')) {
           row['CL with no Link'] = this.reportData.cellTypes[i].structure;
         }
       }
       if (i < this.reportData.biomarkers.length) {
         row['Unique Biomarkers'] = this.reportData.biomarkers[i].structure;
-        row['Biomarkers with no links'] =
-          this.reportData.biomarkers[i].structure;
+        row['BM ID'] = this.reportData.biomarkers[i].link;
+
+      }
+      if (i < this.reportData.BWithNoLink.length){
+        row['Biomarkers with no links'] = this.reportData.BWithNoLink[i].structure;
       }
       download.push(row);
     }
@@ -249,6 +315,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
     };
   }
 
+  
   downloadReport(i = -1) {
     const wb = XLSX.utils.book_new();
     const allReport = [];
@@ -260,11 +327,10 @@ export class ReportComponent implements OnInit, AfterViewInit {
       allReport.push(this.downloadData());
 
       // Tracking the 'Download All' use case from the header button.
-      this.ga.eventEmitter(
-        'report_download_full',
+      this.ga.event(
+        GaAction.CLICK,
         GaCategory.REPORT,
-        'Download Full Report',
-        GaAction.CLICK
+        'Download Full Report'
       );
 
       if (this.compareReport) {
@@ -285,6 +351,44 @@ export class ReportComponent implements OnInit, AfterViewInit {
     }
 
     XLSX.writeFile(wb, allReport[0].name);
+  }
+
+  downloadReportByOrgan() {
+    const  sheetName = 'countByOrgan';
+    const fileName  = 'countsByOrgans';
+    const targetTableElm = document.getElementById('countsByOrgans');
+    const allReport = [];
+
+    const organsList:string[] = [];
+
+   
+    const wb = XLSX.utils.table_to_book(targetTableElm, {
+      sheet: sheetName
+    } as XLSX.Table2SheetOpts);
+
+    this.fullDataByOrgan.forEach((data) => {
+      organsList.push(data[0].organName);
+      this.reportService.makeReportData(
+        this.currentSheet,
+        data,
+        this.bmType,
+      );
+      allReport.push(this.downloadData());
+    });
+
+    this.reportService.makeReportData(
+      this.currentSheet,
+      this.sheetData,
+      this.bmType
+    );
+
+    let i = 0;
+    for (const book of allReport) {
+      XLSX.utils.book_append_sheet(wb, book.sheet, organsList[i] );
+      i += 1;
+    }
+    
+    XLSX.writeFile(wb, `${fileName}.xlsx`);
   }
 
   downloadCompareSheetReport(i: number) {
@@ -326,11 +430,10 @@ export class ReportComponent implements OnInit, AfterViewInit {
     const dt = moment(new Date()).format('YYYY.MM.DD_hh.mm');
     const sn = sheet.title.toLowerCase().replace(' ', '_');
 
-    this.ga.eventEmitter(
-      'report_compare_download',
+    this.ga.event(
+      GaAction.CLICK,
       GaCategory.REPORT,
       'Compare sheet download',
-      GaAction.CLICK,
       sn
     );
 

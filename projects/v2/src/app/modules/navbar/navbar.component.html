@@ -41,10 +41,11 @@
       matTooltip="Master Data Tables"
       matTooltipPosition="below"
       [label]="'Data Tables'"
-      (click)="openMasterDataTables()">
+      [matMenuTriggerFor]="nestedMenu.childMenu">
       <mat-icon class="toolbar-icons">table_view</mat-icon>
+      <app-table-nested-menu #nestedMenu [sheetDetails]="configService.sheetConfiguration$ | async"></app-table-nested-menu>
     </app-nav-item>
-
+    
     <app-nav-item
     [label]="'Refresh'"
     (click)="refreshData()"
@@ -107,7 +108,7 @@
     </app-nav-item>
 
     <mat-menu #downloadMenu="matMenu">
-      <button mat-menu-item *ngFor="let option of IMG_OPTIONS" (click)="exportImage(option)">
+      <button mat-menu-item *ngFor="let option of imgOptions" (click)="exportImage(option)">
         {{ option }}
       </button>
     </mat-menu>
@@ -120,7 +121,7 @@
     <mat-icon class="toolbar-icons">more_vert</mat-icon>
     </app-nav-item>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item *ngFor="let option of MORE_OPTIONS" (click)="onOptionClick(option.type, option.url)">
+      <button mat-menu-item *ngFor="let option of moreOptions" (click)="onOptionClick(option.type, option.url)">
         {{ option.name }}
       </button>
     </mat-menu>

@@ -9,6 +9,20 @@
 .menu-button-item {
   width: 100%;
 }
+.menu {
+  position: relative;
+  color: #fff !important;
+  cursor: pointer;
+  margin: 1.5rem !important;
+}
+.menu:hover {
+  text-decoration: underline;
+}
+
+.icon {
+  position: absolute;
+
+}
 .about-main-container {
   position: relative;
 }
@@ -67,6 +81,7 @@ p {
   background-color: #7fd9da;
   color: #262626;
   font-weight: bold;
+  margin: 0 0.5rem;
 }
 
 .title-desc {

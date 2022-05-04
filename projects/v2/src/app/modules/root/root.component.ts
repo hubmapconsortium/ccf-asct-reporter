@@ -6,13 +6,11 @@ import {
   EventEmitter,
   ViewChild
 } from '@angular/core';
-import { SHEET_CONFIG } from './../../static/config';
 import { SheetState } from './../../store/sheet.state';
 import { TreeState } from './../../store/tree.state';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import {
-  FetchCompareData,
   UpdateReport,
   DeleteCompareSheet,
   UpdateMode,
@@ -20,7 +18,8 @@ import {
   FetchAllOrganData,
   FetchSheetData,
   FetchDataFromAssets,
-  FetchInitialPlaygroundData
+  FetchInitialPlaygroundData,
+  UpdateGetFromCache
 } from './../../actions/sheet.actions';
 import { TreeService } from './../tree/tree.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -48,12 +47,13 @@ import {
   MatBottomSheetRef
 } from '@angular/material/bottom-sheet';
 import { InfoComponent } from '../../components/info/info.component';
-import { CompareData, DOI, Row, SheetConfig, SheetInfo, VersionDetail } from '../../models/sheet.model';
+import { CompareData, DOI, Row, SheetConfig, SheetDetails, SheetInfo, VersionDetail } from '../../models/sheet.model';
 import { DoiComponent } from '../../components/doi/doi.component';
 import { SearchStructure } from '../../models/tree.model';
 import { SheetService } from '../../services/sheet.service';
 import { OrganTableSelectorComponent } from '../../components/organ-table-selector/organ-table-selector.component';
 import { TreeComponent } from '../tree/tree.component';
+import { ConfigService } from '../../app-config.service';
 
 @Component({
   selector: 'app-root',
@@ -102,6 +102,10 @@ export class RootComponent implements OnInit, OnDestroy {
    * Default is vis
    */
   mode = 'vis';
+  /**
+   * Comparison sheets details
+   */
+  compareDetails: CompareData[] = [];
 
   // The container used for vertical scrolling of the viz is different than the one used for horizontal scrolling
   // Here we get references to both values.
@@ -122,6 +126,8 @@ export class RootComponent implements OnInit, OnDestroy {
   @Select(SheetState.getBottomSheetDOI) bottomSheetDOI$: Observable<DOI[]>;
   @Select(SheetState.getSheetConfig) sheetConfig$: Observable<SheetConfig>;
   @Select(SheetState.getFullAsData) fullAsData$: Observable<any>;
+  @Select(SheetState.getFullDataByOrgan) fullDataByOrgan$: Observable<any>;
+  @Select(SheetState.getDataFromCache) getFromCache$: Observable<boolean>;
 
   // Tree Observables
   @Select(TreeState.getTreeData) treeData$: Observable<any>;
@@ -150,7 +156,10 @@ export class RootComponent implements OnInit, OnDestroy {
   // Logs Oberservables
   @Select(LogsState) logs$: Observable<any>;
 
+  sheetConfig:SheetDetails[];
+
   constructor(
+    public configService: ConfigService,
     public store: Store,
     public ts: TreeService,
     public route: ActivatedRoute,
@@ -160,8 +169,12 @@ export class RootComponent implements OnInit, OnDestroy {
     public report: ReportService,
     private readonly infoSheet: MatBottomSheet,
     public sheetService: SheetService,
-    public router: Router
+    public router: Router,
   ) {
+
+    this.configService.sheetConfiguration$.subscribe(data=>{
+      this.sheetConfig = data;
+    });
     this.data$.subscribe((data) => {
       if (data.length) {
         this.data = data;
@@ -184,6 +197,10 @@ export class RootComponent implements OnInit, OnDestroy {
     this.route.queryParamMap.subscribe((query) => {
       const selectedOrgans = query.get('selectedOrgans');
       const version = query.get('version');
+      const comparisonCSV = query.get('comparisonCSVURL');
+      const comparisonName = query.get('comparisonName');
+      const comparisonColor = query.get('comparisonColor');
+      const comparisonHasFile = query.get('comparisonHasFile');
       const sheet = query.get('sheet');
       const playground = query.get('playground');
       if (!selectedOrgans && playground !== 'true') {
@@ -193,9 +210,13 @@ export class RootComponent implements OnInit, OnDestroy {
         config.autoFocus = true;
         config.id = 'OrganTableSelector';
         config.width = '40vw';
-
+        config.data = {
+          isIntilalSelect: true,
+          getFromCache: true
+        };
         const dialogRef = this.dialog.open(OrganTableSelectorComponent, config);
-        dialogRef.afterClosed().subscribe((organs) => {
+        dialogRef.afterClosed().subscribe(({organs,cache}) => {
+          store.dispatch(new UpdateGetFromCache(cache));
           if (organs !== false){
             this.router.navigate(['/vis'], {
               queryParams: {
@@ -207,20 +228,58 @@ export class RootComponent implements OnInit, OnDestroy {
           }
         });
       }
+      else if (selectedOrgans && playground !== 'true' && (comparisonCSV || comparisonHasFile)) {
+        store.dispatch(new UpdateMode('vis'));
+        const comparisonCSVURLList = comparisonCSV.split('|');
+        const comparisonColorList = comparisonColor?.split('|');
+        const comparisonNameList = comparisonName?.split('|');
+
+        const comparisonDetails = this.compareDetails;
+        this.sheet = this.sheetConfig.find(i => i.name === 'some');
+
+        if (!comparisonDetails.length) {
+          const colors = [
+            '#6457A6',
+            '#2C666E',
+            '#72A98F',
+            '#3D5A6C',
+            '#F37748',
+            '#FB4B4E',
+            '#FFCBDD',
+            '#7C0B2B',
+            '#067BC2',
+            '#ECC30B'
+          ];
+          comparisonCSVURLList.forEach((linkUrl, index) => {
+            linkUrl = linkUrl.trim();
+            comparisonDetails.push({
+              title: comparisonNameList?.length-1 >= index ? comparisonNameList[index] : `Sheet ${index + 1}`,
+              description: '',
+              link: linkUrl,
+              color:  comparisonColorList?.length-1 >= index ? comparisonColorList[index] : colors[index % colors.length],
+              sheetId: this.parseSheetUrl(linkUrl).sheetID,
+              gid: this.parseSheetUrl(linkUrl).gid,
+              csvUrl: this.parseSheetUrl(linkUrl).csvUrl
+            });
+          });
+        }
+        store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(','), comparisonDetails));
+        sessionStorage.setItem('selectedOrgans', selectedOrgans);
+      }
       else if (selectedOrgans && playground !== 'true') {
         store.dispatch(new UpdateMode('vis'));
-        this.sheet =  SHEET_CONFIG.find(i => i.name === 'some');
+        this.sheet = this.sheetConfig.find(i => i.name === 'some');
         store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(',')));
         sessionStorage.setItem('selectedOrgans', selectedOrgans);
       }
       else if (playground === 'true') {
         store.dispatch(new UpdateMode('playground'));
-        this.sheet = SHEET_CONFIG.find((i) => i.name === 'example');
+        this.sheet = this.sheetConfig.find((i) => i.name === 'example');
         this.store.dispatch(new FetchInitialPlaygroundData());
         store.dispatch(new CloseLoading());
       } else {
         store.dispatch(new UpdateMode('vis'));
-        this.sheet = SHEET_CONFIG.find((i) => i.name === sheet);
+        this.sheet = this.sheetConfig.find((i) => i.name === sheet);
         localStorage.setItem('sheet', this.sheet.name);
         if (version === 'latest') {
           if (this.sheet.name === 'all') {
@@ -373,6 +432,36 @@ export class RootComponent implements OnInit, OnDestroy {
   }
 
   /**
+   *
+   * @param url  of the sheet to compare
+   * @returns a object with the sheetID, gid, and CsvUrl
+   */
+
+  parseSheetUrl(url: string): { sheetID: string, gid: string, csvUrl: string } {
+    if (url.startsWith('https://docs.google.com/spreadsheets/d/')) {
+      const splitUrl = url.split('/');
+      if (splitUrl.length === 7) {
+        return {
+          sheetID: splitUrl[5],
+          gid: splitUrl[6].split('=')[1],
+          csvUrl: ''
+        };
+      }
+      return {
+        sheetID: '0',
+        gid: '0',
+        csvUrl: url
+      };
+    } else {
+      return {
+        sheetID: '0',
+        gid: '0',
+        csvUrl: url
+      };
+    }
+  }
+
+  /**
    * Close loading dialog
    */
   closeLoading() {
@@ -395,7 +484,33 @@ export class RootComponent implements OnInit, OnDestroy {
    */
   compareData(data: CompareData[]) {
     this.store.dispatch(new CloseCompare());
-    this.store.dispatch(new FetchCompareData(data));
+    this.compareDetails = data;
+    const compareDataString = data
+      .filter((compareData: CompareData) => compareData.link !== '')
+      .map((compareData: CompareData) => compareData.link)
+      .join('|');
+
+    const compareColorString = data
+      .filter((compareData: CompareData) => compareData.color !== '')
+      .map((compareData: CompareData) => compareData.color)
+      .join('|');
+
+    const compareNameString = data
+      .filter((compareData: CompareData) => compareData.title !== '')
+      .map((compareData: CompareData) => compareData.title)
+      .join('|');
+
+    const compareHasFile = data // check if any of the sheets has a file
+      .some((compareData: CompareData) => compareData.formData !== null);
+
+    this.router.navigate(['/vis'], {
+      queryParams: { comparisonCSVURL: compareDataString,
+        comparisonName: compareNameString,
+        comparisonColor: compareColorString,
+        comparisonHasFile: compareHasFile ? 'true' : 'false' },
+      queryParamsHandling: 'merge',
+    });
+
   }
 
   /**
@@ -421,7 +536,7 @@ export class RootComponent implements OnInit, OnDestroy {
     const urls = [];
     if (sheet.name === 'all' || sheet.name === 'some'){
       for (const organ of selectedOrgans) {
-        SHEET_CONFIG.forEach((config) => {
+        this.sheetConfig.forEach((config) => {
           config.version?.forEach((version: VersionDetail) => {
             if (version.value === organ) {
               if (version.csvUrl) {
@@ -481,7 +596,25 @@ export class RootComponent implements OnInit, OnDestroy {
           downloadAnchorNode.click();
           downloadAnchorNode.remove();
         });
-    } else {
+    } else if (option === 'OWL (RDF/XML)') {
+
+      this.sheetService
+        .fetchSheetData(sheet.sheetId, sheet.gid, csvURL? csvURL : sheet.csvUrl, null, 'owl')
+        .subscribe((graphData: any) => {
+          const graphDataStr =
+            'data:application/rdf+xml;charset=utf-8,' +
+            encodeURIComponent(graphData);
+          const downloadAnchorNode = document.createElement('a');
+          downloadAnchorNode.setAttribute('href', graphDataStr);
+          downloadAnchorNode.setAttribute(
+            'download',
+            `asct+b_owl_${sn}_${dt}` + '.owl'
+          );
+          document.body.appendChild(downloadAnchorNode);
+          downloadAnchorNode.click();
+          downloadAnchorNode.remove();
+        });
+    }else {
       const view = this.store.selectSnapshot(TreeState.getVegaView);
       const fileName = `asct+b_${sn}_${dt}.${formatType}`;
       view.background('#fafafa');

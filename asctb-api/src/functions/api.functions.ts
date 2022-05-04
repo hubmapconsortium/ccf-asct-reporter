@@ -1,122 +1,143 @@
-/* tslint:disable:variable-name */
-import { BM_TYPE, headerMap, Reference, Row, Structure } from '../models/api.model';
+import { arrayNameMap, createObject, DELIMETER, HEADER_FIRST_COLUMN, metadataArrayFields, metadataNameMap, objectFieldMap, Row, TITLE_ROW_INDEX } from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
 
-
-function addBiomarker(rowHeader: any, s: any) {
-  if (rowHeader[0] === 'BGene' || rowHeader[0] === 'BG') {
-    s.b_type = BM_TYPE.G;
-  }
-  if (rowHeader[0] === 'BProtein' || rowHeader[0] === 'BP') {
-    s.b_type = BM_TYPE.P;
-  }
-  if (rowHeader[0] === 'BLipid' || rowHeader[0] === 'BL') {
-    s.b_type = BM_TYPE.BL;
-  }
-  if (rowHeader[0] === 'BMetabolites' || rowHeader[0] === 'BM') {
-    s.b_type = BM_TYPE.BM;
-  }
-  if (rowHeader[0] === 'BProteoform' || rowHeader[0] === 'BF') {
-    s.b_type = BM_TYPE.BF;
-  }
-  return s;
+export interface ASCTBData {
+  data: Row[];
+  metadata: Record<string, string | string[]>;
+  warnings: string[];
 }
 
-function addingIDNotesLabels(rowHeader: any, newRow: any, key: any, data: any, i: number, j: number) {
-  if (rowHeader.length === 3 && rowHeader[2] === 'ID') {
-    const n = newRow[key][parseInt(rowHeader[1]) - 1];
-    assignNotesDOIData(n, data[i][j], 'id');
-  } else if (rowHeader.length === 3 && rowHeader[2] === 'LABEL') {
-    const n = newRow[key][parseInt(rowHeader[1]) - 1];
-    assignNotesDOIData(n, data[i][j], 'rdfs_label');
-  } else if (rowHeader.length === 3 && rowHeader[2] === 'DOI') {
-    const n: Reference = newRow[key][parseInt(rowHeader[1]) - 1];
-    assignNotesDOIData(n, data[i][j], 'doi');
-  } else if (rowHeader.length === 3 && rowHeader[2] === 'NOTES') {
-    const n: Reference = newRow[key][parseInt(rowHeader[1]) - 1];
-    assignNotesDOIData(n, data[i][j], 'notes');
-  }
-}
-
-function assignNotesDOIData(n:any, data: any, type: string) {
-  if (type === 'id') {
-    data = fixOntologyId(data);
-  }
-
-  if (n) {
-    n[type] = data;
-  }
-}
-
-function checkForHeader(headerRow: number, dataLength: number, data: any) {
-  for (let i = headerRow; i < dataLength; i++) {
-    if (data[i][0] !== 'AS/1') {
-      continue;
+export function normalizeCsvUrl(url: string): string {
+  if (url.startsWith('https://docs.google.com/spreadsheets/d/') && url.indexOf('export?format=csv') === -1) {
+    const splitUrl = url.split('/');
+    if (splitUrl.length === 7) {
+      const sheetId = splitUrl[5];
+      const gid = splitUrl[6].split('=')[1];
+      return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
     }
-    headerRow = i + 1;
-    break;
+  }
+  return url;
+}
+
+function setData(column: string[], row: any, value: any, warnings: Set<string>): void {
+  if (column.length > 1) {
+    const arrayName = arrayNameMap[column[0]];
+    const originalArrayName = column[0];
+    const objectArray: any[] = row[arrayName] || [];
+
+    if (!arrayName) {
+      // arrayName = originalArrayName.toLowerCase();
+      warnings.add(`WARNING: unmapped array found ${originalArrayName}`);
+    }
+    if (column.length === 3 && !objectFieldMap[column[2]]) {
+      if ((column[2]?.toLowerCase() ?? '').trim().length === 0) {
+        warnings.add(`WARNING: blank field found: ${column.join('/')}`);
+      } else {
+        warnings.add(`WARNING: unmapped field found: ${column.join('/')}`);
+      }
+    }
+
+    if (column.length === 2) {
+      if (objectArray.length === 0 && arrayName) {
+        row[arrayName] = objectArray;
+      }
+      objectArray.push(createObject(value, originalArrayName));
+    } else if (column.length === 3 && arrayName) {
+      let arrayIndex = parseInt(column[1], 10) - 1;
+      const fieldName = objectFieldMap[column[2]]; // || (column[2]?.toLowerCase() ?? '').trim();
+
+      if (arrayIndex >= 0 && fieldName) {
+        if (arrayIndex >= objectArray.length) {
+          warnings.add(`WARNING: blank cells likely found in column: ${column.join('/')}, row: ${row.rowNumber}`);
+        }
+        // FIXME: Temporarily deal with blank columns since so many tables are non-conformant
+        arrayIndex = objectArray.length - 1;
+        if (arrayIndex < objectArray.length) {
+          switch (fieldName) {
+          case 'id':
+            value = fixOntologyId(value);
+            break;
+          }
+          if (objectArray[arrayIndex]) {
+            objectArray[arrayIndex][fieldName] = value;
+          } else {
+            warnings.add(`WARNING: bad column: ${column.join('/')}`);
+          }
+        }
+      }
+    }
+  }
+}
+
+/*
+ * buildMetadata - build metadata key value store
+ * @param metadataRows = rows from metadata to be extracted
+ * @param warnings = warnings generated during the process are pushed to this set
+ * @returns = returns key value pairs of metadata
+ */
+const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<string, string | string[]> => {
+  const [titleRow] = metadataRows.splice(TITLE_ROW_INDEX, 1);
+  const [title] = titleRow.slice(0, 1);
+
+  const result: Record<string, string | string[]> = {
+    title
+  };
+
+  return metadataRows
+    .reduce((metadata: Record<string, string | string[]>, rowData: string[], rowNumber: number,) => {
+      const [metadataIdentifier, metadataValue, ..._] = rowData;
+      if (!metadataIdentifier) {
+        return metadata;
+      }
+      let metadataKey = metadataNameMap[metadataIdentifier];
+      if (!metadataKey) {
+        metadataKey = metadataIdentifier.toLowerCase();
+        warnings.add(`WARNING: unmapped metadata found ${metadataIdentifier}`);
+      }
+      if (metadataArrayFields.includes(metadataKey)) {
+        metadata[metadataKey] = metadataValue.split(DELIMETER).map(item => item.trim());
+      } else {
+        metadata[metadataKey] = metadataValue.trim();
+      }
+      return metadata;
+    }, result
+    );
+};
+
+function findHeaderIndex(headerRow: number, data: string[][], firstColumnName: string): number {
+  for (let i = headerRow; i < data.length; i++) {
+    if (data[i][0] === firstColumnName) {
+      return i;
+    }
   }
   return headerRow;
 }
 
-function addAllBiomarkersToRow(rows: any) {
-  for (const row of rows) {
-    row.biomarkers = row.biomarkers_gene
-      .concat(row.biomarkers_protein)
-      .concat(row.biomarkers_lipids)
-      .concat(row.biomarkers_meta)
-      .concat(row.biomarkers_prot);
-  }
-}
+export function makeASCTBData(data: string[][]): ASCTBData {
+  const headerRow = findHeaderIndex(0, data, HEADER_FIRST_COLUMN);
+  const columns = data[headerRow].map((col: string) => col.toUpperCase().split('/').map(s => s.trim()));
+  const warnings = new Set<string>();
 
-function addREF(rowHeader: any, newRow: any, key: any, data: any) {
-  if (rowHeader[0] === 'REF') {
-    const ref: Reference = { id: data };
-    newRow[key].push(ref);
-  } else {
-    let s = new Structure(data);
-    s = addBiomarker(rowHeader, s);
-    newRow[key].push(s);
-  }
-}
-
-export function makeASCTBData(data: any[]): Promise<Row[]> {
-  return new Promise((res, rej) => {
-    const rows = [];
-    let headerRow = 0;
-    const dataLength = data.length;
-
-    try {
-      headerRow = checkForHeader(headerRow, dataLength, data);
-
-      for (let i = headerRow; i < dataLength; i++) {
-        const newRow = new Row();
-
-        for (let j = 0; j < data[0].length; j++) {
-          if (data[i][j] === '') {
-            continue;
-          }
-
-          const rowHeader = data[headerRow - 1][j].split('/');
-          const key = headerMap[rowHeader[0]];
-
-          if (key === undefined) {
-            continue;
-          }
-
-          if (rowHeader.length === 2 && Number(rowHeader[1])) {
-            addREF(rowHeader, newRow, key, data[i][j]);
-          }
-          addingIDNotesLabels(rowHeader, newRow, key, data, i, j);
-
-        }
-        rows.push(newRow);
+  const results = data.slice(headerRow + 1).map((rowData: any[], rowNumber) => {
+    const row: Row = new Row(headerRow + rowNumber + 2);
+    rowData.forEach((value, index) => {
+      if (index < columns.length && columns[index].length > 1) {
+        setData(columns[index], row, value, warnings);
       }
-
-      addAllBiomarkersToRow(rows);
-      res(rows);
-    } catch (err) {
-      rej(err);
-    }
+    });
+    row.finalize();
+    return row;
   });
+
+  // build metadata key value store.
+  const metadataRows = data.slice(0, headerRow);
+  const metadata = buildMetadata(metadataRows, warnings);
+
+  console.log([...warnings].sort().join('\n'));
+
+  return {
+    data: results,
+    metadata: metadata,
+    warnings: [...warnings]
+  };
 }

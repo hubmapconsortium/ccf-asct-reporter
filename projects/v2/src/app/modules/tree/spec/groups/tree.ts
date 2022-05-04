@@ -241,7 +241,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
           size: { value: 300 },
           stroke: { signal: 'datum.problem ? "#000": datum.isNew ? datum.color :"#fff"' },
           strokeWidth: { signal: 'datum.problem ? 3: datum.isNew ? 3 : 0' },
-          strokeDash: { signal: 'datum.isNew ? 3 : 0' }
+          strokeDash: { signal: 'datum.isNew ? [3, 3] : [0, 0]' }
         },
         update: {
           x: { field: 'x' },

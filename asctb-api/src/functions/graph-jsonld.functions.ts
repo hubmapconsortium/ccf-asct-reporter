@@ -3,7 +3,7 @@ import { Edge_type, GraphData } from '../models/graph.model';
 import { fixOntologyId, guessIri } from './lookup.functions';
 
 
-export function makeJsonLdData(data: GraphData): JsonLd {
+export function makeJsonLdData(data: GraphData, withSubclasses = true): JsonLd {
   const { nodes, edges } = data;
   const iriLookup: Record<number, string> = {};
   const nodeMap = new Map<string, any>();
@@ -29,7 +29,8 @@ export function makeJsonLdData(data: GraphData): JsonLd {
         'id': ontologyId,
         'asctb_type': node.type,
         'label': node.metadata.label || node.metadata.name,
-        'preferred_label': node.name || node.metadata.label
+        'preferred_label': node.name || node.metadata.label,
+        'references': node.metadata.references,
       });
     }
   });
@@ -75,7 +76,6 @@ export function makeJsonLdData(data: GraphData): JsonLd {
   });
 
   for (const node of nodeMap.values()) {
-    let subclasses = node['rdfs:subClassOf'] ?? [];
     Object.assign(node, {
       part_of: node.part_of ? [...node.part_of] : undefined,
       located_in: node.located_in ? [...node.located_in] : undefined,
@@ -84,65 +84,71 @@ export function makeJsonLdData(data: GraphData): JsonLd {
       occurs_in: node.occurs_in ? [...node.occurs_in] : undefined,
     });
 
-    if (node.part_of) {
-      subclasses = subclasses.concat(
-        node.part_of.map((iri: string, index: number) => ({
-          '@id': `_:n${node.id.replace(':','')}_ASAS${index}`,
-          '@type': 'owl:Restriction',
-          onProperty: 'ccf:ccf_part_of',
-          // onProperty: 'http://purl.obolibrary.org/obo/RO_0001025',
-          someValuesFrom: iri,
-        }))
-      );
-    }
-    if (node.located_in) {
-      subclasses = subclasses.concat(
-        node.located_in.map((iri: string, index: number) => ({
-          '@id': `_:n${node.id.replace(':','')}_ASCT${index}`,
-          '@type': 'owl:Restriction',
-          onProperty: 'ccf:located_in',
-          someValuesFrom: iri,
-        }))
-      );
-    }
-    if (node.is_a) {
-      subclasses = subclasses.concat(
-        node.is_a.map((iri: string, index: number) => ({
-          '@id': `_:n${node.id.replace(':','')}_CTCT${index}`,
-          '@type': 'owl:Restriction',
-          onProperty: 'ccf:ct_is_a',
-          someValuesFrom: iri,
-        }))
-      );
-    }
-    if (node.characterizes) {
-      subclasses = subclasses.concat(
-        node.characterizes.map((iri: string, index: number) => ({
-          '@id': `_:n${node.id.replace(':','')}_CTBM${index}`,
-          '@type': 'owl:Restriction',
-          onProperty: 'ccf:characterizes',
-          someValuesFrom: iri,
-        }))
-      );
-    }
-    if (node.occurs_in) {
-      subclasses = subclasses.concat(
-        node.occurs_in.map((iri: string, index: number) => ({
-          '@id': `_:n${node.id.replace(':','')}_ASBM${index}`,
-          '@type': 'owl:Restriction',
-          onProperty: 'ccf:occurs_in',
-          someValuesFrom: iri,
-        }))
-      );
-    }
+    if (withSubclasses) {
+      let subclasses = node['rdfs:subClassOf'] ?? [];
 
-    if (subclasses.length > 0) {
-      node['rdfs:subClassOf'] = subclasses;
+      if (node.part_of) {
+        subclasses = subclasses.concat(
+          node.part_of.map((iri: string, index: number) => ({
+            '@id': `_:n${node.id.replace(':','')}_ASAS${index}`,
+            '@type': 'owl:Restriction',
+            onProperty: 'ccf:ccf_part_of',
+            // onProperty: 'http://purl.obolibrary.org/obo/RO_0001025',
+            someValuesFrom: iri,
+          }))
+        );
+      }
+      if (node.located_in) {
+        subclasses = subclasses.concat(
+          node.located_in.map((iri: string, index: number) => ({
+            '@id': `_:n${node.id.replace(':','')}_ASCT${index}`,
+            '@type': 'owl:Restriction',
+            onProperty: 'ccf:located_in',
+            someValuesFrom: iri,
+          }))
+        );
+      }
+      if (node.is_a) {
+        subclasses = subclasses.concat(
+          node.is_a.map((iri: string, index: number) => ({
+            '@id': `_:n${node.id.replace(':','')}_CTCT${index}`,
+            '@type': 'owl:Restriction',
+            onProperty: 'ccf:ct_is_a',
+            someValuesFrom: iri,
+          }))
+        );
+      }
+      if (node.characterizes) {
+        subclasses = subclasses.concat(
+          node.characterizes.map((iri: string, index: number) => ({
+            '@id': `_:n${node.id.replace(':','')}_CTBM${index}`,
+            '@type': 'owl:Restriction',
+            onProperty: 'ccf:characterizes',
+            someValuesFrom: iri,
+          }))
+        );
+      }
+      if (node.occurs_in) {
+        subclasses = subclasses.concat(
+          node.occurs_in.map((iri: string, index: number) => ({
+            '@id': `_:n${node.id.replace(':','')}_ASBM${index}`,
+            '@type': 'owl:Restriction',
+            onProperty: 'ccf:occurs_in',
+            someValuesFrom: iri,
+          }))
+        );
+      }
+
+      if (subclasses.length > 0) {
+        node['rdfs:subClassOf'] = subclasses;
+      }
     }
   }
 
+  const propertyType = withSubclasses ? 'owl:ObjectProperty' : 'owl:AnnotationProperty';
+
   return {
-    '@context': {
+    '@context': Object.assign({
       ccf: 'http://purl.org/ccf/latest/ccf.owl#',
       rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
       oboInOwl: 'http://www.geneontology.org/formats/oboInOwl#',
@@ -151,6 +157,7 @@ export function makeJsonLdData(data: GraphData): JsonLd {
       label: 'rdfs:label',
       preferred_label: 'ccf:ccf_preferred_label',
       asctb_type: 'ccf:asctb_type',
+      references: 'ccf:ccf_references',
       defines: {
         '@reverse': 'rdfs:isDefinedBy'
       },
@@ -161,29 +168,30 @@ export function makeJsonLdData(data: GraphData): JsonLd {
       someValuesFrom: {
         '@id': 'owl:someValuesFrom',
         '@type': '@id'
+      }
+    }, withSubclasses ? {} : {
+      part_of: {
+        '@id': 'ccf:ccf_part_of',
+        // '@id': 'http://purl.obolibrary.org/obo/RO_0001025',
+        '@type': '@id'
       },
-      // part_of: {
-      //   '@id': 'ccf:ccf_part_of',
-      //   // '@id': 'http://purl.obolibrary.org/obo/RO_0001025',
-      //   '@type': '@id'
-      // },
-      // located_in: {
-      //   '@id': 'ccf:located_in',
-      //   '@type': '@id'
-      // },
-      // is_a: {
-      //   '@id': 'ccf:ct_is_a',
-      //   '@type': '@id'
-      // },
-      // characterizes: {
-      //   '@id': 'ccf:characterizes',
-      //   '@type': '@id'
-      // },
-      // occurs_in: {
-      //   '@id': 'ccf:occurs_in',
-      //   '@type': '@id'
-      // }
-    },
+      located_in: {
+        '@id': 'ccf:located_in',
+        '@type': '@id'
+      },
+      is_a: {
+        '@id': 'ccf:ct_is_a',
+        '@type': '@id'
+      },
+      characterizes: {
+        '@id': 'ccf:characterizes',
+        '@type': '@id'
+      },
+      occurs_in: {
+        '@id': 'ccf:occurs_in',
+        '@type': '@id'
+      }
+    }),
     '@graph': [
       ...[
         {
@@ -193,27 +201,27 @@ export function makeJsonLdData(data: GraphData): JsonLd {
           defines: [
             {
               '@id': 'ccf:ccf_part_of',
-              '@type': 'owl:ObjectProperty',
+              '@type': propertyType,
               label: 'ccf part of'
             },
             {
               '@id': 'ccf:characterizes',
-              '@type': 'owl:ObjectProperty',
+              '@type': propertyType,
               label: 'characterizes'
             },
             {
               '@id': 'ccf:ct_is_a',
-              '@type': 'owl:ObjectProperty',
+              '@type': propertyType,
               label: 'cell type is a'
             },
             {
               '@id': 'ccf:located_in',
-              '@type': 'owl:ObjectProperty',
+              '@type': propertyType,
               label: 'located in'
             },
             {
               '@id': 'ccf:occurs_in',
-              '@type': 'owl:ObjectProperty',
+              '@type': propertyType,
               label: 'occurs in'
             }
           ]
@@ -222,6 +230,16 @@ export function makeJsonLdData(data: GraphData): JsonLd {
           '@id': 'oboInOwl:id',
           '@type': 'owl:AnnotationProperty',
           label: 'ID'
+        },
+        {
+          '@id': 'ccf:asctb_type',
+          '@type': 'owl:AnnotationProperty',
+          label: 'ASCT+B type'
+        },
+        {
+          '@id': 'ccf:ccf_preferred_label',
+          '@type': 'owl:AnnotationProperty',
+          label: 'CCF preferred label'
         }
       ],
       ...nodeMap.values()

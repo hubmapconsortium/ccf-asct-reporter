@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { URL, getAssetsURL } from './../static/url';
 import { Observable, throwError } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {  map } from 'rxjs/operators';
 import { SheetInfo, Structure } from '../models/sheet.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SheetService {
+
   constructor(private http: HttpClient) {}
 
   /**
@@ -22,10 +23,12 @@ export class SheetService {
     gid: string,
     csvFileUrl?: string,
     formData?: FormData,
-    output?: string
+    output?: string,
+    cache = false
   ) {
     if (csvFileUrl) {
       return this.http.get(`${URL}/v2/csv`, {
+        responseType: output === 'owl' ? 'text' : undefined,
         params: {
           csvUrl: csvFileUrl,
           output: output ? output : 'json'
@@ -45,7 +48,11 @@ export class SheetService {
           },
         });
       }
-      return this.http.get(`${URL}/v2/${sheetId}/${gid}`);
+      return this.http.get(`${URL}/v2/${sheetId}/${gid}`, {
+        params: {
+          cache
+        }
+      });
     }
   }
 

@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { CompareData } from '../../models/sheet.model';
 import { Observable } from 'rxjs';
-import {GoogleAnalyticsService} from '../../services/google-analytics.service';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory, GaCompareInfo } from '../../models/ga.model';
 
 @Component({
@@ -19,6 +19,7 @@ export class CompareComponent implements OnInit {
 
   formGroup: FormGroup;
   formSheets: FormArray;
+  formValid = true;
 
   constructor(public fb: FormBuilder, public ga: GoogleAnalyticsService) { }
 
@@ -66,7 +67,22 @@ export class CompareComponent implements OnInit {
     sheet.controls.formData.setValue(fileFormDataEvent);
   }
 
+  markFormGroupTouched(formGroup: FormGroup) {
+    (Object as any).values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+
+      if (control.controls) {
+        this.markFormGroupTouched(control);
+      }
+    });
+  }
+
   compare() {
+    this.markFormGroupTouched(this.formGroup);
+    this.formValid = this.formGroup.status === 'VALID';
+    if (this.formGroup.status !== 'VALID') {
+      return;
+    }
     const data: CompareData[] = [];
     for (const [idx, sheet] of this.formGroup.value.sheets.entries()) {
       if (sheet.title === '') {
@@ -88,7 +104,7 @@ export class CompareComponent implements OnInit {
         link: sheet.link,
         color: sheet.color,
       };
-      this.ga.eventEmitter('compare_sheet', GaCategory.COMPARE, 'Add new sheet to compare', GaAction.CLICK, JSON.stringify(sheetInfo));
+      this.ga.event(GaAction.CLICK, GaCategory.COMPARE, `Add new sheet to compare: ${JSON.stringify(sheetInfo)}`);
     }
 
     this.compareData.emit(data);
@@ -149,18 +165,23 @@ export class CompareComponent implements OnInit {
   }
 
   doesFormHaveError() {
-    return this.formGroup.status !== 'VALID';
+ 
+    this.formGroup.controls.sheets.value.forEach(sheet => {
+      // mark as touched for all controls
+      sheet.controls.link.markAsTouched();
+    });
+    return this.formGroup.status !== 'VALID' ;
   }
 
   addCompareSheetRow() {
     const sheet = this.createCompareForm();
     this.formSheets.push(sheet);
-    this.ga.eventEmitter('compare_add_row', GaCategory.COMPARE, 'Add new compare row', GaAction.CLICK, null);
+    this.ga.event(GaAction.CLICK, GaCategory.COMPARE, 'Add new compare row', null);
   }
 
   removeCompareSheetRow(i: number) {
     this.formSheets.removeAt(i);
-    this.ga.eventEmitter('compare_delete_row', GaCategory.COMPARE, 'Delete compare row', GaAction.CLICK, i);
+    this.ga.event(GaAction.CLICK, GaCategory.COMPARE, 'Delete compare row', i);
   }
 
 }

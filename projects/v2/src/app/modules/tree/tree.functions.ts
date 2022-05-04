@@ -19,7 +19,7 @@ type TypeStructue = AS | CT | B;
  * @returns - Array of anatomical structures
  *
  */
-export function makeAS(data: Row[], isForReport = false): Array<AS> {
+export function makeAS(data: Row[], isForReport = false, isReportNotOrganWise = false): Array<AS> {
   const anatomicalStructures: Array<AS> = [];
   let id = ST_ID;
   try {
@@ -29,7 +29,7 @@ export function makeAS(data: Row[], isForReport = false): Array<AS> {
           i === row.anatomical_structures.length - 1 ||
           (isForReport && str.name !== 'Body')
         ) {
-          const foundIndex = getFoundIndex(str, anatomicalStructures, isForReport, row);
+          const foundIndex = getFoundIndex(str, anatomicalStructures, isForReport, row, false, isReportNotOrganWise);
           let newStructure: AS;
           if (foundIndex === -1) {
             newStructure = {
@@ -99,12 +99,12 @@ export function makeAS(data: Row[], isForReport = false): Array<AS> {
  * @param data - Sheet data
  * @returns - Array of cell types
  */
-export function makeCellTypes(data: Row[], isForReport = false): Array<CT> {
+export function makeCellTypes(data: Row[], isForReport = false, isReportNotOrganWise = false): Array<CT> {
   const cellTypes = [];
   try {
     data.forEach((row) => {
       row.cell_types.forEach((str) => {
-        const foundIndex = getFoundIndex(str, cellTypes, isForReport, row);
+        const foundIndex = getFoundIndex(str, cellTypes, isForReport, row, false, isReportNotOrganWise);
         let newStructure: CT;
         if (foundIndex === -1) {
           newStructure = {
@@ -141,6 +141,7 @@ export function makeCellTypes(data: Row[], isForReport = false): Array<CT> {
             newStructure.outdegree.add({
               id: marker.id,
               name: marker.name,
+              proteinPresence: marker.proteinPresence
             });
           });
           cellTypes.push(newStructure);
@@ -153,6 +154,7 @@ export function makeCellTypes(data: Row[], isForReport = false): Array<CT> {
             cellTypes[foundIndex].outdegree.add({
               id: marker.id,
               name: marker.name,
+              proteinPresence: marker.proteinPresence,
             });
           });
           const sn =
@@ -183,7 +185,8 @@ export function makeCellTypes(data: Row[], isForReport = false): Array<CT> {
 export function makeBioMarkers(
   data: Row[],
   type?: string,
-  isForReport = false
+  isForReport = false,
+  isReportNotOrganWise = false
 ): Array<B> {
   const bioMarkers = [];
   try {
@@ -202,7 +205,7 @@ export function makeBioMarkers(
       case 'Lipids':
         currentBiomarkers = row.biomarkers_lipids;
         break;
-      case 'Metalloids':
+      case 'Metabolites':
         currentBiomarkers = row.biomarkers_meta;
         break;
       case 'Proteoforms':
@@ -212,7 +215,7 @@ export function makeBioMarkers(
         currentBiomarkers = row.biomarkers;
       }
       currentBiomarkers.forEach((str) => {
-        const foundIndex = getFoundIndex(str, bioMarkers, isForReport, row);
+        const foundIndex = getFoundIndex(str, bioMarkers, isForReport, row, true, isReportNotOrganWise);
         let newStructure: B;
         if (foundIndex === -1) {
           newStructure = {
@@ -229,7 +232,8 @@ export function makeBioMarkers(
             nodeSize: 300,
             bType: str.b_type,
             organName: row.organName,
-            notes: str.notes
+            notes: str.notes,
+            proteinPresence: str.proteinPresence,
           };
 
           if (row.cell_types.length) {
@@ -350,23 +354,23 @@ export function makeAntibodies(
  * @param row - Row of the sheet
  * @returns - Index of the object in the array
  */
-function getFoundIndex(str: Structure, typeData: Array<TypeStructue>, isForReport: boolean, row: Row) {
+function getFoundIndex(str: Structure, typeData: Array<TypeStructue>, isForReport: boolean, row: Row, isBiomarker = false, isReportNotOrganWise= false): number {
   let foundIndex: number;
   if (str.id  && str.id.toLowerCase() !== 'not found') {
-    foundIndex = typeData.findIndex((i: TypeStructue) => {
+    foundIndex = typeData.findIndex((i: any) => {
       if (!isForReport) {
-        return i.comparatorId === str.id;
+        return i.comparatorId === str.id && (!isBiomarker || i.bType === str.b_type);
       } else {
-        return i.comparatorId === str.id && i.organName === row.organName;
+        return i.comparatorId === str.id && (i.organName === row.organName || isReportNotOrganWise) && (!isBiomarker || i.bType === str.b_type);
       }
     });
   } else {
-    foundIndex = typeData.findIndex((i: TypeStructue) => {
+    foundIndex = typeData.findIndex((i: any) => {
       if (!isForReport) {
-        return i.comparatorName === str.name;
+        return i.comparatorName === str.name && (!isBiomarker || i.bType === str.b_type);
       } else {
         return (
-          i.comparatorName === str.name && i.organName === row.organName
+          i.comparatorName === str.name && (i.organName === row.organName || isReportNotOrganWise) && (!isBiomarker || i.bType === str.b_type)
         );
       }
     });

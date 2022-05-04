@@ -10,11 +10,11 @@ import {
   SheetInfo,
   DOI,
   VersionDetail,
+  SheetDetails,
 } from '../models/sheet.model';
 import { Error } from '../models/response.model';
 import { tap, catchError } from 'rxjs/operators';
 import { forkJoin, Observable, of } from 'rxjs';
-import { HEADER_COUNT, SHEET_CONFIG } from '../static/config';
 import { Injectable } from '@angular/core';
 import { parse } from 'papaparse';
 import {
@@ -33,6 +33,7 @@ import {
   UpdateBottomSheetInfo,
   UpdateBottomSheetDOI,
   FetchSelectedOrganData,
+  UpdateGetFromCache,
 } from '../actions/sheet.actions';
 import {
   OpenLoading,
@@ -44,6 +45,10 @@ import { StateReset } from 'ngxs-reset-plugin';
 import { TreeState } from './tree.state';
 import { ReportLog } from '../actions/logs.actions';
 import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
+import { GaAction, GaCategory } from '../models/ga.model';
+import { ReportService } from '../components/report/report.service';
+import { ConfigService } from '../app-config.service';
 
 /** Class to keep track of the sheet */
 export class SheetStateModel {
@@ -102,7 +107,15 @@ export class SheetStateModel {
   /**
    * Stores the selected organs details.
    */
-   selectedOrgans: string[];
+  selectedOrgans: string[];
+  /**
+   * Full data by organ
+   */
+  fullDataByOrgan: any;
+  /**
+   * Update the flag is data should be fetched from cache
+   */
+  getFromCache: boolean; 
 }
 
 @State<SheetStateModel>({
@@ -149,16 +162,32 @@ export class SheetStateModel {
       msg: '',
       status: 0,
       notes: '',
+      references: [],
       extraLinks: {},
     },
     bottomSheetDOI: [],
     fullAsData: [],
     selectedOrgans: [],
+    fullDataByOrgan: [],
+    getFromCache: true,
   },
 })
+
+
 @Injectable()
+
 export class SheetState {
-  constructor(private sheetService: SheetService) {}
+  sheetConfig:SheetDetails[];
+  headerCount: unknown;
+  constructor(public configService: ConfigService, private readonly sheetService: SheetService, public readonly ga: GoogleAnalyticsService, public reportService: ReportService) {
+    this.configService.sheetConfiguration$.subscribe(data=>{
+      this.sheetConfig = data;
+    });
+
+    this.configService.config$.subscribe(config=>{
+      this.headerCount = config.headerCount;
+    });
+  }
   faliureMsg = 'Failed to fetch data';
   bodyId = 'UBERON:0013702';
   bodyLabel: 'body proper';
@@ -265,12 +294,28 @@ export class SheetState {
   }
 
   /**
+   * Returns an observable that watches the fullDataByOrgan  data
+   */
+  @Selector()
+  static getFullDataByOrgan(state: SheetStateModel) {
+    return state.fullDataByOrgan;
+  }
+
+  /**
    * Returns an observable that watches the mode
    * values: [playground, vis]
    */
   @Selector()
   static getMode(state: SheetStateModel) {
     return state.mode;
+  }
+
+  /**
+   * Returns an observable that watches the getFromCache flag
+   */
+  @Selector()
+  static getDataFromCache(state: SheetStateModel) {
+    return state.getFromCache;
   }
 
   /**
@@ -358,12 +403,23 @@ export class SheetState {
             }
 
             const currentData = getState().data;
+            const currentFullASData = getState().fullAsData;
+            const currentFullDataByOrgan = getState().fullDataByOrgan;
             const currentCompare = getState().compareSheets;
             const currentCompareData = getState().compareData;
+            const gaData = {
+              sheetName: compareSheet.title,
+              counts: {},
+            };
+            gaData.counts = this.reportService.countsGA(res.data);
+            this.ga.event(GaAction.INPUT, GaCategory.COMPARISON, `Adding sheet or file to Compare: ${JSON.stringify(gaData)}`, 0);
+            
             patchState({
               data: [...currentData, ...res.data],
+              fullAsData: [...currentFullASData, ...res.data],
               compareSheets: [...currentCompare, ...[compareSheet]],
               compareData: [...currentCompareData, ...res.data],
+              fullDataByOrgan: [...currentFullDataByOrgan, res.data],
             });
           },
           (error) => {
@@ -391,7 +447,7 @@ export class SheetState {
   @Action(FetchSelectedOrganData)
   async fetchSelectedOrganData(
     { getState, dispatch, patchState }: StateContext<SheetStateModel>,
-    { sheet, selectedOrgans }: FetchSelectedOrganData
+    { sheet, selectedOrgans, comparisonDetails }: FetchSelectedOrganData
   ) {
     dispatch(new OpenLoading('Fetching data...'));
 
@@ -419,16 +475,17 @@ export class SheetState {
 
     const organsNames: string[] = [];
     for (const organ of selectedOrgans) {
-      SHEET_CONFIG.forEach((config) => {
+      this.sheetConfig.forEach((config) => {
         config.version?.forEach((version: VersionDetail) => {
           if (version.value === organ) {
-            requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl));
+            requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
             organsNames.push(config.name);
           }
         });
       });
     }
     let asDeltails = [];
+    const fullDataByOrgan = [];
     forkJoin(requests$).subscribe(
       (allResults) => {
         allResults.map((res: ResponseData, index: number) => {
@@ -467,7 +524,7 @@ export class SheetState {
           }
 
           asDeltails = JSON.parse(JSON.stringify([...asDeltails, ...res.data]));
-
+          fullDataByOrgan.push(JSON.parse(JSON.stringify([...res.data])));
           for (const row of res.data) {
             if (!state.sheetConfig.show_all_AS && selectedOrgans.length > 8) {
               row.anatomical_structures.splice(
@@ -481,8 +538,12 @@ export class SheetState {
         });
         patchState({
           data: dataAll,
-          fullAsData: asDeltails
+          fullAsData: asDeltails,
+          fullDataByOrgan
         });
+        if (comparisonDetails) {
+          dispatch(new FetchCompareData(comparisonDetails));
+        }
       },
       (err) => {
 
@@ -531,7 +592,8 @@ export class SheetState {
     const requests$: Array<Observable<any>> = [];
     let dataAll: Row[] = [];
     const organsNames: string[] = [];
-    for (const s of SHEET_CONFIG) {
+
+    for (const s of this.sheetConfig) {
       if (s.name === 'all' || s.name === 'example' || s.name === 'some') {
         continue;
       } else {
@@ -620,7 +682,15 @@ export class SheetState {
             mode,
             sheetConfig: { ...sheet.config, show_ontology: true },
           });
-
+          if (sheet.name === 'example') {
+            const gaData = {
+              sheetName: sheet.name,
+              counts: {},
+            };
+            gaData.sheetName = sheet.name;
+            gaData.counts = this.reportService.countsGA(res.data);
+            this.ga.event(GaAction.INPUT, GaCategory.PLAYGROUND, `Adding sheet link or file to Playground : ${JSON.stringify(gaData)}`, 0);
+          }
           dispatch(
             new ReportLog(
               LOG_TYPES.MSG,
@@ -671,7 +741,7 @@ export class SheetState {
     return this.sheetService.fetchDataFromAssets(version, sheet).pipe(
       tap((res) => {
         const parsedData = parse(res, { skipEmptyLines: true });
-        parsedData.data.splice(0, HEADER_COUNT);
+        parsedData.data.splice(0, this.headerCount);
         parsedData.data.map((i) => {
           i.push(false);
           i.push('#ccc');
@@ -803,7 +873,7 @@ export class SheetState {
     setState,
     dispatch,
   }: StateContext<SheetStateModel>) {
-    const sheet: Sheet = SHEET_CONFIG.find((i) => i.name === 'example');
+    const sheet: Sheet = this.sheetConfig.find((i) => i.name === 'example');
     const mode = getState().mode;
     dispatch(new OpenLoading('Fetching playground data...'));
     dispatch(new StateReset(TreeState));
@@ -833,6 +903,8 @@ export class SheetState {
           version: 'latest',
           mode,
           sheet,
+          fullAsData: res.data,
+          fullDataByOrgan: [res.data],
           sheetConfig: { ...sheet.config, show_ontology: true },
         });
       }),
@@ -861,7 +933,8 @@ export class SheetState {
     { getState, setState, dispatch }: StateContext<SheetStateModel>,
     { data }: UpdatePlaygroundData
   ) {
-    const sheet: Sheet = SHEET_CONFIG.find((i) => i.name === 'example');
+
+    const sheet: Sheet = this.sheetConfig.find((i) => i.name === 'example');
     const state = getState();
     dispatch(new OpenLoading('Fetching playground data...'));
     dispatch(new StateReset(TreeState));
@@ -942,6 +1015,7 @@ export class SheetState {
             bottomSheetInfo: {
               ...res,
               notes: data?.notes,
+              ...(data.group === 2 ? {references: data?.references} : {}),
             },
           });
         }),
@@ -960,6 +1034,7 @@ export class SheetState {
               msg: error.message,
               status: error.status,
               notes: data?.notes,
+              ...(data.group === 2 ? {references: data?.references} : {}),
             },
           });
           const err: Error = {
@@ -989,6 +1064,18 @@ export class SheetState {
     setState({
       ...state,
       bottomSheetDOI: data,
+    });
+  }
+
+  /**
+   * Action to update the flag to get the data from cache
+   */
+  @Action(UpdateGetFromCache)
+  updateGetFromCache({ getState, setState }: StateContext<SheetStateModel>, { cache}: UpdateGetFromCache) {
+    const state = getState();
+    setState({
+      ...state,
+      getFromCache: cache,
     });
   }
 }

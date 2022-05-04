@@ -3,9 +3,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DocsService } from '../../services/docs.service';
 import { REGISTRY } from '../../static/docs';
 import { faPhone, faEnvelope, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
-import { MASTER_SHEET_LINK } from '../../static/config';
+import { ConfigService } from '../../app-config.service';
 
 @Component({
   selector: 'app-docs',
@@ -22,12 +22,18 @@ export class DocsComponent implements OnInit {
   REGISTRY = REGISTRY;
   selected: number;
   copyrightYear = new Date().getFullYear();
+  masterSheetLink;
 
   constructor(
+    public configService: ConfigService,
     private readonly router: Router,
     public activatedRoute: ActivatedRoute,
     public docsService: DocsService,
-    public ga: GoogleAnalyticsService) { }
+    public ga: GoogleAnalyticsService) { 
+    this.configService.config$.subscribe(config=>{
+      this.masterSheetLink = config.masterSheetLink;
+    });
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -61,7 +67,7 @@ export class DocsComponent implements OnInit {
 
   onLatest() {
     this.router.navigate(['/']);
-    this.ga.eventEmitter('docs_link_click', GaCategory.DOCS, 'Back to Latest Release', GaAction.NAV);
+    this.ga.event(GaAction.NAV, GaCategory.DOCS, 'Back to Latest Release');
   }
 
   openGithub() {
@@ -69,15 +75,15 @@ export class DocsComponent implements OnInit {
       'https://github.com/hubmapconsortium/ccf-asct-reporter',
       '_blank'
     );
-    this.ga.eventEmitter('docs_link_click', GaCategory.DOCS, 'Open Github', GaAction.NAV);
+    this.ga.event(GaAction.NAV, GaCategory.DOCS, 'Open Github');
   }
 
   openData() {
     window.open(
-      MASTER_SHEET_LINK,
+      this.masterSheetLink,
       '_blank'
     );
-    this.ga.eventEmitter('docs_link_click', GaCategory.DOCS, 'Open Data Tables', GaAction.NAV);
+    this.ga.event(GaAction.NAV, GaCategory.DOCS, 'Open Data Tables');
   }
 
   openDataOld() {
@@ -85,6 +91,6 @@ export class DocsComponent implements OnInit {
       'https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1268820100',
       '_blank'
     );
-    this.ga.eventEmitter('docs_link_click', GaCategory.DOCS, 'Open Old Data Tables', GaAction.NAV);
+    this.ga.event(GaAction.NAV, GaCategory.DOCS, 'Open Old Data Tables');
   }
 }
