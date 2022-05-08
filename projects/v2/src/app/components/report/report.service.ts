@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Sheet, Row, CompareData, Structure } from '../../models/sheet.model';
+import { Sheet, Row, CompareData, Structure, CompareReport, CompareReportData } from '../../models/sheet.model';
 import { EnityWithNoOtherEntity, Report } from '../../models/report.model';
 import {
   makeAS,
@@ -14,7 +14,7 @@ import {
 export class ReportService {
   private reportData = new Subject<any>();
   reportData$ = this.reportData.asObservable();
-  private compareData = new Subject<any>();
+  private compareData = new Subject<CompareReportData>();
   compareData$ = this.compareData.asObservable();
   BM_TYPE =  {
     'gene' : 'BG',
@@ -25,7 +25,7 @@ export class ReportService {
   }
   constructor() {}
 
-  async makeReportData(currentSheet: Sheet, data: any, biomarkerType?: string, isReportNotOrganWise = false) {
+  async makeReportData(currentSheet: Sheet, data: Row[], biomarkerType?: string, isReportNotOrganWise = false) {
     const output: Report = {
       anatomicalStructures: [],
       cellTypes: [],
@@ -95,7 +95,7 @@ export class ReportService {
     }, {});
   }
 
-  makeAllOrganReportDataByOrgan(sheetData: Row[], asFullData: any) {
+  makeAllOrganReportDataByOrgan(sheetData: Row[], asFullData: Row[]) {
     const result = {
       anatomicalStructures: [],
       cellTypes: [],
@@ -196,7 +196,17 @@ export class ReportService {
   ) {
     const compareDataStats = [];
     for (const sheet of compareSheets) {
-      const newEntry: any = {};
+      const newEntry: CompareReport = {
+        identicalAS: [],
+        newAS: [],
+        identicalCT: [],
+        newCT: [],
+        identicalB: [],
+        newB: [],
+        color: '',
+        title: '',
+        description: '',
+      };
 
       const { identicalStructuresAS, newStructuresAS } = this.compareASData(
         reportdata,

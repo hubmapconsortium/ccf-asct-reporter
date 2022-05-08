@@ -12,7 +12,7 @@ export enum NODE_TYPE {
 }
 
 export class TNode {
-  id: any;
+  id: number;
   name: string;
   parent: string;
   ontologyId: string;
@@ -52,12 +52,6 @@ export class TNode {
     this.notes = notes;
     this.organName = organName;
   }
-}
-
-export class TreeAndMultiParent {
-  tree: Array<TNode>;
-  multiParentLinks: any;
-
 }
 
 export interface Base {
@@ -178,12 +172,6 @@ export interface DiscrepencyStructure {
   x: number;
   y: number;
   ontologyId: string;
-}
-
-export interface BottomSheetData {
-  status: string;
-  text: any;
-  data: any;
 }
 
 export interface linksASCTBData {

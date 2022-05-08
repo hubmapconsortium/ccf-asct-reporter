@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { SheetState, SheetStateModel } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
-import { Sheet, SheetDetails, VersionDetail } from '../../models/sheet.model';
+import { PlaygroundSheetOptions, Sheet, SheetDetails, VersionDetail } from '../../models/sheet.model';
 import { Router } from '@angular/router';
 import { UpdateGetFromCache } from '../../actions/sheet.actions';
 import { ToggleControlPane, ToggleIndentList, ToggleReport, ToggleDebugLogs, OpenCompare } from '../../actions/ui.actions';
@@ -78,7 +78,7 @@ export class NavbarComponent implements OnInit {
 
   @Input() cache: boolean;
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
-  playgroundSheetOptions: any;
+  playgroundSheetOptions: Array<PlaygroundSheetOptions>;
   masterSheetLink;
 
   constructor(public sheetservice: SheetService, public configService: ConfigService,public store: Store, public router: Router, public ga: GoogleAnalyticsService, public dialog: MatDialog,
@@ -89,7 +89,7 @@ export class NavbarComponent implements OnInit {
       this.sheetOptions = data;
     });
 
-    this.configService.config$.subscribe(config => {
+    this.configService.config$.subscribe((config:any) => {
       this.versions = config.version;
       this.moreOptions = config.moreOptions;
       this.imgOptions = config.imgOptions;

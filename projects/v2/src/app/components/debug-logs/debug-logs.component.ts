@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Sheet } from '../../models/sheet.model';
+import { Logs } from '../../models/ui.model';
 
 @Component({
   selector: 'app-debug-logs',
@@ -9,7 +10,7 @@ import { Sheet } from '../../models/sheet.model';
 export class DebugLogsComponent implements OnInit {
 
   @Input() currentSheet: Sheet;
-  @Input() logs: any;
+  @Input() logs: Logs;
   @Output() closeDebug: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() { }

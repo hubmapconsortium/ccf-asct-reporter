@@ -1,4 +1,6 @@
 import { Error, SnackbarType } from '../models/response.model';
+import { DOI } from '../models/sheet.model';
+import { OpenBottomSheetData } from '../models/ui.model';
 
 export class OpenLoading {
   static readonly type = '[OPEN] Loading';
@@ -67,12 +69,12 @@ export class ToggleBottomSheet {
 
 export class OpenBottomSheet {
   static readonly type = '[OPEN] Bottom Sheet';
-  constructor(public data: any) {}
+  constructor(public data: OpenBottomSheetData) {}
 }
 
 export class OpenBottomSheetDOI {
   static readonly type = '[OPEN] Bottom Sheet DOI';
-  constructor(public data: any) {}
+  constructor(public data: DOI[]) {}
 }
 
 export class CloseBottomSheet {

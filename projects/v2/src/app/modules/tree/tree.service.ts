@@ -130,9 +130,9 @@ export class TreeService {
         
         row.anatomical_structures.forEach((structure) => {
           let s: number;
-          if (structure.id && structure.id.toLowerCase() !== 'not found') {
+          if (structure.id) {
             s = nodes.findIndex(
-              (i: any) => {
+              (i: TNode) => {
                 if (!isReport) {
                   return i.type !== 'root' &&
                   i.comparatorId === parent.comparatorId + structure.id;
@@ -144,7 +144,7 @@ export class TreeService {
             );
           } else {
             s = nodes.findIndex(
-              (i: any) => {
+              (i: TNode) => {
                 if (!isReport) {
                   return i.type !== 'root' &&
                   i.comparatorName === parent.comparatorName + structure.name;
@@ -165,7 +165,7 @@ export class TreeService {
             id += 1;
             const newNode = new TNode(
               id,
-              structure.id.toLowerCase() !== 'not found' && structure.id && idNameSet[structure.id] ? idNameSet[structure.id]  : structure.name,
+              structure.id && idNameSet[structure.id] ? idNameSet[structure.id]  : structure.name,
               parent.id,
               structure.id,
               structure.notes,

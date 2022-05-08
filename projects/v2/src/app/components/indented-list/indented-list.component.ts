@@ -16,7 +16,7 @@ import {
 } from '@angular/material/tree';
 // import { ReportService } from '../report/report.service';
 import { IndentedListService } from './indented-list.service';
-import { Sheet } from '../../models/sheet.model';
+import { Row, Sheet } from '../../models/sheet.model';
 
 interface Node {
   name: string;
@@ -46,7 +46,7 @@ export class IndentedListComponent implements OnInit, OnDestroy, AfterViewInit {
   visible = false;
   @Input() dataVersion;
   @Input() currentSheet: Sheet;
-  @Input() sheetData: any;
+  @Input() sheetData: Row[];
   @Output() closeIL: EventEmitter<any> = new EventEmitter<any>();
   @Output() openBottomSheet: EventEmitter<any> = new EventEmitter<any>();
 

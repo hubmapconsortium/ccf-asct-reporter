@@ -4,6 +4,7 @@ import { Legend } from '../../models/legend.model';
 import { TNode } from '../../models/tree.model';
 import { CompareData } from '../../models/sheet.model';
 import { Error } from '../../models/response.model';
+import { BimodalData } from '../../models/bimodal.model';
 
 @Component({
   selector: 'app-legend',
@@ -15,7 +16,7 @@ export class LegendComponent implements OnInit, OnChanges {
   legends: Legend[];
 
   @Input() treeData: TNode[];
-  @Input() bimodalData: any;
+  @Input() bimodalData: BimodalData;
   @Input() compareData: CompareData[];
   @Input() error: Error;
 

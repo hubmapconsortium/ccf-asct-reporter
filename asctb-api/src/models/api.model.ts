@@ -29,7 +29,7 @@ export enum PROTEIN_PRESENCE {
 
 export const HEADER_FIRST_COLUMN = 'AS/1';
 
-export const arrayNameMap: Record<string, string> = {
+export const arrayNameMap: Record<string, arrayNameType> = {
   AS: 'anatomical_structures',
   CT: 'cell_types',
   FTU: 'ftu_types',
@@ -46,6 +46,8 @@ export const arrayNameMap: Record<string, string> = {
   BF: 'biomarkers_prot'
 };
 
+export type arrayNameType  ='anatomical_structures' | 'cell_types' | 'ftu_types' | 'biomarkers_gene' | 'biomarkers_protein' | 'biomarkers_lipids' | 'biomarkers_meta' | 'biomarkers_prot' | 'references';
+
 export const objectFieldMap: Record<string, string> = {
   ID: 'id',
   LABEL: 'rdfs_label',
@@ -54,7 +56,7 @@ export const objectFieldMap: Record<string, string> = {
   NOTE: 'notes'
 };
 
-export function createObject(name: string, structureType: string): any {
+export function createObject(name: string, structureType: string): Structure | Reference {
   switch (structureType) {
   case 'REF':
     return new Reference(name);

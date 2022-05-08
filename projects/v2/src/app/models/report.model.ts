@@ -1,3 +1,4 @@
+import { Sheet } from './sheet.model';
 import { AS, CT, B } from './tree.model';
 
 export interface Report {
@@ -9,6 +10,11 @@ export interface Report {
   biomarkers: B[];
   ASWithNoCT: EnityWithNoOtherEntity[];
   CTWithNoB: EnityWithNoOtherEntity[];
+}
+
+export interface ReportData {
+  data: Report;
+  sheet: Sheet;
 }
 
 export interface CByOrgan {
@@ -23,4 +29,14 @@ export interface EnityWithNoOtherEntity {
   organName: string;
   link: string;
   label: string;
+}
+
+export interface BiomarkersNamesInReport {
+  type: string;
+  name: string;
+}
+
+export interface BiomarkersCounts {
+  name: string;
+  value: number;
 }

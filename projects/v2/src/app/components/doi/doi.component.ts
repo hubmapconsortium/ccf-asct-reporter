@@ -4,6 +4,7 @@ import {
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
 import { Error } from '../../models/response.model';
+import { DOI } from '../../models/sheet.model';
 
 @Component({
   selector: 'app-doi',
@@ -14,9 +15,8 @@ export class DoiComponent implements OnInit {
   loading = true;
   noId = false;
   error: Error = { hasError: false };
-  info: any;
   constructor(
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: DOI[],
     public sheetRef: MatBottomSheetRef
   ) {}
 
@@ -27,6 +27,7 @@ export class DoiComponent implements OnInit {
      * Trimming the intial part of the doi property as it as "DOI: " in its respective property.
      */
     this.data = this.data.map((item) => {
+      console.log(item);
       if (item.doi.toUpperCase().search('DOI') === 0) {
         item.doi = item.doi.substring(5);
       }

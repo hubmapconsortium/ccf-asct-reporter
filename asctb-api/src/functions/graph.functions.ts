@@ -28,13 +28,13 @@ export function buildgraphAS(data: Row[], graphData: GraphData) {
       let s: number;
       if (structure.id) {
         s = graphData.nodes.findIndex(
-          (i: any) =>
+          (i: GNode) =>
             i.type !== 'root' &&
             i.comparatorId === parent.comparatorId + structure.id
         );
       } else {
         s = graphData.nodes.findIndex(
-          (i: any) =>
+          (i: GNode) =>
             i.type !== 'root' &&
             i.comparatorName === parent.comparatorName + structure.name
         );
@@ -72,7 +72,7 @@ export function buildgraphAS(data: Row[], graphData: GraphData) {
 export function buildgraphCT(data: Row[], graphData: GraphData, id: number) {
   data.forEach((row: Row) => {
     const parentIndex = graphData.nodes.findIndex(
-      (i: any) =>
+      (i: GNode) =>
         i.metadata.name ===
         row.anatomical_structures[row.anatomical_structures.length - 1].name
     );
@@ -83,11 +83,11 @@ export function buildgraphCT(data: Row[], graphData: GraphData, id: number) {
         let s: number;
         if (structure.id) {
           s = graphData.nodes.findIndex(
-            (i: any) => i.comparatorId === structure.id
+            (i: GNode) => i.comparatorId === structure.id
           );
         } else {
           s = graphData.nodes.findIndex(
-            (i: any) => i.comparatorName === structure.name
+            (i: GNode) => i.comparatorName === structure.name
           );
         }
         if (s === -1) {
@@ -122,20 +122,20 @@ export function buildgraphBM(data: Row[], graphData: GraphData, id: number) {
   data.forEach((row: Row) => {
     row.cell_types.forEach((structure) => {
       const parentIndex = graphData.nodes.findIndex(
-        (i: any) => i.metadata.name === structure.name
+        (i: GNode) => i.metadata.name === structure.name
       );
       if (parentIndex !== -1) {
         const parent = graphData.nodes[parentIndex];
 
         row.biomarkers.forEach((biomarker) => {
           let s: number;
-          if (structure.id)  {
+          if (biomarker.id)  {
             s = graphData.nodes.findIndex(
-              (i: any) => i.comparatorId === biomarker.id
+              (i: GNode) => i.comparatorId === biomarker.id
             );
           } else {
             s = graphData.nodes.findIndex(
-              (i: any) => i.comparatorName === biomarker.name
+              (i: GNode) => i.comparatorName === biomarker.name
             );
           }
           if (s === -1) {
@@ -167,7 +167,7 @@ export function buildgraphBM(data: Row[], graphData: GraphData, id: number) {
   return id;
 }
 
-export function makeGraphData(data: any) {
+export function makeGraphData(data: Row[]) {
   const graphData: GraphData = { nodes: [], edges: [] };
 
   for (const row of data) {
