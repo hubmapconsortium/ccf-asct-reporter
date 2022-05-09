@@ -46,7 +46,8 @@ export const arrayNameMap: Record<string, arrayNameType> = {
   BF: 'biomarkers_prot'
 };
 
-export type arrayNameType  ='anatomical_structures' | 'cell_types' | 'ftu_types' | 'biomarkers_gene' | 'biomarkers_protein' | 'biomarkers_lipids' | 'biomarkers_meta' | 'biomarkers_prot' | 'references';
+export type arrayNameType  ='anatomical_structures' | 'cell_types' | 'ftu_types' | 
+  'biomarkers_gene' | 'biomarkers_protein' | 'biomarkers_lipids' | 'biomarkers_meta' | 'biomarkers_prot' | 'references';
 
 export const objectFieldMap: Record<string, string> = {
   ID: 'id',

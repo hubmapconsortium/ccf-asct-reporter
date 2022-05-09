@@ -1,4 +1,5 @@
-import { arrayNameMap, arrayNameType, createObject, DELIMETER, HEADER_FIRST_COLUMN, metadataArrayFields, metadataNameMap, objectFieldMap, Row, TITLE_ROW_INDEX } from '../models/api.model';
+import { arrayNameMap, arrayNameType, createObject, DELIMETER, HEADER_FIRST_COLUMN,
+  metadataArrayFields, metadataNameMap, objectFieldMap, Row, TITLE_ROW_INDEX } from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
 
 export interface ASCTBData {

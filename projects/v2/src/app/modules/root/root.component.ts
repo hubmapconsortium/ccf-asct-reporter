@@ -54,7 +54,7 @@ import { SheetService } from '../../services/sheet.service';
 import { OrganTableSelectorComponent } from '../../components/organ-table-selector/organ-table-selector.component';
 import { TreeComponent } from '../tree/tree.component';
 import { ConfigService } from '../../app-config.service';
-import { Report, ReportData } from '../../models/report.model';
+import { Report } from '../../models/report.model';
 
 @Component({
   selector: 'app-root',
