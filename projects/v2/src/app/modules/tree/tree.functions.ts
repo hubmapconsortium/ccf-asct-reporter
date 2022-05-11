@@ -1,15 +1,53 @@
-import {
-  AS,
-  CT,
-  B,
-  AS_RED,
-  CT_BLUE,
-  B_GREEN,
-  ST_ID,
-} from '../../models/tree.model';
 import { Row, Structure } from '../../models/sheet.model';
+import { AS, AS_RED, B, B_GREEN, CT, CT_BLUE, ST_ID } from '../../models/tree.model';
+
 type TypeStructue = AS | CT | B;
 
+
+export function makeReferences(data: Row[], isForReport = false, isReportNotOrganWise = false): any[] {
+  const references = [];
+  try {
+    data.forEach((row) => {
+      row.references.forEach((str, i) => {
+        const foundIndex = getFoundIndex(str, references, isForReport, row, false, isReportNotOrganWise);
+        let newStructure: AS;
+        // if it is new
+        if (foundIndex === -1) {
+          newStructure = {
+            structure: str.doi,
+            uberon: str.id,
+            isNew: 'isNew' in str ? true : false,
+            outdegree: new Set(),
+            indegree: new Set(),
+            comparator: str.doi + str.id,
+            comparatorId: str.id,
+            comparatorName: str.doi,
+            organName: row.organName,
+            notes: str.notes
+          };
+          if (i > 0) {
+            // needed for the first element to not throw an error
+            newStructure.indegree.add({
+              id: row.references[i - 1].id,
+              name: row.references[i - 1].doi,
+            });
+          }
+          references.push(newStructure);
+        } else {
+          if (i > 0) {
+            references[foundIndex].indegree.add({
+              id: row.references[i - 1].id,
+              name: row.references[i - 1].doi,
+            });
+          }
+        }
+      });
+    });
+    return references;
+  } catch (error) {
+    throw new Error(`Could not process References - ${error}`);
+  }
+}
 /**
  * Function to compute the Anatomical Structures from the given Data Table.
  *
@@ -29,6 +67,8 @@ export function makeAS(data: Row[], isForReport = false, isReportNotOrganWise = 
         ) {
           const foundIndex = getFoundIndex(str, anatomicalStructures, isForReport, row, false, isReportNotOrganWise);
           let newStructure: AS;
+
+          // if it is new
           if (foundIndex === -1) {
             newStructure = {
               structure: str.name,
@@ -66,6 +106,7 @@ export function makeAS(data: Row[], isForReport = false, isReportNotOrganWise = 
 
             anatomicalStructures.push(newStructure);
           } else {
+          // if already exists, only create out degree
             if (row.cell_types.length) {
               row.cell_types.forEach((cell) => {
                 anatomicalStructures[foundIndex].outdegree.add({

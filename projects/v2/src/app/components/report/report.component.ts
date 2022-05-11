@@ -1,25 +1,17 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  AfterViewInit,
-  ViewChild,
-} from '@angular/core';
-import { ReportService } from './report.service';
-import { CByOrgan, Report } from '../../models/report.model';
-import { Row, Sheet, SheetConfig } from '../../models/sheet.model';
-
-import * as XLSX from 'xlsx';
-import * as moment from 'moment';
-import { Observable } from 'rxjs';
-import { GoogleAnalyticsService } from 'ngx-google-analytics';
-import { GaAction, GaCategory } from '../../models/ga.model';
-import { TreeService } from '../../modules/tree/tree.service';
-import { linksASCTBData } from '../../models/tree.model';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import * as moment from 'moment';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
+import { Observable } from 'rxjs';
+import * as XLSX from 'xlsx';
+
+import { GaAction, GaCategory } from '../../models/ga.model';
+import { CByOrgan, Report } from '../../models/report.model';
+import { Row, Sheet, SheetConfig } from '../../models/sheet.model';
+import { linksASCTBData } from '../../models/tree.model';
+import { TreeService } from '../../modules/tree/tree.service';
+import { ReportService } from './report.service';
 
 @Component({
   selector: 'app-report',
@@ -34,6 +26,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
     ASWithNoLink: [],
     CTWithNoLink: [],
     BWithNoLink: [],
+    references: []
   };
   resultDataByOrganName: Report = {
     anatomicalStructures: [],
@@ -42,6 +35,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
     BWithNoLink: [],
     cellTypes: [],
     biomarkers: [],
+    references: []
   };
   countsByOrgan: MatTableDataSource<CByOrgan[]> = new MatTableDataSource();
   displayedColumns: string[] = [
@@ -89,8 +83,10 @@ export class ReportComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+    // subscriptions
     this.reportService.reportData$.subscribe((data) => {
       this.reportData = data.data;
+      console.log(this.reportData);
       this.computedReport.emit(data.data);
 
       this.ontologyLinkGraphData = this.makeOntologyLinksGraphData(data.data, this.sheetData);
@@ -120,6 +116,8 @@ export class ReportComponent implements OnInit, AfterViewInit {
       }
     });
 
+    // calls
+    console.log(this.fullDataByOrgan);
     this.fullDataByOrgan.forEach((data) => {
       this.ts.makeTreeData(this.currentSheet, data, this.compareData, true);
     });

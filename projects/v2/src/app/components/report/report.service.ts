@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Sheet, Row, CompareData } from '../../models/sheet.model';
+
 import { Report } from '../../models/report.model';
-import {
-  makeAS,
-  makeCellTypes,
-  makeBioMarkers,
-} from '../../modules/tree/tree.functions';
+import { CompareData, Row, Sheet } from '../../models/sheet.model';
+import { makeAS, makeBioMarkers, makeCellTypes, makeReferences } from '../../modules/tree/tree.functions';
 
 @Injectable({
   providedIn: 'root',
@@ -33,12 +30,14 @@ export class ReportService {
       ASWithNoLink: [],
       CTWithNoLink: [],
       BWithNoLink: [],
+      references: []
     };
 
     try {
       output.anatomicalStructures = makeAS(data, true, isReportNotOrganWise);
       output.cellTypes = makeCellTypes(data, true, isReportNotOrganWise);
       output.biomarkers = makeBioMarkers(data, biomarkerType, true, isReportNotOrganWise);
+      output.references = makeReferences(data, true, isReportNotOrganWise);
 
       output.ASWithNoLink = this.getASWithNoLink(output.anatomicalStructures);
       output.CTWithNoLink = this.getCTWithNoLink(output.cellTypes);

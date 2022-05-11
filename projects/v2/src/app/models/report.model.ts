@@ -1,4 +1,4 @@
-import { AS, CT, B } from './tree.model';
+import { AS, B, CT } from './tree.model';
 
 export interface Report {
   ASWithNoLink: AS[];
@@ -7,6 +7,7 @@ export interface Report {
   anatomicalStructures: AS[];
   cellTypes: CT[];
   biomarkers: B[];
+  references?: any[]
 }
 
 export interface CByOrgan {
