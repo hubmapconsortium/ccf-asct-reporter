@@ -66,7 +66,17 @@ export interface Base {
   comparatorId?: string;
   comparatorName?: string;
 }
-
+export interface Ref extends Base {
+  structure: string;
+  uberon: string;
+  indegree?: Set<Degree>;
+  outdegree?: Set<Degree>;
+  label?: string;
+  isNew?: boolean;
+  color?: string;
+  organName?: string;
+  notes: string;
+}
 export interface AS extends Base {
   structure: string;
   uberon: string;

@@ -1,7 +1,7 @@
 import { Row, Structure } from '../../models/sheet.model';
-import { AS, AS_RED, B, B_GREEN, CT, CT_BLUE, ST_ID } from '../../models/tree.model';
+import { AS, AS_RED, B, B_GREEN, CT, CT_BLUE, Ref, ST_ID } from '../../models/tree.model';
 
-type TypeStructue = AS | CT | B;
+type TypeStructue = Ref | AS | CT | B;
 
 
 export function makeReferences(data: Row[], isForReport = false, isReportNotOrganWise = false): any[] {
@@ -10,7 +10,7 @@ export function makeReferences(data: Row[], isForReport = false, isReportNotOrga
     data.forEach((row) => {
       row.references.forEach((str, i) => {
         const foundIndex = getFoundIndex(str, references, isForReport, row, false, isReportNotOrganWise);
-        let newStructure: AS;
+        let newStructure: Ref;
         // if it is new
         if (foundIndex === -1) {
           newStructure = {
