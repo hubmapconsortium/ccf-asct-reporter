@@ -83,10 +83,8 @@ export class ReportComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    // subscriptions
     this.reportService.reportData$.subscribe((data) => {
       this.reportData = data.data;
-      console.log(this.reportData);
       this.computedReport.emit(data.data);
 
       this.ontologyLinkGraphData = this.makeOntologyLinksGraphData(data.data, this.sheetData);
@@ -116,8 +114,6 @@ export class ReportComponent implements OnInit, AfterViewInit {
       }
     });
 
-    // calls
-    console.log(this.fullDataByOrgan);
     this.fullDataByOrgan.forEach((data) => {
       this.ts.makeTreeData(this.currentSheet, data, this.compareData, true);
     });

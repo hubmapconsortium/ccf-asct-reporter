@@ -68,7 +68,6 @@ export function makeAS(data: Row[], isForReport = false, isReportNotOrganWise = 
           const foundIndex = getFoundIndex(str, anatomicalStructures, isForReport, row, false, isReportNotOrganWise);
           let newStructure: AS;
 
-          // if it is new
           if (foundIndex === -1) {
             newStructure = {
               structure: str.name,
@@ -106,7 +105,6 @@ export function makeAS(data: Row[], isForReport = false, isReportNotOrganWise = 
 
             anatomicalStructures.push(newStructure);
           } else {
-          // if already exists, only create out degree
             if (row.cell_types.length) {
               row.cell_types.forEach((cell) => {
                 anatomicalStructures[foundIndex].outdegree.add({
