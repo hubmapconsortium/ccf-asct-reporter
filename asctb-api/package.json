@@ -18,7 +18,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@rdfjs-elements/formats-pretty": "^0.3.3",
+    "@rdfjs-elements/formats-pretty": "^0.4.3",
     "axios": "^0.21.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
