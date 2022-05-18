@@ -113,7 +113,7 @@ export interface SheetInfo {
 }
 
 export interface DOI {
-  name: string;
+  doi: string;
   id: string;
   notes: string;
 }
@@ -140,8 +140,9 @@ export interface SheetDetails {
   };
   title: string;
   version?: Array<VersionDetail>;
-  data?: any;
+  data?: string;
   csvUrl?: string;
+  symbol?: string;
 }
 
 export interface SheetOptions {
@@ -151,4 +152,79 @@ export interface SheetOptions {
     value: string;
     viewValue: string;
   }[];
+  symbol?: string;
+}
+
+export interface PlaygroundSheetOptions {
+  title: string;
+  sheet: string;
+}
+
+export interface ConfigurationOptions {
+  headerCount:            string;
+  imgOptions:             string[];
+  masterSheetLink:        string;
+  sheetId:                string;
+  version1Url:            string;
+  playgroundSheetOptions: PlaygroundSheetOptions[];
+  version:                Version[];
+  moreOptions:            MoreOption[];
+}
+
+export interface MoreOption {
+  name: string;
+  url:  string;
+  type: string;
+}
+
+export interface Version {
+  display: string;
+  folder:  string;
+}
+
+export interface GEdge {
+  source: number;
+  target: number;
+}
+
+export class GNode {
+  id: number;
+  type: string;
+  name: string;
+  metadata: Metadata;
+}
+
+export class Metadata {
+  ontologyTypeId: string;
+  ontologyType: string;
+  label: string;
+  name: string;
+  ontologyId: string;
+  bmType?: string;
+  references: Reference[];
+}
+
+export interface Graph {
+  nodes: Array<GNode>;
+  edges: Array<GEdge>;
+}
+
+export interface GraphData {
+  data: Graph;
+}
+
+export interface CompareReport {
+  identicalAS: string[];
+  newAS: string[];
+  identicalCT: string[];
+  newCT: string[];
+  identicalB: string[];
+  newB: string[];
+  color: string;
+  title: string;
+  description: string;
+}
+
+export interface CompareReportData {
+  data: CompareReport[];
 }

@@ -22,7 +22,7 @@ export enum Edge_type {
 }
 
 export class GNode {
-  id: any;
+  id: number;
   parent: number;
   type: string;
   name: string;

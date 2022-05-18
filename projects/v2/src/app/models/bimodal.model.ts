@@ -1,4 +1,4 @@
-import { NODE_TYPE } from './tree.model';
+import { Degree, NODE_TYPE } from './tree.model';
 import { PROTEIN_PRESENCE, Reference } from './sheet.model';
 
 const groupNameMapper = {
@@ -26,8 +26,8 @@ export class BMNode {
   isNew: boolean;
   type: string;
   degree?: number;
-  indegree?: any;
-  outdegree?: any;
+  indegree?: Set<Degree>;
+  outdegree?: Set<Degree>;
   label?: string;
   bType?: string;
   proteinPresence: PROTEIN_PRESENCE;
@@ -100,4 +100,10 @@ export interface BimodalConfig {
     size: string,
     type: string
   };
+}
+
+export interface BimodalData {
+  nodes: BMNode[];
+  links: Link[];
+  config: BimodalConfig;
 }

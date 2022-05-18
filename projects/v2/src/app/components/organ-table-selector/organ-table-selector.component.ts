@@ -4,7 +4,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory, GaOrgansInfo } from '../../models/ga.model';
-import { OrganTableOnClose, OrganTableSelect } from '../../models/sheet.model';
+import { OrganTableOnClose, OrganTableSelect, SheetDetails, SheetOptions } from '../../models/sheet.model';
 import { ConfigService } from '../../app-config.service';
 
 @Component({
@@ -51,7 +51,7 @@ export class OrganTableSelectorComponent implements OnInit {
 
     this.configService.sheetConfiguration$.subscribe(sheetConfig=>{
       const filteredData = sheetConfig.map((element) => {
-        return {...element, version: element.version?.filter((version) => !version.viewValue.includes('DRAFT'))};
+        return {...element, version: element.version?.filter((version) => true)};
       });
       this.sheetOptions = filteredData.filter(organ => organ.version !== undefined);
       this.sheetOptions = this.sheetOptions.filter(organ => organ.version.length !== 0);
@@ -61,7 +61,7 @@ export class OrganTableSelectorComponent implements OnInit {
     this.getFromCache = data.getFromCache;
     this.onClose.cache = data.getFromCache;
     this.organs = data.organs ? data.organs : [];
-    this.dataSource.data.forEach((dataElement: any) => {
+    this.dataSource.data.forEach((dataElement: SheetOptions) => {
       dataElement?.version?.forEach((v, i) => {
         if (i === 1) {
           dataElement.symbol = v.value;
@@ -69,7 +69,7 @@ export class OrganTableSelectorComponent implements OnInit {
       });
     });
     this.organs.forEach((item) => {
-      this.dataSource.data.forEach((dataElement: any) => {
+      this.dataSource.data.forEach((dataElement: SheetOptions) => {
         dataElement?.version?.forEach((v, i) => {
           if (v.value === item) {
             dataElement.symbol = item;
@@ -115,7 +115,7 @@ export class OrganTableSelectorComponent implements OnInit {
 
   selectAllOrgans() {
     const allOrgans = [];
-    this.sheetOptions.forEach((s: any) => {
+    this.sheetOptions.forEach((s: SheetOptions) => {
       s.version?.forEach((v) => {
         allOrgans.push(v.value);
       });
@@ -157,11 +157,11 @@ export class OrganTableSelectorComponent implements OnInit {
     }`;
   }
 
-  changeVersion(value: any, element: any) {
+  changeVersion(value: string, element: SheetDetails) {
     if (element.display === 'All Organs'){
       this.selection.select(...this.dataSource.data);
       if (value === 'All_Organs-v1.1'){
-        this.dataSource.data.forEach((dataElement: any) => {
+        this.dataSource.data.forEach((dataElement: SheetOptions) => {
           if (dataElement.version.length === 1 && dataElement.version[0].viewValue !== 'v1.1') {
             this.selection.toggle(dataElement);
           }
@@ -174,7 +174,7 @@ export class OrganTableSelectorComponent implements OnInit {
         this.hasSomeOrgans = this.selection.selected.length > 0;
       }
       else{
-        this.dataSource.data.forEach((dataElement: any) => {
+        this.dataSource.data.forEach((dataElement: SheetOptions) => {
           if (dataElement.version.length === 1 && dataElement.version[0].viewValue !== 'v1.0') {
             this.selection.toggle(dataElement);
           }

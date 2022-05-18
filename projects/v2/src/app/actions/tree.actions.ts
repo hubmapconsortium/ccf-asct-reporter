@@ -1,4 +1,4 @@
-import { BimodalConfig } from '../models/bimodal.model';
+import { BimodalConfig, BMNode, Link } from '../models/bimodal.model';
 import { DiscrepencyStructure, SearchStructure } from '../models/tree.model';
 
 export class UpdateGraphWidth {
@@ -18,7 +18,7 @@ export class UpdateVegaView {
 
 export class UpdateBimodal {
   static readonly type = '[UPDATE] Bimodal Network';
-  constructor(public nodes: any, public links: any) {}
+  constructor(public nodes: BMNode[], public links:  Link[]) {}
 }
 
 export class UpdateBimodalConfig {

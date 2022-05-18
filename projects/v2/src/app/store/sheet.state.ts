@@ -49,6 +49,7 @@ import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../models/ga.model';
 import { ReportService } from '../components/report/report.service';
 import { ConfigService } from '../app-config.service';
+import { Report } from '../models/report.model';
 
 /** Class to keep track of the sheet */
 export class SheetStateModel {
@@ -83,7 +84,7 @@ export class SheetStateModel {
   /**
    * Stores the data from the report
    */
-  reportData: any;
+  reportData: Report;
   /**
    * Stores the mode: vis or playground
    */
@@ -111,7 +112,7 @@ export class SheetStateModel {
   /**
    * Full data by organ
    */
-  fullDataByOrgan: any;
+  fullDataByOrgan: Row[][];
   /**
    * Update the flag is data should be fetched from cache
    */
@@ -148,7 +149,16 @@ export class SheetStateModel {
     },
     compareSheets: [],
     compareData: [],
-    reportData: {},
+    reportData: {
+      ASWithNoLink: [],
+      CTWithNoLink: [],
+      BWithNoLink: [],
+      anatomicalStructures: [],
+      cellTypes: [],
+      biomarkers: [],
+      ASWithNoCT: [],
+      CTWithNoB: []
+    },
     mode: 'vis',
     parsed: [],
     bottomSheetInfo: {
@@ -652,7 +662,16 @@ export class SheetState {
             ...state,
             compareData: [],
             compareSheets: [],
-            reportData: [],
+            reportData: {
+              ASWithNoLink: [],
+              CTWithNoLink: [],
+              BWithNoLink: [],
+              anatomicalStructures: [],
+              cellTypes: [],
+              biomarkers: [],
+              ASWithNoCT: [],
+              CTWithNoB: []
+            },
             csv: res.csv,
             data: res.data,
             version: 'latest',

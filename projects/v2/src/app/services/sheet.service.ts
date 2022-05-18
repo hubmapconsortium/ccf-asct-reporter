@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { URL, getAssetsURL } from './../static/url';
 import { Observable, throwError } from 'rxjs';
 import {  map } from 'rxjs/operators';
-import { SheetInfo, Structure } from '../models/sheet.model';
+import { Row, Sheet, SheetInfo, Structure } from '../models/sheet.model';
 
 @Injectable({
   providedIn: 'root'
@@ -63,7 +63,7 @@ export class SheetService {
    * @param dataVersion version of the data
    * @param currentSheet current sheet
    */
-  fetchDataFromAssets(dataVersion: string, currentSheet: any) {
+  fetchDataFromAssets(dataVersion: string, currentSheet: Sheet) {
     return this.http.get(getAssetsURL(dataVersion, currentSheet), {
       responseType: 'text'
     });
@@ -136,7 +136,7 @@ export class SheetService {
    * Service to add body for each AS to the data
    * @param data is the parsed ASCTB data from the csv file of the sheet
    */
-  getDataWithBody(data: any, organName: string) {
+  getDataWithBody(data: Row[], organName: string) {
     const organ: Structure = {
       name: 'Body',
       id: 'UBERON:0013702',

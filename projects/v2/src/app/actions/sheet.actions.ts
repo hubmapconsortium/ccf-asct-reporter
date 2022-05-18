@@ -1,4 +1,6 @@
-import { Sheet, CompareData, SheetConfig } from './../models/sheet.model';
+import { Report } from '../models/report.model';
+import { OpenBottomSheetData } from '../models/ui.model';
+import { Sheet, CompareData, SheetConfig, DOI } from './../models/sheet.model';
 
 export class FetchSheetData {
   static readonly type = '[FETCH] Sheet Data';
@@ -42,7 +44,7 @@ export class ToggleShowAllAS {
 
 export class UpdateReport {
   static readonly type = '[Update] Report Statistics';
-  constructor(public reportData: any) {}
+  constructor(public reportData: Report) {}
 }
 
 export class DeleteCompareSheet {
@@ -62,7 +64,7 @@ export class UpdatePrevSheet {
 
 export class UpdateSheet {
   static readonly type = '[UPDATE] Sheet';
-  constructor(public sheet: any) {}
+  constructor(public sheet: Sheet) {}
 }
 
 export class FetchInitialPlaygroundData {
@@ -82,12 +84,12 @@ export class FetchPlaygroundUploadData {
 
 export class UpdateBottomSheetInfo {
   static readonly type = '[UPDATE] Bottom Sheet Info';
-  constructor(public data: any) {}
+  constructor(public data: OpenBottomSheetData) {}
 }
 
 export class UpdateBottomSheetDOI {
   static readonly type = '[UPDATE] Bottom Sheet DOI';
-  constructor(public data: any) {}
+  constructor(public data: DOI[]) {}
 }
 
 export class UpdateGetFromCache {

@@ -8,8 +8,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ReportService } from './report.service';
-import { CByOrgan, Report } from '../../models/report.model';
-import { Row, Sheet, SheetConfig } from '../../models/sheet.model';
+import { BiomarkersCounts, BiomarkersNamesInReport, CByOrgan, Report } from '../../models/report.model';
+import { CompareData, Row, Sheet, SheetConfig } from '../../models/sheet.model';
 
 import * as XLSX from 'xlsx';
 import * as moment from 'moment';
@@ -61,25 +61,24 @@ export class ReportComponent implements OnInit, AfterViewInit {
     'anatomicalStructures',
     'cellTypes'
   ];
-  biomarkersSeperateNames: any;
+  biomarkersSeperateNames: BiomarkersNamesInReport[];
   compareReport: any;
-  compareDataAndSheets: any;
   clickButton = false; // for mat expansion panel download button
 
   @ViewChild(MatSort) sort: MatSort;
   ontologyLinkGraphData = [];
   SheetConfig: SheetConfig;
   total_AS_AS: number;
-  biomarkersCounts: any = [];
+  biomarkersCounts: BiomarkersCounts[] = [];
 
-  @Input() compareSheets: any;
-  @Input() sheetData: any;
-  @Input() asFullData: any;
+  @Input() compareSheets: CompareData[];
+  @Input() sheetData: Row[];
+  @Input() asFullData: Row[];
   @Input() fullDataByOrgan: Array<Row[]>;
   @Input() currentSheet: Sheet;
   @Input() linksData$: Observable<linksASCTBData>;
-  @Input() inputReportData: Observable<any>;
-  @Input() currentSheetConfig: Observable<any>;
+  @Input() inputReportData: Observable<Report>;
+  @Input() currentSheetConfig: Observable<SheetConfig>;
   @Input() compareData: Observable<any>;
   @Input() bmType: string;
   @Output() closeReport: EventEmitter<any> = new EventEmitter<any>();

@@ -1,4 +1,5 @@
-import { arrayNameMap, createObject, DELIMETER, HEADER_FIRST_COLUMN, metadataArrayFields, metadataNameMap, objectFieldMap, Row, TITLE_ROW_INDEX } from '../models/api.model';
+import { arrayNameMap, arrayNameType, createObject, DELIMETER, HEADER_FIRST_COLUMN,
+  metadataArrayFields, metadataNameMap, objectFieldMap, Row, TITLE_ROW_INDEX } from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
 
 export interface ASCTBData {
@@ -19,9 +20,9 @@ export function normalizeCsvUrl(url: string): string {
   return url;
 }
 
-function setData(column: string[], row: any, value: any, warnings: Set<string>): void {
+function setData(column: string[], row: Row, value: string, warnings: Set<string>): void {
   if (column.length > 1) {
-    const arrayName = arrayNameMap[column[0]];
+    const arrayName: arrayNameType = arrayNameMap[column[0]];
     const originalArrayName = column[0];
     const objectArray: any[] = row[arrayName] || [];
 
@@ -118,7 +119,7 @@ export function makeASCTBData(data: string[][]): ASCTBData {
   const columns = data[headerRow].map((col: string) => col.toUpperCase().split('/').map(s => s.trim()));
   const warnings = new Set<string>();
 
-  const results = data.slice(headerRow + 1).map((rowData: any[], rowNumber) => {
+  const results = data.slice(headerRow + 1).map((rowData: string[], rowNumber) => {
     const row: Row = new Row(headerRow + rowNumber + 2);
     rowData.forEach((value, index) => {
       if (index < columns.length && columns[index].length > 1) {

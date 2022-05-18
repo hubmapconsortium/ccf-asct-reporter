@@ -25,7 +25,7 @@ export function setupCSVRoutes(app: Express): void {
 
     try {
       let csvData = '';
-      let parsedCsvData: any[] = [];
+      let parsedCsvData: string[][] = [];
       
       let warnings: string[] = [];
       const asctbDataResponses = await Promise.all(
@@ -34,7 +34,7 @@ export function setupCSVRoutes(app: Express): void {
           const response = await axios.get(parsedUrl);
           csvData = response.data;
           const { data } = papa.parse<string[]>(response.data, { skipEmptyLines: 'greedy' });
-          parsedCsvData = data;
+          parsedCsvData = data as string[][];
           const asctbData = makeASCTBData(data);
           warnings = warnings.concat(asctbData.warnings);
           return {

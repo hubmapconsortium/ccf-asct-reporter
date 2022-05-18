@@ -48,7 +48,7 @@ export class SearchComponent {
   selectionMemory: SearchStructure[] = [];
   sheetConfig: SheetConfig;
   searchOpen = false;
-  selectionCompareFunction = (o1: any, o2: any) => o1.id === o2.id;
+  selectionCompareFunction = (o1: SearchStructure, o2: SearchStructure) => o1.id === o2.id;
 
   constructor(
     public bms: BimodalService,

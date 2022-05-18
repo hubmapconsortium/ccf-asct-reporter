@@ -23,7 +23,7 @@ import {
 } from './../../actions/sheet.actions';
 import { TreeService } from './../tree/tree.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UIState } from '../../store/ui.state';
+import { UIState, UIStateModel } from '../../store/ui.state';
 import {
   HasError,
   CloseSnackbar,
@@ -35,10 +35,10 @@ import {
 import { Error } from '../../models/response.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LoadingComponent } from '../../components/loading/loading.component';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarConfig, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
 import { IndentedListService } from '../../components/indented-list/indented-list.service';
 import { StateReset } from 'ngxs-reset-plugin';
-import { Snackbar } from '../../models/ui.model';
+import { Logs, OpenBottomSheetData, Snackbar } from '../../models/ui.model';
 import { ReportService } from '../../components/report/report.service';
 import { LogsState } from '../../store/logs.state';
 import * as moment from 'moment';
@@ -47,13 +47,14 @@ import {
   MatBottomSheetRef
 } from '@angular/material/bottom-sheet';
 import { InfoComponent } from '../../components/info/info.component';
-import { CompareData, DOI, Row, SheetConfig, SheetDetails, SheetInfo, VersionDetail } from '../../models/sheet.model';
+import { CompareData, DOI, GraphData, Row, Sheet, SheetConfig, SheetDetails, SheetInfo, VersionDetail } from '../../models/sheet.model';
 import { DoiComponent } from '../../components/doi/doi.component';
 import { SearchStructure } from '../../models/tree.model';
 import { SheetService } from '../../services/sheet.service';
 import { OrganTableSelectorComponent } from '../../components/organ-table-selector/organ-table-selector.component';
 import { TreeComponent } from '../tree/tree.component';
 import { ConfigService } from '../../app-config.service';
+import { Report } from '../../models/report.model';
 
 @Component({
   selector: 'app-root',
@@ -64,7 +65,7 @@ export class RootComponent implements OnInit, OnDestroy {
   /**
    * Organ sheet data
    */
-  data: any;
+  data: Row[];
   /**
    * Denotes if loading
    */
@@ -76,7 +77,7 @@ export class RootComponent implements OnInit, OnDestroy {
   /**
    * Selected sheet
    */
-  sheet: any;
+  sheet: Sheet;
   /**
    * Denotesthe error state
    */
@@ -88,7 +89,7 @@ export class RootComponent implements OnInit, OnDestroy {
   /**
    * Reference to the snackbar
    */
-  snackbarRef: any;
+  snackbarRef: MatSnackBarRef<TextOnlySnackBar>;
   /**
    * Dnotes of sidebar control pane is open
    */
@@ -117,7 +118,7 @@ export class RootComponent implements OnInit, OnDestroy {
   @Select(SheetState.getCompareSheets) compareSheets$: Observable<
     CompareData[]
   >;
-  @Select(SheetState.getReportdata) rd$: Observable<any>;
+  @Select(SheetState.getReportdata) rd$: Observable<Report>;
   @Select(SheetState.getCompareData) compareData$: Observable<Row[]>;
   @Select(SheetState.getAllCompareData) allCompareData$: Observable<any>;
   @Select(SheetState.getMode) mode$: Observable<string>;
@@ -144,9 +145,9 @@ export class RootComponent implements OnInit, OnDestroy {
 
   // UI Observables
   @Select(UIState.getError) error$: Observable<any>;
-  @Select(UIState.getLoading) loading$: Observable<any>;
-  @Select(UIState.getLoadingText) loadingText$: Observable<any>;
-  @Select(UIState) uiState$: Observable<any>;
+  @Select(UIState.getLoading) loading$: Observable<boolean>;
+  @Select(UIState.getLoadingText) loadingText$: Observable<string>;
+  @Select(UIState) uiState$: Observable<UIStateModel>;
   @Select(UIState.getSnackbar) snack$: Observable<Snackbar>;
   @Select(UIState.getReport) report$: Observable<boolean>;
   @Select(UIState.getDebugLog) dl$: Observable<boolean>;
@@ -154,7 +155,7 @@ export class RootComponent implements OnInit, OnDestroy {
   @Select(UIState.getCompareState) c$: Observable<boolean>;
 
   // Logs Oberservables
-  @Select(LogsState) logs$: Observable<any>;
+  @Select(LogsState) logs$: Observable<Logs>;
 
   sheetConfig:SheetDetails[];
 
@@ -402,7 +403,7 @@ export class RootComponent implements OnInit, OnDestroy {
    *
    * @param data sheet data
    */
-  updateReport(data: any) {
+  updateReport(data: Report) {
     this.store.dispatch(new UpdateReport(data));
   }
 
@@ -517,8 +518,8 @@ export class RootComponent implements OnInit, OnDestroy {
    * Dispatch action to open bottom sheet
    * @param id ontology id
    */
-  getStructureInfo(id: string) {
-    this.store.dispatch(new OpenBottomSheet(id));
+  getStructureInfo(data: OpenBottomSheetData) {
+    this.store.dispatch(new OpenBottomSheet(data));
   }
 
   /**
@@ -554,7 +555,7 @@ export class RootComponent implements OnInit, OnDestroy {
 
     if (option === 'Graph Data') {
 
-      this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid, csvURL? csvURL : sheet.csvUrl, null, 'graph').subscribe((graphData: any) => {
+      this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid, csvURL? csvURL : sheet.csvUrl, null, 'graph').subscribe((graphData: GraphData) => {
         const graphDataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(graphData.data));
         const downloadAnchorNode = document.createElement('a');
         downloadAnchorNode.setAttribute('href',     graphDataStr);

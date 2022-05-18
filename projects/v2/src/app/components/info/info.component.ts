@@ -12,6 +12,7 @@ import { Error } from '../../models/response.model';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { SheetInfo } from '../../models/sheet.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-info',
@@ -27,7 +28,7 @@ export class InfoComponent implements OnInit {
   // @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: Observable<SheetInfo>,
     private changeDetectorRef: ChangeDetectorRef,
     public sheetRef: MatBottomSheetRef,
     public ga: GoogleAnalyticsService
