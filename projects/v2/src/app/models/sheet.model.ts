@@ -121,6 +121,7 @@ export interface DOI {
 export interface VersionDetail {
   value: string;
   viewValue: string;
+  hraVersion?: string;
   csvUrl?: string;
   sheetId: string;
   gid: string;
@@ -143,6 +144,7 @@ export interface SheetDetails {
   data?: string;
   csvUrl?: string;
   symbol?: string;
+  position?: number;
 }
 
 export interface SheetOptions {
@@ -151,6 +153,7 @@ export interface SheetOptions {
   version?: {
     value: string;
     viewValue: string;
+    hraVersion?: string;
   }[];
   symbol?: string;
 }

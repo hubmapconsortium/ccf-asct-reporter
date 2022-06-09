@@ -50,8 +50,8 @@ export class OrganTableSelectorComponent implements OnInit {
   ) {
 
     this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
-      this.sheetOptions = sheetOptions;
-      this.dataSource = new MatTableDataSource(sheetOptions);
+      this.sheetOptions = sheetOptions.filter(o => o.name !== 'some');
+      this.dataSource = new MatTableDataSource(this.sheetOptions);
     });
 
     this.getFromCache = data.getFromCache;
@@ -59,9 +59,7 @@ export class OrganTableSelectorComponent implements OnInit {
     this.organs = data.organs ? data.organs : [];
     this.dataSource.data.forEach((dataElement: SheetOptions) => {
       dataElement?.version?.forEach((v, i) => {
-        if (i === 1) {
-          dataElement.symbol = v.value;
-        }
+        dataElement.symbol = v.value;
       });
     });
     this.organs.forEach((item) => {
@@ -86,7 +84,7 @@ export class OrganTableSelectorComponent implements OnInit {
     };
     this.organs = [];
     this.selection.selected.map((item) => {
-      if (item.display === 'All Organs') {
+      if (item.name === 'all') {
         return;
       }
       if (item.symbol) {
@@ -144,7 +142,7 @@ export class OrganTableSelectorComponent implements OnInit {
     this.hasSomeOrgans = this.selection.selected.length > 0;
   }
 
-  checkboxLabel(row?): string {
+  checkboxLabel(row?: SheetDetails): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
@@ -153,50 +151,36 @@ export class OrganTableSelectorComponent implements OnInit {
     }`;
   }
 
-  changeVersion(value: string, element: SheetDetails) {
-    if (element.display === 'All Organs'){
-      this.selection.select(...this.dataSource.data);
-      if (value === 'All_Organs-v1.2'){
-        this.dataSource.data.forEach((dataElement: SheetOptions) => {
-          if (dataElement.version.length === 1 && dataElement.version[0].viewValue !== 'v1.2') {
-            this.selection.toggle(dataElement);
-          }
-          dataElement?.version?.forEach((v, i) => {
-            if (i === 1) {
-              dataElement.symbol = v.value;
-            }
-          });
-        });
-        this.hasSomeOrgans = this.selection.selected.length > 0;
-      }
-      else{
-        this.dataSource.data.forEach((dataElement: SheetOptions) => {
-          if (dataElement.version.length === 1 && dataElement.version[0].viewValue !== 'v1.0') {
-            this.selection.toggle(dataElement);
-          }
-          dataElement?.version?.forEach((v, i) => {
-            if (i === 0) {
-              dataElement.symbol = v.value;
-            }
-          });
-        });
-        this.hasSomeOrgans = this.selection.selected.length > 0;
-      }
-    }
-    else{
-      element.symbol = value;
+  changeVersion(value: string, row: SheetDetails): void {
+    if (row.name === 'all') {
+      row.symbol = value;
+      this.selectByHraVersion(row);
+    } else{
+      row.symbol = value;
     }
   }
 
-  selectRow(row) {
-
-    if (row.display === 'All Organs'){
-      if(this.isAllSelected()){
-        this.selection.clear();
+  selectByHraVersion(row: SheetDetails): void {
+    console.log(row.symbol, row);
+    const selectedVersion = row.symbol?.split('-')[1] ?? row.version?.slice(-1)[0].hraVersion;
+    this.dataSource.data.forEach((dataElement: SheetOptions) => {
+      const version = dataElement.version?.find((v) => v.hraVersion?.includes(selectedVersion));
+      if (version) {
+        dataElement.symbol = version.value;
+        this.selection.select(dataElement);
+      } else {
+        this.selection.deselect(dataElement);
       }
-      else{
-        this.selection.select(...this.dataSource.data);
-        this.hasSomeOrgans = this.selection.selected.length > 0;
+    });
+    this.hasSomeOrgans = this.selection.selected.length > 0;
+  }
+
+  selectRow(row: SheetDetails): void {
+    if (row.name === 'all') {
+      if (this.selection.isSelected(row)) {
+        this.selection.clear();
+      } else {
+        this.selectByHraVersion(row);
       }
     }
     else{
