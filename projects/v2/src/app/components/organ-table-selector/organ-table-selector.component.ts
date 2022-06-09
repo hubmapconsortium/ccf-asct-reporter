@@ -161,7 +161,6 @@ export class OrganTableSelectorComponent implements OnInit {
   }
 
   selectByHraVersion(row: SheetDetails): void {
-    console.log(row.symbol, row);
     const selectedVersion = row.symbol?.split('-')[1] ?? row.version?.slice(-1)[0].hraVersion;
     this.dataSource.data.forEach((dataElement: SheetOptions) => {
       const version = dataElement.version?.find((v) => v.hraVersion?.includes(selectedVersion));
