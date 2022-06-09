@@ -68,7 +68,7 @@ export class NavbarComponent implements OnInit {
    */
   selectedOrgansValues: string;
 
-  sheetConfig:SheetDetails[];
+  sheetConfig: SheetDetails[];
 
   // state observables
   @Select(SheetState) sheet$: Observable<SheetStateModel>;
@@ -84,9 +84,9 @@ export class NavbarComponent implements OnInit {
   constructor(public sheetservice: SheetService, public configService: ConfigService,public store: Store, public router: Router, public ga: GoogleAnalyticsService, public dialog: MatDialog,
   ) {
 
-    this.configService.sheetConfiguration$.subscribe(data=>{
-      this.sheetConfig = data;
-      this.sheetOptions = data;
+    this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
+      this.sheetConfig = sheetOptions;
+      this.sheetOptions = sheetOptions;
     });
 
     this.configService.config$.subscribe((config:any) => {
@@ -162,7 +162,7 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/vis'], {
       queryParams: {  selectedOrgans: this.selectedOrgans?.join(','), playground: false},
     });
-    
+
     this.ga.event(GaAction.CLICK, GaCategory.NAVBAR, 'Refresh Visualization Button', null);
   }
 
@@ -210,7 +210,7 @@ export class NavbarComponent implements OnInit {
     config.id = 'OrganTableSelector';
     config.width = '40vw';
     config.data = {
-      organs: this.selectedOrgans, 
+      organs: this.selectedOrgans,
       isIntilalSelect: false,
       getFromCache: this.cache,
     };

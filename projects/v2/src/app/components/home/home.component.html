@@ -20,7 +20,7 @@
           Master Tables
           <mat-icon class="icon">expand_more</mat-icon>
         </a>
-        <app-table-nested-menu #nestedMenu [sheetDetails]="configService.sheetConfiguration$ | async"></app-table-nested-menu>
+        <app-table-nested-menu #nestedMenu [sheetDetails]="configService.allSheetConfigurations$ | async"></app-table-nested-menu>
         <a (click)="window.open('https://docs.google.com/spreadsheets/d/1j_SLhFipRWUcRZrCDfNH15OWoiLf7cJks7NVppe3htI/edit#gid=1268820100')" class="text-white ml-4">Old Tables</a>
       </div>
     </div>
