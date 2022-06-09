@@ -19,6 +19,10 @@
             {
               "value": "All_Organs-v1.1",
               "viewValue": "v1.1"
+            },
+            {
+              "value": "All_Organs-v1.2",
+              "viewValue": "v1.2"
             }
           ],
         "title": "Organs"
@@ -55,8 +59,8 @@
             {
                 "sheetId": "1LRgU3VGi7Jlxh4EtHZaQiHtzcPYvvxYLGXrMB6oxdvQ",
                 "gid": "543201897",
-                "value": "Blood-v1.2-DRAFT",
-                "viewValue": "v1.2 DRAFT"
+                "value": "Blood-v1.2",
+                "viewValue": "v1.2"
             }
         ],
         "title": "Anatomical Structures",
@@ -87,8 +91,8 @@
             {
                 "sheetId": "1pBO70FENOlSyPJukxHYjeMXW0SYTLj4lbcw2oGsjuf0",
                 "gid": "1789898267",
-                "value": "Blood_Vasculature-v1.2-DRAFT",
-                "viewValue": "v1.2 DRAFT"
+                "value": "Blood_Vasculature-v1.2",
+                "viewValue": "v1.2"
             }
         ],
         "title": "Anatomical Structures",
@@ -119,8 +123,8 @@
             {
                 "sheetId": "16MUBNsMrE1kAyoY1sjCKsGSIHCRw7TnwTys8DHM17j0",
                 "gid": "771476671",
-                "value": "bone_marrow-v1.2-DRAFT",
-                "viewValue": "v1.2 DRAFT"
+                "value": "bone_marrow-v1.2",
+                "viewValue": "v1.2"
             }
         ],
         "title": "Anatomical Structures",
@@ -151,8 +155,8 @@
             {
                 "sheetId": "1Dzbu_yNfQ-AyOgiScZq7rcoG4oINqO1qEU-MnEE4mPw",
                 "gid": "2056967441",
-                "value": "brain-v1.2-DRAFT",
-                "viewValue": "v1.2 DRAFT"
+                "value": "brain-v1.2",
+                "viewValue": "v1.2"
             }
         ],
         "title": "Anatomical Structures",
@@ -199,8 +203,8 @@
             {
                 "sheetId": "1SFGfjkZeDxY_9FaQqNERzq4XRjWDUpwKC9FCqONlbuk",
                 "gid": "695483621",
-                "value": "Eye-v1.1-DRAFT",
-                "viewValue": "v1.1 DRAFT"
+                "value": "Eye-v1.1",
+                "viewValue": "v1.1"
             }
         ],
         "title": "Anatomical Structures",
@@ -225,8 +229,8 @@
             {
                 "sheetId": "1DFGmDSU75eMF6Fgwzk7W2u20DGJRdXN00TP7sO3kTug",
                 "gid": "991519552",
-                "value": "Fallopian_Tube-v1.1-DRAFT",
-                "viewValue": "v1.1 DRAFT"
+                "value": "Fallopian_Tube-v1.1",
+                "viewValue": "v1.1"
             }
         ],
         "title": "Anatomical Structures",
@@ -288,8 +292,8 @@
             {
                 "sheetId": "1NMfu1bEGNFcTYTFT-jCao_lSbFD8n0ti630iIpRj-hw",
                 "gid": "949267305",
-                "value": "kidney-v1.2-DRAFT",
-                "viewValue": "v1.2 DRAFT"
+                "value": "kidney-v1.2",
+                "viewValue": "v1.2"
             }
         ],
         "title": "Anatomical Structures"
@@ -345,8 +349,8 @@
             {
                 "sheetId": "1d_KWKnQq3HT5nzDmfhlvFG4P_qdviu0vyhGZ6QHgNIk",
                 "gid": "2043181688",
-                "value": "large_intestine-v1.2-DRAFT",
-                "viewValue": "v1.2 DRAFT"
+                "value": "large_intestine-v1.2",
+                "viewValue": "v1.2"
             }
         ],
         "title": "Anatomical Structures",
@@ -371,8 +375,8 @@
             {
                 "sheetId": "1F8ZXt1naE1pJFjfsAd6wK7x22D3qRW5O0E2d9gUKAik",
                 "gid": "1694828397",
-                "value": "Liver-v1.1-DRAFT",
-                "viewValue": "v1.1 DRAFT"
+                "value": "Liver-v1.1",
+                "viewValue": "v1.1"
             }
         ],
         "title": "Anatomical Structures",
@@ -403,8 +407,8 @@
             {
                 "sheetId": "1iF4vx9EuQ2tQMBOm6awd9sf-2e_EHsPlcgzrF_YDtis",
                 "gid": "1523836586",
-                "value": "Lung-v1.2-DRAFT",
-                "viewValue": "v1.2 DRAFT"
+                "value": "Lung-v1.2",
+                "viewValue": "v1.2"
             }
         ],
         "title": "Anatomical Structures",
@@ -435,8 +439,8 @@
             {
                 "sheetId": "1_VWj_dD1dbmnBf8t0wptXvpy1oyyllZ1tXc0aKo2MSA",
                 "gid": "1223566381",
-                "value": "lymph_nodes-v1.2-DRAFT",
-                "viewValue": "v1.2 DRAFT"
+                "value": "lymph_nodes-v1.2",
+                "viewValue": "v1.2"
             }
         ],
         "title": "Anatomical Structures"
@@ -460,8 +464,8 @@
             {
                 "sheetId": "1FNoQthhgP0OXEZuwIVL0XZA8SVYzCcVPm4_n20dt--8",
                 "gid": "2087685463",
-                "value": "Lymph_Vasculature-v1.1-DRAFT",
-                "viewValue": "v1.1 DRAFT"
+                "value": "Lymph_Vasculature-v1.1",
+                "viewValue": "v1.1"
             }
         ],
         "title": "Anatomical Structures",
@@ -486,8 +490,8 @@
             {
                 "sheetId": "1K5LWhMaT_IryNxuK1Vko0Ud49VUB8RnMltL5jYhJUak",
                 "gid": "756296951",
-                "value": "Ovary-v1.1-DRAFT",
-                "viewValue": "v1.1 DRAFT"
+                "value": "Ovary-v1.1",
+                "viewValue": "v1.1"
             }
         ],
         "title": "Anatomical Structures",
@@ -512,8 +516,8 @@
             {
                 "sheetId": "1_cmA0CWUzVz1lNMpNOXqzrnmWgXv3GANqN7W18N4crA",
                 "gid": "439021026",
-                "value": "Pancreas-v1.1-DRAFT",
-                "viewValue": "v1.1 DRAFT"
+                "value": "Pancreas-v1.1",
+                "viewValue": "v1.1"
             }
         ],
         "title": "Anatomical Structures",
@@ -558,14 +562,13 @@
             {
                 "sheetId": "1TqatRIsZZ5QwvWdz6H4Un-sukbzSd21_x41Gqnn5UEY",
                 "gid": "231591207",
-                "value": "Placenta-v1.0-DRAFT",
-                "viewValue": "v1.0 DRAFT"
+                "value": "Placenta-v1.0",
+                "viewValue": "v1.0"
             }
         ],
         "title": "Anatomical Structures",
         "data": ""
     },
-
     {
         "name": "prostate",
         "display": "Prostate",
@@ -617,8 +620,8 @@
             {
                 "sheetId": "16E07Ia3opnjBzBVswS7iQccd2Y_fw7m8-mNUNjwv80E",
                 "gid": "269383687",
-                "value": "skin-v1.2-DRAFT",
-                "viewValue": "v1.2 DRAFT"
+                "value": "skin-v1.2",
+                "viewValue": "v1.2"
             }
         ],
         "title": "Anatomical Structures",
@@ -690,8 +693,8 @@
             {
                 "sheetId": "1bairJs37srg0hF4MGIfsdtb000YtrA1hI45D8KI5Gxc",
                 "gid": "69626346",
-                "value": "spleen-v1.2-DRAFT",
-                "viewValue": "v1.2 DRAFT"
+                "value": "spleen-v1.2",
+                "viewValue": "v1.2"
             }
         ],
         "title": "Anatomical Structures"
@@ -742,8 +745,8 @@
             {
                 "sheetId": "14KY4dp6YwVf0GSiCOcxhuy9L_aJ8FjTX_jidrIq7E_c",
                 "gid": "863370556",
-                "value": "thymus-v1.2-DRAFT",
-                "viewValue": "v1.2 DRAFT"
+                "value": "thymus-v1.2",
+                "viewValue": "v1.2"
             }
         ],
         "title": "Anatomical Structures"
@@ -819,8 +822,8 @@
             {
                 "sheetId": "1RasOQCB4oP_1kvZL7Xv40TID6_365FQ-cgX2fGR54gw",
                 "gid": "603441642",
-                "value": "Uterus-v1.1-DRAFT",
-                "viewValue": "v1.1 DRAFT"
+                "value": "Uterus-v1.1",
+                "viewValue": "v1.1"
             }
         ],
         "title": "Anatomical Structures",
