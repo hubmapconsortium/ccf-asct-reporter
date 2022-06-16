@@ -336,13 +336,14 @@
                 "gid": "1824489301",
                 "value": "Knee-v1.0",
                 "viewValue": "v1.0",
-                "hraVersion": "v1.1,v1.2"
+                "hraVersion": "v1.1"
             },
             {
                 "sheetId": "1zDCnaoMdSx09OGxjeeG2Sxokw4c_0bnNyDOJC6IMPCw",
                 "gid": "1815525900",
-                "value": "Knee-v1.1-DRAFT",
-                "viewValue": "v1.1 DRAFT"
+                "value": "Knee-v1.1",
+                "viewValue": "v1.1",
+                "hraVersion": "v1.2"
             }
         ],
         "title": "Anatomical Structures",
