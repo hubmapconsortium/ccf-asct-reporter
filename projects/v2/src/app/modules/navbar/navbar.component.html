@@ -23,7 +23,7 @@
     <div class="search ml-1">
       <app-search [disabled]="(ui$ | async).error.hasError"></app-search>
     </div>
-   
+
       <button mat-flat-button
       id="selectedorgansBtn"
       (click)="openSelectOrgansDialog()"
@@ -43,9 +43,9 @@
       [label]="'Data Tables'"
       [matMenuTriggerFor]="nestedMenu.childMenu">
       <mat-icon class="toolbar-icons">table_view</mat-icon>
-      <app-table-nested-menu #nestedMenu [sheetDetails]="configService.sheetConfiguration$ | async"></app-table-nested-menu>
+      <app-table-nested-menu #nestedMenu [sheetDetails]="configService.allSheetConfigurations$ | async"></app-table-nested-menu>
     </app-nav-item>
-    
+
     <app-nav-item
     [label]="'Refresh'"
     (click)="refreshData()"

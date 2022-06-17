@@ -116,7 +116,7 @@ export class SheetStateModel {
   /**
    * Update the flag is data should be fetched from cache
    */
-  getFromCache: boolean; 
+  getFromCache: boolean;
 }
 
 @State<SheetStateModel>({
@@ -190,8 +190,8 @@ export class SheetState {
   sheetConfig:SheetDetails[];
   headerCount: unknown;
   constructor(public configService: ConfigService, private readonly sheetService: SheetService, public readonly ga: GoogleAnalyticsService, public reportService: ReportService) {
-    this.configService.sheetConfiguration$.subscribe(data=>{
-      this.sheetConfig = data;
+    this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
+      this.sheetConfig = sheetOptions;
     });
 
     this.configService.config$.subscribe(config=>{
@@ -423,7 +423,7 @@ export class SheetState {
             };
             gaData.counts = this.reportService.countsGA(res.data);
             this.ga.event(GaAction.INPUT, GaCategory.COMPARISON, `Adding sheet or file to Compare: ${JSON.stringify(gaData)}`, 0);
-            
+
             patchState({
               data: [...currentData, ...res.data],
               fullAsData: [...currentFullASData, ...res.data],

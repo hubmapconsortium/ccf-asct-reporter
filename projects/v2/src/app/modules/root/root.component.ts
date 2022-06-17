@@ -173,8 +173,8 @@ export class RootComponent implements OnInit, OnDestroy {
     public router: Router,
   ) {
 
-    this.configService.sheetConfiguration$.subscribe(data=>{
-      this.sheetConfig = data;
+    this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
+      this.sheetConfig = sheetOptions;
     });
     this.data$.subscribe((data) => {
       if (data.length) {

@@ -8,6 +8,7 @@ import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { YouTubePlayer } from '@angular/youtube-player';
 import { ConfigService } from '../../app-config.service';
+import { SheetDetails } from '../../models/sheet.model';
 
 @Component({
   selector: 'app-home',
@@ -30,23 +31,19 @@ export class HomeComponent implements OnInit, AfterViewInit {
   faEnvelope = faEnvelope;
 
   copyrightYear = new Date().getFullYear();
-  masterSheetLink;
-  sheetOptions;
+  masterSheetLink: string;
+  sheetOptions: SheetDetails[];
 
   @ViewChild('tutorialVideo') player: YouTubePlayer;
 
-  constructor(public configService: ConfigService, private readonly router: Router, public ga: GoogleAnalyticsService) { 
-    
-    this.configService.config$.subscribe(config=>{
-      this.masterSheetLink = config.masterSheetLink;
+  constructor(public configService: ConfigService, private readonly router: Router, public ga: GoogleAnalyticsService) {
+
+    this.configService.config$.subscribe((config) => {
+      this.masterSheetLink = config.masterSheetLink as string;
     });
 
-    this.configService.sheetConfiguration$.subscribe(data=>{
-      const filteredData = data.map((element) => {
-        return {...element, version: element.version?.filter((version) => !version.viewValue.includes('DRAFT'))};
-      });
-      this.sheetOptions = filteredData.filter(organ => organ.version !== undefined);
-      this.sheetOptions = this.sheetOptions.filter(organ => organ.version.length !== 0);
+    this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
+      this.sheetOptions = sheetOptions;
     });
   }
 
