@@ -50,7 +50,7 @@
     "ngx-google-analytics": "^11.2.1",
     "ngx-markdown": "^13.0.0",
     "ngx-mat-select-search": "^3.3.0",
-    "ngx-order-pipe": "^2.1.1",
+    "ngx-order-pipe": "^2.2.0",
     "ngxs-reset-plugin": "^1.4.0",
     "papaparse": "^5.3.0",
     "rxjs": "^6.5.5",
