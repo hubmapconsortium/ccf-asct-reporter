@@ -187,13 +187,17 @@ export class SheetStateModel {
 @Injectable()
 
 export class SheetState {
-  sheetConfig:SheetDetails[];
+  sheetConfig: SheetDetails[];
+  exampleSheet: SheetDetails;
   headerCount: unknown;
+
   constructor(public configService: ConfigService, private readonly sheetService: SheetService, public readonly ga: GoogleAnalyticsService, public reportService: ReportService) {
     this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
       this.sheetConfig = sheetOptions;
     });
-
+    this.configService.allSheetConfigurations$.subscribe((sheetOptions) => {
+      this.exampleSheet = sheetOptions.find(s => s.name === 'example');
+    });
     this.configService.config$.subscribe(config=>{
       this.headerCount = config.headerCount;
     });
@@ -870,7 +874,7 @@ export class SheetState {
     setState,
     dispatch,
   }: StateContext<SheetStateModel>) {
-    const sheet: Sheet = this.sheetConfig.find((i) => i.name === 'example');
+    const sheet: Sheet = this.exampleSheet;
     const mode = getState().mode;
     dispatch(new OpenLoading('Fetching playground data...'));
     dispatch(new StateReset(TreeState));
@@ -931,7 +935,7 @@ export class SheetState {
     { data }: UpdatePlaygroundData
   ) {
 
-    const sheet: Sheet = this.sheetConfig.find((i) => i.name === 'example');
+    const sheet: Sheet = this.exampleSheet;
     const state = getState();
     dispatch(new OpenLoading('Fetching playground data...'));
     dispatch(new StateReset(TreeState));
