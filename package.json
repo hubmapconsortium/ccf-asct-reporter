@@ -60,7 +60,7 @@
     "vega-lite": "^4.17.0",
     "vega-tooltip": "^0.24.2",
     "xlsx": "^0.17.4",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.6"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^13.1.2",
