@@ -26,6 +26,11 @@
         "value": "All_Organs-v1.2",
         "viewValue": "v1.2",
         "hraVersion": "v1.2"
+      },
+      {
+        "value": "All_Organs-v1.3",
+        "viewValue": "v1.3",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Organs"
@@ -70,8 +75,9 @@
       {
         "sheetId": "1wx2y8_t7NsAs8hPnr6u_N1QK8y_lC3t1G0DnD3LNUnQ",
         "gid": "543201897",
-        "value": "blood-v1.3-DRAFT",
-        "viewValue": "v1.3 DRAFT"
+        "value": "blood-v1.3",
+        "viewValue": "v1.3",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures",
@@ -111,8 +117,9 @@
       {
         "sheetId": "1N2_rZBJEJHuy_pVgZUdGRbXHwz9rdRp2U-rLpVN7n3w",
         "gid": "1789898267",
-        "value": "blood-vasculature-v1.3-DRAFT",
-        "viewValue": "v1.3 DRAFT"
+        "value": "blood-vasculature-v1.3",
+        "viewValue": "v1.3",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures",
@@ -152,8 +159,9 @@
       {
         "sheetId": "1prDIvvQF0akXKCfLv6FqjtQgZ_oKbIfSfMZt9twrfd0",
         "gid": "771476671",
-        "value": "bone-marrow-v1.3-DRAFT",
-        "viewValue": "v1.3 DRAFT"
+        "value": "bone-marrow-v1.3",
+        "viewValue": "v1.3",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures",
@@ -193,8 +201,9 @@
       {
         "sheetId": "1Hdd-llGhPZ4zFUq5nUyhTeDaPFgQYmEqk-Ch3E6xr-Q",
         "gid": "2056967441",
-        "value": "brain-v1.3-DRAFT",
-        "viewValue": "v1.3 DRAFT"
+        "value": "brain-v1.3",
+        "viewValue": "v1.3",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures",
@@ -357,8 +366,9 @@
       {
         "sheetId": "1aXnWkwArSRmDnhyq0n_ptISWnmRwXvD4X0BPa9WQfmg",
         "gid": "949267305",
-        "value": "kidney-v1.3-DRAFT",
-        "viewValue": "v1.3 DRAFT"
+        "value": "kidney-v1.3",
+        "viewValue": "v1.3",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures"
@@ -431,8 +441,9 @@
       {
         "sheetId": "1DgN9i72VFDmGwynStGbhkpHfas_RA9ccIrDgI77ULJA",
         "gid": "2043181688",
-        "value": "large-intestine-v1.3-DRAFT",
-        "viewValue": "v1.3 DRAFT"
+        "value": "large-intestine-v1.3",
+        "viewValue": "v1.3",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures",
@@ -506,8 +517,9 @@
       {
         "sheetId": "1oo9v-77W1wPD6uLLEF0MxBHv_BCcJziiPFEfWZCW_QY",
         "gid": "1523836586",
-        "value": "lung-v1.3-DRAFT",
-        "viewValue": "v1.3 DRAFT"
+        "value": "lung-v1.3",
+        "viewValue": "v1.3",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures",
@@ -547,8 +559,9 @@
       {
         "sheetId": "15iuKGfnSjBbLd--873MKX2N0GgGKbXXk2dfzisiS-wg",
         "gid": "1223566381",
-        "value": "lymph-node-v1.3-DRAFT",
-        "viewValue": "v1.3 DRAFT"
+        "value": "lymph-node-v1.3",
+        "viewValue": "v1.3",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures"
@@ -770,8 +783,9 @@
       {
         "sheetId": "1q2tYQ_uNh5O_eLOMUZm64ncCUeJc8mrern3zkRX3Ppw",
         "gid": "269383687",
-        "value": "skin-v1.3-DRAFT",
-        "viewValue": "v1.3 DRAFT"
+        "value": "skin-v1.3",
+        "viewValue": "v1.3",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures",
@@ -853,8 +867,9 @@
       {
         "sheetId": "1AEKYXAKP1oRM2krnbU_Un89JfxYEm_gjjwwJTEt1SiI",
         "gid": "69626346",
-        "value": "spleen-v1.3-DRAFT",
-        "viewValue": "v1.3 DRAFT"
+        "value": "spleen-v1.3",
+        "viewValue": "v1.3",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures"
@@ -914,8 +929,9 @@
       {
         "sheetId": "13VmRAofv85ZapJgmtHAVO67ICY4nK1FOugkTKV8_eoM",
         "gid": "863370556",
-        "value": "thymus-v1.3-DRAFT",
-        "viewValue": "v1.3 DRAFT"
+        "value": "thymus-v1.3",
+        "viewValue": "v1.3",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures"
