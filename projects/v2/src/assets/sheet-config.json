@@ -293,8 +293,9 @@
       {
         "sheetId": "16DHu7R9MC2B_fP7uRiDYcDIUvFs6SwHmZWgwpzuJwfI",
         "gid": "991519552",
-        "value": "fallopian-tube-v1.2-DRAFT",
-        "viewValue": "v1.2 DRAFT"
+        "value": "fallopian-tube-v1.2",
+        "viewValue": "v1.2",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures",
@@ -402,8 +403,9 @@
       {
         "sheetId": "1v3BfUp55Ty8Bl9ufHursLN9hXmyRcj0MHDbEpPwgFZc",
         "gid": "1815525900",
-        "value": "knee-v1.2-DRAFT",
-        "viewValue": "v1.2 DRAFT"
+        "value": "knee-v1.2",
+        "viewValue": "v1.2",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures",
@@ -478,8 +480,9 @@
       {
         "sheetId": "1U1UFN1m7fkWj-UgYDNTCfGZUv-opzCjEEYypihDjjSQ",
         "gid": "1694828397",
-        "value": "liver-v1.2-DRAFT",
-        "viewValue": "v1.2 DRAFT"
+        "value": "liver-v1.2",
+        "viewValue": "v1.2",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures",
@@ -693,8 +696,9 @@
       {
         "sheetId": "1TQsd657v-Jfcme4ftmpq7Zaegu0HxHOmGJKUPL8QqyU",
         "gid": "917578386",
-        "value": "Peripheral_Nervous_System-v1.1-DRAFT",
-        "viewValue": "v1.1 DRAFT"
+        "value": "Peripheral_Nervous_System-v1.1",
+        "viewValue": "v1.1",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures",
@@ -720,8 +724,9 @@
       {
         "sheetId": "1JeeIxpcyD8eWAgdNuKtf1OMlTzEw_6AKrS5OVDkC7t4",
         "gid": "231591207",
-        "value": "placenta-v1.1-DRAFT",
-        "viewValue": "v1.1 DRAFT"
+        "value": "placenta-v1.1",
+        "viewValue": "v1.1",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures",
@@ -747,8 +752,9 @@
       {
         "sheetId": "1hlSptGNXzyM7vxsH930YMf6gZkHVgHUE-Qc_4uFAmoU",
         "gid": "1239199370",
-        "value": "Prostate-v1.1-DRAFT",
-        "viewValue": "v1.1 DRAFT"
+        "value": "Prostate-v1.1",
+        "viewValue": "v1.1",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures",
@@ -962,8 +968,9 @@
       {
         "sheetId": "1ZUmHX22NYMfBgFoni4zK6bsEYFn4rGSk9oYBNPcebZQ",
         "gid": "73126811",
-        "value": "Ureter-v1.1-DRAFT",
-        "viewValue": "v1.1 DRAFT"
+        "value": "Ureter-v1.1",
+        "viewValue": "v1.1",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures",
@@ -989,8 +996,9 @@
       {
         "sheetId": "1iCZpti7fYupWhQjDz_tE01ii2WH23hIno9kYggMjDZo",
         "gid": "1057183099",
-        "value": "Urinary_Bladder-v1.1-DRAFT",
-        "viewValue": "v1.1 DRAFT"
+        "value": "Urinary_Bladder-v1.1",
+        "viewValue": "v1.1",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures",
@@ -1023,8 +1031,9 @@
       {
         "sheetId": "1Ei-scFQ5N-giPMm9_TKt3-hAFPveAyibCCulXDTBbig",
         "gid": "603441642",
-        "value": "uterus-v1.2-DRAFT",
-        "viewValue": "v1.2 DRAFT"
+        "value": "uterus-v1.2",
+        "viewValue": "v1.2",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures",
