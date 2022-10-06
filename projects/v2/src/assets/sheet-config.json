@@ -899,8 +899,9 @@
       {
         "sheetId": "1B8Yacpa0S_KuNqGGtKb83HTodKY_XGnIMy8tFCEIEdE",
         "gid": "243784891",
-        "value": "Spinal_Cord-v1.0-DRAFT",
-        "viewValue": "v1.0 DRAFT"
+        "value": "Spinal_Cord-v1.0",
+        "viewValue": "v1.0",
+        "hraVersion": "v1.3"
       }
     ],
     "title": "Anatomical Structures",
