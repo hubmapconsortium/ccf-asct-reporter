@@ -13,6 +13,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatTableExporterModule } from 'mat-table-exporter';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSortModule } from '@angular/material/sort';
+import { ValidationTableModule } from '../validation-table/validation-table.module';
 
 
 @NgModule({
@@ -30,7 +31,9 @@ import { MatSortModule } from '@angular/material/sort';
     MatTableModule,
     MatTableExporterModule,
     MatTooltipModule,
-    MatSortModule
+    MatSortModule,
+
+    ValidationTableModule
   ],
   exports: [ReportComponent]
 })
