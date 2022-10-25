@@ -86,6 +86,10 @@ export class ReportComponent implements OnInit, AfterViewInit {
   @Output() deleteSheet: EventEmitter<any> = new EventEmitter<any>();
   total_AS_CT: number;
   total_CT_B: number;
+  dataSource: any;
+  columnsToDisplay: any;
+  expandedElement: any;
+  columnsToDisplayWithExpand: any;
 
   constructor(
     public reportService: ReportService,
@@ -99,7 +103,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
       this.computedReport.emit(data.data);
 
       this.ontologyLinkGraphData = this.makeOntologyLinksGraphData(data.data, this.sheetData);
-      
+
     });
     this.linksData$.subscribe((data) => {
       this.total_AS_AS = data.AS_AS;
@@ -139,15 +143,15 @@ export class ReportComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() { }
 
-  makeOntologyLinksGraphData(reportData: Report,sheetData: Row[]) {
+  makeOntologyLinksGraphData(reportData: Report, sheetData: Row[]) {
     const { result, biomarkersSeperateNames } =
       this.reportService.makeAllOrganReportDataByOrgan(sheetData, this.asFullData);
-    
+
     const biomarkerCols = [];
     biomarkersSeperateNames.forEach((bm) => {
-      if (this.displayedColumns.includes(bm.name) === false){
+      if (this.displayedColumns.includes(bm.name) === false) {
         biomarkerCols.push(bm.name);
-      }    
+      }
       this.displayedColumns = [
         'organName',
         'anatomicalStructures',
@@ -254,7 +258,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
   }
 
   getTotals(data: CByOrgan[][], key: string) {
-    return data.map(t => t[key]? t[key] : 0).reduce((acc, value) => acc + value, 0);
+    return data.map(t => t[key] ? t[key] : 0).reduce((acc, value) => acc + value, 0);
   }
 
   downloadData() {
@@ -293,7 +297,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
         row['BM ID'] = this.reportData.biomarkers[i].link;
 
       }
-      if (i < this.reportData.BWithNoLink.length){
+      if (i < this.reportData.BWithNoLink.length) {
         row['Biomarkers with no links'] = this.reportData.BWithNoLink[i].structure;
       }
       download.push(row);
@@ -314,7 +318,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
     };
   }
 
-  
+
   downloadReport(i = -1) {
     const wb = XLSX.utils.book_new();
     const allReport = [];
@@ -353,14 +357,14 @@ export class ReportComponent implements OnInit, AfterViewInit {
   }
 
   downloadReportByOrgan() {
-    const  sheetName = 'countByOrgan';
-    const fileName  = 'countsByOrgans';
+    const sheetName = 'countByOrgan';
+    const fileName = 'countsByOrgans';
     const targetTableElm = document.getElementById('countsByOrgans');
     const allReport = [];
 
-    const organsList:string[] = [];
+    const organsList: string[] = [];
 
-   
+
     const wb = XLSX.utils.table_to_book(targetTableElm, {
       sheet: sheetName
     } as XLSX.Table2SheetOpts);
@@ -383,10 +387,10 @@ export class ReportComponent implements OnInit, AfterViewInit {
 
     let i = 0;
     for (const book of allReport) {
-      XLSX.utils.book_append_sheet(wb, book.sheet, organsList[i] );
+      XLSX.utils.book_append_sheet(wb, book.sheet, organsList[i]);
       i += 1;
     }
-    
+
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   }
 
