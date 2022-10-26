@@ -21,7 +21,7 @@ const ITEMS_DATA: ValidationTaskItems[] = [
  */
 @Component({
   selector: 'app-validation-table',
-  styleUrls: ['validation-table.component.css'],
+  styleUrls: ['validation-table.component.scss'],
   templateUrl: 'validation-table.component.html',
 
 })
