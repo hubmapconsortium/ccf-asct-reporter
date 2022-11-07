@@ -9,7 +9,7 @@ export const environment = {
   asctbApiUrl: 'https://mmpyikxkcp.us-east-2.awsapprunner.com'
   
   // use the following url when developing against in-staging-only features
-  // asctbApiUrl: 'https://m7ehdriy7t.us-east-2.awsapprunner.com/'
+  // asctbApiUrl: 'https://m7ehdriy7t.us-east-2.awsapprunner.com'
   // use the following url for localhost API development
   // asctbApiUrl: 'http://localhost:5000'
 };
