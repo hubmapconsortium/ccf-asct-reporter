@@ -42,7 +42,7 @@
     "@types/cors": "^2.8.10",
     "@types/express": "^4.17.11",
     "bootstrap": "^4.5.3",
-    "express-fileupload": "^1.2.1",
+    "express-fileupload": "^1.4.0",
     "font-awesome": "^4.7.0",
     "jexcel": "^4.6.1",
     "mat-table-exporter": "^10.2.4",
