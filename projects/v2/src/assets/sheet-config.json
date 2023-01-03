@@ -527,7 +527,7 @@
   },
   {
     "name": "lymph_nodes",
-    "display": "Lymph Nodes",
+    "display": "Lymph Node",
     "config": {
       "bimodal_distance_x": 250,
       "bimodal_distance_y": 60,
@@ -835,6 +835,26 @@
     "title": "Organs"
   },
   {
+    "name": "spinal cord",
+    "display": "Spinal Cord",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "version": [
+      {
+        "sheetId": "1B8Yacpa0S_KuNqGGtKb83HTodKY_XGnIMy8tFCEIEdE",
+        "gid": "243784891",
+        "value": "Spinal_Cord-v1.0-DRAFT",
+        "viewValue": "v1.0 DRAFT"
+      }
+    ],
+    "title": "Anatomical Structures",
+    "data": ""
+  },
+  {
     "name": "spleen",
     "display": "Spleen",
     "body": "Spleen",
@@ -875,26 +895,6 @@
       }
     ],
     "title": "Anatomical Structures"
-  },
-  {
-    "name": "spinal cord",
-    "display": "Spinal Cord",
-    "config": {
-      "bimodal_distance_x": 250,
-      "bimodal_distance_y": 60,
-      "width": 700,
-      "height": 2250
-    },
-    "version": [
-      {
-        "sheetId": "1B8Yacpa0S_KuNqGGtKb83HTodKY_XGnIMy8tFCEIEdE",
-        "gid": "243784891",
-        "value": "Spinal_Cord-v1.0-DRAFT",
-        "viewValue": "v1.0 DRAFT"
-      }
-    ],
-    "title": "Anatomical Structures",
-    "data": ""
   },
   {
     "name": "thymus",
