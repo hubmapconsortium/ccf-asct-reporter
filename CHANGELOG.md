@@ -2,6 +2,10 @@
 
 Changelog for the HuBMAP CCF ASCT+B Reporter
 
+## 2.6.0 - 2022-12-15
+
+- HRA Release 4 (v1.3) ASCT+B Tables added
+
 ## 2.5.0 - 2022-06-17
 
 - Added support for selecting CCF Release v1.2 tables (Published June 2022)

@@ -7,7 +7,6 @@ The [CCF ASCT Reporter](https://hubmapconsortium.github.io/ccf-asct-reporter/) i
 
 ![HuBMAP CCF Reporter](projects/v2/src/assets/github_logo.png)
 
-
 ## Overview
 
 The [CCF ASCT+B Reporter](https://hubmapconsortium.github.io/ccf-asct-reporter/) includes a partonomy tree that presents relationships between various anatomical structures and substructures, that is combined with their respective cell types and biomarkers via a bimodal network. The reporter also presents an indented list tree for a more traditional look. Along with visualizing, the reporter has a report generator that enlists various meta data for the visualized ASCT table, which is download-able. There is also an in-house debug logger that lists any issues related to the data provided in the table. The reporter is also accompanied by a backend server, ASCT+B API.
@@ -16,7 +15,7 @@ The [CCF ASCT+B Reporter](https://hubmapconsortium.github.io/ccf-asct-reporter/)
 
 - Production Site: <https://hubmapconsortium.github.io/ccf-asct-reporter/> ([staging](https://ccf-asct-reporter.netlify.app))
 - Documentation: <https://hubmapconsortium.github.io/ccf-asct-reporter/docs> ([staging](https://ccf-asct-reporter.netlify.app/docs))
-- ASCT+B API: <https://asctb-api.herokuapp.com/> ([staging](https://asctb-api--staging.herokuapp.com/))
+- ASCT+B API: <https://mmpyikxkcp.us-east-2.awsapprunner.com> ([staging](https://m7ehdriy7t.us-east-2.awsapprunner.com))
 - Change Log: [CHANGELOG.md](CHANGELOG.md)
 
 ## Installation

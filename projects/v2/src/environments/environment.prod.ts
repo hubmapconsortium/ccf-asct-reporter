@@ -2,5 +2,5 @@ export const environment = {
   production: true,
   tag: '',
   googleAnalyticsId: 'G-WYFW84S56B',
-  asctbApiUrl: 'https://asctb-api.herokuapp.com'
+  asctbApiUrl: 'https://mmpyikxkcp.us-east-2.awsapprunner.com'
 };
