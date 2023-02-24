@@ -20,7 +20,7 @@ export function normalizeCsvUrl(url: string): string {
   return url;
 }
 
-function setData(column: string[], row: Row, value: string, warnings: Set<string>): void {
+function setData(column: string[],columnNumber: number, row: Row, value: string, warnings: Set<string>): void {
   if (column.length > 1) {
     const arrayName: arrayNameType = arrayNameMap[column[0]];
     const originalArrayName = column[0];
@@ -35,6 +35,49 @@ function setData(column: string[], row: Row, value: string, warnings: Set<string
         warnings.add(`WARNING: blank field found: ${column.join('/')}`);
       } else {
         warnings.add(`WARNING: unmapped field found: ${column.join('/')}`);
+      }
+    }
+
+    if (column.length === 3) {
+      if (!arrayNameMap[column[0].toUpperCase()]){
+        if ((column[0]?.toLowerCase() ?? '').trim().length === 0) {
+          warnings.add(`WARNING: blank field found: ${column.join('/')}`);
+        } else {
+          warnings.add(`WARNING: unmapped field found: ${column.join('/')}`);
+        }
+      }
+      
+      if (!parseInt(column[1])){
+        if (column[1].trim().length === 0) {
+          warnings.add(`WARNING: blank field found: ${column.join('/')}`);
+        } else {
+          warnings.add(`WARNING: unmapped field found: ${column.join('/')}`);
+        }
+      }
+      if (!objectFieldMap[column[2]]){
+        if ((column[2]?.toLowerCase() ?? '').trim().length === 0) {
+          warnings.add(`WARNING: blank field found: ${column.join('/')}`);
+        } else {
+          warnings.add(`WARNING: unmapped field found: ${column.join('/')}`);
+        }
+      }    
+    }
+
+    if (column.length === 2) {
+      if (!arrayNameMap[column[0].toUpperCase()]){
+        if ((column[0]?.toLowerCase() ?? '').trim().length === 0) {
+          warnings.add(`WARNING: blank field found: ${column.join('/')}`);
+        } else {
+          warnings.add(`WARNING: unmapped field found: ${column.join('/')}`);
+        }
+      }
+      
+      if (!parseInt(column[1])){
+        if (column[1].trim().length === 0) {
+          warnings.add(`WARNING: blank field found: ${column.join('/')}`);
+        } else {
+          warnings.add(`WARNING: unmapped field found: ${column.join('/')}`);
+        }
       }
     }
 
@@ -67,6 +110,21 @@ function setData(column: string[], row: Row, value: string, warnings: Set<string
         }
       }
     }
+  }
+}
+
+const invalidCharacterRegex = /_/gi;
+const codepointUppercaseA = 65;
+const alphabetLength = 26;
+
+function columnIndexToName(index: number): string {
+  // TODO
+}
+
+function validateDataCell(value: string, rowIndex: number, columnIndex: number, columnLabel: string, warnings: Set<string>): void {
+  if (invalidCharacterRegex.test(value)) {
+    const columnName = columnIndexToName(columnIndex);
+    warnings.add(`WARNING: Invalid characters in data cell ${rowIndex}:${columnName}(${columnName})`);
   }
 }
 
@@ -123,7 +181,8 @@ export function makeASCTBData(data: string[][]): ASCTBData {
     const row: Row = new Row(headerRow + rowNumber + 2);
     rowData.forEach((value, index) => {
       if (index < columns.length && columns[index].length > 1) {
-        setData(columns[index], row, value, warnings);
+        validateDataCell(value, row.rowNumber, index, data[headerRow][index], warnings);
+        setData(columns[index], index, row, value, warnings);
       }
     });
     row.finalize();

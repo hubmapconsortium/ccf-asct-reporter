@@ -33,16 +33,17 @@ export function setupCSVRoutes(app: Express): void {
           const parsedUrl = normalizeCsvUrl(csvUrl.trim());
           const response = await axios.get(parsedUrl);
           csvData = response.data;
-          const { data } = papa.parse<string[]>(response.data, { skipEmptyLines: 'greedy' });
+          const { data, errors } = papa.parse<string[]>(response.data, { skipEmptyLines: 'greedy' });
           parsedCsvData = data as string[][];
           const asctbData = makeASCTBData(data);
           warnings = warnings.concat(asctbData.warnings);
+          console.log('error print:'+errors);
           return {
             data: asctbData.data,
             metadata: asctbData.metadata,
             csv: csvData,
             parsed: parsedCsvData,
-            warnings: asctbData.warnings,
+            // warnings: asctbData.warnings + errors.map(n => 'TODO')
           };
         })
       );

@@ -27,16 +27,16 @@ export function setupGoogleSheetRoutes(app: Express): void {
           `https://docs.google.com/spreadsheets/d/${f1}/export?format=csv&gid=${f2}`
         );
       }
-      const { data } = papa.parse<string[]>(response.data);
+      const { data, errors } = papa.parse<string[]>(response.data);
 
       const asctbData = makeASCTBData(data);
 
       return res.send({
         data: asctbData.data,
         metadata: asctbData.metadata,
-        warnings: asctbData.warnings,
+        // warnings: asctbData.warnings + errors.map(n => 'SOMETHING'),
         csv: response.data,
-        parsed: data,
+        parsed: data
       });
     } catch (err) {
       console.log(err);
