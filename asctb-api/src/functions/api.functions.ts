@@ -1,5 +1,7 @@
-import { arrayNameMap, arrayNameType, createObject, DELIMETER, HEADER_FIRST_COLUMN,
-  metadataArrayFields, metadataNameMap, objectFieldMap, Row, TITLE_ROW_INDEX } from '../models/api.model';
+import {
+  arrayNameMap, arrayNameType, createObject, DELIMETER, HEADER_FIRST_COLUMN,
+  metadataArrayFields, metadataNameMap, objectFieldMap, Row, TITLE_ROW_INDEX
+} from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
 
 export interface ASCTBData {
@@ -20,7 +22,7 @@ export function normalizeCsvUrl(url: string): string {
   return url;
 }
 
-function setData(column: string[],columnNumber: number, row: Row, value: string, warnings: Set<string>): void {
+function setData(column: string[], columnNumber: number, row: Row, value: string, warnings: Set<string>): void {
   if (column.length > 1) {
     const arrayName: arrayNameType = arrayNameMap[column[0]];
     const originalArrayName = column[0];
@@ -39,40 +41,40 @@ function setData(column: string[],columnNumber: number, row: Row, value: string,
     }
 
     if (column.length === 3) {
-      if (!arrayNameMap[column[0].toUpperCase()]){
+      if (!arrayNameMap[column[0].toUpperCase()]) {
         if ((column[0]?.toLowerCase() ?? '').trim().length === 0) {
           warnings.add(`WARNING: blank field found: ${column.join('/')}`);
         } else {
           warnings.add(`WARNING: unmapped field found: ${column.join('/')}`);
         }
       }
-      
-      if (!parseInt(column[1])){
+
+      if (!parseInt(column[1])) {
         if (column[1].trim().length === 0) {
           warnings.add(`WARNING: blank field found: ${column.join('/')}`);
         } else {
           warnings.add(`WARNING: unmapped field found: ${column.join('/')}`);
         }
       }
-      if (!objectFieldMap[column[2]]){
+      if (!objectFieldMap[column[2]]) {
         if ((column[2]?.toLowerCase() ?? '').trim().length === 0) {
           warnings.add(`WARNING: blank field found: ${column.join('/')}`);
         } else {
           warnings.add(`WARNING: unmapped field found: ${column.join('/')}`);
         }
-      }    
+      }
     }
 
     if (column.length === 2) {
-      if (!arrayNameMap[column[0].toUpperCase()]){
+      if (!arrayNameMap[column[0].toUpperCase()]) {
         if ((column[0]?.toLowerCase() ?? '').trim().length === 0) {
           warnings.add(`WARNING: blank field found: ${column.join('/')}`);
         } else {
           warnings.add(`WARNING: unmapped field found: ${column.join('/')}`);
         }
       }
-      
-      if (!parseInt(column[1])){
+
+      if (!parseInt(column[1])) {
         if (column[1].trim().length === 0) {
           warnings.add(`WARNING: blank field found: ${column.join('/')}`);
         } else {
@@ -118,7 +120,14 @@ const codepointUppercaseA = 65;
 const alphabetLength = 26;
 
 function columnIndexToName(index: number): string {
-  // TODO
+  index = index + 1;
+  const name = [];
+  while (index) {
+    const mod = (index - 1) % alphabetLength;
+    index = Math.floor(Number((index - mod) / alphabetLength));
+    name.unshift(String.fromCharCode(codepointUppercaseA + Number(mod)));
+  }
+  return name.join('');
 }
 
 function validateDataCell(value: string, rowIndex: number, columnIndex: number, columnLabel: string, warnings: Set<string>): void {
