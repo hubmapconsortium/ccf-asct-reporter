@@ -1,8 +1,4 @@
-<mat-tab-group
-  (selectedTabChange)="tabChange($event)"
-  class="remove-border-bottom"
-  [(selectedIndex)]="tabIndex"
->
+<mat-tab-group (selectedTabChange)="tabChange($event)" class="remove-border-bottom" [(selectedIndex)]="tabIndex">
   <mat-tab label="Visualization">
     <app-tree></app-tree>
   </mat-tab>
@@ -18,27 +14,19 @@
             <mat-form-field class="w-50" appearance="legacy">
               <mat-label>Google Sheet or CSV Link</mat-label>
               <input type="text" placeholder="Enter link..." matInput [formControl]="linkFormControl" />
-              <mat-hint
-                >Enter Browser URL address for your <strong>public</strong> Google Sheet or CSV.</mat-hint>
-              <mat-error
-                *ngIf="
+              <mat-hint>Enter Browser URL address for your <strong>public</strong> Google Sheet or CSV.</mat-hint>
+              <mat-error *ngIf="
                   linkFormControl.hasError('email') ||
                   linkFormControl.hasError('required')
-                "
-              >
-              Enter Browser URL address for your public Google Sheet or CSV.
+                ">
+                Enter Browser URL address for your public Google Sheet or CSV.
               </mat-error>
             </mat-form-field>
           </p>
         </form>
 
-        <button
-          mat-flat-button
-          color="primary"
-          (click)="upload()"
-          class="mt-4"
-          [disabled]="linkFormControl.status === 'INVALID'"
-        >
+        <button mat-flat-button color="primary" (click)="upload()" class="mt-4"
+          [disabled]="linkFormControl.status === 'INVALID'">
           Link
         </button>
       </div>
@@ -49,5 +37,9 @@
         <app-file-upload (fileFormDataEvent)="upload($event)"></app-file-upload>
       </div>
     </div>
+  </mat-tab>
+
+  <mat-tab label="Upload2">
+    <app-upload></app-upload>
   </mat-tab>
 </mat-tab-group>
