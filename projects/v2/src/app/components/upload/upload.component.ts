@@ -1,9 +1,6 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { uploadForm } from '../../models/sheet.model';
-import { Observable } from 'rxjs';
-import { GoogleAnalyticsService } from 'ngx-google-analytics';
-import { GaAction, GaCategory, GaCompareInfo } from '../../models/ga.model';
 
 @Component({
   selector: 'app-upload',
@@ -12,16 +9,12 @@ import { GaAction, GaCategory, GaCompareInfo } from '../../models/ga.model';
 })
 export class UploadComponent implements OnInit {
 
-  @Output() closeCompare: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() uploadForm: EventEmitter<uploadForm[]> = new EventEmitter<uploadForm[]>();
-
-  @Input() showToggles = false;
+  @Output() uploadForm: EventEmitter<uploadForm> = new EventEmitter<uploadForm>();
 
   formGroup: FormGroup;
-  formSheets: FormArray;
   formValid = true;
 
-  constructor(public fb: FormBuilder, public ga: GoogleAnalyticsService) { }
+  constructor(public fb: FormBuilder) { }
 
   ngOnInit(): void {
 
@@ -34,9 +27,7 @@ export class UploadComponent implements OnInit {
 
 
     this.formGroup.valueChanges.subscribe(x => {
-      console.log(x);
       if (!(x.fileName === null || x.fileName === '')) {
-        console.log("Clearing");
         this.formGroup.get('link').clearValidators();
         this.formGroup.get('link').updateValueAndValidity({ emitEvent: false });
       }
@@ -46,7 +37,6 @@ export class UploadComponent implements OnInit {
 
   atLeastOnePhoneRequired(group: FormGroup): { [s: string]: boolean } {
     if (group) {
-      console.log("Here");
       if (group.controls.link.value || group.controls.fileName.value) {
         return null;
       }
@@ -59,40 +49,25 @@ export class UploadComponent implements OnInit {
   }
 
 
-  compare() {
+  submitData() {
     this.formValid = this.formGroup.status === 'VALID';
     if (this.formGroup.status !== 'VALID') {
       return;
     }
-    console.log(this.formGroup.get('link'));
-    console.log(this.formGroup.get('formData'));
-    console.log(this.formGroup.get('fileName'));
+    const sheet = this.formGroup.value;
+    const sheetId = this.checkLinkFormat(sheet.link).sheetID;
 
-    // const data: CompareData[] = [];
-    // for (const [idx, sheet] of this.formGroup.value.sheets.entries()) {
-    //   if (sheet.title === '') {
-    //     sheet.title = `Sheet ${idx + 1}`;
-    //   }
+    const data: uploadForm = {
+      link: sheet.link,
+      formData: sheet.formData,
+      fileName: sheet.fileName,
+      sheetId,
+      gid: this.checkLinkFormat(sheet.link).gid,
+      csvUrl: this.checkLinkFormat(sheet.link).csvUrl
+    };
+    // ga call handled in the playground module component
 
-    //   data.push(
-    //     {
-    //       ...sheet,
-    //       sheetId: this.checkLinkFormat(sheet.link).sheetID,
-    //       gid: this.checkLinkFormat(sheet.link).gid,
-    //       csvUrl: this.checkLinkFormat(sheet.link).csvUrl
-    //     }
-    //   );
-
-    //   const sheetInfo: GaCompareInfo = {
-    //     title: sheet.title,
-    //     desc: sheet.description,
-    //     link: sheet.link,
-    //     color: sheet.color,
-    //   };
-    //   this.ga.event(GaAction.CLICK, GaCategory.COMPARE, `Add new sheet to compare: ${JSON.stringify(sheetInfo)}`);
-    // }
-
-    // this.compareData.emit(data);
+    this.uploadForm.emit(data);
   }
 
   checkLinkFormat(url: string) {

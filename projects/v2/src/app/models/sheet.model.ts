@@ -234,9 +234,9 @@ export interface CompareReportData {
 
 export interface uploadForm {
   link: string;
-  title: string;
-  description: string;
   csvUrl?: string;
   formData?: FormData;
   fileName?: string;
+  sheetId: string;
+  gid: string;
 }
