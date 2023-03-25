@@ -5,7 +5,8 @@
   <mat-tab label="Table">
     <div #spreadsheet></div>
   </mat-tab>
-  <mat-tab label="Upload -- to be deprecated">
+
+  <!-- <mat-tab label="Upload -- to be deprecated">
     <div class="card m-2 p-4">
       <h5 class="font-weight-bold">Link Sheet</h5>
       <div class="mt-4">
@@ -37,9 +38,9 @@
         <app-file-upload (fileFormDataEvent)="upload($event)"></app-file-upload>
       </div>
     </div>
-  </mat-tab>
+  </mat-tab> -->
 
   <mat-tab label="Upload">
-    <app-upload (uploadForm)="upload2($event)"></app-upload>
+    <app-upload class="upload" (uploadForm)="upload2($event)"></app-upload>
   </mat-tab>
 </mat-tab-group>
