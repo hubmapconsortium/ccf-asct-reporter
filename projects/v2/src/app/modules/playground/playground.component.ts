@@ -8,7 +8,7 @@ import { Validators, FormControl } from '@angular/forms';
 import * as jexcel from 'jexcel';
 import { UpdatePlaygroundData, FetchSheetData } from '../../actions/sheet.actions';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { Sheet, uploadForm } from '../../models/sheet.model';
+import { Sheet, UploadForm } from '../../models/sheet.model';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 
@@ -288,7 +288,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
     this.ga.event(GaAction.CLICK, GaCategory.PLAYGROUND, 'Upload Playground Sheet', sheet.sheetId);
   }
 
-  upload2(data: uploadForm) {
+  upload2(data: UploadForm) {
     console.log('DATA', data);
     const sheet = JSON.parse(JSON.stringify(this.currentSheet));
     sheet.gid = data.gid;

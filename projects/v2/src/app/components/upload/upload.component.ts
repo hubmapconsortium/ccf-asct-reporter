@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { uploadForm } from '../../models/sheet.model';
+import { UploadForm } from '../../models/sheet.model';
 
 @Component({
   selector: 'app-upload',
@@ -9,7 +9,7 @@ import { uploadForm } from '../../models/sheet.model';
 })
 export class UploadComponent implements OnInit {
 
-  @Output() uploadForm: EventEmitter<uploadForm> = new EventEmitter<uploadForm>();
+  @Output() uploadForm: EventEmitter<UploadForm> = new EventEmitter<UploadForm>();
 
   formGroup: FormGroup;
   formValid = true;
@@ -57,7 +57,7 @@ export class UploadComponent implements OnInit {
     const sheet = this.formGroup.value;
     const sheetId = this.checkLinkFormat(sheet.link).sheetID;
 
-    const data: uploadForm = {
+    const data: UploadForm = {
       link: sheet.link,
       formData: sheet.formData,
       fileName: sheet.fileName,

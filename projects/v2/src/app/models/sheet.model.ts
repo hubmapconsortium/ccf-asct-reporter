@@ -232,7 +232,7 @@ export interface CompareReportData {
   data: CompareReport[];
 }
 
-export interface uploadForm {
+export interface UploadForm {
   link: string;
   csvUrl?: string;
   formData?: FormData;
