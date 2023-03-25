@@ -95,9 +95,7 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .button-container {
-  width: 100%;
-  justify-content: space-between;
-  display: flex;
+  margin-left: 1.4rem;
 }
 
 .compare-button {
@@ -133,7 +131,7 @@ input[type="color"]::-webkit-color-swatch {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  grid-gap: 10px;
+  grid-gap: 0.625rem;
 }
 
 .rounded-blob {
@@ -141,5 +139,5 @@ input[type="color"]::-webkit-color-swatch {
   height: 1.5rem;
   width: 2.5rem;
   background-color: #C2CAE5;
-  border-radius: 100px;
+  border-radius: 6.25rem;
 }
