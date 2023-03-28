@@ -4,7 +4,7 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angula
 import { Select, Store } from '@ngxs/store';
 import { SheetState } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
-import { Validators, FormControl } from '@angular/forms';
+import { Validators, UntypedFormControl } from '@angular/forms';
 import * as jexcel from 'jexcel';
 import { UpdatePlaygroundData, FetchSheetData } from '../../actions/sheet.actions';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -51,7 +51,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
   /**
     * Controller for entering the link
     */
-  linkFormControl = new FormControl('', [
+  linkFormControl = new UntypedFormControl('', [
     Validators.compose([
       Validators.required,
       Validators.pattern(/\/([\w-_]{15,})\/(.*?gid=(\d+))?|\w*csv$/),
