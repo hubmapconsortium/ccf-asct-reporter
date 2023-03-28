@@ -26,7 +26,7 @@
     "@angular/platform-browser": "^14.3.0",
     "@angular/platform-browser-dynamic": "^14.3.0",
     "@angular/router": "^14.3.0",
-    "@angular/youtube-player": "^16.0.0-next.4",
+    "@angular/youtube-player": "^15.2.4",
     "@fortawesome/angular-fontawesome": "^0.8.1",
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
