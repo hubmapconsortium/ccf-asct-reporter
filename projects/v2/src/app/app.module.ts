@@ -2,7 +2,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsModule } from '@ngxs/store';
@@ -47,7 +46,7 @@ export function initializeApp(configService: ConfigService): () => Promise<void>
     AppRoutingModule,
     HttpClientModule,
     NgxsModule.forRoot([SheetState, TreeState, UIState, LogsState]),
-    NgxsDataPluginModule.forRoot(),
+    NgxsResetPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot({
       disabled: environment.production,

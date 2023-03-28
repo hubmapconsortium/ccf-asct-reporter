@@ -5,7 +5,7 @@ import { Select, Store } from '@ngxs/store';
 import { SheetState } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
 import { Validators, UntypedFormControl } from '@angular/forms';
-import * as jexcel from 'jexcel';
+import * as jexcel from 'jspreadsheet-ce';
 import { UpdatePlaygroundData, FetchSheetData } from '../../actions/sheet.actions';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Sheet } from '../../models/sheet.model';
@@ -28,7 +28,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
    */
   spreadSheetData: Array<string[]>;
   /**
-   * Instance of jexcel table
+   * Instance of jspreadsheet-ce(Earlier: jexcel) table
    */
   table: any;
   /**
@@ -116,7 +116,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
             items.push({
               title: obj.options.text.insertANewColumnBefore,
               onclick() {
-                obj.insertColumn(1, parseInt(x, 10), 1);
+                obj.insertColumn(1, parseInt(x, 10), true);
               },
             });
           }
@@ -125,7 +125,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
             items.push({
               title: obj.options.text.insertANewColumnAfter,
               onclick() {
-                obj.insertColumn(1, parseInt(x, 10), 0);
+                obj.insertColumn(1, parseInt(x, 10), false);
               },
             });
           }
@@ -147,7 +147,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
             items.push({
               title: obj.options.text.renameThisColumn,
               onclick() {
-                obj.setHeader(x);
+                obj.setHeader(parseInt(x, 10));
               },
             });
           }
@@ -160,13 +160,13 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
             items.push({
               title: obj.options.text.orderAscending,
               onclick() {
-                obj.orderBy(x, 0);
+                obj.orderBy(parseInt(x, 10), 0);
               },
             });
             items.push({
               title: obj.options.text.orderDescending,
               onclick() {
-                obj.orderBy(x, 1);
+                obj.orderBy(parseInt(x, 10), 1);
               },
             });
           }
@@ -211,8 +211,9 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
                   : obj.options.text.addComments,
                 onclick() {
                   obj.setComments(
-                    [x, y],
-                    prompt(obj.options.text.comments, title)
+                    [parseInt(x, 10), parseInt(y, 10)],
+                    prompt(obj.options.text.comments, title),
+                    ''
                   );
                 },
               });
@@ -221,7 +222,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
                 items.push({
                   title: obj.options.text.clearComments,
                   onclick() {
-                    obj.setComments([x, y], '');
+                    obj.setComments([parseInt(x, 10), parseInt(y, 10)], '', '');
                   },
                 });
               }
