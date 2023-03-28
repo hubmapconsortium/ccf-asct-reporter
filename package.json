@@ -15,7 +15,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-ru/common": "^15.301.0",
+    "@angular-ru/common": "^15.313.0",
     "@angular/animations": "^14.3.0",
     "@angular/cdk": "^14.2.7",
     "@angular/common": "^14.3.0",
