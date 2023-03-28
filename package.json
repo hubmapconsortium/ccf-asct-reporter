@@ -37,7 +37,7 @@
     "@ngxs/devtools-plugin": "^3.7.6",
     "@ngxs/logger-plugin": "^3.7.6",
     "@ngxs/storage-plugin": "^3.7.6",
-    "@ngxs/store": "^3.7.2",
+    "@ngxs/store": "^3.7.6",
     "@swimlane/ngx-charts": "^17.0.0",
     "@types/cors": "^2.8.10",
     "@types/express": "^4.17.11",
