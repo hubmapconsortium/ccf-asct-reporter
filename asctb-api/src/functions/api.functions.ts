@@ -3,13 +3,11 @@ import {
   metadataArrayFields, metadataNameMap, objectFieldMap, Row, TITLE_ROW_INDEX
 } from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
-
-import { ASCTBError } from '../utils/errors';
-import { ErrorCode } from '../utils/errors';
+import { WarningCode } from '../utils/warnings';
 export interface ASCTBData {
   data: Row[];
   metadata: Record<string, string | string[]>;
-  warnings: ASCTBError[];
+  warnings: string[];
 }
 
 export function normalizeCsvUrl(url: string): string {
@@ -24,94 +22,56 @@ export function normalizeCsvUrl(url: string): string {
   return url;
 }
 
-function setData(column: string[], columnNumber: number, row: Row, value: string, warnings: ASCTBError[]): void {
+function setData(column: string[], columnNumber: number, row: Row, value: string, warnings: Set<string>): void {
+  // console.log('COLUMN=====', column);
+  // console.log('VALUE -----', value);
+
   if (column.length > 1) {
     const arrayName: arrayNameType = arrayNameMap[column[0]];
     const originalArrayName = column[0];
     const objectArray: any[] = row[arrayName] || [];
-
-    // console.log('arrayname=========',arrayName);
-    // console.log('original array name========',originalArrayName);
     if (!arrayName) {
-      const colName = columnIndexToName(columnNumber);
+      // const colName = columnIndexToName(columnNumber);
       // arrayName = originalArrayName.toLowerCase();
-      warnings.push({code: ErrorCode.UnmappedData, cNumber: columnNumber, cName:colName, originalArrayName: originalArrayName });
-      // warnings.add(`WARNING: unmapped array found ${originalArrayName}`);
-    }
-    if (column.length === 3 && !objectFieldMap[column[2]]) {
-      if ((column[2]?.toLowerCase() ?? '').trim().length === 0) {
-        // warnings.add(`${ERROR_TYPE.INVALID_HEADER} : ${column.join('/')}`);
-        warnings.push({code: ErrorCode.InvalidHeader,cNumber: columnNumber, rNumber: row.rowNumber, headerName: column.join('/') });
-      }
-      // else {
-      //   // warnings.add(`WARNING: unmapped field found: ${column.join('/')}`);
-      //   warnings.push({code: ErrorCode.UnmappedData, cNumber: columnNumber, headerName: column.join('/') });
-      // }
+      // warnings.push({code: WarningCode.UnmappedData, cNumber: columnNumber, cName:colName, originalArrayName: originalArrayName });
+      warnings.add(`WARNING: unmapped array found ${originalArrayName} (Code ${WarningCode.UnmappedData})`);
     }
 
+    // Validation for Header when the length of the Header after split by('/') is 3
     if (column.length === 3) {
-      if (!arrayNameMap[column[0].toUpperCase()]) {
-        if ((column[0]?.toLowerCase() ?? '').trim().length === 0) {
-          // warnings.add(`WARNING: blank field found: ${column.join('/')}`);
-          // warnings.add(`${ERROR_TYPE.INVALID_HEADER} : ${column.join('/')}`);
-          warnings.push({code: ErrorCode.InvalidHeader,cNumber: columnNumber,rNumber: row.rowNumber ,headerName: column.join('/') });
-        } 
-        // else {
-        //   // warnings.add(`WARNING: unmapped field found: ${column.join('/')}`);
-        //   warnings.push({code: ErrorCode.UnmappedData, cNumber: columnNumber, headerName: column.join('/') });
-        // }
-      }
+      const colName = columnIndexToName(columnNumber);
+      const invalidHeader = `WARNING: Invalid Header found at column: ${colName}, row: ${row.rowNumber} where Header Value: ${column.join('/')} (Code ${WarningCode.InvalidHeader})`;
+      const columnBlank = column.join('').trim().length === 0;
+      const col0Warnings = column[0].trim().length === 0 || !arrayNameMap[column[0].toUpperCase()];
+      const col1Warnings = column[1].trim().length === 0 || !Number.isNaN(parseInt(column[1]));
+      const col2Warnings = column[2].trim().length === 0 || !objectFieldMap[column[2]];
+      const showWarnings = col0Warnings || col1Warnings || col2Warnings;
 
-      if (!parseInt(column[1])) {
-        if (column[1].trim().length === 0) {
-          // warnings.add(`WARNING: blank field found: ${column.join('/')}`);
-          // warnings.add(`${ERROR_TYPE.INVALID_HEADER} : ${column.join('/')}`);
-          warnings.push({code: ErrorCode.InvalidHeader,cNumber: columnNumber,rNumber:row.rowNumber, headerName: column.join('/') });
-        } 
-        // else {
-        //   // warnings.add(`WARNING: unmapped field found: ${column.join('/')}`);
-        //   warnings.push({code: ErrorCode.UnmappedData, cNumber: columnNumber, headerName: column.join('/') });
-        // }
+      if (columnBlank) {
+        warnings.add(`WARNING: Blank Header found at column: ${colName}, row: ${row.rowNumber} (Code ${WarningCode.MissingHeader})`);
       }
-      if (!objectFieldMap[column[2]]) {
-        if ((column[2]?.toLowerCase() ?? '').trim().length === 0) {
-          // warnings.add(`WARNING: blank field found: ${column.join('/')}`);
-          // warnings.add(`${ERROR_TYPE.INVALID_HEADER} : ${column.join('/')}`);
-          warnings.push({code: ErrorCode.InvalidHeader,cNumber: columnNumber, rNumber: row.rowNumber, headerName: column.join('/') });
-        } 
-        // else {
-        //   // warnings.add(`WARNING: unmapped field found: ${column.join('/')}`);
-        //   warnings.push({code: ErrorCode.UnmappedData, cNumber: columnNumber, headerName: column.join('/') });
-        // }
+      else if (showWarnings) {
+        warnings.add(invalidHeader);
       }
     }
-
+    // Validate the Header of length 2: i.e after splitting header with ("/")
     if (column.length === 2) {
-      if (!arrayNameMap[column[0].toUpperCase()]) {
-        if ((column[0]?.toLowerCase() ?? '').trim().length === 0) {
-          // warnings.add(`WARNING: blank field found: ${column.join('/')}`);
-          // warnings.add(`${ERROR_TYPE.INVALID_HEADER} : ${column.join('/')}`);
-          warnings.push({code: ErrorCode.InvalidHeader, cNumber: columnNumber, rNumber: row.rowNumber, headerName: column.join('/') });
-        } 
-        // else {
-        //   // warnings.add(`WARNING: unmapped field found: ${column.join('/')}`);
-        //   warnings.push({code: ErrorCode.UnmappedData, cNumber: columnNumber, headerName: column.join('/') });
-        // }
-      }
+      const colName = columnIndexToName(columnNumber);
+      const invalidHeader = `WARNING: Invalid Header found at column: ${colName}, row: ${row.rowNumber} where Header Value: ${column.join('/')} (Code ${WarningCode.InvalidHeader})`;
+      const columnBlank = column.join('').trim().length == 0;
+      const col0Warnings = column[0].trim().length === 0 || !arrayNameMap[column[0].toUpperCase()];
+      const col1Warnings = column[1].trim().length === 0 || !Number.isNaN(parseInt(column[1]));
+      const showWarnings = col0Warnings || col1Warnings;
 
-      if (!Number.isNaN(parseInt(column[1]))) {
-        if (column[1].trim().length === 0) {
-          // warnings.add(`WARNING: blank field found: ${column.join('/')}`);
-          // warnings.add(`${ERROR_TYPE.INVALID_HEADER} : ${column.join('/')}`);
-          warnings.push({code: ErrorCode.InvalidHeader, cNumber: columnNumber, rNumber: row.rowNumber, headerName: column.join('/') });
-        } 
-        // else {
-        //   // warnings.add(`WARNING: unmapped field found: ${column.join('/')}`);
-        //   warnings.push({code: ErrorCode.UnmappedData, cNumber: columnNumber, headerName: column.join('/') });
-        // }
+      if (columnBlank) {
+        warnings.add(`WARNING: Blank Header found at column: ${colName}, row: ${row.rowNumber} (Code ${WarningCode.MissingHeader})`);
+      }
+      else if (showWarnings) {
+        warnings.add(invalidHeader);
       }
     }
 
+    //
     if (column.length === 2) {
       if (objectArray.length === 0 && arrayName) {
         row[arrayName] = objectArray;
@@ -123,9 +83,7 @@ function setData(column: string[], columnNumber: number, row: Row, value: string
 
       if (arrayIndex >= 0 && fieldName) {
         if (arrayIndex >= objectArray.length) {
-          // warnings.add(`WARNING: blank cells likely found in column: ${column.join('/')}, row: ${row.rowNumber}`);
-          warnings.push({code: ErrorCode.MissingHeader, cNumber:
-             columnNumber, rNumber: row.rowNumber});
+          warnings.add(`WARNING: blank cells likely found in column: ${column.join('/')}, row: ${row.rowNumber}`);
         }
         // FIXME: Temporarily deal with blank columns since so many tables are non-conformant
         arrayIndex = objectArray.length - 1;
@@ -138,8 +96,8 @@ function setData(column: string[], columnNumber: number, row: Row, value: string
           if (objectArray[arrayIndex]) {
             objectArray[arrayIndex][fieldName] = value;
           } else {
-            // warnings.add(`WARNING: bad column: ${column.join('/')}`);
-            warnings.push({code: ErrorCode.BadColumn, headerName: column.join('/')});
+            warnings.add(`WARNING: bad column: ${column.join('/')} (Code ${WarningCode.BadColumn})`);
+            // warnings.push({ code: WarningCode.BadColumn, headerName: column.join('/') });
           }
         }
       }
@@ -163,22 +121,20 @@ function columnIndexToName(index: number): string {
   return name.join('');
 }
 
-function validateDataCell(value: string, rowIndex: number, columnIndex: number, columnLabel: string, warnings: ASCTBError[]): void {
+function validateDataCell(value: string, rowIndex: number, columnIndex: number, columnLabel: string, warnings: Set<string>): void {
   if (!isLinkRegex.test(value) && invalidCharacterRegex.test(value)) {
-    const columnName = columnIndexToName(columnIndex);
-    warnings.push({code: ErrorCode.InvalidCharacter, rInd: rowIndex+1, cName: columnName});
-    // warnings.add(`WARNING: Invalid characters in data cell ${rowIndex}:${columnName}(${columnName})`);
-    // warnings.add(`${ERROR_TYPE.INVALID_CHARACTER} ${rowIndex}:${columnName}(${columnName})`);
+    const colName = columnIndexToName(columnIndex);
+    warnings.add(`WARNING: Invalid characters in data cell at column: ${colName} row: ${rowIndex} where data cell: ${value} (Code ${WarningCode.InvalidCharacter})`);
   }
 }
 
 /*
- * buildMetadata - build metadata key value store
- * @param metadataRows = rows from metadata to be extracted
- * @param warnings = warnings generated during the process are pushed to this set
- * @returns = returns key value pairs of metadata
- */
-const buildMetadata = (metadataRows: string[][], warnings: ASCTBError[]): Record<string, string | string[]> => {
+* buildMetadata - build metadata key value store
+* @param metadataRows = rows from metadata to be extracted
+* @param warnings = warnings generated during the process are pushed to this set
+* @returns = returns key value pairs of metadata
+*/
+const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<string, string | string[]> => {
   const [titleRow] = metadataRows.splice(TITLE_ROW_INDEX, 1);
   const [title] = titleRow.slice(0, 1);
 
@@ -195,8 +151,8 @@ const buildMetadata = (metadataRows: string[][], warnings: ASCTBError[]): Record
       let metadataKey = metadataNameMap[metadataIdentifier];
       if (!metadataKey) {
         metadataKey = metadataIdentifier.toLowerCase();
-        warnings.push({ code: ErrorCode.UnmappedMetadata, key: metadataIdentifier });
-        // warnings.add(`WARNING: unmapped metadata found ${metadataIdentifier}`);
+        // warnings.push({ code: WarningCode.UnmappedMetadata, key: metadataIdentifier });
+        warnings.add(`WARNING: unmapped metadata found ${metadataIdentifier} (Code ${WarningCode.UnmappedMetadata})`);
         // warnings.add(`${ERROR_TYPE.MISSING_METADATA} ${metadataIdentifier}`);
       }
       if (metadataArrayFields.includes(metadataKey)) {
@@ -221,13 +177,15 @@ function findHeaderIndex(headerRow: number, data: string[][], firstColumnName: s
 export function makeASCTBData(data: string[][]): ASCTBData {
   const headerRow = findHeaderIndex(0, data, HEADER_FIRST_COLUMN);
   const columns = data[headerRow].map((col: string) => col.toUpperCase().split('/').map(s => s.trim()));
-  const warnings: ASCTBError[] = [];
+  const warnings: Set<string> = new Set<string>();
+  console.log('Data-----', data[9]);
+
 
   const results = data.slice(headerRow + 1).map((rowData: string[], rowNumber) => {
     const row: Row = new Row(headerRow + rowNumber + 2);
     rowData.forEach((value, index) => {
       if (index < columns.length && columns[index].length > 1) {
-        validateDataCell(value, row.rowNumber, index, data[headerRow][index], warnings); 
+        validateDataCell(value, row.rowNumber, index, data[headerRow][index], warnings);
         setData(columns[index], index, row, value, warnings);
       }
     });
@@ -239,11 +197,11 @@ export function makeASCTBData(data: string[][]): ASCTBData {
   const metadataRows = data.slice(0, headerRow);
   const metadata = buildMetadata(metadataRows, warnings);
 
-  console.log([...warnings].sort().join('\n'));
+  // console.log([...warnings].sort().join('\n'));
 
   return {
     data: results,
     metadata: metadata,
-    warnings
+    warnings: [...warnings]
   };
 }

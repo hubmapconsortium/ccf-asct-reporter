@@ -1,97 +1,53 @@
-import { ErrorCode, ASCTBError } from '../utils/errors';
+// TODO: add doc strings
+// TODO: convert to CSV?
+
+// import Papa from 'papaparse';
+import { WarningCode, WarningLabels } from '../utils/warnings';
 import { ASCTBData } from './api.functions';
 
+type WarningDictionary = {
+  [code in WarningCode]: string[];
+};
 
-// type ValidationResult =
-//     | { status: 'passed' }
-//     | { status: 'failed'; details: string[] };
-
-// const errorCodeRegex = /Code\d+/;
-
-// In namedErrorCodes -> storing the tuple where 1st value is Name of the error(declared in ErrorCode) 2nd value as a code for that error
-const namedErrorCodes = (Object.entries(ErrorCode) as [string, ErrorCode][])
-  .filter(([code]) => String(Number(code)) !== code);
-
-export function makeValidationReport(data: ASCTBData): string[] {
-  // Getting the warnings from the ASCTBData
-  const warnings = data.warnings;
-  // console.log('REACHED HERE');
-
+export function makeValidationReport(data: ASCTBData): string {
   // Output lines/data will be added here
   const lines: string[] = [];
 
-  // Grouping all the errors by its code
-  const errorsByCode = namedErrorCodes.reduce((acc, [_name, code]) => {
-    acc[code] = [];
-    return acc;
-  }, {} as Record<ErrorCode, ASCTBError[]>);
+  // Grouping all the warnings by its code
+  const codeByWarnings: WarningDictionary = {} as Record<WarningCode, string[]>;
 
-  warnings.forEach(err => errorsByCode[err.code].push(err));
-
+  for (const warning of data.warnings) {
+    // match will be having two values [<matched string>, <digit part of the code in the string>]
+    const match = warning.match(/\(Code ([0-9]+)\)$/);
+    if (match) {
+      const code = parseInt(match[1]) as WarningCode;
+      if (codeByWarnings[code]) {
+        codeByWarnings[code].push(warning);
+      } else {
+        codeByWarnings[code] = [ warning ];
+      }
+    }
+  }
 
   // Loop for checking the group of errors, and if length of the group errors is more then 0 then it has failed the validation and vise versa
-  for (const [name, code] of namedErrorCodes) {
-    const hasErrors = errorsByCode[code].length > 0;
-    lines.push(`Validation ${name} ${hasErrors ? 'failed' : 'passed'}`);
+  for (const [codeString, label] of Object.entries(WarningLabels)) {
+    const code: WarningCode = parseInt(codeString);
+    lines.push(`Validation ${label} ${ codeByWarnings[code] ? 'failed' : 'passed' }`);
   }
 
   // Adding extra lines for space
   lines.push('', '');
 
-  for (const [name, code] of namedErrorCodes) {
-    const errors = errorsByCode[code];
-    if (errors.length === 0) {
-      continue;
+  for (const [codeString, label] of Object.entries(WarningLabels)) {
+    const code: WarningCode = parseInt(codeString);
+    const groupOfWarnings = codeByWarnings[code];
+    if (groupOfWarnings) {
+      lines.push(`Validation feedback for ${label}`);
+      groupOfWarnings.forEach((warning) => {
+        lines.push(warning);
+      });
     }
-
-    lines.push(`Validation feedback for ${name}`);
-    errors.forEach(error => formatError(error, lines));
   }
 
-  console.log(lines);
-
-  // DOUBTS
-  // 1. Do we have to reuse the evaluations that are stored as the warnings when we are running the api.funtion.ts file
-  // if we are reusing it then how to identify that which warning is part of which validation test, 
-  // because all the checks are accumalated in the single array 'warnings'
-
-
-  // Build report from results
-
-  return lines;
-}
-
-function formatError(error: ASCTBError, lines: string[]): void {
-  switch (error.code) {
-  case ErrorCode.InvalidCsvFile:
-    lines.push(`This file is not a valid CSV File: ${error.filename} \n`);
-    break;
-
-  case ErrorCode.UnmappedMetadata:
-    lines.push(`Unmapped/Missing Metadata field found for ${error.key} \n`);
-    break;
-
-  case ErrorCode.InvalidHeader:
-    lines.push(`Invalid Header found at column: ${error.cNumber} where Header value: ${error.headerName} \n`);
-    break;
-
-  case ErrorCode.MissingHeader:
-    lines.push(`Header Value Missing at column: ${error.cNumber}, row: ${error.rNumber} \n`);
-    break;
-
-  case ErrorCode.InvalidCharacter:
-    lines.push(`Invalid Character found at column: ${error.cName}, row: ${error.rInd} \n`);
-    break;
-
-  case ErrorCode.UnmappedData:
-    lines.push(`Unmapped data found at column: ${error.cNumber} and at Header Value: ${error.headerName} or ${error.originalArrayName}`);
-    break;
-
-  case ErrorCode.BadColumn:
-    lines.push(`Bad column found at Header Name: ${error.headerName}`);
-    break;
-
-  default:
-    break;
-  }
+  return lines.join('\n') /* Delete this -> */ + '\n\nDEBUG: ALL Warnings\n\n' + data.warnings.join('\n');
 }

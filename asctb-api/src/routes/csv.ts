@@ -66,8 +66,8 @@ export function setupCSVRoutes(app: Express): void {
         });
       } else if (output === 'validate') {
         const reports = asctbDataResponses.map(makeValidationReport);
-        res.type('text/csv');
-        return res.send(papa.unparse(reports[0]));
+        res.type('text/plain');
+        return res.send(reports[0]);
       }
       else {
         // The default is returning the json
