@@ -17,7 +17,7 @@ export const WarningLabels = {
   [WarningCode.InvalidHeader]: 'Invalid Header found?',
   [WarningCode.MissingHeader]: 'Missing Header Value found?',
   [WarningCode.InvalidCharacter]: 'Invalid Character found?',
-  [WarningCode.MissingCTorAnatomy]: '',
+  [WarningCode.MissingCTorAnatomy]: 'Missing Uberon or CL IDs?',
   [WarningCode.UnmappedData]: 'Unmapped Data found?',
   [WarningCode.BadColumn]: 'Bad Column found?'
 };

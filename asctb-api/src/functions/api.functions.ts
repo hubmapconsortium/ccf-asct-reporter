@@ -23,17 +23,12 @@ export function normalizeCsvUrl(url: string): string {
 }
 
 function setData(column: string[], columnNumber: number, row: Row, value: string, warnings: Set<string>): void {
-  // console.log('COLUMN=====', column);
-  // console.log('VALUE -----', value);
-
   if (column.length > 1) {
     const arrayName: arrayNameType = arrayNameMap[column[0]];
     const originalArrayName = column[0];
     const objectArray: any[] = row[arrayName] || [];
     if (!arrayName) {
       // const colName = columnIndexToName(columnNumber);
-      // arrayName = originalArrayName.toLowerCase();
-      // warnings.push({code: WarningCode.UnmappedData, cNumber: columnNumber, cName:colName, originalArrayName: originalArrayName });
       warnings.add(`WARNING: unmapped array found ${originalArrayName} (Code ${WarningCode.UnmappedData})`);
     }
 
@@ -97,7 +92,6 @@ function setData(column: string[], columnNumber: number, row: Row, value: string
             objectArray[arrayIndex][fieldName] = value;
           } else {
             warnings.add(`WARNING: bad column: ${column.join('/')} (Code ${WarningCode.BadColumn})`);
-            // warnings.push({ code: WarningCode.BadColumn, headerName: column.join('/') });
           }
         }
       }
@@ -151,9 +145,7 @@ const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<
       let metadataKey = metadataNameMap[metadataIdentifier];
       if (!metadataKey) {
         metadataKey = metadataIdentifier.toLowerCase();
-        // warnings.push({ code: WarningCode.UnmappedMetadata, key: metadataIdentifier });
         warnings.add(`WARNING: unmapped metadata found ${metadataIdentifier} (Code ${WarningCode.UnmappedMetadata})`);
-        // warnings.add(`${ERROR_TYPE.MISSING_METADATA} ${metadataIdentifier}`);
       }
       if (metadataArrayFields.includes(metadataKey)) {
         metadata[metadataKey] = metadataValue.split(DELIMETER).map(item => item.trim());
@@ -178,7 +170,7 @@ export function makeASCTBData(data: string[][]): ASCTBData {
   const headerRow = findHeaderIndex(0, data, HEADER_FIRST_COLUMN);
   const columns = data[headerRow].map((col: string) => col.toUpperCase().split('/').map(s => s.trim()));
   const warnings: Set<string> = new Set<string>();
-  console.log('Data-----', data[9]);
+  // console.log('Data-----', data[9]); // this is Header
 
 
   const results = data.slice(headerRow + 1).map((rowData: string[], rowNumber) => {
