@@ -52,6 +52,7 @@
   .required-field-disclaimer {
     font-size: 0.625rem;
     color: #f44336;
+    padding-left: 1rem;
   }
 
   .title-sheet-container {
@@ -79,6 +80,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding-left: 0.5rem;
   }
 
   .button-container {
@@ -102,6 +104,7 @@
   .data-upload-title {
     margin-top: 1.5rem !important;
     color: #444A65;
+    padding-left: 0.5rem;
 
     .data-disclaimer-text {
       font-size: 0.625rem;
