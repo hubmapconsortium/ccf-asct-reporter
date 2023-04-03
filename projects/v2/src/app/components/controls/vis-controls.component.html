@@ -62,12 +62,13 @@
         class="min p-0 w-100"
         thumbLabel
         color="primary"
-        [(ngModel)]="config.width"
         tickInterval="100"
         min="100"
         max="1000"
         (change)="changeWidth()"
-      ></mat-slider>
+      >
+      <input matSliderThumb [(ngModel)]="config.width">
+    </mat-slider>
     </div>
   </div>
 
@@ -97,12 +98,12 @@
         class="min p-0 w-100"
         thumbLabel
         color="primary"
-        [(ngModel)]="config.height"
         tickInterval="100"
         min="100"
         max="7000"
         (change)="changeHeight()"
-      ></mat-slider>
+      >
+      <input matSliderThumb [(ngModel)]="config.height"></mat-slider>
     </div>
   </div>
 
@@ -132,12 +133,12 @@
         class="min p-0 w-100"
         thumbLabel
         color="primary"
-        [(ngModel)]="config.bimodal_distance_x"
         tickInterval="100"
         min="50"
         max="500"
         (change)="changeBimodalDistanceX()"
-      ></mat-slider>
+      >
+      <input matSliderThumb [(ngModel)]="config.bimodal_distance_x"></mat-slider>
     </div>
   </div>
 
@@ -167,12 +168,13 @@
         class="min p-0 w-100"
         thumbLabel
         color="primary"
-        [(ngModel)]="config.bimodal_distance_y"
         tickInterval="100"
         min="10"
         max="200"
         (change)="changeBimodalDistanceY()"
-      ></mat-slider>
+      >
+      <input matSliderThumb [(ngModel)]="config.bimodal_distance_y">
+    </mat-slider>
     </div>
   </div>
 
@@ -187,7 +189,7 @@
       <span class="control-title">Label mismatch</span>
     </mat-slide-toggle>
   </div>
-  
+
   <div class="py-1 pb-4">
     <mat-slide-toggle
       [checked]="config.discrepencyId"
@@ -199,7 +201,7 @@
       <span class="control-title">ID Missing</span>
     </mat-slide-toggle>
   </div>
-  
+
   <div class="py-1 pb-4">
     <mat-slide-toggle
       [checked]="config.duplicateId"
