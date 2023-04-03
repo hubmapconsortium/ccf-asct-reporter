@@ -1,12 +1,10 @@
-<input type="file" class="file-input" required accept=".csv"
-       (change)="onFileSelected($event)" #fileUpload>
+<input type="file" class="file-input" required accept=".csv" (change)="onFileSelected($event)" #fileUpload>
 
-<div class="file-upload">
+<button class="file-upload" color="primary" class="upload-btn" (click)="onClick(fileUpload)">
+    <mat-icon>upload_file</mat-icon>
+    Upload file (CSV or XLSX)
+</button>
 
-   {{fileName || "No file uploaded yet."}}
-
-    <button mat-mini-fab color="primary" class="upload-btn"
-    (click)="onClick(fileUpload)">
-        <mat-icon>attach_file</mat-icon>
-    </button>
+<div class="file-name">
+    {{fileName || "No file loaded"}}
 </div>

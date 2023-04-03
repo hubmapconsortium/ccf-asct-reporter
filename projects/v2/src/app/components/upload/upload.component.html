@@ -1,0 +1,81 @@
+<div class="">
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <div class="instruction-title">Instructions</div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="mt-1 text-muted">
+      <ul class="pl-3">
+        <li class="text-justify">
+          Through this feature, you can upload your own data (ASCT+B to ASCT+B, ASCT+B to experimental data, or ASCT+B
+          to OMAP) by pasting the Browser URL address for the Google sheet of your data in the fields mentioned below.
+        </li>
+        <li class="text-justify">In order to successfully link your sheet, make sure the sheet has public access by
+          selecting Share
+          --> Get link
+          --> selecting "Anyone with the link" option and "Viewer" privileges, select "Done" to save.</li>
+
+        <li class="text-justify">
+          Please make sure your data follows the appropriate data format:
+          <ul class="pl-3">
+            <li class="text-justify">
+              <a href="https://docs.google.com/spreadsheets/d/1bsA-HngthTD7NtzAfab8t3EVjFFT439-Pc-mp_mdZUU/edit#gid=0"
+                target="_blank">ASCT+B Table template</a>
+            </li>
+            <li class="text-justify">
+              <a href="https://docs.google.com/spreadsheets/d/1bsA-HngthTD7NtzAfab8t3EVjFFT439-Pc-mp_mdZUU/edit#gid=0"
+                target="_blank">OMAP compare template</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <hr>
+    <div class="optional-info">
+      <div class="rounded-blob">New</div>
+      <div>Organ Mapping Antibody Panel files (CSV and XLSX) are now supported! </div>
+    </div>
+  </mat-expansion-panel>
+</div>
+
+<div class="content">
+  <span class="required-field-disclaimer">* required field</span>
+
+  <form [formGroup]="formGroup" class="mt-4 px-2">
+    <div class="data-upload-title">Data <p class="required">* &nbsp;</p>
+      <span class="data-disclaimer-text"> (Add a link to data or upload a CSV/XLSX file)</span>
+    </div>
+
+    <div class="w-100 sheet-link-container">
+      <div class="w-100 flex-container">
+        <p>
+          <mat-form-field appearance="legacy" class="w-75">
+            <mat-label>Google Sheet (or CSV) Link</mat-label>
+            <input class="w-100" matInput placeholder="Enter link..." formControlName="link" />
+            <mat-hint>Enter Browser URL address for your public Google Sheet (or CSV)</mat-hint>
+          </mat-form-field>
+      </div>
+      <div class="title-sheet-sub-container">
+
+        <div class="w-100">
+          <p>
+            <app-file-upload formControlName="fileName" (fileFormDataEvent)="upload($event)"></app-file-upload>
+          </p>
+        </div>
+      </div>
+    </div>
+    <hr />
+  </form>
+</div>
+
+<div footer class="footer">
+  <div class="mt-2" class="button-container">
+    <button mat-flat-button color="primary" (click)="submitData()" class="submit-button"
+      [ngClass]="{'submit-button-color': !formValid}">
+      Submit
+    </button>
+  </div>
+
+</div>
