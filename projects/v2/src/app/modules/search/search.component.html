@@ -17,14 +17,14 @@
         [hidden]="(searchState$ | async) === false">
         <div class="search-controls br-top">
           <mat-form-field class="br-top"
-            appearance="legacy"
+            appearance="fill"
             floatLabel="never">
             <input matInput cdkFocusInitial #searchField
               (keyup.enter)="selectFirstOption()"
               [(ngModel)]="searchValue"
               placeholder="Search Structures"
               (input)="filterStructuresOnSearch()" />
-            <button mat-button matSuffix mat-icon-button
+            <button matSuffix mat-icon-button
               #clearBtn
               [hidden]="!searchValue"
               aria-label="Clear Search"
@@ -32,7 +32,7 @@
               (click)="clearSearchField()">
               <mat-icon>close</mat-icon>
             </button>
-            <button mat-button matSuffix mat-icon-button
+            <button matSuffix mat-icon-button
               aria-label="Close"
               matTooltip="Close"
               (click)="closeSearchList()">

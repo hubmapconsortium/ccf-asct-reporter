@@ -70,7 +70,7 @@
                     <mat-hint>A title for your sheet</mat-hint>
                   </mat-form-field> -->
                   <p>
-                    <mat-form-field  appearance="legacy">
+                    <mat-form-field  appearance="fill">
                       <mat-label>Title</mat-label>
                       <input matInput placeholder="Sheet {{i+1}}" formControlName="title">
                       <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
@@ -81,7 +81,7 @@
                 <div class="title-sheet-sub-container">
                   <div class="w-75">
                     <p>
-                      <mat-form-field appearance="legacy">
+                      <mat-form-field appearance="fill">
                         <mat-label>Description</mat-label>
                         <input matInput placeholder="This data maps amazing structures!" formControlName="description">
                         <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
@@ -121,7 +121,7 @@
               >
                 <div class="w-100 flex-container">
                   <p>
-                    <mat-form-field appearance="legacy" class="w-75">
+                    <mat-form-field appearance="fill" class="w-75">
                   <!-- <mat-form-field
                     [floatLabel]="'always'"
                     class="link-input-field"
@@ -138,7 +138,7 @@
                   </mat-form-field>
                 </div>
                 <div class="title-sheet-sub-container">
-                  
+
                 <div class="w-100">
                   <p>
                     <app-file-upload formControlName="fileName" (fileFormDataEvent)="upload($event, sheet)"></app-file-upload>
