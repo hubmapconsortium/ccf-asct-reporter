@@ -29,15 +29,15 @@ async function run() {
 }
 
 async function getData(draftItems) {
-  const headers = ["Validation tests"];
+  const headers = ["Validation Tests"];
   const columns = [["Validation Invalid CSV file?",
-    "Validation Unmapped Metadata found?",
-    "Validation Invalid Header found? failed?",
-    "Validation Missing Header Value found?",
-    "Validation Invalid Character found?",
-    "Validation Missing Uberon or CL IDs?",
-    "Validation Unmapped Data found?",
-    "Validation Bad Column found?"]];
+    "Unmapped Metadata found?",
+    "Invalid Header found?",
+    "Missing Header Value found?",
+    "Invalid Character found?",
+    "Missing Uberon or CL IDs?",
+    "Unmapped Data found?",
+    "Bad Column found?"]];
   for (let i = 0; i < draftItems.length; i++) {
     const item = draftItems[i];
     const filename = `${item.value}.txt`;
@@ -53,8 +53,24 @@ async function getData(draftItems) {
         }
       });
       const data = await response.data;
-      headers.push(item.value);
-      columns.push(data.split('\n').slice(0, 8).map((d)=>d.slice(-6)));
+      const filetitle = item.value.split('v1.')[0].split(/[_-]/);
+      const title = filetitle.join(' ');  
+      headers.push(title.toLowerCase());
+
+      // const validationResults = data.split('\n').slice(0, 8).map((d)=>d.slice(-6));
+      // validationResults.forEach((validationResult) => {
+      //   const result = validationResult === 'passed' ? '✅' : '❌';  
+      //   columns.push(result);
+      // })
+      // console.log(validationResult);
+      columns.push(
+        data.split('\n')
+        .slice(0, 8)
+        .map((d) => {
+          const status = d.slice(-6);
+          return status === 'passed' ? '✅' : '❌';
+        })
+      );
 
       fs.writeFileSync(path.resolve(OUT_DIR, filename), data)
     } catch (error) {
