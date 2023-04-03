@@ -29,6 +29,15 @@ async function run() {
 }
 
 async function getData(draftItems) {
+  const headers = ["Validation tests"];
+  const columns = [["Validation Invalid CSV file?",
+    "Validation Unmapped Metadata found?",
+    "Validation Invalid Header found? failed?",
+    "Validation Missing Header Value found?",
+    "Validation Invalid Character found?",
+    "Validation Missing Uberon or CL IDs?",
+    "Validation Unmapped Data found?",
+    "Validation Bad Column found?"]];
   for (let i = 0; i < draftItems.length; i++) {
     const item = draftItems[i];
     const filename = `${item.value}.txt`;
@@ -44,12 +53,32 @@ async function getData(draftItems) {
         }
       });
       const data = await response.data;
+      headers.push(item.value);
+      columns.push(data.split('\n').slice(0, 8).map((d)=>d.slice(-6)));
+
       fs.writeFileSync(path.resolve(OUT_DIR, filename), data)
     } catch (error) {
       console.log('error: ', error);
       process.exit(-1);
     }
   }
+
+  // Write CSV
+
+  // Add values to the first row of the CSV
+  let csv = headers.join(',') + '\n';
+
+  // Add each row of validations to the CSV
+  for (let i = 0; i < columns[0].length; i++) {
+    let row = [];
+    for (let j = 0; j < columns.length; j++) {
+      row.push(columns[j][i]);
+    }
+    csv += row.join(',') + '\n';
+  }
+
+  fs.writeFileSync(path.resolve(OUT_DIR, 'summary.csv'), csv);
+
 }
 
 run();
