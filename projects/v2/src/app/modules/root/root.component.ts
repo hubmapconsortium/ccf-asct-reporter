@@ -157,7 +157,7 @@ export class RootComponent implements OnInit, OnDestroy {
   // Logs Oberservables
   @Select(LogsState) logs$: Observable<Logs>;
 
-  sheetConfig:SheetDetails[];
+  sheetConfig: SheetDetails[];
 
   constructor(
     public configService: ConfigService,
@@ -216,13 +216,14 @@ export class RootComponent implements OnInit, OnDestroy {
           getFromCache: true
         };
         const dialogRef = this.dialog.open(OrganTableSelectorComponent, config);
-        dialogRef.afterClosed().subscribe(({organs,cache}) => {
+        dialogRef.afterClosed().subscribe(({ organs, cache, omapOrgans }) => {
           store.dispatch(new UpdateGetFromCache(cache));
-          if (organs !== false){
+          if (organs !== false) {
             this.router.navigate(['/vis'], {
               queryParams: {
                 selectedOrgans: organs?.join(','),
                 playground: false,
+                omapOrgans: omapOrgans
               },
               queryParamsHandling: 'merge',
             });
@@ -254,10 +255,10 @@ export class RootComponent implements OnInit, OnDestroy {
           comparisonCSVURLList.forEach((linkUrl, index) => {
             linkUrl = linkUrl.trim();
             comparisonDetails.push({
-              title: comparisonNameList?.length-1 >= index ? comparisonNameList[index] : `Sheet ${index + 1}`,
+              title: comparisonNameList?.length - 1 >= index ? comparisonNameList[index] : `Sheet ${index + 1}`,
               description: '',
               link: linkUrl,
-              color:  comparisonColorList?.length-1 >= index ? comparisonColorList[index] : colors[index % colors.length],
+              color: comparisonColorList?.length - 1 >= index ? comparisonColorList[index] : colors[index % colors.length],
               sheetId: this.parseSheetUrl(linkUrl).sheetID,
               gid: this.parseSheetUrl(linkUrl).gid,
               csvUrl: this.parseSheetUrl(linkUrl).csvUrl
@@ -392,7 +393,7 @@ export class RootComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngOnDestroy() {
     this.store.dispatch(new StateReset(SheetState));
@@ -505,10 +506,12 @@ export class RootComponent implements OnInit, OnDestroy {
       .some((compareData: CompareData) => compareData.formData !== null);
 
     this.router.navigate(['/vis'], {
-      queryParams: { comparisonCSVURL: compareDataString,
+      queryParams: {
+        comparisonCSVURL: compareDataString,
         comparisonName: compareNameString,
         comparisonColor: compareColorString,
-        comparisonHasFile: compareHasFile ? 'true' : 'false' },
+        comparisonHasFile: compareHasFile ? 'true' : 'false'
+      },
       queryParamsHandling: 'merge',
     });
 
@@ -535,7 +538,7 @@ export class RootComponent implements OnInit, OnDestroy {
     const sheet = this.store.selectSnapshot(SheetState.getSheet);
     const selectedOrgans = this.store.selectSnapshot(SheetState.getSelectedOrgans);
     const urls = [];
-    if (sheet.name === 'all' || sheet.name === 'some'){
+    if (sheet.name === 'all' || sheet.name === 'some') {
       for (const organ of selectedOrgans) {
         this.sheetConfig.forEach((config) => {
           config.version?.forEach((version: VersionDetail) => {
@@ -555,10 +558,10 @@ export class RootComponent implements OnInit, OnDestroy {
 
     if (option === 'Graph Data') {
 
-      this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid, csvURL? csvURL : sheet.csvUrl, null, 'graph').subscribe((graphData: GraphData) => {
+      this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid, csvURL ? csvURL : sheet.csvUrl, null, 'graph').subscribe((graphData: GraphData) => {
         const graphDataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(graphData.data));
         const downloadAnchorNode = document.createElement('a');
-        downloadAnchorNode.setAttribute('href',     graphDataStr);
+        downloadAnchorNode.setAttribute('href', graphDataStr);
         downloadAnchorNode.setAttribute('download', `asct+b_graph_data_${sn}_${dt}` + '.json');
         document.body.appendChild(downloadAnchorNode);
         downloadAnchorNode.click();
@@ -582,7 +585,7 @@ export class RootComponent implements OnInit, OnDestroy {
     } else if (option === 'JSON-LD') {
 
       this.sheetService
-        .fetchSheetData(sheet.sheetId, sheet.gid, csvURL? csvURL : sheet.csvUrl, null, 'jsonld')
+        .fetchSheetData(sheet.sheetId, sheet.gid, csvURL ? csvURL : sheet.csvUrl, null, 'jsonld')
         .subscribe((graphData: any) => {
           const graphDataStr =
             'data:text/json;charset=utf-8,' +
@@ -600,7 +603,7 @@ export class RootComponent implements OnInit, OnDestroy {
     } else if (option === 'OWL (RDF/XML)') {
 
       this.sheetService
-        .fetchSheetData(sheet.sheetId, sheet.gid, csvURL? csvURL : sheet.csvUrl, null, 'owl')
+        .fetchSheetData(sheet.sheetId, sheet.gid, csvURL ? csvURL : sheet.csvUrl, null, 'owl')
         .subscribe((graphData: any) => {
           const graphDataStr =
             'data:application/rdf+xml;charset=utf-8,' +
@@ -615,7 +618,7 @@ export class RootComponent implements OnInit, OnDestroy {
           downloadAnchorNode.click();
           downloadAnchorNode.remove();
         });
-    }else {
+    } else {
       const view = this.store.selectSnapshot(TreeState.getVegaView);
       const fileName = `asct+b_${sn}_${dt}.${formatType}`;
       view.background('#fafafa');
