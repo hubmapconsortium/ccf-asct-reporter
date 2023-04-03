@@ -17,6 +17,8 @@ export class OrganTableSelectorComponent implements OnInit {
    * Sheet configs
    */
   sheetOptions;
+
+  omapSheetOptions;
   /**
    * Has some selected organs
    */
@@ -49,6 +51,13 @@ export class OrganTableSelectorComponent implements OnInit {
     public ga: GoogleAnalyticsService
   ) {
 
+    this.configService.omapsheetConfiguration$.subscribe((sheetOptions) => {
+      this.omapSheetOptions = sheetOptions.filter(o => o.organ !== 'some');
+      // this.dataSource = new MatTableDataSource(this.sheetOptions);
+      console.log(this.omapSheetOptions);
+
+    });
+
     this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
       this.sheetOptions = sheetOptions.filter(o => o.name !== 'some');
       this.dataSource = new MatTableDataSource(this.sheetOptions);
@@ -75,7 +84,7 @@ export class OrganTableSelectorComponent implements OnInit {
     this.hasSomeOrgans = this.selection.selected.length > 0;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   addSheets(sheets) {
     const ga_details: GaOrgansInfo = {
@@ -146,16 +155,15 @@ export class OrganTableSelectorComponent implements OnInit {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.position + 1
-    }`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1
+      }`;
   }
 
   changeVersion(value: string, row: SheetDetails): void {
     if (row.name === 'all') {
       row.symbol = value;
       this.selectByHraVersion(row);
-    } else{
+    } else {
       row.symbol = value;
     }
   }
@@ -182,7 +190,7 @@ export class OrganTableSelectorComponent implements OnInit {
         this.selectByHraVersion(row);
       }
     }
-    else{
+    else {
       this.selection.toggle(row);
       this.hasSomeOrgans = this.selection.selected.length > 0;
     }
