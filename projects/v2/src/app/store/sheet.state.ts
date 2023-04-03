@@ -1,55 +1,55 @@
-import { SheetService } from '../services/sheet.service';
-import { State, Action, StateContext, Selector } from '@ngxs/store';
-import {
-  Sheet,
-  Row,
-  Structure,
-  CompareData,
-  SheetConfig,
-  ResponseData,
-  SheetInfo,
-  DOI,
-  VersionDetail,
-  SheetDetails,
-} from '../models/sheet.model';
-import { Error } from '../models/response.model';
-import { tap, catchError } from 'rxjs/operators';
-import { forkJoin, Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
+import { StateReset } from 'ngxs-reset-plugin';
 import { parse } from 'papaparse';
+import { Observable, forkJoin, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { ReportLog } from '../actions/logs.actions';
 import {
-  FetchSheetData,
-  FetchDataFromAssets,
+  DeleteCompareSheet,
   FetchAllOrganData,
   FetchCompareData,
-  UpdateConfig,
-  ToggleShowAllAS,
-  UpdateReport,
-  DeleteCompareSheet,
-  UpdateMode,
-  UpdateSheet,
+  FetchDataFromAssets,
   FetchInitialPlaygroundData,
-  UpdatePlaygroundData,
-  UpdateBottomSheetInfo,
-  UpdateBottomSheetDOI,
   FetchSelectedOrganData,
+  FetchSheetData,
+  ToggleShowAllAS,
+  UpdateBottomSheetDOI,
+  UpdateBottomSheetInfo,
+  UpdateConfig,
   UpdateGetFromCache,
+  UpdateMode,
+  UpdatePlaygroundData,
+  UpdateReport,
+  UpdateSheet,
 } from '../actions/sheet.actions';
 import {
+  CloseBottomSheet,
+  HasError,
   OpenLoading,
   UpdateLoadingText,
-  HasError,
-  CloseBottomSheet,
 } from '../actions/ui.actions';
-import { StateReset } from 'ngxs-reset-plugin';
-import { TreeState } from './tree.state';
-import { ReportLog } from '../actions/logs.actions';
-import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
-import { GoogleAnalyticsService } from 'ngx-google-analytics';
-import { GaAction, GaCategory } from '../models/ga.model';
-import { ReportService } from '../components/report/report.service';
 import { ConfigService } from '../app-config.service';
+import { ReportService } from '../components/report/report.service';
+import { GaAction, GaCategory } from '../models/ga.model';
+import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
 import { Report } from '../models/report.model';
+import { Error } from '../models/response.model';
+import {
+  CompareData,
+  DOI,
+  ResponseData,
+  Row,
+  Sheet,
+  SheetConfig,
+  SheetDetails,
+  SheetInfo,
+  Structure,
+  VersionDetail,
+} from '../models/sheet.model';
+import { SheetService } from '../services/sheet.service';
+import { TreeState } from './tree.state';
 
 /** Class to keep track of the sheet */
 export class SheetStateModel {
@@ -880,7 +880,6 @@ export class SheetState {
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, 'Example', LOG_ICONS.file, 'latest'));
-    const state = getState();
     const organ: Structure = {
       name: 'Body',
       id: this.bodyId,
@@ -895,7 +894,7 @@ export class SheetState {
         });
 
         setState({
-          ...state,
+          ...getState(),
           compareData: [],
           compareSheets: [],
           parsed: res.parsed,

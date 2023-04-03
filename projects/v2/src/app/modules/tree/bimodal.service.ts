@@ -9,6 +9,7 @@ import { ReportLog } from '../../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
 import { Error } from '../../models/response.model';
 import { Row, SheetConfig, PROTEIN_PRESENCE } from '../../models/sheet.model';
+import { TreeState } from '../../store/tree.state';
 
 @Injectable({
   providedIn: 'root'
@@ -78,7 +79,7 @@ export class BimodalService {
               return (a.comparatorName === td.name);
             })?.outdegree;
             newLeaf.label = anatomicalStructuresData.find((a: AS) => {
-              return (a.comparatorName === td.name); 
+              return (a.comparatorName === td.name);
             })?.label;
           }
           nodes.push(newLeaf);
@@ -358,12 +359,12 @@ export class BimodalService {
       if (!isReport) {
         this.store.dispatch(new UpdateLinksData(AS_CT_LINKS, CT_BM_LINKS, AS_CT, CT_BM));
 
-        this.store.dispatch(new UpdateBimodal(nodes, links)).subscribe(newData => {
-          const view = newData.treeState.view;
-          const updatedNodes = newData.treeState.bimodal.nodes;
-          const updatedLinks = newData.treeState.bimodal.links;
-          const spec = newData.treeState.spec;
-
+        this.store.dispatch(new UpdateBimodal(nodes, links)).subscribe(() => {
+          const state = this.store.selectSnapshot(TreeState);
+          const view = TreeState.getVegaView(state);
+          const updatedNodes = state.bimodal.nodes;
+          const updatedLinks = state.bimodal.links;
+          const spec = state.spec;
           this.updateBimodalData(view, spec, updatedNodes, updatedLinks);
         });
       } else {

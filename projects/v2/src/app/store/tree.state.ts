@@ -1,21 +1,21 @@
 /*eslint no-underscore-dangle: "off" */
-import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { Spec } from 'vega';
 import { Injectable } from '@angular/core';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Spec } from 'vega';
 import {
-  UpdateVegaSpec,
-  UpdateVegaView,
+  DiscrepencyId,
+  DiscrepencyLabel,
+  DoSearch,
+  DuplicateId,
   UpdateBimodal,
   UpdateBimodalConfig,
-  DoSearch,
   UpdateBottomSheetData,
   UpdateLinksData,
-  DiscrepencyLabel,
-  DiscrepencyId,
-  DuplicateId,
+  UpdateVegaSpec,
+  UpdateVegaView,
 } from '../actions/tree.actions';
-import { TNode, SearchStructure, DiscrepencyStructure } from '../models/tree.model';
-import { BMNode, Link, BimodalConfig } from '../models/bimodal.model';
+import { BMNode, BimodalConfig, Link } from '../models/bimodal.model';
+import { DiscrepencyStructure, SearchStructure, TNode } from '../models/tree.model';
 
 /** Class to keep track of all data and events related to the visualization */
 export class TreeStateModel {
@@ -97,7 +97,7 @@ export class TreeStateModel {
     search: [],
     lastSearch: null,
     bottomSheetData: {},
-    links: { 
+    links: {
       AS_CT: 0,
       CT_B: 0,
       AS_AS: 0,
@@ -112,9 +112,6 @@ export class TreeStateModel {
 })
 @Injectable()
 export class TreeState {
-
-  constructor() { }
-
   /**
    * Select the bimodal config (for sorting and sizing)
    */
@@ -326,7 +323,7 @@ export class TreeState {
     } else {
       setState({
         ...state,
-        links: { 
+        links: {
           AS_CT : allOrgans ? state.links.AS_CT : AS_CT,
           CT_B : allOrgans ? state.links.CT_B : CT_B,
           CT_B_organWise: {...state.links.CT_B_organWise, ...CT_B_organWise},

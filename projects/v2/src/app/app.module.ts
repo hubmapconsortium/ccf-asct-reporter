@@ -51,7 +51,6 @@ export function initializeApp(configService: ConfigService): () => Promise<void>
     NgxsLoggerPluginModule.forRoot({
       disabled: environment.production,
     }),
-    NgxsResetPluginModule.forRoot(),
     MarkdownModule.forRoot(),
     DocsModule,
     RootModule,

@@ -9,7 +9,7 @@ import {
 import { SheetState } from './../../store/sheet.state';
 import { TreeState } from './../../store/tree.state';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, delay } from 'rxjs';
 import {
   UpdateReport,
   DeleteCompareSheet,
@@ -172,11 +172,10 @@ export class RootComponent implements OnInit, OnDestroy {
     public sheetService: SheetService,
     public router: Router,
   ) {
-
     this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
       this.sheetConfig = sheetOptions;
     });
-    this.data$.subscribe((data) => {
+    this.data$.pipe(delay(0)).subscribe((data) => {
       if (data.length) {
         this.data = data;
         try {
