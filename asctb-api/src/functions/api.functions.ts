@@ -79,7 +79,7 @@ function setData(column: string[], row: Row, value: string, warnings: Set<string
  * @param warnings = warnings generated during the process are pushed to this set
  * @returns = returns key value pairs of metadata
  */
-const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<string, string | string[]> => {
+export const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<string, string | string[]> => {
   const [titleRow] = metadataRows.splice(TITLE_ROW_INDEX, 1);
   const [title] = titleRow.slice(0, 1);
 
@@ -108,67 +108,20 @@ const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<
     );
 };
 
-//need to change any here
-function findHeaderIndex(headerRow: number, data: string[][], firstColumnName: string, secondColumnName: string): any {
+function findHeaderIndex(headerRow: number, data: string[][], firstColumnName: string): number {
   for (let i = headerRow; i < data.length; i++) {
     if (data[i][0] === firstColumnName) {
-      return { headerRow: i, type: "ASCTB" };
-    }
-    if (data[i][0] === secondColumnName) {
-      return { headerRow: i, type: "OMAP" };
+      return i;
     }
   }
-  return { headerRow, type: "" };
-}
-
-function transformOmapData(data: string[][], columns: string[][], headerRow: number): ASCTBData {
-  const warnings = new Set<string>();
-  const metadataRows = data.slice(0, headerRow);
-  const metadata = buildMetadata(metadataRows, warnings);
-  const organ = OMAP_ORGAN[metadata.data_doi as string];
-
-  let asctbConverted: string[][] = [];
-
-  for (let i = 0; i < headerRow; i++) {
-    asctbConverted.push(data[i]);
-  }
-  console.log(asctbConverted);
-
-  let maxProteins = data.slice(headerRow + 1).map(subArr => subArr[0].split(',').length);
-
-  let newHeaderRow = ['AS/1', 'AS/1/LABEL', 'AS/1/ID'];
-
-  for (let i = 1; i <= Math.max(...maxProteins); i++) {
-    newHeaderRow.push(`BP/${i}`);
-    newHeaderRow.push(`BP/${i}/LABEL`);
-    newHeaderRow.push(`BP/${i}/ID`);
-  }
-
-  console.log(newHeaderRow);
-  asctbConverted.push(newHeaderRow);
-  console.log(asctbConverted);
-
-  data.slice(headerRow + 1).map(subArr => {
-    console.log(subArr);
-  })
-
-
-
-  return {
-    data: [],
-    metadata: undefined,
-    warnings: []
-  };
+  return headerRow;
 }
 
 export function makeASCTBData(data: string[][]): ASCTBData {
-  const { headerRow, type } = findHeaderIndex(0, data, HEADER_FIRST_COLUMN, "uniprot_accession_number");
+  const headerRow = findHeaderIndex(0, data, HEADER_FIRST_COLUMN);
 
   const columns = data[headerRow].map((col: string) => col.toUpperCase().split('/').map(s => s.trim()));
   const warnings = new Set<string>();
-  if (type === 'OMAP') {
-    return transformOmapData(data, columns, headerRow);
-  }
   const results = data.slice(headerRow + 1).map((rowData: string[], rowNumber) => {
     const row: Row = new Row(headerRow + rowNumber + 2);
     rowData.forEach((value, index) => {

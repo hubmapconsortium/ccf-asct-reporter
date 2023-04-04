@@ -21,8 +21,16 @@ export enum BM_TYPE {
   BF = 'proteoforms',
 }
 
-export const OMAP_ORGAN: Record<string, object> = {
-  'https://doi.org/10.48539/HBM467.LRKZ.884': { name: 'skin', label: 'skin of body', id: 'UBERON:0002097' }
+export const OMAP_ORGAN: Record<string, Structure> = {
+  'https://doi.org/10.48539/HBM467.LRKZ.884': { name: 'skin', rdfs_label: 'skin of body', id: 'UBERON:0002097', setBiomarkerProperties: undefined, isValid: undefined },
+  'https://doi.org/10.48539/HBM577.SBHH.454': { name: 'skin', rdfs_label: 'skin of body', id: 'UBERON:0002097', setBiomarkerProperties: undefined, isValid: undefined },
+  'https://doi.org/10.48539/HBM674.DJKV.876': { name: 'lymph node', rdfs_label: 'lymph node', id: 'UBERON: 0000029', setBiomarkerProperties: undefined, isValid: undefined },
+  'https://doi.org/10.48539/HBM794.CSBJ.358': { name: 'intestine', rdfs_label: 'intestine', id: 'UBERON:0000160', setBiomarkerProperties: undefined, isValid: undefined },
+  'https://doi.org/10.48539/HBM568.RMZB.377': { name: 'kidney', rdfs_label: 'kidney', id: 'UBERON:0002113', setBiomarkerProperties: undefined, isValid: undefined },
+  'https://doi.org/10.48539/HBM495.QBSV.777': { name: 'liver', rdfs_label: 'liver', id: 'UBERON:0002107', setBiomarkerProperties: undefined, isValid: undefined },
+  'https://doi.org/10.48539/HBM868.XLTM.922': { name: 'Pancreas', rdfs_label: 'Pancreas', id: 'UBERON:0001264', setBiomarkerProperties: undefined, isValid: undefined },
+  'https://doi.org/10.48539/HBM972.WHPW.455': { name: 'Lung', rdfs_label: 'Lung', id: 'UBERON:0002048', setBiomarkerProperties: undefined, isValid: undefined },
+
 }
 
 export enum PROTEIN_PRESENCE {

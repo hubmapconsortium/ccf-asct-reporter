@@ -8,6 +8,7 @@ import { makeJsonLdData } from '../functions/graph-jsonld.functions';
 import { makeOwlData } from '../functions/graph-owl.functions';
 import { makeGraphData } from '../functions/graph.functions';
 import { UploadedFile } from '../models/api.model';
+import { transformOmapData, getOmapHeaderRow, arrayToCsv } from '../functions/omap.functions';
 
 export function setupCSVRoutes(app: Express): void {
 
@@ -115,7 +116,13 @@ export function setupCSVRoutes(app: Express): void {
     console.log('File uploaded: ', file.name);
 
     try {
-      const { data } = papa.parse<string[]>(dataString, { skipEmptyLines: 'greedy' });
+      let { data } = papa.parse<string[]>(dataString, { skipEmptyLines: 'greedy' });
+      const { isOmap, headerRow } = getOmapHeaderRow(data, 'uniprot_accession_number', 'AS/1');
+
+      if (isOmap) {
+        data = transformOmapData(data, headerRow);
+        arrayToCsv(data, `${file.name}`);
+      }
       const asctbData = makeASCTBData(data);
 
       return res.send({
