@@ -41,7 +41,7 @@
     "@swimlane/ngx-charts": "^17.0.0",
     "@types/cors": "^2.8.10",
     "@types/express": "^4.17.11",
-    "bootstrap": "^4.5.3",
+    "bootstrap": "^5.2.3",
     "express-fileupload": "^1.2.1",
     "font-awesome": "^4.7.0",
     "jexcel": "^4.6.1",
