@@ -1,9 +1,4 @@
-import {
-    arrayNameMap, arrayNameType, createObject, DELIMETER, HEADER_FIRST_COLUMN,
-    metadataArrayFields, metadataNameMap, objectFieldMap, Row, TITLE_ROW_INDEX,
-    OMAP_ORGAN
-} from '../models/api.model';
-import { fixOntologyId } from './lookup.functions';
+import { OMAP_ORGAN } from '../models/api.model';
 import { buildMetadata } from './api.functions';
 import * as fs from 'fs';
 

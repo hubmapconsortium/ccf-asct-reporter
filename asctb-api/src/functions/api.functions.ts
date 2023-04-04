@@ -1,7 +1,6 @@
 import {
   arrayNameMap, arrayNameType, createObject, DELIMETER, HEADER_FIRST_COLUMN,
-  metadataArrayFields, metadataNameMap, objectFieldMap, Row, TITLE_ROW_INDEX,
-  OMAP_ORGAN
+  metadataArrayFields, metadataNameMap, objectFieldMap, Row, TITLE_ROW_INDEX
 } from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
 
@@ -119,9 +118,9 @@ function findHeaderIndex(headerRow: number, data: string[][], firstColumnName: s
 
 export function makeASCTBData(data: string[][]): ASCTBData {
   const headerRow = findHeaderIndex(0, data, HEADER_FIRST_COLUMN);
-
   const columns = data[headerRow].map((col: string) => col.toUpperCase().split('/').map(s => s.trim()));
   const warnings = new Set<string>();
+
   const results = data.slice(headerRow + 1).map((rowData: string[], rowNumber) => {
     const row: Row = new Row(headerRow + rowNumber + 2);
     rowData.forEach((value, index) => {
