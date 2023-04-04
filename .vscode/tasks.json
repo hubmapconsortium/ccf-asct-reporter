@@ -1,0 +1,10 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "echotest",
+            "command": "cd asctb-api && npm run build-ts", // Could be any other shell command
+            "type": "shell"
+        }
+    ]
+}

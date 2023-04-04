@@ -21,6 +21,10 @@ export enum BM_TYPE {
   BF = 'proteoforms',
 }
 
+export const OMAP_ORGAN: Record<string, object> = {
+  'https://doi.org/10.48539/HBM467.LRKZ.884': { name: 'skin', label: 'skin of body', id: 'UBERON:0002097' }
+}
+
 export enum PROTEIN_PRESENCE {
   POS = 'Positive',
   NEG = 'Negative',
@@ -46,7 +50,7 @@ export const arrayNameMap: Record<string, arrayNameType> = {
   BF: 'biomarkers_prot'
 };
 
-export type arrayNameType  ='anatomical_structures' | 'cell_types' | 'ftu_types' | 
+export type arrayNameType = 'anatomical_structures' | 'cell_types' | 'ftu_types' |
   'biomarkers_gene' | 'biomarkers_protein' | 'biomarkers_lipids' | 'biomarkers_meta' | 'biomarkers_prot' | 'references';
 
 export const objectFieldMap: Record<string, string> = {
@@ -59,11 +63,11 @@ export const objectFieldMap: Record<string, string> = {
 
 export function createObject(name: string, structureType: string): Structure | Reference {
   switch (structureType) {
-  case 'REF':
-    return new Reference(name);
-  case 'AS':
-  default:
-    return new Structure(name, structureType);
+    case 'REF':
+      return new Reference(name);
+    case 'AS':
+    default:
+      return new Structure(name, structureType);
   }
 }
 
@@ -102,10 +106,10 @@ export class Structure {
       const hasPos = name.endsWith('+');
       const hasNeg = name.endsWith('-');
 
-      if (hasPos){
+      if (hasPos) {
         this.name = name.slice(0, -1);
         this.proteinPresence = PROTEIN_PRESENCE.POS;
-      } else if (hasNeg){
+      } else if (hasNeg) {
         this.name = name.slice(0, -1);
         this.proteinPresence = PROTEIN_PRESENCE.NEG;
       } else {
@@ -141,7 +145,7 @@ export class Row {
   ftu_types: Array<Structure> = [];
   references: Reference[] = [];
 
-  constructor(public rowNumber: number) {}
+  constructor(public rowNumber: number) { }
 
   finalize(): void {
     this.anatomical_structures = this.anatomical_structures.filter(s => s.isValid());
@@ -167,23 +171,23 @@ export class Row {
 
 // Copied interface out of @types/express-fileupload to avoid type casting failure
 export interface UploadedFile {
-    /** file name */
-    name: string;
-    /** A function to move the file elsewhere on your server */
-    mv(path: string, callback: (err: any) => void): void;
-    mv(path: string): Promise<void>;
-    /** Encoding type of the file */
-    encoding: string;
-    /** The mimetype of your file */
-    mimetype: string;
-    /** A buffer representation of your file, returns empty buffer in case useTempFiles option was set to true. */
-    data: Buffer;
-    /** A path to the temporary file in case useTempFiles option was set to true. */
-    tempFilePath: string;
-    /** A boolean that represents if the file is over the size limit */
-    truncated: boolean;
-    /** Uploaded size in bytes */
-    size: number;
-    /** MD5 checksum of the uploaded file */
-    md5: string;
+  /** file name */
+  name: string;
+  /** A function to move the file elsewhere on your server */
+  mv(path: string, callback: (err: any) => void): void;
+  mv(path: string): Promise<void>;
+  /** Encoding type of the file */
+  encoding: string;
+  /** The mimetype of your file */
+  mimetype: string;
+  /** A buffer representation of your file, returns empty buffer in case useTempFiles option was set to true. */
+  data: Buffer;
+  /** A path to the temporary file in case useTempFiles option was set to true. */
+  tempFilePath: string;
+  /** A boolean that represents if the file is over the size limit */
+  truncated: boolean;
+  /** Uploaded size in bytes */
+  size: number;
+  /** MD5 checksum of the uploaded file */
+  md5: string;
 }

@@ -26,7 +26,7 @@ export function setupCSVRoutes(app: Express): void {
     try {
       let csvData = '';
       let parsedCsvData: string[][] = [];
-      
+
       let warnings: string[] = [];
       const asctbDataResponses = await Promise.all(
         csvUrls.split('|').map(async (csvUrl) => {
@@ -94,7 +94,7 @@ export function setupCSVRoutes(app: Express): void {
    */
   app.post('/v2/csv', async (req: Request, res: Response) => {
     console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
-    
+
     if (!req.files || !req.files.csvFile) {
       return res.status(400).send({
         msg: 'This route only accepts CSVs POSTed and called csvFile',

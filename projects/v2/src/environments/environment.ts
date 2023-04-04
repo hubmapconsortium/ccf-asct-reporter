@@ -6,8 +6,8 @@ export const environment = {
   production: false,
   tag: 'Development',
   googleAnalyticsId: 'G-77K2VNZRJ2',
-  asctbApiUrl: 'https://mmpyikxkcp.us-east-2.awsapprunner.com'
-  
+  asctbApiUrl: 'http://localhost:5000'
+
   // use the following url when developing against in-staging-only features
   // asctbApiUrl: 'https://m7ehdriy7t.us-east-2.awsapprunner.com'
   // use the following url for localhost API development
