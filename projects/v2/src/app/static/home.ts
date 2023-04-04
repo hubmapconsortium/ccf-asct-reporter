@@ -108,7 +108,7 @@ export const CONTIRBUTORS = [
     name: 'Sai Ajay Vutukuri',
     desc: 'Software Developer',
     mail: 'svutuku@iu.edu',
-    link: 'https://cns.iu.edu/current_team/bio/vutukuri-ajay.html',
+    link: 'https://github.com/vutukuriajay2241',
     linkedin: 'https://in.linkedin.com/in/ajay-vutukuri-38824ba8',
     github: ''
   },
@@ -117,7 +117,7 @@ export const CONTIRBUTORS = [
     name: 'Mac Vogelsang',
     desc: 'Software Developer',
     mail: 'madvogel@iu.edu',
-    link: 'https://cns.iu.edu/current_team/bio/mac-vogelsang.html',
+    link: 'https://github.com/macvogelsang',
     linkedin: 'https://www.linkedin.com/in/mac-vogelsang',
     github: ''
   },
@@ -126,7 +126,7 @@ export const CONTIRBUTORS = [
     name: 'Nikhil Mahadevaswamy',
     desc: 'Angular Developer',
     mail: 'nmahade@iu.edu',
-    link: 'https://cns.iu.edu/current_team/bio/nikhil-mahadevaswamy.html',
+    link: 'https://github.com/Nikhil-lab',
     linkedin: 'https://www.linkedin.com/in/nikhilm2395',
     github: ''
   }
