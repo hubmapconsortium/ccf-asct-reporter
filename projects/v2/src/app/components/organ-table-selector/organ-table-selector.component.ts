@@ -54,7 +54,7 @@ export class OrganTableSelectorComponent implements OnInit {
     'Version'];
   selection = new SelectionModel(true, []);
   omapselection = new SelectionModel(true, []);
-  componentActive = 1;
+  componentActive = 0;
   /**
    * Data to emit when dialog is closed
    */
