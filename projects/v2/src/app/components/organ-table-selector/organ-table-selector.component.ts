@@ -157,7 +157,7 @@ export class OrganTableSelectorComponent implements OnInit {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1
-      }`;
+    }`;
   }
 
   changeVersion(value: string, row: SheetDetails): void {

@@ -206,7 +206,6 @@ export class RootComponent implements OnInit, OnDestroy {
       const comparisonHasFile = query.get('comparisonHasFile');
       const sheet = query.get('sheet');
       const playground = query.get('playground');
-      const fileMode = query.get('fileMode');
       const hraVersionFromQuery = query.get('hraVersions');
       if (!selectedOrgans && playground !== 'true') {
         store.dispatch(new CloseLoading('Select Organ Model Rendered'));

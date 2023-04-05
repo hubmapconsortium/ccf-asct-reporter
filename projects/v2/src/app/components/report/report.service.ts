@@ -183,7 +183,7 @@ export class ReportService {
     }, []);
     for (let index = 0; index < allData.length; index++) {
       const organData = allData[index];
-      allData[index] = { ...organData, hraVersion: hraVersions.get(organData.organName) }
+      allData[index] = { ...organData, hraVersion: hraVersions.get(organData.organName) };
     }
     allData.forEach((countsByOrgan) => {
       countsByOrgan.AS_AS = linksByOrgan.AS_AS_organWise[countsByOrgan.organName];
