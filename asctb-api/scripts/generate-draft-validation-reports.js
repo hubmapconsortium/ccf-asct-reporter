@@ -31,7 +31,7 @@ async function run() {
 async function getData(draftItems) {
   const checkmark = '\u2705';
   const crossmark = '\u274C';
-  const rows = [["Validation Tests","Validation Invalid CSV file?",
+  const rows = [["","Invalid CSV file?",
   "Unmapped Metadata found?",
   "Invalid Header found?",
   "Missing Header Value found?",

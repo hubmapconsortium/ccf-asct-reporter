@@ -27,46 +27,18 @@ function setData(column: string[], columnNumber: number, row: Row, value: string
     const arrayName: arrayNameType = arrayNameMap[column[0]];
     const originalArrayName = column[0];
     const objectArray: any[] = row[arrayName] || [];
+    // check for missing Uberon/CL IDs:
+    const isId = column[-1];
+    if (isId === 'ID' && value === '') {
+      const colName = columnIndexToName(columnNumber);
+      warnings.add(`WARNING: Missing Uberon/CL ID at Column: ${colName}, Row: ${row.rowNumber} (Code ${WarningCode.MissingCTorAnatomy})`);
+    }
+    
     if (!arrayName) {
       // const colName = columnIndexToName(columnNumber);
       warnings.add(`WARNING: unmapped array found ${originalArrayName} (Code ${WarningCode.UnmappedData})`);
     }
 
-    // Validation for Header when the length of the Header after split by('/') is 3
-    // if (column.length === 3) {
-    //   const colName = columnIndexToName(columnNumber);
-    //   const invalidHeader = `WARNING: Invalid Header found at column: ${colName}, row: ${row.rowNumber} where Header Value: ${column.join('/')} (Code ${WarningCode.InvalidHeader})`;
-    //   const columnBlank = column.join('').trim().length === 0;
-    //   const col0Warnings = column[0].trim().length === 0 || !arrayNameMap[column[0].toUpperCase()];
-    //   const col1Warnings = column[1].trim().length === 0 || !Number.isNaN(parseInt(column[1]));
-    //   const col2Warnings = column[2].trim().length === 0 || !objectFieldMap[column[2]];
-    //   const showWarnings = col0Warnings || col1Warnings || col2Warnings;
-
-    //   if (columnBlank) {
-    //     warnings.add(`WARNING: Blank Header found at column: ${colName}, row: ${row.rowNumber} (Code ${WarningCode.MissingHeader})`);
-    //   }
-    //   else if (showWarnings) {
-    //     warnings.add(invalidHeader);
-    //   }
-    // }
-    // // Validate the Header of length 2: i.e after splitting header with ("/")
-    // if (column.length === 2) {
-    //   const colName = columnIndexToName(columnNumber);
-    //   const invalidHeader = `WARNING: Invalid Header found at column: ${colName}, row: ${row.rowNumber} where Header Value: ${column.join('/')} (Code ${WarningCode.InvalidHeader})`;
-    //   const columnBlank = column.join('').trim().length == 0;
-    //   const col0Warnings = column[0].trim().length === 0 || !arrayNameMap[column[0].toUpperCase()];
-    //   const col1Warnings = column[1].trim().length === 0 || !Number.isNaN(parseInt(column[1]));
-    //   const showWarnings = col0Warnings || col1Warnings;
-
-    //   if (columnBlank) {
-    //     warnings.add(`WARNING: Blank Header found at column: ${colName}, row: ${row.rowNumber} (Code ${WarningCode.MissingHeader})`);
-    //   }
-    //   else if (showWarnings) {
-    //     warnings.add(invalidHeader);
-    //   }
-    // }
-
-    //
     if (column.length === 2) {
       if (objectArray.length === 0 && arrayName) {
         row[arrayName] = objectArray;
@@ -166,7 +138,7 @@ function findHeaderIndex(headerRow: number, data: string[][], firstColumnName: s
   return headerRow;
 }
 function validateHeaderRow(headerData: string[][], rowIndex: number, warnings: Set<string>){
-  console.log('INSIDE VALIDATE HEADER ROW');
+  // console.log('Inside the validate header row');
   
   let columnIndex = 0;
   headerData.forEach((value) => {
@@ -183,16 +155,6 @@ function validateHeaderRow(headerData: string[][], rowIndex: number, warnings: S
         warnings.add(`WARNING: Blank Header found at column: ${colName}, row: ${rowIndex} (Code ${WarningCode.MissingHeader})`);
       }
       else if (showWarnings) {
-        // if (col0Warnings) {
-        //   console.log('ARRAY NAME MAP ERROR /1');
-        // }
-        // else if (col1Warnings) {
-        //   console.log('NUMBER ERROR / 2');
-        // }
-        // else {
-        //   console.log('OBJECT FIELD MAP ERROR / 3');
-          
-        // }
         warnings.add(invalidHeader);
       }
     }
@@ -209,12 +171,6 @@ function validateHeaderRow(headerData: string[][], rowIndex: number, warnings: S
         warnings.add(`WARNING: Blank Header found at column: ${colName}, row: ${rowIndex} (Code ${WarningCode.MissingHeader})`);
       }
       else if (showWarnings) {
-        // if (col0Warnings) {
-        //   console.log('ARRAY NAME MAP ERROR /1');
-        // }
-        // else if (col1Warnings) {
-        //   console.log('NUMBER ERROR / 2');
-        // }
         warnings.add(invalidHeader);
       }
     }
@@ -228,10 +184,7 @@ export function makeASCTBData(data: string[][]): ASCTBData {
   // columns have all the header in the header row of that particular ASCTB Table 
   const columns = data[headerRow].map((col: string) => col.toUpperCase().split('/').map(s => s.trim()));
   const warnings: Set<string> = new Set<string>();
-  // console.log('Data-----', data[9]); // this is Header
-
-  // console.log('HEADER ROW ====> ',headerRow);
-  // console.log('COLUMNS =======>', columns);
+  
   validateHeaderRow(columns, headerRow, warnings);
 
   const results = data.slice(headerRow + 1).map((rowData: string[], rowNumber) => {
