@@ -75,13 +75,14 @@ export class OrganTableSelectorComponent implements OnInit {
     this.hasSomeOrgans = this.selection.selected.length > 0;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   addSheets(sheets) {
     const ga_details: GaOrgansInfo = {
       selectedOrgans: [],
       numOrgans: 0,
     };
+    const hraVersions = [];
     this.organs = [];
     this.selection.selected.map((item) => {
       if (item.name === 'all') {
@@ -89,6 +90,8 @@ export class OrganTableSelectorComponent implements OnInit {
       }
       if (item.symbol) {
         this.organs.push(item.symbol);
+        const versionObject = item.version.find(i => i.value == item.symbol);
+        hraVersions.push(versionObject.hraVersion);
         ga_details.selectedOrgans.push({
           organ: item.display,
           version: item.symbol.split('-').slice(1).join('-')
@@ -101,9 +104,16 @@ export class OrganTableSelectorComponent implements OnInit {
     } else {
       this.ga.event(GaAction.CLICK, GaCategory.NAVBAR, `SELECTED ORGANS EDIT: ${JSON.stringify(ga_details)}`, 0);
     }
+    console.log({
+      'organs': this.organs,
+      'cache': this.getFromCache,
+      'hraV': hraVersions
+    });
+
     this.dialogRef.close({
       'organs': this.organs,
-      'cache': this.getFromCache
+      'cache': this.getFromCache,
+      'hraV': hraVersions
     });
   }
 
@@ -146,16 +156,15 @@ export class OrganTableSelectorComponent implements OnInit {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.position + 1
-    }`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1
+      }`;
   }
 
   changeVersion(value: string, row: SheetDetails): void {
     if (row.name === 'all') {
       row.symbol = value;
       this.selectByHraVersion(row);
-    } else{
+    } else {
       row.symbol = value;
     }
   }
@@ -182,9 +191,11 @@ export class OrganTableSelectorComponent implements OnInit {
         this.selectByHraVersion(row);
       }
     }
-    else{
+    else {
       this.selection.toggle(row);
       this.hasSomeOrgans = this.selection.selected.length > 0;
     }
+    console.log(this.selection);
+
   }
 }
