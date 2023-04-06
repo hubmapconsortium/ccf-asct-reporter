@@ -25,6 +25,17 @@
 .numberInput {
   background-color: #fafafa !important;
   border-radius: 0.25rem !important;
+  font: inherit;
+  background: transparent;
+  color: currentColor;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  width: 500%;
+  max-width: 100%;
+  vertical-align: bottom;
+  text-align: inherit;
 }
 
 .controls .mat-expansion-panel-header-description {
@@ -42,6 +53,11 @@
   align-items: center;
   justify-content: space-between;
 }
-.control-title {
-  font-weight: 500;
+
+::ng-deep .mat-mdc-slide-toggle .mdc-switch.mdc-switch--selected:enabled .mdc-switch__icon  {
+  fill: none !important;
+}
+
+::ng-deep .mat-mdc-slide-toggle .mdc-switch.mdc-switch--unselected:enabled .mdc-switch__icon {
+  fill: none !important;
 }
