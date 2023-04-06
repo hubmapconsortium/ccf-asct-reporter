@@ -60,11 +60,13 @@
     <div class="d-flex justify-content-between align-items-center w-100 h-100">
       <mat-slider
         class="min p-0 w-100"
-        thumbLabel
+        discrete = true
         color="primary"
+        showTickMarks = true
         tickInterval="100"
         min="100"
         max="1000"
+        step="100"
         (change)="changeWidth()"
       >
       <input matSliderThumb [(ngModel)]="config.width">
