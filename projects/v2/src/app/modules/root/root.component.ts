@@ -159,7 +159,7 @@ export class RootComponent implements OnInit, OnDestroy {
 
   sheetConfig: SheetDetails[];
 
-  hraVersions = new Map<string, string>();
+  tableVersions = new Map<string, string>();
 
   constructor(
     public configService: ConfigService,
@@ -281,7 +281,7 @@ export class RootComponent implements OnInit, OnDestroy {
         const allVersions = hraVersionFromQuery.split(',');
         for (let index = 0; index < allorgans.length; index++) {
           const oName = this.extractNameFromFull(allorgans[index]);
-          this.hraVersions.set(oName, allVersions[index]);
+          this.tableVersions.set(oName, allVersions[index]);
         }
       }
       else if (playground === 'true') {

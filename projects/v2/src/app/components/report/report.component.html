@@ -150,6 +150,24 @@
                   </td>
                   <td mat-footer-cell *matFooterCellDef> Total Counts</td>
                 </ng-container>
+
+                <!-- hraVersion Column -->
+                <ng-container matColumnDef="tableVersion">
+                  <th mat-header-cell *matHeaderCellDef class="center_align" id="tableVersion">
+                    table_version
+                  </th>
+                  <td mat-cell *matCellDef="let element" class="center_align">
+                    {{
+                    element.tableVersion
+                    ? element.tableVersion
+                    : 'unknown'
+                    }}
+                  </td>
+                  <td mat-footer-cell class="center_align" *matFooterCellDef> {{''}} </td>
+
+                </ng-container>
+
+
                 <!-- ASWithNoCT Column -->
                 <ng-container matColumnDef="ASWithNoCT">
                   <th mat-header-cell *matHeaderCellDef [hidden]="true" class="center_align" id="ASWithNoCT">
@@ -232,21 +250,6 @@
 
                 </ng-container>
 
-                <!-- hraVersion Column -->
-                <ng-container matColumnDef="hraVersion">
-                  <th mat-header-cell *matHeaderCellDef [hidden]="true" class="center_align" id="hraVersion">
-                    hraVersion
-                  </th>
-                  <td mat-cell [hidden]="true" *matCellDef="let element" class="center_align">
-                    {{
-                    element.hraVersion
-                    ? element.hraVersion
-                    : 'unknown'
-                    }}
-                  </td>
-                  <td mat-footer-cell class="center_align" [hidden]="true" *matFooterCellDef> {{''}} </td>
-
-                </ng-container>
 
                 <!-- AS_AS Column -->
                 <ng-container matColumnDef="AS_AS">

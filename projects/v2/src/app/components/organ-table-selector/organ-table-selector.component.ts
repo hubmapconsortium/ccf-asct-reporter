@@ -91,7 +91,8 @@ export class OrganTableSelectorComponent implements OnInit {
       if (item.symbol) {
         this.organs.push(item.symbol);
         const versionObject = item.version.find(i => i.value == item.symbol);
-        hraVersions.push(versionObject.hraVersion);
+        // push viewValue for ASCT  and tableVersion in case of OMAP: add OMAP in later
+        hraVersions.push(versionObject.viewValue);
         ga_details.selectedOrgans.push({
           organ: item.display,
           version: item.symbol.split('-').slice(1).join('-')

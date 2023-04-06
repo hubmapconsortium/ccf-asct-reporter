@@ -81,7 +81,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
   @Input() currentSheetConfig: Observable<SheetConfig>;
   @Input() compareData: Observable<any>;
   @Input() bmType: string;
-  @Input() hraVersions: string[]
+  @Input() tableVersions: string[]
   @Output() closeReport: EventEmitter<any> = new EventEmitter<any>();
   @Output() computedReport: EventEmitter<any> = new EventEmitter<any>();
   @Output() deleteSheet: EventEmitter<any> = new EventEmitter<any>();
@@ -151,6 +151,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
       }
       this.displayedColumns = [
         'organName',
+        'tableVersion',
         'anatomicalStructures',
         'cellTypes',
         'b_total',
@@ -163,14 +164,13 @@ export class ReportComponent implements OnInit, AfterViewInit {
         'AS_AS',
         'AS_CT',
         'CT_BM',
-        'hraVersion'
       ];
     });
 
     this.biomarkersSeperateNames = biomarkersSeperateNames;
     this.linksData$.subscribe((data) => {
       this.countsByOrgan =
-        new MatTableDataSource(this.reportService.makeAllOrganReportDataCountsByOrgan(result, data, this.hraVersions).sort((a, b) => a.organName.localeCompare(b.organName)));
+        new MatTableDataSource(this.reportService.makeAllOrganReportDataCountsByOrgan(result, data, this.tableVersions).sort((a, b) => a.organName.localeCompare(b.organName)));
       this.biomarkersCounts = [];
       this.biomarkersSeperateNames.forEach((bm) => {
         this.biomarkersCounts.push({ name: bm.name, value: this.countsByOrgan.data[0][bm.name] });
