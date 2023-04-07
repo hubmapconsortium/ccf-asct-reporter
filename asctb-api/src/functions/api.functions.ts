@@ -27,15 +27,8 @@ function setData(column: string[], columnNumber: number, row: Row, value: string
     const arrayName: arrayNameType = arrayNameMap[column[0]];
     const originalArrayName = column[0];
     const objectArray: any[] = row[arrayName] || [];
-    // check for missing Uberon/CL IDs:
-    const isId = column[-1];
-    if (isId === 'ID' && value === '') {
-      const colName = columnIndexToName(columnNumber);
-      warnings.add(`WARNING: Missing Uberon/CL ID at Column: ${colName}, Row: ${row.rowNumber} (Code ${WarningCode.MissingCTorAnatomy})`);
-    }
     
     if (!arrayName) {
-      // const colName = columnIndexToName(columnNumber);
       warnings.add(`WARNING: unmapped array found ${originalArrayName} (Code ${WarningCode.UnmappedData})`);
     }
 
@@ -87,10 +80,10 @@ function columnIndexToName(index: number): string {
   return name.join('');
 }
 
-function validateDataCell(value: string, rowIndex: number, columnIndex: number, columnLabel: string, warnings: Set<string>): void {
+function validateDataCell(value: string, rowIndex: number, columnIndex: number, warnings: Set<string>): void {
   if (!isLinkRegex.test(value) && invalidCharacterRegex.test(value)) {
     const colName = columnIndexToName(columnIndex);
-    warnings.add(`WARNING: Invalid characters in data cell at column: ${colName} row: ${rowIndex} where data cell: ${value} (Code ${WarningCode.InvalidCharacter})`);
+    warnings.add(`WARNING: Invalid characters in data cell at column: ${colName} row: ${rowIndex + 1} where data cell: ${value} (Code ${WarningCode.InvalidCharacter})`);
   }
 }
 
@@ -111,13 +104,21 @@ const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<
   return metadataRows
     .reduce((metadata: Record<string, string | string[]>, rowData: string[], rowNumber: number,) => {
       const [metadataIdentifier, metadataValue, ..._] = rowData;
+      /**
+       * Raise Warnings:
+       *    Case 1: IF the Metadata Key/Value is filled or empty
+       *    Case 2: IF the metadata key is not mapping with metadataNameMap
+       */
       if (!metadataIdentifier) {
+        warnings.add(`WARNING: Metadata Key missing found at Row: ${rowNumber + 3} (Code ${WarningCode.UnmappedMetadata})`);
         return metadata;
+      } else if (!metadataValue) {
+        warnings.add(`WARNING: Metadata Value missing found at Row: ${rowNumber + 3} (Code ${WarningCode.UnmappedMetadata})`);
       }
       let metadataKey = metadataNameMap[metadataIdentifier];
       if (!metadataKey) {
         metadataKey = metadataIdentifier.toLowerCase();
-        warnings.add(`WARNING: unmapped metadata found ${metadataIdentifier} (Code ${WarningCode.UnmappedMetadata})`);
+        warnings.add(`WARNING: unmapped metadata found ${metadataIdentifier} at Row: ${rowNumber + 3} (Code ${WarningCode.UnmappedMetadata})`);
       }
       if (metadataArrayFields.includes(metadataKey)) {
         metadata[metadataKey] = metadataValue.split(DELIMETER).map(item => item.trim());
@@ -138,12 +139,14 @@ function findHeaderIndex(headerRow: number, data: string[][], firstColumnName: s
   return headerRow;
 }
 function validateHeaderRow(headerData: string[][], rowIndex: number, warnings: Set<string>){
-  // console.log('Inside the validate header row');
   
   let columnIndex = 0;
   headerData.forEach((value) => {
+    /** 
+     * Validate the Header of length 3: i.e after splitting header with ("/")
+     */
     if (value.length === 3) {
-      const colName = columnIndexToName(columnIndex+1);
+      const colName = columnIndexToName(columnIndex);
       const invalidHeader = `WARNING: Invalid Header found at column: ${colName}, row: ${rowIndex} where Header Value: ${value.join('/')} (Code ${WarningCode.InvalidHeader})`;
       const columnBlank = value.join('').trim().length === 0;
       const col0Warnings = value[0].trim().length === 0 || !arrayNameMap[value[0].toUpperCase()];
@@ -158,7 +161,10 @@ function validateHeaderRow(headerData: string[][], rowIndex: number, warnings: S
         warnings.add(invalidHeader);
       }
     }
-    // Validate the Header of length 2: i.e after splitting header with ("/")
+    
+    /** 
+     * Validate the Header of length 2: i.e after splitting header with ("/")
+     */
     if (value.length === 2) {
       const colName = columnIndexToName(columnIndex);
       const invalidHeader = `WARNING: Invalid Header found at column: ${colName}, row: ${rowIndex} where Header Value: ${value.join('/')} (Code ${WarningCode.InvalidHeader})`;
@@ -178,21 +184,46 @@ function validateHeaderRow(headerData: string[][], rowIndex: number, warnings: S
 
   });
 }
+function checkMissingIds(column: string[], index: number, row: Row, value: string ,rowData:string[], warnings: Set<string>) {
+  /** 
+   * check for missing Uberon/CL IDs: 
+  */
+  const lastElement = column[column.length - 1];
+  const isId = lastElement.toLowerCase() === objectFieldMap.ID;
+  if (isId) {
+    const nameValue = rowData[index-2]?.trim() ?? '';
+    const idValue = value.trim();
+    const labelValue = rowData[index-1]?.trim() ?? '';
+
+    if (nameValue) {
+      if (!idValue) {
+        const colName = columnIndexToName(index);
+        warnings.add(`WARNING: Missing Uberon/CL ID at Column: ${colName}, Row: ${row.rowNumber+1} (Code ${WarningCode.MissingCTorAnatomy})`);
+      } else if (!labelValue) {
+        const colName = columnIndexToName(index-1);
+        warnings.add(`WARNING: Missing RDFS Label for ID ${idValue} at Column: ${colName}, Row: ${row.rowNumber+1} (Code ${WarningCode.MissingCTorAnatomy})`);
+      }
+    }
+  }
+}
 
 export function makeASCTBData(data: string[][]): ASCTBData {
   const headerRow = findHeaderIndex(0, data, HEADER_FIRST_COLUMN);
-  // columns have all the header in the header row of that particular ASCTB Table 
+  /** 
+   * columns have all the header in the header row of that particular ASCTB Table 
+   */ 
   const columns = data[headerRow].map((col: string) => col.toUpperCase().split('/').map(s => s.trim()));
   const warnings: Set<string> = new Set<string>();
   
-  validateHeaderRow(columns, headerRow, warnings);
+  validateHeaderRow(columns, headerRow+2, warnings);
 
   const results = data.slice(headerRow + 1).map((rowData: string[], rowNumber) => {
     const row: Row = new Row(headerRow + rowNumber + 2);
     rowData.forEach((value, index) => {
       if (index < columns.length && columns[index].length > 1) {
-        validateDataCell(value, row.rowNumber, index, data[headerRow][index], warnings);
+        validateDataCell(value, row.rowNumber, index, warnings);
         setData(columns[index], index, row, value, warnings);
+        checkMissingIds(columns[index], index, row, value, rowData, warnings);
       }
     });
     row.finalize();

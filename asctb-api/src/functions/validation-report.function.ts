@@ -49,5 +49,5 @@ export function makeValidationReport(data: ASCTBData): string {
     }
   }
 
-  return lines.join('\n') /* Delete this -> */ + '\n\nDEBUG: ALL Warnings\n\n' + data.warnings.join('\n');
+  return lines.join('\n'); /* Delete this -> */ //+ '\n\nDEBUG: ALL Warnings\n\n' + data.warnings.join('\n');
 }
