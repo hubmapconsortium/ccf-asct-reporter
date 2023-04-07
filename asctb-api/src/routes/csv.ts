@@ -3,12 +3,11 @@ import { Express, Request, Response } from 'express';
 import { expand } from 'jsonld';
 import papa from 'papaparse';
 
-import { makeASCTBData, normalizeCsvUrl } from '../functions/api.functions';
+import { makeASCTBDataWork, normalizeCsvUrl, makeASCTBData } from '../functions/api.functions';
 import { makeJsonLdData } from '../functions/graph-jsonld.functions';
 import { makeOwlData } from '../functions/graph-owl.functions';
 import { makeGraphData } from '../functions/graph.functions';
 import { UploadedFile } from '../models/api.model';
-import { transformOmapData, getOmapHeaderRow, arrayToCsv } from '../functions/omap.functions';
 
 export function setupCSVRoutes(app: Express): void {
 
@@ -36,7 +35,7 @@ export function setupCSVRoutes(app: Express): void {
           csvData = response.data;
           const { data } = papa.parse<string[]>(response.data, { skipEmptyLines: 'greedy' });
           parsedCsvData = data as string[][];
-          const asctbData = makeASCTBData(data);
+          const asctbData = makeASCTBDataWork(data);
           warnings = warnings.concat(asctbData.warnings);
           return {
             data: asctbData.data,
@@ -117,12 +116,6 @@ export function setupCSVRoutes(app: Express): void {
 
     try {
       let { data } = papa.parse<string[]>(dataString, { skipEmptyLines: 'greedy' });
-      const { isOmap, headerRow } = getOmapHeaderRow(data, 'uniprot_accession_number', 'AS/1');
-
-      if (isOmap) {
-        data = transformOmapData(data, headerRow);
-        arrayToCsv(data, `${file.name}`);
-      }
       const asctbData = makeASCTBData(data);
 
       return res.send({

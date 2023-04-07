@@ -39,7 +39,8 @@ export enum PROTEIN_PRESENCE {
   UNKNOWN = 'Unknown'
 }
 
-export const HEADER_FIRST_COLUMN = 'AS/1';
+export const ASCT_HEADER_FIRST_COLUMN = 'AS/1';
+export const OMAP_HEADER_FIRST_COLUMN = 'uniprot_accession_number';
 
 export const arrayNameMap: Record<string, arrayNameType> = {
   AS: 'anatomical_structures',

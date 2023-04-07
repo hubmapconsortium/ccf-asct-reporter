@@ -1,102 +1,81 @@
-import { OMAP_ORGAN } from '../models/api.model';
-import { buildMetadata } from './api.functions';
-import * as fs from 'fs';
+import { OMAP_ORGAN, OMAP_HEADER_FIRST_COLUMN, Structure } from '../models/api.model';
+import { buildMetadata, findHeaderIndex } from './api.functions';
 
+export class OmapDataTransformer {
+    private data: string[][];
+    private headerRow: number;
 
-interface headerow {
-    isOmap: boolean;
-    headerRow: number;
-};
-
-export function transformOmapData(data: string[][], headerRow: number): string[][] {
-    const warnings = new Set<string>();
-    const metadataRows = data.slice(0, headerRow);
-    const metadata = buildMetadata(metadataRows, warnings);
-    const organ = OMAP_ORGAN[metadata.data_doi as string];
-    const columns = data[headerRow].map(col => col);
-
-    let asctbConverted: string[][] = [];
-
-    for (let i = 0; i < headerRow; i++) {
-        asctbConverted.push(data[i]);
+    constructor(data: string[][]) {
+        this.data = data;
     }
-    console.log(asctbConverted);
 
-    let maxProteins = data.slice(headerRow + 1).map(subArr => subArr[0].split(',').length);
-
-    let newHeaderRow = ['AS/1', 'AS/1/LABEL', 'AS/1/ID'];
-
-    for (let i = 1; i <= Math.max(...maxProteins); i++) {
-        newHeaderRow.push(`BP/${i}`);
-        newHeaderRow.push(`BP/${i}/LABEL`);
-        newHeaderRow.push(`BP/${i}/ID`);
+    public transformOmapData(): string[][] {
+        this.headerRow = findHeaderIndex(0, this.data, OMAP_HEADER_FIRST_COLUMN);
+        // Initializing with the MetaData
+        const asctbConverted: string[][] = [];
+        // Add metadata and new header row and the actual data
+        asctbConverted.push(...this.data.slice(0, this.headerRow), this.createNewHeaderRow(), ...this.createData());
+        return asctbConverted;
     }
-    asctbConverted.push(newHeaderRow);
 
-    let dataObject: Record<string, string>[] = [];
+    private createNewHeaderRow(): string[] {
+        let maxProteins = this.data.slice(this.headerRow + 1).map(subArr => subArr[0].split(',').length);
+        let newHeaderRow = ['AS/1', 'AS/1/LABEL', 'AS/1/ID'];
+        for (let i = 1; i <= Math.max(...maxProteins); i++) {
+            newHeaderRow.push(`BP/${i}`);
+            newHeaderRow.push(`BP/${i}/LABEL`);
+            newHeaderRow.push(`BP/${i}/ID`);
+        }
+        return newHeaderRow;
+    }
 
-    data.slice(headerRow + 1).map(subArr => {
-        const keyValuePairs = columns.reduce((acc: Record<string, string>, key, index) => {
-            acc[key] = subArr[index];
-            return acc;
-        }, {});
-        dataObject.push(keyValuePairs);
-    });
+    private createData(): string[][] {
+        const organ = this.getDOIOrganMapping();
+        const dataObject: Record<string, string>[] = this.createMapOfOldColumnsAndValues();
+        let transformedData: string[][] = [];
 
-    dataObject.map(data => {
-        const uniprots = data['uniprot_accession_number'].split(', '); // 2
-        const hgncIds = data['HGNC_ID'].split(', '); // 3
-        let targetNames = data['target_name'].split(', '); // 1
+        dataObject.map(data => {
+            const uniprots = data['uniprot_accession_number'].split(', ');
+            const hgncIds = data['HGNC_ID'].split(', ');
+            let targetNames = data['target_name'].split(', ');
 
-        if (data['uniprot_accession_number'] != '' && data['HGNC_ID'] != '' && data['target_name'] != '') {
-            let newrow = [organ.name, organ.rdfs_label, organ.id];
-            const maxBPs = Math.max(uniprots.length, hgncIds.length, targetNames.length);
-            for (let i = 0; i < maxBPs; i++) {
-                newrow.push(targetNames[i] ?? '', uniprots[i] ?? '', hgncIds[i] ?? '')
+            if (data['uniprot_accession_number'] != '' && data['HGNC_ID'] != '' && data['target_name'] != '') {
+                let newrow = [organ.name, organ.rdfs_label, organ.id];
+                const maxBPs = Math.max(uniprots.length, hgncIds.length, targetNames.length);
+                for (let i = 0; i < maxBPs; i++) {
+                    newrow.push(targetNames[i] ?? '', uniprots[i] ?? '', hgncIds[i] ?? '')
+                }
+                transformedData.push(newrow);
             }
-            asctbConverted.push(newrow);
-        }
-        else {
-            asctbConverted.push([]);
-        }
-    });
-    return asctbConverted;
+            else {
+                transformedData.push([organ.name, organ.rdfs_label, organ.id]);
+            }
+        });
+
+        return transformedData;
+    }
+
+    /** Helper functions for createData */
+
+    // Future releases will have organ column so will need to update this
+    private getDOIOrganMapping(): Structure {
+        const warnings = new Set<string>();
+        const metadataRows = this.data.slice(0, this.headerRow);
+        const metadata = buildMetadata(metadataRows, warnings);
+        return OMAP_ORGAN[metadata.data_doi as string];
+    }
+
+    private createMapOfOldColumnsAndValues(): Record<string, string>[] {
+        let dataObject: Record<string, string>[] = [];
+        const columns = this.data[this.headerRow].map(col => col);
+
+        this.data.slice(this.headerRow + 1).map(subArr => {
+            const keyValuePairs = columns.reduce((acc: Record<string, string>, key, index) => {
+                acc[key] = subArr[index];
+                return acc;
+            }, {});
+            dataObject.push(keyValuePairs);
+        });
+        return dataObject;
+    }
 }
-
-export function getOmapHeaderRow(data: String[][], omapHeader: String, asctbHeader: string): headerow {
-    let result: headerow;
-    data.map((subData, i) => {
-        console.log(subData);
-        if (subData[0] == omapHeader) {
-            result = { isOmap: true, headerRow: i };
-            return;
-        }
-        if (subData[0] == asctbHeader) {
-            result = { isOmap: false, headerRow: i };
-            return;
-        }
-    })
-
-    return result;
-}
-
-
-
-export const arrayToCsv = (array: any[], fileName: string): void => {
-    let csvContent = '';
-
-    // Convert array to CSV format
-    array.forEach(row => {
-        const csvRow = row.map((value: any) => `"${value}"`).join(",");
-        csvContent += csvRow + '\n';
-    });
-
-    // Write CSV content to file
-    fs.writeFile(fileName, csvContent, (err) => {
-        if (err) {
-            console.error(`Failed to write CSV file: ${err}`);
-        } else {
-            console.log(`CSV file "${fileName}" has been saved successfully.`);
-        }
-    });
-};
