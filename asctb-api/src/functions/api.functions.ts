@@ -134,7 +134,10 @@ export function makeASCTBData(data: string[][]): ASCTBData | undefined {
   const header = getHeaderRow(data, OMAP_HEADER_FIRST_COLUMN, ASCT_HEADER_FIRST_COLUMN);
 
   if (header[0] === OMAP_HEADER_FIRST_COLUMN) {
-    return makeASCTBDataWork(new OmapDataTransformer(data).transformOmapData());
+    const omapTransformer = new OmapDataTransformer(data);
+    const omapWarnings = omapTransformer.warnings;
+    const asctbData = makeASCTBDataWork(omapTransformer.transformedData);
+    return { ...asctbData, warnings: [...asctbData.warnings, ...omapWarnings] };
   } else if (header[0] === ASCT_HEADER_FIRST_COLUMN) {
     return makeASCTBDataWork(data);
   } else {
