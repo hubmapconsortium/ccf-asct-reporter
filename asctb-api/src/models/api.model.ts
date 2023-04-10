@@ -30,7 +30,7 @@ export const OMAP_ORGAN: Record<string, Structure> = {
   'https://doi.org/10.48539/HBM495.QBSV.777': { name: 'liver', rdfs_label: 'liver', id: 'UBERON:0002107', setBiomarkerProperties: undefined, isValid: undefined },
   'https://doi.org/10.48539/HBM868.XLTM.922': { name: 'Pancreas', rdfs_label: 'Pancreas', id: 'UBERON:0001264', setBiomarkerProperties: undefined, isValid: undefined },
   'https://doi.org/10.48539/HBM972.WHPW.455': { name: 'Lung', rdfs_label: 'Lung', id: 'UBERON:0002048', setBiomarkerProperties: undefined, isValid: undefined },
-
+  'default': { name: 'unknown', rdfs_label: 'unknown', id: 'unknown', setBiomarkerProperties: undefined, isValid: undefined }
 }
 
 export enum PROTEIN_PRESENCE {
@@ -100,6 +100,7 @@ export class Structure {
   rdfs_label?: string = '';
   b_type?: BM_TYPE;
   proteinPresence?: PROTEIN_PRESENCE;
+  notes?: string;
 
   constructor(name: string, structureType: string) {
     this.name = name;
