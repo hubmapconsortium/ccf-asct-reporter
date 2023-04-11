@@ -8,12 +8,13 @@ export class OmapDataTransformer {
     private _warnings: Set<string>;
     private metaData: Record<string, string | string[]>;
     private _transformedData: string[][];
+    private columns: string[];
 
     constructor(data: string[][]) {
         this.data = data;
         this.headerRow = findHeaderIndex(0, this.data, OMAP_HEADER_FIRST_COLUMN);
         this.metaData = this.getMetaData();
-        this._warnings = this.generateWarnings();
+        this._warnings = new Set<string>();
         this._transformedData = this.transformOmapData();
     }
 
@@ -23,18 +24,6 @@ export class OmapDataTransformer {
         // Add metadata and new header row and the actual data
         asctbConverted.push(...this.data.slice(0, this.headerRow), this.createNewHeaderRow(), ...this.createData());
         return asctbConverted;
-    }
-
-    private generateWarnings(): Set<string> {
-        const warnings = new Set<string>();
-        console.log(this.metaData);
-        if (!this.metaData['data_doi']) {
-            warnings.add(`WARNING: DOI missing`);
-        }
-        else if (!(this.metaData['data_doi'] as string in OMAP_ORGAN)) {
-            warnings.add(`WARNING: DOI - organ mapping not found for ${this.metaData['data_doi']}`);
-        }
-        return warnings;
     }
 
     private createNewHeaderRow(): string[] {
@@ -50,21 +39,33 @@ export class OmapDataTransformer {
     }
 
     private createData(): string[][] {
-        // This would fetch from organ column from next version
-        const organ = OMAP_ORGAN[this.metaData.data_doi as string] ?? OMAP_ORGAN['default'];
         const dataObject: Record<string, string>[] = this.createMapOfOldColumnsAndValues();
+        // Decides whether to take organs from table or constants
+        const fetchOrgansFromTable = ['organ_id', 'organ_name'].every(column => this.columns.includes(column));
+        const organ = OMAP_ORGAN[this.metaData.data_doi as string] ?? OMAP_ORGAN['default'];
+        if (!OMAP_ORGAN[this.metaData.data_doi as string] && !fetchOrgansFromTable) {
+            this._warnings.add(`WARNING: Organ Columns Missing and DOI mapping not present; Adding default Organ Columns.`);
+        }
+
+
         let transformedData: string[][] = [];
         const title = this.metaData['title'];
 
         dataObject.map(data => {
             const uniprots = data['uniprot_accession_number'].split(', ');
             const hgncIds = data['HGNC_ID'].split(', ');
-            let targetNames = data['target_name'].split(', ');
+            const targetNames = data['target_name'].split(', ');
+            if (!(uniprots.length === hgncIds.length && hgncIds.length === targetNames.length)) {
+                this.warnings.add(`WARNING: Number of entires in column uniprot_accession_number, HGNC_ID,` +
+                    `target_name are not equal in row ${data['rowNo']}. uniprot_accession_number: ${uniprots.length};` +
+                    `HGNC_ID: ${hgncIds.length}; target_name: ${targetNames.length}`);
+            }
             let notes = `Extra information in "${title}", Row ${data['rowNo']} \n`;
             notes += data['notes'];
 
             if (data['uniprot_accession_number'] != '' && data['HGNC_ID'] != '' && data['target_name'] != '') {
-                let newrow = [organ.name, organ.rdfs_label, organ.id];
+                let newrow = fetchOrgansFromTable ? [data['organ_name'], data['organ_name'], data['organ_id']] :
+                    [organ.name, organ.rdfs_label, organ.id];
                 const maxBPs = Math.max(uniprots.length, hgncIds.length, targetNames.length);
                 for (let i = 0; i < maxBPs; i++) {
                     newrow.push(targetNames[i] ?? '', uniprots[i] ?? '', hgncIds[i] ?? '', notes ?? '');
@@ -72,7 +73,8 @@ export class OmapDataTransformer {
                 transformedData.push(newrow);
             }
             else {
-                transformedData.push([organ.name, organ.rdfs_label, organ.id]);
+                transformedData.push(fetchOrgansFromTable ? [data['organ_name'], data['organ_name'], data['organ_id']] :
+                    [organ.name, organ.rdfs_label, organ.id]);
             }
         });
 
@@ -87,13 +89,12 @@ export class OmapDataTransformer {
         return buildMetadata(metadataRows, warnings);
     }
 
-
     private createMapOfOldColumnsAndValues(): Record<string, string>[] {
         let dataObject: Record<string, string>[] = [];
-        const columns = this.data[this.headerRow].map(col => col);
+        this.columns = this.data[this.headerRow].map(col => col);
 
         this.data.slice(this.headerRow + 1).map((subArr, index) => {
-            const keyValuePairs = columns.reduce((acc: Record<string, string>, key, index) => {
+            const keyValuePairs = this.columns.reduce((acc: Record<string, string>, key, index) => {
                 acc[key] = subArr[index];
                 return acc;
             }, {});
@@ -119,11 +120,11 @@ export class OmapDataTransformer {
     }
 
     /** Getters */
-    get warnings(): Set<string> {
-        return this._warnings;
-    }
-
     get transformedData(): string[][] {
         return this._transformedData;
+    }
+
+    get warnings(): Set<string> {
+        return this._warnings;
     }
 }
