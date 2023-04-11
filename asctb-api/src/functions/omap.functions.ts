@@ -51,7 +51,7 @@ export class OmapDataTransformer {
         let transformedData: string[][] = [];
         const title = this.metaData['title'];
 
-        dataObject.map(data => {
+        dataObject.forEach(data => {
             const uniprots = data['uniprot_accession_number'].split(', ');
             const hgncIds = data['HGNC_ID'].split(', ');
             const targetNames = data['target_name'].split(', ');
@@ -93,7 +93,7 @@ export class OmapDataTransformer {
         let dataObject: Record<string, string>[] = [];
         this.columns = this.data[this.headerRow].map(col => col);
 
-        this.data.slice(this.headerRow + 1).map((subArr, index) => {
+        this.data.slice(this.headerRow + 1).forEach((subArr, index) => {
             const keyValuePairs = this.columns.reduce((acc: Record<string, string>, key, index) => {
                 acc[key] = subArr[index];
                 return acc;
@@ -108,7 +108,7 @@ export class OmapDataTransformer {
 
     private createNotes(dataObject: Record<string, string>[]): Record<string, string>[] {
         const excludedKeys = ['uniprot_accession_number', 'HGNC_ID', 'target_name', 'rowNo'];
-        dataObject.map(obj => {
+        dataObject.forEach(obj => {
             const entries = Object.entries(obj);
             const formattedEntries = entries
                 .filter(([key, value]) => value !== undefined && value !== null && value !== '' && !excludedKeys.includes(key))
