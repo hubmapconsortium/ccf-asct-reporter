@@ -60,7 +60,7 @@ export class OmapDataTransformer {
             const uniprots = data['uniprot_accession_number'].split(', ');
             const hgncIds = data['HGNC_ID'].split(', ');
             let targetNames = data['target_name'].split(', ');
-            let notes = `###### ${title}. \n More information on row number: ${data['rowNo']} \n`
+            let notes = `Extra information in "${title}", Row ${data['rowNo']} \n`;
             notes += data['notes'];
 
             if (data['uniprot_accession_number'] != '' && data['HGNC_ID'] != '' && data['target_name'] != '') {
@@ -106,11 +106,11 @@ export class OmapDataTransformer {
     }
 
     private createNotes(dataObject: Record<string, string>[]): Record<string, string>[] {
-        const excludedKeys = ['uniprot_accession_number', 'HGNC_ID', 'target_name'];
+        const excludedKeys = ['uniprot_accession_number', 'HGNC_ID', 'target_name', 'rowNo'];
         dataObject.map(obj => {
             const entries = Object.entries(obj);
             const formattedEntries = entries
-                .filter(([key]) => !excludedKeys.includes(key))
+                .filter(([key, value]) => value !== undefined && value !== null && value !== '' && !excludedKeys.includes(key))
                 .map(([key, value]) => `**${key}:** ${value}`);
             const result = `- ${formattedEntries.join("\n- ")}`;
             obj['notes'] = result;
