@@ -59,9 +59,9 @@ function setData(column: string[], row: Row, value: string, warnings: Set<string
         arrayIndex = objectArray.length - 1;
         if (arrayIndex < objectArray.length) {
           switch (fieldName) {
-            case 'id':
-              value = fixOntologyId(value);
-              break;
+          case 'id':
+            value = fixOntologyId(value);
+            break;
           }
           if (objectArray[arrayIndex]) {
             objectArray[arrayIndex][fieldName] = value;
@@ -118,7 +118,7 @@ export function findHeaderIndex(headerRow: number, data: string[][], firstColumn
   return headerRow;
 }
 
-export function getHeaderRow(data: String[][], omapHeader: String, asctbHeader: string): String[] | undefined {
+export function getHeaderRow(data: string[][], omapHeader: string, asctbHeader: string): string[] | undefined {
   for (let i = 0; i < data.length; i++) {
     if (data[i][0] === omapHeader) {
       return data[i];

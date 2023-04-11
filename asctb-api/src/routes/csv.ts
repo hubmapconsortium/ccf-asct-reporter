@@ -115,7 +115,7 @@ export function setupCSVRoutes(app: Express): void {
     console.log('File uploaded: ', file.name);
 
     try {
-      let { data } = papa.parse<string[]>(dataString, { skipEmptyLines: 'greedy' });
+      const { data } = papa.parse<string[]>(dataString, { skipEmptyLines: 'greedy' });
       const asctbData = makeASCTBData(data);
 
       return res.send({

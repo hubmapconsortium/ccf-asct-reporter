@@ -31,7 +31,7 @@ export const OMAP_ORGAN: Record<string, Structure> = {
   'https://doi.org/10.48539/HBM868.XLTM.922': { name: 'Pancreas', rdfs_label: 'Pancreas', id: 'UBERON:0001264', setBiomarkerProperties: undefined, isValid: undefined },
   'https://doi.org/10.48539/HBM972.WHPW.455': { name: 'Lung', rdfs_label: 'Lung', id: 'UBERON:0002048', setBiomarkerProperties: undefined, isValid: undefined },
   'default': { name: 'unknown', rdfs_label: 'unknown', id: 'unknown', setBiomarkerProperties: undefined, isValid: undefined }
-}
+};
 
 export enum PROTEIN_PRESENCE {
   POS = 'Positive',
@@ -72,11 +72,11 @@ export const objectFieldMap: Record<string, string> = {
 
 export function createObject(name: string, structureType: string): Structure | Reference {
   switch (structureType) {
-    case 'REF':
-      return new Reference(name);
-    case 'AS':
-    default:
-      return new Structure(name, structureType);
+  case 'REF':
+    return new Reference(name);
+  case 'AS':
+  default:
+    return new Structure(name, structureType);
   }
 }
 
