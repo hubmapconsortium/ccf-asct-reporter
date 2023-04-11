@@ -39,7 +39,7 @@ jobs:
           build_directory: dist/v2
       
       - name: Create Deploy Comment
-        uses: peter-evans/create-or-update-comment@v2
+        uses: peter-evans/create-or-update-comment@v3
         with:
           issue-number: ${{ github.ref_name }}
           body: |
