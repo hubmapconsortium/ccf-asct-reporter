@@ -123,12 +123,19 @@ export interface VersionDetail {
   viewValue: string;
   hraVersion?: string;
   csvUrl?: string;
-  sheetId: string;
-  gid: string;
+  sheetId?: string;
+  gid?: string;
+  xlsx?: string;
+  as?: number;
+  ct?: number;
+  bp?: number;
 }
 
 export interface SheetDetails {
   name: string;
+  omapId?: string;
+  tissuePreservationMethod?: string;
+  imagingMethod?: string;
   display: string;
   body?: string;
   sheetId?: string;
@@ -230,38 +237,4 @@ export interface CompareReport {
 
 export interface CompareReportData {
   data: CompareReport[];
-}
-
-export interface OMAPSheetDetails {
-  omapId: string;
-  organ: string;
-  tissuePreservationMethod: string;
-  imagingMethod: string;
-  version?: Array<OMAPVersionMetaData>;
-  latestVersion?: string;
-  // body?: string;
-  // sheetId?: string;
-  // gid?: string;
-  // config: {
-  //   bimodal_distance_x: number;
-  //   bimodal_distance_y: number;
-  //   width: number;
-  //   height: number;
-  // };
-  // title: string;
-  // data?: string;
-  // csvUrl?: string;
-  // symbol?: string;
-  // position?: number;
-}
-
-export interface OMAPVersionMetaData {
-  tableVersion: string;
-  hraVersion: string;
-  csv: string;
-  xlsx: string;
-  as: string;
-  ct: string;
-  bp: string;
-  url: string;
 }

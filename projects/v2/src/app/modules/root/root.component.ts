@@ -223,7 +223,7 @@ export class RootComponent implements OnInit, OnDestroy {
               queryParams: {
                 selectedOrgans: organs?.join(','),
                 playground: false,
-                omapOrgans: omapOrgans
+                omapOrgans: omapOrgans?.join(',')
               },
               queryParamsHandling: 'merge',
             });

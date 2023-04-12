@@ -4,7 +4,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory, GaOrgansInfo } from '../../models/ga.model';
-import { OMAPSheetDetails, OrganTableOnClose, OrganTableSelect, SheetDetails, SheetOptions } from '../../models/sheet.model';
+import { OrganTableOnClose, OrganTableSelect, SheetDetails, SheetOptions } from '../../models/sheet.model';
 import { ConfigService } from '../../app-config.service';
 
 
@@ -24,7 +24,6 @@ export class OrganTableSelectorComponent implements OnInit {
   /**
    * Has some selected organs
    */
-  // hasSomeOrgans = false;
   get hasSomeOrgans(): boolean {
     if (this.componentActive == 0 && !this.selection.isEmpty()) {
       return true;
@@ -73,11 +72,11 @@ export class OrganTableSelectorComponent implements OnInit {
   ) {
 
     this.configService.omapsheetConfiguration$.subscribe((sheetOptions) => {
-      this.omapSheetOptions = sheetOptions.filter(o => o.organ !== 'some');
+      this.omapSheetOptions = sheetOptions.filter(o => o.name !== 'some');
       this.omapdataSource = new MatTableDataSource(this.omapSheetOptions);
-      this.omapdataSource.data?.forEach((de: OMAPSheetDetails) => {
+      this.omapdataSource.data?.forEach((de: SheetDetails) => {
         de?.version?.forEach((v, i) => {
-          de.latestVersion = v.hraVersion;
+          de.symbol = v.value;
         });
       });
       console.log('omap raw', this.omapSheetOptions, this.omapdataSource);
@@ -141,30 +140,17 @@ export class OrganTableSelectorComponent implements OnInit {
     } else {
       this.ga.event(GaAction.CLICK, GaCategory.NAVBAR, `SELECTED ORGANS EDIT: ${JSON.stringify(ga_details)}`, 0);
     }
+    const omapOrgans=[];
+    this.omapselection.selected.forEach(element => {
+      omapOrgans.push(element.symbol);
+    });
+    console.log(this.omapselection.selected);
     this.dialogRef.close({
       'organs': this.organs,
       'cache': this.getFromCache,
-      'omapOrgans': this.omapselection.selected
+      'omapOrgans': omapOrgans
     });
   }
-
-  // selectAllOrgans() {
-  //   const allOrgans = [];
-  //   this.sheetOptions.forEach((s: SheetOptions) => {
-  //     s.version?.forEach((v) => {
-  //       allOrgans.push(v.value);
-  //     });
-  //   });
-  //   this.organs = allOrgans;
-  //   this.hasSomeOrgans = this.organs?.length > 0;
-  // }
-  // deselectAllOrgans() {
-  //   this.organs = [];
-  //   this.hasSomeOrgans = this.organs?.length > 0;
-  // }
-  // selectOption() {
-  //   this.hasSomeOrgans = this.organs?.length > 0;
-  // }
 
   isAllSelected() {
     const selection = this.componentActive == 0 ? this.selection : this.omapselection;
@@ -193,19 +179,13 @@ export class OrganTableSelectorComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
-  changeVersion(value: string, r: SheetDetails | OMAPSheetDetails): void {
-    if (this.componentActive == 0) {
-      const row: SheetDetails = r as SheetDetails;
-      if (row.name === 'all') {
-        row.symbol = value;
-        this.selectByHraVersion(row);
-      } else {
-        row.symbol = value;
-      }
-    }
-    else {
-      const row: OMAPSheetDetails = r as OMAPSheetDetails;
-      row.latestVersion = value;
+  changeVersion(value: string, r: SheetDetails): void {
+    const row: SheetDetails = r as SheetDetails;
+    if (row.name === 'all') {
+      row.symbol = value;
+      this.selectByHraVersion(row);
+    } else {
+      row.symbol = value;
     }
   }
 
@@ -223,7 +203,7 @@ export class OrganTableSelectorComponent implements OnInit {
     // this.hasSomeOrgans = this.selection.selected.length > 0;
   }
 
-  selectRow(r: SheetDetails | OMAPSheetDetails): void {
+  selectRow(r: SheetDetails): void {
     if (this.componentActive == 0) {
       const row: SheetDetails = r as SheetDetails;
       if (row.name === 'all') {
@@ -239,7 +219,7 @@ export class OrganTableSelectorComponent implements OnInit {
       }
     }
     else {
-      const row: OMAPSheetDetails = r as OMAPSheetDetails;
+      const row: SheetDetails = r as SheetDetails;
       this.omapselection.toggle(row);
     }
   }
