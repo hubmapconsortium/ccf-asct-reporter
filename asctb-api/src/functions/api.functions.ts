@@ -5,6 +5,7 @@ import {
 } from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
 import { OmapDataTransformer } from './omap.functions';
+import { WarningCode } from '../utils/warnings';
 
 export interface ASCTBData {
   data: Row[];
@@ -238,9 +239,6 @@ export function makeASCTBData(data: string[][]): ASCTBData | undefined {
 
 export function makeASCTBDataWork(data: string[][]): ASCTBData {
   const headerRow = findHeaderIndex(0, data, ASCT_HEADER_FIRST_COLUMN);
-  /** 
-   * columns have all the header in the header row of that particular ASCTB Table 
-   */
   const columns = data[headerRow].map((col: string) => col.toUpperCase().split('/').map(s => s.trim()));
   const warnings: Set<string> = new Set<string>();
   
