@@ -13,7 +13,7 @@
         (closeReport)="rightDrawer.close()" *ngIf="report$ | async" [sheetData]="data"
         [asFullData]="fullAsData$ | async" [fullDataByOrgan]="fullDataByOrgan$ | async" [currentSheet]="sheet"
         [currentSheetConfig]="sheetConfig$" [linksData$]="links$" (computedReport)="updateReport($event)"
-        [bmType]="bmType$ | async" [tableVersions]="tableVersions"></app-report>
+        [bmType]="bmType$ | async"></app-report>
 
       <app-indent (closeIL)="rightDrawer.close()" *ngIf="il$ | async" [sheetData]="data" [currentSheet]="sheet"
         (openBottomSheet)="getStructureInfo($event)"></app-indent>

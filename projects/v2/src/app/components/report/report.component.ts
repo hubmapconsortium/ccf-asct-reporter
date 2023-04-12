@@ -81,7 +81,6 @@ export class ReportComponent implements OnInit, AfterViewInit {
   @Input() currentSheetConfig: Observable<SheetConfig>;
   @Input() compareData: Observable<any>;
   @Input() bmType: string;
-  @Input() tableVersions: string[]
   @Output() closeReport: EventEmitter<any> = new EventEmitter<any>();
   @Output() computedReport: EventEmitter<any> = new EventEmitter<any>();
   @Output() deleteSheet: EventEmitter<any> = new EventEmitter<any>();
@@ -166,11 +165,16 @@ export class ReportComponent implements OnInit, AfterViewInit {
         'CT_BM',
       ];
     });
-
+    const tableVersions = new Map<string, string>();
+    sheetData.forEach(element => {
+      if(!(element.organName in tableVersions.keys())){
+        tableVersions.set(element.organName,element.tableVersion);
+      }
+    });
     this.biomarkersSeperateNames = biomarkersSeperateNames;
     this.linksData$.subscribe((data) => {
       this.countsByOrgan =
-        new MatTableDataSource(this.reportService.makeAllOrganReportDataCountsByOrgan(result, data, this.tableVersions).sort((a, b) => a.organName.localeCompare(b.organName)));
+        new MatTableDataSource(this.reportService.makeAllOrganReportDataCountsByOrgan(result, data, tableVersions).sort((a, b) => a.organName.localeCompare(b.organName)));
       this.biomarkersCounts = [];
       this.biomarkersSeperateNames.forEach((bm) => {
         this.biomarkersCounts.push({ name: bm.name, value: this.countsByOrgan.data[0][bm.name] });

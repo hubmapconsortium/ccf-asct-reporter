@@ -82,7 +82,6 @@ export class OrganTableSelectorComponent implements OnInit {
       selectedOrgans: [],
       numOrgans: 0,
     };
-    const hraVersions = [];
     this.organs = [];
     this.selection.selected.map((item) => {
       if (item.name === 'all') {
@@ -90,9 +89,6 @@ export class OrganTableSelectorComponent implements OnInit {
       }
       if (item.symbol) {
         this.organs.push(item.symbol);
-        const versionObject = item.version.find(i => i.value == item.symbol);
-        // push viewValue for ASCT  and tableVersion in case of OMAP: add OMAP in later
-        hraVersions.push(versionObject.viewValue);
         ga_details.selectedOrgans.push({
           organ: item.display,
           version: item.symbol.split('-').slice(1).join('-')
@@ -105,16 +101,10 @@ export class OrganTableSelectorComponent implements OnInit {
     } else {
       this.ga.event(GaAction.CLICK, GaCategory.NAVBAR, `SELECTED ORGANS EDIT: ${JSON.stringify(ga_details)}`, 0);
     }
-    console.log({
-      'organs': this.organs,
-      'cache': this.getFromCache,
-      'hraV': hraVersions
-    });
 
     this.dialogRef.close({
       'organs': this.organs,
-      'cache': this.getFromCache,
-      'hraV': hraVersions
+      'cache': this.getFromCache
     });
   }
 
@@ -196,7 +186,6 @@ export class OrganTableSelectorComponent implements OnInit {
       this.selection.toggle(row);
       this.hasSomeOrgans = this.selection.selected.length > 0;
     }
-    console.log(this.selection);
 
   }
 }

@@ -159,8 +159,6 @@ export class RootComponent implements OnInit, OnDestroy {
 
   sheetConfig: SheetDetails[];
 
-  tableVersions = new Map<string, string>();
-
   constructor(
     public configService: ConfigService,
     public store: Store,
@@ -206,7 +204,6 @@ export class RootComponent implements OnInit, OnDestroy {
       const comparisonHasFile = query.get('comparisonHasFile');
       const sheet = query.get('sheet');
       const playground = query.get('playground');
-      const hraVersionFromQuery = query.get('hraVersions');
       if (!selectedOrgans && playground !== 'true') {
         store.dispatch(new CloseLoading('Select Organ Model Rendered'));
         const config = new MatDialogConfig();
@@ -226,8 +223,7 @@ export class RootComponent implements OnInit, OnDestroy {
               queryParams: {
                 selectedOrgans: organs?.join(','),
                 playground: false,
-                fileMode: 'ASCT',
-                hraVersions: hraV?.join(',')
+                fileMode: 'ASCT'
               },
               queryParamsHandling: 'merge',
             });
@@ -277,12 +273,6 @@ export class RootComponent implements OnInit, OnDestroy {
         this.sheet = this.sheetConfig.find(i => i.name === 'some');
         store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(',')));
         sessionStorage.setItem('selectedOrgans', selectedOrgans);
-        const allorgans = selectedOrgans.split(',');
-        const allVersions = hraVersionFromQuery.split(',');
-        for (let index = 0; index < allorgans.length; index++) {
-          const oName = this.extractNameFromFull(allorgans[index]);
-          this.tableVersions.set(oName, allVersions[index]);
-        }
       }
       else if (playground === 'true') {
         store.dispatch(new UpdateMode('playground'));
