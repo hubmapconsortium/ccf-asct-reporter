@@ -1,6 +1,10 @@
-import { arrayNameMap, arrayNameType, createObject, DELIMETER, HEADER_FIRST_COLUMN,
-  metadataArrayFields, metadataNameMap, objectFieldMap, Row, TITLE_ROW_INDEX } from '../models/api.model';
+import {
+  arrayNameMap, arrayNameType, createObject, DELIMETER, ASCT_HEADER_FIRST_COLUMN,
+  metadataArrayFields, metadataNameMap, objectFieldMap, Row, TITLE_ROW_INDEX,
+  OMAP_HEADER_FIRST_COLUMN
+} from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
+import { OmapDataTransformer } from './omap.functions';
 
 export interface ASCTBData {
   data: Row[];
@@ -76,7 +80,7 @@ function setData(column: string[], row: Row, value: string, warnings: Set<string
  * @param warnings = warnings generated during the process are pushed to this set
  * @returns = returns key value pairs of metadata
  */
-const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<string, string | string[]> => {
+export const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<string, string | string[]> => {
   const [titleRow] = metadataRows.splice(TITLE_ROW_INDEX, 1);
   const [title] = titleRow.slice(0, 1);
 
@@ -105,7 +109,7 @@ const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<
     );
 };
 
-function findHeaderIndex(headerRow: number, data: string[][], firstColumnName: string): number {
+export function findHeaderIndex(headerRow: number, data: string[][], firstColumnName: string): number {
   for (let i = headerRow; i < data.length; i++) {
     if (data[i][0] === firstColumnName) {
       return i;
@@ -114,8 +118,35 @@ function findHeaderIndex(headerRow: number, data: string[][], firstColumnName: s
   return headerRow;
 }
 
-export function makeASCTBData(data: string[][]): ASCTBData {
-  const headerRow = findHeaderIndex(0, data, HEADER_FIRST_COLUMN);
+export function getHeaderRow(data: string[][], omapHeader: string, asctbHeader: string): string[] | undefined {
+  for (let i = 0; i < data.length; i++) {
+    if (data[i][0] === omapHeader) {
+      return data[i];
+    }
+    if (data[i][0] === asctbHeader) {
+      return data[i];
+    }
+  }
+  return undefined;
+}
+
+export function makeASCTBData(data: string[][]): ASCTBData | undefined {
+  const header = getHeaderRow(data, OMAP_HEADER_FIRST_COLUMN, ASCT_HEADER_FIRST_COLUMN);
+
+  if (header[0] === OMAP_HEADER_FIRST_COLUMN) {
+    const omapTransformer = new OmapDataTransformer(data);
+    const omapWarnings = omapTransformer.warnings;
+    const asctbData = makeASCTBDataWork(omapTransformer.transformedData);
+    return { ...asctbData, warnings: [...asctbData.warnings, ...omapWarnings] };
+  } else if (header[0] === ASCT_HEADER_FIRST_COLUMN) {
+    return makeASCTBDataWork(data);
+  } else {
+    throw new Error(`Header row, first column should be : ${ASCT_HEADER_FIRST_COLUMN} or ${OMAP_HEADER_FIRST_COLUMN}`);
+  }
+}
+
+export function makeASCTBDataWork(data: string[][]): ASCTBData {
+  const headerRow = findHeaderIndex(0, data, ASCT_HEADER_FIRST_COLUMN);
   const columns = data[headerRow].map((col: string) => col.toUpperCase().split('/').map(s => s.trim()));
   const warnings = new Set<string>();
 
