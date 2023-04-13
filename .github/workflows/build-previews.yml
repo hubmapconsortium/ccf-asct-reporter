@@ -27,7 +27,9 @@ jobs:
       - run: npm ci
       - run: npm run build:staging
 
-      - uses: jsmrcaga/action-netlify-deploy@master
+      - name: Deploy Preview
+        id: deploy
+        uses: jsmrcaga/action-netlify-deploy@v1.8.0
         with:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
@@ -35,3 +37,11 @@ jobs:
           build_command: echo
           install_command: echo
           build_directory: dist/v2
+      
+      - name: Create Deploy Comment
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.ref_name }}
+          body: |
+            # :rocket: Preview Deploy Report
+            ✅ Successfully deployed preview [here](${{ steps.deploy.outputs.NETLIFY_PREVIEW_URL }})

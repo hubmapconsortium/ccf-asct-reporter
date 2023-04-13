@@ -238,3 +238,12 @@ export interface CompareReport {
 export interface CompareReportData {
   data: CompareReport[];
 }
+
+export interface UploadForm {
+  link: string;
+  csvUrl?: string;
+  formData?: FormData;
+  fileName?: string;
+  sheetId: string;
+  gid: string;
+}

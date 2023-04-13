@@ -21,13 +21,26 @@ export enum BM_TYPE {
   BF = 'proteoforms',
 }
 
+export const OMAP_ORGAN: Record<string, Structure> = {
+  'https://doi.org/10.48539/HBM467.LRKZ.884': { name: 'skin', rdfs_label: 'skin of body', id: 'UBERON:0002097', setBiomarkerProperties: undefined, isValid: undefined },
+  'https://doi.org/10.48539/HBM577.SBHH.454': { name: 'skin', rdfs_label: 'skin of body', id: 'UBERON:0002097', setBiomarkerProperties: undefined, isValid: undefined },
+  'https://doi.org/10.48539/HBM674.DJKV.876': { name: 'lymph node', rdfs_label: 'lymph node', id: 'UBERON: 0000029', setBiomarkerProperties: undefined, isValid: undefined },
+  'https://doi.org/10.48539/HBM794.CSBJ.358': { name: 'intestine', rdfs_label: 'intestine', id: 'UBERON:0000160', setBiomarkerProperties: undefined, isValid: undefined },
+  'https://doi.org/10.48539/HBM568.RMZB.377': { name: 'kidney', rdfs_label: 'kidney', id: 'UBERON:0002113', setBiomarkerProperties: undefined, isValid: undefined },
+  'https://doi.org/10.48539/HBM495.QBSV.777': { name: 'liver', rdfs_label: 'liver', id: 'UBERON:0002107', setBiomarkerProperties: undefined, isValid: undefined },
+  'https://doi.org/10.48539/HBM868.XLTM.922': { name: 'Pancreas', rdfs_label: 'Pancreas', id: 'UBERON:0001264', setBiomarkerProperties: undefined, isValid: undefined },
+  'https://doi.org/10.48539/HBM972.WHPW.455': { name: 'Lung', rdfs_label: 'Lung', id: 'UBERON:0002048', setBiomarkerProperties: undefined, isValid: undefined },
+  'default': { name: 'unknown', rdfs_label: 'unknown', id: 'unknown', setBiomarkerProperties: undefined, isValid: undefined }
+};
+
 export enum PROTEIN_PRESENCE {
   POS = 'Positive',
   NEG = 'Negative',
   UNKNOWN = 'Unknown'
 }
 
-export const HEADER_FIRST_COLUMN = 'AS/1';
+export const ASCT_HEADER_FIRST_COLUMN = 'AS/1';
+export const OMAP_HEADER_FIRST_COLUMN = 'uniprot_accession_number';
 
 export const arrayNameMap: Record<string, arrayNameType> = {
   AS: 'anatomical_structures',
@@ -46,7 +59,7 @@ export const arrayNameMap: Record<string, arrayNameType> = {
   BF: 'biomarkers_prot'
 };
 
-export type arrayNameType  ='anatomical_structures' | 'cell_types' | 'ftu_types' | 
+export type arrayNameType = 'anatomical_structures' | 'cell_types' | 'ftu_types' |
   'biomarkers_gene' | 'biomarkers_protein' | 'biomarkers_lipids' | 'biomarkers_meta' | 'biomarkers_prot' | 'references';
 
 export const objectFieldMap: Record<string, string> = {
@@ -87,6 +100,7 @@ export class Structure {
   rdfs_label?: string = '';
   b_type?: BM_TYPE;
   proteinPresence?: PROTEIN_PRESENCE;
+  notes?: string;
 
   constructor(name: string, structureType: string) {
     this.name = name;
@@ -102,10 +116,10 @@ export class Structure {
       const hasPos = name.endsWith('+');
       const hasNeg = name.endsWith('-');
 
-      if (hasPos){
+      if (hasPos) {
         this.name = name.slice(0, -1);
         this.proteinPresence = PROTEIN_PRESENCE.POS;
-      } else if (hasNeg){
+      } else if (hasNeg) {
         this.name = name.slice(0, -1);
         this.proteinPresence = PROTEIN_PRESENCE.NEG;
       } else {
@@ -141,7 +155,7 @@ export class Row {
   ftu_types: Array<Structure> = [];
   references: Reference[] = [];
 
-  constructor(public rowNumber: number) {}
+  constructor(public rowNumber: number) { }
 
   finalize(): void {
     this.anatomical_structures = this.anatomical_structures.filter(s => s.isValid());
@@ -167,23 +181,23 @@ export class Row {
 
 // Copied interface out of @types/express-fileupload to avoid type casting failure
 export interface UploadedFile {
-    /** file name */
-    name: string;
-    /** A function to move the file elsewhere on your server */
-    mv(path: string, callback: (err: any) => void): void;
-    mv(path: string): Promise<void>;
-    /** Encoding type of the file */
-    encoding: string;
-    /** The mimetype of your file */
-    mimetype: string;
-    /** A buffer representation of your file, returns empty buffer in case useTempFiles option was set to true. */
-    data: Buffer;
-    /** A path to the temporary file in case useTempFiles option was set to true. */
-    tempFilePath: string;
-    /** A boolean that represents if the file is over the size limit */
-    truncated: boolean;
-    /** Uploaded size in bytes */
-    size: number;
-    /** MD5 checksum of the uploaded file */
-    md5: string;
+  /** file name */
+  name: string;
+  /** A function to move the file elsewhere on your server */
+  mv(path: string, callback: (err: any) => void): void;
+  mv(path: string): Promise<void>;
+  /** Encoding type of the file */
+  encoding: string;
+  /** The mimetype of your file */
+  mimetype: string;
+  /** A buffer representation of your file, returns empty buffer in case useTempFiles option was set to true. */
+  data: Buffer;
+  /** A path to the temporary file in case useTempFiles option was set to true. */
+  tempFilePath: string;
+  /** A boolean that represents if the file is over the size limit */
+  truncated: boolean;
+  /** Uploaded size in bytes */
+  size: number;
+  /** MD5 checksum of the uploaded file */
+  md5: string;
 }

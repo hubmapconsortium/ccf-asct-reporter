@@ -4,7 +4,7 @@ import { InfoComponent } from './info.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
-
+import { MarkdownModule } from 'ngx-markdown';
 
 
 @NgModule({
@@ -13,7 +13,8 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
     CommonModule,
     MatButtonModule,
     MatIconModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
+    MarkdownModule
   ],
   exports: [InfoComponent]
 })
