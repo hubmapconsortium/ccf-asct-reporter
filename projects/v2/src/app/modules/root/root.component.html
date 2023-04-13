@@ -39,6 +39,7 @@
         [linksData$]="links$"
         (computedReport)="updateReport($event)"
         [bmType]="bmType$ | async"
+        [hideReportCompareTab]="(mode$ | async) === 'playground'"
       ></app-report>
 
       <app-indent

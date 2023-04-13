@@ -81,6 +81,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
   @Input() currentSheetConfig: Observable<SheetConfig>;
   @Input() compareData: Observable<any>;
   @Input() bmType: string;
+  @Input() hideReportCompareTab = false;
   @Output() closeReport: EventEmitter<any> = new EventEmitter<any>();
   @Output() computedReport: EventEmitter<any> = new EventEmitter<any>();
   @Output() deleteSheet: EventEmitter<any> = new EventEmitter<any>();
