@@ -75,6 +75,17 @@ async function getData(draftItems) {
       worksheets[title] = data.split("\n").map((n) => [n]);
     } catch (error) {
       worksheets[title] = [["Invalid CSV file? failed"]];
+      rows.push([
+        title,
+        crossmark,
+        crossmark,
+        crossmark,
+        crossmark,
+        crossmark,
+        crossmark,
+        crossmark,
+        crossmark,
+      ]);
       console.log(
         "Invalid CSV!",
         item.value,
