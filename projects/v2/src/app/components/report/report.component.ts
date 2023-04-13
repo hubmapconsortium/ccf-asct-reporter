@@ -99,7 +99,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
       this.computedReport.emit(data.data);
 
       this.ontologyLinkGraphData = this.makeOntologyLinksGraphData(data.data, this.sheetData);
-      
+
     });
     this.linksData$.subscribe((data) => {
       this.total_AS_AS = data.AS_AS;
@@ -142,12 +142,12 @@ export class ReportComponent implements OnInit, AfterViewInit {
   makeOntologyLinksGraphData(reportData: Report,sheetData: Row[]) {
     const { result, biomarkersSeperateNames } =
       this.reportService.makeAllOrganReportDataByOrgan(sheetData, this.asFullData);
-    
+
     const biomarkerCols = [];
     biomarkersSeperateNames.forEach((bm) => {
       if (this.displayedColumns.includes(bm.name) === false){
         biomarkerCols.push(bm.name);
-      }    
+      }
       this.displayedColumns = [
         'organName',
         'anatomicalStructures',
@@ -314,7 +314,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
     };
   }
 
-  
+
   downloadReport(i = -1) {
     const wb = XLSX.utils.book_new();
     const allReport = [];
@@ -324,8 +324,6 @@ export class ReportComponent implements OnInit, AfterViewInit {
      */
     if (i === -1) {
       allReport.push(this.downloadData());
-
-      // Tracking the 'Download All' use case from the header button.
       this.ga.event(
         GaAction.CLICK,
         GaCategory.REPORT,
@@ -360,7 +358,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
 
     const organsList:string[] = [];
 
-   
+
     const wb = XLSX.utils.table_to_book(targetTableElm, {
       sheet: sheetName
     } as XLSX.Table2SheetOpts);
@@ -386,7 +384,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
       XLSX.utils.book_append_sheet(wb, book.sheet, organsList[i] );
       i += 1;
     }
-    
+
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   }
 

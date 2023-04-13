@@ -79,13 +79,11 @@ export class OrganTableSelectorComponent implements OnInit {
           de.symbol = v.value;
         });
       });
-      console.log('omap raw', this.omapSheetOptions, this.omapdataSource);
     });
 
     this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
       this.sheetOptions = sheetOptions.filter(o => o.name !== 'some');
       this.dataSource = new MatTableDataSource(this.sheetOptions);
-      console.log('asct+b raw', this.sheetOptions, this.dataSource);
     });
 
     this.getFromCache = data.getFromCache;
@@ -107,11 +105,6 @@ export class OrganTableSelectorComponent implements OnInit {
         });
       });
     });
-    // this.hasSomeOrgans = this.selection.selected.length > 0;
-
-    console.log('data', data);
-    console.log('Final omap', this.omapSheetOptions, this.omapdataSource);
-    console.log('Final normal', this.sheetOptions, this.dataSource);
   }
 
   ngOnInit(): void { }
@@ -144,7 +137,6 @@ export class OrganTableSelectorComponent implements OnInit {
     this.omapselection.selected.forEach(element => {
       omapOrgans.push(element.symbol);
     });
-    console.log(this.omapselection.selected);
     this.dialogRef.close({
       'organs': this.organs,
       'cache': this.getFromCache,
@@ -165,11 +157,9 @@ export class OrganTableSelectorComponent implements OnInit {
     const dataSource = this.componentActive == 0 ? this.dataSource : this.omapdataSource;
     if (this.isAllSelected()) {
       selection.clear();
-      // this.hasSomeOrgans = selection.selected.length > 0;
       return;
     }
     selection.select(...dataSource.data);
-    // this.hasSomeOrgans = selection.selected.length > 0;
   }
 
   checkboxLabel(row?: SheetDetails): string {
@@ -200,7 +190,6 @@ export class OrganTableSelectorComponent implements OnInit {
         this.selection.deselect(dataElement);
       }
     });
-    // this.hasSomeOrgans = this.selection.selected.length > 0;
   }
 
   selectRow(r: SheetDetails): void {
@@ -215,7 +204,6 @@ export class OrganTableSelectorComponent implements OnInit {
       }
       else {
         this.selection.toggle(row);
-        // this.hasSomeOrgans = this.selection.selected.length > 0;
       }
     }
     else {
@@ -226,7 +214,6 @@ export class OrganTableSelectorComponent implements OnInit {
 
   changeTab(tabIndex) {
     this.componentActive = tabIndex;
-    console.log(this.componentActive);
 
   }
 }
