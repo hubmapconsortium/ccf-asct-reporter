@@ -210,7 +210,7 @@ export class RootComponent implements OnInit, OnDestroy {
         config.disableClose = true;
         config.autoFocus = true;
         config.id = 'OrganTableSelector';
-        config.width = '40vw';
+        config.width = 'fit-content';
         config.data = {
           isIntilalSelect: true,
           getFromCache: true
