@@ -46,3 +46,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+validation-report.xlsx
+.vscode/tasks.json
+.vscode/launch.json
