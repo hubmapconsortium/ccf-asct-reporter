@@ -42,6 +42,7 @@ export class OrganTableSelectorComponent implements OnInit {
    */
   selectedSheetOption: string;
   organs = [];
+  omapOrgans=[];
   getFromCache: boolean;
   displayedColumns: string[] = ['select', 'name', 'version'];
   omapdisplayedColumns: string[] = [
@@ -70,7 +71,6 @@ export class OrganTableSelectorComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: OrganTableSelect,
     public ga: GoogleAnalyticsService
   ) {
-
     this.configService.omapsheetConfiguration$.subscribe((sheetOptions) => {
       this.omapSheetOptions = sheetOptions.filter(o => o.name !== 'some');
       this.omapdataSource = new MatTableDataSource(this.omapSheetOptions);
@@ -89,6 +89,7 @@ export class OrganTableSelectorComponent implements OnInit {
     this.getFromCache = data.getFromCache;
     this.onClose.cache = data.getFromCache;
     this.organs = data.organs ? data.organs : [];
+    this.omapOrgans = data.omapOrgans ? data.omapOrgans : [];
     this.dataSource.data.forEach((dataElement: SheetOptions) => {
       dataElement?.version?.forEach((v, i) => {
         dataElement.symbol = v.value;
@@ -101,6 +102,16 @@ export class OrganTableSelectorComponent implements OnInit {
           if (v.value === item) {
             dataElement.symbol = item;
             this.selection.select(dataElement);
+          }
+        });
+      });
+    });
+    this.omapOrgans.forEach((item) => {
+      this.omapdataSource.data.forEach((dataElement: SheetOptions) => {
+        dataElement?.version?.forEach((v, i) => {
+          if (v.value === item) {
+            dataElement.symbol = item;
+            this.omapselection.select(dataElement);
           }
         });
       });

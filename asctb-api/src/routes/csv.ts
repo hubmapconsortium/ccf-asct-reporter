@@ -15,7 +15,6 @@ export function setupCSVRoutes(app: Express): void {
    * Fetch a CSV given a link and parse it into json or graph output
    */
   app.get('/v2/csv', async (req: Request, res: Response) => {
-    console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
 
     // query parameters
     const csvUrls = req.query.csvUrl as string;
@@ -32,10 +31,11 @@ export function setupCSVRoutes(app: Express): void {
         csvUrls.split('|').map(async (csvUrl) => {
           const parsedUrl = normalizeCsvUrl(csvUrl.trim());
           const response = await axios.get(parsedUrl);
+
           csvData = response.data;
           const { data } = papa.parse<string[]>(response.data, { skipEmptyLines: 'greedy' });
           parsedCsvData = data as string[][];
-          const asctbData = makeASCTBDataWork(data);
+          const asctbData = makeASCTBData(data);
           warnings = warnings.concat(asctbData.warnings);
           return {
             data: asctbData.data,
@@ -93,7 +93,6 @@ export function setupCSVRoutes(app: Express): void {
    * Parse a CSV into JSON format given the raw file formData
    */
   app.post('/v2/csv', async (req: Request, res: Response) => {
-    console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
 
     if (!req.files || !req.files.csvFile) {
       return res.status(400).send({
@@ -112,7 +111,6 @@ export function setupCSVRoutes(app: Express): void {
     }
 
     const dataString = file.data.toString();
-    console.log('File uploaded: ', file.name);
 
     try {
       const { data } = papa.parse<string[]>(dataString, { skipEmptyLines: 'greedy' });

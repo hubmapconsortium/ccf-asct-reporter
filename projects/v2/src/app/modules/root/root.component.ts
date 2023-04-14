@@ -158,6 +158,7 @@ export class RootComponent implements OnInit, OnDestroy {
   @Select(LogsState) logs$: Observable<Logs>;
 
   sheetConfig: SheetDetails[];
+  omapSheetConfig: SheetDetails[];
 
   constructor(
     public configService: ConfigService,
@@ -175,6 +176,9 @@ export class RootComponent implements OnInit, OnDestroy {
 
     this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
       this.sheetConfig = sheetOptions;
+    });
+    this.configService.omapsheetConfiguration$.subscribe((sheetOptions) => {
+      this.omapSheetConfig = sheetOptions;
     });
     this.data$.subscribe((data) => {
       if (data.length) {
@@ -196,7 +200,7 @@ export class RootComponent implements OnInit, OnDestroy {
 
 
     this.route.queryParamMap.subscribe((query) => {
-      const selectedOrgans = query.get('selectedOrgans');
+      const selectedOrgans = query.get('selectedOrgans')??'';
       const version = query.get('version');
       const comparisonCSV = query.get('comparisonCSVURL');
       const comparisonName = query.get('comparisonName');
@@ -204,7 +208,8 @@ export class RootComponent implements OnInit, OnDestroy {
       const comparisonHasFile = query.get('comparisonHasFile');
       const sheet = query.get('sheet');
       const playground = query.get('playground');
-      if (!selectedOrgans && playground !== 'true') {
+      const omapSelectedOrgans= query.get('omapSelectedOrgans')??'';
+      if (!(selectedOrgans || omapSelectedOrgans) && playground !== 'true') {
         store.dispatch(new CloseLoading('Select Organ Model Rendered'));
         const config = new MatDialogConfig();
         config.disableClose = true;
@@ -223,14 +228,14 @@ export class RootComponent implements OnInit, OnDestroy {
               queryParams: {
                 selectedOrgans: organs?.join(','),
                 playground: false,
-                omapOrgans: omapOrgans?.join(',')
+                omapSelectedOrgans: omapOrgans?.join(',')
               },
               queryParamsHandling: 'merge',
             });
           }
         });
       }
-      else if (selectedOrgans && playground !== 'true' && (comparisonCSV || comparisonHasFile)) {
+      else if ((selectedOrgans || omapSelectedOrgans) && playground !== 'true' && (comparisonCSV || comparisonHasFile)) {
         store.dispatch(new UpdateMode('vis'));
         const comparisonCSVURLList = comparisonCSV.split('|');
         const comparisonColorList = comparisonColor?.split('|');
@@ -265,13 +270,13 @@ export class RootComponent implements OnInit, OnDestroy {
             });
           });
         }
-        store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(','), comparisonDetails));
+        store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(','), omapSelectedOrgans.split(','), comparisonDetails));
         sessionStorage.setItem('selectedOrgans', selectedOrgans);
       }
-      else if (selectedOrgans && playground !== 'true') {
+      else if ((selectedOrgans || omapSelectedOrgans)  && playground !== 'true') {
         store.dispatch(new UpdateMode('vis'));
         this.sheet = this.sheetConfig.find(i => i.name === 'some');
-        store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(',')));
+        store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(','),omapSelectedOrgans.split(',')));
         sessionStorage.setItem('selectedOrgans', selectedOrgans);
       }
       else if (playground === 'true') {
@@ -537,10 +542,25 @@ export class RootComponent implements OnInit, OnDestroy {
     let csvURL;
     const sheet = this.store.selectSnapshot(SheetState.getSheet);
     const selectedOrgans = this.store.selectSnapshot(SheetState.getSelectedOrgans);
+    const omapSelectedOrgans = this.store.selectSnapshot(SheetState.getOMAPSelectedOrgans);
     const urls = [];
     if (sheet.name === 'all' || sheet.name === 'some') {
       for (const organ of selectedOrgans) {
         this.sheetConfig.forEach((config) => {
+          config.version?.forEach((version: VersionDetail) => {
+            if (version.value === organ) {
+              if (version.csvUrl) {
+                urls.push(version.csvUrl);
+              }
+              else {
+                urls.push(this.sheetService.formURL(version.sheetId, version.gid));
+              }
+            }
+          });
+        });
+      }
+      for (const organ of omapSelectedOrgans) {
+        this.omapSheetConfig.forEach((config) => {
           config.version?.forEach((version: VersionDetail) => {
             if (version.value === organ) {
               if (version.csvUrl) {

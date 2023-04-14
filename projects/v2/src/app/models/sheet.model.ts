@@ -20,6 +20,7 @@ export interface Reference {
 
 export interface OrganTableSelect {
   organs?: string[];
+  omapOrgans?: string[];
   isIntilalSelect: boolean;
   getFromCache: boolean;
 }
