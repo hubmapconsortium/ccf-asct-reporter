@@ -222,8 +222,7 @@ export class RootComponent implements OnInit, OnDestroy {
             this.router.navigate(['/vis'], {
               queryParams: {
                 selectedOrgans: organs?.join(','),
-                playground: false,
-                fileMode: 'ASCT'
+                playground: false
               },
               queryParamsHandling: 'merge',
             });
@@ -635,10 +634,5 @@ export class RootComponent implements OnInit, OnDestroy {
           console.log(error);
         });
     }
-  }
-
-  extractNameFromFull(name: string) {
-    const lastIndex = name.lastIndexOf('-');
-    return name.slice(0, lastIndex);
   }
 }
