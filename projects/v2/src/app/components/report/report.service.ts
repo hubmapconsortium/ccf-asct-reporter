@@ -346,7 +346,7 @@ export class ReportService {
   findIdenticalBmCtLinks(compareB: B, mainBData: B[]) {
     const mappings = new Set();
     const bData = mainBData.filter(el => el.comparatorId == compareB.comparatorId);
-    bData.map(b => {
+    bData.forEach(b => {
       b.indegree.forEach(bin => {
         mappings.add(`${b.comparatorName} (${b.comparatorId}) :: ${bin.name} (${bin.id})`);
       });
