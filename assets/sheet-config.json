@@ -685,6 +685,26 @@
     ],
     "title": "Anatomical Structures",
     "data": ""
+ },
+ {
+    "name": "muscular-system",
+    "display": "Muscular System",
+    "config": {
+      "bimodal_distance_x": 200,
+      "bimodal_distance_y": 50,
+      "width": 800,
+      "height": 5000
+     },
+     "version": [
+       {
+         "sheetId": "1UDKjTuDa18kydtOLZr_amdihGWvKs5xzwQ9W_oco3U8",
+         "gid": "0",
+         "value": "muscular-system-v1.0-DRAFT",
+         "viewValue": "v1.0 DRAFT"
+       }
+     ],
+    "title": "Anatomical Structures",
+    "data": ""
   },
   {
     "name": "nasal_passage",
@@ -924,6 +944,26 @@
         "sheetId": "1fr9d3C2pJNYFvopvPOOSwJjsAaIzRouzuu5daTCd50Y",
         "gid": "0",
         "value": "quadriceps-femoris-v1.0-DRAFT",
+        "viewValue": "v1.0 DRAFT"
+      }
+    ],
+     "title": "Anatomical Structures",
+    "data": ""
+  },
+  {
+    "name": "skeleton",
+    "display": "Skeleton",
+    "config": {
+      "bimodal_distance_x": 200,
+      "bimodal_distance_y": 50,
+      "width": 600,
+      "height": 1000
+    },
+    "version": [
+      {
+        "sheetId": "1090VgpMYtAcLPUa_4ITh3hwJBZkQKGKATrZu0hc8EVg",
+        "gid": "0",
+        "value": "skeleton-v1.0-DRAFT",
         "viewValue": "v1.0 DRAFT"
       }
     ],
