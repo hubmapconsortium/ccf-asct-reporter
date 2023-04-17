@@ -281,7 +281,7 @@ export class RootComponent implements OnInit, OnDestroy {
       }
       else if (playground === 'true') {
         store.dispatch(new UpdateMode('playground'));
-        this.sheet = this.sheetConfig.find((i) => i.name === 'example');
+        this.sheet = this.sheetConfig.find((i) => i.name === 'some');
         this.store.dispatch(new FetchInitialPlaygroundData());
         store.dispatch(new CloseLoading());
       } else {
