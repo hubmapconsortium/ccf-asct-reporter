@@ -163,7 +163,7 @@ export class NavbarComponent implements OnInit {
       this.selectedOrgansValues = selectedOrgansNames?.join(', ');
     });
     this.omapSelectedOrgans$.subscribe((organs) => {
-      const selectedOrgansNames = []; //this.selectedOrgansValues.length>0?this.selectedOrgansValues?.split(','):[];
+      const selectedOrgansNames = [];
       this.omapSelectedOrgans = organs;
       for (const organ of organs) {
         this.omapSheetConfig.forEach((config: SheetDetails) => {
