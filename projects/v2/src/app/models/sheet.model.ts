@@ -226,6 +226,7 @@ export interface CompareReport {
   color: string;
   title: string;
   description: string;
+  identicalBMCTPair: Row[];
 }
 
 export interface CompareReportData {

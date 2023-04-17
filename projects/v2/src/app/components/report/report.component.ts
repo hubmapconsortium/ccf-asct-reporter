@@ -402,6 +402,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
       newCT: 'New Cell Types',
       identicalB: 'Identical Biomarkers',
       newB: 'New Biomarkers',
+      identicalBMCTPair : 'Identical Biomarkers CellType Pairs'
     };
     const download = [];
     const keys = Object.keys(this.compareReport[i]);

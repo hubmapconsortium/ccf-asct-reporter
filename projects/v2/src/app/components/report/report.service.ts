@@ -7,6 +7,7 @@ import {
   makeCellTypes,
   makeBioMarkers,
 } from '../../modules/tree/tree.functions';
+import { B } from '../../models/tree.model';
 
 @Injectable({
   providedIn: 'root',
@@ -206,6 +207,7 @@ export class ReportService {
         color: '',
         title: '',
         description: '',
+        identicalBMCTPair: []
       };
 
       const { identicalStructuresAS, newStructuresAS } = this.compareASData(
@@ -222,10 +224,11 @@ export class ReportService {
       newEntry.identicalCT = identicalStructuresCT;
       newEntry.newCT = newStructuresCT;
 
-      const { identicalStructuresB, newStructuresB } = this.compareBData(
+      const { identicalStructuresB, newStructuresB, identicalBM } = this.compareBData(
         reportdata,
         compareData
       );
+      newEntry.identicalBMCTPair = identicalBM;
       newEntry.identicalB = identicalStructuresB;
       newEntry.newB = newStructuresB;
       newEntry.color = sheet.color;
@@ -309,6 +312,7 @@ export class ReportService {
   compareBData(reportdata: Report, compareData: Row[]) {
     const identicalStructuresB = [];
     const newStructuresB = [];
+    const identicalBM= [];
     try {
       const compareB = makeBioMarkers(compareData, '', true);
       const mainBData = reportdata.biomarkers.filter((i) => !i.isNew);
@@ -320,6 +324,7 @@ export class ReportService {
           for (const b of mainBData) {
             if (a.structure === b.structure && !b.isNew) {
               identicalStructuresB.push(a.structure);
+              identicalBM.push(...this.findIdenticalBmCtLinks(a, mainBData));
               found = true;
             }
           }
@@ -329,13 +334,24 @@ export class ReportService {
           }
         }
       }
-      return { identicalStructuresB, newStructuresB };
+      return { identicalStructuresB, newStructuresB, identicalBM };
     } catch (err) {
       this.reportData.next({
         data: null,
       });
       return { identicalStructuresB, newStructuresB };
     }
+  }
+
+  findIdenticalBmCtLinks(compareB: B, mainBData: B[]) {
+    const mappings = new Set();
+    const bData = mainBData.filter(el => el.comparatorId == compareB.comparatorId);
+    bData.map(b => {
+      b.indegree.forEach(bin => {
+        mappings.add(`${b.comparatorName} (${b.comparatorId}) :: ${bin.name} (${bin.id})`);
+      });
+    });
+    return mappings;
   }
 
   getASWithNoLink(anatomicalStructures) {
