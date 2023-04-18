@@ -19,7 +19,8 @@
 
   <ng-template #resultBlock>
     <div *ngIf="error.hasError; else infoBlock" class="pt-3">
-      Could not fetch data {{!info.notes ? 'and notes' : ''}} for <b>{{info.name}}</b> {{info.notes? 'but we have some notes available' : ''}}. This could be because,
+      Could not fetch data {{!info.notes ? 'and notes' : ''}} for <b>{{info.name}}</b> {{info.notes? 'but we have some
+      notes available' : ''}}. This could be because,
       <ul class="pl-3 pt-2">
         <li>Structure does not have an ontology ID.</li>
         <li>Structure has an invalid ontology ID.</li>
@@ -69,23 +70,31 @@
         <a [href]="info.iri" target="_blank" class="text-info">{{info.iri ? info.iri : 'No IRI found.'}}</a>
       </div>
 
-    <div *ngIf="info.extraLinks">
+      <div *ngIf="info.extraLinks">
         <div *ngFor="let item of info.extraLinks | keyvalue">
 
           <div class="pt-3"></div>
-          <label ><strong>{{item.key}}</strong></label>
+          <label><strong>{{item.key}}</strong></label>
           <div>
-            <a [href]="item.value" target="_blank" class="text-info">{{item.value ? item.value : 'No '+ item.key +' found.'}}</a>
+            <a [href]="item.value" target="_blank" class="text-info">{{item.value ? item.value : 'No '+ item.key +'
+              found.'}}</a>
           </div>
         </div>
-    </div>
+      </div>
 
-    <div class="pt-3"></div>
-
+      <div class="pt-3"></div>
+      <!-- REMOVE ME -->
       <label><strong>Notes</strong></label>
       <div>
         {{info.notes? info.notes : 'No notes found'}}
       </div>
+
+      <div class="pt-3"></div>
+
+      <label><strong>Notes MD</strong></label>
+      <markdown [data]="info.notes? info.notes : 'No notes found'">
+      </markdown>
+
       <div class="pt-3"></div>
 
       <label><strong>DOI</strong></label>

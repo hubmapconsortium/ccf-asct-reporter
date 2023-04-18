@@ -8,12 +8,28 @@
 
     <mat-drawer #rightDrawer class="right-sidenav" mode="over" [opened]="
         (il$ | async) || (report$ | async) || (dl$ | async) || (c$ | async)
-      " position="end" (closedStart)="toggleSideNav()" autoFocus="false" style="z-index: 3;">
-      <app-report (deleteSheet)="deleteSheet($event)" [compareData]="allCompareData$" [inputReportData]="rd$"
-        (closeReport)="rightDrawer.close()" *ngIf="report$ | async" [sheetData]="data"
-        [asFullData]="fullAsData$ | async" [fullDataByOrgan]="fullDataByOrgan$ | async" [currentSheet]="sheet"
-        [currentSheetConfig]="sheetConfig$" [linksData$]="links$" (computedReport)="updateReport($event)"
-        [bmType]="bmType$ | async"></app-report>
+      "
+      position="end"
+      (closedStart)="toggleSideNav()"
+      autoFocus="false"
+      style="z-index: 3;"
+    >
+      <app-report
+      (deleteSheet)="deleteSheet($event)"
+        [compareData]="allCompareData$"
+        [inputReportData]="rd$"
+        (closeReport)="rightDrawer.close()"
+        *ngIf="report$ | async"
+        [sheetData]="data"
+        [asFullData]="fullAsData$ | async"
+        [fullDataByOrgan]="fullDataByOrgan$ | async"
+        [currentSheet]="sheet"
+        [currentSheetConfig] = "sheetConfig$"
+        [linksData$]="links$"
+        (computedReport)="updateReport($event)"
+        [bmType]="bmType$ | async"
+        [hideReportCompareTab]="(mode$ | async) === 'playground'"
+      ></app-report>
 
       <app-indent (closeIL)="rightDrawer.close()" *ngIf="il$ | async" [sheetData]="data" [currentSheet]="sheet"
         (openBottomSheet)="getStructureInfo($event)"></app-indent>

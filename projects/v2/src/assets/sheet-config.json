@@ -254,28 +254,6 @@
     "data": ""
   },
   {
-    "name": "breast",
-    "display": "Breast",
-    "sheetId": "0",
-    "gid": "0",
-    "config": {
-      "bimodal_distance_x": 200,
-      "bimodal_distance_y": 50,
-      "width": 800,
-      "height": 5000
-    },
-    "version": [
-      {
-        "sheetId": "1Ac7C4dX7eYSMyR75AA2uVY9ZgNGOZZgbqgR8wmp-wdk",
-        "gid": "928286522",
-        "value": "breast-v1.0-DRAFT",
-        "viewValue": "v1.0 DRAFT"
-      }
-    ],
-    "title": "Anatomical Structures",
-    "data": ""
-  },
-  {
     "name": "eye",
     "display": "Eye",
     "config": {
@@ -879,8 +857,8 @@
     "data": ""
   },
   {
-    "name": "placenta",
-    "display": "Placenta",
+    "name": "placenta full term",
+    "display": "Placenta full term",
     "config": {
       "bimodal_distance_x": 250,
       "bimodal_distance_y": 60,
@@ -891,14 +869,14 @@
       {
         "sheetId": "1TqatRIsZZ5QwvWdz6H4Un-sukbzSd21_x41Gqnn5UEY",
         "gid": "231591207",
-        "value": "Placenta-v1.0",
+        "value": "Placenta-full-term-v1.0",
         "viewValue": "v1.0",
         "hraVersion": "v1.2,v1.3"
       },
       {
         "sheetId": "1JeeIxpcyD8eWAgdNuKtf1OMlTzEw_6AKrS5OVDkC7t4",
         "gid": "231591207",
-        "value": "placenta-v1.1-DRAFT",
+        "value": "placenta-full-term-v1.1-DRAFT",
         "viewValue": "v1.1 DRAFT"
       }
     ],
@@ -933,8 +911,8 @@
     "data": ""
   },
   {
-    "name": "quadriceps_feromis",
-    "display": "Quadriceps Feromis",
+    "name": "quadriceps_femoris",
+    "display": "Quadriceps Femoris",
     "config": {
       "bimodal_distance_x": 200,
       "bimodal_distance_y": 50,
@@ -945,7 +923,7 @@
       {
         "sheetId": "1fr9d3C2pJNYFvopvPOOSwJjsAaIzRouzuu5daTCd50Y",
         "gid": "0",
-        "value": "quadriceps-feromis-v1.0-DRAFT",
+        "value": "quadriceps-femoris-v1.0-DRAFT",
         "viewValue": "v1.0 DRAFT"
       }
     ],

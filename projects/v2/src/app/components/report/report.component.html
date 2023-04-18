@@ -541,7 +541,7 @@
           <br />
         </div>
       </mat-tab>
-      <mat-tab label="Compare Sheets">
+      <mat-tab *ngIf="!hideReportCompareTab"  label="Compare Sheets">
         <!-- <div *ngIf="compareData.length === 0"> -->
         <div *ngIf="(compareData | async).data.length === 0">
           <p class="i2">You have not linked any sheets to compare yet.</p>

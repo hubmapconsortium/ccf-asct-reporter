@@ -109,7 +109,7 @@ export interface SheetInfo {
   status: number;
   notes: string;
   references?: Array<Reference>;
-  extraLinks?:Record<string,string>;
+  extraLinks?: Record<string, string>;
 
 }
 
@@ -135,10 +135,10 @@ export interface SheetDetails {
   sheetId?: string;
   gid?: string;
   config: {
-      bimodal_distance_x: number;
-      bimodal_distance_y: number;
-      width: number;
-      height: number;
+    bimodal_distance_x: number;
+    bimodal_distance_y: number;
+    width: number;
+    height: number;
   };
   title: string;
   version?: Array<VersionDetail>;
@@ -165,25 +165,25 @@ export interface PlaygroundSheetOptions {
 }
 
 export interface ConfigurationOptions {
-  headerCount:            string;
-  imgOptions:             string[];
-  masterSheetLink:        string;
-  sheetId:                string;
-  version1Url:            string;
+  headerCount: string;
+  imgOptions: string[];
+  masterSheetLink: string;
+  sheetId: string;
+  version1Url: string;
   playgroundSheetOptions: PlaygroundSheetOptions[];
-  version:                Version[];
-  moreOptions:            MoreOption[];
+  version: Version[];
+  moreOptions: MoreOption[];
 }
 
 export interface MoreOption {
   name: string;
-  url:  string;
+  url: string;
   type: string;
 }
 
 export interface Version {
   display: string;
-  folder:  string;
+  folder: string;
 }
 
 export interface GEdge {
@@ -231,4 +231,13 @@ export interface CompareReport {
 
 export interface CompareReportData {
   data: CompareReport[];
+}
+
+export interface UploadForm {
+  link: string;
+  csvUrl?: string;
+  formData?: FormData;
+  fileName?: string;
+  sheetId: string;
+  gid: string;
 }
