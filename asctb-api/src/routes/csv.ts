@@ -93,6 +93,7 @@ export function setupCSVRoutes(app: Express): void {
    */
   app.post('/v2/csv', async (req: Request, res: Response) => {
 
+    console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
     if (!req.files || !req.files.csvFile) {
       return res.status(400).send({
         msg: 'This route only accepts CSVs POSTed and called csvFile',
@@ -110,6 +111,7 @@ export function setupCSVRoutes(app: Express): void {
     }
 
     const dataString = file.data.toString();
+    console.log('File uploaded: ', file.name);
 
     try {
       const { data } = papa.parse<string[]>(dataString, { skipEmptyLines: 'greedy' });
