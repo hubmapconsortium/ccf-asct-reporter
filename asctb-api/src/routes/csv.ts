@@ -16,6 +16,7 @@ export function setupCSVRoutes(app: Express): void {
    * Fetch a CSV given a link and parse it into json or graph output
    */
   app.get('/v2/csv', async (req: Request, res: Response) => {
+    console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
 
     // query parameters
     const csvUrls = req.query.csvUrl as string;
