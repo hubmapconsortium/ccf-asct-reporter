@@ -7,7 +7,7 @@ import {
   makeCellTypes,
   makeBioMarkers,
 } from '../../modules/tree/tree.functions';
-import { B } from '../../models/tree.model';
+import { B, CT } from '../../models/tree.model';
 
 @Injectable({
   providedIn: 'root',
@@ -324,7 +324,7 @@ export class ReportService {
           for (const b of mainBData) {
             if (a.structure === b.structure && !b.isNew) {
               identicalStructuresB.push(a.structure);
-              identicalBM.push(...this.findIdenticalBmCtLinks(a, mainBData));
+              identicalBM.push(...this.findIdenticalBmCtLinks(a, mainBData, reportdata));
               found = true;
             }
           }
@@ -343,12 +343,15 @@ export class ReportService {
     }
   }
 
-  findIdenticalBmCtLinks(compareB: B, mainBData: B[]) {
+  findIdenticalBmCtLinks(compareB: B, mainBData: B[], reportData: Report) {
     const mappings = new Set();
     const bData = mainBData.filter(el => el.comparatorId === compareB.comparatorId);
     bData.forEach(b => {
       b.indegree.forEach(bin => {
-        mappings.add(`${b.comparatorName} (${b.comparatorId}) :: ${bin.name} (${bin.id})`);
+        const ctData = reportData.cellTypes.find(ct => ct.comparatorId === bin.id);
+        ctData.indegree.forEach(ctIn => {
+          mappings.add(`AS:${ctIn.name}(${ctIn.id}) => CT:${bin.name} (${bin.id}) => BM:${b.comparatorName} (${b.comparatorId})`);
+        });
       });
     });
     return mappings;
