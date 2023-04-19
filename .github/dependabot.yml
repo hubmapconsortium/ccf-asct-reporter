@@ -3,9 +3,7 @@ updates:
   - package-ecosystem: npm
     schedule:
       timezone: America/Indiana/Indianapolis
-      interval: weekly
-      day: tuesday
-      time: "09:00"
+      interval: monthly
     directory: /
     target-branch: develop
     commit-message:
@@ -14,9 +12,7 @@ updates:
   - package-ecosystem: npm
     schedule:
       timezone: America/Indiana/Indianapolis
-      interval: weekly
-      day: tuesday
-      time: "09:00"
+      interval: monthly
     directory: /asctb-api
     target-branch: develop
     commit-message:
@@ -25,9 +21,7 @@ updates:
   - package-ecosystem: docker
     schedule:
       timezone: America/Indiana/Indianapolis
-      interval: weekly
-      day: tuesday
-      time: "09:00"
+      interval: monthly
     directory: /asctb-api
     target-branch: develop
     commit-message:
@@ -36,9 +30,7 @@ updates:
   - package-ecosystem: github-actions
     schedule:
       timezone: America/Indiana/Indianapolis
-      interval: weekly
-      day: tuesday
-      time: "09:00"
+      interval: monthly
     directory: /
     target-branch: develop
     commit-message:
