@@ -56,21 +56,21 @@ export class ControlPaneComponent implements OnInit {
 
   updateConfigInSheet(prop) {
     switch (prop.property) {
-      case 'width': this.vs.makeBimodal(this.view.signal('as_width', prop.config.width)); break;
-      case 'height': this.vs.makeBimodal(this.view.signal('as_height', prop.config.height)); break;
-      case 'show-ontology': this.view.signal('show_ontology', prop.config.show_ontology).runAsync(); break;
-      case 'bm-x': this.updateBimodal(prop.config); break;
-      case 'bm-y': this.updateBimodal(prop.config); break;
-      case 'show-as': this.showAllAS(); break;
-      case 'show-discrepency-label':
-        this.makeBimodalWithDiscrepencyLabel(prop.config);
-        break;
-      case 'show-discrepency-id':
-        this.makeBimodalWithDiscrepencyId(prop.config);
-        break;
-      case 'show-duplicate-id':
-        this.makeDuplicateId(prop.config);
-        break;
+    case 'width': this.vs.makeBimodal(this.view.signal('as_width', prop.config.width)); break;
+    case 'height': this.vs.makeBimodal(this.view.signal('as_height', prop.config.height)); break;
+    case 'show-ontology': this.view.signal('show_ontology', prop.config.show_ontology).runAsync(); break;
+    case 'bm-x': this.updateBimodal(prop.config); break;
+    case 'bm-y': this.updateBimodal(prop.config); break;
+    case 'show-as': this.showAllAS(); break;
+    case 'show-discrepency-label':
+      this.makeBimodalWithDiscrepencyLabel(prop.config);
+      break;
+    case 'show-discrepency-id':
+      this.makeBimodalWithDiscrepencyId(prop.config);
+      break;
+    case 'show-duplicate-id':
+      this.makeDuplicateId(prop.config);
+      break;
     }
   }
 

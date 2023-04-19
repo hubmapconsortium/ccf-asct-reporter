@@ -264,7 +264,7 @@ export class TreeState {
     setState({
       ...getState(),
       omapConfig: config
-    })
+    });
   }
 
   /**

@@ -9,15 +9,15 @@ import { Error } from '../../models/response.model';
 export class OmapControlsComponent {
 
 
-  @Input() omaps = { "organsOnly": false, "proteinsOnly": false };
+  @Input() omaps = { 'organsOnly': false, 'proteinsOnly': false };
   @Input() error: Error;
 
   @Output() updateConfig: EventEmitter<any> = new EventEmitter<any>();
 
 
   checkBoxClicked(event: Record<string, boolean>) {
-    this.omaps.organsOnly = event['organsOnly'];
-    this.omaps.proteinsOnly = event['proteinsOnly'];
+    this.omaps.organsOnly = event.organsOnly;
+    this.omaps.proteinsOnly = event.proteinsOnly;
     this.updateConfig.emit(this.omaps);
   }
 
