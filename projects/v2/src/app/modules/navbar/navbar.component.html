@@ -32,7 +32,7 @@
       [disabled]="(mode$ | async) !== 'vis'"
       matTooltip="Select Organ Set"
       matTooltipPosition="below">
-      <span>&nbsp; {{(mode$ | async) === 'vis' ? selectedOrgansValues: "Example"}}</span>
+      <span>&nbsp; {{(mode$ | async) === 'vis' ? selectedOrgansLabel: "Example"}}</span>
       <mat-icon>arrow_drop_down</mat-icon>
     </button>
 

@@ -7,20 +7,32 @@ import { GaAction, GaCategory, GaOrgansInfo } from '../../models/ga.model';
 import { OrganTableOnClose, OrganTableSelect, SheetDetails, SheetOptions } from '../../models/sheet.model';
 import { ConfigService } from '../../app-config.service';
 
+
 @Component({
   selector: 'app-organ-table-selector',
   templateUrl: './organ-table-selector.component.html',
   styleUrls: ['./organ-table-selector.component.scss'],
 })
+
 export class OrganTableSelectorComponent implements OnInit {
   /**
    * Sheet configs
    */
   sheetOptions;
+
+  omapSheetOptions;
   /**
    * Has some selected organs
    */
-  hasSomeOrgans = false;
+  get hasSomeOrgans(): boolean {
+    if (this.componentActive == 0 && !this.selection.isEmpty()) {
+      return true;
+    }
+    else if (this.componentActive == 1 && !this.omapselection.isEmpty()) {
+      return true;
+    }
+    return false;
+  }
   /**
    * Document window object
    */
@@ -30,9 +42,19 @@ export class OrganTableSelectorComponent implements OnInit {
    */
   selectedSheetOption: string;
   organs = [];
+  omapOrgans=[];
   getFromCache: boolean;
   displayedColumns: string[] = ['select', 'name', 'version'];
+  omapdisplayedColumns: string[] = [
+    'select',
+    'Organs',
+    'Multiplexed antibody-based imaging method',
+    'Tissue presevation method',
+    'OMAP-ID',
+    'Version'];
   selection = new SelectionModel(true, []);
+  omapselection = new SelectionModel(true, []);
+  componentActive = 0;
   /**
    * Data to emit when dialog is closed
    */
@@ -41,6 +63,7 @@ export class OrganTableSelectorComponent implements OnInit {
     'cache': true,
   }
   dataSource: MatTableDataSource<unknown>;
+  omapdataSource: MatTableDataSource<unknown>;
 
   constructor(
     public configService: ConfigService,
@@ -48,6 +71,15 @@ export class OrganTableSelectorComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: OrganTableSelect,
     public ga: GoogleAnalyticsService
   ) {
+    this.configService.omapsheetConfiguration$.subscribe((sheetOptions) => {
+      this.omapSheetOptions = sheetOptions.filter(o => o.name !== 'some');
+      this.omapdataSource = new MatTableDataSource(this.omapSheetOptions);
+      this.omapdataSource.data?.forEach((de: SheetDetails) => {
+        de?.version?.forEach((v, i) => {
+          de.symbol = v.value;
+        });
+      });
+    });
 
     this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
       this.sheetOptions = sheetOptions.filter(o => o.name !== 'some');
@@ -57,11 +89,13 @@ export class OrganTableSelectorComponent implements OnInit {
     this.getFromCache = data.getFromCache;
     this.onClose.cache = data.getFromCache;
     this.organs = data.organs ? data.organs : [];
+    this.omapOrgans = data.omapOrgans ? data.omapOrgans : [];
     this.dataSource.data.forEach((dataElement: SheetOptions) => {
       dataElement?.version?.forEach((v, i) => {
         dataElement.symbol = v.value;
       });
     });
+
     this.organs.forEach((item) => {
       this.dataSource.data.forEach((dataElement: SheetOptions) => {
         dataElement?.version?.forEach((v, i) => {
@@ -72,10 +106,19 @@ export class OrganTableSelectorComponent implements OnInit {
         });
       });
     });
-    this.hasSomeOrgans = this.selection.selected.length > 0;
+    this.omapOrgans.forEach((item) => {
+      this.omapdataSource.data.forEach((dataElement: SheetOptions) => {
+        dataElement?.version?.forEach((v, i) => {
+          if (v.value === item) {
+            dataElement.symbol = item;
+            this.omapselection.select(dataElement);
+          }
+        });
+      });
+    });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   addSheets(sheets) {
     const ga_details: GaOrgansInfo = {
@@ -101,61 +144,48 @@ export class OrganTableSelectorComponent implements OnInit {
     } else {
       this.ga.event(GaAction.CLICK, GaCategory.NAVBAR, `SELECTED ORGANS EDIT: ${JSON.stringify(ga_details)}`, 0);
     }
+    const omapOrgans=[];
+    this.omapselection.selected.forEach(element => {
+      omapOrgans.push(element.symbol);
+    });
     this.dialogRef.close({
       'organs': this.organs,
-      'cache': this.getFromCache
+      'cache': this.getFromCache,
+      'omapOrgans': omapOrgans
     });
-  }
-
-  selectAllOrgans() {
-    const allOrgans = [];
-    this.sheetOptions.forEach((s: SheetOptions) => {
-      s.version?.forEach((v) => {
-        allOrgans.push(v.value);
-      });
-    });
-    this.organs = allOrgans;
-    this.hasSomeOrgans = this.organs?.length > 0;
-  }
-  deselectAllOrgans() {
-    this.organs = [];
-    this.hasSomeOrgans = this.organs?.length > 0;
-  }
-  selectOption() {
-    this.hasSomeOrgans = this.organs?.length > 0;
   }
 
   isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
+    const selection = this.componentActive == 0 ? this.selection : this.omapselection;
+    const dataSource = this.componentActive == 0 ? this.dataSource : this.omapdataSource;
+    const numSelected = selection.selected.length;
+    const numRows = dataSource.data.length;
     return numSelected === numRows;
   }
 
   masterToggle() {
+    const selection = this.componentActive == 0 ? this.selection : this.omapselection;
+    const dataSource = this.componentActive == 0 ? this.dataSource : this.omapdataSource;
     if (this.isAllSelected()) {
-      this.selection.clear();
-      this.hasSomeOrgans = this.selection.selected.length > 0;
+      selection.clear();
       return;
     }
-
-    this.selection.select(...this.dataSource.data);
-    this.hasSomeOrgans = this.selection.selected.length > 0;
+    selection.select(...dataSource.data);
   }
 
   checkboxLabel(row?: SheetDetails): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.position + 1
-    }`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
-  changeVersion(value: string, row: SheetDetails): void {
+  changeVersion(value: string, r: SheetDetails): void {
+    const row: SheetDetails = r as SheetDetails;
     if (row.name === 'all') {
       row.symbol = value;
       this.selectByHraVersion(row);
-    } else{
+    } else {
       row.symbol = value;
     }
   }
@@ -171,20 +201,30 @@ export class OrganTableSelectorComponent implements OnInit {
         this.selection.deselect(dataElement);
       }
     });
-    this.hasSomeOrgans = this.selection.selected.length > 0;
   }
 
-  selectRow(row: SheetDetails): void {
-    if (row.name === 'all') {
-      if (this.selection.isSelected(row)) {
-        this.selection.clear();
-      } else {
-        this.selectByHraVersion(row);
+  selectRow(r: SheetDetails): void {
+    if (this.componentActive == 0) {
+      const row: SheetDetails = r as SheetDetails;
+      if (row.name === 'all') {
+        if (this.selection.isSelected(row)) {
+          this.selection.clear();
+        } else {
+          this.selectByHraVersion(row);
+        }
+      }
+      else {
+        this.selection.toggle(row);
       }
     }
-    else{
-      this.selection.toggle(row);
-      this.hasSomeOrgans = this.selection.selected.length > 0;
+    else {
+      const row: SheetDetails = r as SheetDetails;
+      this.omapselection.toggle(row);
     }
+  }
+
+  changeTab(tabIndex) {
+    this.componentActive = tabIndex;
+
   }
 }
