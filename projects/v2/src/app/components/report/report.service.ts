@@ -7,7 +7,7 @@ import {
   makeCellTypes,
   makeBioMarkers,
 } from '../../modules/tree/tree.functions';
-import { B, CT } from '../../models/tree.model';
+import { B, bmCtPairings } from '../../models/tree.model';
 
 @Injectable({
   providedIn: 'root',
@@ -344,13 +344,14 @@ export class ReportService {
   }
 
   findIdenticalBmCtLinks(compareB: B, mainBData: B[], reportData: Report) {
-    const mappings = new Set();
+    const mappings = new Set<bmCtPairings>();
     const bData = mainBData.filter(el => el.comparatorId === compareB.comparatorId);
     bData.forEach(b => {
       b.indegree.forEach(bin => {
         const ctData = reportData.cellTypes.find(ct => ct.comparatorId === bin.id);
         ctData.indegree.forEach(ctIn => {
-          mappings.add(`AS:${ctIn.name}(${ctIn.id}) => CT:${bin.name} (${bin.id}) => BM:${b.comparatorName} (${b.comparatorId})`);
+          // mappings.add(`AS:${ctIn.name}(${ctIn.id}) => CT:${bin.name} (${bin.id}) => BM:${b.comparatorName} (${b.comparatorId})`);
+          mappings.add({BM_NAME: b.comparatorName, BM_ID: b.comparatorId, CT_ID:bin.id, CT_NAME: bin.name, AS_ID: ctIn.id, AS_NAME: ctIn.name});
         });
       });
     });

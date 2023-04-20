@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { TreeService } from '../../modules/tree/tree.service';
-import { linksASCTBData } from '../../models/tree.model';
+import { bmCtPairings, linksASCTBData } from '../../models/tree.model';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -100,7 +100,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
       this.computedReport.emit(data.data);
 
       this.ontologyLinkGraphData = this.makeOntologyLinksGraphData(data.data, this.sheetData);
-      
+
     });
     this.linksData$.subscribe((data) => {
       this.total_AS_AS = data.AS_AS;
@@ -140,15 +140,15 @@ export class ReportComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() { }
 
-  makeOntologyLinksGraphData(reportData: Report,sheetData: Row[]) {
+  makeOntologyLinksGraphData(reportData: Report, sheetData: Row[]) {
     const { result, biomarkersSeperateNames } =
       this.reportService.makeAllOrganReportDataByOrgan(sheetData, this.asFullData);
-    
+
     const biomarkerCols = [];
     biomarkersSeperateNames.forEach((bm) => {
-      if (this.displayedColumns.includes(bm.name) === false){
+      if (this.displayedColumns.includes(bm.name) === false) {
         biomarkerCols.push(bm.name);
-      }    
+      }
       this.displayedColumns = [
         'organName',
         'anatomicalStructures',
@@ -255,7 +255,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
   }
 
   getTotals(data: CByOrgan[][], key: string) {
-    return data.map(t => t[key]? t[key] : 0).reduce((acc, value) => acc + value, 0);
+    return data.map(t => t[key] ? t[key] : 0).reduce((acc, value) => acc + value, 0);
   }
 
   downloadData() {
@@ -294,7 +294,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
         row['BM ID'] = this.reportData.biomarkers[i].link;
 
       }
-      if (i < this.reportData.BWithNoLink.length){
+      if (i < this.reportData.BWithNoLink.length) {
         row['Biomarkers with no links'] = this.reportData.BWithNoLink[i].structure;
       }
       download.push(row);
@@ -315,7 +315,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
     };
   }
 
-  
+
   downloadReport(i = -1) {
     const wb = XLSX.utils.book_new();
     const allReport = [];
@@ -354,14 +354,14 @@ export class ReportComponent implements OnInit, AfterViewInit {
   }
 
   downloadReportByOrgan() {
-    const  sheetName = 'countByOrgan';
-    const fileName  = 'countsByOrgans';
+    const sheetName = 'countByOrgan';
+    const fileName = 'countsByOrgans';
     const targetTableElm = document.getElementById('countsByOrgans');
     const allReport = [];
 
-    const organsList:string[] = [];
+    const organsList: string[] = [];
 
-   
+
     const wb = XLSX.utils.table_to_book(targetTableElm, {
       sheet: sheetName
     } as XLSX.Table2SheetOpts);
@@ -384,10 +384,10 @@ export class ReportComponent implements OnInit, AfterViewInit {
 
     let i = 0;
     for (const book of allReport) {
-      XLSX.utils.book_append_sheet(wb, book.sheet, organsList[i] );
+      XLSX.utils.book_append_sheet(wb, book.sheet, organsList[i]);
       i += 1;
     }
-    
+
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   }
 
@@ -402,13 +402,24 @@ export class ReportComponent implements OnInit, AfterViewInit {
       newCT: 'New Cell Types',
       identicalB: 'Identical Biomarkers',
       newB: 'New Biomarkers',
-      identicalBMCTPair : 'Identical Biomarkers CellType Pairs'
+      bioMarkers: 'Bio Markers',
+      cellTypesSharingBioMarkers: 'Cell Types Sharing BioMarkers',
+      cellTypes: 'Cell Types',
+      bioMarkersSharingCellTypes: 'Bio Markers Sharing Cell Types',
     };
+    const CT_BM = this.convertPairingsToExcelArray(this.getCellTypesThatShareBioMarkers(sheet.identicalBMCTPair));
+    sheet.bioMarkers = CT_BM.keys;
+    sheet.cellTypesSharingBioMarkers = CT_BM.pairs;
+    
+    const BM_CT = this.convertPairingsToExcelArray(this.getBioMarkersThatShareCellTypes(sheet.identicalBMCTPair));
+    sheet.cellTypes = BM_CT.keys;
+    sheet.bioMarkersSharingCellTypes = BM_CT.pairs;
+    
     const download = [];
     const keys = Object.keys(this.compareReport[i]);
 
     for (const key of keys) {
-      if (typeof sheet[key] === 'object') {
+      if (typeof sheet[key] === 'object' && key in keyMapper) {
         for (const [idx, value] of sheet[key].entries()) {
           const t = {};
           t[keyMapper[key]] = value;
@@ -444,4 +455,60 @@ export class ReportComponent implements OnInit, AfterViewInit {
       name: `ASCT+B-Reporter_Derived_${sn}_${dt}_Report.xlsx`,
     };
   }
+
+  getCellTypesThatShareBioMarkers(bmCtPairs: Set<bmCtPairings>) {
+    const BM_CT: Map<string, string[]> = new Map<string, string[]>();
+    bmCtPairs.forEach(pair => {
+      if (BM_CT.has(pair.BM_NAME)) {
+        const existingValues: string[] = BM_CT.get(pair.BM_NAME);
+        const newValue = `AS: ${pair.AS_NAME}(${pair.AS_ID}) => CT: ${pair.CT_NAME}(${pair.CT_ID})`;
+        if (!existingValues.includes(newValue)) {
+          existingValues.push(newValue);
+          BM_CT.set(pair.BM_NAME, existingValues);
+        }
+      }
+      else {
+        BM_CT.set(pair.BM_NAME, [`AS: ${pair.AS_NAME}(${pair.AS_ID}) => CT: ${pair.CT_NAME}(${pair.CT_ID})`]);
+      }
+
+    });
+    return BM_CT;
+  }
+
+
+  getBioMarkersThatShareCellTypes(bmCtPairs: Set<bmCtPairings>) {
+    const CT_BM: Map<string, string[]> = new Map<string, string[]>();
+    bmCtPairs.forEach(pair => {
+      if (CT_BM.has(pair.CT_NAME)) {
+        const existingValues: string[] = CT_BM.get(pair.CT_NAME);
+        const newValue = `AS: ${pair.AS_NAME}(${pair.AS_ID}) => CT: ${pair.CT_NAME}(${pair.CT_ID})  => BM: ${pair.BM_NAME}(${pair.BM_ID})`;
+        if (!existingValues.includes(newValue)) {
+          existingValues.push(newValue);
+          CT_BM.set(pair.CT_NAME, existingValues);
+        }
+      }
+      else {
+        CT_BM.set(pair.CT_NAME, [`AS: ${pair.AS_NAME}(${pair.AS_ID}) => CT: ${pair.CT_NAME}(${pair.CT_ID})  => BM: ${pair.BM_NAME}(${pair.BM_ID})`]);
+      }
+
+    });
+    return CT_BM;
+  }
+
+  convertPairingsToExcelArray(pairings: Map<string, string[]>) {
+    const keys: string[] = [];
+    const pairs: string[] = [];
+    pairings.forEach((v, k) => {
+      keys.push(k);
+      v.forEach((value, index) => {
+        if (index > 0) {
+          keys.push('');
+        }
+        pairs.push(value);
+      });
+    });
+    return { keys, pairs };
+  }
+
+
 }
