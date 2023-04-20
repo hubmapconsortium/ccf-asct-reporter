@@ -325,8 +325,6 @@ export class ReportComponent implements OnInit, AfterViewInit {
      */
     if (i === -1) {
       allReport.push(this.downloadData());
-
-      // Tracking the 'Download All' use case from the header button.
       this.ga.event(
         GaAction.CLICK,
         GaCategory.REPORT,

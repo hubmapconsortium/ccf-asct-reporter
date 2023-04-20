@@ -75,7 +75,8 @@ export class ControlPaneComponent implements OnInit {
     this.store.dispatch(new ToggleShowAllAS()).subscribe(states => {
       const sheet = states.sheetState.sheet;
       const selectedOrgans = states.sheetState.selectedOrgans;
-      this.store.dispatch(new FetchSelectedOrganData(sheet, selectedOrgans));
+      const omapSelectedOrgans = states.sheetState.omapSelectedOrgans;
+      this.store.dispatch(new FetchSelectedOrganData(sheet, selectedOrgans,omapSelectedOrgans));
     });
   }
 
