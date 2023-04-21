@@ -110,7 +110,9 @@ export class RootComponent implements OnInit, OnDestroy {
    * Comparison sheets details
    */
   compareDetails: CompareData[] = [];
-
+  /**
+   * Bimodal filter values to snd via snackbar update
+   */
   bimodalConfig: BimodalConfig;
 
   // The container used for vertical scrolling of the viz is different than the one used for horizontal scrolling

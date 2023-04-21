@@ -399,14 +399,8 @@ export class ReportComponent implements OnInit, AfterViewInit {
       identicalCT: 'Identical Cell Types',
       newCT: 'New Cell Types',
       identicalB: 'Identical Biomarkers',
-      newB: 'New Biomarkers'
+      newB: 'New Biomarkers',
     };
-    // const CT_BM = this.convertPairingsToExcelArray(this.getCellTypesThatShareBioMarkers(sheet.identicalBMCTPair));
-    // sheet.bioMarkers = CT_BM.keys;
-    // sheet.cellTypesSharingBioMarkers = CT_BM.pairs;
-    // const BM_CT = this.convertPairingsToExcelArray(this.getBioMarkersThatShareCellTypes(sheet.identicalBMCTPair));
-    // sheet.cellTypes = BM_CT.keys;
-    // sheet.bioMarkersSharingCellTypes = BM_CT.pairs;
 
     let download = [];
     const keys = Object.keys(this.compareReport[i]);
@@ -457,8 +451,6 @@ export class ReportComponent implements OnInit, AfterViewInit {
       const newPair = `${pair.AS_NAME} (${pair.AS_ID}), ${pair.CT_NAME} (${pair.CT_ID}), ${pair.BM_NAME}(${pair.BM_ID})`;
       if (!AS_CT_BM.has(newPair)) {
         AS_CT_BM.add(newPair);
-        // const t = new Map<string, string>();
-        // t.set('', '').set('AS', `${pair.AS_NAME} (${pair.AS_ID})`).set('CT', `${pair.CT_NAME} (${pair.CT_ID})`).set('BM', `${pair.BM_NAME}(${pair.BM_ID})`);
         const t = { '': '', 'AS': `${pair.AS_NAME} (${pair.AS_ID})`, 'CT': `${pair.CT_NAME} (${pair.CT_ID})`, 'BM': `${pair.BM_NAME} (${pair.BM_ID})` };
 
         if (download[index]) {

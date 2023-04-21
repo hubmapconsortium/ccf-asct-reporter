@@ -350,7 +350,6 @@ export class ReportService {
       b.indegree.forEach(bin => {
         const ctData = reportData.cellTypes.find(ct => ct.comparatorId === bin.id);
         ctData.indegree.forEach(ctIn => {
-          // mappings.add(`AS:${ctIn.name}(${ctIn.id}) => CT:${bin.name} (${bin.id}) => BM:${b.comparatorName} (${b.comparatorId})`);
           mappings.add({BM_NAME: b.comparatorName, BM_ID: b.comparatorId, CT_ID:bin.id, CT_NAME: bin.name, AS_ID: ctIn.id, AS_NAME: ctIn.name});
         });
       });
