@@ -399,21 +399,16 @@ export class ReportComponent implements OnInit, AfterViewInit {
       identicalCT: 'Identical Cell Types',
       newCT: 'New Cell Types',
       identicalB: 'Identical Biomarkers',
-      newB: 'New Biomarkers',
-      bioMarkers: 'Bio Markers',
-      cellTypesSharingBioMarkers: 'Cell Types Sharing BioMarkers',
-      cellTypes: 'Cell Types',
-      bioMarkersSharingCellTypes: 'Bio Markers Sharing Cell Types',
+      newB: 'New Biomarkers'
     };
-    const CT_BM = this.convertPairingsToExcelArray(this.getCellTypesThatShareBioMarkers(sheet.identicalBMCTPair));
-    sheet.bioMarkers = CT_BM.keys;
-    sheet.cellTypesSharingBioMarkers = CT_BM.pairs;
-    
-    const BM_CT = this.convertPairingsToExcelArray(this.getBioMarkersThatShareCellTypes(sheet.identicalBMCTPair));
-    sheet.cellTypes = BM_CT.keys;
-    sheet.bioMarkersSharingCellTypes = BM_CT.pairs;
-    
-    const download = [];
+    // const CT_BM = this.convertPairingsToExcelArray(this.getCellTypesThatShareBioMarkers(sheet.identicalBMCTPair));
+    // sheet.bioMarkers = CT_BM.keys;
+    // sheet.cellTypesSharingBioMarkers = CT_BM.pairs;
+    // const BM_CT = this.convertPairingsToExcelArray(this.getBioMarkersThatShareCellTypes(sheet.identicalBMCTPair));
+    // sheet.cellTypes = BM_CT.keys;
+    // sheet.bioMarkersSharingCellTypes = BM_CT.pairs;
+
+    let download = [];
     const keys = Object.keys(this.compareReport[i]);
 
     for (const key of keys) {
@@ -430,7 +425,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
         }
       }
     }
-
+    download = this.getBMCTAS(sheet.identicalBMCTPair, download);
     const sheetWS = XLSX.utils.json_to_sheet(download);
 
     sheetWS['!cols'] = [];
@@ -454,59 +449,26 @@ export class ReportComponent implements OnInit, AfterViewInit {
     };
   }
 
-  getCellTypesThatShareBioMarkers(bmCtPairs: Set<bmCtPairings>) {
-    const BM_CT: Map<string, string[]> = new Map<string, string[]>();
+
+  getBMCTAS(bmCtPairs: Set<bmCtPairings>, download: Record<string, string>[]) {
+    const AS_CT_BM: Set<string> = new Set<string>();
+    let index = 0;
     bmCtPairs.forEach(pair => {
-      if (BM_CT.has(pair.BM_NAME)) {
-        const existingValues: string[] = BM_CT.get(pair.BM_NAME);
-        const newValue = `AS: ${pair.AS_NAME}(${pair.AS_ID}) => CT: ${pair.CT_NAME}(${pair.CT_ID})`;
-        if (!existingValues.includes(newValue)) {
-          existingValues.push(newValue);
-          BM_CT.set(pair.BM_NAME, existingValues);
+      const newPair = `${pair.AS_NAME} (${pair.AS_ID}), ${pair.CT_NAME} (${pair.CT_ID}), ${pair.BM_NAME}(${pair.BM_ID})`;
+      if (!AS_CT_BM.has(newPair)) {
+        AS_CT_BM.add(newPair);
+        // const t = new Map<string, string>();
+        // t.set('', '').set('AS', `${pair.AS_NAME} (${pair.AS_ID})`).set('CT', `${pair.CT_NAME} (${pair.CT_ID})`).set('BM', `${pair.BM_NAME}(${pair.BM_ID})`);
+        const t = { '': '', 'AS': `${pair.AS_NAME} (${pair.AS_ID})`, 'CT': `${pair.CT_NAME} (${pair.CT_ID})`, 'BM': `${pair.BM_NAME} (${pair.BM_ID})` };
+
+        if (download[index]) {
+          download[index] = { ...download[index], ...t };
+        } else {
+          download.push(t);
         }
+        index += 1;
       }
-      else {
-        BM_CT.set(pair.BM_NAME, [`AS: ${pair.AS_NAME}(${pair.AS_ID}) => CT: ${pair.CT_NAME}(${pair.CT_ID})`]);
-      }
-
     });
-    return BM_CT;
+    return download;
   }
-
-
-  getBioMarkersThatShareCellTypes(bmCtPairs: Set<bmCtPairings>) {
-    const CT_BM: Map<string, string[]> = new Map<string, string[]>();
-    bmCtPairs.forEach(pair => {
-      if (CT_BM.has(pair.CT_NAME)) {
-        const existingValues: string[] = CT_BM.get(pair.CT_NAME);
-        const newValue = `AS: ${pair.AS_NAME}(${pair.AS_ID}) => CT: ${pair.CT_NAME}(${pair.CT_ID})  => BM: ${pair.BM_NAME}(${pair.BM_ID})`;
-        if (!existingValues.includes(newValue)) {
-          existingValues.push(newValue);
-          CT_BM.set(pair.CT_NAME, existingValues);
-        }
-      }
-      else {
-        CT_BM.set(pair.CT_NAME, [`AS: ${pair.AS_NAME}(${pair.AS_ID}) => CT: ${pair.CT_NAME}(${pair.CT_ID})  => BM: ${pair.BM_NAME}(${pair.BM_ID})`]);
-      }
-
-    });
-    return CT_BM;
-  }
-
-  convertPairingsToExcelArray(pairings: Map<string, string[]>) {
-    const keys: string[] = [];
-    const pairs: string[] = [];
-    pairings.forEach((v, k) => {
-      keys.push(k);
-      v.forEach((value, index) => {
-        if (index > 0) {
-          keys.push('');
-        }
-        pairs.push(value);
-      });
-    });
-    return { keys, pairs };
-  }
-
-
 }

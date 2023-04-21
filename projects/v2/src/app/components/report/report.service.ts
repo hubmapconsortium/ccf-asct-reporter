@@ -339,7 +339,7 @@ export class ReportService {
       this.reportData.next({
         data: null,
       });
-      return { identicalStructuresB, newStructuresB };
+      return { identicalStructuresB, newStructuresB, identicalBM };
     }
   }
 
