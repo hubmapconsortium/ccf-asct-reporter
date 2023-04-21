@@ -230,9 +230,10 @@ export function makeASCTBData(data: string[][]): ASCTBData | undefined {
     const omapTransformer = new OmapDataTransformer(data);
     const omapWarnings = omapTransformer.warnings;
     const asctbData = makeASCTBDataWork(omapTransformer.transformedData);
-    return { ...asctbData, warnings: [...asctbData.warnings, ...omapWarnings] };
+    return { ...asctbData, warnings: [...asctbData.warnings, ...omapWarnings], isOmap: true };
   } else if (header[0] === ASCT_HEADER_FIRST_COLUMN) {
-    return makeASCTBDataWork(data);
+    const asctbData = makeASCTBDataWork(data);
+    return { ...asctbData, isOmap: false };
   } else {
     throw new Error(`Header row, first column should be : ${ASCT_HEADER_FIRST_COLUMN} or ${OMAP_HEADER_FIRST_COLUMN}`);
   }

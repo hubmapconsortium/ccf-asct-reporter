@@ -77,7 +77,8 @@ export function setupCSVRoutes(app: Express): void {
           metadata: asctbDataResponse.metadata,
           csv: asctbDataResponse.csv,
           parsed: asctbDataResponse.parsed,
-          warnings: asctbDataResponse.warnings
+          warnings: asctbDataResponse.warnings,
+          isOmap: asctbDataResponse.isOmap ?? false
         });
       }
     } catch (err) {
