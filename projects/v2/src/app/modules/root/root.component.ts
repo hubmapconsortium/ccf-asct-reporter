@@ -30,7 +30,7 @@ import {
   CloseRightSideNav,
   CloseCompare,
   CloseLoading,
-  OpenBottomSheet
+  OpenBottomSheet,
 } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -55,6 +55,9 @@ import { OrganTableSelectorComponent } from '../../components/organ-table-select
 import { TreeComponent } from '../tree/tree.component';
 import { ConfigService } from '../../app-config.service';
 import { Report } from '../../models/report.model';
+import { UpdateBimodalConfig } from '../../actions/tree.actions';
+import { BimodalConfig } from '../../models/bimodal.model';
+import { BimodalService } from '../tree/bimodal.service';
 
 @Component({
   selector: 'app-root',
@@ -108,6 +111,8 @@ export class RootComponent implements OnInit, OnDestroy {
    */
   compareDetails: CompareData[] = [];
 
+  bimodalConfig: BimodalConfig;
+
   // The container used for vertical scrolling of the viz is different than the one used for horizontal scrolling
   // Here we get references to both values.
   @ViewChild(TreeComponent) verticalScrollEntity: TreeComponent;
@@ -138,6 +143,7 @@ export class RootComponent implements OnInit, OnDestroy {
   @Select(TreeState.getBiomarkerType) bmType$: Observable<string>;
   @Select(TreeState.getLatestSearchStructure)
   searchOption$: Observable<SearchStructure>;
+  @Select(TreeState.getBimodalConfig) config$: Observable<BimodalConfig>;
 
   // Control Pane Observables
   @Select(UIState.getControlPaneState) pane$: Observable<boolean>;
@@ -172,6 +178,7 @@ export class RootComponent implements OnInit, OnDestroy {
     private readonly infoSheet: MatBottomSheet,
     public sheetService: SheetService,
     public router: Router,
+    public bms: BimodalService
   ) {
 
     this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
@@ -198,9 +205,12 @@ export class RootComponent implements OnInit, OnDestroy {
       this.error = err.error;
     });
 
+    this.config$.subscribe(config => {
+      this.bimodalConfig = config;
+    });
 
     this.route.queryParamMap.subscribe((query) => {
-      const selectedOrgans = query.get('selectedOrgans')??'';
+      const selectedOrgans = query.get('selectedOrgans') ?? '';
       const version = query.get('version');
       const comparisonCSV = query.get('comparisonCSVURL');
       const comparisonName = query.get('comparisonName');
@@ -208,7 +218,7 @@ export class RootComponent implements OnInit, OnDestroy {
       const comparisonHasFile = query.get('comparisonHasFile');
       const sheet = query.get('sheet');
       const playground = query.get('playground');
-      const omapSelectedOrgans= query.get('omapSelectedOrgans')??'';
+      const omapSelectedOrgans = query.get('omapSelectedOrgans') ?? '';
       if (!(selectedOrgans || omapSelectedOrgans) && playground !== 'true') {
         store.dispatch(new CloseLoading('Select Organ Model Rendered'));
         const config = new MatDialogConfig();
@@ -272,12 +282,18 @@ export class RootComponent implements OnInit, OnDestroy {
         }
         store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(','), omapSelectedOrgans.split(','), comparisonDetails));
         sessionStorage.setItem('selectedOrgans', selectedOrgans);
+        if (omapSelectedOrgans) {
+          this.openSnackBarToUpdateFilter();
+        }
       }
-      else if ((selectedOrgans || omapSelectedOrgans)  && playground !== 'true') {
+      else if ((selectedOrgans || omapSelectedOrgans) && playground !== 'true') {
         store.dispatch(new UpdateMode('vis'));
         this.sheet = this.sheetConfig.find(i => i.name === 'some');
-        store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(','),omapSelectedOrgans.split(',')));
+        store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(','), omapSelectedOrgans.split(',')));
         sessionStorage.setItem('selectedOrgans', selectedOrgans);
+        if (omapSelectedOrgans) {
+          this.openSnackBarToUpdateFilter();
+        }
       }
       else if (playground === 'true') {
         store.dispatch(new UpdateMode('playground'));
@@ -395,6 +411,11 @@ export class RootComponent implements OnInit, OnDestroy {
           });
         }
       }
+    });
+
+    this.compareSheets$.subscribe((sheets) => {
+      const omapSheets = sheets.filter(sheet => sheet.isOmap);
+      if (omapSheets.length > 0) this.openSnackBarToUpdateFilter();
     });
   }
 
@@ -654,6 +675,36 @@ export class RootComponent implements OnInit, OnDestroy {
         .catch((error) => {
           console.log(error);
         });
+    }
+  }
+
+  openSnackBarToUpdateFilter() {
+    if (this.bimodalConfig.BM.type != 'Protein') {
+      const config: MatSnackBarConfig = {
+        duration: 10000,
+        verticalPosition: 'bottom',
+        horizontalPosition: 'center',
+      };
+
+      setTimeout(() => {
+        this.snackbarRef = this.snackbar.open('OMAP Detected, Do you want to filter out only Proteins' +
+          'from the available BioMarkers?', 'Filter', config);
+        this.snackbarRef.onAction().subscribe(() => {
+          this.bimodalConfig.BM.type = 'Protein';
+          this.store.dispatch(new UpdateBimodalConfig(this.bimodalConfig)).subscribe(states => {
+            const data = states.sheetState.data;
+            const treeData = states.treeState.treeData;
+            const bimodalConfig = states.treeState.bimodal.config;
+            const sheetConfig = states.sheetState.sheetConfig;
+
+            if (data.length) {
+              this.bms.makeBimodalData(data, treeData, bimodalConfig, sheetConfig);
+            }
+          });
+        });
+      }, 2000);
+
+
     }
   }
 }

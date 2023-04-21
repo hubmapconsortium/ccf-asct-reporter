@@ -11,6 +11,7 @@ export interface ASCTBData {
   data: Row[];
   metadata: Record<string, string | string[]>;
   warnings: string[];
+  isOmap?: boolean;
 }
 
 export function normalizeCsvUrl(url: string): string {

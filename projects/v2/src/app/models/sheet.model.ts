@@ -59,6 +59,7 @@ export interface ResponseData {
   csv: string;
   data: Row[];
   parsed: [];
+  isOmap? : boolean;
 }
 
 export interface Sheet {
@@ -83,6 +84,7 @@ export interface CompareData {
   csvUrl?: string;
   formData?: FormData;
   fileName?: string;
+  isOmap?: boolean;
 }
 
 export interface SheetConfig {

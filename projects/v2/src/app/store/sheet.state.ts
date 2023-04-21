@@ -403,7 +403,6 @@ export class SheetState {
       id: this.bodyId,
       rdfs_label: this.bodyLabel
     };
-
     for await (const [_unused, compareSheet] of compareData.entries()) {
       this.sheetService
         .fetchSheetData(
@@ -444,7 +443,7 @@ export class SheetState {
             };
             gaData.counts = this.reportService.countsGA(res.data);
             this.ga.event(GaAction.INPUT, GaCategory.COMPARISON, `Adding sheet or file to Compare: ${JSON.stringify(gaData)}`, 0);
-
+            compareSheet.isOmap = res.isOmap ?? false;
             patchState({
               data: [...currentData, ...res.data],
               fullAsData: [...currentFullASData, ...res.data],
