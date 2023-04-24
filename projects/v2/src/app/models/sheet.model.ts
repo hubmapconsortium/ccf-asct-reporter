@@ -1,4 +1,4 @@
-import { SOURCE_TYPE } from "./tree.model";
+import { SOURCE_TYPE } from './tree.model';
 
 enum BM_TYPE {
   G = 'gene',
