@@ -126,7 +126,7 @@ export class VegaService {
 
       if (data.length) {
         try {
-          this.bm.makeBimodalData(data, treeData, bimodalConfig, sheetConfig);
+          this.bm.makeBimodalData(data, treeData, bimodalConfig, false,sheetConfig);
         } catch (err) {
           console.log(err);
         }

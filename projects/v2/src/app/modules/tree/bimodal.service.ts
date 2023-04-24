@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { BMNode, Link, BimodalConfig } from '../../models/bimodal.model';
 import { makeCellTypes, makeAS, makeBioMarkers } from './tree.functions';
-import { CT_BLUE, B_GREEN, TNode, AS, CT, B } from '../../models/tree.model';
+import { CT_BLUE, B_GREEN, TNode, AS, CT, B, SOURCE_TYPE } from '../../models/tree.model';
 import { UpdateBimodal, UpdateVegaSpec, UpdateLinksData } from '../../actions/tree.actions';
 import { CloseLoading, HasError } from '../../actions/ui.actions';
 import { ReportLog } from '../../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
 import { Error } from '../../models/response.model';
 import { Row, SheetConfig, PROTEIN_PRESENCE } from '../../models/sheet.model';
+import { OmapConfig } from '../../models/omap.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,12 +30,17 @@ export class BimodalService {
     sheetData: Row[],
     treeData: TNode[],
     bimodalConfig: BimodalConfig,
+    isReport = false,
     sheetConfig?: SheetConfig,
-    isReport = false
+    omapConfig?:OmapConfig,
+    omapOrganNames?:string[]
   ) {
 
     try {
-
+      if(omapConfig?.organsOnly){
+        treeData=treeData.filter(elem =>  omapOrganNames.includes(elem.name.toLowerCase()));
+        sheetData=sheetData.filter((elem)=> omapOrganNames.includes(elem.organName.toLowerCase()));
+      }
       const anatomicalStructuresData = makeAS(sheetData);
       const links = [];
       const nodes = [];
@@ -53,6 +59,7 @@ export class BimodalService {
 
           const leaf = td.name;
           const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.notes, td.organName, td.ontologyId);
+          newLeaf.sourceType=td.sourceType;
           newLeaf.id = id;
           newLeaf.problem = td.problem;
           newLeaf.pathColor = td.pathColor;
@@ -141,6 +148,9 @@ export class BimodalService {
           CT_BLUE,
           cell.nodeSize
         );
+        if(omapConfig?.organsOnly){
+          newNode.sourceType=SOURCE_TYPE.OMAP;
+        }
         newNode.id = id;
         newNode.isNew = cell.isNew;
         newNode.pathColor = cell.color;
@@ -222,6 +232,9 @@ export class BimodalService {
           marker.nodeSize,
           marker.proteinPresence
         );
+        if(omapConfig?.organsOnly){
+          newNode.sourceType=SOURCE_TYPE.OMAP;
+        }
         newNode.id = id;
         newNode.isNew = marker.isNew;
         newNode.pathColor = marker.color;

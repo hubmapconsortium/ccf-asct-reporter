@@ -50,6 +50,7 @@ import { GaAction, GaCategory } from '../models/ga.model';
 import { ReportService } from '../components/report/report.service';
 import { ConfigService } from '../app-config.service';
 import { Report } from '../models/report.model';
+import { SOURCE_TYPE } from '../models/tree.model';
 
 /** Class to keep track of the sheet */
 export class SheetStateModel {
@@ -121,6 +122,10 @@ export class SheetStateModel {
    * Update the flag is data should be fetched from cache
    */
   getFromCache: boolean;
+  /**
+   * Stores all Omap Organs
+   */
+  allOmapOrgans: string[];
 }
 
 @State<SheetStateModel>({
@@ -185,6 +190,7 @@ export class SheetStateModel {
     omapSelectedOrgans: [],
     fullDataByOrgan: [],
     getFromCache: true,
+    allOmapOrgans: []
   },
 })
 
@@ -350,6 +356,14 @@ export class SheetState {
   }
 
   /**
+   * Returns an allOmapsOrgan Names from the state
+   */
+  @Selector()
+  static getAllOMAPOrgans(state: SheetStateModel) {
+    return state.allOmapOrgans;
+  }
+
+  /**
    * Action to delete a linked sheet from the state.
    * Accepts the index location of the sheet that is to be deleted
    */
@@ -480,6 +494,9 @@ export class SheetState {
     { getState, dispatch, patchState }: StateContext<SheetStateModel>,
     { sheet, selectedOrgans, omapSelectedOrgans, comparisonDetails }: FetchSelectedOrganData
   ) {
+    patchState({
+      allOmapOrgans: this.omapSheetConfig.map((organObject) => organObject.name)
+    });
     dispatch(new OpenLoading('Fetching data...'));
 
     dispatch(new StateReset(TreeState));
@@ -492,7 +509,7 @@ export class SheetState {
       compareSheets: [],
       data: [],
       selectedOrgans: selectedOrgans,
-      omapSelectedOrgans:omapSelectedOrgans,
+      omapSelectedOrgans: omapSelectedOrgans,
       sheetConfig: {
         ...sheet.config,
         show_ontology: state.sheetConfig.show_ontology,
@@ -505,6 +522,7 @@ export class SheetState {
     let dataAll: Row[] = [];
 
     const organsNames: string[] = [];
+    const sourceTypes: SOURCE_TYPE[] = [];
     for (const organ of selectedOrgans) {
       this.sheetConfig.forEach((config) => {
         config.version?.forEach((version: VersionDetail) => {
@@ -521,6 +539,7 @@ export class SheetState {
           if (version.value === organ) {
             requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
             organsNames.push(config.name);
+            sourceTypes.push(SOURCE_TYPE.OMAP);
           }
         });
       });
@@ -532,7 +551,7 @@ export class SheetState {
         allResults.map((res: ResponseData, index: number) => {
           for (const row of res.data) {
             row.organName = organsNames[index];
-
+            row.sourceType = sourceTypes[index];
             const newStructure: Structure = {
               name: 'Body',
               id: this.bodyId,
@@ -606,6 +625,7 @@ export class SheetState {
       },
       version: 'latest',
       data: [],
+      allOmapOrgans: this.omapSheetConfig.map((organObject) => organObject.name)
     });
 
     const requests$: Array<Observable<any>> = [];

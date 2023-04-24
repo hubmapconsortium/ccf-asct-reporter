@@ -215,7 +215,7 @@ export class ControlPaneComponent implements OnInit {
 
       if (data.length) {
         try {
-          this.bm.makeBimodalData(data, treeData, bimodalConfig, config);
+          this.bm.makeBimodalData(data, treeData, bimodalConfig, false,config);
         } catch (err) {
           console.log(err);
         }
