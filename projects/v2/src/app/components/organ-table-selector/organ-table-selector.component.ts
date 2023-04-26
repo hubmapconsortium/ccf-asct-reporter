@@ -25,10 +25,7 @@ export class OrganTableSelectorComponent implements OnInit {
    * Has some selected organs
    */
   get hasSomeOrgans(): boolean {
-    if (this.componentActive == 0 && !this.selection.isEmpty()) {
-      return true;
-    }
-    else if (this.componentActive == 1 && !this.omapselection.isEmpty()) {
+    if (!this.omapselection.isEmpty() || !this.selection.isEmpty()) {
       return true;
     }
     return false;
