@@ -110,6 +110,10 @@ export class SheetStateModel {
    */
   selectedOrgans: string[];
   /**
+   * Stores the selected organs details from OMAPS.
+   */
+  omapSelectedOrgans: string[];
+  /**
    * Full data by organ
    */
   fullDataByOrgan: Row[][];
@@ -178,6 +182,7 @@ export class SheetStateModel {
     bottomSheetDOI: [],
     fullAsData: [],
     selectedOrgans: [],
+    omapSelectedOrgans: [],
     fullDataByOrgan: [],
     getFromCache: true,
   },
@@ -188,12 +193,16 @@ export class SheetStateModel {
 
 export class SheetState {
   sheetConfig: SheetDetails[];
+  omapSheetConfig: SheetDetails[];
   exampleSheet: SheetDetails;
   headerCount: unknown;
 
   constructor(public configService: ConfigService, private readonly sheetService: SheetService, public readonly ga: GoogleAnalyticsService, public reportService: ReportService) {
     this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
       this.sheetConfig = sheetOptions;
+    });
+    this.configService.omapsheetConfiguration$.subscribe((sheetOptions) => {
+      this.omapSheetConfig = sheetOptions;
     });
     this.configService.allSheetConfigurations$.subscribe((sheetOptions) => {
       this.exampleSheet = sheetOptions.find(s => s.name === 'example');
@@ -236,6 +245,14 @@ export class SheetState {
   @Selector()
   static getSelectedOrgans(state: SheetStateModel) {
     return state.selectedOrgans;
+  }
+
+  /**
+ * Returns an observable that watches the selected organs data from OMAPS
+ */
+  @Selector()
+  static getOMAPSelectedOrgans(state: SheetStateModel) {
+    return state.omapSelectedOrgans;
   }
 
   /**
@@ -462,7 +479,7 @@ export class SheetState {
   @Action(FetchSelectedOrganData)
   async fetchSelectedOrganData(
     { getState, dispatch, patchState }: StateContext<SheetStateModel>,
-    { sheet, selectedOrgans, comparisonDetails }: FetchSelectedOrganData
+    { sheet, selectedOrgans, omapSelectedOrgans, comparisonDetails }: FetchSelectedOrganData
   ) {
     dispatch(new OpenLoading('Fetching data...'));
 
@@ -470,13 +487,13 @@ export class SheetState {
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
     const state = getState();
-
     patchState({
       sheet,
       compareData: [],
       compareSheets: [],
       data: [],
       selectedOrgans: selectedOrgans,
+      omapSelectedOrgans:omapSelectedOrgans,
       sheetConfig: {
         ...sheet.config,
         show_ontology: state.sheetConfig.show_ontology,
@@ -497,6 +514,16 @@ export class SheetState {
             requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
             organsNames.push(config.name);
             organTableVersions.push(version.viewValue);
+          }
+        });
+      });
+    }
+    for (const organ of omapSelectedOrgans) {
+      this.omapSheetConfig.forEach((config) => {
+        config.version?.forEach((version: VersionDetail) => {
+          if (version.value === organ) {
+            requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
+            organsNames.push(config.name);
           }
         });
       });
