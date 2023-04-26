@@ -99,7 +99,7 @@ export class NavbarComponent implements OnInit {
     x = this.omapSelectedOrgansValues?.length > 0 ? x + 'OMAP:' + this.omapSelectedOrgansValues : x;
 
     if (x.length > 64) {
-      return 'ASCT-B:' + this.selectedOrgansValues?.split(',').length + ' OMAP:' + this.omapSelectedOrgansValues?.split(',').length + ' organs Selected';
+      return `ASCT-B: ${this.selectedOrgansValues?.split(',').length} OMAP: ${this.omapSelectedOrgansValues?.split(',').length} organs Selected`;
     } else {
       return x;
     }
