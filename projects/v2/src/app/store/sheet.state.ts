@@ -529,6 +529,7 @@ export class SheetState {
           if (version.value === organ) {
             requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
             organsNames.push(config.name);
+            sourceTypes.push(SOURCE_TYPE.ASCTB);
           }
         });
       });
