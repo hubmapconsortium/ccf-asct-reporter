@@ -38,12 +38,13 @@ export class OmapControlsComponent {
       const omapConfig = states.treeState.omapConfig;
       const sheetConfig = states.sheetState.sheetConfig;
       let omapOrganNames= states.sheetState.allOmapOrgans;
+      const filteredProtiens = states.sheetState.filteredProtiens;
       omapOrganNames.push('body');
       omapOrganNames=omapOrganNames.map(word => word.toLowerCase());
 
 
       if (data.length) {
-        this.bms.makeBimodalData(data, treeData, bimodalConfig, false, sheetConfig, omapConfig,omapOrganNames);
+        this.bms.makeBimodalData(data, treeData, bimodalConfig, false, sheetConfig, omapConfig,omapOrganNames,filteredProtiens);
       }
     });
   }

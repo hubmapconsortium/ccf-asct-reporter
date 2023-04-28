@@ -96,3 +96,8 @@ export class UpdateGetFromCache {
   static readonly type = '[UPDATE] Get From Cache';
   constructor(public cache: boolean) {}
 }
+
+export class FetchValidOmapProtiens {
+  static readonly type = '[FETCH] Valid OMAP Protiens Data';
+  constructor() {}
+}

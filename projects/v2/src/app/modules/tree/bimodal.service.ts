@@ -33,10 +33,12 @@ export class BimodalService {
     isReport = false,
     sheetConfig?: SheetConfig,
     omapConfig?:OmapConfig,
-    omapOrganNames?:string[]
+    omapOrganNames?:string[],
+    filteredProtiens?:string[]
   ) {
 
     try {
+      filteredProtiens = filteredProtiens?.map(word => word.toLowerCase())??[];
       if(omapConfig?.organsOnly){
         treeData=treeData.filter(elem =>  omapOrganNames.includes(elem.name.toLowerCase()));
         sheetData=sheetData.filter((elem)=> omapOrganNames.includes(elem.organName.toLowerCase()));
@@ -169,7 +171,9 @@ export class BimodalService {
       treeX += distance;
 
       biomarkers = await makeBioMarkers(sheetData);
-
+      if(omapConfig?.proteinsOnly){
+        biomarkers=biomarkers.filter((elem)=> filteredProtiens.includes(elem.comparatorName.toLowerCase()));
+      }
       switch (bimodalConfig.BM.sort) {
       case 'Alphabetically':
         biomarkers.sort((a, b) => {

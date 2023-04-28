@@ -34,6 +34,7 @@ import {
   UpdateBottomSheetDOI,
   FetchSelectedOrganData,
   UpdateGetFromCache,
+  FetchValidOmapProtiens,
 } from '../actions/sheet.actions';
 import {
   OpenLoading,
@@ -126,6 +127,10 @@ export class SheetStateModel {
    * Stores all Omap Organs
    */
   allOmapOrgans: string[];
+  /**
+   * Stores all Protiens which are OMAP and common to current ASCT data
+   */
+  filteredProtiens: string[];
 }
 
 @State<SheetStateModel>({
@@ -190,7 +195,8 @@ export class SheetStateModel {
     omapSelectedOrgans: [],
     fullDataByOrgan: [],
     getFromCache: true,
-    allOmapOrgans: []
+    allOmapOrgans: [],
+    filteredProtiens: []
   },
 })
 
@@ -361,6 +367,13 @@ export class SheetState {
   @Selector()
   static getAllOMAPOrgans(state: SheetStateModel) {
     return state.allOmapOrgans;
+  }
+  /**
+ * Returns an allOmapsOrgan Names from the state
+ */
+  @Selector()
+  static getfilteredProtiens(state: SheetStateModel) {
+    return state.filteredProtiens;
   }
 
   /**
@@ -583,6 +596,7 @@ export class SheetState {
         if (comparisonDetails) {
           dispatch(new FetchCompareData(comparisonDetails));
         }
+        dispatch(new FetchValidOmapProtiens());
       },
       (err) => {
 
@@ -671,6 +685,7 @@ export class SheetState {
           data: dataAll,
           fullAsData: asData
         });
+        dispatch(new FetchValidOmapProtiens());
       },
       (error) => {
         const err: Error = {
@@ -1127,4 +1142,37 @@ export class SheetState {
       getFromCache: cache,
     });
   }
+
+  @Action(FetchValidOmapProtiens)
+  fetchValidOmapProtiens({ getState, patchState }: StateContext<SheetStateModel>) {
+    const state = getState();
+    const requests$: Array<Observable<any>> = [];
+    for (const s of this.omapSheetConfig) {
+      const version = [...s.version].pop();
+      requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
+    }
+    const existingProtiens = [];
+    for (const r of state.data) {
+      r.biomarkers_protein.forEach(element => {
+        existingProtiens.push(element.name);
+      });
+    }
+    const allOmapProtiens = new Set();
+    forkJoin(requests$).subscribe(
+      (allresults) => {
+        allresults.map((res: ResponseData, index) => {
+          for (const row of res.data) {
+            row.biomarkers_protein.forEach(element => {
+              allOmapProtiens.add(element.name);
+            });
+          }
+        });
+        const filteredProtiens = new Set([...existingProtiens].filter(i => allOmapProtiens.has(i)))??[];
+        patchState({
+          filteredProtiens: [...filteredProtiens]
+        });
+      });
+
+  }
+
 }
