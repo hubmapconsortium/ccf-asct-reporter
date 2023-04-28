@@ -122,7 +122,7 @@ export class Structure {
         this.name = name.slice(0, -1);
         this.proteinPresence = PROTEIN_PRESENCE.POS;
       } else if (hasInt) {
-        this.name = name;
+        this.name = name.slice(0, -3).trim();
         this.proteinPresence = PROTEIN_PRESENCE.INTERMEDIATE;
       } else if (hasNeg) {
         this.name = name.slice(0, -1);
