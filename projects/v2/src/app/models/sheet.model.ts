@@ -21,6 +21,7 @@ export interface Reference {
 
 export interface OrganTableSelect {
   organs?: string[];
+  omapOrgans?: string[];
   isIntilalSelect: boolean;
   getFromCache: boolean;
 }
@@ -124,12 +125,19 @@ export interface VersionDetail {
   viewValue: string;
   hraVersion?: string;
   csvUrl?: string;
-  sheetId: string;
-  gid: string;
+  sheetId?: string;
+  gid?: string;
+  xlsx?: string;
+  as?: number;
+  ct?: number;
+  bp?: number;
 }
 
 export interface SheetDetails {
   name: string;
+  omapId?: string;
+  tissuePreservationMethod?: string;
+  imagingMethod?: string;
   display: string;
   body?: string;
   sheetId?: string;

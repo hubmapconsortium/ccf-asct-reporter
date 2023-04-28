@@ -78,7 +78,7 @@ export class BimodalService {
               return (a.comparatorName === td.name);
             })?.outdegree;
             newLeaf.label = anatomicalStructuresData.find((a: AS) => {
-              return (a.comparatorName === td.name); 
+              return (a.comparatorName === td.name);
             })?.label;
           }
           nodes.push(newLeaf);
