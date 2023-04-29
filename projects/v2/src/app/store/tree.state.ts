@@ -14,6 +14,7 @@ import {
   DiscrepencyId,
   DuplicateId,
   UpdateOmapConfig,
+  UpdateTreeData,
 } from '../actions/tree.actions';
 import { TNode, SearchStructure, DiscrepencyStructure } from '../models/tree.model';
 import { BMNode, Link, BimodalConfig } from '../models/bimodal.model';
@@ -225,6 +226,18 @@ export class TreeState {
       view,
       treeData: view.data('tree'),
       width: view._viewWidth
+    });
+  }
+
+  /**
+   * Updates the tree Data
+   * Updates the tree data with the anatomical structures
+   * Updates the width of the visualization
+   */
+  @Action(UpdateTreeData)
+  updateTreeData({ getState, patchState }: StateContext<TreeStateModel>, { treeData }: UpdateTreeData) {
+    patchState({
+      treeData: treeData
     });
   }
 
