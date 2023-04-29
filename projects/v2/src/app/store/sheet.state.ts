@@ -1159,7 +1159,7 @@ export class SheetState {
     const state = getState();
     const requests$: Array<Observable<any>> = [];
 
-    if (state.omapSelectedOrgans.length > 0) {
+    if (state.omapSelectedOrgans.length > 0 && state.omapSelectedOrgans[0] !=='') {
       for (const s of state.omapSelectedOrgans) {
         const [organ, _omapVersion] = s.split('-');
         const sheetDetails = this.omapSheetConfig.find(omap => omap.name.toLowerCase() === organ.toLowerCase());
