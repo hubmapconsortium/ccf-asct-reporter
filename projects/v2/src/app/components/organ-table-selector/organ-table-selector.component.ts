@@ -28,10 +28,7 @@ export class OrganTableSelectorComponent implements OnInit {
    * Has some selected organs
    */
   get hasSomeOrgans(): boolean {
-    if (this.componentActive == 0 && !this.selection.isEmpty()) {
-      return true;
-    }
-    else if (this.componentActive == 1 && !this.omapselection.isEmpty()) {
+    if (!this.omapselection.isEmpty() || !this.selection.isEmpty()) {
       return true;
     }
     return false;
@@ -159,16 +156,16 @@ export class OrganTableSelectorComponent implements OnInit {
   }
 
   isAllSelected() {
-    const selection = this.componentActive == 0 ? this.selection : this.omapselection;
-    const dataSource = this.componentActive == 0 ? this.dataSource : this.omapdataSource;
+    const selection = this.componentActive === 0 ? this.selection : this.omapselection;
+    const dataSource = this.componentActive === 0 ? this.dataSource : this.omapdataSource;
     const numSelected = selection.selected.length;
     const numRows = dataSource.data.length;
     return numSelected === numRows;
   }
 
   masterToggle() {
-    const selection = this.componentActive == 0 ? this.selection : this.omapselection;
-    const dataSource = this.componentActive == 0 ? this.dataSource : this.omapdataSource;
+    const selection = this.componentActive === 0 ? this.selection : this.omapselection;
+    const dataSource = this.componentActive === 0 ? this.dataSource : this.omapdataSource;
     if (this.isAllSelected()) {
       selection.clear();
       return;
@@ -183,8 +180,7 @@ export class OrganTableSelectorComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
-  changeVersion(value: string, r: SheetDetails): void {
-    const row: SheetDetails = r as SheetDetails;
+  changeVersion(value: string, row: SheetDetails): void {
     if (row.name === 'all') {
       row.symbol = value;
       this.selectByHraVersion(row);
@@ -206,9 +202,8 @@ export class OrganTableSelectorComponent implements OnInit {
     });
   }
 
-  selectRow(r: SheetDetails): void {
-    if (this.componentActive == 0) {
-      const row: SheetDetails = r as SheetDetails;
+  selectRow(row: SheetDetails): void {
+    if (this.componentActive === 0) {
       if (row.name === 'all') {
         if (this.selection.isSelected(row)) {
           this.selection.clear();
@@ -221,7 +216,6 @@ export class OrganTableSelectorComponent implements OnInit {
       }
     }
     else {
-      const row: SheetDetails = r as SheetDetails;
       this.omapselection.toggle(row);
     }
   }

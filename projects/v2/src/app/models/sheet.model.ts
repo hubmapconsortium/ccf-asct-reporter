@@ -11,7 +11,8 @@ enum BM_TYPE {
 export enum PROTEIN_PRESENCE {
   POS = 'Positive',
   NEG = 'Negative',
-  UNKNOWN = 'Unknown'
+  UNKNOWN = 'Unknown',
+  INTERMEDIATE = 'Intermediate'
 }
 
 export interface Reference {
@@ -56,12 +57,14 @@ export interface Row {
   references: Reference[];
   organName: string;
   sourceType?: SOURCE_TYPE;
+  tableVersion: string;
 }
 
 export interface ResponseData {
   csv: string;
   data: Row[];
   parsed: [];
+  isOmap? : boolean;
 }
 
 export interface Sheet {
@@ -86,6 +89,7 @@ export interface CompareData {
   csvUrl?: string;
   formData?: FormData;
   fileName?: string;
+  isOmap?: boolean;
 }
 
 export interface SheetConfig {
@@ -237,6 +241,7 @@ export interface CompareReport {
   color: string;
   title: string;
   description: string;
+  identicalBMCTPair: Row[];
 }
 
 export interface CompareReportData {

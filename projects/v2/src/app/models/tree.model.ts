@@ -190,3 +190,12 @@ export interface linksASCTBData {
   CT_B_organWise: Record<string, number>;
   AS_AS_organWise: Record<string, number>;
 }
+
+export interface bmCtPairings {
+  BM_NAME: string;
+  BM_ID: string;
+  CT_NAME: string;
+  CT_ID: string;
+  AS_NAME: string;
+  AS_ID: string;
+}

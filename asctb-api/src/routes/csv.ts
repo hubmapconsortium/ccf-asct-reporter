@@ -37,6 +37,7 @@ export function setupCSVRoutes(app: Express): void {
             csv: response.data,
             parsed: data,
             warnings: asctbData.warnings,
+            isOmap: asctbData.isOmap
           };
         })
       );
@@ -76,7 +77,8 @@ export function setupCSVRoutes(app: Express): void {
           metadata: asctbDataResponse.metadata,
           csv: asctbDataResponse.csv,
           parsed: asctbDataResponse.parsed,
-          warnings: asctbDataResponse.warnings
+          warnings: asctbDataResponse.warnings,
+          isOmap: asctbDataResponse.isOmap ?? false
         });
       }
     } catch (err) {
@@ -122,7 +124,8 @@ export function setupCSVRoutes(app: Express): void {
         metadata: asctbData.metadata,
         csv: dataString,
         parsed: data,
-        warnings: asctbData.warnings
+        warnings: asctbData.warnings,
+        isOmap: asctbData.isOmap
       });
 
     } catch (err) {
