@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { BMNode, Link, BimodalConfig } from '../../models/bimodal.model';
 import { makeCellTypes, makeAS, makeBioMarkers } from './tree.functions';
-import { CT_BLUE, B_GREEN, TNode, AS, CT, B, SOURCE_TYPE } from '../../models/tree.model';
+import { CT_BLUE, B_GREEN, TNode, AS, CT, B } from '../../models/tree.model';
 import { UpdateBimodal, UpdateVegaSpec, UpdateLinksData } from '../../actions/tree.actions';
 import { CloseLoading, HasError } from '../../actions/ui.actions';
 import { ReportLog } from '../../actions/logs.actions';
@@ -61,7 +61,6 @@ export class BimodalService {
 
           const leaf = td.name;
           const newLeaf = new BMNode(leaf, 1, td.x, td.y - 5, 14, td.notes, td.organName, td.ontologyId);
-          newLeaf.sourceType=td.sourceType;
           newLeaf.id = id;
           newLeaf.problem = td.problem;
           newLeaf.pathColor = td.pathColor;
@@ -150,9 +149,6 @@ export class BimodalService {
           CT_BLUE,
           cell.nodeSize
         );
-        if(omapConfig?.organsOnly){
-          newNode.sourceType=SOURCE_TYPE.OMAP;
-        }
         newNode.id = id;
         newNode.isNew = cell.isNew;
         newNode.pathColor = cell.color;
@@ -236,9 +232,6 @@ export class BimodalService {
           marker.nodeSize,
           marker.proteinPresence
         );
-        if(omapConfig?.organsOnly){
-          newNode.sourceType=SOURCE_TYPE.OMAP;
-        }
         newNode.id = id;
         newNode.isNew = marker.isNew;
         newNode.pathColor = marker.color;
