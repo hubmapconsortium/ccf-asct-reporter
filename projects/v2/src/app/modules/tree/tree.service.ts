@@ -114,7 +114,8 @@ export class TreeService {
         0,
         data[0].anatomical_structures[0].id,
         data[0].anatomical_structures[0].notes,
-        'Body'
+        'Body',
+        AS_RED
       );
       root.label = '';
       root.comparator = root.name + root.label + root.ontologyId;
