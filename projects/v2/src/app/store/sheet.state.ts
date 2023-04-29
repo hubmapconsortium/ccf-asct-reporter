@@ -403,6 +403,7 @@ export class SheetState {
       id: this.bodyId,
       rdfs_label: this.bodyLabel
     };
+
     for await (const [_unused, compareSheet] of compareData.entries()) {
       this.sheetService
         .fetchSheetData(

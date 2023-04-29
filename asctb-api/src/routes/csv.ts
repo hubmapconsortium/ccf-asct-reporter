@@ -37,7 +37,7 @@ export function setupCSVRoutes(app: Express): void {
             csv: response.data,
             parsed: data,
             warnings: asctbData.warnings,
-            isOmap: asctbData.isOmap ?? false
+            isOmap: asctbData.isOmap
           };
         })
       );
@@ -125,7 +125,7 @@ export function setupCSVRoutes(app: Express): void {
         csv: dataString,
         parsed: data,
         warnings: asctbData.warnings,
-        isOmap: asctbData.isOmap ?? false
+        isOmap: asctbData.isOmap
       });
 
     } catch (err) {
