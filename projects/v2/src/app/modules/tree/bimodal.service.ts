@@ -39,10 +39,6 @@ export class BimodalService {
 
     try {
       filteredProtiens = filteredProtiens?.map(word => word.toLowerCase())??[];
-      if(omapConfig?.organsOnly){
-        treeData=treeData.filter(elem =>  omapOrganNames.includes(elem.name.toLowerCase()));
-        sheetData=sheetData.filter((elem)=> omapOrganNames.includes(elem.organName.toLowerCase()));
-      }
       const anatomicalStructuresData = makeAS(sheetData);
       const links = [];
       const nodes = [];
