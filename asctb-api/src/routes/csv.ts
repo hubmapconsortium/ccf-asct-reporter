@@ -3,11 +3,12 @@ import { Express, Request, Response } from 'express';
 import { expand } from 'jsonld';
 import papa from 'papaparse';
 
-import { makeASCTBData, normalizeCsvUrl } from '../functions/api.functions';
+import { normalizeCsvUrl, makeASCTBData } from '../functions/api.functions';
 import { makeJsonLdData } from '../functions/graph-jsonld.functions';
 import { makeOwlData } from '../functions/graph-owl.functions';
 import { makeGraphData } from '../functions/graph.functions';
 import { UploadedFile } from '../models/api.model';
+import { makeValidationReport } from '../functions/validation-report.function';
 
 export function setupCSVRoutes(app: Express): void {
 
@@ -21,28 +22,22 @@ export function setupCSVRoutes(app: Express): void {
     const csvUrls = req.query.csvUrl as string;
     const expanded = req.query.expanded !== 'false';
     const withSubclasses = req.query.subclasses !== 'false';
-    const output = req.query.output as 'json' | 'graph' | 'jsonld' | string;
+    const output = req.query.output as 'json' | 'graph' | 'jsonld' | 'validate' | string;
 
     try {
-      let csvData = '';
-      let parsedCsvData: string[][] = [];
-      
-      let warnings: string[] = [];
       const asctbDataResponses = await Promise.all(
         csvUrls.split('|').map(async (csvUrl) => {
           const parsedUrl = normalizeCsvUrl(csvUrl.trim());
           const response = await axios.get(parsedUrl);
-          csvData = response.data;
           const { data } = papa.parse<string[]>(response.data, { skipEmptyLines: 'greedy' });
-          parsedCsvData = data as string[][];
           const asctbData = makeASCTBData(data);
-          warnings = warnings.concat(asctbData.warnings);
           return {
             data: asctbData.data,
             metadata: asctbData.metadata,
-            csv: csvData,
-            parsed: parsedCsvData,
+            csv: response.data,
+            parsed: data,
             warnings: asctbData.warnings,
+            isOmap: asctbData.isOmap
           };
         })
       );
@@ -70,14 +65,20 @@ export function setupCSVRoutes(app: Express): void {
         return res.send({
           data: graphData
         });
-      } else {
+      } else if (output === 'validate') {
+        const reports = asctbDataResponses.map(makeValidationReport);
+        res.type('text/plain');
+        return res.send(reports[0]);
+      }
+      else {
         // The default is returning the json
         return res.send({
           data: asctbData,
           metadata: asctbDataResponse.metadata,
           csv: asctbDataResponse.csv,
           parsed: asctbDataResponse.parsed,
-          warnings: warnings
+          warnings: asctbDataResponse.warnings,
+          isOmap: asctbDataResponse.isOmap ?? false
         });
       }
     } catch (err) {
@@ -93,8 +94,8 @@ export function setupCSVRoutes(app: Express): void {
    * Parse a CSV into JSON format given the raw file formData
    */
   app.post('/v2/csv', async (req: Request, res: Response) => {
+
     console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
-    
     if (!req.files || !req.files.csvFile) {
       return res.status(400).send({
         msg: 'This route only accepts CSVs POSTed and called csvFile',
@@ -123,7 +124,8 @@ export function setupCSVRoutes(app: Express): void {
         metadata: asctbData.metadata,
         csv: dataString,
         parsed: data,
-        warnings: asctbData.warnings
+        warnings: asctbData.warnings,
+        isOmap: asctbData.isOmap
       });
 
     } catch (err) {
@@ -133,5 +135,9 @@ export function setupCSVRoutes(app: Express): void {
         code: 500,
       });
     }
+  });
+
+  app.get('/v2/csv/validate', async(req: Request, res: Response) => {
+    console.log();
   });
 }

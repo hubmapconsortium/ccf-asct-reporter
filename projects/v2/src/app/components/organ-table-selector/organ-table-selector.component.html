@@ -1,89 +1,145 @@
-
 <div class="selector-title-container">
   <h2 class="title" mat-dialog-title>Select one or more ASCT+B Tables</h2>
   <div class="toggle-container">
-    <mat-slide-toggle
-        [checked]="getFromCache"
-        color="primary"
-        (change)="getFromCache = !getFromCache"
-        matTooltip="Toggle to get data from Cache"
-        matTooltipPosition="below"
-      >
-        <span class="cache-slider">Cache</span>
-      </mat-slide-toggle>
+    <mat-slide-toggle [checked]="getFromCache" color="primary" (change)="getFromCache = !getFromCache"
+      matTooltip="Toggle to get data from Cache" matTooltipPosition="below">
+      <span class="cache-slider">Cache</span>
+    </mat-slide-toggle>
   </div>
 </div>
-<div class="table-container">
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    <caption class="sr-only">
-    Select one or more Organs
-    </caption>
-    <!-- Checkbox Column -->
-    <ng-container matColumnDef="select">
-      <th mat-header-cell *matHeaderCellDef id="check-box">
-        <mat-checkbox (change)="$event ? masterToggle() : null"
-                      [checked]="selection.hasValue() && isAllSelected()"
-                      [indeterminate]="selection.hasValue() && !isAllSelected()"
-                      [aria-label]="checkboxLabel()">
-        </mat-checkbox>
-      </th>
-      <td mat-cell *matCellDef="let row">
-        <mat-checkbox (click)="$event.stopPropagation()"
-                      (change)="$event ? selectRow(row) : null"
-                      [checked]="selection.isSelected(row)"
-                      [aria-label]="checkboxLabel(row)">
-        </mat-checkbox>
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef id="organ-name"> Organ Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.display}} </td>
-    </ng-container>
-    <ng-container matColumnDef="version">
-      <th mat-header-cell *matHeaderCellDef id="version"> Version </th>
-      <td mat-cell *matCellDef="let element">
-        <div *ngIf= "element.version.length >1">
-        <mat-form-field class="version-dropdown" appearance="fill">
-            <mat-select
-            (selectionChange)="changeVersion($event.value,element);"
-            [(ngModel)] = "element.symbol"
-            >
-                <mat-option *ngFor="let option of element.version" [value]="option.value">
-                    {{ option.viewValue }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        </div>
-        <div *ngIf= "element.version.length === 1">
-                <mat-label >{{element.version[0].viewValue}} {{changeVersion(element.version[0].value,element)}}</mat-label>
-        </div>
-     </td>
-    </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-        >
-    </tr>
-  </table>
-</div>
+
+<mat-tab-group [selectedIndex]="componentActive" (selectedIndexChange)="changeTab($event)">
+  <mat-tab [tabIndex]="0" label="ASCT+B Tables">
+    <ng-template matTabContent>
+
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <caption class="sr-only">
+            Select one or more Organs
+          </caption>
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef id="check-box">
+              <mat-checkbox (change)="$event ? masterToggle() : null"
+                [checked]="selection.hasValue() && isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selectRow(row) : null"
+                [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef id="organ-name"> Organs </th>
+            <td mat-cell *matCellDef="let element"> {{element.display}} </td>
+          </ng-container>
+          <ng-container matColumnDef="version">
+            <th mat-header-cell *matHeaderCellDef id="version"> Version </th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="element.version.length >1">
+                <mat-form-field class="version-dropdown" appearance="fill">
+                  <mat-select (selectionChange)="changeVersion($event.value,element);" [(ngModel)]="element.symbol">
+                    <mat-option *ngFor="let option of element.version" [value]="option.value">
+                      {{ option.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div *ngIf="element.version.length === 1">
+                <mat-label>{{element.version[0].viewValue}}
+                  {{changeVersion(element.version[0].value,element)}}</mat-label>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+          </tr>
+        </table>
+      </div>
+
+
+    </ng-template>
+  </mat-tab>
+  <mat-tab [tabIndex]="1" label="OMAP">
+    <ng-template matTabContent>
+      <div class="table-container">
+        <table mat-table [dataSource]="omapdataSource" class="mat-elevation-z8">
+          <caption class="sr-only">
+            Select one or more Organs
+          </caption>
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef id="check-box">
+              <mat-checkbox (change)="$event ? masterToggle() : null"
+                [checked]="omapselection.hasValue() && isAllSelected()"
+                [indeterminate]="omapselection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selectRow(row) : null"
+                [checked]="omapselection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="Organs">
+            <th mat-header-cell *matHeaderCellDef id="organ-name"> Organs </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Multiplexed antibody-based imaging method">
+            <th mat-header-cell *matHeaderCellDef id="imagingMethod"> Multiplexed antibody-based imaging method </th>
+            <td mat-cell *matCellDef="let element"> {{element.imagingMethod}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Tissue presevation method">
+            <th mat-header-cell *matHeaderCellDef id="tissuePreservationMethod"> Tissue presevation method </th>
+            <td mat-cell *matCellDef="let element"> {{element.tissuePreservationMethod}} </td>
+          </ng-container>
+          <ng-container matColumnDef="OMAP-ID">
+            <th mat-header-cell *matHeaderCellDef id="omapId"> OMAP-ID </th>
+            <td mat-cell *matCellDef="let element"> {{element.omapId}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Version">
+            <th mat-header-cell *matHeaderCellDef id="version"> Version </th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="element.version.length >1">
+                <mat-form-field class="version-dropdown" appearance="fill">
+                  <mat-select (selectionChange)="changeVersion($event.value,element);"
+                    [(ngModel)]="element.symbol">
+                    <mat-option *ngFor="let option of element.version" [value]="option.value">
+                      {{ option.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div *ngIf="element.version.length === 1">
+                <mat-label>{{element.version[0].viewValue}}</mat-label>
+              </div>
+            </td>
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="omapdisplayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: omapdisplayedColumns;">
+          </tr>
+        </table>
+      </div>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+
+
+
+
+
 <div footer>
   <div class="mt-2" class="button-container">
-    <button
-      mat-flat-button
-      color="primary"
-      class="add-cancel-button"
-      [mat-dialog-close]="onClose"
-      [disabled]="!hasSomeOrgans"
-    >
+    <button mat-flat-button color="primary" class="add-cancel-button" [mat-dialog-close]="onClose">
       Cancel
     </button>
-    <button
-      mat-flat-button
-      color="primary"
-      class="add-cancel-button"
-      [disabled]="!hasSomeOrgans"
-      (click)="addSheets(organs)"
-    >
+    <button mat-flat-button color="primary" class="add-cancel-button" [disabled]="!hasSomeOrgans"
+      (click)="addSheets(organs)">
       Submit
     </button>
   </div>

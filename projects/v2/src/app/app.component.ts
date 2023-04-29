@@ -54,6 +54,11 @@ export class AppComponent implements OnInit {
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/playground.svg')
     );
 
+    this.matIconRegistry.addSvgIcon(
+      'upload_file',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/upload.svg')
+    );
+
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         gtag('config', environment.googleAnalyticsId,

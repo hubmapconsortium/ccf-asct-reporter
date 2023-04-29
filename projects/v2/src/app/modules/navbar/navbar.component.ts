@@ -40,6 +40,10 @@ export class NavbarComponent implements OnInit {
    */
   sheetOptions;
   /**
+   * Sheet configs
+   */
+  omapSheetOptions;
+  /**
    * Document window object
    */
   window: Window = window;
@@ -67,29 +71,56 @@ export class NavbarComponent implements OnInit {
    * Currently selected organs joined by comma
    */
   selectedOrgansValues: string;
+  /**
+ * Currently selected organs
+ */
+  omapSelectedOrgans: Array<string>;
+  /**
+   * Currently selected organs joined by comma
+   */
+  omapSelectedOrgansValues: string;
 
   sheetConfig: SheetDetails[];
+  omapSheetConfig: SheetDetails[];
 
   // state observables
   @Select(SheetState) sheet$: Observable<SheetStateModel>;
   @Select(UIState) ui$: Observable<UIStateModel>;
   @Select(SheetState.getMode) mode$: Observable<string>;
   @Select(SheetState.getSelectedOrgans) selectedOrgans$: Observable<Array<string>>;
+  @Select(SheetState.getOMAPSelectedOrgans) omapSelectedOrgans$: Observable<Array<string>>;
 
   @Input() cache: boolean;
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
+
+  get selectedOrgansLabel(): string {
+    let x = this.selectedOrgansValues?.length > 0 ? 'ASCT-B:' + this.selectedOrgansValues : '';
+    x = this.selectedOrgansValues?.length > 0 && this.omapSelectedOrgansValues?.length > 0 ? x + ' | ' : x;
+    x = this.omapSelectedOrgansValues?.length > 0 ? x + 'OMAP:' + this.omapSelectedOrgansValues : x;
+
+    if (x.length > 64) {
+      return `ASCT-B: ${this.selectedOrgansValues?.split(',').length} OMAP: ${this.omapSelectedOrgansValues?.split(',').length} organs Selected`;
+    } else {
+      return x;
+    }
+
+  }
   playgroundSheetOptions: Array<PlaygroundSheetOptions>;
   masterSheetLink;
 
-  constructor(public sheetservice: SheetService, public configService: ConfigService,public store: Store, public router: Router, public ga: GoogleAnalyticsService, public dialog: MatDialog,
+  constructor(public sheetservice: SheetService, public configService: ConfigService, public store: Store, public router: Router, public ga: GoogleAnalyticsService, public dialog: MatDialog,
   ) {
 
     this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
       this.sheetConfig = sheetOptions;
       this.sheetOptions = sheetOptions;
     });
+    this.configService.omapsheetConfiguration$.subscribe((sheetOptions) => {
+      this.omapSheetConfig = sheetOptions;
+      this.omapSheetOptions = sheetOptions;
+    });
 
-    this.configService.config$.subscribe((config:any) => {
+    this.configService.config$.subscribe((config: any) => {
       this.versions = config.version;
       this.moreOptions = config.moreOptions;
       this.imgOptions = config.imgOptions;
@@ -119,8 +150,8 @@ export class NavbarComponent implements OnInit {
     });
 
     this.selectedOrgans$.subscribe((organs) => {
-      this.selectedOrgans = organs;
       const selectedOrgansNames = [];
+      this.selectedOrgans = organs;
       for (const organ of organs) {
         this.sheetConfig.forEach((config: SheetDetails) => {
           config.version?.forEach((version: VersionDetail) => {
@@ -130,8 +161,22 @@ export class NavbarComponent implements OnInit {
           });
         });
       }
-      this.selectedOrgansValues =
-      selectedOrgansNames?.join(', ').length > 64 ? `${organs.length} organs selected`: selectedOrgansNames?.join(', ');
+      this.selectedOrgansValues = selectedOrgansNames?.join(', ');
+    });
+    this.omapSelectedOrgans$.subscribe((organs) => {
+      const selectedOrgansNames = [];
+      this.omapSelectedOrgans = organs;
+      for (const organ of organs) {
+        this.omapSheetConfig.forEach((config: SheetDetails) => {
+          config.version?.forEach((version: VersionDetail) => {
+            if (version.value === organ) {
+              selectedOrgansNames.push(config.display);
+            }
+          });
+        });
+      }
+      this.omapSelectedOrgansValues =
+        selectedOrgansNames?.join(', ').length > 64 ? `${organs.length} organs selected` : selectedOrgansNames?.join(', ');
     });
   }
 
@@ -160,7 +205,7 @@ export class NavbarComponent implements OnInit {
 
   refreshData() {
     this.router.navigate(['/vis'], {
-      queryParams: {  selectedOrgans: this.selectedOrgans?.join(','), playground: false},
+      queryParams: { selectedOrgans: this.selectedOrgans?.join(','), playground: false, omapSelectedOrgans: this.omapSelectedOrgans?.join(',') },
     });
 
     this.ga.event(GaAction.CLICK, GaCategory.NAVBAR, 'Refresh Visualization Button', null);
@@ -202,27 +247,29 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  openSelectOrgansDialog(){
+  openSelectOrgansDialog() {
 
     const config = new MatDialogConfig();
     config.disableClose = true;
     config.autoFocus = true;
     config.id = 'OrganTableSelector';
-    config.width = '40vw';
+    config.width = 'fit-content';
     config.data = {
       organs: this.selectedOrgans,
       isIntilalSelect: false,
       getFromCache: this.cache,
+      omapOrgans: this.omapSelectedOrgans
     };
 
     const dialogRef = this.dialog.open(OrganTableSelectorComponent, config);
-    dialogRef.afterClosed().subscribe(({organs,cache}) => {
+    dialogRef.afterClosed().subscribe(({ organs, cache, omapOrgans }) => {
       this.store.dispatch(new UpdateGetFromCache(cache));
-      if(organs !== false){
+      if (organs !== false) {
         this.router.navigate(['/vis'], {
           queryParams: {
             selectedOrgans: organs?.join(','),
             playground: false,
+            omapSelectedOrgans: omapOrgans?.join(',')
           },
           queryParamsHandling: 'merge',
         });
@@ -233,7 +280,7 @@ export class NavbarComponent implements OnInit {
   toggleMode() {
     if (this.mode === 'vis') {
       this.router.navigate(['/vis'], {
-        queryParams: {  playground: true, selectedOrgans: 'example'},
+        queryParams: { playground: true, selectedOrgans: 'example' },
         queryParamsHandling: 'merge',
       });
       this.ga.event(GaAction.NAV, GaCategory.NAVBAR, 'Enter Playground Mode', null);

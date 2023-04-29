@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { FileUploadModule } from '../../components/file-upload/file-upload.module';
-
+import { UploadModule } from '../../components/upload/upload.module';
 
 
 @NgModule({
@@ -22,7 +22,8 @@ import { FileUploadModule } from '../../components/file-upload/file-upload.modul
     MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    FileUploadModule
+    FileUploadModule,
+    UploadModule
   ],
   exports: [PlaygroundComponent]
 })

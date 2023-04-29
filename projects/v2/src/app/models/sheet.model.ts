@@ -9,7 +9,8 @@ enum BM_TYPE {
 export enum PROTEIN_PRESENCE {
   POS = 'Positive',
   NEG = 'Negative',
-  UNKNOWN = 'Unknown'
+  UNKNOWN = 'Unknown',
+  INTERMEDIATE = 'Intermediate'
 }
 
 export interface Reference {
@@ -20,6 +21,7 @@ export interface Reference {
 
 export interface OrganTableSelect {
   organs?: string[];
+  omapOrgans?: string[];
   isIntilalSelect: boolean;
   getFromCache: boolean;
 }
@@ -52,12 +54,14 @@ export interface Row {
   biomarkers_prot: Array<Structure>;
   references: Reference[];
   organName: string;
+  tableVersion: string;
 }
 
 export interface ResponseData {
   csv: string;
   data: Row[];
   parsed: [];
+  isOmap? : boolean;
 }
 
 export interface Sheet {
@@ -82,6 +86,7 @@ export interface CompareData {
   csvUrl?: string;
   formData?: FormData;
   fileName?: string;
+  isOmap?: boolean;
 }
 
 export interface SheetConfig {
@@ -108,7 +113,7 @@ export interface SheetInfo {
   status: number;
   notes: string;
   references?: Array<Reference>;
-  extraLinks?:Record<string,string>;
+  extraLinks?: Record<string, string>;
 
 }
 
@@ -123,21 +128,28 @@ export interface VersionDetail {
   viewValue: string;
   hraVersion?: string;
   csvUrl?: string;
-  sheetId: string;
-  gid: string;
+  sheetId?: string;
+  gid?: string;
+  xlsx?: string;
+  as?: number;
+  ct?: number;
+  bp?: number;
 }
 
 export interface SheetDetails {
   name: string;
+  omapId?: string;
+  tissuePreservationMethod?: string;
+  imagingMethod?: string;
   display: string;
   body?: string;
   sheetId?: string;
   gid?: string;
   config: {
-      bimodal_distance_x: number;
-      bimodal_distance_y: number;
-      width: number;
-      height: number;
+    bimodal_distance_x: number;
+    bimodal_distance_y: number;
+    width: number;
+    height: number;
   };
   title: string;
   version?: Array<VersionDetail>;
@@ -164,25 +176,25 @@ export interface PlaygroundSheetOptions {
 }
 
 export interface ConfigurationOptions {
-  headerCount:            string;
-  imgOptions:             string[];
-  masterSheetLink:        string;
-  sheetId:                string;
-  version1Url:            string;
+  headerCount: string;
+  imgOptions: string[];
+  masterSheetLink: string;
+  sheetId: string;
+  version1Url: string;
   playgroundSheetOptions: PlaygroundSheetOptions[];
-  version:                Version[];
-  moreOptions:            MoreOption[];
+  version: Version[];
+  moreOptions: MoreOption[];
 }
 
 export interface MoreOption {
   name: string;
-  url:  string;
+  url: string;
   type: string;
 }
 
 export interface Version {
   display: string;
-  folder:  string;
+  folder: string;
 }
 
 export interface GEdge {
@@ -226,8 +238,18 @@ export interface CompareReport {
   color: string;
   title: string;
   description: string;
+  identicalBMCTPair: Row[];
 }
 
 export interface CompareReportData {
   data: CompareReport[];
+}
+
+export interface UploadForm {
+  link: string;
+  csvUrl?: string;
+  formData?: FormData;
+  fileName?: string;
+  sheetId: string;
+  gid: string;
 }

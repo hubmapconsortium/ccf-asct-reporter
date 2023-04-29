@@ -25,6 +25,7 @@ export class LegendService {
     let addedCT = false;
     let addedBMProteinAbsencePath = false;
     let addedBMProteinPresencePath = false;
+    let addedBMProteinIntermediatePath = false;
     for (const i of treeData) {
       if (legends.findIndex(l => l.name === 'Anatomical Structures') === -1) {
         legends.push({
@@ -99,6 +100,13 @@ export class LegendService {
             color: '#E16156', style: '', sortOrder: 98
           });
           addedBMProteinAbsencePath = true;
+        }
+        if (!addedBMProteinIntermediatePath && i.proteinPresence === PROTEIN_PRESENCE.INTERMEDIATE && i.bType === 'protein'){
+          legends.push({
+            name: 'Intermediate Protein',
+            color: '#4B2079', style: '', sortOrder: 99
+          });
+          addedBMProteinIntermediatePath = true;
         }
         if (!addedBMBL && i.bType === 'lipids'){
           legends.push({

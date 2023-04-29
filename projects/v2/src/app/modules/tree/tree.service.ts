@@ -127,7 +127,6 @@ export class TreeService {
 
       data.forEach((row) => {
         parent = root;
-
         row.anatomical_structures.forEach((structure) => {
           let s: number;
           if (structure.id) {

@@ -110,6 +110,10 @@ export class SheetStateModel {
    */
   selectedOrgans: string[];
   /**
+   * Stores the selected organs details from OMAPS.
+   */
+  omapSelectedOrgans: string[];
+  /**
    * Full data by organ
    */
   fullDataByOrgan: Row[][];
@@ -178,6 +182,7 @@ export class SheetStateModel {
     bottomSheetDOI: [],
     fullAsData: [],
     selectedOrgans: [],
+    omapSelectedOrgans: [],
     fullDataByOrgan: [],
     getFromCache: true,
   },
@@ -188,6 +193,7 @@ export class SheetStateModel {
 
 export class SheetState {
   sheetConfig: SheetDetails[];
+  omapSheetConfig: SheetDetails[];
   exampleSheet: SheetDetails;
   headerCount: unknown;
 
@@ -195,10 +201,13 @@ export class SheetState {
     this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
       this.sheetConfig = sheetOptions;
     });
+    this.configService.omapsheetConfiguration$.subscribe((sheetOptions) => {
+      this.omapSheetConfig = sheetOptions;
+    });
     this.configService.allSheetConfigurations$.subscribe((sheetOptions) => {
       this.exampleSheet = sheetOptions.find(s => s.name === 'example');
     });
-    this.configService.config$.subscribe(config=>{
+    this.configService.config$.subscribe(config => {
       this.headerCount = config.headerCount;
     });
   }
@@ -236,6 +245,14 @@ export class SheetState {
   @Selector()
   static getSelectedOrgans(state: SheetStateModel) {
     return state.selectedOrgans;
+  }
+
+  /**
+ * Returns an observable that watches the selected organs data from OMAPS
+ */
+  @Selector()
+  static getOMAPSelectedOrgans(state: SheetStateModel) {
+    return state.omapSelectedOrgans;
   }
 
   /**
@@ -404,6 +421,7 @@ export class SheetState {
               }
               row.anatomical_structures.unshift(organ);
               row.organName = compareSheet.title;
+              row.tableVersion = '';
 
               for (const i of row.cell_types) {
                 i.isNew = true;
@@ -427,7 +445,7 @@ export class SheetState {
             };
             gaData.counts = this.reportService.countsGA(res.data);
             this.ga.event(GaAction.INPUT, GaCategory.COMPARISON, `Adding sheet or file to Compare: ${JSON.stringify(gaData)}`, 0);
-
+            compareSheet.isOmap = res.isOmap ?? false;
             patchState({
               data: [...currentData, ...res.data],
               fullAsData: [...currentFullASData, ...res.data],
@@ -461,7 +479,7 @@ export class SheetState {
   @Action(FetchSelectedOrganData)
   async fetchSelectedOrganData(
     { getState, dispatch, patchState }: StateContext<SheetStateModel>,
-    { sheet, selectedOrgans, comparisonDetails }: FetchSelectedOrganData
+    { sheet, selectedOrgans, omapSelectedOrgans, comparisonDetails }: FetchSelectedOrganData
   ) {
     dispatch(new OpenLoading('Fetching data...'));
 
@@ -469,13 +487,13 @@ export class SheetState {
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
     const state = getState();
-
     patchState({
       sheet,
       compareData: [],
       compareSheets: [],
       data: [],
       selectedOrgans: selectedOrgans,
+      omapSelectedOrgans:omapSelectedOrgans,
       sheetConfig: {
         ...sheet.config,
         show_ontology: state.sheetConfig.show_ontology,
@@ -488,8 +506,20 @@ export class SheetState {
     let dataAll: Row[] = [];
 
     const organsNames: string[] = [];
+    const organTableVersions: string[] = [];
     for (const organ of selectedOrgans) {
       this.sheetConfig.forEach((config) => {
+        config.version?.forEach((version: VersionDetail) => {
+          if (version.value === organ) {
+            requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
+            organsNames.push(config.name);
+            organTableVersions.push(version.viewValue);
+          }
+        });
+      });
+    }
+    for (const organ of omapSelectedOrgans) {
+      this.omapSheetConfig.forEach((config) => {
         config.version?.forEach((version: VersionDetail) => {
           if (version.value === organ) {
             requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
@@ -505,6 +535,7 @@ export class SheetState {
         allResults.map((res: ResponseData, index: number) => {
           for (const row of res.data) {
             row.organName = organsNames[index];
+            row.tableVersion = organTableVersions[index];
 
             const newStructure: Structure = {
               name: 'Body',
@@ -584,6 +615,7 @@ export class SheetState {
     const requests$: Array<Observable<any>> = [];
     let dataAll: Row[] = [];
     const organsNames: string[] = [];
+    const organsTableVersions: string[] = [];
 
     for (const s of this.sheetConfig) {
       if (s.name === 'all' || s.name === 'example' || s.name === 'some') {
@@ -593,14 +625,17 @@ export class SheetState {
           this.sheetService.fetchSheetData(s.sheetId, s.gid, s.csvUrl)
         );
         organsNames.push(s.name);
+        organsTableVersions.push(s.version.find((i) => i.value === s.name).viewValue);
       }
     }
     let asData = [];
+
     forkJoin(requests$).subscribe(
       (allresults) => {
         allresults.map((res: ResponseData, i) => {
           for (const row of res.data) {
             row.organName = organsNames[i];
+            row.tableVersion = organsTableVersions[i];
             const newStructure: Structure = {
               name: 'Body',
               id: this.bodyId,
@@ -891,6 +926,7 @@ export class SheetState {
         res.data.forEach((row) => {
           row.anatomical_structures.unshift(organ);
           row.organName = sheet.name;
+          row.tableVersion = '';
         });
 
         setState({
@@ -958,6 +994,7 @@ export class SheetState {
         res.data.forEach((row) => {
           row.anatomical_structures.unshift(organ);
           row.organName = sheet.name;
+          row.tableVersion = '';
         });
         setState({
           ...state,
@@ -1015,7 +1052,7 @@ export class SheetState {
             bottomSheetInfo: {
               ...res,
               notes: data?.notes,
-              ...(data.group === 2 ? {references: data?.references} : {}),
+              ...(data.group === 2 ? { references: data?.references } : {}),
             },
           });
         }),
@@ -1034,7 +1071,7 @@ export class SheetState {
               msg: error.message,
               status: error.status,
               notes: data?.notes,
-              ...(data.group === 2 ? {references: data?.references} : {}),
+              ...(data.group === 2 ? { references: data?.references } : {}),
             },
           });
           const err: Error = {
@@ -1071,7 +1108,7 @@ export class SheetState {
    * Action to update the flag to get the data from cache
    */
   @Action(UpdateGetFromCache)
-  updateGetFromCache({ getState, setState }: StateContext<SheetStateModel>, { cache}: UpdateGetFromCache) {
+  updateGetFromCache({ getState, setState }: StateContext<SheetStateModel>, { cache }: UpdateGetFromCache) {
     const state = getState();
     setState({
       ...state,

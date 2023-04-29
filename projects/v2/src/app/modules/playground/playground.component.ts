@@ -8,7 +8,7 @@ import { Validators, UntypedFormControl } from '@angular/forms';
 import * as jexcel from 'jspreadsheet-ce';
 import { UpdatePlaygroundData, FetchSheetData } from '../../actions/sheet.actions';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { Sheet } from '../../models/sheet.model';
+import { Sheet, UploadForm } from '../../models/sheet.model';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 
@@ -64,7 +64,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngAfterViewInit() {
     this.data$.subscribe((data) => {
@@ -260,7 +260,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
    */
   tabChange(tab: MatTabChangeEvent) {
     if (this.prevTab === 1 && tab.index === 0) {
-      this.spreadSheetData  = this.spreadSheetData.filter((row) => {
+      this.spreadSheetData = this.spreadSheetData.filter((row) => {
         return (row.some((cell) => cell.length > 0 && cell !== '\u0000'));
       });
       this.store.dispatch(new UpdatePlaygroundData(this.spreadSheetData));
@@ -272,19 +272,16 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
   /**
    * Read the google sheet link and upload
    */
-  upload(formDataEvent?: FormData) {
-    const data = this.checkLinkFormat(this.linkFormControl.value);
+  upload(data: UploadForm) {
     const sheet = JSON.parse(JSON.stringify(this.currentSheet));
     sheet.gid = data.gid;
-    sheet.sheetId = data.sheetID;
+    sheet.sheetId = data.sheetId;
     sheet.csvUrl = data.csvUrl;
     this.tabIndex = 0;
     sheet.config.height = 1400;
-
-    if (formDataEvent) {
-      sheet.formData = formDataEvent;
+    if (data.formData) {
+      sheet.formData = data.formData;
     }
-
     this.store.dispatch(new FetchSheetData(sheet));
     this.ga.event(GaAction.CLICK, GaCategory.PLAYGROUND, 'Upload Playground Sheet', sheet.sheetId);
   }
