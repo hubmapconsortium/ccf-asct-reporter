@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { VegaService } from './vega.service';
-import { AS_RED, TNode, NODE_TYPE, SOURCE_TYPE } from './../../models/tree.model';
+import { AS_RED, TNode, NODE_TYPE } from './../../models/tree.model';
 import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { Observable } from 'rxjs';
 import { UIState, UIStateModel } from '../../store/ui.state';
@@ -114,8 +114,7 @@ export class TreeService {
         0,
         data[0].anatomical_structures[0].id,
         data[0].anatomical_structures[0].notes,
-        'Body',
-        AS_RED,SOURCE_TYPE.OMAP
+        'Body'
       );
       root.label = '';
       root.comparator = root.name + root.label + root.ontologyId;
@@ -169,8 +168,7 @@ export class TreeService {
               structure.id,
               structure.notes,
               row.organName,
-              AS_RED,
-              row.sourceType
+              AS_RED
             );
             newNode.label = structure.rdfs_label;
             newNode.comparator =

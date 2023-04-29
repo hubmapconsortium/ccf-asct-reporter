@@ -51,7 +51,6 @@ import { GaAction, GaCategory } from '../models/ga.model';
 import { ReportService } from '../components/report/report.service';
 import { ConfigService } from '../app-config.service';
 import { Report } from '../models/report.model';
-import { SOURCE_TYPE } from '../models/tree.model';
 
 /** Class to keep track of the sheet */
 export class SheetStateModel {
@@ -536,7 +535,6 @@ export class SheetState {
     let dataAll: Row[] = [];
 
     const organsNames: string[] = [];
-    const sourceTypes: SOURCE_TYPE[] = [];
     const organTableVersions: string[] = [];
     for (const organ of selectedOrgans) {
       this.sheetConfig.forEach((config) => {
@@ -544,7 +542,6 @@ export class SheetState {
           if (version.value === organ) {
             requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
             organsNames.push(config.name);
-            sourceTypes.push(SOURCE_TYPE.ASCTB);
             organTableVersions.push(version.viewValue);
           }
         });
@@ -556,7 +553,6 @@ export class SheetState {
           if (version.value === organ) {
             requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
             organsNames.push(config.name);
-            sourceTypes.push(SOURCE_TYPE.OMAP);
           }
         });
       });
@@ -568,7 +564,6 @@ export class SheetState {
         allResults.map((res: ResponseData, index: number) => {
           for (const row of res.data) {
             row.organName = organsNames[index];
-            row.sourceType = sourceTypes[index];
             row.tableVersion = organTableVersions[index];
 
             const newStructure: Structure = {

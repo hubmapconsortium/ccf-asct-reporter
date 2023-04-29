@@ -11,11 +11,6 @@ export enum NODE_TYPE {
   R = 'root'
 }
 
-export enum SOURCE_TYPE {
-  ASCTB = 'ASCTB',
-  OMAP = 'OMAP'
-}
-
 export class TNode {
   id: number;
   name: string;
@@ -38,9 +33,8 @@ export class TNode {
   label: string;
   notes: string;
   organName: string;
-  sourceType:SOURCE_TYPE;
 
-  constructor(id, name, parent, uId, notes, organName, color = '#808080',sourceType) {
+  constructor(id, name, parent, uId, notes, organName, color = '#808080') {
     this.id = id;
     this.name = name;
     this.parent = parent;
@@ -57,7 +51,6 @@ export class TNode {
     this.comparatorName = '';
     this.notes = notes;
     this.organName = organName;
-    this.sourceType=sourceType;
   }
 }
 
@@ -66,7 +59,6 @@ export interface Base {
   comparator?: string;
   comparatorId?: string;
   comparatorName?: string;
-  sourceType?: SOURCE_TYPE;
 }
 
 export interface AS extends Base {

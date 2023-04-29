@@ -1,5 +1,3 @@
-import { SOURCE_TYPE } from './tree.model';
-
 enum BM_TYPE {
   G = 'gene',
   P = 'protein',
@@ -56,7 +54,6 @@ export interface Row {
   biomarkers_prot: Array<Structure>;
   references: Reference[];
   organName: string;
-  sourceType?: SOURCE_TYPE;
   tableVersion: string;
 }
 

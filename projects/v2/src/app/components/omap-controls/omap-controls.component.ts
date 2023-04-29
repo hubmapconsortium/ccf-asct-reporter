@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Error } from '../../models/response.model';
-import { Store } from '@ngxs/store';
 import { OmapConfig } from '../../models/omap.model';
 
 @Component({
@@ -15,11 +14,6 @@ export class OmapControlsComponent {
   @Input() error: Error;
 
   @Output() updateConfig: EventEmitter<any> = new EventEmitter<any>();
-
-  constructor(public store: Store) {
-
-  }
-
 
   checkBoxClicked(event: Record<string, boolean>) {
     this.omaps.organsOnly = event.organsOnly;

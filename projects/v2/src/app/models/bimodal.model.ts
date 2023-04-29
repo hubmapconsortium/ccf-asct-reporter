@@ -1,4 +1,4 @@
-import { Degree, NODE_TYPE, SOURCE_TYPE } from './tree.model';
+import { Degree, NODE_TYPE } from './tree.model';
 import { PROTEIN_PRESENCE, Reference } from './sheet.model';
 
 const groupNameMapper = {
@@ -34,7 +34,6 @@ export class BMNode {
   references?: Reference[];
   notes: string;
   organName: string;
-  sourceType: SOURCE_TYPE;
 
   constructor(
     name,
@@ -48,7 +47,6 @@ export class BMNode {
     color = '#E41A1C',
     nodeSize = 300,
     proteinPresence = PROTEIN_PRESENCE.UNKNOWN,
-    sourceType =SOURCE_TYPE.ASCTB
   ) {
     this.name = name;
     this.group = group;
@@ -68,7 +66,6 @@ export class BMNode {
     this.notes = notes;
     this.organName = organName;
     this.proteinPresence = proteinPresence;
-    this.sourceType=sourceType;
   }
 }
 

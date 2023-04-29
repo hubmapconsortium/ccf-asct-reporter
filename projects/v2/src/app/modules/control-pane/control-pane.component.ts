@@ -243,15 +243,16 @@ export class ControlPaneComponent implements OnInit {
       const bimodalConfig = states.treeState.bimodal.config;
       const omapConfig = states.treeState.omapConfig;
       const sheetConfig = states.sheetState.sheetConfig;
-      let omapOrganNames= states.sheetState.allOmapOrgans;
       const filteredProtiens = states.sheetState.filteredProtiens;
-      omapOrganNames=omapOrganNames.map(word => word.toLowerCase());
+      /** For Organ Filtering */
+      let omapOrganNames= states.sheetState.allOmapOrgans;
+      omapOrganNames = omapOrganNames.map(word => word.toLowerCase());
       if (!omapOrganNames.includes('body')) {
         omapOrganNames.push('body');
       }
 
       if (data.length) {
-        this.bm.makeBimodalData(data, treeData, bimodalConfig, false, sheetConfig, omapConfig,omapOrganNames,filteredProtiens);
+        this.bm.makeBimodalData(data, treeData, bimodalConfig, false, sheetConfig, omapConfig, omapOrganNames, filteredProtiens);
       }
     });
   }
