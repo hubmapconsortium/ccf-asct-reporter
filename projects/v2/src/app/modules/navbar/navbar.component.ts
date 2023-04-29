@@ -94,11 +94,12 @@ export class NavbarComponent implements OnInit {
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
 
   get selectedOrgansLabel(): string {
-    let x = this.selectedOrgansValues.length > 0 ? 'ASCT-B:' + this.selectedOrgansValues : '';
-    x = this.selectedOrgansValues.length > 0 && this.omapSelectedOrgansValues.length > 0 ? x + ' | ' : '';
-    x = this.omapSelectedOrgansValues.length > 0 ? x + 'OMAP:' + this.omapSelectedOrgansValues : '';
+    let x = this.selectedOrgansValues?.length > 0 ? 'ASCT-B:' + this.selectedOrgansValues : '';
+    x = this.selectedOrgansValues?.length > 0 && this.omapSelectedOrgansValues?.length > 0 ? x + ' | ' : x;
+    x = this.omapSelectedOrgansValues?.length > 0 ? x + 'OMAP:' + this.omapSelectedOrgansValues : x;
+
     if (x.length > 64) {
-      return 'ASCT-B:' + this.selectedOrgansValues?.split(',').length + ' OMAP:' + this.omapSelectedOrgansValues?.split(',').length + ' organs Selected';
+      return `ASCT-B: ${this.selectedOrgansValues?.split(',').length} OMAP: ${this.omapSelectedOrgansValues?.split(',').length} organs Selected`;
     } else {
       return x;
     }
@@ -261,13 +262,14 @@ export class NavbarComponent implements OnInit {
     };
 
     const dialogRef = this.dialog.open(OrganTableSelectorComponent, config);
-    dialogRef.afterClosed().subscribe(({ organs, cache }) => {
+    dialogRef.afterClosed().subscribe(({ organs, cache, omapOrgans }) => {
       this.store.dispatch(new UpdateGetFromCache(cache));
       if (organs !== false) {
         this.router.navigate(['/vis'], {
           queryParams: {
             selectedOrgans: organs?.join(','),
             playground: false,
+            omapSelectedOrgans: omapOrgans?.join(',')
           },
           queryParamsHandling: 'merge',
         });
