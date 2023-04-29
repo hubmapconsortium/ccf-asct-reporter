@@ -1158,10 +1158,21 @@ export class SheetState {
   fetchValidOmapProtiens({ getState, patchState }: StateContext<SheetStateModel>) {
     const state = getState();
     const requests$: Array<Observable<any>> = [];
-    for (const s of this.omapSheetConfig) {
-      const version = [...s.version].pop();
-      requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
+
+    if (state.omapSelectedOrgans.length > 0) {
+      for (const s of state.omapSelectedOrgans) {
+        const [organ, _omapVersion] = s.split('-');
+        const sheetDetails = this.omapSheetConfig.find(omap => omap.name.toLowerCase() === organ.toLowerCase());
+        const version = sheetDetails.version.find(v => v.value.toLowerCase() === s.toLowerCase());
+        requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
+      }
+    } else {
+      for (const s of this.omapSheetConfig) {
+        const version = [...s.version].pop();
+        requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
+      }
     }
+    
     const existingProtiens = [];
     for (const r of state.data) {
       r.biomarkers_protein.forEach(element => {
