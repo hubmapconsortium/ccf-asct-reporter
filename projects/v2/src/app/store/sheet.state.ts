@@ -1153,11 +1153,12 @@ export class SheetState {
   fetchValidOmapProtiens({ getState, patchState }: StateContext<SheetStateModel>) {
     const state = getState();
     const requests$: Array<Observable<any>> = [];
-
+    
     if (state.omapSelectedOrgans.length > 0 && state.omapSelectedOrgans[0] !=='') {
       for (const s of state.omapSelectedOrgans) {
         const [organ, _omapVersion] = s.split('-');
-        const sheetDetails = this.omapSheetConfig.find(omap => omap.name.toLowerCase() === organ.toLowerCase());
+        const organName = organ.split('_').join(' ');
+        const sheetDetails = this.omapSheetConfig.find(omap => omap.name.toLowerCase() === organName.toLowerCase());
         const version = sheetDetails.version.find(v => v.value.toLowerCase() === s.toLowerCase());
         requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
       }
