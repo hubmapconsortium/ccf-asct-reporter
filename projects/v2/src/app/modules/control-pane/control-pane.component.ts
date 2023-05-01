@@ -3,16 +3,17 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ToggleControlPane } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
-import { SheetState } from '../../store/sheet.state';
-import { Sheet, SheetConfig, CompareData } from '../../models/sheet.model';
+import { SheetState, SheetStateModel } from '../../store/sheet.state';
+import { Sheet, SheetConfig, CompareData, SheetDetails } from '../../models/sheet.model';
 import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { DiscrepencyStructure, TNode } from '../../models/tree.model';
 import { VegaService } from '../tree/vega.service';
 import { DiscrepencyId, DiscrepencyLabel, DuplicateId, UpdateOmapConfig } from '../../actions/tree.actions';
-import { UpdateConfig, ToggleShowAllAS, FetchSelectedOrganData } from '../../actions/sheet.actions';
+import { UpdateConfig, ToggleShowAllAS, FetchSelectedOrganData, UpdateSelectedOrgansBeforeFilter } from '../../actions/sheet.actions';
 import { BimodalService } from '../tree/bimodal.service';
 import { BMNode } from '../../models/bimodal.model';
 import { OmapConfig } from '../../models/omap.model';
+import { ConfigService } from '../../app-config.service';
 
 @Component({
   selector: 'app-control-pane',
@@ -34,18 +35,57 @@ export class ControlPaneComponent implements OnInit {
   @Select(TreeState) tree$: Observable<TreeStateModel>;
 
   @Select(TreeState.getOmapConfig) omapConfig$: Observable<OmapConfig>;
+  @Select(SheetState.getfilteredProtiens) filteredProteins$ : Observable<string[]>;
 
   nodes: BMNode[];
   treeData: TNode[];
   view: any;
   groupName = 'Anatomical Structures';
 
-  constructor(public store: Store, public bm: BimodalService, public vs: VegaService) {
+  sheetConfig: SheetDetails[];
+  omapSheetConfig: SheetDetails[];
+
+  sheetOptions;
+  /**
+   * Sheet configs
+   */
+  omapSheetOptions;
+
+  constructor(public store: Store, public bm: BimodalService, public vs: VegaService, public configService: ConfigService) {
 
     this.tree$.subscribe(tree => {
       this.treeData = tree.treeData;
       this.nodes = tree.bimodal.nodes;
     });
+
+    this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
+      this.sheetConfig = sheetOptions;
+      this.sheetOptions = sheetOptions;
+    });
+    this.configService.omapsheetConfiguration$.subscribe((sheetOptions) => {
+      this.omapSheetConfig = sheetOptions;
+      this.omapSheetOptions = sheetOptions;
+    });
+
+    this.selectedOrgans$.subscribe(organs => {
+      const omapConfig = this.store.selectSnapshot(TreeState.getOmapConfig);
+      const sheetState = this.store.selectSnapshot(SheetState);
+      const treeState = this.store.selectSnapshot(TreeState);
+      if (omapConfig.organsOnly) {
+        this.omapOrgansOnly(sheetState);
+      }
+      if (omapConfig.proteinsOnly) {
+        this.omapProteinsOnly(sheetState, treeState);
+      }
+    });
+
+    // this.filteredProteins$.subscribe(proteins => {
+    //   let omapConfig;
+    //   this.omapConfig$.subscribe((config) => {
+    //     console.log(config.organsOnly, config.proteinsOnly);
+    //   });
+    //   // this.updateOmapConfig(omapConfig);
+    // });
   }
 
   ngOnInit(): void {
@@ -215,6 +255,7 @@ export class ControlPaneComponent implements OnInit {
 
       if (data.length) {
         try {
+          console.log('BM Call here');
           this.bm.makeBimodalData(data, treeData, bimodalConfig, false,config);
         } catch (err) {
           console.log(err);
@@ -239,21 +280,87 @@ export class ControlPaneComponent implements OnInit {
   updateOmapConfig(event: OmapConfig) {
     this.store.dispatch(new UpdateOmapConfig(event)).subscribe(states => {
       const data = states.sheetState.data;
-      const treeData = states.treeState.treeData;
-      const bimodalConfig = states.treeState.bimodal.config;
-      const omapConfig = states.treeState.omapConfig;
-      const sheetConfig = states.sheetState.sheetConfig;
-      const filteredProtiens = states.sheetState.filteredProtiens;
-      /** For Organ Filtering */
-      let omapOrganNames= states.sheetState.allOmapOrgans;
-      omapOrganNames = omapOrganNames.map(word => word.toLowerCase());
-      if (!omapOrganNames.includes('body')) {
-        omapOrganNames.push('body');
-      }
+      // const treeData = states.treeState.treeData;
+      // const bimodalConfig = states.treeState.bimodal.config;
+      // const omapConfig = states.treeState.omapConfig;
+      // const sheetConfig = states.sheetState.sheetConfig;
+      // const filteredProtiens = states.sheetState.filteredProtiens;
+      const selectedOrgansBeforeFilter = states.sheetState.selectedOrgansBeforeFilter;
 
+      if (event.organsOnly) {
+        this.omapOrgansOnly(states.sheetState);
+      }
+      if (!event.organsOnly && selectedOrgansBeforeFilter.length > 0) {
+        // Save a list of organs before updating
+        this.store.dispatch(new UpdateSelectedOrgansBeforeFilter([]));
+        // TODO: Need logic to see if organs were removed after filtering ~ then remove them from selectedOrgansBeforeFilter...
+        this.store.dispatch(new FetchSelectedOrganData(states.sheetState.sheet, selectedOrgansBeforeFilter, states.sheetState.omapSelectedOrgans, states.sheetState.compareSheets));
+        sessionStorage.setItem('selectedOrgans', selectedOrgansBeforeFilter.join(','));
+      }
       if (data.length) {
-        this.bm.makeBimodalData(data, treeData, bimodalConfig, false, sheetConfig, omapConfig, omapOrganNames, filteredProtiens);
+        console.log('BM Call here');
+        this.omapProteinsOnly(states.sheetState, states.treeState);
       }
     });
+  }
+
+  private omapProteinsOnly(sheetState: SheetStateModel, treeState: TreeStateModel) {
+    if (sheetState.data.length) {
+      this.bm.makeBimodalData(sheetState.data, treeState.treeData, treeState.bimodal.config, false, sheetState.sheetConfig, treeState.omapConfig, sheetState.filteredProtiens);
+    }
+  }
+
+  private omapOrgansOnly(sheetState: SheetStateModel) {
+    
+    //Call FetchSelectedOrganData with sheetState - compareSheets, sheet, selectedOrgans, omapSelected...
+    
+    const newlySelectedOrgans = this.organFiltering(sheetState.selectedOrgans, sheetState.omapSelectedOrgans);
+    if (!this.arraysEqual(newlySelectedOrgans, sheetState.selectedOrgans)) {
+      // Save a list of organs before updating
+      
+      this.store.dispatch(new UpdateSelectedOrgansBeforeFilter(sheetState.selectedOrgans));
+      this.store.dispatch(new FetchSelectedOrganData(sheetState.sheet, newlySelectedOrgans, sheetState.omapSelectedOrgans, sheetState.compareSheets));
+      sessionStorage.setItem('selectedOrgans', newlySelectedOrgans.join(','));
+    }
+    
+  }
+
+  private organFiltering(selectedOrgans, omapSelectedOrgans) : string[] {
+    if (omapSelectedOrgans.length > 0 && omapSelectedOrgans[0] != '') {
+      const selectedOmapOrgans = omapSelectedOrgans.map(organ => organ.split('-')[0].split('_').join(' ').toLowerCase());
+      const filteredOmapOrgans= this.omapSheetConfig.filter(organ => selectedOmapOrgans.includes(organ.name.toLowerCase())).map(organ => organ.uberon_id);
+      const newSelectedOrgans = [];
+      for(const selectedOrgan of selectedOrgans) {
+        const sheetOrgan = this.sheetConfig.find(organ => organ.name === selectedOrgan.split('-')[0]);
+        if (sheetOrgan.representation_of.some(rep => filteredOmapOrgans.includes(rep))) {
+          newSelectedOrgans.push(selectedOrgan);
+        }
+      }
+      return newSelectedOrgans;
+    }
+    else {
+      const omapUberonIds = this.omapSheetConfig.map(organ => organ.uberon_id);
+      const newSelectedOrgans = [];
+      selectedOrgans.forEach(selectedOrgan => {
+        const sheetOrgan = this.sheetConfig.find(organ => organ.name === selectedOrgan.split('-')[0]);
+        if (sheetOrgan.representation_of.some(rep => omapUberonIds.includes(rep))) {
+          newSelectedOrgans.push(selectedOrgan);
+        }
+      });
+      return newSelectedOrgans;
+    }
+
+  }
+
+  private arraysEqual<T>(a: T[], b: T[]): boolean {
+    if (a.length !== b.length) {
+      return false;
+    }
+    for (let i = 0; i < a.length; i++) {
+      if (a[i] !== b[i]) {
+        return false;
+      }
+    }
+    return true;
   }
 }

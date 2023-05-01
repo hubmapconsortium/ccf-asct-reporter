@@ -101,3 +101,8 @@ export class FetchValidOmapProtiens {
   static readonly type = '[FETCH] Valid OMAP Protiens Data';
   constructor() {}
 }
+
+export class UpdateSelectedOrgansBeforeFilter {
+  static readonly type = '[UPDATE] Selected Organs before Filtering';
+  constructor(public organsList: string[]) {}
+}

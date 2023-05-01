@@ -35,6 +35,7 @@ import {
   FetchSelectedOrganData,
   UpdateGetFromCache,
   FetchValidOmapProtiens,
+  UpdateSelectedOrgansBeforeFilter,
 } from '../actions/sheet.actions';
 import {
   OpenLoading,
@@ -130,6 +131,10 @@ export class SheetStateModel {
    * Stores all Protiens which are OMAP and common to current ASCT data
    */
   filteredProtiens: string[];
+  /**
+   * Stores all organs before OMAP organs only filter
+   */
+  selectedOrgansBeforeFilter: string[];
 }
 
 @State<SheetStateModel>({
@@ -195,7 +200,8 @@ export class SheetStateModel {
     fullDataByOrgan: [],
     getFromCache: true,
     allOmapOrgans: [],
-    filteredProtiens: []
+    filteredProtiens: [],
+    selectedOrgansBeforeFilter: []
   },
 })
 
@@ -373,6 +379,13 @@ export class SheetState {
   @Selector()
   static getfilteredProtiens(state: SheetStateModel) {
     return state.filteredProtiens;
+  }
+  /**
+   * Returns all organs selected before omap organs filtering
+   */
+  @Selector()
+  static getSelectedOrgansBeforeFilter(state: SheetStateModel) {
+    return state.selectedOrgansBeforeFilter;
   }
 
   /**
@@ -612,6 +625,70 @@ export class SheetState {
         return of('');
       }
     );
+
+    if ((selectedOrgans.length == 0 || selectedOrgans[0] == '') && (omapSelectedOrgans.length == 0 || omapSelectedOrgans[0] == '')) {
+      console.log('yllow');
+      patchState({
+        data: [{
+          'anatomical_structures': [
+            {
+              'name': 'Body',
+              'id': 'UBERON:0013702'
+            }
+          ],
+          'cell_types': [],
+          'biomarkers': [],
+          'biomarkers_protein': [],
+          'biomarkers_gene': [],
+          'biomarkers_lipids': [],
+          'biomarkers_meta': [],
+          'biomarkers_prot': [],
+          'references': [],
+          'organName': '',
+          'tableVersion': ''
+        }],
+        fullAsData: [{
+          'anatomical_structures': [
+            {
+              'name': 'Body',
+              'id': 'UBERON:0013702'
+            }
+          ],
+          'cell_types': [],
+          'biomarkers': [],
+          'biomarkers_protein': [],
+          'biomarkers_gene': [],
+          'biomarkers_lipids': [],
+          'biomarkers_meta': [],
+          'biomarkers_prot': [],
+          'references': [],
+          'organName': '',
+          'tableVersion': ''
+        }],
+        fullDataByOrgan : [[{
+          'anatomical_structures': [
+            {
+              'name': 'Body',
+              'id': 'UBERON:0013702'
+            }
+          ],
+          'cell_types': [],
+          'biomarkers': [],
+          'biomarkers_protein': [],
+          'biomarkers_gene': [],
+          'biomarkers_lipids': [],
+          'biomarkers_meta': [],
+          'biomarkers_prot': [],
+          'references': [],
+          'organName': '',
+          'tableVersion': ''
+        }]]
+      });
+      if (comparisonDetails) {
+        dispatch(new FetchCompareData(comparisonDetails));
+      }
+      dispatch(new FetchValidOmapProtiens());
+    }
   }
 
   /**
@@ -1153,8 +1230,8 @@ export class SheetState {
   fetchValidOmapProtiens({ getState, patchState }: StateContext<SheetStateModel>) {
     const state = getState();
     const requests$: Array<Observable<any>> = [];
-    
-    if (state.omapSelectedOrgans.length > 0 && state.omapSelectedOrgans[0] !=='') {
+
+    if (state.omapSelectedOrgans.length > 0 && state.omapSelectedOrgans[0] !== '') {
       for (const s of state.omapSelectedOrgans) {
         const [organ, _omapVersion] = s.split('-');
         const organName = organ.split('_').join(' ');
@@ -1185,7 +1262,7 @@ export class SheetState {
             });
           }
         });
-        const filteredProtiens = new Set([...existingProtiens].filter(i => allOmapProtiens.has(i)))??[];
+        const filteredProtiens = new Set([...existingProtiens].filter(i => allOmapProtiens.has(i))) ?? [];
         patchState({
           filteredProtiens: [...filteredProtiens]
         });
@@ -1193,4 +1270,12 @@ export class SheetState {
 
   }
 
+
+  @Action(UpdateSelectedOrgansBeforeFilter)
+  updateOrgansBeforeFilter({ getState, patchState }: StateContext<SheetStateModel>, { organsList }: UpdateSelectedOrgansBeforeFilter) {
+    patchState({
+      ...getState(),
+      selectedOrgansBeforeFilter: organsList
+    });
+  }
 }

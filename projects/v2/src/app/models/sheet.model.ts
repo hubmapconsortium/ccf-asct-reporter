@@ -157,6 +157,8 @@ export interface SheetDetails {
   csvUrl?: string;
   symbol?: string;
   position?: number;
+  representation_of?: string[];
+  uberon_id?: string;
 }
 
 export interface SheetOptions {

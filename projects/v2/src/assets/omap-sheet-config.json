@@ -11,6 +11,7 @@
       "width": 700,
       "height": 2250
     },
+    "uberon_id": "UBERON:0001",
     "version": [
       {
         "viewValue": "v1.0",
@@ -65,6 +66,7 @@
       "width": 700,
       "height": 2250
     },
+    "uberon_id": "UBERON:0002",
     "version": [
       {
         "viewValue": "v1.0",
@@ -106,6 +108,7 @@
       "width": 700,
       "height": 2250
     },
+    "uberon_id": "UBERON:0003",
     "version": [
       {
         "viewValue": "v1.0",
@@ -147,6 +150,7 @@
       "width": 700,
       "height": 2250
     },
+    "uberon_id": "UBERON:0004",
     "version": [
       {
         "viewValue": "v1.0",
@@ -188,6 +192,7 @@
       "width": 700,
       "height": 2250
     },
+    "uberon_id": "UBERON:0005",
     "version": [
       {
         "viewValue": "v1.0",
@@ -229,6 +234,7 @@
       "width": 700,
       "height": 2250
     },
+    "uberon_id": "UBERON:0006",
     "version": [
       {
         "viewValue": "v1.0",
@@ -270,6 +276,7 @@
       "width": 700,
       "height": 2250
     },
+    "uberon_id": "UBERON:0007",
     "version": [
       {
         "viewValue": "v1.0",

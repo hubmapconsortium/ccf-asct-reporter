@@ -33,16 +33,10 @@ export class BimodalService {
     isReport = false,
     sheetConfig?: SheetConfig,
     omapConfig?: OmapConfig,
-    omapOrganNames?: string[],
     filteredProtiens?: string[]
   ) {
     try {
       filteredProtiens = filteredProtiens?.map(word => word.toLowerCase()) ?? [];
-      if (omapConfig?.organsOnly) {
-
-        treeData = treeData.filter(elem => omapOrganNames.includes(elem.name.toLowerCase()));
-        sheetData = sheetData.filter((elem) => omapOrganNames.includes(elem.organName.toLowerCase()));
-      }
       const anatomicalStructuresData = makeAS(sheetData);
       const links = [];
       const nodes = [];
@@ -377,7 +371,7 @@ export class BimodalService {
           const updatedLinks = newData.treeState.bimodal.links;
           const spec = newData.treeState.spec;
 
-          this.updateBimodalData(view, spec, updatedNodes, updatedLinks, treeData);
+          this.updateBimodalData(view, spec, updatedNodes, updatedLinks);
         });
       } else {
         this.store.dispatch(new UpdateLinksData(AS_CT_LINKS, CT_BM_LINKS, AS_CT, CT_BM, 0, null, true));
@@ -404,13 +398,13 @@ export class BimodalService {
    * @param nodes bimodal network nodes
    * @param links bimodal network links
    */
-  updateBimodalData(view: any, spec: any, nodes: BMNode[], links: Link[], treeData: TNode[]) {
+  updateBimodalData(view: any, spec: any, nodes: BMNode[], links: Link[]) {
     view._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
     view._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
     view._runtime.signals.targets__click.value = [];
-    view.data('nodes', nodes).data('edges', links).data('tree', treeData).resize().runAsync();
+    view.data('nodes', nodes).data('edges', links).resize().runAsync();
 
-    this.updateSpec(spec, nodes, links, treeData);
+    this.updateSpec(spec, nodes, links);
 
     this.store.dispatch(new CloseLoading('Visualization Rendered'));
     this.store.dispatch(new ReportLog(LOG_TYPES.MSG, 'Visualization successfully rendered', LOG_ICONS.success));
@@ -423,16 +417,13 @@ export class BimodalService {
    * @param nodes bimodal network nodes
    * @param links bimodal network links
    */
-  updateSpec(spec: any, nodes: BMNode[], links: Link[], treeData: TNode[]) {
+  updateSpec(spec: any, nodes: BMNode[], links: Link[]) {
     spec.data[
       spec.data.findIndex((i) => i.name === 'nodes')
     ].values = nodes;
     spec.data[
       spec.data.findIndex((i) => i.name === 'edges')
     ].values = links;
-    spec.data[
-      spec.data.findIndex((i) => i.name === 'tree')
-    ].values = treeData;
 
     // this.store.dispatch(new UpdateTreeData(treeData));
     this.store.dispatch(new UpdateVegaSpec(spec));
