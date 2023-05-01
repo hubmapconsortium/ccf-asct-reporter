@@ -54,12 +54,14 @@ export interface Row {
   biomarkers_prot: Array<Structure>;
   references: Reference[];
   organName: string;
+  tableVersion: string;
 }
 
 export interface ResponseData {
   csv: string;
   data: Row[];
   parsed: [];
+  isOmap? : boolean;
 }
 
 export interface Sheet {
@@ -84,6 +86,7 @@ export interface CompareData {
   csvUrl?: string;
   formData?: FormData;
   fileName?: string;
+  isOmap?: boolean;
 }
 
 export interface SheetConfig {
@@ -235,6 +238,7 @@ export interface CompareReport {
   color: string;
   title: string;
   description: string;
+  identicalBMCTPair: Row[];
 }
 
 export interface CompareReportData {

@@ -37,6 +37,7 @@ export function setupGoogleSheetRoutes(app: Express): void {
         warnings: asctbData.warnings,
         csv: response.data,
         parsed: data,
+        isOmap: asctbData.isOmap
       });
     } catch (err) {
       console.log(err);
