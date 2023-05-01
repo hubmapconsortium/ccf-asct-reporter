@@ -7,6 +7,7 @@ import {
   makeCellTypes,
   makeBioMarkers,
 } from '../../modules/tree/tree.functions';
+import { B, bmCtPairings } from '../../models/tree.model';
 
 @Injectable({
   providedIn: 'root',
@@ -210,6 +211,7 @@ export class ReportService {
         color: '',
         title: '',
         description: '',
+        identicalBMCTPair: []
       };
 
       const { identicalStructuresAS, newStructuresAS } = this.compareASData(
@@ -226,10 +228,11 @@ export class ReportService {
       newEntry.identicalCT = identicalStructuresCT;
       newEntry.newCT = newStructuresCT;
 
-      const { identicalStructuresB, newStructuresB } = this.compareBData(
+      const { identicalStructuresB, newStructuresB, identicalBM } = this.compareBData(
         reportdata,
         compareData
       );
+      newEntry.identicalBMCTPair = identicalBM;
       newEntry.identicalB = identicalStructuresB;
       newEntry.newB = newStructuresB;
       newEntry.color = sheet.color;
@@ -313,6 +316,7 @@ export class ReportService {
   compareBData(reportdata: Report, compareData: Row[]) {
     const identicalStructuresB = [];
     const newStructuresB = [];
+    const identicalBM= [];
     try {
       const compareB = makeBioMarkers(compareData, '', true);
       const mainBData = reportdata.biomarkers.filter((i) => !i.isNew);
@@ -324,6 +328,7 @@ export class ReportService {
           for (const b of mainBData) {
             if (a.structure === b.structure && !b.isNew) {
               identicalStructuresB.push(a.structure);
+              identicalBM.push(...this.findIdenticalBmCtLinks(a, mainBData, reportdata));
               found = true;
             }
           }
@@ -333,13 +338,27 @@ export class ReportService {
           }
         }
       }
-      return { identicalStructuresB, newStructuresB };
+      return { identicalStructuresB, newStructuresB, identicalBM };
     } catch (err) {
       this.reportData.next({
         data: null,
       });
-      return { identicalStructuresB, newStructuresB };
+      return { identicalStructuresB, newStructuresB, identicalBM };
     }
+  }
+
+  findIdenticalBmCtLinks(compareB: B, mainBData: B[], reportData: Report) {
+    const mappings = new Set<bmCtPairings>();
+    const bData = mainBData.filter(el => el.comparatorId === compareB.comparatorId);
+    bData.forEach(b => {
+      b.indegree.forEach(bin => {
+        const ctData = reportData.cellTypes.find(ct => ct.comparatorId === bin.id);
+        ctData.indegree.forEach(ctIn => {
+          mappings.add({BM_NAME: b.comparatorName, BM_ID: b.comparatorId, CT_ID:bin.id, CT_NAME: bin.name, AS_ID: ctIn.id, AS_NAME: ctIn.name});
+        });
+      });
+    });
+    return mappings;
   }
 
   getASWithNoLink(anatomicalStructures) {

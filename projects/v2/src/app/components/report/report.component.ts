@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { TreeService } from '../../modules/tree/tree.service';
-import { linksASCTBData } from '../../models/tree.model';
+import { bmCtPairings, linksASCTBData } from '../../models/tree.model';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -407,11 +407,12 @@ export class ReportComponent implements OnInit, AfterViewInit {
       identicalB: 'Identical Biomarkers',
       newB: 'New Biomarkers',
     };
-    const download = [];
+
+    let download = [];
     const keys = Object.keys(this.compareReport[i]);
 
     for (const key of keys) {
-      if (typeof sheet[key] === 'object') {
+      if (typeof sheet[key] === 'object' && key in keyMapper) {
         for (const [idx, value] of sheet[key].entries()) {
           const t = {};
           t[keyMapper[key]] = value;
@@ -424,7 +425,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
         }
       }
     }
-
+    download = this.getBMCTAS(sheet.identicalBMCTPair, download);
     const sheetWS = XLSX.utils.json_to_sheet(download);
 
     sheetWS['!cols'] = [];
@@ -446,5 +447,26 @@ export class ReportComponent implements OnInit, AfterViewInit {
       sheetName: sheet.title,
       name: `ASCT+B-Reporter_Derived_${sn}_${dt}_Report.xlsx`,
     };
+  }
+
+
+  getBMCTAS(bmCtPairs: Set<bmCtPairings>, download: Record<string, string>[]) {
+    const AS_CT_BM: Set<string> = new Set<string>();
+    let index = 0;
+    bmCtPairs.forEach(pair => {
+      const newPair = `${pair.AS_NAME} (${pair.AS_ID}), ${pair.CT_NAME} (${pair.CT_ID}), ${pair.BM_NAME}(${pair.BM_ID})`;
+      if (!AS_CT_BM.has(newPair)) {
+        AS_CT_BM.add(newPair);
+        const t = { '': '', 'AS': `${pair.AS_NAME} (${pair.AS_ID})`, 'CT': `${pair.CT_NAME} (${pair.CT_ID})`, 'BM': `${pair.BM_NAME} (${pair.BM_ID})` };
+
+        if (download[index]) {
+          download[index] = { ...download[index], ...t };
+        } else {
+          download.push(t);
+        }
+        index += 1;
+      }
+    });
+    return download;
   }
 }
