@@ -421,6 +421,7 @@ export class SheetState {
               }
               row.anatomical_structures.unshift(organ);
               row.organName = compareSheet.title;
+              row.tableVersion = '';
 
               for (const i of row.cell_types) {
                 i.isNew = true;
@@ -505,12 +506,14 @@ export class SheetState {
     let dataAll: Row[] = [];
 
     const organsNames: string[] = [];
+    const organTableVersions: string[] = [];
     for (const organ of selectedOrgans) {
       this.sheetConfig.forEach((config) => {
         config.version?.forEach((version: VersionDetail) => {
           if (version.value === organ) {
             requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
             organsNames.push(config.name);
+            organTableVersions.push(version.viewValue);
           }
         });
       });
@@ -532,6 +535,7 @@ export class SheetState {
         allResults.map((res: ResponseData, index: number) => {
           for (const row of res.data) {
             row.organName = organsNames[index];
+            row.tableVersion = organTableVersions[index];
 
             const newStructure: Structure = {
               name: 'Body',
@@ -611,6 +615,7 @@ export class SheetState {
     const requests$: Array<Observable<any>> = [];
     let dataAll: Row[] = [];
     const organsNames: string[] = [];
+    const organsTableVersions: string[] = [];
 
     for (const s of this.sheetConfig) {
       if (s.name === 'all' || s.name === 'example' || s.name === 'some') {
@@ -620,14 +625,17 @@ export class SheetState {
           this.sheetService.fetchSheetData(s.sheetId, s.gid, s.csvUrl)
         );
         organsNames.push(s.name);
+        organsTableVersions.push(s.version.find((i) => i.value === s.name).viewValue);
       }
     }
     let asData = [];
+
     forkJoin(requests$).subscribe(
       (allresults) => {
         allresults.map((res: ResponseData, i) => {
           for (const row of res.data) {
             row.organName = organsNames[i];
+            row.tableVersion = organsTableVersions[i];
             const newStructure: Structure = {
               name: 'Body',
               id: this.bodyId,
@@ -919,6 +927,7 @@ export class SheetState {
         res.data.forEach((row) => {
           row.anatomical_structures.unshift(organ);
           row.organName = sheet.name;
+          row.tableVersion = '';
         });
 
         setState({
@@ -986,6 +995,7 @@ export class SheetState {
         res.data.forEach((row) => {
           row.anatomical_structures.unshift(organ);
           row.organName = sheet.name;
+          row.tableVersion = '';
         });
         setState({
           ...state,

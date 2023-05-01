@@ -16,14 +16,14 @@ export class ReportService {
   reportData$ = this.reportData.asObservable();
   private compareData = new Subject<CompareReportData>();
   compareData$ = this.compareData.asObservable();
-  BM_TYPE =  {
-    'gene' : 'BG',
-    'protein' : 'BP',
-    'lipids' : 'BL',
-    'metabolites' : 'BM',
-    'proteoforms' : 'BF',
+  BM_TYPE = {
+    'gene': 'BG',
+    'protein': 'BP',
+    'lipids': 'BL',
+    'metabolites': 'BM',
+    'proteoforms': 'BF',
   }
-  constructor() {}
+  constructor() { }
 
   async makeReportData(currentSheet: Sheet, data: Row[], biomarkerType?: string, isReportNotOrganWise = false) {
     const output: Report = {
@@ -45,7 +45,7 @@ export class ReportService {
       output.ASWithNoLink = this.getASWithNoLink(output.anatomicalStructures);
       output.CTWithNoLink = this.getCTWithNoLink(output.cellTypes);
       output.BWithNoLink = this.getBMWithNoLink(output.biomarkers);
-      const {asWithNoCT, ctWithNoB} = this.getASWithNoCT(data);
+      const { asWithNoCT, ctWithNoB } = this.getASWithNoCT(data);
       output.ASWithNoCT = asWithNoCT;
       output.CTWithNoB = ctWithNoB;
 
@@ -61,9 +61,9 @@ export class ReportService {
 
   countsGA(data) {
     const output = {
-      AS : 0,
-      CT : 0,
-      B : 0,
+      AS: 0,
+      CT: 0,
+      B: 0,
     };
     output.AS = makeAS(data, true).length;
     output.CT = makeCellTypes(data, true).length;
@@ -120,7 +120,7 @@ export class ReportService {
       result.ASWithNoLink = this.getASWithNoLink(as).reduce((acc, curr) => {
         return this.countOrganWise(acc, curr, 'ASWithNoLink');
       }, []);
-      const {asWithNoCT, ctWithNoB} = this.getASWithNoCT(asFullData);
+      const { asWithNoCT, ctWithNoB } = this.getASWithNoCT(asFullData);
       result.ASWithNoCT = asWithNoCT.reduce((acc, curr) => {
         return this.countOrganWise(acc, curr, 'ASWithNoCT');
       }, []);
@@ -138,8 +138,8 @@ export class ReportService {
           return this.countOrganWise(acc, curr, bType);
         }, []);
         biomarkersSeperateNames.push({
-          'type' : this.BM_TYPE[bType],
-          'name' : bType, 
+          'type': this.BM_TYPE[bType],
+          'name': bType,
         });
       });
       result.biomarkers = b.reduce((acc, curr) => {
@@ -154,19 +154,19 @@ export class ReportService {
       result.CTWithNoLink = this.getBMWithNoLink(b).reduce((acc, curr) => {
         return this.countOrganWise(acc, curr, 'CTWithNoLink');
       }, []);
-      return {result, biomarkersSeperateNames};
+      return { result, biomarkersSeperateNames };
     } catch (err) {
       console.log(err);
       throw err;
     }
   }
 
-  makeAllOrganReportDataCountsByOrgan(data, linksByOrgan) {
+  makeAllOrganReportDataCountsByOrgan(data, linksByOrgan, tableVersion) {
     let allData = [];
     Object.keys(data).forEach((type) => {
       allData = [...allData, ...data[type]];
     });
-    allData =  allData.reduce((acc, curr) => {
+    allData = allData.reduce((acc, curr) => {
       let item = acc.find((x) => x.organName === curr.organName);
       const index = acc.findIndex((x) => x.organName === curr.organName);
       if (!item) {
@@ -181,6 +181,10 @@ export class ReportService {
       }
       return acc;
     }, []);
+    for (let index = 0; index < allData.length; index++) {
+      const organData = allData[index];
+      allData[index] = { ...organData, tableVersion: tableVersion.get(organData.organName) };
+    }
     allData.forEach((countsByOrgan) => {
       countsByOrgan.AS_AS = linksByOrgan.AS_AS_organWise[countsByOrgan.organName];
       countsByOrgan.CT_BM = linksByOrgan.CT_B_organWise[countsByOrgan.organName];
@@ -380,7 +384,7 @@ export class ReportService {
       data.forEach((row: Row) => {
         if (row.cell_types.length === 0) {
           const asLeaf: Structure = row.anatomical_structures[row.anatomical_structures.length - 1];
-          let foundIndex:number;
+          let foundIndex: number;
           if (asLeaf.id) {
             foundIndex = asWithNoCT.findIndex((i: EnityWithNoOtherEntity) => {
               return i.link === asLeaf.id && (i.organName === row.organName);
@@ -401,7 +405,7 @@ export class ReportService {
         }
         if (row.biomarkers.length === 0) {
           row.cell_types.forEach((ct: Structure) => {
-            let foundIndex:number;
+            let foundIndex: number;
             if (ct.id) {
               foundIndex = ctWithNoB.findIndex((i: EnityWithNoOtherEntity) => {
                 return i.link === ct.id && (i.organName === row.organName);
@@ -422,7 +426,7 @@ export class ReportService {
           });
         }
       });
-  
+
       return { asWithNoCT, ctWithNoB };
     } catch (error) {
       throw new Error(`Could not process Sheet Data - ${error}`);

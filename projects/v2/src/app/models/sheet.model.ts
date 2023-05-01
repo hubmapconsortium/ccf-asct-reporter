@@ -53,6 +53,7 @@ export interface Row {
   biomarkers_prot: Array<Structure>;
   references: Reference[];
   organName: string;
+  tableVersion: string;
 }
 
 export interface ResponseData {
