@@ -255,3 +255,9 @@ export interface UploadForm {
   sheetId: string;
   gid: string;
 }
+
+export interface selectedOrganBeforeFilter {
+  selector: string;
+  organName: string;
+  filteredOut: boolean;
+}

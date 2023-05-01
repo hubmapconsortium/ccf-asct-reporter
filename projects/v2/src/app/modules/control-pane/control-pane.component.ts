@@ -35,7 +35,7 @@ export class ControlPaneComponent implements OnInit {
   @Select(TreeState) tree$: Observable<TreeStateModel>;
 
   @Select(TreeState.getOmapConfig) omapConfig$: Observable<OmapConfig>;
-  @Select(SheetState.getfilteredProtiens) filteredProteins$ : Observable<string[]>;
+  @Select(SheetState.getfilteredProtiens) filteredProteins$: Observable<string[]>;
 
   nodes: BMNode[];
   treeData: TNode[];
@@ -72,11 +72,9 @@ export class ControlPaneComponent implements OnInit {
       const sheetState = this.store.selectSnapshot(SheetState);
       const treeState = this.store.selectSnapshot(TreeState);
       if (omapConfig.organsOnly) {
-        this.omapOrgansOnly(sheetState);
+        this.omapFiltering(sheetState, omapConfig);
       }
-      if (omapConfig.proteinsOnly) {
-        this.omapProteinsOnly(sheetState, treeState);
-      }
+      this.omapProteinsOnly(sheetState, treeState);
     });
 
     // this.filteredProteins$.subscribe(proteins => {
@@ -96,21 +94,21 @@ export class ControlPaneComponent implements OnInit {
 
   updateConfigInSheet(prop) {
     switch (prop.property) {
-    case 'width': this.vs.makeBimodal(this.view.signal('as_width', prop.config.width)); break;
-    case 'height': this.vs.makeBimodal(this.view.signal('as_height', prop.config.height)); break;
-    case 'show-ontology': this.view.signal('show_ontology', prop.config.show_ontology).runAsync(); break;
-    case 'bm-x': this.updateBimodal(prop.config); break;
-    case 'bm-y': this.updateBimodal(prop.config); break;
-    case 'show-as': this.showAllAS(); break;
-    case 'show-discrepency-label':
-      this.makeBimodalWithDiscrepencyLabel(prop.config);
-      break;
-    case 'show-discrepency-id':
-      this.makeBimodalWithDiscrepencyId(prop.config);
-      break;
-    case 'show-duplicate-id':
-      this.makeDuplicateId(prop.config);
-      break;
+      case 'width': this.vs.makeBimodal(this.view.signal('as_width', prop.config.width)); break;
+      case 'height': this.vs.makeBimodal(this.view.signal('as_height', prop.config.height)); break;
+      case 'show-ontology': this.view.signal('show_ontology', prop.config.show_ontology).runAsync(); break;
+      case 'bm-x': this.updateBimodal(prop.config); break;
+      case 'bm-y': this.updateBimodal(prop.config); break;
+      case 'show-as': this.showAllAS(); break;
+      case 'show-discrepency-label':
+        this.makeBimodalWithDiscrepencyLabel(prop.config);
+        break;
+      case 'show-discrepency-id':
+        this.makeBimodalWithDiscrepencyId(prop.config);
+        break;
+      case 'show-duplicate-id':
+        this.makeDuplicateId(prop.config);
+        break;
     }
   }
 
@@ -119,7 +117,7 @@ export class ControlPaneComponent implements OnInit {
       const sheet = states.sheetState.sheet;
       const selectedOrgans = states.sheetState.selectedOrgans;
       const omapSelectedOrgans = states.sheetState.omapSelectedOrgans;
-      this.store.dispatch(new FetchSelectedOrganData(sheet, selectedOrgans,omapSelectedOrgans));
+      this.store.dispatch(new FetchSelectedOrganData(sheet, selectedOrgans, omapSelectedOrgans));
     });
   }
 
@@ -256,7 +254,7 @@ export class ControlPaneComponent implements OnInit {
       if (data.length) {
         try {
           console.log('BM Call here');
-          this.bm.makeBimodalData(data, treeData, bimodalConfig, false,config);
+          this.bm.makeBimodalData(data, treeData, bimodalConfig, false, config);
         } catch (err) {
           console.log(err);
         }
@@ -280,25 +278,11 @@ export class ControlPaneComponent implements OnInit {
   updateOmapConfig(event: OmapConfig) {
     this.store.dispatch(new UpdateOmapConfig(event)).subscribe(states => {
       const data = states.sheetState.data;
-      // const treeData = states.treeState.treeData;
-      // const bimodalConfig = states.treeState.bimodal.config;
-      // const omapConfig = states.treeState.omapConfig;
-      // const sheetConfig = states.sheetState.sheetConfig;
-      // const filteredProtiens = states.sheetState.filteredProtiens;
-      const selectedOrgansBeforeFilter = states.sheetState.selectedOrgansBeforeFilter;
-
-      if (event.organsOnly) {
-        this.omapOrgansOnly(states.sheetState);
-      }
-      if (!event.organsOnly && selectedOrgansBeforeFilter.length > 0) {
-        // Save a list of organs before updating
-        this.store.dispatch(new UpdateSelectedOrgansBeforeFilter([]));
-        // TODO: Need logic to see if organs were removed after filtering ~ then remove them from selectedOrgansBeforeFilter...
-        this.store.dispatch(new FetchSelectedOrganData(states.sheetState.sheet, selectedOrgansBeforeFilter, states.sheetState.omapSelectedOrgans, states.sheetState.compareSheets));
-        sessionStorage.setItem('selectedOrgans', selectedOrgansBeforeFilter.join(','));
-      }
+      const omapConfig = states.treeState.omapConfig;
+      this.omapFiltering(states.sheetState, omapConfig);
       if (data.length) {
         console.log('BM Call here');
+        //OLD STATE HERE, need updated one after organ update
         this.omapProteinsOnly(states.sheetState, states.treeState);
       }
     });
@@ -310,27 +294,71 @@ export class ControlPaneComponent implements OnInit {
     }
   }
 
-  private omapOrgansOnly(sheetState: SheetStateModel) {
-    
-    //Call FetchSelectedOrganData with sheetState - compareSheets, sheet, selectedOrgans, omapSelected...
-    
-    const newlySelectedOrgans = this.organFiltering(sheetState.selectedOrgans, sheetState.omapSelectedOrgans);
-    if (!this.arraysEqual(newlySelectedOrgans, sheetState.selectedOrgans)) {
-      // Save a list of organs before updating
-      
-      this.store.dispatch(new UpdateSelectedOrgansBeforeFilter(sheetState.selectedOrgans));
-      this.store.dispatch(new FetchSelectedOrganData(sheetState.sheet, newlySelectedOrgans, sheetState.omapSelectedOrgans, sheetState.compareSheets));
-      sessionStorage.setItem('selectedOrgans', newlySelectedOrgans.join(','));
+  private omapFiltering(sheetState: SheetStateModel, event: OmapConfig) {
+    const selectedOrgansBeforeFilter = sheetState.selectedOrgansBeforeFilter;
+    let fetchSelectedOrganAction;
+    if (event.organsOnly) {
+
+      const newlySelectedOrgans = this.organFiltering(sheetState.selectedOrgans, sheetState.omapSelectedOrgans);
+      if (!this.arraysEqual(newlySelectedOrgans, selectedOrgansBeforeFilter)) {
+        if (selectedOrgansBeforeFilter.length > 0 && selectedOrgansBeforeFilter[0] != '') {
+          console.log('YELLOW3214');
+          this.store.dispatch(new UpdateSelectedOrgansBeforeFilter(sheetState.selectedOrgans));
+          fetchSelectedOrganAction = new FetchSelectedOrganData(sheetState.sheet, newlySelectedOrgans, sheetState.omapSelectedOrgans, sheetState.compareSheets);
+          sessionStorage.setItem('selectedOrgans', newlySelectedOrgans.join(','));
+        }
+        else {
+          this.store.dispatch(new UpdateSelectedOrgansBeforeFilter(sheetState.selectedOrgans));
+          fetchSelectedOrganAction = new FetchSelectedOrganData(sheetState.sheet, newlySelectedOrgans, sheetState.omapSelectedOrgans, sheetState.compareSheets);
+          sessionStorage.setItem('selectedOrgans', newlySelectedOrgans.join(','));
+        }
+      }
     }
-    
+    else {
+      if (selectedOrgansBeforeFilter.length > 0 && selectedOrgansBeforeFilter[0] != '') {
+        console.log('YELLOW32145');
+      }
+      else {
+        this.store.dispatch(new UpdateSelectedOrgansBeforeFilter([]));
+        fetchSelectedOrganAction = new FetchSelectedOrganData(sheetState.sheet, selectedOrgansBeforeFilter, sheetState.omapSelectedOrgans, sheetState.compareSheets);
+        sessionStorage.setItem('selectedOrgans', selectedOrgansBeforeFilter.join(','));
+      }
+    }
+
+    this.store.dispatch(fetchSelectedOrganAction).subscribe(newState => {
+
+    });
   }
 
-  private organFiltering(selectedOrgans, omapSelectedOrgans) : string[] {
+  private omapFiltering2(sheetState: SheetStateModel, event: OmapConfig) {
+    const selectedOrgansBeforeFilter = sheetState.selectedOrgansBeforeFilter;
+    if (event.organsOnly) {
+      //Call FetchSelectedOrganData with sheetState - compareSheets, sheet, selectedOrgans, omapSelected...
+      const newlySelectedOrgans = this.organFiltering(sheetState.selectedOrgans, sheetState.omapSelectedOrgans);
+
+      if (!this.arraysEqual(newlySelectedOrgans, sheetState.selectedOrgans)) {
+        // Save a list of organs before updating
+
+        this.store.dispatch(new UpdateSelectedOrgansBeforeFilter(sheetState.selectedOrgans));
+        this.store.dispatch(new FetchSelectedOrganData(sheetState.sheet, newlySelectedOrgans, sheetState.omapSelectedOrgans, sheetState.compareSheets));
+        sessionStorage.setItem('selectedOrgans', newlySelectedOrgans.join(','));
+      }
+    }
+    if (!event.organsOnly && sheetState.selectedOrgansBeforeFilter.length > 0) {
+      // Save a list of organs before updating
+      this.store.dispatch(new UpdateSelectedOrgansBeforeFilter([]));
+      // TODO: Need logic to see if organs were removed after filtering ~ then remove them from selectedOrgansBeforeFilter...
+      this.store.dispatch(new FetchSelectedOrganData(sheetState.sheet, selectedOrgansBeforeFilter, sheetState.omapSelectedOrgans, sheetState.compareSheets));
+      sessionStorage.setItem('selectedOrgans', selectedOrgansBeforeFilter.join(','));
+    }
+  }
+
+  private organFiltering(selectedOrgans, omapSelectedOrgans): string[] {
     if (omapSelectedOrgans.length > 0 && omapSelectedOrgans[0] != '') {
       const selectedOmapOrgans = omapSelectedOrgans.map(organ => organ.split('-')[0].split('_').join(' ').toLowerCase());
-      const filteredOmapOrgans= this.omapSheetConfig.filter(organ => selectedOmapOrgans.includes(organ.name.toLowerCase())).map(organ => organ.uberon_id);
+      const filteredOmapOrgans = this.omapSheetConfig.filter(organ => selectedOmapOrgans.includes(organ.name.toLowerCase())).map(organ => organ.uberon_id);
       const newSelectedOrgans = [];
-      for(const selectedOrgan of selectedOrgans) {
+      for (const selectedOrgan of selectedOrgans) {
         const sheetOrgan = this.sheetConfig.find(organ => organ.name === selectedOrgan.split('-')[0]);
         if (sheetOrgan.representation_of.some(rep => filteredOmapOrgans.includes(rep))) {
           newSelectedOrgans.push(selectedOrgan);
