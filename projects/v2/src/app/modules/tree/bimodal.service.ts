@@ -279,6 +279,9 @@ export class BimodalService {
                 }
                 else if (cellOut.proteinPresence === PROTEIN_PRESENCE.NEG) {
                   pathColor = '#E16156';
+                } 
+                else if (cellOut.proteinPresence === PROTEIN_PRESENCE.INTERMEDIATE) {
+                  pathColor = '#4B2079';
                 }
               }
             });

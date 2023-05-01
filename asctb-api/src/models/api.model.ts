@@ -36,7 +36,8 @@ export const OMAP_ORGAN: Record<string, Structure> = {
 export enum PROTEIN_PRESENCE {
   POS = 'Positive',
   NEG = 'Negative',
-  UNKNOWN = 'Unknown'
+  UNKNOWN = 'Unknown',
+  INTERMEDIATE = 'Intermediate'
 }
 
 export const ASCT_HEADER_FIRST_COLUMN = 'AS/1';
@@ -115,10 +116,14 @@ export class Structure {
       name = this.name = name.replace('Protein', '').trim();
       const hasPos = name.endsWith('+');
       const hasNeg = name.endsWith('-');
+      const hasInt = name.endsWith('+/-');
 
       if (hasPos) {
         this.name = name.slice(0, -1);
         this.proteinPresence = PROTEIN_PRESENCE.POS;
+      } else if (hasInt) {
+        this.name = name.slice(0, -3).trim();
+        this.proteinPresence = PROTEIN_PRESENCE.INTERMEDIATE;
       } else if (hasNeg) {
         this.name = name.slice(0, -1);
         this.proteinPresence = PROTEIN_PRESENCE.NEG;

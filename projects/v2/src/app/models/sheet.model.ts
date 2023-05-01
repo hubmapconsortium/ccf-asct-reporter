@@ -9,7 +9,8 @@ enum BM_TYPE {
 export enum PROTEIN_PRESENCE {
   POS = 'Positive',
   NEG = 'Negative',
-  UNKNOWN = 'Unknown'
+  UNKNOWN = 'Unknown',
+  INTERMEDIATE = 'Intermediate'
 }
 
 export interface Reference {
