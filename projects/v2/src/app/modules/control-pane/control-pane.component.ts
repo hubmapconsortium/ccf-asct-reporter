@@ -8,10 +8,11 @@ import { Sheet, SheetConfig, CompareData } from '../../models/sheet.model';
 import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { DiscrepencyStructure, TNode } from '../../models/tree.model';
 import { VegaService } from '../tree/vega.service';
-import { DiscrepencyId, DiscrepencyLabel, DuplicateId } from '../../actions/tree.actions';
+import { DiscrepencyId, DiscrepencyLabel, DuplicateId, UpdateOmapConfig } from '../../actions/tree.actions';
 import { UpdateConfig, ToggleShowAllAS, FetchSelectedOrganData } from '../../actions/sheet.actions';
 import { BimodalService } from '../tree/bimodal.service';
 import { BMNode } from '../../models/bimodal.model';
+import { OmapConfig } from '../../models/omap.model';
 
 @Component({
   selector: 'app-control-pane',
@@ -31,6 +32,8 @@ export class ControlPaneComponent implements OnInit {
   @Select(SheetState.getCompareSheets) cs$: Observable<CompareData[]>;
 
   @Select(TreeState) tree$: Observable<TreeStateModel>;
+
+  @Select(TreeState.getOmapConfig) omapConfig$: Observable<OmapConfig>;
 
   nodes: BMNode[];
   treeData: TNode[];
@@ -83,7 +86,7 @@ export class ControlPaneComponent implements OnInit {
   makeBimodalWithDiscrepencyLabel(config: SheetConfig) {
     this.store.dispatch(new UpdateConfig(config));
     let discrepencyLabels = [];
-    if (config.discrepencyLabel){
+    if (config.discrepencyLabel) {
       const discrepencySet = new Set<DiscrepencyStructure>();
       for (const node of this.treeData) {
         if (node.children !== 0 && (node.label !== node.name)) {
@@ -122,7 +125,7 @@ export class ControlPaneComponent implements OnInit {
   makeBimodalWithDiscrepencyId(config: SheetConfig) {
     this.store.dispatch(new UpdateConfig(config));
     let discrepencyIds = [];
-    if (config.discrepencyId){
+    if (config.discrepencyId) {
       const discrepencySet = new Set<DiscrepencyStructure>();
       for (const node of this.treeData) {
         if (node.children !== 0 && (!node.ontologyId)) {
@@ -161,7 +164,7 @@ export class ControlPaneComponent implements OnInit {
   makeDuplicateId(config: SheetConfig) {
     this.store.dispatch(new UpdateConfig(config));
     let duplicateId = [];
-    if (config.duplicateId){
+    if (config.duplicateId) {
       const duplicateIdSet = new Set<DiscrepencyStructure>();
       for (const node of this.treeData) {
         if (node.children !== 0 && (node.ontologyId) && node.ontologyId !== 'no good match') {
@@ -198,7 +201,7 @@ export class ControlPaneComponent implements OnInit {
       this.store.dispatch(new DiscrepencyLabel([]));
       this.store.dispatch(new DiscrepencyId([]));
     }
-    else{
+    else {
       duplicateId = [];
     }
     this.store.dispatch(new DuplicateId([...duplicateId]));
@@ -212,7 +215,7 @@ export class ControlPaneComponent implements OnInit {
 
       if (data.length) {
         try {
-          this.bm.makeBimodalData(data, treeData, bimodalConfig, config);
+          this.bm.makeBimodalData(data, treeData, bimodalConfig, false,config);
         } catch (err) {
           console.log(err);
         }
@@ -231,5 +234,26 @@ export class ControlPaneComponent implements OnInit {
       Feature request for the reporter.%0D%0A%0D%0A3. General discussion about the Reporter.`;
     const mailText = `mailto:infoccf@indiana.edu?subject=${subject}&body=${body}`;
     window.location.href = mailText;
+  }
+
+  updateOmapConfig(event: OmapConfig) {
+    this.store.dispatch(new UpdateOmapConfig(event)).subscribe(states => {
+      const data = states.sheetState.data;
+      const treeData = states.treeState.treeData;
+      const bimodalConfig = states.treeState.bimodal.config;
+      const omapConfig = states.treeState.omapConfig;
+      const sheetConfig = states.sheetState.sheetConfig;
+      const filteredProtiens = states.sheetState.filteredProtiens;
+      /** For Organ Filtering */
+      let omapOrganNames= states.sheetState.allOmapOrgans;
+      omapOrganNames = omapOrganNames.map(word => word.toLowerCase());
+      if (!omapOrganNames.includes('body')) {
+        omapOrganNames.push('body');
+      }
+
+      if (data.length) {
+        this.bm.makeBimodalData(data, treeData, bimodalConfig, false, sheetConfig, omapConfig, omapOrganNames, filteredProtiens);
+      }
+    });
   }
 }

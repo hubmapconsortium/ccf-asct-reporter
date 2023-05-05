@@ -7,6 +7,7 @@ import { LegendModule } from '../../components/legend/legend.module';
 import { FunctionsModule } from '../functions/functions.module';
 import { ControlsModule } from '../../components/controls/controls.module';
 import { RouterModule } from '@angular/router';
+import { OmapControlsModule } from '../../components/omap-controls/omap-controls.module';
 
 
 
@@ -19,7 +20,8 @@ import { RouterModule } from '@angular/router';
     LegendModule,
     FunctionsModule,
     ControlsModule,
-    RouterModule
+    RouterModule,
+    OmapControlsModule
   ],
   exports: [ControlPaneComponent]
 })

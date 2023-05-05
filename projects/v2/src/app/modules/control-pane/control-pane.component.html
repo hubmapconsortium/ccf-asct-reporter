@@ -1,20 +1,15 @@
 <app-sidenav>
   <div header>
     <div class="w-100 text-center pt-3 pb-2">
-      <img
-        src="./assets/logo.svg"
-        alt=""
-        class="w-100 logo-link"
-        routerLink="/"
-        matTooltip="Home Page"
-        matTooltipPosition="below"
-      />
+      <img src="./assets/logo.svg" alt="" class="w-100 logo-link" routerLink="/" matTooltip="Home Page"
+        matTooltipPosition="below" />
     </div>
   </div>
   <div body>
-    
+
     <div class="px-3 mt-2">
-      <app-legend [treeData]="td$ | async" [bimodalData]="bm$ | async" [compareData]="cs$ | async" [error]="error"></app-legend>
+      <app-legend [treeData]="td$ | async" [bimodalData]="bm$ | async" [compareData]="cs$ | async"
+        [error]="error"></app-legend>
     </div>
 
     <div class="px-3 mt-4">
@@ -22,7 +17,13 @@
     </div>
 
     <div class="px-3 mt-4">
-      <app-vis-controls [selectedOrgans]="selectedOrgans$ | async" [config]="config$ | async" [error]="error" (updatedConfig)="updateConfigInSheet($event)" [currentSheet]="sheet$ | async"></app-vis-controls>
+      <app-omap-controls [error]="error" [omaps]="omapConfig$ | async"
+        (updateConfig)="updateOmapConfig($event)"></app-omap-controls>
+    </div>
+
+    <div class="px-3 mt-4">
+      <app-vis-controls [selectedOrgans]="selectedOrgans$ | async" [config]="config$ | async" [error]="error"
+        (updatedConfig)="updateConfigInSheet($event)" [currentSheet]="sheet$ | async"></app-vis-controls>
     </div>
   </div>
 

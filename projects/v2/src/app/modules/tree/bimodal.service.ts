@@ -9,6 +9,7 @@ import { ReportLog } from '../../actions/logs.actions';
 import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
 import { Error } from '../../models/response.model';
 import { Row, SheetConfig, PROTEIN_PRESENCE } from '../../models/sheet.model';
+import { OmapConfig } from '../../models/omap.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,12 +30,15 @@ export class BimodalService {
     sheetData: Row[],
     treeData: TNode[],
     bimodalConfig: BimodalConfig,
+    isReport = false,
     sheetConfig?: SheetConfig,
-    isReport = false
+    omapConfig?:OmapConfig,
+    omapOrganNames?:string[],
+    filteredProtiens?:string[]
   ) {
 
     try {
-
+      filteredProtiens = filteredProtiens?.map(word => word.toLowerCase())??[];
       const anatomicalStructuresData = makeAS(sheetData);
       const links = [];
       const nodes = [];
@@ -159,7 +163,9 @@ export class BimodalService {
       treeX += distance;
 
       biomarkers = await makeBioMarkers(sheetData);
-
+      if(omapConfig?.proteinsOnly){
+        biomarkers=biomarkers.filter((elem)=> filteredProtiens.includes(elem.comparatorName.toLowerCase()));
+      }
       switch (bimodalConfig.BM.sort) {
       case 'Alphabetically':
         biomarkers.sort((a, b) => {

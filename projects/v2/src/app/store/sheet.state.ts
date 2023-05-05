@@ -34,6 +34,7 @@ import {
   UpdateBottomSheetDOI,
   FetchSelectedOrganData,
   UpdateGetFromCache,
+  FetchValidOmapProtiens,
 } from '../actions/sheet.actions';
 import {
   OpenLoading,
@@ -121,6 +122,14 @@ export class SheetStateModel {
    * Update the flag is data should be fetched from cache
    */
   getFromCache: boolean;
+  /**
+   * Stores all Omap Organs
+   */
+  allOmapOrgans: string[];
+  /**
+   * Stores all Protiens which are OMAP and common to current ASCT data
+   */
+  filteredProtiens: string[];
 }
 
 @State<SheetStateModel>({
@@ -185,6 +194,8 @@ export class SheetStateModel {
     omapSelectedOrgans: [],
     fullDataByOrgan: [],
     getFromCache: true,
+    allOmapOrgans: [],
+    filteredProtiens: []
   },
 })
 
@@ -350,6 +361,21 @@ export class SheetState {
   }
 
   /**
+   * Returns an allOmapsOrgan Names from the state
+   */
+  @Selector()
+  static getAllOMAPOrgans(state: SheetStateModel) {
+    return state.allOmapOrgans;
+  }
+  /**
+ * Returns an allOmapsOrgan Names from the state
+ */
+  @Selector()
+  static getfilteredProtiens(state: SheetStateModel) {
+    return state.filteredProtiens;
+  }
+
+  /**
    * Action to delete a linked sheet from the state.
    * Accepts the index location of the sheet that is to be deleted
    */
@@ -481,6 +507,9 @@ export class SheetState {
     { getState, dispatch, patchState }: StateContext<SheetStateModel>,
     { sheet, selectedOrgans, omapSelectedOrgans, comparisonDetails }: FetchSelectedOrganData
   ) {
+    patchState({
+      allOmapOrgans: this.omapSheetConfig.map((organObject) => organObject.name)
+    });
     dispatch(new OpenLoading('Fetching data...'));
 
     dispatch(new StateReset(TreeState));
@@ -493,7 +522,7 @@ export class SheetState {
       compareSheets: [],
       data: [],
       selectedOrgans: selectedOrgans,
-      omapSelectedOrgans:omapSelectedOrgans,
+      omapSelectedOrgans: omapSelectedOrgans,
       sheetConfig: {
         ...sheet.config,
         show_ontology: state.sheetConfig.show_ontology,
@@ -567,6 +596,7 @@ export class SheetState {
         if (comparisonDetails) {
           dispatch(new FetchCompareData(comparisonDetails));
         }
+        dispatch(new FetchValidOmapProtiens());
       },
       (err) => {
 
@@ -610,6 +640,7 @@ export class SheetState {
       },
       version: 'latest',
       data: [],
+      allOmapOrgans: this.omapSheetConfig.map((organObject) => organObject.name)
     });
 
     const requests$: Array<Observable<any>> = [];
@@ -658,6 +689,7 @@ export class SheetState {
           data: dataAll,
           fullAsData: asData
         });
+        dispatch(new FetchValidOmapProtiens());
       },
       (error) => {
         const err: Error = {
@@ -1116,4 +1148,48 @@ export class SheetState {
       getFromCache: cache,
     });
   }
+
+  @Action(FetchValidOmapProtiens)
+  fetchValidOmapProtiens({ getState, patchState }: StateContext<SheetStateModel>) {
+    const state = getState();
+    const requests$: Array<Observable<any>> = [];
+
+    if (state.omapSelectedOrgans.length > 0 && state.omapSelectedOrgans[0] !=='') {
+      for (const s of state.omapSelectedOrgans) {
+        const [organ, _omapVersion] = s.split('-');
+        const sheetDetails = this.omapSheetConfig.find(omap => omap.name.toLowerCase() === organ.toLowerCase());
+        const version = sheetDetails.version.find(v => v.value.toLowerCase() === s.toLowerCase());
+        requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
+      }
+    } else {
+      for (const s of this.omapSheetConfig) {
+        const version = [...s.version].pop();
+        requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
+      }
+    }
+    
+    const existingProtiens = [];
+    for (const r of state.data) {
+      r.biomarkers_protein.forEach(element => {
+        existingProtiens.push(element.name);
+      });
+    }
+    const allOmapProtiens = new Set();
+    forkJoin(requests$).subscribe(
+      (allresults) => {
+        allresults.map((res: ResponseData, index) => {
+          for (const row of res.data) {
+            row.biomarkers_protein.forEach(element => {
+              allOmapProtiens.add(element.name);
+            });
+          }
+        });
+        const filteredProtiens = new Set([...existingProtiens].filter(i => allOmapProtiens.has(i)))??[];
+        patchState({
+          filteredProtiens: [...filteredProtiens]
+        });
+      });
+
+  }
+
 }

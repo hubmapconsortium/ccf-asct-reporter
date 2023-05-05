@@ -689,7 +689,7 @@ export class RootComponent implements OnInit, OnDestroy {
       };
 
       setTimeout(() => {
-        this.snackbarRef = this.snackbar.open('OMAP Detected, Do you want to filter out only Proteins' +
+        this.snackbarRef = this.snackbar.open('OMAP Detected, Do you want to filter out only Proteins ' +
           'from the available BioMarkers?', 'Filter', config);
         this.snackbarRef.onAction().subscribe(() => {
           this.bimodalConfig.BM.type = 'Protein';
@@ -700,7 +700,7 @@ export class RootComponent implements OnInit, OnDestroy {
             const sheetConfig = states.sheetState.sheetConfig;
 
             if (data.length) {
-              this.bms.makeBimodalData(data, treeData, bimodalConfig, sheetConfig);
+              this.bms.makeBimodalData(data, treeData, bimodalConfig, false, sheetConfig);
             }
           });
         });
