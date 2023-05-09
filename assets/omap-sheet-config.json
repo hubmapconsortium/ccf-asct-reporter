@@ -15,7 +15,7 @@
       {
         "viewValue": "v1.0",
         "hraVersion": "v1.1",
-        "value": "Lymph-Node-v1.0",
+        "value": "Lymph_Node-v1.0",
         "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.1/omap/OMAP_Lymph_Node.csv",
         "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.1/omap/OMAP_Lymph_Node.xlsx",
         "as": 29,
@@ -28,7 +28,7 @@
       {
         "viewValue": "v1.1",
         "hraVersion": "v1.2",
-        "value": "Lymph-Node-v1.1",
+        "value": "Lymph_Node-v1.1",
         "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.2/omap/OMAP_Human_Lymph_Node_IBEX.csv",
         "sheetId": "",
         "gid": "",
@@ -41,7 +41,7 @@
       {
         "viewValue": "v1.2",
         "hraVersion": "v1.3",
-        "value": "Lymph-Node-v1.2",
+        "value": "Lymph_Node-v1.2",
         "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.3/omap/omap-1-human-lymph-node-ibex.csv",
         "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.3/omap/omap-1-human-lymph-node-ibex.xlsx",
         "as": 28,
