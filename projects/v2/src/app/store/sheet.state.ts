@@ -34,6 +34,7 @@ import {
   UpdateBottomSheetDOI,
   FetchSelectedOrganData,
   UpdateGetFromCache,
+  FetchValidOmapProtiens,
 } from '../actions/sheet.actions';
 import {
   OpenLoading,
@@ -110,6 +111,10 @@ export class SheetStateModel {
    */
   selectedOrgans: string[];
   /**
+   * Stores the selected organs details from OMAPS.
+   */
+  omapSelectedOrgans: string[];
+  /**
    * Full data by organ
    */
   fullDataByOrgan: Row[][];
@@ -117,6 +122,14 @@ export class SheetStateModel {
    * Update the flag is data should be fetched from cache
    */
   getFromCache: boolean;
+  /**
+   * Stores all Omap Organs
+   */
+  allOmapOrgans: string[];
+  /**
+   * Stores all Protiens which are OMAP and common to current ASCT data
+   */
+  filteredProtiens: string[];
 }
 
 @State<SheetStateModel>({
@@ -178,8 +191,11 @@ export class SheetStateModel {
     bottomSheetDOI: [],
     fullAsData: [],
     selectedOrgans: [],
+    omapSelectedOrgans: [],
     fullDataByOrgan: [],
     getFromCache: true,
+    allOmapOrgans: [],
+    filteredProtiens: []
   },
 })
 
@@ -188,6 +204,7 @@ export class SheetStateModel {
 
 export class SheetState {
   sheetConfig: SheetDetails[];
+  omapSheetConfig: SheetDetails[];
   exampleSheet: SheetDetails;
   headerCount: unknown;
 
@@ -195,10 +212,13 @@ export class SheetState {
     this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
       this.sheetConfig = sheetOptions;
     });
+    this.configService.omapsheetConfiguration$.subscribe((sheetOptions) => {
+      this.omapSheetConfig = sheetOptions;
+    });
     this.configService.allSheetConfigurations$.subscribe((sheetOptions) => {
       this.exampleSheet = sheetOptions.find(s => s.name === 'example');
     });
-    this.configService.config$.subscribe(config=>{
+    this.configService.config$.subscribe(config => {
       this.headerCount = config.headerCount;
     });
   }
@@ -236,6 +256,14 @@ export class SheetState {
   @Selector()
   static getSelectedOrgans(state: SheetStateModel) {
     return state.selectedOrgans;
+  }
+
+  /**
+ * Returns an observable that watches the selected organs data from OMAPS
+ */
+  @Selector()
+  static getOMAPSelectedOrgans(state: SheetStateModel) {
+    return state.omapSelectedOrgans;
   }
 
   /**
@@ -333,6 +361,21 @@ export class SheetState {
   }
 
   /**
+   * Returns an allOmapsOrgan Names from the state
+   */
+  @Selector()
+  static getAllOMAPOrgans(state: SheetStateModel) {
+    return state.allOmapOrgans;
+  }
+  /**
+ * Returns an allOmapsOrgan Names from the state
+ */
+  @Selector()
+  static getfilteredProtiens(state: SheetStateModel) {
+    return state.filteredProtiens;
+  }
+
+  /**
    * Action to delete a linked sheet from the state.
    * Accepts the index location of the sheet that is to be deleted
    */
@@ -404,6 +447,7 @@ export class SheetState {
               }
               row.anatomical_structures.unshift(organ);
               row.organName = compareSheet.title;
+              row.tableVersion = '';
 
               for (const i of row.cell_types) {
                 i.isNew = true;
@@ -427,7 +471,7 @@ export class SheetState {
             };
             gaData.counts = this.reportService.countsGA(res.data);
             this.ga.event(GaAction.INPUT, GaCategory.COMPARISON, `Adding sheet or file to Compare: ${JSON.stringify(gaData)}`, 0);
-
+            compareSheet.isOmap = res.isOmap ?? false;
             patchState({
               data: [...currentData, ...res.data],
               fullAsData: [...currentFullASData, ...res.data],
@@ -461,21 +505,24 @@ export class SheetState {
   @Action(FetchSelectedOrganData)
   async fetchSelectedOrganData(
     { getState, dispatch, patchState }: StateContext<SheetStateModel>,
-    { sheet, selectedOrgans, comparisonDetails }: FetchSelectedOrganData
+    { sheet, selectedOrgans, omapSelectedOrgans, comparisonDetails }: FetchSelectedOrganData
   ) {
+    patchState({
+      allOmapOrgans: this.omapSheetConfig.map((organObject) => organObject.name)
+    });
     dispatch(new OpenLoading('Fetching data...'));
 
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
     const state = getState();
-
     patchState({
       sheet,
       compareData: [],
       compareSheets: [],
       data: [],
       selectedOrgans: selectedOrgans,
+      omapSelectedOrgans: omapSelectedOrgans,
       sheetConfig: {
         ...sheet.config,
         show_ontology: state.sheetConfig.show_ontology,
@@ -488,8 +535,20 @@ export class SheetState {
     let dataAll: Row[] = [];
 
     const organsNames: string[] = [];
+    const organTableVersions: string[] = [];
     for (const organ of selectedOrgans) {
       this.sheetConfig.forEach((config) => {
+        config.version?.forEach((version: VersionDetail) => {
+          if (version.value === organ) {
+            requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
+            organsNames.push(config.name);
+            organTableVersions.push(version.viewValue);
+          }
+        });
+      });
+    }
+    for (const organ of omapSelectedOrgans) {
+      this.omapSheetConfig.forEach((config) => {
         config.version?.forEach((version: VersionDetail) => {
           if (version.value === organ) {
             requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
@@ -505,6 +564,7 @@ export class SheetState {
         allResults.map((res: ResponseData, index: number) => {
           for (const row of res.data) {
             row.organName = organsNames[index];
+            row.tableVersion = organTableVersions[index];
 
             const newStructure: Structure = {
               name: 'Body',
@@ -536,6 +596,7 @@ export class SheetState {
         if (comparisonDetails) {
           dispatch(new FetchCompareData(comparisonDetails));
         }
+        dispatch(new FetchValidOmapProtiens());
       },
       (err) => {
 
@@ -579,11 +640,13 @@ export class SheetState {
       },
       version: 'latest',
       data: [],
+      allOmapOrgans: this.omapSheetConfig.map((organObject) => organObject.name)
     });
 
     const requests$: Array<Observable<any>> = [];
     let dataAll: Row[] = [];
     const organsNames: string[] = [];
+    const organsTableVersions: string[] = [];
 
     for (const s of this.sheetConfig) {
       if (s.name === 'all' || s.name === 'example' || s.name === 'some') {
@@ -593,14 +656,17 @@ export class SheetState {
           this.sheetService.fetchSheetData(s.sheetId, s.gid, s.csvUrl)
         );
         organsNames.push(s.name);
+        organsTableVersions.push(s.version.find((i) => i.value === s.name).viewValue);
       }
     }
     let asData = [];
+
     forkJoin(requests$).subscribe(
       (allresults) => {
         allresults.map((res: ResponseData, i) => {
           for (const row of res.data) {
             row.organName = organsNames[i];
+            row.tableVersion = organsTableVersions[i];
             const newStructure: Structure = {
               name: 'Body',
               id: this.bodyId,
@@ -623,6 +689,7 @@ export class SheetState {
           data: dataAll,
           fullAsData: asData
         });
+        dispatch(new FetchValidOmapProtiens());
       },
       (error) => {
         const err: Error = {
@@ -892,6 +959,7 @@ export class SheetState {
         res.data.forEach((row) => {
           row.anatomical_structures.unshift(organ);
           row.organName = sheet.name;
+          row.tableVersion = '';
         });
 
         setState({
@@ -959,6 +1027,7 @@ export class SheetState {
         res.data.forEach((row) => {
           row.anatomical_structures.unshift(organ);
           row.organName = sheet.name;
+          row.tableVersion = '';
         });
         setState({
           ...state,
@@ -1016,7 +1085,7 @@ export class SheetState {
             bottomSheetInfo: {
               ...res,
               notes: data?.notes,
-              ...(data.group === 2 ? {references: data?.references} : {}),
+              ...(data.group === 2 ? { references: data?.references } : {}),
             },
           });
         }),
@@ -1035,7 +1104,7 @@ export class SheetState {
               msg: error.message,
               status: error.status,
               notes: data?.notes,
-              ...(data.group === 2 ? {references: data?.references} : {}),
+              ...(data.group === 2 ? { references: data?.references } : {}),
             },
           });
           const err: Error = {
@@ -1072,11 +1141,56 @@ export class SheetState {
    * Action to update the flag to get the data from cache
    */
   @Action(UpdateGetFromCache)
-  updateGetFromCache({ getState, setState }: StateContext<SheetStateModel>, { cache}: UpdateGetFromCache) {
+  updateGetFromCache({ getState, setState }: StateContext<SheetStateModel>, { cache }: UpdateGetFromCache) {
     const state = getState();
     setState({
       ...state,
       getFromCache: cache,
     });
   }
+
+  @Action(FetchValidOmapProtiens)
+  fetchValidOmapProtiens({ getState, patchState }: StateContext<SheetStateModel>) {
+    const state = getState();
+    const requests$: Array<Observable<any>> = [];
+    
+    if (state.omapSelectedOrgans.length > 0 && state.omapSelectedOrgans[0] !=='') {
+      for (const s of state.omapSelectedOrgans) {
+        const [organ, _omapVersion] = s.split('-');
+        const organName = organ.split('_').join(' ');
+        const sheetDetails = this.omapSheetConfig.find(omap => omap.name.toLowerCase() === organName.toLowerCase());
+        const version = sheetDetails.version.find(v => v.value.toLowerCase() === s.toLowerCase());
+        requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
+      }
+    } else {
+      for (const s of this.omapSheetConfig) {
+        const version = [...s.version].pop();
+        requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
+      }
+    }
+    
+    const existingProtiens = [];
+    for (const r of state.data) {
+      r.biomarkers_protein.forEach(element => {
+        existingProtiens.push(element.name);
+      });
+    }
+    const allOmapProtiens = new Set();
+    forkJoin(requests$).subscribe(
+      (allresults) => {
+        allresults.map((res: ResponseData, index) => {
+          for (const row of res.data) {
+            row.biomarkers_protein.forEach(element => {
+              allOmapProtiens.add(element.name);
+            });
+          }
+        });
+        const filteredProtiens = new Set([...existingProtiens].filter(i => allOmapProtiens.has(i)))??[];
+        patchState({
+          filteredProtiens: [...filteredProtiens]
+        });
+      });
+
+  }
+
 }

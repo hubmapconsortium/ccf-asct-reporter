@@ -13,9 +13,11 @@ import {
   DiscrepencyLabel,
   DiscrepencyId,
   DuplicateId,
+  UpdateOmapConfig,
 } from '../actions/tree.actions';
 import { TNode, SearchStructure, DiscrepencyStructure } from '../models/tree.model';
 import { BMNode, Link, BimodalConfig } from '../models/bimodal.model';
+import { OmapConfig } from '../models/omap.model';
 
 /** Class to keep track of all data and events related to the visualization */
 export class TreeStateModel {
@@ -82,6 +84,10 @@ export class TreeStateModel {
    * Store the discrepency id data
    */
   duplicateId: DiscrepencyStructure[];
+  /**
+   * Store the OMAP Config
+   */
+  omapConfig: OmapConfig
 
 }
 
@@ -97,7 +103,7 @@ export class TreeStateModel {
     search: [],
     lastSearch: null,
     bottomSheetData: {},
-    links: { 
+    links: {
       AS_CT: 0,
       CT_B: 0,
       AS_AS: 0,
@@ -107,7 +113,8 @@ export class TreeStateModel {
     },
     discrepencyLabel: [],
     discrepencyId: [],
-    duplicateId: []
+    duplicateId: [],
+    omapConfig: { organsOnly: false, proteinsOnly: false }
   }
 })
 @Injectable()
@@ -188,6 +195,14 @@ export class TreeState {
   }
 
   /**
+   * Select the config for OMAPS
+   */
+  @Selector()
+  static getOmapConfig(state: TreeStateModel) {
+    return state.omapConfig;
+  }
+
+  /**
    * Updates the bimodal data
    */
   @Action(UpdateBimodal)
@@ -241,6 +256,14 @@ export class TreeState {
         links,
         config
       }
+    });
+  }
+
+  @Action(UpdateOmapConfig)
+  updateOmapConfig({ getState, setState }: StateContext<TreeStateModel>, { config }: UpdateOmapConfig) {
+    setState({
+      ...getState(),
+      omapConfig: config
     });
   }
 
@@ -309,28 +332,29 @@ export class TreeState {
    * Updates the links data that is displayed in the report
    */
   @Action(UpdateLinksData)
-  updateLinksData({ getState, setState }: StateContext<TreeStateModel>, { AS_CT, CT_B,  AS_CT_organWise, CT_B_organWise, AS_AS, AS_AS_organWise, allOrgans }: UpdateLinksData) {
+  updateLinksData({ getState, setState }: StateContext<TreeStateModel>, { AS_CT, CT_B, AS_CT_organWise, CT_B_organWise, AS_AS, AS_AS_organWise, allOrgans }: UpdateLinksData) {
     const state = getState();
     if (AS_AS) {
       setState({
         ...state,
-        links: { ...state.links, AS_AS}
+        links: { ...state.links, AS_AS }
       });
     } else if (AS_AS_organWise) {
       setState({
         ...state,
-        links: { ...state.links,
-          AS_AS_organWise: {...state.links.AS_AS_organWise, ...AS_AS_organWise}
+        links: {
+          ...state.links,
+          AS_AS_organWise: { ...state.links.AS_AS_organWise, ...AS_AS_organWise }
         }
       });
     } else {
       setState({
         ...state,
-        links: { 
-          AS_CT : allOrgans ? state.links.AS_CT : AS_CT,
-          CT_B : allOrgans ? state.links.CT_B : CT_B,
-          CT_B_organWise: {...state.links.CT_B_organWise, ...CT_B_organWise},
-          AS_CT_organWise: {...state.links.AS_CT_organWise, ...AS_CT_organWise},
+        links: {
+          AS_CT: allOrgans ? state.links.AS_CT : AS_CT,
+          CT_B: allOrgans ? state.links.CT_B : CT_B,
+          CT_B_organWise: { ...state.links.CT_B_organWise, ...CT_B_organWise },
+          AS_CT_organWise: { ...state.links.AS_CT_organWise, ...AS_CT_organWise },
           AS_AS: state.links.AS_AS,
           AS_AS_organWise: state.links.AS_AS_organWise
         }

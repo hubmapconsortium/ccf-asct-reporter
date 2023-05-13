@@ -24,7 +24,7 @@ export class FetchAllOrganData {
 
 export class FetchSelectedOrganData {
   static readonly type = '[FETCH] Selected Organs Data';
-  constructor(public sheet: Sheet, public selectedOrgans: Array<string>, public comparisonDetails?: CompareData[]) {}
+  constructor(public sheet: Sheet, public selectedOrgans: Array<string>,public omapSelectedOrgans: Array<string>, public comparisonDetails?: CompareData[]) {}
 }
 
 export class FetchCompareData {
@@ -95,4 +95,9 @@ export class UpdateBottomSheetDOI {
 export class UpdateGetFromCache {
   static readonly type = '[UPDATE] Get From Cache';
   constructor(public cache: boolean) {}
+}
+
+export class FetchValidOmapProtiens {
+  static readonly type = '[FETCH] Valid OMAP Protiens Data';
+  constructor() {}
 }

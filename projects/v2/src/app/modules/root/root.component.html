@@ -1,23 +1,12 @@
 <div class="h-100 w-100">
 
   <mat-drawer-container class="control-pane-container h-100" autosize>
-    <mat-drawer
-      #controlPaneDrawer
-      class="control-pane"
-      mode="side"
-      [opened]="pane$ | async"
-
-
-    >
+    <mat-drawer #controlPaneDrawer class="control-pane" mode="side" [opened]="pane$ | async">
 
       <app-control-pane [error]="error"></app-control-pane>
     </mat-drawer>
 
-    <mat-drawer
-      #rightDrawer
-      class="right-sidenav"
-      mode="over"
-      [opened]="
+    <mat-drawer #rightDrawer class="right-sidenav" mode="over" [opened]="
         (il$ | async) || (report$ | async) || (dl$ | async) || (c$ | async)
       "
       position="end"
@@ -42,46 +31,25 @@
         [hideReportCompareTab]="(mode$ | async) === 'playground'"
       ></app-report>
 
-      <app-indent
-        (closeIL)="rightDrawer.close()"
-        *ngIf="il$ | async"
-        [sheetData]="data"
-        [currentSheet]="sheet"
-        (openBottomSheet)="getStructureInfo($event)"
-      ></app-indent>
+      <app-indent (closeIL)="rightDrawer.close()" *ngIf="il$ | async" [sheetData]="data" [currentSheet]="sheet"
+        (openBottomSheet)="getStructureInfo($event)"></app-indent>
 
-      <app-debug-logs
-        (closeDebug)="rightDrawer.close()"
-        *ngIf="dl$ | async"
-        [currentSheet]="sheet"
-        [logs]="logs$ | async"
-      ></app-debug-logs>
+      <app-debug-logs (closeDebug)="rightDrawer.close()" *ngIf="dl$ | async" [currentSheet]="sheet"
+        [logs]="logs$ | async"></app-debug-logs>
 
-      <app-compare
-        (closeCompare)="rightDrawer.close()"
-        *ngIf="c$ | async"
-        class="compare-sidenav"
-        (compareData)="compareData($event)"
-        [compareSheets]="compareSheets$"
-      ></app-compare>
+      <app-compare (closeCompare)="rightDrawer.close()" *ngIf="c$ | async" class="compare-sidenav"
+        (compareData)="compareData($event)" [compareSheets]="compareSheets$"></app-compare>
     </mat-drawer>
     <mat-drawer-content>
       <app-navbar (export)="exportVis($event)" [cache]="getFromCache$ | async"></app-navbar>
-      <div id="content"  class="h-100 w-100">
+      <div id="content" class="h-100 w-100">
 
         <app-error *ngIf="error.hasError" [error]="error"></app-error>
-          <div
-          class="example-box box-container" cdkDrag
-        [ngStyle]="{'margin-top': (mode$ | async) === 'vis' ? '1.25rem' : '4.0625rem'}"
-          *ngIf="(pane$ | async) === false"
-        >
-          <app-legend
-
-            [treeData]="treeData$ | async"
-            [bimodalData]="bm$ | async"
-            [compareData]="compareSheets$ | async"
-            [error]="error"
-          ></app-legend>
+        <div class="example-box box-container" cdkDrag
+          [ngStyle]="{'margin-top': (mode$ | async) === 'vis' ? '1.25rem' : '4.0625rem'}"
+          *ngIf="(pane$ | async) === false">
+          <app-legend [treeData]="treeData$ | async" [bimodalData]="bm$ | async" [compareData]="compareSheets$ | async"
+            [error]="error"></app-legend>
         </div>
         <div #treeDiv class="tree-div" *ngIf="(mode$ | async) === 'vis'">
           <app-tree *ngIf="!error.hasError"></app-tree>

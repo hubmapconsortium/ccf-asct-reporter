@@ -37,6 +37,7 @@ export function setupCSVRoutes(app: Express): void {
             csv: response.data,
             parsed: data,
             warnings: asctbData.warnings,
+            isOmap: asctbData.isOmap
           };
         })
       );
@@ -46,7 +47,7 @@ export function setupCSVRoutes(app: Express): void {
           result = result.concat(data);
           return result;
         }, []);
-      
+
       const asctbDataResponse = asctbDataResponses[0];
 
       if (output === 'owl') {
@@ -76,7 +77,8 @@ export function setupCSVRoutes(app: Express): void {
           metadata: asctbDataResponse.metadata,
           csv: asctbDataResponse.csv,
           parsed: asctbDataResponse.parsed,
-          warnings: asctbDataResponse.warnings
+          warnings: asctbDataResponse.warnings,
+          isOmap: asctbDataResponse.isOmap ?? false
         });
       }
     } catch (err) {
@@ -92,8 +94,8 @@ export function setupCSVRoutes(app: Express): void {
    * Parse a CSV into JSON format given the raw file formData
    */
   app.post('/v2/csv', async (req: Request, res: Response) => {
-    console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
 
+    console.log(`${req.protocol}://${req.headers.host}${req.originalUrl}`);
     if (!req.files || !req.files.csvFile) {
       return res.status(400).send({
         msg: 'This route only accepts CSVs POSTed and called csvFile',
@@ -122,7 +124,8 @@ export function setupCSVRoutes(app: Express): void {
         metadata: asctbData.metadata,
         csv: dataString,
         parsed: data,
-        warnings: asctbData.warnings
+        warnings: asctbData.warnings,
+        isOmap: asctbData.isOmap
       });
 
     } catch (err) {

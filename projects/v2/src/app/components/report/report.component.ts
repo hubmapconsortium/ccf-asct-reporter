@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
 import { TreeService } from '../../modules/tree/tree.service';
-import { linksASCTBData } from '../../models/tree.model';
+import { bmCtPairings, linksASCTBData } from '../../models/tree.model';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -100,7 +100,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
       this.computedReport.emit(data.data);
 
       this.ontologyLinkGraphData = this.makeOntologyLinksGraphData(data.data, this.sheetData);
-      
+
     });
     this.linksData$.subscribe((data) => {
       this.total_AS_AS = data.AS_AS;
@@ -140,17 +140,18 @@ export class ReportComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() { }
 
-  makeOntologyLinksGraphData(reportData: Report,sheetData: Row[]) {
+  makeOntologyLinksGraphData(reportData: Report, sheetData: Row[]) {
     const { result, biomarkersSeperateNames } =
       this.reportService.makeAllOrganReportDataByOrgan(sheetData, this.asFullData);
-    
+
     const biomarkerCols = [];
     biomarkersSeperateNames.forEach((bm) => {
-      if (this.displayedColumns.includes(bm.name) === false){
+      if (this.displayedColumns.includes(bm.name) === false) {
         biomarkerCols.push(bm.name);
-      }    
+      }
       this.displayedColumns = [
         'organName',
+        'tableVersion',
         'anatomicalStructures',
         'cellTypes',
         'b_total',
@@ -165,11 +166,16 @@ export class ReportComponent implements OnInit, AfterViewInit {
         'CT_BM',
       ];
     });
-
+    const tableVersions = new Map<string, string>();
+    sheetData.forEach(element => {
+      if(!(element.organName in tableVersions.keys())){
+        tableVersions.set(element.organName,element.tableVersion);
+      }
+    });
     this.biomarkersSeperateNames = biomarkersSeperateNames;
     this.linksData$.subscribe((data) => {
       this.countsByOrgan =
-        new MatTableDataSource(this.reportService.makeAllOrganReportDataCountsByOrgan(result, data).sort((a, b) => a.organName.localeCompare(b.organName)));
+        new MatTableDataSource(this.reportService.makeAllOrganReportDataCountsByOrgan(result, data, tableVersions).sort((a, b) => a.organName.localeCompare(b.organName)));
       this.biomarkersCounts = [];
       this.biomarkersSeperateNames.forEach((bm) => {
         this.biomarkersCounts.push({ name: bm.name, value: this.countsByOrgan.data[0][bm.name] });
@@ -255,7 +261,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
   }
 
   getTotals(data: CByOrgan[][], key: string) {
-    return data.map(t => t[key]? t[key] : 0).reduce((acc, value) => acc + value, 0);
+    return data.map(t => t[key] ? t[key] : 0).reduce((acc, value) => acc + value, 0);
   }
 
   downloadData() {
@@ -294,7 +300,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
         row['BM ID'] = this.reportData.biomarkers[i].link;
 
       }
-      if (i < this.reportData.BWithNoLink.length){
+      if (i < this.reportData.BWithNoLink.length) {
         row['Biomarkers with no links'] = this.reportData.BWithNoLink[i].structure;
       }
       download.push(row);
@@ -315,7 +321,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
     };
   }
 
-  
+
   downloadReport(i = -1) {
     const wb = XLSX.utils.book_new();
     const allReport = [];
@@ -325,8 +331,6 @@ export class ReportComponent implements OnInit, AfterViewInit {
      */
     if (i === -1) {
       allReport.push(this.downloadData());
-
-      // Tracking the 'Download All' use case from the header button.
       this.ga.event(
         GaAction.CLICK,
         GaCategory.REPORT,
@@ -354,14 +358,14 @@ export class ReportComponent implements OnInit, AfterViewInit {
   }
 
   downloadReportByOrgan() {
-    const  sheetName = 'countByOrgan';
-    const fileName  = 'countsByOrgans';
+    const sheetName = 'countByOrgan';
+    const fileName = 'countsByOrgans';
     const targetTableElm = document.getElementById('countsByOrgans');
     const allReport = [];
 
-    const organsList:string[] = [];
+    const organsList: string[] = [];
 
-   
+
     const wb = XLSX.utils.table_to_book(targetTableElm, {
       sheet: sheetName
     } as XLSX.Table2SheetOpts);
@@ -384,10 +388,10 @@ export class ReportComponent implements OnInit, AfterViewInit {
 
     let i = 0;
     for (const book of allReport) {
-      XLSX.utils.book_append_sheet(wb, book.sheet, organsList[i] );
+      XLSX.utils.book_append_sheet(wb, book.sheet, organsList[i]);
       i += 1;
     }
-    
+
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   }
 
@@ -403,11 +407,12 @@ export class ReportComponent implements OnInit, AfterViewInit {
       identicalB: 'Identical Biomarkers',
       newB: 'New Biomarkers',
     };
-    const download = [];
+
+    let download = [];
     const keys = Object.keys(this.compareReport[i]);
 
     for (const key of keys) {
-      if (typeof sheet[key] === 'object') {
+      if (typeof sheet[key] === 'object' && key in keyMapper) {
         for (const [idx, value] of sheet[key].entries()) {
           const t = {};
           t[keyMapper[key]] = value;
@@ -420,7 +425,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
         }
       }
     }
-
+    download = this.getBMCTAS(sheet.identicalBMCTPair, download);
     const sheetWS = XLSX.utils.json_to_sheet(download);
 
     sheetWS['!cols'] = [];
@@ -442,5 +447,26 @@ export class ReportComponent implements OnInit, AfterViewInit {
       sheetName: sheet.title,
       name: `ASCT+B-Reporter_Derived_${sn}_${dt}_Report.xlsx`,
     };
+  }
+
+
+  getBMCTAS(bmCtPairs: Set<bmCtPairings>, download: Record<string, string>[]) {
+    const AS_CT_BM: Set<string> = new Set<string>();
+    let index = 0;
+    bmCtPairs.forEach(pair => {
+      const newPair = `${pair.AS_NAME} (${pair.AS_ID}), ${pair.CT_NAME} (${pair.CT_ID}), ${pair.BM_NAME}(${pair.BM_ID})`;
+      if (!AS_CT_BM.has(newPair)) {
+        AS_CT_BM.add(newPair);
+        const t = { '': '', 'AS': `${pair.AS_NAME} (${pair.AS_ID})`, 'CT': `${pair.CT_NAME} (${pair.CT_ID})`, 'Biomarker': `${pair.BM_NAME} (${pair.BM_ID})` };
+
+        if (download[index]) {
+          download[index] = { ...download[index], ...t };
+        } else {
+          download.push(t);
+        }
+        index += 1;
+      }
+    });
+    return download;
   }
 }

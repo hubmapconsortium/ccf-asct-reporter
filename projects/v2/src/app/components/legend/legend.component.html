@@ -17,8 +17,8 @@
               'border-style': l.style === 'stroke' ? 'dotted' : 'none'
             }"
             [ngClass]="{
-              'rect' : l.name === 'Protein Presence' || l.name === 'Protein Absence' || l.name === 'AS-AS, AS-CT, CT-BM Paths',
-              'circle' : l.name === 'Gene Biomarkers' || (!l.bmType && l.name !== 'Protein Presence' && l.name !== 'Protein Absence' && l.name !== 'AS-AS, AS-CT, CT-BM Paths'),
+              'rect' : l.name === 'Protein Presence' || l.name === 'Protein Absence' || l.name === 'AS-AS, AS-CT, CT-BM Paths' || l.name === 'Intermediate Protein',
+              'circle' : l.name === 'Gene Biomarkers' || (!l.bmType && l.name !== 'Protein Presence' && l.name !== 'Protein Absence' && l.name !== 'AS-AS, AS-CT, CT-BM Paths' && l.name !== 'Intermediate Protein'),
               'protein' : l.name === 'Protein Biomarkers',
               'lipids' : l.name === 'Lipids Biomarkers',
               'metabolites' : l.name === 'Metabolites Biomarkers',

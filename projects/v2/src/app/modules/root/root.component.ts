@@ -30,7 +30,7 @@ import {
   CloseRightSideNav,
   CloseCompare,
   CloseLoading,
-  OpenBottomSheet
+  OpenBottomSheet,
 } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -55,6 +55,9 @@ import { OrganTableSelectorComponent } from '../../components/organ-table-select
 import { TreeComponent } from '../tree/tree.component';
 import { ConfigService } from '../../app-config.service';
 import { Report } from '../../models/report.model';
+import { UpdateBimodalConfig } from '../../actions/tree.actions';
+import { BimodalConfig } from '../../models/bimodal.model';
+import { BimodalService } from '../tree/bimodal.service';
 
 @Component({
   selector: 'app-root',
@@ -107,6 +110,10 @@ export class RootComponent implements OnInit, OnDestroy {
    * Comparison sheets details
    */
   compareDetails: CompareData[] = [];
+  /**
+   * Bimodal filter values to snd via snackbar update
+   */
+  bimodalConfig: BimodalConfig;
 
   // The container used for vertical scrolling of the viz is different than the one used for horizontal scrolling
   // Here we get references to both values.
@@ -138,6 +145,7 @@ export class RootComponent implements OnInit, OnDestroy {
   @Select(TreeState.getBiomarkerType) bmType$: Observable<string>;
   @Select(TreeState.getLatestSearchStructure)
   searchOption$: Observable<SearchStructure>;
+  @Select(TreeState.getBimodalConfig) config$: Observable<BimodalConfig>;
 
   // Control Pane Observables
   @Select(UIState.getControlPaneState) pane$: Observable<boolean>;
@@ -157,7 +165,8 @@ export class RootComponent implements OnInit, OnDestroy {
   // Logs Oberservables
   @Select(LogsState) logs$: Observable<Logs>;
 
-  sheetConfig:SheetDetails[];
+  sheetConfig: SheetDetails[];
+  omapSheetConfig: SheetDetails[];
 
   constructor(
     public configService: ConfigService,
@@ -171,10 +180,14 @@ export class RootComponent implements OnInit, OnDestroy {
     private readonly infoSheet: MatBottomSheet,
     public sheetService: SheetService,
     public router: Router,
+    public bms: BimodalService
   ) {
 
     this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
       this.sheetConfig = sheetOptions;
+    });
+    this.configService.omapsheetConfiguration$.subscribe((sheetOptions) => {
+      this.omapSheetConfig = sheetOptions;
     });
     this.data$.subscribe((data) => {
       if (data.length) {
@@ -194,9 +207,12 @@ export class RootComponent implements OnInit, OnDestroy {
       this.error = err.error;
     });
 
+    this.config$.subscribe(config => {
+      this.bimodalConfig = config;
+    });
 
     this.route.queryParamMap.subscribe((query) => {
-      const selectedOrgans = query.get('selectedOrgans');
+      const selectedOrgans = query.get('selectedOrgans') ?? '';
       const version = query.get('version');
       const comparisonCSV = query.get('comparisonCSVURL');
       const comparisonName = query.get('comparisonName');
@@ -204,32 +220,34 @@ export class RootComponent implements OnInit, OnDestroy {
       const comparisonHasFile = query.get('comparisonHasFile');
       const sheet = query.get('sheet');
       const playground = query.get('playground');
-      if (!selectedOrgans && playground !== 'true') {
+      const omapSelectedOrgans = query.get('omapSelectedOrgans') ?? '';
+      if (!(selectedOrgans || omapSelectedOrgans) && playground !== 'true') {
         store.dispatch(new CloseLoading('Select Organ Model Rendered'));
         const config = new MatDialogConfig();
         config.disableClose = true;
         config.autoFocus = true;
         config.id = 'OrganTableSelector';
-        config.width = '40vw';
+        config.width = 'fit-content';
         config.data = {
           isIntilalSelect: true,
           getFromCache: true
         };
         const dialogRef = this.dialog.open(OrganTableSelectorComponent, config);
-        dialogRef.afterClosed().subscribe(({organs,cache}) => {
+        dialogRef.afterClosed().subscribe(({ organs, cache, omapOrgans }) => {
           store.dispatch(new UpdateGetFromCache(cache));
-          if (organs !== false){
+          if (organs !== false) {
             this.router.navigate(['/vis'], {
               queryParams: {
                 selectedOrgans: organs?.join(','),
                 playground: false,
+                omapSelectedOrgans: omapOrgans?.join(',')
               },
               queryParamsHandling: 'merge',
             });
           }
         });
       }
-      else if (selectedOrgans && playground !== 'true' && (comparisonCSV || comparisonHasFile)) {
+      else if ((selectedOrgans || omapSelectedOrgans) && playground !== 'true' && (comparisonCSV || comparisonHasFile)) {
         store.dispatch(new UpdateMode('vis'));
         const comparisonCSVURLList = comparisonCSV.split('|');
         const comparisonColorList = comparisonColor?.split('|');
@@ -254,24 +272,30 @@ export class RootComponent implements OnInit, OnDestroy {
           comparisonCSVURLList.forEach((linkUrl, index) => {
             linkUrl = linkUrl.trim();
             comparisonDetails.push({
-              title: comparisonNameList?.length-1 >= index ? comparisonNameList[index] : `Sheet ${index + 1}`,
+              title: comparisonNameList?.length - 1 >= index ? comparisonNameList[index] : `Sheet ${index + 1}`,
               description: '',
               link: linkUrl,
-              color:  comparisonColorList?.length-1 >= index ? comparisonColorList[index] : colors[index % colors.length],
+              color: comparisonColorList?.length - 1 >= index ? comparisonColorList[index] : colors[index % colors.length],
               sheetId: this.parseSheetUrl(linkUrl).sheetID,
               gid: this.parseSheetUrl(linkUrl).gid,
               csvUrl: this.parseSheetUrl(linkUrl).csvUrl
             });
           });
         }
-        store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(','), comparisonDetails));
+        store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(','), omapSelectedOrgans.split(','), comparisonDetails));
         sessionStorage.setItem('selectedOrgans', selectedOrgans);
+        if (omapSelectedOrgans) {
+          this.openSnackBarToUpdateFilter();
+        }
       }
-      else if (selectedOrgans && playground !== 'true') {
+      else if ((selectedOrgans || omapSelectedOrgans) && playground !== 'true') {
         store.dispatch(new UpdateMode('vis'));
         this.sheet = this.sheetConfig.find(i => i.name === 'some');
-        store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(',')));
+        store.dispatch(new FetchSelectedOrganData(this.sheet, selectedOrgans.split(','), omapSelectedOrgans.split(',')));
         sessionStorage.setItem('selectedOrgans', selectedOrgans);
+        if (omapSelectedOrgans) {
+          this.openSnackBarToUpdateFilter();
+        }
       }
       else if (playground === 'true') {
         store.dispatch(new UpdateMode('playground'));
@@ -390,9 +414,14 @@ export class RootComponent implements OnInit, OnDestroy {
         }
       }
     });
+
+    this.compareSheets$.subscribe((sheets) => {
+      const omapSheets = sheets.filter(sheet => sheet.isOmap);
+      if (omapSheets.length > 0) this.openSnackBarToUpdateFilter();
+    });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngOnDestroy() {
     this.store.dispatch(new StateReset(SheetState));
@@ -505,10 +534,12 @@ export class RootComponent implements OnInit, OnDestroy {
       .some((compareData: CompareData) => compareData.formData !== null);
 
     this.router.navigate(['/vis'], {
-      queryParams: { comparisonCSVURL: compareDataString,
+      queryParams: {
+        comparisonCSVURL: compareDataString,
         comparisonName: compareNameString,
         comparisonColor: compareColorString,
-        comparisonHasFile: compareHasFile ? 'true' : 'false' },
+        comparisonHasFile: compareHasFile ? 'true' : 'false'
+      },
       queryParamsHandling: 'merge',
     });
 
@@ -534,10 +565,25 @@ export class RootComponent implements OnInit, OnDestroy {
     let csvURL;
     const sheet = this.store.selectSnapshot(SheetState.getSheet);
     const selectedOrgans = this.store.selectSnapshot(SheetState.getSelectedOrgans);
+    const omapSelectedOrgans = this.store.selectSnapshot(SheetState.getOMAPSelectedOrgans);
     const urls = [];
-    if (sheet.name === 'all' || sheet.name === 'some'){
+    if (sheet.name === 'all' || sheet.name === 'some') {
       for (const organ of selectedOrgans) {
         this.sheetConfig.forEach((config) => {
+          config.version?.forEach((version: VersionDetail) => {
+            if (version.value === organ) {
+              if (version.csvUrl) {
+                urls.push(version.csvUrl);
+              }
+              else {
+                urls.push(this.sheetService.formURL(version.sheetId, version.gid));
+              }
+            }
+          });
+        });
+      }
+      for (const organ of omapSelectedOrgans) {
+        this.omapSheetConfig.forEach((config) => {
           config.version?.forEach((version: VersionDetail) => {
             if (version.value === organ) {
               if (version.csvUrl) {
@@ -555,10 +601,10 @@ export class RootComponent implements OnInit, OnDestroy {
 
     if (option === 'Graph Data') {
 
-      this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid, csvURL? csvURL : sheet.csvUrl, null, 'graph').subscribe((graphData: GraphData) => {
+      this.sheetService.fetchSheetData(sheet.sheetId, sheet.gid, csvURL ? csvURL : sheet.csvUrl, null, 'graph').subscribe((graphData: GraphData) => {
         const graphDataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(graphData.data));
         const downloadAnchorNode = document.createElement('a');
-        downloadAnchorNode.setAttribute('href',     graphDataStr);
+        downloadAnchorNode.setAttribute('href', graphDataStr);
         downloadAnchorNode.setAttribute('download', `asct+b_graph_data_${sn}_${dt}` + '.json');
         document.body.appendChild(downloadAnchorNode);
         downloadAnchorNode.click();
@@ -582,7 +628,7 @@ export class RootComponent implements OnInit, OnDestroy {
     } else if (option === 'JSON-LD') {
 
       this.sheetService
-        .fetchSheetData(sheet.sheetId, sheet.gid, csvURL? csvURL : sheet.csvUrl, null, 'jsonld')
+        .fetchSheetData(sheet.sheetId, sheet.gid, csvURL ? csvURL : sheet.csvUrl, null, 'jsonld')
         .subscribe((graphData: any) => {
           const graphDataStr =
             'data:text/json;charset=utf-8,' +
@@ -600,7 +646,7 @@ export class RootComponent implements OnInit, OnDestroy {
     } else if (option === 'OWL (RDF/XML)') {
 
       this.sheetService
-        .fetchSheetData(sheet.sheetId, sheet.gid, csvURL? csvURL : sheet.csvUrl, null, 'owl')
+        .fetchSheetData(sheet.sheetId, sheet.gid, csvURL ? csvURL : sheet.csvUrl, null, 'owl')
         .subscribe((graphData: any) => {
           const graphDataStr =
             'data:application/rdf+xml;charset=utf-8,' +
@@ -615,7 +661,7 @@ export class RootComponent implements OnInit, OnDestroy {
           downloadAnchorNode.click();
           downloadAnchorNode.remove();
         });
-    }else {
+    } else {
       const view = this.store.selectSnapshot(TreeState.getVegaView);
       const fileName = `asct+b_${sn}_${dt}.${formatType}`;
       view.background('#fafafa');
@@ -631,6 +677,36 @@ export class RootComponent implements OnInit, OnDestroy {
         .catch((error) => {
           console.log(error);
         });
+    }
+  }
+
+  openSnackBarToUpdateFilter() {
+    if (this.bimodalConfig.BM.type != 'Protein') {
+      const config: MatSnackBarConfig = {
+        duration: 10000,
+        verticalPosition: 'bottom',
+        horizontalPosition: 'center',
+      };
+
+      setTimeout(() => {
+        this.snackbarRef = this.snackbar.open('OMAP Detected, Do you want to filter out only Proteins ' +
+          'from the available BioMarkers?', 'Filter', config);
+        this.snackbarRef.onAction().subscribe(() => {
+          this.bimodalConfig.BM.type = 'Protein';
+          this.store.dispatch(new UpdateBimodalConfig(this.bimodalConfig)).subscribe(states => {
+            const data = states.sheetState.data;
+            const treeData = states.treeState.treeData;
+            const bimodalConfig = states.treeState.bimodal.config;
+            const sheetConfig = states.sheetState.sheetConfig;
+
+            if (data.length) {
+              this.bms.makeBimodalData(data, treeData, bimodalConfig, false, sheetConfig);
+            }
+          });
+        });
+      }, 2000);
+
+
     }
   }
 }

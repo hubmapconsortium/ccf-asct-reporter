@@ -127,7 +127,6 @@ export class TreeService {
 
       data.forEach((row) => {
         parent = root;
-        
         row.anatomical_structures.forEach((structure) => {
           let s: number;
           if (structure.id) {
@@ -224,8 +223,9 @@ export class TreeService {
           data,
           spec.data[0].values.filter(x => !allParentIdsArray.includes(x.id)),
           this.store.selectSnapshot(TreeState.getBimodalConfig),
-          this.store.selectSnapshot(SheetState.getSheetConfig),
-          true);
+          true,
+          this.store.selectSnapshot(SheetState.getSheetConfig)
+        );
       }
     } catch (error) {
       console.log(error);

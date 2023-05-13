@@ -9,7 +9,8 @@ enum BM_TYPE {
 export enum PROTEIN_PRESENCE {
   POS = 'Positive',
   NEG = 'Negative',
-  UNKNOWN = 'Unknown'
+  UNKNOWN = 'Unknown',
+  INTERMEDIATE = 'Intermediate'
 }
 
 export interface Reference {
@@ -20,6 +21,7 @@ export interface Reference {
 
 export interface OrganTableSelect {
   organs?: string[];
+  omapOrgans?: string[];
   isIntilalSelect: boolean;
   getFromCache: boolean;
 }
@@ -52,12 +54,14 @@ export interface Row {
   biomarkers_prot: Array<Structure>;
   references: Reference[];
   organName: string;
+  tableVersion: string;
 }
 
 export interface ResponseData {
   csv: string;
   data: Row[];
   parsed: [];
+  isOmap? : boolean;
 }
 
 export interface Sheet {
@@ -82,6 +86,7 @@ export interface CompareData {
   csvUrl?: string;
   formData?: FormData;
   fileName?: string;
+  isOmap?: boolean;
 }
 
 export interface SheetConfig {
@@ -123,12 +128,19 @@ export interface VersionDetail {
   viewValue: string;
   hraVersion?: string;
   csvUrl?: string;
-  sheetId: string;
-  gid: string;
+  sheetId?: string;
+  gid?: string;
+  xlsx?: string;
+  as?: number;
+  ct?: number;
+  bp?: number;
 }
 
 export interface SheetDetails {
   name: string;
+  omapId?: string;
+  tissuePreservationMethod?: string;
+  imagingMethod?: string;
   display: string;
   body?: string;
   sheetId?: string;
@@ -226,6 +238,7 @@ export interface CompareReport {
   color: string;
   title: string;
   description: string;
+  identicalBMCTPair: Row[];
 }
 
 export interface CompareReportData {
