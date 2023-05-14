@@ -1,6 +1,6 @@
 import { Report } from '../models/report.model';
 import { OpenBottomSheetData } from '../models/ui.model';
-import { Sheet, CompareData, SheetConfig, DOI } from './../models/sheet.model';
+import { Sheet, CompareData, SheetConfig, DOI, selectedOrganBeforeFilter } from './../models/sheet.model';
 
 export class FetchSheetData {
   static readonly type = '[FETCH] Sheet Data';
@@ -104,5 +104,5 @@ export class FetchValidOmapProtiens {
 
 export class UpdateSelectedOrgansBeforeFilter {
   static readonly type = '[UPDATE] Selected Organs before Filtering';
-  constructor(public organsList: string[]) {}
+  constructor(public organsList: selectedOrganBeforeFilter[]) {}
 }

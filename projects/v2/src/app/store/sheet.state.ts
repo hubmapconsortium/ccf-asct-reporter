@@ -1,5 +1,5 @@
 import { SheetService } from '../services/sheet.service';
-import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
 import {
   Sheet,
   Row,
@@ -11,6 +11,7 @@ import {
   DOI,
   VersionDetail,
   SheetDetails,
+  selectedOrganBeforeFilter,
 } from '../models/sheet.model';
 import { Error } from '../models/response.model';
 import { tap, catchError } from 'rxjs/operators';
@@ -52,6 +53,7 @@ import { GaAction, GaCategory } from '../models/ga.model';
 import { ReportService } from '../components/report/report.service';
 import { ConfigService } from '../app-config.service';
 import { Report } from '../models/report.model';
+import { OmapConfig } from '../models/omap.model';
 
 /** Class to keep track of the sheet */
 export class SheetStateModel {
@@ -134,7 +136,7 @@ export class SheetStateModel {
   /**
    * Stores all organs before OMAP organs only filter
    */
-  selectedOrgansBeforeFilter: string[];
+  selectedOrgansBeforeFilter: selectedOrganBeforeFilter[];
 }
 
 @State<SheetStateModel>({
@@ -214,7 +216,7 @@ export class SheetState {
   exampleSheet: SheetDetails;
   headerCount: unknown;
 
-  constructor(public configService: ConfigService, private readonly sheetService: SheetService, public readonly ga: GoogleAnalyticsService, public reportService: ReportService) {
+  constructor(public configService: ConfigService, private readonly sheetService: SheetService, public readonly ga: GoogleAnalyticsService, public reportService: ReportService, public store: Store) {
     this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
       this.sheetConfig = sheetOptions;
     });
@@ -523,12 +525,21 @@ export class SheetState {
     patchState({
       allOmapOrgans: this.omapSheetConfig.map((organObject) => organObject.name)
     });
+
+    const state = getState();
+    const omapConfig = this.store.selectSnapshot(TreeState.getOmapConfig);
+
+    selectedOrgans =  this.omapFiltering(state, omapConfig, selectedOrgans);
+    if(this.arraysEqual(selectedOrgans, state.selectedOrgans) && this.arraysEqual(omapSelectedOrgans, state.omapSelectedOrgans)) {
+      return;
+    }
+
     dispatch(new OpenLoading('Fetching data...'));
 
     dispatch(new StateReset(TreeState));
     dispatch(new CloseBottomSheet());
     dispatch(new ReportLog(LOG_TYPES.MSG, sheet.display, LOG_ICONS.file));
-    const state = getState();
+
     patchState({
       sheet,
       compareData: [],
@@ -689,6 +700,79 @@ export class SheetState {
       }
       dispatch(new FetchValidOmapProtiens());
     }
+  }
+
+  private omapFiltering(sheetState: SheetStateModel, event: OmapConfig, currentlySelectedOrgans): string[] {
+    const selectedOrgansBeforeFilter = sheetState.selectedOrgansBeforeFilter;
+    
+    let newSelectedOrgans = [];
+    if(event.organsOnly) {
+      //Union oldSelected and currentlySelected and make a new list
+      currentlySelectedOrgans = this.unionOldSelectedAndNewSelected(selectedOrgansBeforeFilter, currentlySelectedOrgans);
+      //Filtered List
+      newSelectedOrgans = this.organFiltering(currentlySelectedOrgans, sheetState.omapSelectedOrgans);
+      const newSelectedBeforeOrgans = currentlySelectedOrgans.map(organ => this.convertOrganToBeforeFilterFormat(organ, !newSelectedOrgans.includes(organ)));
+      this.store.dispatch(new UpdateSelectedOrgansBeforeFilter(newSelectedBeforeOrgans));
+      sessionStorage.setItem('selectedOrgans', newSelectedOrgans.join(','));
+    } else {
+      newSelectedOrgans = selectedOrgansBeforeFilter.length > 0 ? selectedOrgansBeforeFilter.map(organ => organ.selector) : currentlySelectedOrgans;
+      this.store.dispatch(new UpdateSelectedOrgansBeforeFilter([]));
+      sessionStorage.setItem('selectedOrgans', newSelectedOrgans.join(','));
+    }
+
+    return newSelectedOrgans;
+    
+  }
+
+  private unionOldSelectedAndNewSelected(beforeFilterOrgans: selectedOrganBeforeFilter[], currentlySelectedOrgans: string[]) {
+    // Don't add if was removed by user in currentlySelected
+    const filteredOutBeforeFilterOrgans = beforeFilterOrgans.filter(organ => organ.filteredOut).map(organ => organ.selector);
+    return [...new Set([...filteredOutBeforeFilterOrgans, ...currentlySelectedOrgans])];
+  }
+
+  private organFiltering(selectedOrgans, omapSelectedOrgans): string[] {
+    // If no OMAP organs selected
+    if (omapSelectedOrgans.length > 0 && omapSelectedOrgans[0] != '') {
+      const selectedOmapOrgans = omapSelectedOrgans.map(organ => organ.split('-')[0].split('_').join(' ').toLowerCase());
+      const filteredOmapOrgans = this.omapSheetConfig.filter(organ => selectedOmapOrgans.includes(organ.name.toLowerCase())).map(organ => organ.uberon_id);
+      const newSelectedOrgans = [];
+      for (const selectedOrgan of selectedOrgans) {
+        const sheetOrgan = this.sheetConfig.find(organ => organ.name === selectedOrgan.split('-')[0]);
+        if (sheetOrgan.representation_of.some(rep => filteredOmapOrgans.includes(rep))) {
+          newSelectedOrgans.push(selectedOrgan);
+        }
+      }
+      return newSelectedOrgans;
+    }
+    else {
+      const omapUberonIds = this.omapSheetConfig.map(organ => organ.uberon_id);
+      const newSelectedOrgans = [];
+      selectedOrgans.forEach(selectedOrgan => {
+        const sheetOrgan = this.sheetConfig.find(organ => organ.name.toLowerCase() === selectedOrgan.split('-')[0].toLowerCase());
+        if (sheetOrgan.representation_of.some(rep => omapUberonIds.includes(rep))) {
+          newSelectedOrgans.push(selectedOrgan);
+        }
+      });
+      return newSelectedOrgans;
+    }
+
+  }
+
+  private convertOrganToBeforeFilterFormat(organ : string, filteredOut: boolean): selectedOrganBeforeFilter {
+    const [organName, version] = organ.split('-');
+    return {selector: organ, organName, version, filteredOut};
+  }
+
+  private arraysEqual<T>(a: T[], b: T[]): boolean {
+    if (a.length !== b.length) {
+      return false;
+    }
+    for (let i = 0; i < a.length; i++) {
+      if (a[i] !== b[i]) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**

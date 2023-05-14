@@ -257,7 +257,8 @@ export interface UploadForm {
 }
 
 export interface selectedOrganBeforeFilter {
-  selector: string;
-  organName: string;
-  filteredOut: boolean;
+  selector?: string;
+  organName?: string;
+  filteredOut?: boolean;
+  version?: string;
 }
