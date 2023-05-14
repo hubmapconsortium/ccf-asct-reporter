@@ -530,9 +530,6 @@ export class SheetState {
     const omapConfig = this.store.selectSnapshot(TreeState.getOmapConfig);
 
     selectedOrgans =  this.omapFiltering(state, omapConfig, selectedOrgans);
-    if(this.arraysEqual(selectedOrgans, state.selectedOrgans) && this.arraysEqual(omapSelectedOrgans, state.omapSelectedOrgans)) {
-      return;
-    }
 
     dispatch(new OpenLoading('Fetching data...'));
 
@@ -737,7 +734,7 @@ export class SheetState {
       const filteredOmapOrgans = this.omapSheetConfig.filter(organ => selectedOmapOrgans.includes(organ.name.toLowerCase())).map(organ => organ.uberon_id);
       const newSelectedOrgans = [];
       for (const selectedOrgan of selectedOrgans) {
-        const sheetOrgan = this.sheetConfig.find(organ => organ.name === selectedOrgan.split('-')[0]);
+        const sheetOrgan = this.sheetConfig.find(organ => organ.name.toLowerCase() === selectedOrgan.split('-')[0].toLowerCase());
         if (sheetOrgan.representation_of.some(rep => filteredOmapOrgans.includes(rep))) {
           newSelectedOrgans.push(selectedOrgan);
         }
