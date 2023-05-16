@@ -494,6 +494,7 @@ export class SheetState {
               compareData: [...currentCompareData, ...res.data],
               fullDataByOrgan: [...currentFullDataByOrgan, res.data],
             });
+            dispatch(new FetchValidOmapProtiens());
           },
           (error) => {
             console.log(error);
@@ -507,6 +508,7 @@ export class SheetState {
               new ReportLog(LOG_TYPES.MSG, this.faliureMsg, LOG_ICONS.error)
             );
             dispatch(new HasError(err));
+            dispatch(new FetchValidOmapProtiens());
             return of('');
           }
         );
@@ -633,69 +635,35 @@ export class SheetState {
         return of('');
       }
     );
-
+    const bodyRow: Row = {
+      anatomical_structures: [
+        {
+          'name': 'Body',
+          'id': 'UBERON:0013702'
+        }
+      ],
+      cell_types: [],
+      biomarkers: [],
+      biomarkers_gene: [],
+      biomarkers_protein: [],
+      biomarkers_lipids: [],
+      biomarkers_meta: [],
+      biomarkers_prot: [],
+      references: [],
+      organName: '',
+      tableVersion: ''
+    };
     if ((selectedOrgans.length == 0 || selectedOrgans[0] == '') && (omapSelectedOrgans.length == 0 || omapSelectedOrgans[0] == '')) {
-      console.log('yllow');
       patchState({
-        data: [{
-          'anatomical_structures': [
-            {
-              'name': 'Body',
-              'id': 'UBERON:0013702'
-            }
-          ],
-          'cell_types': [],
-          'biomarkers': [],
-          'biomarkers_protein': [],
-          'biomarkers_gene': [],
-          'biomarkers_lipids': [],
-          'biomarkers_meta': [],
-          'biomarkers_prot': [],
-          'references': [],
-          'organName': '',
-          'tableVersion': ''
-        }],
-        fullAsData: [{
-          'anatomical_structures': [
-            {
-              'name': 'Body',
-              'id': 'UBERON:0013702'
-            }
-          ],
-          'cell_types': [],
-          'biomarkers': [],
-          'biomarkers_protein': [],
-          'biomarkers_gene': [],
-          'biomarkers_lipids': [],
-          'biomarkers_meta': [],
-          'biomarkers_prot': [],
-          'references': [],
-          'organName': '',
-          'tableVersion': ''
-        }],
-        fullDataByOrgan : [[{
-          'anatomical_structures': [
-            {
-              'name': 'Body',
-              'id': 'UBERON:0013702'
-            }
-          ],
-          'cell_types': [],
-          'biomarkers': [],
-          'biomarkers_protein': [],
-          'biomarkers_gene': [],
-          'biomarkers_lipids': [],
-          'biomarkers_meta': [],
-          'biomarkers_prot': [],
-          'references': [],
-          'organName': '',
-          'tableVersion': ''
-        }]]
+        data: [bodyRow],
+        fullAsData: [bodyRow],
+        fullDataByOrgan : [[bodyRow]]
       });
       if (comparisonDetails) {
         dispatch(new FetchCompareData(comparisonDetails));
+      } else {
+        dispatch(new FetchValidOmapProtiens());
       }
-      dispatch(new FetchValidOmapProtiens());
     }
   }
 
@@ -1329,8 +1297,13 @@ export class SheetState {
     
     const existingProtiens = [];
     for (const r of state.data) {
-      r.biomarkers_protein.forEach(element => {
-        existingProtiens.push(element.name);
+      r.biomarkers_protein.forEach(protein => {
+        existingProtiens.push(protein.name);
+      });
+    }
+    for (const data of state.compareData) {
+      data.biomarkers_protein.forEach(protein => {
+        existingProtiens.push(protein.name);
       });
     }
     const allOmapProtiens = new Set();
@@ -1338,8 +1311,8 @@ export class SheetState {
       (allresults) => {
         allresults.map((res: ResponseData, index) => {
           for (const row of res.data) {
-            row.biomarkers_protein.forEach(element => {
-              allOmapProtiens.add(element.name);
+            row.biomarkers_protein.forEach(protein => {
+              allOmapProtiens.add(protein.name);
             });
           }
         });

@@ -387,7 +387,7 @@
       "width": 700,
       "height": 2250
     },
-    "representation_of": ["UBERON:0003"],
+    "representation_of": ["UBERON:0002113"],
     "version": [
       {
         "sheetId": "1J4nObDGqPP3JHhQ4H7_mNNQ_61KMpwM-59qqva7HYOQ",
@@ -463,7 +463,7 @@
       "width": 1000,
       "height": 8000
     },
-    "representation_of": ["UBERON:0002"],
+    "representation_of": ["UBERON:0000160"],
     "version": [
       {
         "sheetId": "1fmLUQGxPa4E0FcdzWNVJs1Jxi2Qpu-xoZ6FS64EqHZU",
@@ -533,7 +533,7 @@
       "width": 700,
       "height": 2250
     },
-    "representation_of": ["UBERON:0005"],
+    "representation_of": ["UBERON:0002107"],
     "version": [
       {
         "sheetId": "1tPDKw_znxqWhZYPTeVN4AN2_F4-JecsdeUgp2lj4P8g",
@@ -568,7 +568,7 @@
       "width": 700,
       "height": 2250
     },
-    "representation_of": ["UBERON:0007"],
+    "representation_of": ["UBERON:0002048"],
     "version": [
       {
         "sheetId": "1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0",
@@ -610,7 +610,7 @@
       "width": 1000,
       "height": 1400
     },
-    "representation_of": ["UBERON:0001"],
+    "representation_of": ["UBERON: 0000029"],
     "version": [
       {
         "sheetId": "1O30L6BdFUrgDpKXEi1v-t1tD7rxuGfhkE8aaG-uUPdY",
@@ -819,7 +819,7 @@
       "width": 700,
       "height": 2250
     },
-    "representation_of": ["UBERON:0006"],
+    "representation_of": ["UBERON:0001264"],
     "version": [
       {
         "sheetId": "1CIWqIygz2OzxMECIvhudFN14Kt7-JFUBLpzn5uuH5Xs",
@@ -1030,7 +1030,7 @@
       "width": 600,
       "height": 1000
     },
-    "representation_of": ["UBERON:0004"],
+    "representation_of": ["UBERON:0002097"],
     "version": [
       {
         "sheetId": "1hy-YloznDmN9EX-eL_peNxw3suRjQdLcJTw0fABMXeU",
@@ -1072,7 +1072,7 @@
       "width": 700,
       "height": 2250
     },
-    "representation_of": ["UBERON:0002"],
+    "representation_of": ["UBERON:0000160"],
     "version": [
       {
         "sheetId": "1Xlds8FzZ8ecmy3cxYJt1ijQC9FifamZRZ5KzH4Yt-MQ",

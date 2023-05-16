@@ -3,13 +3,13 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ToggleControlPane } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
-import { SheetState, SheetStateModel } from '../../store/sheet.state';
-import { Sheet, SheetConfig, CompareData, SheetDetails } from '../../models/sheet.model';
+import { SheetState } from '../../store/sheet.state';
+import { Sheet, SheetConfig, CompareData, SheetDetails, Row } from '../../models/sheet.model';
 import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { DiscrepencyStructure, TNode } from '../../models/tree.model';
 import { VegaService } from '../tree/vega.service';
 import { DiscrepencyId, DiscrepencyLabel, DuplicateId, UpdateOmapConfig } from '../../actions/tree.actions';
-import { UpdateConfig, ToggleShowAllAS, FetchSelectedOrganData } from '../../actions/sheet.actions';
+import { UpdateConfig, ToggleShowAllAS, FetchSelectedOrganData, FetchValidOmapProtiens } from '../../actions/sheet.actions';
 import { BimodalService } from '../tree/bimodal.service';
 import { BMNode } from '../../models/bimodal.model';
 import { OmapConfig } from '../../models/omap.model';
@@ -58,17 +58,20 @@ export class ControlPaneComponent implements OnInit {
       this.nodes = tree.bimodal.nodes;
     });
 
-    this.selectedOrgans$.subscribe(_organs => {
+    this.filteredProteins$.subscribe(proteins => {
       const sheetState = this.store.selectSnapshot(SheetState);
       const treeState = this.store.selectSnapshot(TreeState);
-      this.omapProteinsOnly(sheetState, treeState);
+      const data = sheetState.data;
+      const treeData = treeState.treeData;
+      const bimodalConfig = treeState.bimodal.config;
+      const sheetConfig = sheetState.sheetConfig;
+      const omapConfig = treeState.omapConfig;
+      const filteredProtiens = sheetState.filteredProtiens;
+      if (data.length) {
+        this.bm.makeBimodalData(data, treeData, bimodalConfig, false, sheetConfig, omapConfig, filteredProtiens);
+      }
     });
 
-    this.filteredProteins$.subscribe(_proteins => {
-      const sheetState = this.store.selectSnapshot(SheetState);
-      const treeState = this.store.selectSnapshot(TreeState);
-      this.omapProteinsOnly(sheetState, treeState);
-    });
   }
 
   ngOnInit(): void {
@@ -235,11 +238,12 @@ export class ControlPaneComponent implements OnInit {
       const data = states.sheetState.data;
       const treeData = states.treeState.treeData;
       const bimodalConfig = states.treeState.bimodal.config;
-
+      const omapConfig = states.treeState.omapConfig;
+      const filteredProtiens = states.sheetState.filteredProtiens;
       if (data.length) {
         try {
           console.log('BM Call here');
-          this.bm.makeBimodalData(data, treeData, bimodalConfig, false, config);
+          this.bm.makeBimodalData(data, treeData, bimodalConfig, false, config, omapConfig, filteredProtiens);
         } catch (err) {
           console.log(err);
         }
@@ -264,15 +268,24 @@ export class ControlPaneComponent implements OnInit {
     this.store.dispatch(new UpdateOmapConfig(event)).subscribe(states => {
       this.store.dispatch(new FetchSelectedOrganData(states.sheetState.sheet, states.sheetState.selectedOrgans,
         states.sheetState.omapSelectedOrgans, states.sheetState.compareSheets)).subscribe(newState => {
-        this.omapProteinsOnly(newState.sheetState, newState.treeState);
+        // this.omapProteinsOnly();
       });
       
     });
   }
 
-  private omapProteinsOnly(sheetState: SheetStateModel, treeState: TreeStateModel) {
-    if (sheetState.data.length) {
-      this.bm.makeBimodalData(sheetState.data, treeState.treeData, treeState.bimodal.config, false, sheetState.sheetConfig, treeState.omapConfig, sheetState.filteredProtiens);
-    }
+  private omapProteinsOnly() {
+    this.store.dispatch(new FetchValidOmapProtiens()).subscribe(states => {
+      const data = states.sheetState.data;
+      const treeData = states.treeState.treeData;
+      const bimodalConfig = states.treeState.bimodal.config;
+      const sheetConfig = states.sheetState.sheetConfig;
+      const omapConfig = states.treeState.omapConfig;
+      const filteredProtiens = states.sheetState.filteredProtiens;
+      if (data.length) {
+        this.bm.makeBimodalData(data, treeData, bimodalConfig, false, sheetConfig, omapConfig, filteredProtiens);
+      }
+    });
+    
   }
 }

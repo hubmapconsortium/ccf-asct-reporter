@@ -698,9 +698,11 @@ export class RootComponent implements OnInit, OnDestroy {
             const treeData = states.treeState.treeData;
             const bimodalConfig = states.treeState.bimodal.config;
             const sheetConfig = states.sheetState.sheetConfig;
+            const omapConfig = states.treeState.omapConfig;
+            const filteredProtiens = states.sheetState.filteredProtiens;
 
             if (data.length) {
-              this.bms.makeBimodalData(data, treeData, bimodalConfig, false, sheetConfig);
+              this.bms.makeBimodalData(data, treeData, bimodalConfig, false, sheetConfig, omapConfig, filteredProtiens);
             }
           });
         });
