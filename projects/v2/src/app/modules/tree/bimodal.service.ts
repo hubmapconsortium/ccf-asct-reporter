@@ -159,7 +159,6 @@ export class BimodalService {
 
       treeY = distanceY;
       treeX += distance;
-      //name === comparatorId ???
       biomarkers = await makeBioMarkers(sheetData);
       if (omapConfig?.proteinsOnly) {
         biomarkers = biomarkers.filter((elem) => filteredProtiens.includes(elem.comparatorName.toLowerCase()));
@@ -253,7 +252,7 @@ export class BimodalService {
                 (i: BMNode) => i.name === str.name && i.group !== 1
               );
             }
-            if (node.targets.findIndex(l => l === nodes[foundIndex].id) === -1) {
+            if (node.targets.findIndex(l => l ===nodes[foundIndex].id) === -1){
               node.targets.push(nodes[foundIndex].id);
             }
             links.push({ s: node.id, t: nodes[foundIndex].id });
@@ -273,28 +272,28 @@ export class BimodalService {
                 (i: BMNode) => i.name === str.name
               );
             }
-            if (node.sources.findIndex(l => l === nodes[foundIndex].id) === -1) {
+            if (node.sources.findIndex(l => l ===nodes[foundIndex].id) === -1){
               node.sources.push(nodes[foundIndex].id);
             }
             nodes[foundIndex].outdegree.forEach(cellOut => {
-              if (cellOut.name === node.name) {
+              if(cellOut.name === node.name){
                 if (cellOut.proteinPresence === PROTEIN_PRESENCE.POS) {
                   pathColor = '#00008B';
                 }
                 else if (cellOut.proteinPresence === PROTEIN_PRESENCE.NEG) {
                   pathColor = '#E16156';
-                }
+                } 
                 else if (cellOut.proteinPresence === PROTEIN_PRESENCE.INTERMEDIATE) {
                   pathColor = '#4B2079';
                 }
               }
             });
-            links.push({ s: nodes[foundIndex].id, t: node.id, pathColor });
+            links.push({ s: nodes[foundIndex].id, t: node.id, pathColor});
           });
         }
       });
 
-      nodes.forEach((node: BMNode, i) => {
+      nodes.forEach((node:BMNode, i) => {
         if (node.group === 2) {
           node.outdegree.forEach((str) => {
             const tt = nodes
@@ -374,7 +373,7 @@ export class BimodalService {
           this.updateBimodalData(view, spec, updatedNodes, updatedLinks);
         });
       } else {
-        this.store.dispatch(new UpdateLinksData(AS_CT_LINKS, CT_BM_LINKS, AS_CT, CT_BM, 0, null, true));
+        this.store.dispatch(new UpdateLinksData(AS_CT_LINKS, CT_BM_LINKS, AS_CT, CT_BM, 0, null,true));
       }
 
     } catch (error) {
