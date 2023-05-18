@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ToggleControlPane } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { SheetState } from '../../store/sheet.state';
-import { Sheet, SheetConfig, CompareData, SheetDetails, Row } from '../../models/sheet.model';
+import { Sheet, SheetConfig, CompareData, SheetDetails } from '../../models/sheet.model';
 import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { DiscrepencyStructure, TNode } from '../../models/tree.model';
 import { VegaService } from '../tree/vega.service';
