@@ -35,8 +35,9 @@ export class BimodalService {
     omapConfig?: OmapConfig,
     filteredProtiens?: string[]
   ) {
+
     try {
-      filteredProtiens = filteredProtiens?.map(word => word.toLowerCase()) ?? [];
+      filteredProtiens = filteredProtiens?.map(word => word.toLowerCase())??[];
       const anatomicalStructuresData = makeAS(sheetData);
       const links = [];
       const nodes = [];
@@ -72,7 +73,7 @@ export class BimodalService {
               return (a.comparatorId === td.ontologyId);
             })?.label;
           }
-          else {
+          else{
             newLeaf.indegree = anatomicalStructuresData.find((a: AS) => {
               return (a.comparatorName === td.name);
             })?.indegree;
@@ -160,8 +161,8 @@ export class BimodalService {
       treeY = distanceY;
       treeX += distance;
       biomarkers = await makeBioMarkers(sheetData);
-      if (omapConfig?.proteinsOnly) {
-        biomarkers = biomarkers.filter((elem) => filteredProtiens.includes(elem.comparatorName.toLowerCase()));
+      if(omapConfig?.proteinsOnly){
+        biomarkers=biomarkers.filter((elem)=> filteredProtiens.includes(elem.comparatorName.toLowerCase()));
       }
       switch (bimodalConfig.BM.sort) {
       case 'Alphabetically':
@@ -249,7 +250,7 @@ export class BimodalService {
               );
             } else {
               foundIndex = nodes.findIndex(
-                (i: BMNode) => i.name === str.name && i.group !== 1
+                (i: BMNode) => i.name === str.name  && i.group !== 1
               );
             }
             if (node.targets.findIndex(l => l ===nodes[foundIndex].id) === -1){
@@ -293,7 +294,7 @@ export class BimodalService {
         }
       });
 
-      nodes.forEach((node:BMNode, i) => {
+      nodes.forEach((node : BMNode, i) => {
         if (node.group === 2) {
           node.outdegree.forEach((str) => {
             const tt = nodes
