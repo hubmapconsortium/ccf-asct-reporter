@@ -17,7 +17,6 @@ export class UpdateVegaView {
   constructor(public view: any) { }
 }
 
-
 export class UpdateBimodal {
   static readonly type = '[UPDATE] Bimodal Network';
   constructor(public nodes: BMNode[], public links: Link[]) { }
