@@ -13,7 +13,7 @@ import {
   DiscrepencyLabel,
   DiscrepencyId,
   DuplicateId,
-  UpdateOmapConfig
+  UpdateOmapConfig,
 } from '../actions/tree.actions';
 import { TNode, SearchStructure, DiscrepencyStructure } from '../models/tree.model';
 import { BMNode, Link, BimodalConfig } from '../models/bimodal.model';
