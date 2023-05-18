@@ -379,7 +379,7 @@ export class SheetState {
  * Returns an allOmapsOrgan Names from the state
  */
   @Selector()
-  static getfilteredProtiens(state: SheetStateModel) {
+  static getFilteredProtiens(state: SheetStateModel) {
     return state.filteredProtiens;
   }
   /**

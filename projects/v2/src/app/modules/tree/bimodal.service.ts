@@ -425,7 +425,6 @@ export class BimodalService {
       spec.data.findIndex((i) => i.name === 'edges')
     ].values = links;
 
-    // this.store.dispatch(new UpdateTreeData(treeData));
     this.store.dispatch(new UpdateVegaSpec(spec));
   }
 }

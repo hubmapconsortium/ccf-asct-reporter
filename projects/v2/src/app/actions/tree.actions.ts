@@ -17,10 +17,6 @@ export class UpdateVegaView {
   constructor(public view: any) { }
 }
 
-export class UpdateTreeData {
-  static readonly type = '[UPDATE] Tree Data';
-  constructor(public treeData: any) { }
-}
 
 export class UpdateBimodal {
   static readonly type = '[UPDATE] Bimodal Network';

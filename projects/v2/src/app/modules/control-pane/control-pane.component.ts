@@ -35,7 +35,7 @@ export class ControlPaneComponent implements OnInit {
   @Select(TreeState) tree$: Observable<TreeStateModel>;
 
   @Select(TreeState.getOmapConfig) omapConfig$: Observable<OmapConfig>;
-  @Select(SheetState.getfilteredProtiens) filteredProteins$: Observable<string[]>;
+  @Select(SheetState.getFilteredProtiens) filteredProteins$: Observable<string[]>;
 
   nodes: BMNode[];
   treeData: TNode[];
@@ -59,14 +59,12 @@ export class ControlPaneComponent implements OnInit {
     });
 
     this.filteredProteins$.subscribe(proteins => {
-      const sheetState = this.store.selectSnapshot(SheetState);
-      const treeState = this.store.selectSnapshot(TreeState);
-      const data = sheetState.data;
-      const treeData = treeState.treeData;
-      const bimodalConfig = treeState.bimodal.config;
-      const sheetConfig = sheetState.sheetConfig;
-      const omapConfig = treeState.omapConfig;
-      const filteredProtiens = sheetState.filteredProtiens;
+      const data = this.store.selectSnapshot(SheetState.getData);
+      const treeData = this.store.selectSnapshot(TreeState.getTreeData);
+      const bimodalConfig = this.store.selectSnapshot(TreeState.getBimodalConfig);
+      const sheetConfig = this.store.selectSnapshot(SheetState.getSheetConfig);
+      const omapConfig = this.store.selectSnapshot(TreeState.getOmapConfig);
+      const filteredProtiens = this.store.selectSnapshot(SheetState.getFilteredProtiens);
       if (data.length) {
         this.bm.makeBimodalData(data, treeData, bimodalConfig, false, sheetConfig, omapConfig, filteredProtiens);
       }
