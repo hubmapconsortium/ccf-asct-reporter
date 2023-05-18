@@ -160,6 +160,7 @@ export class BimodalService {
 
       treeY = distanceY;
       treeX += distance;
+
       biomarkers = await makeBioMarkers(sheetData);
       if(omapConfig?.proteinsOnly){
         biomarkers=biomarkers.filter((elem)=> filteredProtiens.includes(elem.comparatorName.toLowerCase()));

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ToggleControlPane } from '../../actions/ui.actions';
 import { Error } from '../../models/response.model';
 import { SheetState } from '../../store/sheet.state';
-import { Sheet, SheetConfig, CompareData, SheetDetails } from '../../models/sheet.model';
+import { Sheet, SheetConfig, CompareData } from '../../models/sheet.model';
 import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { DiscrepencyStructure, TNode } from '../../models/tree.model';
 import { VegaService } from '../tree/vega.service';
@@ -41,15 +41,6 @@ export class ControlPaneComponent implements OnInit {
   treeData: TNode[];
   view: any;
   groupName = 'Anatomical Structures';
-
-  sheetConfig: SheetDetails[];
-  omapSheetConfig: SheetDetails[];
-
-  sheetOptions;
-  /**
-   * Sheet configs
-   */
-  omapSheetOptions;
 
   constructor(public store: Store, public bm: BimodalService, public vs: VegaService, public configService: ConfigService) {
 
