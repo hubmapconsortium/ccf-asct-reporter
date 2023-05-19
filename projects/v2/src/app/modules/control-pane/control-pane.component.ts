@@ -13,6 +13,7 @@ import { UpdateConfig, ToggleShowAllAS, FetchSelectedOrganData } from '../../act
 import { BimodalService } from '../tree/bimodal.service';
 import { BMNode } from '../../models/bimodal.model';
 import { OmapConfig } from '../../models/omap.model';
+import { ConfigService } from '../../app-config.service';
 
 @Component({
   selector: 'app-control-pane',
@@ -34,18 +35,32 @@ export class ControlPaneComponent implements OnInit {
   @Select(TreeState) tree$: Observable<TreeStateModel>;
 
   @Select(TreeState.getOmapConfig) omapConfig$: Observable<OmapConfig>;
+  @Select(SheetState.getFilteredProtiens) filteredProteins$: Observable<string[]>;
 
   nodes: BMNode[];
   treeData: TNode[];
   view: any;
   groupName = 'Anatomical Structures';
 
-  constructor(public store: Store, public bm: BimodalService, public vs: VegaService) {
+  constructor(public store: Store, public bm: BimodalService, public vs: VegaService, public configService: ConfigService) {
 
     this.tree$.subscribe(tree => {
       this.treeData = tree.treeData;
       this.nodes = tree.bimodal.nodes;
     });
+
+    this.filteredProteins$.subscribe(proteins => {
+      const data = this.store.selectSnapshot(SheetState.getData);
+      const treeData = this.store.selectSnapshot(TreeState.getTreeData);
+      const bimodalConfig = this.store.selectSnapshot(TreeState.getBimodalConfig);
+      const sheetConfig = this.store.selectSnapshot(SheetState.getSheetConfig);
+      const omapConfig = this.store.selectSnapshot(TreeState.getOmapConfig);
+      const filteredProtiens = this.store.selectSnapshot(SheetState.getFilteredProtiens);
+      if (data.length) {
+        this.bm.makeBimodalData(data, treeData, bimodalConfig, false, sheetConfig, omapConfig, filteredProtiens);
+      }
+    });
+
   }
 
   ngOnInit(): void {
@@ -212,10 +227,12 @@ export class ControlPaneComponent implements OnInit {
       const data = states.sheetState.data;
       const treeData = states.treeState.treeData;
       const bimodalConfig = states.treeState.bimodal.config;
-
+      const omapConfig = states.treeState.omapConfig;
+      const filteredProtiens = states.sheetState.filteredProtiens;
       if (data.length) {
         try {
-          this.bm.makeBimodalData(data, treeData, bimodalConfig, false,config);
+          console.log('BM Call here');
+          this.bm.makeBimodalData(data, treeData, bimodalConfig, false, config, omapConfig, filteredProtiens);
         } catch (err) {
           console.log(err);
         }
@@ -238,22 +255,8 @@ export class ControlPaneComponent implements OnInit {
 
   updateOmapConfig(event: OmapConfig) {
     this.store.dispatch(new UpdateOmapConfig(event)).subscribe(states => {
-      const data = states.sheetState.data;
-      const treeData = states.treeState.treeData;
-      const bimodalConfig = states.treeState.bimodal.config;
-      const omapConfig = states.treeState.omapConfig;
-      const sheetConfig = states.sheetState.sheetConfig;
-      const filteredProtiens = states.sheetState.filteredProtiens;
-      /** For Organ Filtering */
-      let omapOrganNames= states.sheetState.allOmapOrgans;
-      omapOrganNames = omapOrganNames.map(word => word.toLowerCase());
-      if (!omapOrganNames.includes('body')) {
-        omapOrganNames.push('body');
-      }
-
-      if (data.length) {
-        this.bm.makeBimodalData(data, treeData, bimodalConfig, false, sheetConfig, omapConfig, omapOrganNames, filteredProtiens);
-      }
+      this.store.dispatch(new FetchSelectedOrganData(states.sheetState.sheet, states.sheetState.selectedOrgans,
+        states.sheetState.omapSelectedOrgans, states.sheetState.compareSheets));
     });
   }
 }

@@ -32,9 +32,8 @@ export class BimodalService {
     bimodalConfig: BimodalConfig,
     isReport = false,
     sheetConfig?: SheetConfig,
-    omapConfig?:OmapConfig,
-    omapOrganNames?:string[],
-    filteredProtiens?:string[]
+    omapConfig?: OmapConfig,
+    filteredProtiens?: string[]
   ) {
 
     try {
