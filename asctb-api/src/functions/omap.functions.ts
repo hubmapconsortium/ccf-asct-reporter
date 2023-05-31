@@ -1,4 +1,4 @@
-import { OMAP_ORGAN, OMAP_HEADER_FIRST_COLUMN } from '../models/api.model';
+import { OMAP_ORGAN, OMAP_HEADER_FIRST_COLUMN, LEGACY_OMAP_HEADER_FIRST_COLUMN } from '../models/api.model';
 import { buildMetadata, findHeaderIndex } from './api.functions';
 
 export class OmapDataTransformer {
@@ -8,10 +8,13 @@ export class OmapDataTransformer {
     private metaData: Record<string, string | string[]>;
     private _transformedData: string[][];
     private columns: string[];
+    private isLegacyOmap: boolean;
 
-    constructor(data: string[][]) {
+    constructor(data: string[][], legacy?: boolean) {
+      this.isLegacyOmap = legacy ?? false;
       this.data = data;
-      this.headerRow = findHeaderIndex(0, this.data, OMAP_HEADER_FIRST_COLUMN);
+      this.headerRow = legacy ? findHeaderIndex(0, this.data, LEGACY_OMAP_HEADER_FIRST_COLUMN) : 
+        findHeaderIndex(0, this.data, OMAP_HEADER_FIRST_COLUMN);
       this.metaData = this.getMetaData();
       this._warnings = new Set<string>();
       this._transformedData = this.transformOmapData();
@@ -40,15 +43,22 @@ export class OmapDataTransformer {
     private createData(): string[][] {
       const dataObject: Record<string, string>[] = this.createMapOfOldColumnsAndValues();
       // Decides whether to take organs from table or constants
-      const fetchOrgansFromTable = ['organ_id', 'organ_name'].every(column => this.columns.includes(column));
+      const organColumnsPresent = ['organ', 'organ_uberon'].every(column => this.columns.includes(column));
       const organ = OMAP_ORGAN[this.metaData.data_doi as string] ?? OMAP_ORGAN.default;
-      if (!OMAP_ORGAN[this.metaData.data_doi as string] && !fetchOrgansFromTable) {
-        this._warnings.add('WARNING: Organ Columns Missing and DOI mapping not present; Adding default Organ Columns.');
+      if (!(this.isLegacyOmap || organColumnsPresent)) {
+        this._warnings.add('WARNING: Organ Columns Missing. Adding default Organ Columns');
+      }
+      if (this.isLegacyOmap && !OMAP_ORGAN[this.metaData.data_doi as string]) {
+        this._warnings.add('WARNING: DOI mapping not present; Adding default Organ Columns.');
       }
 
 
       const transformedData: string[][] = [];
       const title = this.metaData.title;
+      const alternateOrgan = 'missing organ label';
+      const alternateOrganUberon = 'missing organ UBERON id';
+      let organLabelMissingWarningAdded = false;
+      let organUberonMissingWarningAdded = false;
 
       dataObject.forEach(data => {
         const uniprots = data.uniprot_accession_number.split(', ');
@@ -61,10 +71,22 @@ export class OmapDataTransformer {
         }
         let notes = `Extra information in "${title}", Row ${data.rowNo} \n`;
         notes += data.notes;
-
+        if (!this.isLegacyOmap && !data.organ) {
+          data.organ = alternateOrgan;
+          if (!organLabelMissingWarningAdded) {
+            this._warnings.add('WARNING: Organ Label Missing.');
+            organLabelMissingWarningAdded = true;
+          }
+        }
+        if (!this.isLegacyOmap && !data.organ_uberon) {
+          data.organ_uberon = alternateOrganUberon;
+          if (!organUberonMissingWarningAdded) {
+            this._warnings.add('WARNING: Organ Uberon ID Missing.');
+            organUberonMissingWarningAdded = true;
+          }
+        }
         if (data.uniprot_accession_number != '' && data.HGNC_ID != '' && data.target_name != '') {
-          const newrow = fetchOrgansFromTable ? [data.organ_name, data.organ_name, data.organ_id] :
-            [organ.name, organ.rdfs_label, organ.id];
+          const newrow = this.isLegacyOmap ? [organ.name, organ.rdfs_label, organ.id] : [data.organ, data.organ, data.organ_uberon];
           const maxBPs = Math.max(uniprots.length, hgncIds.length, targetNames.length);
           for (let i = 0; i < maxBPs; i++) {
             newrow.push(targetNames[i] ?? '', uniprots[i] ?? '', hgncIds[i] ?? '', notes ?? '');
@@ -72,8 +94,7 @@ export class OmapDataTransformer {
           transformedData.push(newrow);
         }
         else {
-          transformedData.push(fetchOrgansFromTable ? [data.organ_name, data.organ_name, data.organ_id] :
-            [organ.name, organ.rdfs_label, organ.id]);
+          transformedData.push(this.isLegacyOmap ? [organ.name, organ.rdfs_label, organ.id] : [data.organ, data.organ, data.organ_uberon]);
         }
       });
 
