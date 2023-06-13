@@ -1,0 +1,309 @@
+[
+  {
+    "name": "Lymph Node",
+    "display": "Lymph Node",
+    "omapId": "OMAP-1",
+    "tissuePreservationMethod": "Fixed Frozen",
+    "imagingMethod": "IBEX",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "uberon_id": "UBERON: 0000029",
+    "version": [
+      {
+        "viewValue": "v1.0",
+        "hraVersion": "v1.1",
+        "value": "Lymph_Node-v1.0",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.1/omap/OMAP_Lymph_Node.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.1/omap/OMAP_Lymph_Node.xlsx",
+        "as": 29,
+        "ct": 31,
+        "bp": 40,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/omap/omap.html"
+      },
+      {
+        "viewValue": "v1.1",
+        "hraVersion": "v1.2",
+        "value": "Lymph_Node-v1.1",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.2/omap/OMAP_Human_Lymph_Node_IBEX.csv",
+        "sheetId": "",
+        "gid": "",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.2/omap/OMAP_Human_Lymph_Node_IBEX.xlsx",
+        "as": 29,
+        "ct": 31,
+        "bp": 40,
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.2/docs/omap/omap-lymph-node-ibex.html"
+      },
+      {
+        "viewValue": "v1.2",
+        "hraVersion": "v1.3",
+        "value": "Lymph_Node-v1.2",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.3/omap/omap-1-human-lymph-node-ibex.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.3/omap/omap-1-human-lymph-node-ibex.xlsx",
+        "as": 28,
+        "ct": 32,
+        "bp": 39,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.3/docs/omap/omap-1-human-lymph-node-ibex.html"
+      }
+    ]
+  },
+  {
+    "omapId": "OMAP-2",
+    "name": "Intestines",
+    "display": "Intestines",
+    "tissuePreservationMethod": "Fresh Frozen",
+    "imagingMethod": "CODEX",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "uberon_id": "UBERON:0000160",
+    "version": [
+      {
+        "viewValue": "v1.0",
+        "hraVersion": "v1.2",
+        "value": "Intestines-v1.0",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.2/omap/OMAP_Intestine_CODEX.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.2/omap/OMAP_Intestine_CODEX.xlsx",
+        "as": 42,
+        "ct": 29,
+        "bp": 51,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.2/docs/omap/omap-intestines-codex.html"
+      },
+      {
+        "viewValue": "v1.1",
+        "hraVersion": "v1.3",
+        "value": "Intestines-v1.1",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.3/omap/omap-2-intestine-codex.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.3/omap/omap-2-intestine-codex.xlsx",
+        "as": 30,
+        "ct": 33,
+        "bp": 54,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.3/docs/omap/omap-2-intestine-codex.html"
+      }
+    ]
+  },
+  {
+    "omapId": "OMAP-3",
+    "name": "Kidney",
+    "display": "Kidney",
+    "tissuePreservationMethod": "Fresh Frozen",
+    "imagingMethod": "CODEX",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "uberon_id": "UBERON:0002113",
+    "version": [
+      {
+        "viewValue": "v1.0",
+        "hraVersion": "v1.2",
+        "value": "Kidney-v1.0",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.2/omap/OMAP_Kidney_CODEX.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.2/omap/OMAP_Kidney_CODEX.xlsx",
+        "as": 30,
+        "ct": 27,
+        "bp": 26,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.2/docs/omap/omap-kidney-codex.html"
+      },
+      {
+        "viewValue": "v1.1",
+        "hraVersion": "v1.3",
+        "value": "Kidney-v1.1",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.3/omap/omap-3-kidney-codex.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.3/omap/omap-3-kidney-codex.xlsx",
+        "as": 28,
+        "ct": 38,
+        "bp": 24,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.3/docs/omap/omap-3-kidney-codex.html"
+      }
+    ]
+  },
+  {
+    "omapId": "OMAP-4",
+    "name": "Skin",
+    "display": "Skin",
+    "tissuePreservationMethod": "FFPE",
+    "imagingMethod": "Cell DIVE",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "uberon_id": "UBERON:0002097",
+    "version": [
+      {
+        "viewValue": "v1.0",
+        "hraVersion": "v1.2",
+        "value": "Skin-v1.0",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.2/omap/OMAP_Skin_Cell_DIVE.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.2/omap/OMAP_Skin_Cell_DIVE.xlsx",
+        "as": 16,
+        "ct": 15,
+        "bp": 18,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.2/docs/omap/omap-skin-celldive.html"
+      },
+      {
+        "viewValue": "v1.1",
+        "hraVersion": "v1.3",
+        "value": "Skin-v1.1",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.3/omap/omap-4-skin-cell-dive.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.3/omap/omap-4-skin-cell-dive.xlsx",
+        "as": 22,
+        "ct": 13,
+        "bp": 18,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.3/docs/omap/omap-4-skin-cell-dive.html"
+      }
+    ]
+  },
+  {
+    "omapId": "OMAP-5",
+    "name": "Liver",
+    "display": "Liver",
+    "tissuePreservationMethod": "Fresh Frozen",
+    "imagingMethod": "SIMS",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "uberon_id": "UBERON:0002107",
+    "version": [
+      {
+        "viewValue": "v1.0",
+        "hraVersion": "v1.2",
+        "value": "Liver-v1.0",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.2/omap/OMAP_Liver_SIMS.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.2/omap/OMAP_Liver_SIMS.xlsx",
+        "as": 17,
+        "ct": 16,
+        "bp": 20,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.2/docs/omap/omap-liver-sim.html"
+      },
+      {
+        "viewValue": "v1.1",
+        "hraVersion": "v1.3",
+        "value": "Liver-v1.1",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.3/omap/omap-5-liver-sims.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.3/omap/omap-5-liver-sims.xlsx",
+        "as": 24,
+        "ct": 14,
+        "bp": 20,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.3/docs/omap/omap-5-liver-sims.html"
+      }
+    ]
+  },
+  {
+    "omapId": "OMAP-6",
+    "name": "Pancreas",
+    "display": "Pancreas",
+    "tissuePreservationMethod": "FFPE",
+    "imagingMethod": "CODEX",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "uberon_id": "UBERON:0001264",
+    "version": [
+      {
+        "viewValue": "v1.0",
+        "hraVersion": "v1.2",
+        "value": "Pancreas-v1.0",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.2/omap/OMAP_Pancreas_CODEX.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.2/omap/OMAP_Pancreas_CODEX.xlsx",
+        "as": 3,
+        "ct": 9,
+        "bp": 12,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.2/docs/omap/omap-pancreas-codex.html"
+      },
+      {
+        "viewValue": "v1.1",
+        "hraVersion": "v1.3",
+        "value": "Pancreas-v1.1",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.3/omap/omap-6-pancreas-codex.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.3/omap/omap-6-pancreas-codex.xlsx",
+        "as": 10,
+        "ct": 11,
+        "bp": 12,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.3/docs/omap/omap-6-pancreas-codex.html"
+      }
+    ]
+  },
+  {
+    "omapId": "OMAP-7",
+    "name": "Lung",
+    "display": "Lung",
+    "tissuePreservationMethod": "FFPE",
+    "imagingMethod": "Cell DIVE",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "uberon_id": "UBERON:0002048",
+    "version": [
+      {
+        "viewValue": "v1.0",
+        "hraVersion": "v1.2",
+        "value": "Lung-v1.0",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.2/omap/OMAP_Lung_Cell_DIVE.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.2/omap/OMAP_Lung_Cell_DIVE.xlsx",
+        "as": 50,
+        "ct": 42,
+        "bp": 30,
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.2/docs/omap/omap-lung-celldive.html",
+        "sheetId": "",
+        "gid": ""
+      },
+      {
+        "viewValue": "v1.1",
+        "hraVersion": "v1.3",
+        "value": "Lung-v1.1",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.3/omap/omap-7-lung-cell-dive.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.3/omap/omap-7-lung-cell-dive.xlsx",
+        "as": 28,
+        "ct": 36,
+        "bp": 30,
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.3/docs/omap/omap-7-lung-cell-dive.html",
+        "sheetId": "",
+        "gid": ""
+      }
+    ]
+  }
+]
