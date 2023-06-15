@@ -304,6 +304,170 @@
         "sheetId": "",
         "gid": ""
       }
+{
+    "name": "Placenta",
+    "display": "Placenta full term",
+    "omapId": "OMAP-8",
+    "tissuePreservationMethod": "FFPE",
+    "imagingMethod": "IMC",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "uberon_id": "UBERON:0001987",
+    "version": [
+      {
+        "viewValue": "v1.0",
+        "hraVersion": "v1.4",
+        "value": "omap-8-placenta-full-term-imc",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.4/omap/omap-8-placenta-full-term-imc.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.4/omap/omap-8-placenta-full-term-imc.xlsx",
+        "as": 29,
+        "ct": 31,
+        "bp": 40,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-8-placenta-full-term-imc.html"
+      },
+      {
+    "name": "Kidney",
+    "display": "Kidney",
+    "omapId": "OMAP-9",
+    "tissuePreservationMethod": "Fresh Frozen",
+    "imagingMethod": "CODEX",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "uberon_id": "UBERON:0002113",
+    "version": [
+      {
+        "viewValue": "v1.0",
+        "hraVersion": "v1.4",
+        "value": "omap-9-kidney-codex",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.4/omap/omap-9-kidney-codex.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.4/omap/omap-9-kidney-codex.xlsx",
+        "as": 29,
+        "ct": 31,
+        "bp": 40,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-9-kidney-codex.html"
+      },
+        {
+    "name": "Palatine tonsil",
+    "display": "Palatine tonsil",
+    "omapId": "OMAP-10",
+    "tissuePreservationMethod": "PFA fixed",
+    "imagingMethod": "MACSima",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "uberon_id": "UBERON:0002373",
+    "version": [
+      {
+        "viewValue": "v1.0",
+        "hraVersion": "v1.4",
+        "value": "omap-10-palatine-tonsil-macsima",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.4/omap/omap-10-palatine-tonsil-macsima.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.4/omap/omap-10-palatine-tonsil-macsima.xlsx",
+        "as": 29,
+        "ct": 31,
+        "bp": 40,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-10-palatine-tonsil-macsima.html"
+      },
+          {
+    "name": "Spleen",
+    "display": "Spleen",
+    "omapId": "OMAP-11",
+    "tissuePreservationMethod": "Fixed Frozen",
+    "imagingMethod": "IBEX",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "uberon_id": "UBERON:0002106",
+    "version": [
+      {
+        "viewValue": "v1.0",
+        "hraVersion": "v1.4",
+        "value": "omap-11-spleen-ibex",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.4/omap/omap-11-spleen-ibex.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.4/omap/omap-11-spleen-ibex.xlsx",
+        "as": 29,
+        "ct": 31,
+        "bp": 40,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-11-spleen-ibex.html"
+      },
+    ]
+                    {
+    "name": "Eye Retina",
+    "display": "Eye Retina",
+    "omapId": "OMAP-12",
+    "tissuePreservationMethod": "Fixed Frozen",
+    "imagingMethod": "IBEX",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "uberon_id": "UBERON:0000966",
+    "version": [
+      {
+        "viewValue": "v1.0",
+        "hraVersion": "v1.4",
+        "value": "omap-12-eye-retina-ibex",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.4/omap/omap-12-eye-retina-ibex.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.4/omap/omap-12-eye-retina-ibex.xlsx",
+        "as": 29,
+        "ct": 31,
+        "bp": 40,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-12-eye-retina-ibex.html"
+      },
+    ]
+                              {
+    "name": "Pancreas",
+    "display": "Pancreas",
+    "omapId": "OMAP-13",
+    "tissuePreservationMethod": "4% PFA-fixed frozen",
+    "imagingMethod": "CODEX",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "uberon_id": "UBERON:0001264",
+    "version": [
+      {
+        "viewValue": "v1.0",
+        "hraVersion": "v1.4",
+        "value": "omap-13-pancreas-codex",
+        "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.4/omap/omap-13-pancreas-codex.csv",
+        "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.4/omap/omap-13-pancreas-codex.xlsx",
+        "as": 29,
+        "ct": 31,
+        "bp": 40,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-13-pancreas-codex.html"
+      },
     ]
   }
 ]
