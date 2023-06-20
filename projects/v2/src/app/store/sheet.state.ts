@@ -1282,7 +1282,7 @@ export class SheetState {
 
     if (state.omapSelectedOrgans.length > 0 && state.omapSelectedOrgans[0] !== '') {
       for (const s of state.omapSelectedOrgans) {
-        const [_omap, _omap_no, organ, _omapVersion] = s.split('-');
+        const [_omap, _omapNumber, organ, _omapVersion] = s.split('-');
         const organName = organ.split('_').join(' ');
         const sheetDetails = this.omapSheetConfig.find(omap => omap.name.toLowerCase() === organName.toLowerCase());
         const version = sheetDetails.version.find(v => v.value.toLowerCase() === s.toLowerCase());
