@@ -16,7 +16,7 @@
       {
         "viewValue": "v1.0",
         "hraVersion": "v1.1",
-        "value": "OMAP-1-Lymph-Node-v1.0",
+        "value": "OMAP-1-Lymph_Node-v1.0",
         "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.1/omap/OMAP_Lymph_Node.csv",
         "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.1/omap/OMAP_Lymph_Node.xlsx",
         "as": 29,
@@ -29,7 +29,7 @@
       {
         "viewValue": "v1.1",
         "hraVersion": "v1.2",
-        "value": "OMAP-1-Lymph-Node-v1.1",
+        "value": "OMAP-1-Lymph_Node-v1.1",
         "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.2/omap/OMAP_Human_Lymph_Node_IBEX.csv",
         "sheetId": "",
         "gid": "",
@@ -42,7 +42,7 @@
       {
         "viewValue": "v1.2",
         "hraVersion": "v1.3",
-        "value": "OMAP-1-Lymph-Node-v1.2",
+        "value": "OMAP-1-Lymph_Node-v1.2",
         "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.3/omap/omap-1-human-lymph-node-ibex.csv",
         "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.3/omap/omap-1-human-lymph-node-ibex.xlsx",
         "as": 28,
@@ -55,7 +55,7 @@
       {
         "viewValue": "v1.3",
         "hraVersion": "v1.4",
-        "value": "OMAP-1-Lymph-Node-v1.3",
+        "value": "OMAP-1-Lymph_Node-v1.3",
         "csvUrl": "https://hubmapconsortium.github.io/ccf-releases/v1.4/omap/omap-1-human-lymph-node-ibex.csv",
         "xlsx": "https://hubmapconsortium.github.io/ccf-releases/v1.4/omap/omap-1-human-lymph-node-ibex.xlsx",
         "as": 28,
@@ -217,7 +217,7 @@
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.3/docs/omap/omap-4-skin-cell-dive.html"
       },
-       {
+      {
         "viewValue": "v1.2",
         "hraVersion": "v1.4",
         "value": "OMAP-4-Skin-v1.1",
@@ -272,7 +272,7 @@
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.3/docs/omap/omap-5-liver-sims.html"
       },
-       {
+      {
         "viewValue": "v1.2",
         "hraVersion": "v1.4",
         "value": "OMAP-5-Liver-v1.2",
@@ -327,7 +327,7 @@
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.3/docs/omap/omap-6-pancreas-codex.html"
       },
-       {
+      {
         "viewValue": "v1.2",
         "hraVersion": "v1.4",
         "value": "OMAP-6-Pancreas-v1.2",
@@ -397,7 +397,7 @@
       }
     ]
   },
-{
+  {
     "name": "Placenta",
     "display": "Placenta full term",
     "omapId": "OMAP-8",
@@ -423,8 +423,10 @@
         "sheetId": "",
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-8-placenta-full-term-imc.html"
-      },
-      {
+      }
+    ]
+  },
+  {
     "name": "Kidney",
     "display": "Kidney",
     "omapId": "OMAP-9",
@@ -450,8 +452,10 @@
         "sheetId": "",
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-9-kidney-codex.html"
-      },
-        {
+      }
+    ]
+  },
+  {
     "name": "Palatine tonsil",
     "display": "Palatine tonsil",
     "omapId": "OMAP-10",
@@ -477,8 +481,10 @@
         "sheetId": "",
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-10-palatine-tonsil-macsima.html"
-      },
-          {
+      }
+    ]
+  },
+  {
     "name": "Spleen",
     "display": "Spleen",
     "omapId": "OMAP-11",
@@ -504,8 +510,10 @@
         "sheetId": "",
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-11-spleen-ibex.html"
-      },
-                    {
+      }
+    ]
+  },
+  {
     "name": "Eye Retina",
     "display": "Eye Retina",
     "omapId": "OMAP-12",
@@ -531,8 +539,10 @@
         "sheetId": "",
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-12-eye-retina-ibex.html"
-      },
-                              {
+      }
+    ]
+  },
+  {
     "name": "Pancreas",
     "display": "Pancreas",
     "omapId": "OMAP-13",
@@ -559,4 +569,6 @@
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-13-pancreas-codex.html"
       }
-]}]}]}]}]}]}]
+    ]
+  }
+]
