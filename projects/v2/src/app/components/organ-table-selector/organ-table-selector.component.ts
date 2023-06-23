@@ -20,6 +20,9 @@ export class OrganTableSelectorComponent implements OnInit {
    */
   sheetOptions;
 
+  /**
+   * Sheet configs of Omap config file
+   */
   omapSheetOptions;
   /**
    * Has some selected organs

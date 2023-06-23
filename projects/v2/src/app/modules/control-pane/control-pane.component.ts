@@ -8,10 +8,12 @@ import { Sheet, SheetConfig, CompareData } from '../../models/sheet.model';
 import { TreeState, TreeStateModel } from '../../store/tree.state';
 import { DiscrepencyStructure, TNode } from '../../models/tree.model';
 import { VegaService } from '../tree/vega.service';
-import { DiscrepencyId, DiscrepencyLabel, DuplicateId } from '../../actions/tree.actions';
+import { DiscrepencyId, DiscrepencyLabel, DuplicateId, UpdateOmapConfig } from '../../actions/tree.actions';
 import { UpdateConfig, ToggleShowAllAS, FetchSelectedOrganData } from '../../actions/sheet.actions';
 import { BimodalService } from '../tree/bimodal.service';
 import { BMNode } from '../../models/bimodal.model';
+import { OmapConfig } from '../../models/omap.model';
+import { ConfigService } from '../../app-config.service';
 
 @Component({
   selector: 'app-control-pane',
@@ -32,17 +34,33 @@ export class ControlPaneComponent implements OnInit {
 
   @Select(TreeState) tree$: Observable<TreeStateModel>;
 
+  @Select(TreeState.getOmapConfig) omapConfig$: Observable<OmapConfig>;
+  @Select(SheetState.getFilteredProtiens) filteredProteins$: Observable<string[]>;
+
   nodes: BMNode[];
   treeData: TNode[];
   view: any;
   groupName = 'Anatomical Structures';
 
-  constructor(public store: Store, public bm: BimodalService, public vs: VegaService) {
+  constructor(public store: Store, public bm: BimodalService, public vs: VegaService, public configService: ConfigService) {
 
     this.tree$.subscribe(tree => {
       this.treeData = tree.treeData;
       this.nodes = tree.bimodal.nodes;
     });
+
+    this.filteredProteins$.subscribe(proteins => {
+      const data = this.store.selectSnapshot(SheetState.getData);
+      const treeData = this.store.selectSnapshot(TreeState.getTreeData);
+      const bimodalConfig = this.store.selectSnapshot(TreeState.getBimodalConfig);
+      const sheetConfig = this.store.selectSnapshot(SheetState.getSheetConfig);
+      const omapConfig = this.store.selectSnapshot(TreeState.getOmapConfig);
+      const filteredProtiens = this.store.selectSnapshot(SheetState.getFilteredProtiens);
+      if (data.length) {
+        this.bm.makeBimodalData(data, treeData, bimodalConfig, false, sheetConfig, omapConfig, filteredProtiens);
+      }
+    });
+
   }
 
   ngOnInit(): void {
@@ -83,7 +101,7 @@ export class ControlPaneComponent implements OnInit {
   makeBimodalWithDiscrepencyLabel(config: SheetConfig) {
     this.store.dispatch(new UpdateConfig(config));
     let discrepencyLabels = [];
-    if (config.discrepencyLabel){
+    if (config.discrepencyLabel) {
       const discrepencySet = new Set<DiscrepencyStructure>();
       for (const node of this.treeData) {
         if (node.children !== 0 && (node.label !== node.name)) {
@@ -122,7 +140,7 @@ export class ControlPaneComponent implements OnInit {
   makeBimodalWithDiscrepencyId(config: SheetConfig) {
     this.store.dispatch(new UpdateConfig(config));
     let discrepencyIds = [];
-    if (config.discrepencyId){
+    if (config.discrepencyId) {
       const discrepencySet = new Set<DiscrepencyStructure>();
       for (const node of this.treeData) {
         if (node.children !== 0 && (!node.ontologyId)) {
@@ -161,7 +179,7 @@ export class ControlPaneComponent implements OnInit {
   makeDuplicateId(config: SheetConfig) {
     this.store.dispatch(new UpdateConfig(config));
     let duplicateId = [];
-    if (config.duplicateId){
+    if (config.duplicateId) {
       const duplicateIdSet = new Set<DiscrepencyStructure>();
       for (const node of this.treeData) {
         if (node.children !== 0 && (node.ontologyId) && node.ontologyId !== 'no good match') {
@@ -198,7 +216,7 @@ export class ControlPaneComponent implements OnInit {
       this.store.dispatch(new DiscrepencyLabel([]));
       this.store.dispatch(new DiscrepencyId([]));
     }
-    else{
+    else {
       duplicateId = [];
     }
     this.store.dispatch(new DuplicateId([...duplicateId]));
@@ -209,10 +227,12 @@ export class ControlPaneComponent implements OnInit {
       const data = states.sheetState.data;
       const treeData = states.treeState.treeData;
       const bimodalConfig = states.treeState.bimodal.config;
-
+      const omapConfig = states.treeState.omapConfig;
+      const filteredProtiens = states.sheetState.filteredProtiens;
       if (data.length) {
         try {
-          this.bm.makeBimodalData(data, treeData, bimodalConfig, config);
+          console.log('BM Call here');
+          this.bm.makeBimodalData(data, treeData, bimodalConfig, false, config, omapConfig, filteredProtiens);
         } catch (err) {
           console.log(err);
         }
@@ -231,5 +251,12 @@ export class ControlPaneComponent implements OnInit {
       Feature request for the reporter.%0D%0A%0D%0A3. General discussion about the Reporter.`;
     const mailText = `mailto:infoccf@indiana.edu?subject=${subject}&body=${body}`;
     window.location.href = mailText;
+  }
+
+  updateOmapConfig(event: OmapConfig) {
+    this.store.dispatch(new UpdateOmapConfig(event)).subscribe(states => {
+      this.store.dispatch(new FetchSelectedOrganData(states.sheetState.sheet, states.sheetState.selectedOrgans,
+        states.sheetState.omapSelectedOrgans, states.sheetState.compareSheets));
+    });
   }
 }

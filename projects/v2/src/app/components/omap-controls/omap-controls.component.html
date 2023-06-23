@@ -1,0 +1,24 @@
+<div>
+  <mat-expansion-panel class="mepNoPadding" [expanded]="!error.hasError">
+    <mat-expansion-panel-header [expandedHeight]="'4.5rem'" [collapsedHeight]="'4.5rem'">
+      <mat-panel-title>
+        <div>
+          <strong> Organ Mapping Antibody Panels (OMAPs) </strong>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="py-1">
+      <mat-checkbox [value]="omaps.organsOnly"
+        (change)="checkBoxClicked({'organsOnly': !omaps.organsOnly, 'proteinsOnly': omaps.proteinsOnly})">
+        <mat-label class="checkbox-label">OMAP Organs Only</mat-label>
+      </mat-checkbox>
+    </div>
+    <div class="py-1">
+      <mat-checkbox [value]="omaps.proteinsOnly"
+        (change)="checkBoxClicked({'proteinsOnly': !omaps.proteinsOnly, 'organsOnly': omaps.organsOnly})">
+        <mat-label class="checkbox-label">OMAP Proteins Only</mat-label>
+      </mat-checkbox>
+    </div>
+  </mat-expansion-panel>
+</div>

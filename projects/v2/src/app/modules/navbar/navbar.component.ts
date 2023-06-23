@@ -94,12 +94,12 @@ export class NavbarComponent implements OnInit {
   @Output() export: EventEmitter<any> = new EventEmitter<any>();
 
   get selectedOrgansLabel(): string {
-    let x = this.selectedOrgansValues?.length > 0 ? 'ASCT-B:' + this.selectedOrgansValues : '';
+    let x = this.selectedOrgansValues?.length > 0 ? 'ASCT+B: ' + this.selectedOrgansValues : '';
     x = this.selectedOrgansValues?.length > 0 && this.omapSelectedOrgansValues?.length > 0 ? x + ' | ' : x;
-    x = this.omapSelectedOrgansValues?.length > 0 ? x + 'OMAP:' + this.omapSelectedOrgansValues : x;
+    x = this.omapSelectedOrgansValues?.length > 0 ? x + 'OMAP: ' + this.omapSelectedOrgansValues : x;
 
     if (x.length > 64) {
-      return `ASCT-B: ${this.selectedOrgansValues?.split(',').length} OMAP: ${this.omapSelectedOrgansValues?.split(',').length} organs Selected`;
+      return `${this.selectedOrgansValues?.split(',').length} ASCT+B Tables, ${this.omapSelectedOrgansValues?.split(',').length} OMAPs`;
     } else {
       return x;
     }

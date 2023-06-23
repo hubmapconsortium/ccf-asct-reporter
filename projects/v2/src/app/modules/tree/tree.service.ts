@@ -223,8 +223,9 @@ export class TreeService {
           data,
           spec.data[0].values.filter(x => !allParentIdsArray.includes(x.id)),
           this.store.selectSnapshot(TreeState.getBimodalConfig),
-          this.store.selectSnapshot(SheetState.getSheetConfig),
-          true);
+          true,
+          this.store.selectSnapshot(SheetState.getSheetConfig)
+        );
       }
     } catch (error) {
       console.log(error);

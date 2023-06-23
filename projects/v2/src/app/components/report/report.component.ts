@@ -457,7 +457,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
       const newPair = `${pair.AS_NAME} (${pair.AS_ID}), ${pair.CT_NAME} (${pair.CT_ID}), ${pair.BM_NAME}(${pair.BM_ID})`;
       if (!AS_CT_BM.has(newPair)) {
         AS_CT_BM.add(newPair);
-        const t = { '': '', 'AS': `${pair.AS_NAME} (${pair.AS_ID})`, 'CT': `${pair.CT_NAME} (${pair.CT_ID})`, 'BM': `${pair.BM_NAME} (${pair.BM_ID})` };
+        const t = { '': '', 'AS': `${pair.AS_NAME} (${pair.AS_ID})`, 'CT': `${pair.CT_NAME} (${pair.CT_ID})`, 'Biomarker': `${pair.BM_NAME} (${pair.BM_ID})` };
 
         if (download[index]) {
           download[index] = { ...download[index], ...t };

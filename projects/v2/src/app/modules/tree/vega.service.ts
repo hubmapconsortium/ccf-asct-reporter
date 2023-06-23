@@ -123,10 +123,12 @@ export class VegaService {
       const treeData = states.treeState.treeData;
       const bimodalConfig = states.treeState.bimodal.config;
       const sheetConfig = states.sheetState.sheetConfig;
+      const omapConfig = states.treeState.omapConfig;
+      const filteredProtiens = states.sheetState.filteredProtiens;
 
       if (data.length) {
         try {
-          this.bm.makeBimodalData(data, treeData, bimodalConfig, sheetConfig);
+          this.bm.makeBimodalData(data, treeData, bimodalConfig, false,sheetConfig, omapConfig, filteredProtiens);
         } catch (err) {
           console.log(err);
         }
