@@ -531,7 +531,7 @@ export class SheetState {
     const state = getState();
     const omapConfig = this.store.selectSnapshot(TreeState.getOmapConfig);
 
-    selectedOrgans =  this.omapFiltering(state, omapConfig, selectedOrgans);
+    selectedOrgans = this.omapFiltering(state, omapConfig, selectedOrgans);
 
     dispatch(new OpenLoading('Fetching data...'));
 
@@ -657,7 +657,7 @@ export class SheetState {
       patchState({
         data: [bodyRow],
         fullAsData: [bodyRow],
-        fullDataByOrgan : [[bodyRow]]
+        fullDataByOrgan: [[bodyRow]]
       });
       if (comparisonDetails) {
         dispatch(new FetchCompareData(comparisonDetails));
@@ -669,9 +669,9 @@ export class SheetState {
 
   private omapFiltering(sheetState: SheetStateModel, event: OmapConfig, currentlySelectedOrgans): string[] {
     const selectedOrgansBeforeFilter = sheetState.selectedOrgansBeforeFilter;
-    
+
     let newSelectedOrgans = [];
-    if(event.organsOnly) {
+    if (event.organsOnly) {
       //Union oldSelected and currentlySelected and make a new list
       currentlySelectedOrgans = this.unionOldSelectedAndNewSelected(selectedOrgansBeforeFilter, currentlySelectedOrgans);
       //Filtered List
@@ -686,7 +686,7 @@ export class SheetState {
     }
 
     return newSelectedOrgans;
-    
+
   }
 
   private unionOldSelectedAndNewSelected(beforeFilterOrgans: selectedOrganBeforeFilter[], currentlySelectedOrgans: string[]) {
@@ -723,9 +723,9 @@ export class SheetState {
 
   }
 
-  private convertOrganToBeforeFilterFormat(organ : string, filteredOut: boolean): selectedOrganBeforeFilter {
+  private convertOrganToBeforeFilterFormat(organ: string, filteredOut: boolean): selectedOrganBeforeFilter {
     const [organName, version] = organ.split('-');
-    return {selector: organ, organName, version, filteredOut};
+    return { selector: organ, organName, version, filteredOut };
   }
 
   private arraysEqual<T>(a: T[], b: T[]): boolean {
@@ -1282,7 +1282,7 @@ export class SheetState {
 
     if (state.omapSelectedOrgans.length > 0 && state.omapSelectedOrgans[0] !== '') {
       for (const s of state.omapSelectedOrgans) {
-        const [organ, _omapVersion] = s.split('-');
+        const [_omap, _omapNumber, organ, _omapVersion] = s.split('-');
         const organName = organ.split('_').join(' ');
         const sheetDetails = this.omapSheetConfig.find(omap => omap.name.toLowerCase() === organName.toLowerCase());
         const version = sheetDetails.version.find(v => v.value.toLowerCase() === s.toLowerCase());
@@ -1294,7 +1294,7 @@ export class SheetState {
         requests$.push(this.sheetService.fetchSheetData(version.sheetId, version.gid, version.csvUrl, null, null, state.getFromCache));
       }
     }
-    
+
     const existingProtiens = [];
     for (const r of state.data) {
       r.biomarkers_protein.forEach(protein => {
