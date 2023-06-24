@@ -21,7 +21,7 @@
         (click)="activateNode = node; openBottomSheet.emit({name: node.name, ontologyId: node.ontologyId})"
       >
         <button mat-icon-button disabled></button><div class="d-flex align-items-center"
-        ><span class="h6 font-weight-normal m-0">{{ node.name }}</span
+        ><span class="h6 fw-normal m-0">{{ node.name }}</span
         ><span
           class="node-name-id"
           *ngIf="node.ontologyId"
@@ -50,7 +50,7 @@
         </button>
 
         <div class="d-flex align-items-center"
-          ><span class="h6 m-0 font-weight-bold">{{ node.name }} </span
+          ><span class="h6 m-0 fw-bold">{{ node.name }} </span
           ><span
             class="node-name-id"
             *ngIf="node.ontologyId"

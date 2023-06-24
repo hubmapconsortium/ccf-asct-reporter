@@ -15,7 +15,7 @@
 
           <div class="overview">
             <p class="text-muted mb-3">
-              <small class="font-weight-bolder">UNIQUE ENTITIES</small>
+              <small class="fw-bolder">UNIQUE ENTITIES</small>
             </p>
             <div class="
                 d-flex
@@ -24,8 +24,8 @@
                 pr-5
                 h6
               ">
-              <span class="font-weight-normal">Anatomical structures</span>
-              <span class="number font-weight-bolder">{{
+              <span class="fw-normal">Anatomical structures</span>
+              <span class="number fw-bolder">{{
                 reportData.anatomicalStructures.length
                 }}</span>
             </div>
@@ -37,8 +37,8 @@
                 pr-5
                 h6
               ">
-              <span class="font-weight-normal">Cell types </span>
-              <span class="number font-weight-bolder">{{
+              <span class="fw-normal">Cell types </span>
+              <span class="number fw-bolder">{{
                 reportData.cellTypes.length
                 }}</span>
             </div>
@@ -50,8 +50,8 @@
                 pr-5
                 h6
               ">
-              <span class="font-weight-normal">Biomarkers </span>
-              <span class="number font-weight-bolder">{{
+              <span class="fw-normal">Biomarkers </span>
+              <span class="number fw-bolder">{{
                 reportData.biomarkers.length
                 }}</span>
             </div>
@@ -59,7 +59,7 @@
             <br />
 
             <p class="text-muted mb-3">
-              <small class="font-weight-bolder">ENTITY LINKS</small>
+              <small class="fw-bolder">ENTITY LINKS</small>
             </p>
             <div class="
                 d-flex
@@ -68,10 +68,10 @@
                 pr-5
                 h6
               ">
-              <span class="font-weight-normal">Anatomical Structures
+              <span class="fw-normal">Anatomical Structures
                 <span class="badge badge-danger">part_of</span> AS links
               </span>
-              <span class="number font-weight-bolder">{{
+              <span class="number fw-bolder">{{
                 total_AS_AS
                 }}</span>
             </div>
@@ -83,10 +83,10 @@
                 pr-5
                 h6
               ">
-              <span class="font-weight-normal">Cell Types
+              <span class="fw-normal">Cell Types
                 <span class="badge badge-primary">located_in</span> AS links
               </span>
-              <span class="number font-weight-bolder">{{
+              <span class="number fw-bolder">{{
                 total_AS_CT
                 }}</span>
             </div>
@@ -98,10 +98,10 @@
                 pr-5
                 h6
               ">
-              <span class="font-weight-normal">Biomarker
+              <span class="fw-normal">Biomarker
                 <span class="badge badge-success">characterizes</span> CT links
               </span>
-              <span class="number font-weight-bolder">{{
+              <span class="number fw-bolder">{{
                 total_CT_B
                 }}</span>
             </div>
@@ -109,7 +109,7 @@
             <br />
 
             <p class="text-muted mb-3">
-              <small class="font-weight-bold">ONTOLOGY LINKS</small>
+              <small class="fw-bold">ONTOLOGY LINKS</small>
             </p>
             <div *ngFor="let report of ontologyLinkGraphData">
               <ngx-charts-advanced-pie-chart [customColors]="customColors" [view]="[600, 175]"
@@ -126,7 +126,7 @@
             <div *ngIf="countsByOrgan.data.length > 1">
               <div class="count-by-organ-title">
                 <p class="text-muted mb-3">
-                  <small class="font-weight-normal">Counts by Organ</small>
+                  <small class="fw-normal">Counts by Organ</small>
                 </p>
                 <div class="display-option" #tooltip="matTooltip" matTooltip="Export as Xlsx">
                   <button mat-icon-button (click)="downloadReportByOrgan()" class="mr-2">
@@ -361,7 +361,7 @@
               </table>
             </div>
             <p class="text-muted my-3">
-              <small class="font-weight-normal">Alphabetically sorted listings of all AS, CT, & B</small>
+              <small class="fw-normal">Alphabetically sorted listings of all AS, CT, & B</small>
             </p>
             <mat-expansion-panel [expanded]="false">
               <mat-expansion-panel-header>
@@ -379,7 +379,7 @@
                       | orderBy: 'structure'
                   " class="py-1 d-flex justify-content-between align-items-center">
                   <div class="h6 pr-2">
-                    <span class="font-weight-normal">{{ a.structure }}
+                    <span class="fw-normal">{{ a.structure }}
                       <span class="text-muted">({{ a.label ? a.label : "label not found" }})</span></span>
                   </div>
 
@@ -405,7 +405,7 @@
                 <div *ngFor="let a of reportData.cellTypes | orderBy: 'structure'"
                   class="py-1 d-flex justify-content-between align-items-center">
                   <div class="h6">
-                    <span class="font-weight-normal">{{ a.structure }}
+                    <span class="fw-normal">{{ a.structure }}
                       <span class="text-muted">({{ a.label ? a.label : "label not found" }})</span></span>
                   </div>
 
@@ -431,7 +431,7 @@
                 <div *ngFor="let a of reportData.biomarkers | orderBy: 'structure'"
                   class="py-1 d-flex justify-content-between align-items-center">
                   <div class="h6">
-                    <span class="font-weight-normal">{{ a.structure }}</span>
+                    <span class="fw-normal">{{ a.structure }}</span>
                   </div>
 
                   <div>
@@ -454,7 +454,7 @@
               <div class="mt-2">
                 <div *ngFor="let a of biomarkersCounts" class="py-1 d-flex justify-content-between align-items-center">
                   <div class="h6">
-                    <span class="font-weight-normal">{{ a.name + ' Biomarkers' | titlecase}}</span>
+                    <span class="fw-normal">{{ a.name + ' Biomarkers' | titlecase}}</span>
                   </div>
 
                   <div>
@@ -466,7 +466,7 @@
             <br />
 
             <p class="text-muted my-3">
-              <small class="font-weight-normal">Missing Ontology Links</small>
+              <small class="fw-normal">Missing Ontology Links</small>
             </p>
 
             <mat-expansion-panel>
@@ -484,7 +484,7 @@
                     let a of reportData.ASWithNoLink | orderBy: 'structure'
                   " class="py-1 d-flex justify-content-between align-items-center">
                   <div class="h6">
-                    <span class="font-weight-normal">{{ a.structure }}
+                    <span class="fw-normal">{{ a.structure }}
                       <span class="text-muted">({{ a.label ? a.label : "label not found" }})</span></span>
                   </div>
                 </div>
@@ -507,7 +507,7 @@
                     let a of reportData.CTWithNoLink | orderBy: 'structure'
                   " class="py-1 d-flex justify-content-between align-items-center">
                   <div class="h6">
-                    <span class="font-weight-normal">{{ a.structure }}
+                    <span class="fw-normal">{{ a.structure }}
                       <span class="text-muted">({{ a.label ? a.label : "label not found" }})</span></span>
                   </div>
                 </div>
@@ -530,7 +530,7 @@
                     let a of reportData.BWithNoLink | orderBy: 'structure'
                   " class="py-1 d-flex justify-content-between align-items-center">
                   <div class="h6">
-                    <span class="font-weight-normal">{{ a.structure }}</span>
+                    <span class="fw-normal">{{ a.structure }}</span>
                   </div>
                 </div>
               </div>

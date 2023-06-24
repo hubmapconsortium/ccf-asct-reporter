@@ -20,8 +20,8 @@
     <mat-drawer-container class="w-100">
       <mat-drawer [opened]="true" [mode]="'side'" class="drawer pb-5 nav-height" position="start" style="position: fixed;">
         <div class="pl-5 pr-3 d-flex justify-content-between align-items-center goto py-3" (click)="onLatest()">
-          <span class="h6 m-0 font-weight-bold">Latest Release</span>
-          <fa-icon [icon]="faChevronRight"></fa-icon>
+          <span class="h6 m-0 fw-bold h6-title">Latest Release</span>
+          <fa-icon class="icon-right" [icon]="faChevronRight"></fa-icon>
         </div>
         <hr class="m-0 mb-3">
         <div *ngFor="let item of REGISTRY; let i = index;" class="px-5 py-3 menu-item" [class.bg-light]="i === selected"
@@ -41,7 +41,7 @@
           </div>
 
           <div class="w-100">
-            <markdown [data]="docsData" class="w-100"></markdown>
+            <markdown [data]="docsData" class="w-100 md-file"></markdown>
           </div>
 
           <div class="mt-5">

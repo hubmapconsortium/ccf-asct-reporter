@@ -10,6 +10,7 @@ a {
       list-style-type: none;
     }
     li a {
+      text-decoration: none;
       color: white;
       transition: color 0.2s;
       &:hover {
@@ -37,5 +38,11 @@ a {
   }
   .copyright p {
     border-top: 0.0625rem solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+.social-media {
+  a {
+    padding-left: 0.2rem;
   }
 }

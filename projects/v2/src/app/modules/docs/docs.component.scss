@@ -73,3 +73,19 @@ h1 {
   }
 }
 
+.md-file ::ng-deep {
+    a{
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+}
+
+.icon-right {
+  padding-right: 1rem;
+}
+
+.h6-title {
+  padding-left: 3rem;
+}
