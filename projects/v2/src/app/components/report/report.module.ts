@@ -6,13 +6,13 @@ import { SidenavHeaderModule } from '../sidenav-header/sidenav-header.module';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { OrderModule } from 'ngx-order-pipe';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import {MatTableExporterModule } from 'mat-table-exporter';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSortModule } from '@angular/material/sort';
+import { OrderByPipe } from '../../pipes/order-by/order-by.pipe';
 
 
 @NgModule({
@@ -24,7 +24,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatTabsModule,
     NgxChartsModule,
     MatExpansionModule,
-    OrderModule,
+    OrderByPipe,
     MatIconModule,
     MatButtonModule,
     MatTableModule,
