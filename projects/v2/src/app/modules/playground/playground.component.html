@@ -1,4 +1,4 @@
-<mat-tab-group (selectedTabChange)="tabChange($event)" class="remove-border-bottom" [(selectedIndex)]="tabIndex">
+<mat-tab-group (selectedTabChange)="tabChange($event)" [mat-stretch-tabs]="false" class="remove-border-bottom" [(selectedIndex)]="tabIndex">
   <mat-tab label="Visualization">
     <app-tree></app-tree>
   </mat-tab>

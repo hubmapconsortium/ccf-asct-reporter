@@ -16,6 +16,10 @@
   border: 0rem !important;
 }
 
+::ng-deep .mat-mdc-tab.mdc-tab {
+  padding: 0rem 3.75rem;
+}
+
 ::ng-deep .jexcel>tbody>tr>td:nth-child(2) {
   border: 0.0625rem solid #e3e3e3;
   overflow: visible;
@@ -30,5 +34,4 @@
   margin-top: 1rem;
   display: block;
   width: 50rem;
-
 }

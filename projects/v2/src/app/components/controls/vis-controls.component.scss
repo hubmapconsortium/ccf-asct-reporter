@@ -1,4 +1,4 @@
-@import "./../../../assets/stylesheets/colors.scss";
+@import "./../../../assets/stylesheets/_colors.scss";
 
 .mat-expansion-panel:not([class*="mat-elevation-z"]) {
   box-shadow: none;
@@ -60,4 +60,21 @@
 
 ::ng-deep .mat-mdc-slide-toggle .mdc-switch.mdc-switch--unselected:enabled .mdc-switch__icon {
   fill: none !important;
+}
+
+.mat-mdc-slider .mdc-slider__track--active {
+  height: 0.125rem;
+}
+.mat-mdc-slider .mdc-slider__track--active {
+  height: 0.125rem;
+}
+
+mat-slider {
+  --mdc-slider-inactive-track-height:0.18rem;
+  --mdc-slider-active-track-height: 0.18rem;
+  ::ng-deep .mdc-slider__thumb-knob {
+    border-width: 0.438rem;
+    height: 0.813rem;
+    width: 0.813rem;
+  }
 }
