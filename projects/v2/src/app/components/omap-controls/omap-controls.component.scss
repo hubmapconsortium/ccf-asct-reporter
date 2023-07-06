@@ -1,4 +1,4 @@
-@import "./../../../assets/stylesheets/colors.scss";
+@import "./../../../assets/stylesheets/_colors.scss";
 
 .mat-expansion-panel:not([class*="mat-elevation-z"]) {
   box-shadow: none;
@@ -20,4 +20,8 @@
 
 .mat-expansion-panel-header:hover {
   background-color: darken($color: $secondary, $amount: 8%) !important;
+}
+
+.checkbox-label {
+  font-size: 0.89rem;
 }

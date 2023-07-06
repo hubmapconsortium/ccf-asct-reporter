@@ -8,7 +8,7 @@
   </div>
 </div>
 
-<mat-tab-group [selectedIndex]="componentActive" (selectedIndexChange)="changeTab($event)" [mat-stretch-tabs]="false">
+<mat-tab-group [selectedIndex]="componentActive" (selectedIndexChange)="changeTab($event)" [mat-stretch-tabs]="false" [fitInkBarToContent]="false">
   <mat-tab [tabIndex]="0" label="ASCT+B Tables">
     <ng-template matTabContent>
 

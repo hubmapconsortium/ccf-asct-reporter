@@ -66,7 +66,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.75rem;
   padding: 0.5rem 1rem 0 1rem;
 }
 
@@ -85,6 +85,11 @@
 
 mat-tab-group {
   padding: 0rem 1rem 0rem 1rem;
+
+  ::ng-deep mat-tab-header {
+    border-style: solid;
+    border-width: 0px 0px 1px 0px
+  }
 }
 
 .version-dropdown ::ng-deep .mat-mdc-form-field-flex .mat-mdc-form-field-infix {

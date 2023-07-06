@@ -78,3 +78,12 @@ mat-slider {
     width: 0.813rem;
   }
 }
+
+::ng-deep .mat-mdc-slide-toggle{
+  --mdc-switch-unselected-handle-color: #ffffff;
+  --mdc-switch-unselected-focus-handle-color: #ffffff;
+  --mdc-switch-unselected-hover-handle-color: #ffffff;
+  --mdc-switch-unselected-track-color: #989898;
+  --mdc-switch-unselected-hover-track-color: #989898;
+  --mdc-switch-unselected-focus-track-color: #989898;
+}

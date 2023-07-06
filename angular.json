@@ -28,7 +28,6 @@
               "projects/v2/src/_redirects"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "projects/v2/src/styles.scss"
             ],
             "scripts": [
