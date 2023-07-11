@@ -66,3 +66,12 @@ mat-select {
     margin: 14px;
   }
 }
+
+.control-title ::ng-deep .mat-mdc-select-trigger {
+  .mat-mdc-select-value {
+    width: 7rem;
+    .mat-mdc-select-value-text {
+      padding-left: 1rem;
+    }
+  }
+}

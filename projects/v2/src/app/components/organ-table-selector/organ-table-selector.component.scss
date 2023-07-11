@@ -9,7 +9,15 @@
 
 .version-dropdown {
   position: relative;
-  top: 0.625rem;
+  top: 0.525rem;
+}
+
+.organ-name-label {
+  font-size: 0.9rem;
+  padding: unset;
+}
+.imaging-method {
+  padding-left: 0.5rem;
 }
 
 .select-deselect-all {
@@ -95,6 +103,16 @@ mat-tab-group {
 .version-dropdown ::ng-deep .mat-mdc-form-field-flex .mat-mdc-form-field-infix {
   padding-top: unset;
   padding-bottom: unset;
-  padding: 0.432rem 0;
+  // padding: 0.432rem 0;
   min-height: 2.375rem;
+}
+
+th {
+  font-size: 0.8rem;
+  color: #7588A1;
+  font-weight: 400;
+}
+
+::ng-deep .mat-mdc-select-trigger .mat-mdc-select-value .mat-mdc-select-value-text {
+    padding: unset;
 }
