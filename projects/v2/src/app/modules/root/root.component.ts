@@ -222,6 +222,7 @@ export class RootComponent implements OnInit, OnDestroy {
       const playground = query.get('playground');
       const omapSelectedOrgans = query.get('omapSelectedOrgans') ?? '';
       if (!(selectedOrgans || omapSelectedOrgans) && playground !== 'true') {
+        store.dispatch(new UpdateMode('vis'));
         store.dispatch(new CloseLoading('Select Organ Model Rendered'));
         const config = new MatDialogConfig();
         config.disableClose = true;
