@@ -87,7 +87,7 @@ export class TreeStateModel {
   /**
    * Store the OMAP Config
    */
-  omapConfig: OmapConfig
+  omapConfig: OmapConfig;
 
 }
 

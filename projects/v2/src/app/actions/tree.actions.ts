@@ -68,6 +68,6 @@ export class UpdateLinksData {
 }
 
 export class UpdateOmapConfig {
-  static readonly type = '[UPDATE] OMAP Config'
+  static readonly type = '[UPDATE] OMAP Config';
   constructor(public config: OmapConfig) { }
 }

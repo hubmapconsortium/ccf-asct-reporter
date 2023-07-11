@@ -23,7 +23,7 @@ export class ReportService {
     'lipids': 'BL',
     'metabolites': 'BM',
     'proteoforms': 'BF',
-  }
+  };
   constructor() { }
 
   async makeReportData(currentSheet: Sheet, data: Row[], biomarkerType?: string, isReportNotOrganWise = false) {
