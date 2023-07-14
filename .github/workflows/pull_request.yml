@@ -34,6 +34,6 @@ jobs:
       - run: npm run test
       - name: ASCT+B API Tests
         run: |
-          npm ci
+          npm ci --legacy-peer-deps
           npm run lint
         working-directory: asctb-api
