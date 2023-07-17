@@ -223,7 +223,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
               value: 0.4
             }
           ],
-          strokeWidth: { value: 1.5 },
+          strokeWidth: { value: 5 }, 
         },
       },
     };
