@@ -196,7 +196,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
               signal: 'isValid(datum.source.references) && length(datum.source.references) > 0 ? \'Click to see DOI References\' : \'No DOI References\''
             },
           ],
-          strokeWidth: { value: 1.5 },
+          strokeWidth: { value: 5 },
           path: { field: 'path' },
           stroke: [
             // red: E41A1C, green: 4DAF4A, blue: 377EB8
