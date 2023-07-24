@@ -85,13 +85,6 @@
       <div class="pt-3"></div>
       <!-- REMOVE ME -->
       <label><strong>Notes</strong></label>
-      <div>
-        {{info.notes? info.notes : 'No notes found'}}
-      </div>
-
-      <div class="pt-3"></div>
-
-      <label><strong>Notes MD</strong></label>
       <markdown [data]="info.notes? info.notes : 'No notes found'">
       </markdown>
 

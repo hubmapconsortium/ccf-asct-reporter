@@ -157,6 +157,8 @@ export interface SheetDetails {
   csvUrl?: string;
   symbol?: string;
   position?: number;
+  representation_of?: string[];
+  uberon_id?: string;
 }
 
 export interface SheetOptions {
@@ -252,4 +254,11 @@ export interface UploadForm {
   fileName?: string;
   sheetId: string;
   gid: string;
+}
+
+export interface selectedOrganBeforeFilter {
+  selector?: string;
+  organName?: string;
+  filteredOut?: boolean;
+  version?: string;
 }

@@ -1,7 +1,8 @@
 import {
   arrayNameMap, arrayNameType, createObject, DELIMETER, ASCT_HEADER_FIRST_COLUMN,
   metadataArrayFields, metadataNameMap, objectFieldMap, Row, TITLE_ROW_INDEX,
-  OMAP_HEADER_FIRST_COLUMN
+  OMAP_HEADER_FIRST_COLUMN,
+  LEGACY_OMAP_HEADER_FIRST_COLUMN
 } from '../models/api.model';
 import { fixOntologyId } from './lookup.functions';
 import { OmapDataTransformer } from './omap.functions';
@@ -211,7 +212,7 @@ function checkMissingIds(column: string[], index: number, row: Row, value: strin
   }
 }
 
-export function getHeaderRow(data: string[][], omapHeader: string, asctbHeader: string): string[] | undefined {
+export function getHeaderRow(data: string[][], omapHeader: string, asctbHeader: string, legacyOmapHeader: string): string[] | undefined {
   for (let i = 0; i < data.length; i++) {
     if (data[i][0] === omapHeader) {
       return data[i];
@@ -219,15 +220,23 @@ export function getHeaderRow(data: string[][], omapHeader: string, asctbHeader: 
     if (data[i][0] === asctbHeader) {
       return data[i];
     }
+    if (data[i][0] === legacyOmapHeader) {
+      return data[i];
+    }
   }
   return undefined;
 }
 
 export function makeASCTBData(data: string[][]): ASCTBData | undefined {
-  const header = getHeaderRow(data, OMAP_HEADER_FIRST_COLUMN, ASCT_HEADER_FIRST_COLUMN);
+  const header = getHeaderRow(data, OMAP_HEADER_FIRST_COLUMN, ASCT_HEADER_FIRST_COLUMN, LEGACY_OMAP_HEADER_FIRST_COLUMN);
 
-  if (header[0] === OMAP_HEADER_FIRST_COLUMN) {
-    const omapTransformer = new OmapDataTransformer(data);
+  if (header[0] === LEGACY_OMAP_HEADER_FIRST_COLUMN) {
+    const omapTransformer = new OmapDataTransformer(data, true);
+    const omapWarnings = omapTransformer.warnings;
+    const asctbData = makeASCTBDataWork(omapTransformer.transformedData);
+    return { ...asctbData, warnings: [...asctbData.warnings, ...omapWarnings], isOmap: true };
+  } else if (header[0] === OMAP_HEADER_FIRST_COLUMN) {
+    const omapTransformer = new OmapDataTransformer(data, false);
     const omapWarnings = omapTransformer.warnings;
     const asctbData = makeASCTBDataWork(omapTransformer.transformedData);
     return { ...asctbData, warnings: [...asctbData.warnings, ...omapWarnings], isOmap: true };

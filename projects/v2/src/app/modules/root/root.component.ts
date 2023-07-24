@@ -222,6 +222,7 @@ export class RootComponent implements OnInit, OnDestroy {
       const playground = query.get('playground');
       const omapSelectedOrgans = query.get('omapSelectedOrgans') ?? '';
       if (!(selectedOrgans || omapSelectedOrgans) && playground !== 'true') {
+        store.dispatch(new UpdateMode('vis'));
         store.dispatch(new CloseLoading('Select Organ Model Rendered'));
         const config = new MatDialogConfig();
         config.disableClose = true;
@@ -698,9 +699,11 @@ export class RootComponent implements OnInit, OnDestroy {
             const treeData = states.treeState.treeData;
             const bimodalConfig = states.treeState.bimodal.config;
             const sheetConfig = states.sheetState.sheetConfig;
+            const omapConfig = states.treeState.omapConfig;
+            const filteredProtiens = states.sheetState.filteredProtiens;
 
             if (data.length) {
-              this.bms.makeBimodalData(data, treeData, bimodalConfig, false, sheetConfig);
+              this.bms.makeBimodalData(data, treeData, bimodalConfig, false, sheetConfig, omapConfig, filteredProtiens);
             }
           });
         });
