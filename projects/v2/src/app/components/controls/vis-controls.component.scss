@@ -1,4 +1,4 @@
-@import "./../../../assets/stylesheets/colors.scss";
+@import "./../../../assets/stylesheets/_colors.scss";
 
 .mat-expansion-panel:not([class*="mat-elevation-z"]) {
   box-shadow: none;
@@ -25,6 +25,17 @@
 .numberInput {
   background-color: #fafafa !important;
   border-radius: 0.25rem !important;
+  font: inherit;
+  background: transparent;
+  color: currentColor;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  width: 500%;
+  max-width: 100%;
+  vertical-align: bottom;
+  text-align: inherit;
 }
 
 .controls .mat-expansion-panel-header-description {
@@ -42,6 +53,41 @@
   align-items: center;
   justify-content: space-between;
 }
-.control-title {
-  font-weight: 500;
+
+::ng-deep .mat-mdc-slide-toggle .mdc-switch.mdc-switch--selected:enabled .mdc-switch__icon  {
+  fill: none !important;
+}
+
+::ng-deep .mat-mdc-slide-toggle .mdc-switch.mdc-switch--unselected:enabled .mdc-switch__icon {
+  fill: none !important;
+}
+
+.mat-mdc-slider .mdc-slider__track--active {
+  height: 0.125rem;
+}
+.mat-mdc-slider .mdc-slider__track--active {
+  height: 0.125rem;
+}
+
+mat-slider {
+  --mdc-slider-inactive-track-height:0.18rem;
+  --mdc-slider-active-track-height: 0.18rem;
+  ::ng-deep .mdc-slider__thumb-knob {
+    border-width: 0.438rem;
+    height: 0.813rem;
+    width: 0.813rem;
+  }
+}
+
+::ng-deep .mat-mdc-slide-toggle{
+  --mdc-switch-unselected-handle-color: #ffffff;
+  --mdc-switch-unselected-focus-handle-color: #ffffff;
+  --mdc-switch-unselected-hover-handle-color: #ffffff;
+  --mdc-switch-unselected-track-color: #989898;
+  --mdc-switch-unselected-hover-track-color: #989898;
+  --mdc-switch-unselected-focus-track-color: #989898;
+}
+
+.vis-controls {
+  font-size: 0.9rem;
 }

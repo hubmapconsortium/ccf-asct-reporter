@@ -32,6 +32,7 @@
 .search-icon-container {
   display: inline-block;
   background: #f5f5f5;
+  padding-left: 0.6rem;
 }
 .structure-name {
   display: flex;
@@ -142,5 +143,7 @@
   }
 }
 
-
+.droprown-arrow-icon{
+  transform: scale(1.4);
+}
 //@include mat.checkbox-theme($mat-reporter-primary);

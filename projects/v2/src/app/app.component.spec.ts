@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AppModule } from './app.module';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ENVIRONMENT_INITIALIZER } from '@angular/core';
 
 describe('AppComponent', () => {
   let shallow: Shallow<AppComponent>;
@@ -17,6 +18,7 @@ describe('AppComponent', () => {
     shallow = new Shallow(AppComponent, AppModule)
       .replaceModule(BrowserAnimationsModule, NoopAnimationsModule)
       .replaceModule(RouterModule, RouterTestingModule.withRoutes([]))
+      .dontMock(ENVIRONMENT_INITIALIZER)
       .mock(ConsentService, {
         ...mockConsentService,
         consent: 'not-set'

@@ -1,5 +1,5 @@
 <div>
-  <mat-expansion-panel class="mepNoPadding" [expanded]="!error.hasError">
+  <mat-expansion-panel class="mepNoPadding control-title" [expanded]="!error.hasError">
     <mat-expansion-panel-header [expandedHeight]="'3.125rem'">
       <mat-panel-title>
         <div>
@@ -30,6 +30,8 @@
             [disabled]="error.hasError"
             (selectionChange)="changeOptions('CT', 'sort', $event)"
             [value]="(config$ | async).CT.sort"
+            [hideSingleSelectionIndicator]="true"
+            [panelClass]="'cell-types-panel'"
           >
             <mat-option *ngFor="let option of sortOptions" [value]="option">
               {{ option }}
@@ -59,6 +61,8 @@
             [disabled]="error.hasError"
             (selectionChange)="changeOptions('CT', 'size', $event)"
             [value]="(config$ | async).CT.size"
+            [hideSingleSelectionIndicator]="true"
+            [panelClass]="'cell-types-panel'"
           >
             <mat-option *ngFor="let option of ctSizeOptions" [value]="option">
               {{ option }}
@@ -69,7 +73,7 @@
     </div>
   </mat-expansion-panel>
 
-  <mat-expansion-panel class="mepNoPadding mt-4" [expanded]="!error.hasError">
+  <mat-expansion-panel class="mepNoPadding mt-4 control-title" [expanded]="!error.hasError">
     <mat-expansion-panel-header [expandedHeight]="'3.125rem'">
       <mat-panel-title>
         <div>
@@ -99,6 +103,8 @@
             [disabled]="error.hasError"
             (selectionChange)="changeOptions('BM', 'sort', $event)"
             [value]="(config$ | async).BM.sort"
+            [hideSingleSelectionIndicator]="true"
+            [panelClass]="'cell-types-panel'"
           >
             <mat-option *ngFor="let option of sortOptions" [value]="option">
               {{ option }}
@@ -128,6 +134,8 @@
             [disabled]="error.hasError"
             (selectionChange)="changeOptions('BM', 'size', $event)"
             [value]="(config$ | async).BM.size"
+            [hideSingleSelectionIndicator]="true"
+            [panelClass]="'cell-types-panel'"
           >
             <mat-option *ngFor="let option of bmSizeOptions" [value]="option">
               {{ option }}
@@ -157,6 +165,8 @@
             [disabled]="error.hasError"
             (selectionChange)="changeOptions('BM', 'type', $event)"
             [value]="(config$ | async).BM.type"
+            [hideSingleSelectionIndicator]="true"
+            [panelClass]="'cell-types-panel'"
           >
             <mat-option *ngFor="let option of bimodalBTypeOptions" [value]="option">
               {{ option }}

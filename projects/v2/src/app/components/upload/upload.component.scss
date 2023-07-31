@@ -5,6 +5,15 @@
   width: 100%;
   background-color: white;
   margin-left: 1rem;
+  font-size: 0.85rem;
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
 
   .link-input-field {
     width: 100%;
@@ -66,10 +75,20 @@
     align-items: center;
     justify-content: space-between;
     flex: 0.5;
+    font-size: medium;
   }
 
   .flex-container {
     flex: 0.5;
+    background-color: white;
+    mat-hint {
+      color: #757575;
+      margin-left: -0.8rem;
+    }
+
+    ::ng-deep .mdc-text-field--filled {
+      background-color: white;
+    }
   }
 
   .file-upload {

@@ -61,7 +61,8 @@ export class OrganTableSelectorComponent implements OnInit {
   onClose: OrganTableOnClose = {
     'organs': false,
     'cache': true,
-  }
+  };
+
   dataSource: MatTableDataSource<unknown>;
   omapdataSource: MatTableDataSource<unknown>;
 

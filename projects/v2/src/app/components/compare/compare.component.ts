@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormArray, UntypedFormBuilder, Validators } from '@angular/forms';
 import { CompareData } from '../../models/sheet.model';
 import { Observable } from 'rxjs';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
@@ -17,18 +17,18 @@ export class CompareComponent implements OnInit {
 
   @Input() compareSheets: Observable<CompareData[]>;
 
-  formGroup: FormGroup;
-  formSheets: FormArray;
+  formGroup: UntypedFormGroup;
+  formSheets: UntypedFormArray;
   formValid = true;
 
-  constructor(public fb: FormBuilder, public ga: GoogleAnalyticsService) { }
+  constructor(public fb: UntypedFormBuilder, public ga: GoogleAnalyticsService) { }
 
   ngOnInit(): void {
 
     this.formGroup = this.fb.group({
       sheets: this.fb.array([]),
     });
-    this.formSheets = this.formGroup.get('sheets') as FormArray;
+    this.formSheets = this.formGroup.get('sheets') as UntypedFormArray;
 
     this.compareSheets.subscribe((sheets) => {
       if (sheets.length) {
@@ -51,8 +51,8 @@ export class CompareComponent implements OnInit {
 
     this.formGroup.valueChanges
       .subscribe(sheets => {
-        const formArray =this.formGroup.controls.sheets as FormArray;    
-        formArray.controls.forEach((sheet: FormGroup) => {
+        const formArray =this.formGroup.controls.sheets as UntypedFormArray;    
+        formArray.controls.forEach((sheet: UntypedFormGroup) => {
           const file = sheet.controls.formData;
           const link = sheet.controls.link;   
           if (file.value != null) {
@@ -63,11 +63,11 @@ export class CompareComponent implements OnInit {
       });
   }
 
-  upload(fileFormDataEvent: FormData, sheet: FormGroup) {
+  upload(fileFormDataEvent: FormData, sheet: UntypedFormGroup) {
     sheet.controls.formData.setValue(fileFormDataEvent);
   }
 
-  markFormGroupTouched(formGroup: FormGroup) {
+  markFormGroupTouched(formGroup: UntypedFormGroup) {
     (Object as any).values(formGroup.controls).forEach(control => {
       control.markAsTouched();
 
@@ -129,7 +129,7 @@ export class CompareComponent implements OnInit {
     }
   }
 
-  createCompareForm(link= '', color?: string, title= '', description= '', formData?: FormData, fileName?: string): FormGroup {
+  createCompareForm(link= '', color?: string, title= '', description= '', formData?: FormData, fileName?: string): UntypedFormGroup {
     if (!color) {
       color = this.getRandomColor();
     }
@@ -143,7 +143,7 @@ export class CompareComponent implements OnInit {
       fileName: [fileName]
     }, { validators: [this.atLeastOnePhoneRequired]});
   }
-  atLeastOnePhoneRequired(group : FormGroup) : {[s:string ]: boolean} {
+  atLeastOnePhoneRequired(group : UntypedFormGroup) : {[s:string ]: boolean} {
     if (group) {
       if(group.controls.link.value || group.controls.fileName.value) {
         return null;
@@ -152,7 +152,7 @@ export class CompareComponent implements OnInit {
     return {'error': true};
   }
   get CSControls() {
-    return this.formGroup.get('sheets') as FormArray;
+    return this.formGroup.get('sheets') as UntypedFormArray;
   }
 
   getRandomColor() {

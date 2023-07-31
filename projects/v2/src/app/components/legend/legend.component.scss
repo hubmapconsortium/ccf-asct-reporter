@@ -1,4 +1,4 @@
-@import "./../../../assets/stylesheets/colors.scss";
+@import "./../../../assets/stylesheets/_colors.scss";
 
 .mat-expansion-panel:not([class*="mat-elevation-z"]) {
   box-shadow: none;
@@ -70,4 +70,10 @@
 .legend-div {
   max-height: 11.25rem;
   overflow-y: auto;
+
+  .legend-label {
+    padding-left: 0.5rem;
+    letter-spacing: 0.1px;
+    font-size: 14px;
+  }
 }

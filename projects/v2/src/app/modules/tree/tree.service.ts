@@ -50,7 +50,7 @@ export class TreeService {
   constructor(public readonly store: Store, public readonly vs: VegaService, public readonly bm: BimodalService,) {
     this.tree$.subscribe((state) => {
       this.height = state.height;
-      const view = state.view;
+      const view = TreeState.getVegaView(state);
 
       // if the vega view is valid, check for search data
       // re-render the view

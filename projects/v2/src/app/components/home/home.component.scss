@@ -75,13 +75,14 @@ p {
 }
 
 .go-to-vis {
-  padding: 1.25rem;
+  padding: 2.3rem 1rem;
   font-size: 18pt;
   border-radius: 0.625rem;
   background-color: #7fd9da;
   color: #262626;
   font-weight: bold;
-  margin: 0 0.5rem;
+  margin: 0.5rem 0.5rem;
+  letter-spacing: 0.02rem;
 }
 
 .title-desc {
@@ -392,4 +393,30 @@ p {
   15% { opacity: 1;}
   50% { opacity: 1;}
   100% { opacity: 0; z-index: 1;}
+}
+
+.navbar-options {
+  a {
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  .docs, .github {
+    padding-left: 1rem;
+  }
+}
+
+.muted {
+  color:  #6c757d
+}
+
+.profile {
+  a {
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  
 }

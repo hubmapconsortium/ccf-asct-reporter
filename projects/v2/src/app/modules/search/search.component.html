@@ -6,25 +6,25 @@
       id="searchBtn"
       [disabled]="disabled"
       (click)="openSearchList()"
-      class="w-100 secondary ch text-left"
+      class="w-100 secondary ch text-start"
       #tooltip="matTooltip"
       matTooltip="Search Structures"
       matTooltipPosition="below">
       <span>{{selectedValues}}</span>
-      <mat-icon>arrow_drop_down</mat-icon>
+      <mat-icon class="droprown-arrow-icon">arrow_drop_down</mat-icon>
     </button>
     <div class="search-modal mat-elevation-z4"
         [hidden]="(searchState$ | async) === false">
         <div class="search-controls br-top">
           <mat-form-field class="br-top"
-            appearance="legacy"
+            appearance="fill"
             floatLabel="never">
             <input matInput cdkFocusInitial #searchField
               (keyup.enter)="selectFirstOption()"
               [(ngModel)]="searchValue"
               placeholder="Search Structures"
               (input)="filterStructuresOnSearch()" />
-            <button mat-button matSuffix mat-icon-button
+            <button matSuffix mat-icon-button
               #clearBtn
               [hidden]="!searchValue"
               aria-label="Clear Search"
@@ -32,7 +32,7 @@
               (click)="clearSearchField()">
               <mat-icon>close</mat-icon>
             </button>
-            <button mat-button matSuffix mat-icon-button
+            <button matSuffix mat-icon-button
               aria-label="Close"
               matTooltip="Close"
               (click)="closeSearchList()">

@@ -7,7 +7,7 @@ THERE IS AN ERROR!!!! -->
       <div class="col-xl-4 col-md-6 col-sm-12 d-flex justify-content-center mr-5">
         <img src="../../../assets/error.svg" alt="" class="w-100" />
       </div>
-      <div class="col-xl-6 col-md-6 col-sm-12 d-flex  ml-5 flex-column h-100 justify-content-center text-left">
+      <div class="col-xl-6 col-md-6 col-sm-12 d-flex  ml-5 flex-column h-100 justify-content-center text-start">
        
         <div class="h1 pt-2">
           Error!
@@ -17,7 +17,7 @@ THERE IS AN ERROR!!!! -->
         </div>
         <div>
           
-          <ul class="text-left lead pt-3 lh">
+          <ul class="text-start lead pt-3 lh">
             <img *ngIf="error.hasGidError" alt="Valid google sheet url example" width="100%" src="assets/urlScreen.png">
             <li *ngIf="error.hasGidError"><strong>Please copy and use the sheet URL from the Address bar like from above example.</strong></li>
             <li *ngIf="error.hasGidError"><strong>Do not use the Share URL from Google Sheets (URLs ending with ?usp=sharing).</strong></li>

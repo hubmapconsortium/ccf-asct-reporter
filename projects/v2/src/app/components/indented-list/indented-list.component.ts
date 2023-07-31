@@ -66,7 +66,7 @@ export class IndentedListComponent implements OnInit, OnDestroy, AfterViewInit {
       ontologyId: node.ontologyId,
       level,
     };
-  }
+  };
 
   constructor(
     public indentService: IndentedListService

@@ -1,35 +1,35 @@
-import { State, Action, StateContext, Selector, Select, Store } from '@ngxs/store';
-import { Error, SnackbarType } from '../models/response.model';
 import { Injectable } from '@angular/core';
+import { Action, Select, Selector, State, StateContext, Store } from '@ngxs/store';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
+import { ReportLog } from '../actions/logs.actions';
+import { UpdateBottomSheetDOI, UpdateBottomSheetInfo } from '../actions/sheet.actions';
+import { UpdateBottomSheetData } from '../actions/tree.actions';
 import {
-  ToggleControlPane,
-  OpenLoading,
+  CloseBottomSheet,
+  CloseBottomSheetDOI,
+  CloseCompare,
   CloseLoading,
-  UpdateLoadingText,
-  HasError,
-  OpenSnackbar,
+  CloseRightSideNav,
+  CloseSearch,
   CloseSnackbar,
+  HasError,
+  OpenBottomSheet,
+  OpenBottomSheetDOI,
+  OpenCompare,
+  OpenLoading,
+  OpenSearch,
+  OpenSnackbar,
+  ToggleControlPane,
+  ToggleDebugLogs,
   ToggleIndentList,
   ToggleReport,
-  CloseRightSideNav,
-  ToggleDebugLogs,
-  OpenBottomSheet,
-  CloseBottomSheet,
-  OpenCompare,
-  CloseCompare,
-  OpenSearch,
-  CloseSearch,
-  OpenBottomSheetDOI,
-  CloseBottomSheetDOI,
+  UpdateLoadingText,
 } from '../actions/ui.actions';
-import { Snackbar } from '../models/ui.model';
-import { ReportLog } from '../actions/logs.actions';
-import { LOG_TYPES, LOG_ICONS } from '../models/logs.model';
-import { UpdateBottomSheetData } from '../actions/tree.actions';
-import { TreeState } from './tree.state';
-import { UpdateBottomSheetDOI, UpdateBottomSheetInfo } from '../actions/sheet.actions';
-import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../models/ga.model';
+import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
+import { Error, SnackbarType } from '../models/response.model';
+import { Snackbar } from '../models/ui.model';
+import { TreeState } from './tree.state';
 
 /** Interface to keep track of all UI elements */
 export class UIStateModel {
@@ -431,14 +431,13 @@ export class UIState {
    */
   @Action(CloseBottomSheet)
   closeBottomSheet({ getState, setState, dispatch }: StateContext<UIStateModel>) {
-    const state = getState();
     dispatch(new UpdateBottomSheetData({}));
 
     const view = this.store.selectSnapshot(TreeState.getVegaView);
     if (Object.entries(view).length) { view.signal('bimodal_text__click', {}); }
 
     setState({
-      ...state,
+      ...getState(),
       bottomSheetOpen: false
     });
   }

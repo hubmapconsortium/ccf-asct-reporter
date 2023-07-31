@@ -129,8 +129,7 @@ export class RootComponent implements OnInit, OnDestroy {
   @Select(SheetState.getCompareData) compareData$: Observable<Row[]>;
   @Select(SheetState.getAllCompareData) allCompareData$: Observable<any>;
   @Select(SheetState.getMode) mode$: Observable<string>;
-  @Select(SheetState.getBottomSheetInfo)
-  bottomSheetInfo$: Observable<SheetInfo>;
+  @Select(SheetState.getBottomSheetInfo) bottomSheetInfo$: Observable<SheetInfo>;
   @Select(SheetState.getBottomSheetDOI) bottomSheetDOI$: Observable<DOI[]>;
   @Select(SheetState.getSheetConfig) sheetConfig$: Observable<SheetConfig>;
   @Select(SheetState.getFullAsData) fullAsData$: Observable<any>;
@@ -143,8 +142,7 @@ export class RootComponent implements OnInit, OnDestroy {
   @Select(TreeState.getLinksData) links$: Observable<any>;
   @Select(TreeState.getBimodal) bm$: Observable<any>;
   @Select(TreeState.getBiomarkerType) bmType$: Observable<string>;
-  @Select(TreeState.getLatestSearchStructure)
-  searchOption$: Observable<SearchStructure>;
+  @Select(TreeState.getLatestSearchStructure) searchOption$: Observable<SearchStructure>;
   @Select(TreeState.getBimodalConfig) config$: Observable<BimodalConfig>;
 
   // Control Pane Observables
@@ -182,13 +180,14 @@ export class RootComponent implements OnInit, OnDestroy {
     public router: Router,
     public bms: BimodalService
   ) {
-
     this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
       this.sheetConfig = sheetOptions;
     });
+
     this.configService.omapsheetConfiguration$.subscribe((sheetOptions) => {
       this.omapSheetConfig = sheetOptions;
     });
+
     this.data$.subscribe((data) => {
       if (data.length) {
         this.data = data;

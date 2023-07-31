@@ -1,22 +1,22 @@
 /*eslint no-underscore-dangle: "off" */
-import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { Spec } from 'vega';
 import { Injectable } from '@angular/core';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Spec } from 'vega';
 import {
-  UpdateVegaSpec,
-  UpdateVegaView,
+  DiscrepencyId,
+  DiscrepencyLabel,
+  DoSearch,
+  DuplicateId,
   UpdateBimodal,
   UpdateBimodalConfig,
-  DoSearch,
   UpdateBottomSheetData,
   UpdateLinksData,
-  DiscrepencyLabel,
-  DiscrepencyId,
-  DuplicateId,
+  UpdateVegaSpec,
+  UpdateVegaView,
   UpdateOmapConfig,
 } from '../actions/tree.actions';
-import { TNode, SearchStructure, DiscrepencyStructure } from '../models/tree.model';
-import { BMNode, Link, BimodalConfig } from '../models/bimodal.model';
+import { BMNode, BimodalConfig, Link } from '../models/bimodal.model';
+import { DiscrepencyStructure, SearchStructure, TNode } from '../models/tree.model';
 import { OmapConfig } from '../models/omap.model';
 
 /** Class to keep track of all data and events related to the visualization */
@@ -87,7 +87,7 @@ export class TreeStateModel {
   /**
    * Store the OMAP Config
    */
-  omapConfig: OmapConfig
+  omapConfig: OmapConfig;
 
 }
 
@@ -119,9 +119,6 @@ export class TreeStateModel {
 })
 @Injectable()
 export class TreeState {
-
-  constructor() { }
-
   /**
    * Select the bimodal config (for sorting and sizing)
    */

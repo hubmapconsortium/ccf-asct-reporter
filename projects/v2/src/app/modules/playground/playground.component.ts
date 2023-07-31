@@ -4,8 +4,8 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angula
 import { Select, Store } from '@ngxs/store';
 import { SheetState } from '../../store/sheet.state';
 import { Observable } from 'rxjs';
-import { Validators, FormControl } from '@angular/forms';
-import * as jexcel from 'jexcel';
+import { Validators, UntypedFormControl } from '@angular/forms';
+import * as jexcel from 'jspreadsheet-ce';
 import { UpdatePlaygroundData, FetchSheetData } from '../../actions/sheet.actions';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Sheet, UploadForm } from '../../models/sheet.model';
@@ -28,7 +28,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
    */
   spreadSheetData: Array<string[]>;
   /**
-   * Instance of jexcel table
+   * Instance of jspreadsheet-ce(Earlier: jexcel) table
    */
   table: any;
   /**
@@ -51,7 +51,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
   /**
     * Controller for entering the link
     */
-  linkFormControl = new FormControl('', [
+  linkFormControl = new UntypedFormControl('', [
     Validators.compose([
       Validators.required,
       Validators.pattern(/\/([\w-_]{15,})\/(.*?gid=(\d+))?|\w*csv$/),
@@ -116,7 +116,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
             items.push({
               title: obj.options.text.insertANewColumnBefore,
               onclick() {
-                obj.insertColumn(1, parseInt(x, 10), 1);
+                obj.insertColumn(1, parseInt(x, 10), true);
               },
             });
           }
@@ -125,7 +125,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
             items.push({
               title: obj.options.text.insertANewColumnAfter,
               onclick() {
-                obj.insertColumn(1, parseInt(x, 10), 0);
+                obj.insertColumn(1, parseInt(x, 10), false);
               },
             });
           }
@@ -147,7 +147,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
             items.push({
               title: obj.options.text.renameThisColumn,
               onclick() {
-                obj.setHeader(x);
+                obj.setHeader(parseInt(x, 10));
               },
             });
           }
@@ -160,13 +160,13 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
             items.push({
               title: obj.options.text.orderAscending,
               onclick() {
-                obj.orderBy(x, 0);
+                obj.orderBy(parseInt(x, 10), 0);
               },
             });
             items.push({
               title: obj.options.text.orderDescending,
               onclick() {
-                obj.orderBy(x, 1);
+                obj.orderBy(parseInt(x, 10), 1);
               },
             });
           }
@@ -211,8 +211,9 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
                   : obj.options.text.addComments,
                 onclick() {
                   obj.setComments(
-                    [x, y],
-                    prompt(obj.options.text.comments, title)
+                    [parseInt(x, 10), parseInt(y, 10)],
+                    prompt(obj.options.text.comments, title),
+                    ''
                   );
                 },
               });
@@ -221,7 +222,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
                 items.push({
                   title: obj.options.text.clearComments,
                   onclick() {
-                    obj.setComments([x, y], '');
+                    obj.setComments([parseInt(x, 10), parseInt(y, 10)], '', '');
                   },
                 });
               }
@@ -271,25 +272,7 @@ export class PlaygroundComponent implements OnInit, AfterViewInit {
   /**
    * Read the google sheet link and upload
    */
-  upload(formDataEvent?: FormData) {
-    const data = this.checkLinkFormat(this.linkFormControl.value);
-    const sheet = JSON.parse(JSON.stringify(this.currentSheet));
-    sheet.gid = data.gid;
-    sheet.sheetId = data.sheetID;
-    sheet.csvUrl = data.csvUrl;
-    this.tabIndex = 0;
-    sheet.config.height = 1400;
-
-    if (formDataEvent) {
-      sheet.formData = formDataEvent;
-    }
-
-    this.store.dispatch(new FetchSheetData(sheet));
-    this.ga.event(GaAction.CLICK, GaCategory.PLAYGROUND, 'Upload Playground Sheet', sheet.sheetId);
-  }
-
-  upload2(data: UploadForm) {
-    console.log('DATA', data);
+  upload(data: UploadForm) {
     const sheet = JSON.parse(JSON.stringify(this.currentSheet));
     sheet.gid = data.gid;
     sheet.sheetId = data.sheetId;

@@ -7,11 +7,13 @@
 
 .select-organs-button{
   width: 20%;
+  justify-content: start;
   mat-icon {
     float:right;
     position: absolute;
     top:9px;
     right:10px;
+    transform: scale(1.4);
   }
 
   ::ng-deep .mat-button-wrapper {
@@ -20,6 +22,10 @@
     overflow: hidden;
     white-space: nowrap;
     padding-right:10px;
+  }
+  span {
+    letter-spacing: 0.01rem;
+    font-size: 0.8rem;
   }
 
 }

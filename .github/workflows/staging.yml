@@ -9,27 +9,27 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
     steps:
       - uses: actions/checkout@v2
         with:
           ref: develop
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - run: npm ci
+      - run: npm ci --legacy-peer-deps
       - run: npm run lint
       - run: npm run test
       - name: ASCT+B API Tests
         run: |
-          npm ci
+          npm ci --legacy-peer-deps
           npm run lint
         working-directory: asctb-api
       - name: Build for Staging

@@ -1,5 +1,4 @@
 @use '@angular/material' as mat;
-// @import "@angular/material/prebuilt-themes/indigo-pink.css";
 
 $mat-reporter-primary: (
   50: #e9e9ed,
@@ -72,4 +71,5 @@ $accent: mat.define-palette($mat-reporter-accent);
 
 $theme: mat.define-light-theme($primary, $accent);
 
+@include mat.core();
 @include mat.all-component-themes($theme);
