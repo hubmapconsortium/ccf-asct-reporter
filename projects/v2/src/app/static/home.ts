@@ -129,6 +129,14 @@ export const CONTIRBUTORS = [
     link: 'https://github.com/Nikhil-lab',
     linkedin: 'https://www.linkedin.com/in/nikhilm2395',
     github: ''
+  },
+  {
+    img: 'assets/contributors/pramod.png',
+    name: 'Pramod Bhakta',
+    desc: 'Angular Developer',
+    mail: 'pnbhakta@iu.edu',
+    link: 'https://github.com/pbrm4',
+    github: ''
   }
 ];
 
