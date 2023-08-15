@@ -13,8 +13,8 @@
       {
         "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
         "gid": "0",
-        "value": "azimuth-pbmc",
-        "viewValue": "Azimuth / PBMC"
+        "value": "azimuth-pbmc-v1.0",
+        "viewValue": "v1.0"
       }
     ],
     "title": "Anatomical Structures",
@@ -34,8 +34,8 @@
       {
         "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
         "gid": "1457108421",
-        "value": "azimuth-bone-marrow",
-        "viewValue": "Azimuth / Bone Marrow"
+        "value": "azimuth-bone-marrow-v1.0",
+        "viewValue": "v1.0"
       }
     ],
     "title": "Anatomical Structures",
@@ -55,92 +55,8 @@
       {
         "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
         "gid": "1095219249",
-        "value": "azimuth-brain",
-        "viewValue": "Azimuth / Brain"
-      }
-    ],
-    "title": "Anatomical Structures",
-    "data": ""
-  },
-  {
-    "name": "azimuth-kidney",
-    "display": "Azimuth / Kidney",
-    "config": {
-      "bimodal_distance_x": 250,
-      "bimodal_distance_y": 60,
-      "width": 700,
-      "height": 2250
-    },
-    "representation_of": [],
-    "version": [
-      {
-        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
-        "gid": "2131940734",
-        "value": "azimuth-kidney",
-        "viewValue": "Azimuth / Kidney"
-      }
-    ],
-    "title": "Anatomical Structures",
-    "data": ""
-  },
-  {
-    "name": "azimuth-lung",
-    "display": "Azimuth / Lung",
-    "config": {
-      "bimodal_distance_x": 250,
-      "bimodal_distance_y": 60,
-      "width": 700,
-      "height": 2250
-    },
-    "representation_of": [],
-    "version": [
-      {
-        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
-        "gid": "843663863",
-        "value": "azimuth-lung",
-        "viewValue": "Azimuth / Lung"
-      }
-    ],
-    "title": "Anatomical Structures",
-    "data": ""
-  },
-  {
-    "name": "azimuth-pancreas",
-    "display": "Azimuth / Pancreas",
-    "config": {
-      "bimodal_distance_x": 250,
-      "bimodal_distance_y": 60,
-      "width": 700,
-      "height": 2250
-    },
-    "representation_of": [],
-    "version": [
-      {
-        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
-        "gid": "1602771064",
-        "value": "azimuth-pancreas",
-        "viewValue": "Azimuth / Pancreas"
-      }
-    ],
-    "title": "Anatomical Structures",
-    "data": ""
-  },
-  {
-    "name": "azimuth-spleen",
-    "display": "Azimuth / Spleen",
-    "config": {
-      "bimodal_distance_x": 250,
-      "bimodal_distance_y": 60,
-      "width": 700,
-      "height": 2250
-    },
-    "representation_of": [],
-    "version": [
-      {
-        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
-        "gid": "744448924",
-        "value": "azimuth-spleen",
-        "viewValue": "Azimuth / Spleen"
+        "value": "azimuth-brain-v1.0",
+        "viewValue": "v1.0"
       }
     ],
     "title": "Anatomical Structures",
@@ -160,8 +76,134 @@
       {
         "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
         "gid": "358298996",
-        "value": "azimuth-heart",
-        "viewValue": "Azimuth / Heart"
+        "value": "azimuth-heart-v1.0",
+        "viewValue": "v1.0"
+      }
+    ],
+    "title": "Anatomical Structures",
+    "data": ""
+  },
+  {
+    "name": "azimuth-kidney",
+    "display": "Azimuth / Kidney",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "representation_of": [],
+    "version": [
+      {
+        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
+        "gid": "2131940734",
+        "value": "azimuth-kidney-v1.0",
+        "viewValue": "v1.0"
+      }
+    ],
+    "title": "Anatomical Structures",
+    "data": ""
+  },
+  {
+    "name": "azimuth-lung-v1",
+    "display": "Azimuth / Lung v1",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "representation_of": [],
+    "version": [
+      {
+        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
+        "gid": "843663863",
+        "value": "azimuth-lung-v1-v1.0",
+        "viewValue": "v1.0"
+      }
+    ],
+    "title": "Anatomical Structures",
+    "data": ""
+  },
+  {
+    "name": "azimuth-lung-v2-(hlca)",
+    "display": "Azimuth / Lung v2 (HLCA)",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "representation_of": [],
+    "version": [
+      {
+        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
+        "gid": "319907577",
+        "value": "azimuth-lung-v2-(hlca)-v2.0",
+        "viewValue": "v2.0"
+      }
+    ],
+    "title": "Anatomical Structures",
+    "data": ""
+  },
+  {
+    "name": "azimuth-pancreas",
+    "display": "Azimuth / Pancreas",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "representation_of": [],
+    "version": [
+      {
+        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
+        "gid": "1602771064",
+        "value": "azimuth-pancreas-v1.0",
+        "viewValue": "v1.0"
+      }
+    ],
+    "title": "Anatomical Structures",
+    "data": ""
+  },
+  {
+    "name": "azimuth-spleen",
+    "display": "Azimuth / Spleen",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "representation_of": [],
+    "version": [
+      {
+        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
+        "gid": "744448924",
+        "value": "azimuth-spleen-v1.0",
+        "viewValue": "v1.0"
+      }
+    ],
+    "title": "Anatomical Structures",
+    "data": ""
+  },
+  {
+    "name": "azimuth-heart",
+    "display": "Azimuth / Heart",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "representation_of": [],
+    "version": [
+      {
+        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
+        "gid": "358298996",
+        "value": "azimuth-heart-v1.0",
+        "viewValue": "v1.0"
       }
     ],
     "title": "Anatomical Structures",

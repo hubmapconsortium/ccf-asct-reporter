@@ -35,14 +35,14 @@ const sheets = (await fetch(CSV_LINK)
 
 const inConfig = JSON.parse(readFileSync(INPUT_SHEET_CONFIG).toString());
 
-const config = sheets.map(({ name, sheetId, gid }) => {
+const config = sheets.map(({ name, sheetId, gid, version }) => {
   const sheet = JSON.parse(JSON.stringify(SHEET_CONFIG_TEMPLATE));
   const id = name.toLowerCase().replace(/\ \/\ /g, '-').replace(/\ /g, '-');
 
   sheet.name = id;
   sheet.display = name;
   Object.assign(sheet.version[0], {
-    sheetId, gid, value: id, viewValue: name
+    sheetId, gid, value: `${id}-${version}`, viewValue: version
   });
 
   return sheet;
