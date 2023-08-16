@@ -1,215 +1,5 @@
 [
   {
-    "name": "azimuth-pbmc",
-    "display": "Azimuth / PBMC",
-    "config": {
-      "bimodal_distance_x": 250,
-      "bimodal_distance_y": 60,
-      "width": 700,
-      "height": 2250
-    },
-    "representation_of": [],
-    "version": [
-      {
-        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
-        "gid": "0",
-        "value": "azimuth-pbmc-v1.0",
-        "viewValue": "v1.0"
-      }
-    ],
-    "title": "Anatomical Structures",
-    "data": ""
-  },
-  {
-    "name": "azimuth-bone-marrow",
-    "display": "Azimuth / Bone Marrow",
-    "config": {
-      "bimodal_distance_x": 250,
-      "bimodal_distance_y": 60,
-      "width": 700,
-      "height": 2250
-    },
-    "representation_of": [],
-    "version": [
-      {
-        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
-        "gid": "1457108421",
-        "value": "azimuth-bone-marrow-v1.0",
-        "viewValue": "v1.0"
-      }
-    ],
-    "title": "Anatomical Structures",
-    "data": ""
-  },
-  {
-    "name": "azimuth-brain",
-    "display": "Azimuth / Brain",
-    "config": {
-      "bimodal_distance_x": 250,
-      "bimodal_distance_y": 60,
-      "width": 700,
-      "height": 2250
-    },
-    "representation_of": [],
-    "version": [
-      {
-        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
-        "gid": "1095219249",
-        "value": "azimuth-brain-v1.0",
-        "viewValue": "v1.0"
-      }
-    ],
-    "title": "Anatomical Structures",
-    "data": ""
-  },
-  {
-    "name": "azimuth-heart",
-    "display": "Azimuth / Heart",
-    "config": {
-      "bimodal_distance_x": 250,
-      "bimodal_distance_y": 60,
-      "width": 700,
-      "height": 2250
-    },
-    "representation_of": [],
-    "version": [
-      {
-        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
-        "gid": "358298996",
-        "value": "azimuth-heart-v1.0",
-        "viewValue": "v1.0"
-      }
-    ],
-    "title": "Anatomical Structures",
-    "data": ""
-  },
-  {
-    "name": "azimuth-kidney",
-    "display": "Azimuth / Kidney",
-    "config": {
-      "bimodal_distance_x": 250,
-      "bimodal_distance_y": 60,
-      "width": 700,
-      "height": 2250
-    },
-    "representation_of": [],
-    "version": [
-      {
-        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
-        "gid": "2131940734",
-        "value": "azimuth-kidney-v1.0",
-        "viewValue": "v1.0"
-      }
-    ],
-    "title": "Anatomical Structures",
-    "data": ""
-  },
-  {
-    "name": "azimuth-lung-v1",
-    "display": "Azimuth / Lung v1",
-    "config": {
-      "bimodal_distance_x": 250,
-      "bimodal_distance_y": 60,
-      "width": 700,
-      "height": 2250
-    },
-    "representation_of": [],
-    "version": [
-      {
-        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
-        "gid": "843663863",
-        "value": "azimuth-lung-v1-v1.0",
-        "viewValue": "v1.0"
-      }
-    ],
-    "title": "Anatomical Structures",
-    "data": ""
-  },
-  {
-    "name": "azimuth-lung-v2-(hlca)",
-    "display": "Azimuth / Lung v2 (HLCA)",
-    "config": {
-      "bimodal_distance_x": 250,
-      "bimodal_distance_y": 60,
-      "width": 700,
-      "height": 2250
-    },
-    "representation_of": [],
-    "version": [
-      {
-        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
-        "gid": "319907577",
-        "value": "azimuth-lung-v2-(hlca)-v2.0",
-        "viewValue": "v2.0"
-      }
-    ],
-    "title": "Anatomical Structures",
-    "data": ""
-  },
-  {
-    "name": "azimuth-pancreas",
-    "display": "Azimuth / Pancreas",
-    "config": {
-      "bimodal_distance_x": 250,
-      "bimodal_distance_y": 60,
-      "width": 700,
-      "height": 2250
-    },
-    "representation_of": [],
-    "version": [
-      {
-        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
-        "gid": "1602771064",
-        "value": "azimuth-pancreas-v1.0",
-        "viewValue": "v1.0"
-      }
-    ],
-    "title": "Anatomical Structures",
-    "data": ""
-  },
-  {
-    "name": "azimuth-spleen",
-    "display": "Azimuth / Spleen",
-    "config": {
-      "bimodal_distance_x": 250,
-      "bimodal_distance_y": 60,
-      "width": 700,
-      "height": 2250
-    },
-    "representation_of": [],
-    "version": [
-      {
-        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
-        "gid": "744448924",
-        "value": "azimuth-spleen-v1.0",
-        "viewValue": "v1.0"
-      }
-    ],
-    "title": "Anatomical Structures",
-    "data": ""
-  },
-  {
-    "name": "azimuth-heart",
-    "display": "Azimuth / Heart",
-    "config": {
-      "bimodal_distance_x": 250,
-      "bimodal_distance_y": 60,
-      "width": 700,
-      "height": 2250
-    },
-    "representation_of": [],
-    "version": [
-      {
-        "sheetId": "11r-4iSIWR2F2ztY5ul8ZvfCvX19iLtrZvPL1vbSkfoE",
-        "gid": "358298996",
-        "value": "azimuth-heart-v1.0",
-        "viewValue": "v1.0"
-      }
-    ],
-    "title": "Anatomical Structures",
-    "data": ""
-  },
-  {
     "name": "all",
     "display": "All by CCF-HRA release",
     "body": "Body",
@@ -605,9 +395,7 @@
       "width": 700,
       "height": 2250
     },
-    "representation_of": [
-      "UBERON:0002113"
-    ],
+    "representation_of": ["UBERON:0002113"],
     "version": [
       {
         "sheetId": "1J4nObDGqPP3JHhQ4H7_mNNQ_61KMpwM-59qqva7HYOQ",
@@ -684,9 +472,7 @@
       "width": 1000,
       "height": 8000
     },
-    "representation_of": [
-      "UBERON:0000160"
-    ],
+    "representation_of": ["UBERON:0000160"],
     "version": [
       {
         "sheetId": "1fmLUQGxPa4E0FcdzWNVJs1Jxi2Qpu-xoZ6FS64EqHZU",
@@ -756,9 +542,7 @@
       "width": 700,
       "height": 2250
     },
-    "representation_of": [
-      "UBERON:0002107"
-    ],
+    "representation_of": ["UBERON:0002107"],
     "version": [
       {
         "sheetId": "1tPDKw_znxqWhZYPTeVN4AN2_F4-JecsdeUgp2lj4P8g",
@@ -793,9 +577,7 @@
       "width": 700,
       "height": 2250
     },
-    "representation_of": [
-      "UBERON:0002048"
-    ],
+    "representation_of": ["UBERON:0002048"],
     "version": [
       {
         "sheetId": "1tK916JyG5ZSXW_cXfsyZnzXfjyoN-8B2GXLbYD6_vF0",
@@ -838,9 +620,7 @@
       "width": 1000,
       "height": 1400
     },
-    "representation_of": [
-      "UBERON: 0000029"
-    ],
+    "representation_of": ["UBERON: 0000029"],
     "version": [
       {
         "sheetId": "1O30L6BdFUrgDpKXEi1v-t1tD7rxuGfhkE8aaG-uUPdY",
@@ -957,8 +737,8 @@
     ],
     "title": "Anatomical Structures",
     "data": ""
-  },
-  {
+ },
+ {
     "name": "muscular-system",
     "display": "Muscular System",
     "config": {
@@ -966,17 +746,17 @@
       "bimodal_distance_y": 50,
       "width": 800,
       "height": 5000
-    },
-    "representation_of": [],
-    "version": [
-      {
-        "sheetId": "1UDKjTuDa18kydtOLZr_amdihGWvKs5xzwQ9W_oco3U8",
-        "gid": "0",
-        "value": "muscular-system-v1.0",
-        "viewValue": "v1.0",
-        "hraVersion": "v1.4"
-      }
-    ],
+     },
+     "representation_of": [],
+     "version": [
+       {
+         "sheetId": "1UDKjTuDa18kydtOLZr_amdihGWvKs5xzwQ9W_oco3U8",
+         "gid": "0",
+         "value": "muscular-system-v1.0",
+         "viewValue": "v1.0",
+         "hraVersion": "v1.4"
+       }
+     ],
     "title": "Anatomical Structures",
     "data": ""
   },
@@ -1052,9 +832,7 @@
       "width": 700,
       "height": 2250
     },
-    "representation_of": [
-      "UBERON:0001264"
-    ],
+    "representation_of": ["UBERON:0001264"],
     "version": [
       {
         "sheetId": "1CIWqIygz2OzxMECIvhudFN14Kt7-JFUBLpzn5uuH5Xs",
@@ -1231,7 +1009,7 @@
         "viewValue": "v1.0 DRAFT"
       }
     ],
-    "title": "Anatomical Structures",
+     "title": "Anatomical Structures",
     "data": ""
   },
   {
@@ -1265,9 +1043,7 @@
       "width": 600,
       "height": 1000
     },
-    "representation_of": [
-      "UBERON:0002097"
-    ],
+    "representation_of": ["UBERON:0002097"],
     "version": [
       {
         "sheetId": "1hy-YloznDmN9EX-eL_peNxw3suRjQdLcJTw0fABMXeU",
@@ -1309,9 +1085,7 @@
       "width": 700,
       "height": 2250
     },
-    "representation_of": [
-      "UBERON:0000160"
-    ],
+    "representation_of": ["UBERON:0000160"],
     "version": [
       {
         "sheetId": "1Xlds8FzZ8ecmy3cxYJt1ijQC9FifamZRZ5KzH4Yt-MQ",
@@ -1470,7 +1244,7 @@
         "viewValue": "v1.4 DRAFT"
       }
     ],
-    "title": "Anatomical Structures",
+       "title": "Anatomical Structures",
     "data": ""
   },
   {
