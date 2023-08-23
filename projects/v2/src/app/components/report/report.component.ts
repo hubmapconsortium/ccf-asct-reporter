@@ -426,7 +426,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
       }
     }
     download = this.getBMCTAS(sheet.identicalBMCTPair, download);
-    const sheetWS = XLSX.utils.json_to_sheet(download);
+    const sheetWS = XLSX.utils.json_to_sheet(download, { header: Object.values(keyMapper) });
 
     sheetWS['!cols'] = [];
     for (let j = 0; j < totalRows; j++) {
