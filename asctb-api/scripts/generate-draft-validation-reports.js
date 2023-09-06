@@ -43,6 +43,7 @@ async function getData(draftItems) {
       "Missing Uberon or CL IDs?",
       "Unmapped Data found?",
       "Bad Column found?",
+      "CT/1 has CL ID?"
     ],
   ];
   const workbook = XLSX.utils.book_new();
@@ -65,7 +66,7 @@ async function getData(draftItems) {
         title,
         ...data
           .split("\n")
-          .slice(0, 8)
+          .slice(0, rows[0].length - 1)
           .map((d) => {
             const status = d.slice(-6);
             return status === "passed" ? checkmark : crossmark;
@@ -77,6 +78,7 @@ async function getData(draftItems) {
       worksheets[title] = [["Invalid CSV file? failed"]];
       rows.push([
         title,
+        crossmark,
         crossmark,
         crossmark,
         crossmark,

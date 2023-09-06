@@ -208,6 +208,10 @@ function checkMissingIds(column: string[], index: number, row: Row, value: strin
         const colName = columnIndexToName(index-1);
         warnings.add(`WARNING: Missing RDFS Label for ID ${idValue} at Column: ${colName}, Row: ${row.rowNumber+1} (Code ${WarningCode.MissingCTorAnatomy})`);
       }
+      if (column.join('/') == 'CT/1/ID' && (!idValue || !idValue.startsWith('CL:'))) {
+        const colName = columnIndexToName(index);
+        warnings.add(`WARNING: CT/1/ID is not a CL ID (required) at Column: ${colName}, Row: ${row.rowNumber+1} (Code ${WarningCode.NoIdInCT1})`);
+      }
     }
   }
 }

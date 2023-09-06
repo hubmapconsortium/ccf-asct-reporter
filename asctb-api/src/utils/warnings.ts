@@ -8,7 +8,8 @@ export enum WarningCode {
   InvalidCharacter = 5,
   MissingCTorAnatomy = 6,
   UnmappedData = 7,
-  BadColumn = 8
+  BadColumn = 8,
+  NoIdInCT1 = 9
 }
 
 export const WarningLabels = {
@@ -19,5 +20,6 @@ export const WarningLabels = {
   [WarningCode.InvalidCharacter]: 'Invalid Character found?',
   [WarningCode.MissingCTorAnatomy]: 'Missing Uberon or CL IDs?',
   [WarningCode.UnmappedData]: 'Unmapped Data found?',
-  [WarningCode.BadColumn]: 'Bad Column found?'
+  [WarningCode.BadColumn]: 'Bad Column found?',
+  [WarningCode.NoIdInCT1]: 'CT/1 has CL ID?',
 };
