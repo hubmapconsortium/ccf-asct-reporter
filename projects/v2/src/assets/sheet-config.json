@@ -351,7 +351,7 @@
         "gid": "695483621",
         "value": "eye-v1.3",
         "viewValue": "v1.3",
-        "hraVersion": "v1.4, v2.0"
+        "hraVersion": "v1.4,v2.0"
       },
        {
         "sheetId": "1tNNPZXL0ycw5gNksDUKHZJpRkKgRdVAUh9AZ6ohpgOA",
@@ -587,7 +587,7 @@
         "gid": "2043181688",
         "value": "large-intestine-v1.3",
         "viewValue": "v1.3",
-        "hraVersion": "v1.3,v1.4, 2.0"
+        "hraVersion": "v1.3,v1.4,v2.0"
       },
       {
         "sheetId": "1zzyJg9zL_mbSfcqXWNbQgf9KMsxZViVgugm79H9fUp8",
@@ -922,7 +922,7 @@
         "gid": "756296951",
         "value": "ovary-v1.2",
         "viewValue": "v1.2",
-        "hraVersion": "v1.3,v1.4, 2.0"
+        "hraVersion": "v1.3,v1.4,v2.0"
       },
       {
         "sheetId": "1tk0zBaCqaUXn96uhcgAiUTbO03zYnI-0DQ9OmHdxFQQ",
@@ -1421,7 +1421,7 @@
         "gid": "0",
         "value": "trachea-v1.0",
         "viewValue": "v1.0",
-        "hraVersion": "v1.4, v2.0"
+        "hraVersion": "v1.4,v2.0"
       },
       {
         "sheetId": "1GhOK8hoAE56CxSscEvqLD8-jAa_3SMbTVNF9gt9oI5M",
