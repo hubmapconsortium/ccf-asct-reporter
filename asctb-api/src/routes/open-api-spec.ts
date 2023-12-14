@@ -26,5 +26,6 @@ export const openApiRoute: RequestHandler = (_req, res, _next) => {
 
 export function setupOpenApiSpecRoutes(app: Express): void {
   app.get('/', browserRoute);
+  app.get('/index.html', browserRoute);
   app.get('/asctb-api-spec.yaml', openApiRoute);
 }
