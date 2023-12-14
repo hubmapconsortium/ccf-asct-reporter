@@ -5,7 +5,7 @@ const path = require("path");
 const XLSX = require("xlsx");
 
 let XLSX_FILE = "validation-report.xlsx";
-let API_ENDPOINT = "https://mmpyikxkcp.us-east-2.awsapprunner.com";
+let API_ENDPOINT = "https://apps.humanatlas.io/asctb-api";
 if (process.argv.length > 2) {
   XLSX_FILE = process.argv[2];
 }

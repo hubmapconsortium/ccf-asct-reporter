@@ -15,7 +15,7 @@ The [CCF ASCT+B Reporter](https://hubmapconsortium.github.io/ccf-asct-reporter/)
 
 - Production Site: <https://hubmapconsortium.github.io/ccf-asct-reporter/> ([staging](https://ccf-asct-reporter.netlify.app))
 - Documentation: <https://hubmapconsortium.github.io/ccf-asct-reporter/docs> ([staging](https://ccf-asct-reporter.netlify.app/docs))
-- ASCT+B API: <https://mmpyikxkcp.us-east-2.awsapprunner.com> ([staging](https://m7ehdriy7t.us-east-2.awsapprunner.com))
+- ASCT+B API: <https://apps.humanatlas.io/asctb-api/> ([staging](https://apps.humanatlas.io/asctb-api--staging/))
 - Change Log: [CHANGELOG.md](CHANGELOG.md)
 
 ## Installation
