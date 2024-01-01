@@ -15,7 +15,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-ru/ngxs": "^14.1.4",
+    "@angular-ru/ngxs": "^14.2.2",
     "@angular/animations": "^16.1.2",
     "@angular/cdk": "^16.1.2",
     "@angular/common": "^16.1.2",
