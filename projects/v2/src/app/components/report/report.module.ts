@@ -9,7 +9,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
-import {MatTableExporterModule } from 'mat-table-exporter';
+// import {MatTableExporterModule } from 'mat-table-exporter';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSortModule } from '@angular/material/sort';
 import { OrderByPipe } from '../../pipes/order-by/order-by.pipe';
@@ -28,7 +28,7 @@ import { OrderByPipe } from '../../pipes/order-by/order-by.pipe';
     MatIconModule,
     MatButtonModule,
     MatTableModule,
-    MatTableExporterModule,
+    // MatTableExporterModule,
     MatTooltipModule,
     MatSortModule
   ],
