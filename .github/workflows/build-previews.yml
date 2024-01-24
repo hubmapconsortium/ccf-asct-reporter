@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
 
     steps:
       - uses: actions/checkout@v1
@@ -37,7 +37,7 @@ jobs:
           build_command: echo
           install_command: echo
           build_directory: dist/v2
-      
+
       - name: Create Deploy Comment
         uses: peter-evans/create-or-update-comment@v2
         with:
