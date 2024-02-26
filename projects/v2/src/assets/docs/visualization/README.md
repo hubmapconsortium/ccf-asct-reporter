@@ -6,7 +6,7 @@ This section goes over what the visualization is comprised of, how it works, and
 
 ##### Getting Started
 
-1. Go to the ASCT+B Reporter via [this](https://ccf-asct-reporter.netlify.app/v2/) link.
+1. Go to the ASCT+B Reporter via [this](https://ccf-asct-reporter.netlify.app/asctb-reporter/) link.
 
 2. Click on the **Go to Visualization** button and select the organ sheet that you would like to view.
 

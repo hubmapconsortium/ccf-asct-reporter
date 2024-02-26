@@ -10,9 +10,9 @@
       ],
       "parserOptions": {
         "project": [
-          "projects/v2/tsconfig.app.json",
-          "projects/v2/tsconfig.spec.json",
-          "projects/v2/e2e/tsconfig.json"
+          "projects/asctb-reporter/tsconfig.app.json",
+          "projects/asctb-reporter/tsconfig.spec.json",
+          "projects/asctb-reporter/e2e/tsconfig.json"
         ],
         "createDefaultProgram": true
       },

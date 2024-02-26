@@ -3,32 +3,32 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "v2": {
+    "asctb-reporter": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "projects/v2",
-      "sourceRoot": "projects/v2/src",
+      "root": "projects/asctb-reporter",
+      "sourceRoot": "projects/asctb-reporter/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/v2",
-            "index": "projects/v2/src/index.html",
-            "main": "projects/v2/src/main.ts",
-            "polyfills": "projects/v2/src/polyfills.ts",
-            "tsConfig": "projects/v2/tsconfig.app.json",
+            "outputPath": "dist/asctb-reporter",
+            "index": "projects/asctb-reporter/src/index.html",
+            "main": "projects/asctb-reporter/src/main.ts",
+            "polyfills": "projects/asctb-reporter/src/polyfills.ts",
+            "tsConfig": "projects/asctb-reporter/tsconfig.app.json",
             "assets": [
-              "projects/v2/src/favicon.ico",
-              "projects/v2/src/assets",
-              "projects/v2/src/_redirects"
+              "projects/asctb-reporter/src/favicon.ico",
+              "projects/asctb-reporter/src/assets",
+              "projects/asctb-reporter/src/_redirects"
             ],
             "styles": [
-              "projects/v2/src/styles.scss"
+              "projects/asctb-reporter/src/styles.scss"
             ],
             "scripts": [
               "./node_modules/marked/marked.min.js"
@@ -44,8 +44,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/v2/src/environments/environment.ts",
-                  "with": "projects/v2/src/environments/environment.prod.ts"
+                  "replace": "projects/asctb-reporter/src/environments/environment.ts",
+                  "with": "projects/asctb-reporter/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -71,8 +71,8 @@
             "staging": {
               "fileReplacements": [
                 {
-                  "replace": "projects/v2/src/environments/environment.ts",
-                  "with": "projects/v2/src/environments/environment.stage.ts"
+                  "replace": "projects/asctb-reporter/src/environments/environment.ts",
+                  "with": "projects/asctb-reporter/src/environments/environment.stage.ts"
                 }
               ],
               "optimization": true,
@@ -101,37 +101,37 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "v2:build"
+            "browserTarget": "asctb-reporter:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "v2:build:production"
+              "browserTarget": "asctb-reporter:build:production"
             },
             "staging": {
-              "browserTarget": "v2:build:staging"
+              "browserTarget": "asctb-reporter:build:staging"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "v2:build"
+            "browserTarget": "asctb-reporter:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/v2/src/test.ts",
-            "polyfills": "projects/v2/src/polyfills.ts",
-            "tsConfig": "projects/v2/tsconfig.spec.json",
-            "karmaConfig": "projects/v2/karma.conf.js",
+            "main": "projects/asctb-reporter/src/test.ts",
+            "polyfills": "projects/asctb-reporter/src/polyfills.ts",
+            "tsConfig": "projects/asctb-reporter/tsconfig.spec.json",
+            "karmaConfig": "projects/asctb-reporter/karma.conf.js",
             "assets": [
-              "projects/v2/src/favicon.ico",
-              "projects/v2/src/assets"
+              "projects/asctb-reporter/src/favicon.ico",
+              "projects/asctb-reporter/src/assets"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "projects/v2/src/styles.scss"
+              "projects/asctb-reporter/src/styles.scss"
             ],
             "scripts": []
           }
@@ -140,20 +140,20 @@
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
-              "projects/v2/**/*.ts",
-              "projects/v2/**/*.html"
+              "projects/asctb-reporter/**/*.ts",
+              "projects/asctb-reporter/**/*.html"
             ]
           }
         },
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "projects/v2/e2e/protractor.conf.js",
-            "devServerTarget": "v2:serve"
+            "protractorConfig": "projects/asctb-reporter/e2e/protractor.conf.js",
+            "devServerTarget": "asctb-reporter:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "v2:serve:production"
+              "devServerTarget": "asctb-reporter:serve:production"
             }
           }
         }

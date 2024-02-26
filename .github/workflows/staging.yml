@@ -35,12 +35,12 @@ jobs:
       - name: Build for Staging
         run: |
           npm run build:staging
-          cp dist/v2/index.html dist/v2/404.html
-          touch dist/v2/.nojekyll
+          cp dist/asctb-reporter/index.html dist/asctb-reporter/404.html
+          touch dist/asctb-reporter/.nojekyll
 
       - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist/v2
+          publish_dir: dist/asctb-reporter
           publish_branch: staging
           commit_message: "Staging deploy -- ${{ github.event.head_commit.message }}"

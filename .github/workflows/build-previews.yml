@@ -36,7 +36,7 @@ jobs:
           use_nvm: false
           build_command: echo
           install_command: echo
-          build_directory: dist/v2
+          build_directory: dist/asctb-reporter
 
       - name: Create Deploy Comment
         uses: peter-evans/create-or-update-comment@v2

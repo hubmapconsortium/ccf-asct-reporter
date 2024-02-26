@@ -1,4 +1,4 @@
-import { environment } from 'projects/v2/src/environments/environment';
+import { environment } from 'projects/asctb-reporter/src/environments/environment';
 
 export const URL = environment.asctbApiUrl;
 

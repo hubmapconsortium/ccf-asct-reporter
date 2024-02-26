@@ -5,7 +5,7 @@ The [CCF ASCT Reporter](https://hubmapconsortium.github.io/ccf-asct-reporter/) i
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/hubmapconsortium/ccf-asct-reporter)
 [![license](https://img.shields.io/github/license/hrishikeshpaul/portfolio-template?style=flat&logo=appveyor)](https://github.com/hubmapconsortium/ccf-asct-reporter/blob/master/LICENSE)
 
-![HuBMAP CCF Reporter](projects/v2/src/assets/github_logo.png)
+![HuBMAP CCF Reporter](projects/asctb-reporter/src/assets/github_logo.png)
 
 ## Overview
 
@@ -85,7 +85,7 @@ The reporter is also accompanied by a backend server ASCT+B API. In the event of
 The Miner can also be used as a stand-alone tool to retrieve the data from the flattened Google sheets. Below is the API that you'll have to use,
 
 ```
-https://asctb-api.herokuapp.com/v2/<sheetID>/<gid>
+https://asctb-api.herokuapp.com/asctb-reporter/<sheetID>/<gid>
 ```
 
 This will either return the data, or will return a `500` HTTP code.
@@ -98,37 +98,37 @@ Since the ASCT+B API is a dynamic script, Heroku has been used to deploy the ser
 
 Visualization
 
-![Partonomy Tree](projects/v2/src/assets/snippets/vis.png)
+![Partonomy Tree](projects/asctb-reporter/src/assets/snippets/vis.png)
 
 
 Hovering over a node
 
-![Node Hover](projects/v2/src/assets/snippets/hover.png)
+![Node Hover](projects/asctb-reporter/src/assets/snippets/hover.png)
 
 
 Clicking on a node
 
-![Node Click](projects/v2/src/assets/snippets/hover.png)
+![Node Click](projects/asctb-reporter/src/assets/snippets/hover.png)
 
 
 Report
 
-![Report](projects/v2/src/assets/snippets/report.png)
+![Report](projects/asctb-reporter/src/assets/snippets/report.png)
 
 
 Indented List
 
-![Indented List](projects/v2/src/assets/snippets/il.png)
+![Indented List](projects/asctb-reporter/src/assets/snippets/il.png)
 
 
 Info Sheet
 
-![Info Bottom Sheet](projects/v2/src/assets/snippets/bottom.png)
+![Info Bottom Sheet](projects/asctb-reporter/src/assets/snippets/bottom.png)
 
 
 Debug Log
 
-![Debug log](projects/v2/src/assets/snippets/debug.png)
+![Debug log](projects/asctb-reporter/src/assets/snippets/debug.png)
 
 ## Contributing
 
