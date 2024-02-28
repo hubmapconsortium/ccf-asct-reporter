@@ -186,8 +186,8 @@
         "hraVersion": "v2.0"
       },
       {
-        "sheetId": "",
-        "gid": "",
+        "sheetId": "14CS3wHJOObOXg2PCqcvdKIWFcYcfA8MT__YMxfhOIXQ",
+        "gid": "1958526503",
         "value": "Blood-Vasculature-v1.6_DRAFT",
         "viewValue": "v1.6_DRAFT"
       }    
@@ -827,8 +827,8 @@
         "hraVersion": "v2.0"
       },
       {
-        "sheetId": "1Ac7C4dX7eYSMyR75AA2uVY9ZgNGOZZgbqgR8wmp-wdk",
-        "gid": "928286522",
+        "sheetId": "1zAvpQa2or2uVKf7_oK7_kSWMFIs83mdPIO5tb-FwYnA",
+        "gid": "0",
         "value": "main-bronchus-v1.2_DRAFT",
         "viewValue": "v1.2 DRAFT"
       }
@@ -1005,7 +1005,7 @@
         "sheetId": "1r7zKA586gGTeMNapM4UHZNLDL-egFgc_wDzGKeV--LU",
         "gid": "0",
         "value": "palatine-tonsil-v1.1",
-        "viewValue": "v1.1"
+        "viewValue": "v1.1 DRAFT"
       }
     ],
     "title": "Anatomical Structures",
