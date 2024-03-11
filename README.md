@@ -100,31 +100,25 @@ Visualization
 
 ![Partonomy Tree](projects/asctb-reporter/src/assets/snippets/vis.png)
 
-
 Hovering over a node
 
 ![Node Hover](projects/asctb-reporter/src/assets/snippets/hover.png)
-
 
 Clicking on a node
 
 ![Node Click](projects/asctb-reporter/src/assets/snippets/hover.png)
 
-
 Report
 
 ![Report](projects/asctb-reporter/src/assets/snippets/report.png)
-
 
 Indented List
 
 ![Indented List](projects/asctb-reporter/src/assets/snippets/il.png)
 
-
 Info Sheet
 
 ![Info Bottom Sheet](projects/asctb-reporter/src/assets/snippets/bottom.png)
-
 
 Debug Log
 
@@ -133,6 +127,7 @@ Debug Log
 ## Contributing
 
 If you'd like to contribute, follow the steps below,
+
 ```shell
 $ git clone https://github.com/hubmapconsortium/ccf-asct-reporter
 $ cd ccf-asct-reporter
@@ -142,4 +137,5 @@ $ git checkout -b <new_branch_name>
 Commit the changes to the new feature branch and make a pull request!
 
 ## License
+
 [MIT](https://choosealicense.com/licenses/mit/)

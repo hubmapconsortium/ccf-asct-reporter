@@ -1,0 +1,141 @@
+{
+  "name": "asctb-reporter",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "generators": {
+    "@schematics/angular:component": {
+      "style": "scss"
+    }
+  },
+  "sourceRoot": "apps/asctb-reporter/src",
+  "prefix": "app",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "options": {
+        "outputPath": "dist/apps/asctb-reporter",
+        "index": "apps/asctb-reporter/src/index.html",
+        "main": "apps/asctb-reporter/src/main.ts",
+        "polyfills": "apps/asctb-reporter/src/polyfills.ts",
+        "tsConfig": "apps/asctb-reporter/tsconfig.app.json",
+        "assets": [
+          "apps/asctb-reporter/src/favicon.ico",
+          "apps/asctb-reporter/src/assets",
+          "apps/asctb-reporter/src/_redirects"
+        ],
+        "styles": ["apps/asctb-reporter/src/styles.scss"],
+        "scripts": ["./node_modules/marked/marked.min.js"],
+        "vendorChunk": true,
+        "extractLicenses": false,
+        "buildOptimizer": false,
+        "sourceMap": true,
+        "optimization": false,
+        "namedChunks": true
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/asctb-reporter/src/environments/environment.ts",
+              "with": "apps/asctb-reporter/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "10kb"
+            }
+          ]
+        },
+        "staging": {
+          "fileReplacements": [
+            {
+              "replace": "apps/asctb-reporter/src/environments/environment.ts",
+              "with": "apps/asctb-reporter/src/environments/environment.stage.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "10kb"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": ""
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "browserTarget": "asctb-reporter:build"
+      },
+      "configurations": {
+        "production": {
+          "browserTarget": "asctb-reporter:build:production"
+        },
+        "staging": {
+          "browserTarget": "asctb-reporter:build:staging"
+        }
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "asctb-reporter:build"
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "apps/asctb-reporter/src/test.ts",
+        "polyfills": "apps/asctb-reporter/src/polyfills.ts",
+        "tsConfig": "apps/asctb-reporter/tsconfig.spec.json",
+        "karmaConfig": "apps/asctb-reporter/karma.conf.js",
+        "assets": [
+          "apps/asctb-reporter/src/favicon.ico",
+          "apps/asctb-reporter/src/assets"
+        ],
+        "styles": [
+          "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+          "apps/asctb-reporter/src/styles.scss"
+        ],
+        "scripts": []
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/asctb-reporter/**/*.ts",
+          "apps/asctb-reporter/**/*.html"
+        ]
+      }
+    }
+  }
+}

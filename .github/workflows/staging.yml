@@ -43,4 +43,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: dist/asctb-reporter
           publish_branch: staging
-          commit_message: "Staging deploy -- ${{ github.event.head_commit.message }}"
+          commit_message: 'Staging deploy -- ${{ github.event.head_commit.message }}'

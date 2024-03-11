@@ -1,0 +1,22 @@
+{
+  "name": "asctb-reporter-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/asctb-reporter-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@angular-devkit/build-angular:protractor",
+      "options": {
+        "protractorConfig": "apps/asctb-reporter-e2e/protractor.conf.js",
+        "devServerTarget": "asctb-reporter:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "asctb-reporter:serve:production"
+        }
+      }
+    }
+  },
+  "implicitDependencies": ["asctb-reporter"],
+  "tags": []
+}

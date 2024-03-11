@@ -1,0 +1,152 @@
+:host {
+  border-style: solid;
+  border-width: 0.03rem;
+  border: #e4e4e4;
+  width: 100%;
+  background-color: white;
+  margin-left: 1rem;
+  font-size: 0.85rem;
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .link-input-field {
+    width: 100%;
+  }
+
+  input[type='color'] {
+    border: none;
+    outline: none;
+  }
+
+  ::ng-deep input[type='color']::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+
+  input[type='color']::-webkit-color-swatch {
+    border: none;
+  }
+
+  .content {
+    flex: 1 1;
+    overflow: auto;
+  }
+
+  .mat-expansion-panel:not([class*='mat-elevation-z']) {
+    box-shadow: none;
+  }
+
+  .mat-expansion-panel-header:not(.compare) {
+    background: rgb(228, 228, 228) !important;
+  }
+
+  ::ng-deep mat-expansion-panel-header {
+    background: rgb(228, 228, 228);
+  }
+
+  .mat-expansion-panel-header:hover {
+    opacity: 0.85 !important;
+  }
+
+  .instruction-title {
+    font-weight: 600;
+    font-size: 10pt;
+  }
+
+  .required-field-disclaimer {
+    font-size: 0.625rem;
+    color: #f44336;
+    padding-left: 1.5rem;
+  }
+
+  .title-sheet-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .title-sheet-sub-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 0.5;
+    font-size: medium;
+  }
+
+  .flex-container {
+    flex: 0.5;
+    background-color: white;
+    mat-hint {
+      color: #757575;
+      margin-left: -0.8rem;
+    }
+
+    ::ng-deep .mdc-text-field--filled {
+      background-color: white;
+    }
+  }
+
+  .file-upload {
+    color: #757575;
+  }
+
+  .sheet-link-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 1rem;
+  }
+
+  .button-container {
+    margin-left: 1.4rem;
+  }
+
+  .submit-button {
+    border-radius: 0.5rem !important;
+  }
+
+  .submit-button-color {
+    background-color: #f44336 !important;
+  }
+
+  .required {
+    color: red;
+    display: inline;
+  }
+
+  .data-upload-title {
+    margin-top: 1.5rem !important;
+    color: #444a65;
+    padding-left: 1rem;
+
+    .data-disclaimer-text {
+      font-size: 0.625rem;
+      color: #757575;
+    }
+  }
+
+  .optional-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    grid-gap: 0.625rem;
+  }
+
+  .rounded-blob {
+    align-items: center;
+    height: 1.5rem;
+    width: 2.5rem;
+    background-color: #c2cae5;
+    border-radius: 6.25rem;
+    text-align: center;
+  }
+
+  .footer {
+    height: 3rem;
+  }
+}

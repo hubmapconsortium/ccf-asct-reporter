@@ -1,0 +1,33 @@
+:host {
+  display: block;
+  width: 25rem;
+  height: 6.25rem;
+
+  .file-input {
+    display: none;
+  }
+
+  .file-upload {
+    color: #757575;
+  }
+
+  button {
+    margin-top: 2rem;
+    display: flex;
+    width: 14.688rem;
+    height: 3.125rem;
+    align-items: center;
+    background: white;
+    border-radius: 0.3rem;
+    border-color: #9d9e9a;
+    border-style: solid;
+  }
+
+  mat-icon {
+    color: #9d9e9a;
+  }
+
+  .file-name {
+    padding-top: 0.7rem;
+  }
+}

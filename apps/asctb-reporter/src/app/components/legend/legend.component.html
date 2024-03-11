@@ -1,0 +1,45 @@
+<div>
+  <mat-expansion-panel class="mepNoPadding" [expanded]="!error.hasError">
+    <mat-expansion-panel-header [expandedHeight]="'3.125rem'">
+      <mat-panel-title>
+        <div>
+          <b> Legend </b>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="py-1 legend-div">
+      <div *ngFor="let l of legends | orderBy : 'sortOrder'" class="py-1">
+        <div class="d-flex align-items-center">
+          <div
+            [ngStyle]="{
+              'background-color':
+                l.style === 'stroke' ? 'transparent' : l.color,
+              border: l.style === 'stroke' ? '3px solid ' + l.color : 'none',
+              'border-style': l.style === 'stroke' ? 'dotted' : 'none'
+            }"
+            [ngClass]="{
+              rect:
+                l.name === 'Protein Presence' ||
+                l.name === 'Protein Absence' ||
+                l.name === 'AS-AS, AS-CT, CT-BM Paths' ||
+                l.name === 'Intermediate Protein',
+              circle:
+                l.name === 'Gene Biomarkers' ||
+                (!l.bmType &&
+                  l.name !== 'Protein Presence' &&
+                  l.name !== 'Protein Absence' &&
+                  l.name !== 'AS-AS, AS-CT, CT-BM Paths' &&
+                  l.name !== 'Intermediate Protein'),
+              protein: l.name === 'Protein Biomarkers',
+              lipids: l.name === 'Lipids Biomarkers',
+              metabolites: l.name === 'Metabolites Biomarkers',
+              proteoforms: l.name === 'Proteoforms Biomarkers',
+              'mr-2': true
+            }"
+          ></div>
+          <span class="legend-label">{{ l.name }}</span>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</div>

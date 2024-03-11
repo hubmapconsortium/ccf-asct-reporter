@@ -1,0 +1,79 @@
+<div class="w-100 h-100">
+  <div class="dark">
+    <div>
+      <div class="w-100 py-3 px-5 navbar dark">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <div class="navbar-logo">
+            <img
+              src="./assets/logo-light.svg"
+              alt=""
+              class="w-75 logo-link"
+              routerLink="/"
+            />
+          </div>
+          <div class="navbar-options">
+            <a (click)="openData()" class="text-white">Master Tables</a>
+            <a (click)="openGithub()" class="ml-4 text-white github">GitHub</a>
+            <a (click)="openDataOld()" class="text-white ml-4">Old Tables</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="w-100 h-100 nav-height">
+    <mat-drawer-container class="w-100">
+      <mat-drawer
+        [opened]="true"
+        [mode]="'side'"
+        class="drawer pb-5 nav-height"
+        position="start"
+        style="position: fixed"
+      >
+        <div
+          class="pl-5 pr-3 d-flex justify-content-between align-items-center goto py-3"
+          (click)="onLatest()"
+        >
+          <span class="h6 m-0 fw-bold h6-title">Latest Release</span>
+          <fa-icon class="icon-right" [icon]="faChevronRight"></fa-icon>
+        </div>
+        <hr class="m-0 mb-3" />
+        <div
+          *ngFor="let item of REGISTRY; let i = index"
+          class="px-5 py-3 menu-item"
+          [class.bg-light]="i === selected"
+          (click)="onChange(i)"
+        >
+          <h6 class="m-0">{{ item.title }}</h6>
+        </div>
+      </mat-drawer>
+
+      <div class="h-100 bg-white" style="overflow-y: auto">
+        <div class="p-5">
+          <div *ngIf="selected === 0">
+            <span class="title2 mb-0">ASCT+B REPORTER DOCS</span>
+            <p class="mt-3 desc">
+              Welcome to the ASCT+B Reporter Documentation!
+            </p>
+          </div>
+
+          <div class="w-100">
+            <markdown [data]="docsData" class="w-100 md-file"></markdown>
+          </div>
+
+          <div class="mt-5">
+            <app-docs-nav
+              [next]="selected + 1"
+              [prev]="selected - 1"
+              (nextClick)="onChange(selected + 1)"
+              (prevClick)="onChange(selected - 1)"
+            ></app-docs-nav>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <app-footer></app-footer>
+    </mat-drawer-container>
+  </div>
+</div>

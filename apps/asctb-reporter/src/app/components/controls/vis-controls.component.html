@@ -1,0 +1,229 @@
+<mat-expansion-panel
+  class="mepNoPadding vis-controls"
+  [expanded]="!error.hasError"
+>
+  <mat-expansion-panel-header [expandedHeight]="'3.125rem'" class="controls">
+    <mat-panel-title>
+      <div>
+        <b> Controls </b>
+      </div>
+    </mat-panel-title>
+    <mat-panel-description>
+      <button mat-icon-button class="mr-2" (click)="exportControls($event)">
+        <mat-icon>get_app</mat-icon>
+      </button>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <div
+    class="py-1 pb-4"
+    *ngIf="
+      currentSheet.name === 'all' ||
+      (currentSheet.name === 'some' && selectedOrgans.length > 8)
+    "
+  >
+    <mat-slide-toggle
+      [checked]="config.show_all_AS"
+      color="primary"
+      (change)="changeShowAS()"
+      matTooltip="Toggle Visibility of Anatomical Structures"
+      matTooltipPosition="below"
+    >
+      <span class="control-title">Show all AS</span>
+    </mat-slide-toggle>
+  </div>
+
+  <div class="py-1 pb-4">
+    <mat-slide-toggle
+      [checked]="config.show_ontology"
+      color="primary"
+      (change)="changeShowOntology()"
+      matTooltip="Toggle Visibility of Ontology Links"
+      matTooltipPosition="below"
+    >
+      <span class="control-title">Ontology IDs</span>
+    </mat-slide-toggle>
+  </div>
+
+  <div
+    class="py-1"
+    matTooltip="Change Bimodal Distance (Y)"
+    matTooltipPosition="below"
+  >
+    <div class="d-flex justify-content-between align-items-center w-100 h-100">
+      <div class="w-50">
+        <span class="control-title">Tree Width</span>
+      </div>
+      <div class="text-end w-50">
+        <b
+          ><input
+            [(ngModel)]="config.width"
+            type="number"
+            matInput
+            (change)="changeWidth()"
+            class="numberInput"
+        /></b>
+      </div>
+      <div></div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center w-100 h-100">
+      <mat-slider
+        class="min p-0 w-100"
+        discrete="true"
+        color="primary"
+        showTickMarks="true"
+        tickInterval="100"
+        min="100"
+        max="1000"
+        step="100"
+        (change)="changeWidth()"
+      >
+        <input matSliderThumb [(ngModel)]="config.width" />
+      </mat-slider>
+    </div>
+  </div>
+
+  <div
+    class="py-1"
+    matTooltip="Change height of AS Tree"
+    matTooltipPosition="below"
+  >
+    <div class="d-flex justify-content-between align-items-center w-100 h-100">
+      <div class="w-50">
+        <span class="control-title">Tree Height</span>
+      </div>
+      <div class="text-end w-50">
+        <b
+          ><input
+            [(ngModel)]="config.height"
+            type="number"
+            matInput
+            (change)="changeHeight()"
+            class="numberInput"
+        /></b>
+      </div>
+      <div></div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center w-100 h-100">
+      <mat-slider
+        class="min p-0 w-100"
+        thumbLabel
+        color="primary"
+        tickInterval="100"
+        min="100"
+        max="7000"
+        (change)="changeHeight()"
+      >
+        <input matSliderThumb [(ngModel)]="config.height"
+      /></mat-slider>
+    </div>
+  </div>
+
+  <div
+    class="py-1"
+    matTooltip="Change Bimodal Distance (X)"
+    matTooltipPosition="below"
+  >
+    <div class="d-flex justify-content-between align-items-center w-100 h-100">
+      <div class="w-50">
+        <span class="control-title">Bimodal Distance X</span>
+      </div>
+      <div class="text-end w-50">
+        <b
+          ><input
+            [(ngModel)]="config.bimodal_distance_x"
+            type="number"
+            matInput
+            (change)="changeBimodalDistanceX()"
+            class="numberInput"
+        /></b>
+      </div>
+      <div></div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center w-100 h-100">
+      <mat-slider
+        class="min p-0 w-100"
+        thumbLabel
+        color="primary"
+        tickInterval="100"
+        min="50"
+        max="500"
+        (change)="changeBimodalDistanceX()"
+      >
+        <input matSliderThumb [(ngModel)]="config.bimodal_distance_x"
+      /></mat-slider>
+    </div>
+  </div>
+
+  <div
+    class="py-1"
+    matTooltip="Change width of AS Tree"
+    matTooltipPosition="below"
+  >
+    <div class="d-flex justify-content-between align-items-center w-100 h-100">
+      <div class="w-50">
+        <span class="control-title">Bimodal Distance Y</span>
+      </div>
+      <div class="text-end w-50">
+        <b
+          ><input
+            [(ngModel)]="config.bimodal_distance_y"
+            type="number"
+            matInput
+            (change)="changeBimodalDistanceY()"
+            class="numberInput"
+        /></b>
+      </div>
+      <div></div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center w-100 h-100">
+      <mat-slider
+        class="min p-0 w-100"
+        thumbLabel
+        color="primary"
+        tickInterval="100"
+        min="10"
+        max="200"
+        (change)="changeBimodalDistanceY()"
+      >
+        <input matSliderThumb [(ngModel)]="config.bimodal_distance_y" />
+      </mat-slider>
+    </div>
+  </div>
+
+  <div class="py-1 pb-4">
+    <mat-slide-toggle
+      [checked]="config.discrepencyLabel"
+      color="primary"
+      (change)="showDiscrepencyLabel()"
+      matTooltip="Show the discrepency Label"
+      matTooltipPosition="below"
+    >
+      <span class="control-title">Label mismatch</span>
+    </mat-slide-toggle>
+  </div>
+
+  <div class="py-1 pb-4">
+    <mat-slide-toggle
+      [checked]="config.discrepencyId"
+      color="primary"
+      (change)="showDiscrepencyId()"
+      matTooltip="Show the discrepency ID"
+      matTooltipPosition="below"
+    >
+      <span class="control-title">ID Missing</span>
+    </mat-slide-toggle>
+  </div>
+
+  <div class="py-1 pb-4">
+    <mat-slide-toggle
+      [checked]="config.duplicateId"
+      color="primary"
+      (change)="showDuplicateId()"
+      matTooltip="Show the duplicate ID"
+      matTooltipPosition="below"
+    >
+      <span class="control-title">ID Duplicates</span>
+    </mat-slide-toggle>
+  </div>
+</mat-expansion-panel>

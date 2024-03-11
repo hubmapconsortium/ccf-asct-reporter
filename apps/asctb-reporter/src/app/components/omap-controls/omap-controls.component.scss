@@ -1,0 +1,27 @@
+@import './../../../assets/stylesheets/_colors.scss';
+
+.mat-expansion-panel:not([class*='mat-elevation-z']) {
+  box-shadow: none;
+}
+
+.mat-expansion-panel-header:not(.compare) {
+  border-top-left-radius: 0.5rem !important;
+  border-top-right-radius: 0.5rem !important;
+}
+
+.mat-expansion-panel-header {
+  transition: all 0.3s;
+  background-color: $secondary !important;
+  padding-left: 0.9375rem !important;
+  padding-right: 0.9375rem !important;
+  border-top-left-radius: 0.5rem !important;
+  border-top-right-radius: 0.5rem !important;
+}
+
+.mat-expansion-panel-header:hover {
+  background-color: darken($color: $secondary, $amount: 8%) !important;
+}
+
+.checkbox-label {
+  font-size: 0.89rem;
+}
