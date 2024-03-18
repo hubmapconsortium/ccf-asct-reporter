@@ -1,0 +1,89 @@
+{
+  "root": true,
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nx"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {
+        "@nx/enforce-module-boundaries": [
+          "error",
+          {
+            "enforceBuildableLibDependency": true,
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "app",
+                "onlyDependOnLibsWithTags": ["*"]
+              },
+              {
+                "sourceTag": "atoms",
+                "onlyDependOnLibsWithTags": ["cdk", "utils"]
+              },
+              {
+                "sourceTag": "molecules",
+                "onlyDependOnLibsWithTags": ["cdk", "utils", "atoms"]
+              },
+              {
+                "sourceTag": "organisms",
+                "onlyDependOnLibsWithTags": ["cdk", "utils", "atoms", "molecules"]
+              },
+              {
+                "sourceTag": "behavioral",
+                "onlyDependOnLibsWithTags": ["cdk", "utils", "shared", "components", "state", "services"]
+              },
+              {
+                "sourceTag": "state",
+                "onlyDependOnLibsWithTags": ["cdk", "utils", "shared", "services"]
+              },
+              {
+                "sourceTag": "services",
+                "onlyDependOnLibsWithTags": ["cdk", "utils", "shared"]
+              },
+              {
+                "sourceTag": "cdk",
+                "onlyDependOnLibsWithTags": ["utils", "shared"]
+              },
+              {
+                "sourceTag": "shared",
+                "onlyDependOnLibsWithTags": ["utils", "shared"]
+              },
+              {
+                "sourceTag": "ccf",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nx/typescript"],
+      "rules": {
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+            "argsIgnorePattern": "^_",
+            "destructuredArrayIgnorePattern": "^_",
+            "varsIgnorePattern": "^_",
+            "caughtErrors": "all"
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nx/javascript"],
+      "rules": {}
+    },
+    {
+      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
+      "env": {
+        "jest": true
+      },
+      "rules": {}
+    }
+  ]
+}
