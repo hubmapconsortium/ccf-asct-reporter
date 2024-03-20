@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center align-items-center">
   <div
     class="item d-flex justify-content-between align-items-center w-100 px-4 py-3 mr-2"
-    *ngIf="prev >= 0"
+    *ngIf="prev !== null && prev >= 0"
     (click)="prevClick.emit()"
   >
     <fa-icon [icon]="faArrowLeft"></fa-icon>
@@ -13,7 +13,7 @@
 
   <div
     class="item d-flex justify-content-between align-items-center w-100 px-4 py-3 ml-2"
-    *ngIf="next < REGISTRY.length"
+    *ngIf="next !== null && next < REGISTRY.length"
     (click)="nextClick.emit()"
   >
     <div>

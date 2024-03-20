@@ -1,21 +1,19 @@
-/* Depricated */
+/* Deprecated */
 
 import { Legend } from 'vega';
 
-interface VegaLegend {
-  legends: Array<Legend>;
-}
+export class Legends {
+  static create(): Legend[] {
+    return new Legends().legends;
+  }
 
-export class Legends implements VegaLegend {
-  legends: any;
+  legends: Legend[];
 
   constructor() {
     this.legends = [
       // this.makeBimodalLegend(),
       // this.makeTreeLegend()
     ];
-
-    return this.legends;
   }
 
   makeBimodalLegend() {

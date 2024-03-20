@@ -1,14 +1,15 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
-  UntypedFormGroup,
+  AbstractControl,
   UntypedFormArray,
   UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { CompareData } from '../../models/sheet.model';
-import { Observable } from 'rxjs';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
+import { Observable } from 'rxjs';
 import { GaAction, GaCategory, GaCompareInfo } from '../../models/ga.model';
+import { CompareData } from '../../models/sheet.model';
 
 @Component({
   selector: 'app-compare',
@@ -16,15 +17,13 @@ import { GaAction, GaCategory, GaCompareInfo } from '../../models/ga.model';
   styleUrls: ['./compare.component.scss'],
 })
 export class CompareComponent implements OnInit {
-  @Output() closeCompare: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() compareData: EventEmitter<CompareData[]> = new EventEmitter<
-    CompareData[]
-  >();
+  @Output() closeCompare = new EventEmitter<boolean>();
+  @Output() compareData = new EventEmitter<CompareData[]>();
 
-  @Input() compareSheets: Observable<CompareData[]>;
+  @Input() compareSheets!: Observable<CompareData[]>;
 
-  formGroup: UntypedFormGroup;
-  formSheets: UntypedFormArray;
+  formGroup!: UntypedFormGroup;
+  formSheets!: UntypedFormArray;
   formValid = true;
 
   constructor(
@@ -57,11 +56,12 @@ export class CompareComponent implements OnInit {
       }
     });
 
-    this.formGroup.valueChanges.subscribe((sheets) => {
-      const formArray = this.formGroup.controls.sheets as UntypedFormArray;
-      formArray.controls.forEach((sheet: UntypedFormGroup) => {
-        const file = sheet.controls.formData;
-        const link = sheet.controls.link;
+    this.formGroup.valueChanges.subscribe(() => {
+      const formArray = this.formGroup.controls['sheets'] as UntypedFormArray;
+      formArray.controls.forEach((control) => {
+        const sheet = control as UntypedFormGroup;
+        const file = sheet.controls['formData'];
+        const link = sheet.controls['link'];
         if (file.value != null) {
           link.clearValidators();
           link.updateValueAndValidity({ emitEvent: false });
@@ -70,16 +70,18 @@ export class CompareComponent implements OnInit {
     });
   }
 
-  upload(fileFormDataEvent: FormData, sheet: UntypedFormGroup) {
-    sheet.controls.formData.setValue(fileFormDataEvent);
+  upload(fileFormDataEvent: FormData, control: AbstractControl) {
+    const sheet = control as UntypedFormGroup;
+    sheet.controls['formData'].setValue(fileFormDataEvent);
   }
 
   markFormGroupTouched(formGroup: UntypedFormGroup) {
-    (Object as any).values(formGroup.controls).forEach((control) => {
-      control.markAsTouched();
+    Object.values(formGroup.controls).forEach((control) => {
+      const form = control as UntypedFormGroup;
+      form.markAsTouched();
 
-      if (control.controls) {
-        this.markFormGroupTouched(control);
+      if (form.controls) {
+        this.markFormGroupTouched(form);
       }
     });
   }
@@ -98,9 +100,9 @@ export class CompareComponent implements OnInit {
 
       data.push({
         ...sheet,
-        sheetId: this.checkLinkFormat(sheet.link).sheetID,
-        gid: this.checkLinkFormat(sheet.link).gid,
-        csvUrl: this.checkLinkFormat(sheet.link).csvUrl,
+        sheetId: this.checkLinkFormat(sheet.link)?.sheetID,
+        gid: this.checkLinkFormat(sheet.link)?.gid,
+        csvUrl: this.checkLinkFormat(sheet.link)?.csvUrl,
       });
 
       const sheetInfo: GaCompareInfo = {
@@ -129,13 +131,12 @@ export class CompareComponent implements OnInit {
           csvUrl: '',
         };
       }
-    } else {
-      return {
-        sheetID: '0',
-        gid: '0',
-        csvUrl: url,
-      };
     }
+    return {
+      sheetID: '0',
+      gid: '0',
+      csvUrl: url,
+    };
   }
 
   createCompareForm(
@@ -168,14 +169,18 @@ export class CompareComponent implements OnInit {
       { validators: [this.atLeastOnePhoneRequired] }
     );
   }
-  atLeastOnePhoneRequired(group: UntypedFormGroup): { [s: string]: boolean } {
+
+  atLeastOnePhoneRequired(
+    group: UntypedFormGroup
+  ): { [s: string]: boolean } | null {
     if (group) {
-      if (group.controls.link.value || group.controls.fileName.value) {
+      if (group.controls['link'].value || group.controls['fileName'].value) {
         return null;
       }
     }
     return { error: true };
   }
+
   get CSControls() {
     return this.formGroup.get('sheets') as UntypedFormArray;
   }
@@ -190,10 +195,12 @@ export class CompareComponent implements OnInit {
   }
 
   doesFormHaveError() {
-    this.formGroup.controls.sheets.value.forEach((sheet) => {
-      // mark as touched for all controls
-      sheet.controls.link.markAsTouched();
-    });
+    (this.formGroup.controls['sheets'].value as UntypedFormGroup[]).forEach(
+      (sheet) => {
+        // mark as touched for all controls
+        sheet.controls['link'].markAsTouched();
+      }
+    );
     return this.formGroup.status !== 'VALID';
   }
 
@@ -204,7 +211,7 @@ export class CompareComponent implements OnInit {
       GaAction.CLICK,
       GaCategory.COMPARE,
       'Add new compare row',
-      null
+      undefined
     );
   }
 

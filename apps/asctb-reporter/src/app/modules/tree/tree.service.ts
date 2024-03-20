@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Store, Select } from '@ngxs/store';
-import { VegaService } from './vega.service';
-import { AS_RED, TNode, NODE_TYPE } from './../../models/tree.model';
-import { TreeState, TreeStateModel } from '../../store/tree.state';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { UIState, UIStateModel } from '../../store/ui.state';
+import { ValuesData } from 'vega';
 import { ReportLog } from '../../actions/logs.actions';
-import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
 import { UpdateLinksData, UpdateVegaSpec } from '../../actions/tree.actions';
-import { Sheet, SheetConfig } from '../../models/sheet.model';
 import { HasError } from '../../actions/ui.actions';
+import { LOG_ICONS, LOG_TYPES } from '../../models/logs.model';
 import { Error } from '../../models/response.model';
+import { Row, Sheet, SheetConfig } from '../../models/sheet.model';
 import { SheetState } from '../../store/sheet.state';
-import { Row } from '../../models/sheet.model';
+import { TreeState, TreeStateModel } from '../../store/tree.state';
+import { UIState, UIStateModel } from '../../store/ui.state';
+import { AS_RED, NODE_TYPE, TNode } from './../../models/tree.model';
 import { BimodalService } from './bimodal.service';
+import { VegaService } from './vega.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,30 +22,30 @@ export class TreeService {
   /**
    * Height of the tree
    */
-  height: number;
+  height!: number;
   /**
    * Denotes if the left control pane is open
    */
-  controlPaneOpen: boolean;
+  controlPaneOpen!: boolean;
   /**
    * Sheet configurations that has the different parameters
    */
-  sheetConfig: SheetConfig;
+  sheetConfig!: SheetConfig;
 
   /**
    * Tree State observable
    */
-  @Select(TreeState) tree$: Observable<TreeStateModel>;
+  @Select(TreeState) tree$!: Observable<TreeStateModel>;
 
   /**
    * UI State observable
    */
-  @Select(UIState) uiState$: Observable<UIStateModel>;
+  @Select(UIState) uiState$!: Observable<UIStateModel>;
 
   /**
    * Sheet state - sheet config observable
    */
-  @Select(SheetState.getSheetConfig) sc$: Observable<SheetConfig>;
+  @Select(SheetState.getSheetConfig) sc$!: Observable<SheetConfig>;
 
   constructor(
     public readonly store: Store,
@@ -108,14 +108,14 @@ export class TreeService {
   public makeTreeData(
     currentSheet: Sheet,
     data: Row[],
-    compareData?: any,
+    _compareData?: unknown,
     isReport = false
   ): void {
     try {
-      const idNameSet = {};
+      const idNameSet: Record<string, string> = {};
       let id = 1;
       let parent: TNode;
-      const nodes = [];
+      const nodes: TNode[] = [];
       const allParentIds = new Set();
       const root = new TNode(
         id,
@@ -129,10 +129,10 @@ export class TreeService {
       root.label = '';
       root.comparator = root.name + root.label + root.ontologyId;
       root.type = NODE_TYPE.R;
-      delete root.parent;
+      delete (root as { parent?: unknown }).parent;
       nodes.push(root);
       let flag = 0;
-      const AS_AS_organWise = {};
+      const AS_AS_organWise: Record<string, number> = {};
 
       data.forEach((row) => {
         parent = root;
@@ -194,7 +194,7 @@ export class TreeService {
               row.organName,
               AS_RED
             );
-            newNode.label = structure.rdfs_label;
+            newNode.label = structure.rdfs_label ?? '';
             newNode.comparator =
               parent.comparator +
               newNode.name +
@@ -207,8 +207,8 @@ export class TreeService {
             }
             if ('isNew' in structure) {
               newNode.isNew = true;
-              newNode.color = structure.color;
-              newNode.pathColor = structure.color;
+              newNode.color = structure.color ?? '';
+              newNode.pathColor = structure.color ?? '';
             }
 
             nodes.push(newNode);
@@ -217,8 +217,8 @@ export class TreeService {
           } else {
             const node = nodes[s];
             if ('isNew' in structure) {
-              node.color = structure.color;
-              node.pathColor = structure.color;
+              node.color = structure.color ?? '';
+              node.pathColor = structure.color ?? '';
             }
             parent = node;
           }
@@ -227,7 +227,7 @@ export class TreeService {
 
       // delete duplicate organ element
       nodes.shift();
-      delete nodes[0].parent;
+      delete (nodes[0] as { parent?: unknown }).parent;
 
       const spec = this.vs.makeVegaConfig(
         currentSheet,
@@ -248,7 +248,9 @@ export class TreeService {
         );
         this.bm.makeBimodalData(
           data,
-          spec.data[0].values.filter((x) => !allParentIdsArray.includes(x.id)),
+          ((spec.data?.[0] as ValuesData).values as TNode[]).filter(
+            (x) => !allParentIdsArray.includes(x.id)
+          ),
           this.store.selectSnapshot(TreeState.getBimodalConfig),
           true,
           this.store.selectSnapshot(SheetState.getSheetConfig)
@@ -256,9 +258,10 @@ export class TreeService {
       }
     } catch (error) {
       console.log(error);
+      const error2 = error as { name: string; status: number };
       const err: Error = {
-        msg: `${error.name} (Status: ${error.status})`,
-        status: error.status,
+        msg: `${error2.name} (Status: ${error2.status})`,
+        status: error2.status,
         hasError: true,
       };
       this.store.dispatch(

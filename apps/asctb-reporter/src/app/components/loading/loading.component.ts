@@ -1,8 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Select } from '@ngxs/store';
-import { UIState } from '../../store/ui.state';
 import { Observable } from 'rxjs';
+import { UIState, UIStateModel } from '../../store/ui.state';
 
 @Component({
   selector: 'app-loading',
@@ -10,12 +10,9 @@ import { Observable } from 'rxjs';
   styleUrls: ['./loading.component.scss'],
 })
 export class LoadingComponent implements OnInit {
-  @Select(UIState) loadingText$: Observable<any>;
+  @Select(UIState) loadingText$!: Observable<UIStateModel>;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: string,
-    private dialog: MatDialog
-  ) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: string) {}
 
   ngOnInit(): void {
     this.loadingText$.subscribe((l) => {

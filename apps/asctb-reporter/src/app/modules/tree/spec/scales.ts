@@ -1,16 +1,14 @@
 import { Scale } from 'vega';
 
-interface VegaScale {
-  scales: Array<Scale>;
-}
+export class Scales {
+  static create(): Scale[] {
+    return new Scales().scales;
+  }
 
-export class Scales implements VegaScale {
-  scales: any;
+  scales: Scale[];
 
   constructor() {
     this.scales = [this.makeBiomodalScale(), this.makeTreeLegendScale()];
-
-    return this.scales;
   }
 
   /**
@@ -20,7 +18,7 @@ export class Scales implements VegaScale {
    * color.
    */
 
-  makeBiomodalScale() {
+  makeBiomodalScale(): Scale {
     return {
       name: 'bimodal',
       type: 'ordinal',
@@ -35,7 +33,7 @@ export class Scales implements VegaScale {
    * the legend and only has the red color.
    */
 
-  makeTreeLegendScale() {
+  makeTreeLegendScale(): Scale {
     return {
       name: 'treeLegend',
       type: 'ordinal',

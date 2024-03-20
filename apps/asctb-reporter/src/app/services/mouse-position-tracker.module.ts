@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, NgModule } from '@angular/core';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
-import { fromEvent, Subscription } from 'rxjs';
+import { Subscription, fromEvent } from 'rxjs';
 import { map, throttleTime } from 'rxjs/operators';
 
 export function trackMousePosition(

@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { URL, getAssetsURL } from './../static/url';
+import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Row, Sheet, SheetInfo, Structure } from '../models/sheet.model';
+import { URL, getAssetsURL } from './../static/url';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +27,8 @@ export class SheetService {
   ) {
     if (csvFileUrl) {
       return this.http.get(`${URL}/v2/csv`, {
-        responseType: output === 'owl' ? 'text' : undefined,
+        responseType:
+          output === 'owl' ? 'text' : (undefined as unknown as 'text'),
         params: {
           csvUrl: csvFileUrl,
           output: output ? output : 'json',
@@ -97,6 +98,7 @@ export class SheetService {
     }
 
     return this.http.get(`${URL}/lookup/${ontologyCode}/${termId}`).pipe(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       map((res: any) => {
         return {
           name,
@@ -117,7 +119,7 @@ export class SheetService {
   /**
    * Fetching initial playground data
    */
-  fetchPlaygroundData(data?: string) {
+  fetchPlaygroundData(_data?: string) {
     return this.http.get(`${URL}/v2/playground`);
   }
 

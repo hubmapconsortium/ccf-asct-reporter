@@ -1,13 +1,13 @@
-import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import {
   MAT_BOTTOM_SHEET_DATA,
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
-import { Error } from '../../models/response.model';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
-import { GaAction, GaCategory } from '../../models/ga.model';
-import { SheetInfo } from '../../models/sheet.model';
 import { Observable } from 'rxjs';
+import { GaAction, GaCategory } from '../../models/ga.model';
+import { Error } from '../../models/response.model';
+import { SheetInfo } from '../../models/sheet.model';
 
 @Component({
   selector: 'app-info',
@@ -18,7 +18,7 @@ export class InfoComponent implements OnInit {
   loading = true;
   noId = false;
   error: Error = { hasError: false };
-  info: SheetInfo;
+  info!: SheetInfo;
 
   // @Output() close: EventEmitter<any> = new EventEmitter<any>();
 

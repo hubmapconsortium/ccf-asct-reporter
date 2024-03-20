@@ -32,8 +32,8 @@ export class FetchSelectedOrganData {
   static readonly type = '[FETCH] Selected Organs Data';
   constructor(
     public sheet: Sheet,
-    public selectedOrgans: Array<string>,
-    public omapSelectedOrgans: Array<string>,
+    public selectedOrgans: string[],
+    public omapSelectedOrgans: string[],
     public comparisonDetails?: CompareData[]
   ) {}
 }

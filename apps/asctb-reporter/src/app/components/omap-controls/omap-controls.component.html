@@ -13,7 +13,7 @@
 
     <div class="py-1">
       <mat-checkbox
-        [value]="omaps.organsOnly"
+        [checked]="omaps.organsOnly"
         (change)="
           checkBoxClicked({
             organsOnly: !omaps.organsOnly,
@@ -26,7 +26,7 @@
     </div>
     <div class="py-1">
       <mat-checkbox
-        [value]="omaps.proteinsOnly"
+        [checked]="omaps.proteinsOnly"
         (change)="
           checkBoxClicked({
             proteinsOnly: !omaps.proteinsOnly,

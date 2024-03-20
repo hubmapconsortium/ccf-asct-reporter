@@ -44,14 +44,14 @@ export interface Structure {
 }
 
 export interface Row {
-  anatomical_structures: Array<Structure>;
-  cell_types: Array<Structure>;
-  biomarkers: Array<Structure>;
-  biomarkers_gene: Array<Structure>;
-  biomarkers_protein: Array<Structure>;
-  biomarkers_lipids: Array<Structure>;
-  biomarkers_meta: Array<Structure>;
-  biomarkers_prot: Array<Structure>;
+  anatomical_structures: Structure[];
+  cell_types: Structure[];
+  biomarkers: Structure[];
+  biomarkers_gene: Structure[];
+  biomarkers_protein: Structure[];
+  biomarkers_lipids: Structure[];
+  biomarkers_meta: Structure[];
+  biomarkers_prot: Structure[];
   references: Reference[];
   organName: string;
   tableVersion: string;
@@ -112,7 +112,7 @@ export interface SheetInfo {
   msg: string;
   status: number;
   notes: string;
-  references?: Array<Reference>;
+  references?: Reference[];
   extraLinks?: Record<string, string>;
 }
 
@@ -151,7 +151,7 @@ export interface SheetDetails {
     height: number;
   };
   title: string;
-  version?: Array<VersionDetail>;
+  version?: VersionDetail[];
   data?: string;
   csvUrl?: string;
   symbol?: string;
@@ -203,14 +203,14 @@ export interface GEdge {
   target: number;
 }
 
-export class GNode {
+export interface GNode {
   id: number;
   type: string;
   name: string;
   metadata: Metadata;
 }
 
-export class Metadata {
+export interface Metadata {
   ontologyTypeId: string;
   ontologyType: string;
   label: string;
@@ -221,8 +221,8 @@ export class Metadata {
 }
 
 export interface Graph {
-  nodes: Array<GNode>;
-  edges: Array<GEdge>;
+  nodes: GNode[];
+  edges: GEdge[];
 }
 
 export interface GraphData {

@@ -1,4 +1,4 @@
-<div (window:resize)="onResize($event)" class="home-container">
+<div class="home-container">
   <!-- NAVBAR -->
   <div class="w-100 py-3 px-5">
     <div class="d-flex justify-content-between align-items-center w-100">
@@ -22,7 +22,7 @@
         </a>
         <app-table-nested-menu
           #nestedMenu
-          [sheetDetails]="configService.allSheetConfigurations$ | async"
+          [sheetDetails]="(configService.allSheetConfigurations$ | async) ?? []"
         ></app-table-nested-menu>
         <a
           (click)="
@@ -132,7 +132,7 @@
             videoId="pzUFmDhQEO8"
             width="100%"
             height="100%"
-            [playerVars]="{ rel: 0, showinfo: 0, ecver: 2 }"
+            [playerVars]="{ rel: 0, showinfo: 0 }"
           ></youtube-player>
         </div>
       </div>

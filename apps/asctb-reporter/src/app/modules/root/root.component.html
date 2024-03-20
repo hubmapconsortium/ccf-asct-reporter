@@ -28,13 +28,13 @@
         (closeReport)="rightDrawer.close()"
         *ngIf="report$ | async"
         [sheetData]="data"
-        [asFullData]="fullAsData$ | async"
-        [fullDataByOrgan]="fullDataByOrgan$ | async"
+        [asFullData]="(fullAsData$ | async) ?? []"
+        [fullDataByOrgan]="(fullDataByOrgan$ | async) ?? []"
         [currentSheet]="sheet"
         [currentSheetConfig]="sheetConfig$"
         [linksData$]="links$"
         (computedReport)="updateReport($event)"
-        [bmType]="bmType$ | async"
+        [bmType]="(bmType$ | async) ?? ''"
         [hideReportCompareTab]="(mode$ | async) === 'playground'"
       ></app-report>
 
@@ -50,7 +50,7 @@
         (closeDebug)="rightDrawer.close()"
         *ngIf="dl$ | async"
         [currentSheet]="sheet"
-        [logs]="logs$ | async"
+        [logs]="(logs$ | async)!"
       ></app-debug-logs>
 
       <app-compare
@@ -64,7 +64,7 @@
     <mat-drawer-content>
       <app-navbar
         (export)="exportVis($event)"
-        [cache]="getFromCache$ | async"
+        [cache]="(getFromCache$ | async) ?? false"
       ></app-navbar>
       <div id="content" class="h-100 w-100">
         <app-error *ngIf="error.hasError" [error]="error"></app-error>
@@ -77,9 +77,9 @@
           *ngIf="(pane$ | async) === false"
         >
           <app-legend
-            [treeData]="treeData$ | async"
-            [bimodalData]="bm$ | async"
-            [compareData]="compareSheets$ | async"
+            [treeData]="(treeData$ | async) ?? []"
+            [bimodalData]="(bm$ | async)!"
+            [compareData]="(compareSheets$ | async) ?? []"
             [error]="error"
           ></app-legend>
         </div>

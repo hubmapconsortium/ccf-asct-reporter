@@ -1,28 +1,27 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { VIDEO_ACTIONS, CONTIRBUTORS, IMAGES } from '../../static/home';
-import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
-import { faGlobe, faPhone } from '@fortawesome/free-solid-svg-icons';
-import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { GoogleAnalyticsService } from 'ngx-google-analytics';
-import { GaAction, GaCategory } from '../../models/ga.model';
 import { YouTubePlayer } from '@angular/youtube-player';
+import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { faGlobe, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { ConfigService } from '../../app-config.service';
+import { GaAction, GaCategory } from '../../models/ga.model';
 import { SheetDetails } from '../../models/sheet.model';
+import { CONTIRBUTORS, IMAGES, VIDEO_ACTIONS } from '../../static/home';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements AfterViewInit {
   window = window;
   dataVersion = 'latest';
   VIDEO_ACTIONS = VIDEO_ACTIONS;
   CONTIRBUTORS = CONTIRBUTORS;
   IMAGES = IMAGES;
   videoSectionSelected = 0;
-  videoRef: HTMLVideoElement;
 
   faLinkedin = faLinkedin;
   faGlobe = faGlobe;
@@ -31,10 +30,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
   faEnvelope = faEnvelope;
 
   copyrightYear = new Date().getFullYear();
-  masterSheetLink: string;
-  sheetOptions: SheetDetails[];
+  masterSheetLink: string = '';
+  sheetOptions: SheetDetails[] = [];
 
-  @ViewChild('tutorialVideo') player: YouTubePlayer;
+  @ViewChild('tutorialVideo') player!: YouTubePlayer;
 
   constructor(
     public configService: ConfigService,
@@ -42,7 +41,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     public ga: GoogleAnalyticsService
   ) {
     this.configService.config$.subscribe((config) => {
-      this.masterSheetLink = config.masterSheetLink as string;
+      this.masterSheetLink = config['masterSheetLink'] as string;
     });
 
     this.configService.sheetConfiguration$.subscribe((sheetOptions) => {
@@ -50,12 +49,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit(): void {}
-
   ngAfterViewInit(): void {
     const actionsDiv = document.getElementById('actionsHeight');
-    actionsDiv.style.maxHeight = `${this.player.height + 50}px`;
-    actionsDiv.style.overflowY = 'auto';
+    if (actionsDiv) {
+      actionsDiv.style.maxHeight = `${this.player.height + 50}px`;
+      actionsDiv.style.overflowY = 'auto';
+    }
   }
 
   seekVideo(seconds: number, id: number) {
@@ -104,9 +103,5 @@ export class HomeComponent implements OnInit, AfterViewInit {
       queryParamsHandling: 'merge',
     });
     this.ga.event(GaAction.NAV, GaCategory.HOME, 'Launch Playground Tool');
-  }
-
-  onResize(e) {
-    console.log(e);
   }
 }

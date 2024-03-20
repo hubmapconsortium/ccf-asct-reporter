@@ -1,18 +1,5 @@
-import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
-import {
-  Sheet,
-  Row,
-  Structure,
-  CompareData,
-  SheetConfig,
-  ResponseData,
-  SheetInfo,
-  DOI,
-  VersionDetail,
-  SheetDetails,
-  selectedOrganBeforeFilter,
-} from '../models/sheet.model';
 import { Injectable } from '@angular/core';
+import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { StateReset } from 'ngxs-reset-plugin';
 import { parse } from 'papaparse';
@@ -27,6 +14,7 @@ import {
   FetchInitialPlaygroundData,
   FetchSelectedOrganData,
   FetchSheetData,
+  FetchValidOmapProtiens,
   ToggleShowAllAS,
   UpdateBottomSheetDOI,
   UpdateBottomSheetInfo,
@@ -35,9 +23,8 @@ import {
   UpdateMode,
   UpdatePlaygroundData,
   UpdateReport,
-  UpdateSheet,
-  FetchValidOmapProtiens,
   UpdateSelectedOrgansBeforeFilter,
+  UpdateSheet,
 } from '../actions/sheet.actions';
 import {
   CloseBottomSheet,
@@ -49,14 +36,27 @@ import { ConfigService } from '../app-config.service';
 import { ReportService } from '../components/report/report.service';
 import { GaAction, GaCategory } from '../models/ga.model';
 import { LOG_ICONS, LOG_TYPES } from '../models/logs.model';
+import { OmapConfig } from '../models/omap.model';
 import { Report } from '../models/report.model';
 import { Error } from '../models/response.model';
+import {
+  CompareData,
+  DOI,
+  ResponseData,
+  Row,
+  Sheet,
+  SheetConfig,
+  SheetDetails,
+  SheetInfo,
+  Structure,
+  VersionDetail,
+  selectedOrganBeforeFilter,
+} from '../models/sheet.model';
 import { SheetService } from '../services/sheet.service';
 import { TreeState } from './tree.state';
-import { OmapConfig } from '../models/omap.model';
 
 /** Class to keep track of the sheet */
-export class SheetStateModel {
+export interface SheetStateModel {
   /**
    * Stores the data csv string from the response
    */
@@ -208,10 +208,13 @@ export class SheetStateModel {
 })
 @Injectable()
 export class SheetState {
-  sheetConfig: SheetDetails[];
-  omapSheetConfig: SheetDetails[];
-  exampleSheet: SheetDetails;
-  headerCount: unknown;
+  sheetConfig: SheetDetails[] = [];
+  omapSheetConfig: SheetDetails[] = [];
+  exampleSheet?: SheetDetails;
+  headerCount: number = 0;
+  faliureMsg = 'Failed to fetch data';
+  bodyId = 'UBERON:0013702';
+  bodyLabel = 'body proper';
 
   constructor(
     public configService: ConfigService,
@@ -230,12 +233,9 @@ export class SheetState {
       this.exampleSheet = sheetOptions.find((s) => s.name === 'example');
     });
     this.configService.config$.subscribe((config) => {
-      this.headerCount = config.headerCount;
+      this.headerCount = config['headerCount'] as number;
     });
   }
-  faliureMsg = 'Failed to fetch data';
-  bodyId = 'UBERON:0013702';
-  bodyLabel: 'body proper';
 
   /**
    * Returns an observable that watches the data
@@ -399,7 +399,7 @@ export class SheetState {
    */
   @Action(DeleteCompareSheet)
   deleteCompareSheet(
-    { getState, setState, dispatch, patchState }: StateContext<SheetStateModel>,
+    { getState, setState, dispatch }: StateContext<SheetStateModel>,
     { i }: DeleteCompareSheet
   ) {
     let state = getState();
@@ -431,7 +431,7 @@ export class SheetState {
    */
   @Action(FetchCompareData)
   async fetchCompareData(
-    { getState, setState, dispatch, patchState }: StateContext<SheetStateModel>,
+    { getState, dispatch, patchState }: StateContext<SheetStateModel>,
     { compareData }: FetchCompareData
   ) {
     dispatch(new OpenLoading('Fetching data...'));
@@ -457,7 +457,8 @@ export class SheetState {
           compareSheet.formData
         )
         .subscribe(
-          (res: ResponseData) => {
+          (r) => {
+            const res = r as ResponseData;
             for (const row of res.data) {
               for (const i of row.anatomical_structures) {
                 i.isNew = true;
@@ -569,7 +570,8 @@ export class SheetState {
       version: 'latest',
     });
 
-    const requests$: Array<Observable<any>> = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const requests$: Observable<any>[] = [];
     let dataAll: Row[] = [];
 
     const organsNames: string[] = [];
@@ -580,11 +582,11 @@ export class SheetState {
           if (version.value === organ) {
             requests$.push(
               this.sheetService.fetchSheetData(
-                version.sheetId,
-                version.gid,
+                version.sheetId ?? '',
+                version.gid ?? '',
                 version.csvUrl,
-                null,
-                null,
+                undefined,
+                undefined,
                 state.getFromCache
               )
             );
@@ -600,11 +602,11 @@ export class SheetState {
           if (version.value === organ) {
             requests$.push(
               this.sheetService.fetchSheetData(
-                version.sheetId,
-                version.gid,
+                version.sheetId ?? '',
+                version.gid ?? '',
                 version.csvUrl,
-                null,
-                null,
+                undefined,
+                undefined,
                 state.getFromCache
               )
             );
@@ -613,8 +615,8 @@ export class SheetState {
         });
       });
     }
-    let asDeltails = [];
-    const fullDataByOrgan = [];
+    let asDetails: Row[] = [];
+    const fullDataByOrgan: Row[][] = [];
     forkJoin(requests$).subscribe(
       (allResults) => {
         allResults.map((res: ResponseData, index: number) => {
@@ -631,7 +633,7 @@ export class SheetState {
             row.anatomical_structures.unshift(newStructure);
           }
 
-          asDeltails = JSON.parse(JSON.stringify([...asDeltails, ...res.data]));
+          asDetails = JSON.parse(JSON.stringify([...asDetails, ...res.data]));
           fullDataByOrgan.push(JSON.parse(JSON.stringify([...res.data])));
           for (const row of res.data) {
             if (!state.sheetConfig.show_all_AS && selectedOrgans.length > 8) {
@@ -646,7 +648,7 @@ export class SheetState {
         });
         patchState({
           data: dataAll,
-          fullAsData: asDeltails,
+          fullAsData: asDetails,
           fullDataByOrgan,
         });
         if (comparisonDetails) {
@@ -705,11 +707,11 @@ export class SheetState {
   private omapFiltering(
     sheetState: SheetStateModel,
     event: OmapConfig,
-    currentlySelectedOrgans
+    currentlySelectedOrgans: string[]
   ): string[] {
     const selectedOrgansBeforeFilter = sheetState.selectedOrgansBeforeFilter;
 
-    let newSelectedOrgans = [];
+    let newSelectedOrgans: string[] = [];
     if (event.organsOnly) {
       //Union oldSelected and currentlySelected and make a new list
       currentlySelectedOrgans = this.unionOldSelectedAndNewSelected(
@@ -734,7 +736,7 @@ export class SheetState {
     } else {
       newSelectedOrgans =
         selectedOrgansBeforeFilter.length > 0
-          ? selectedOrgansBeforeFilter.map((organ) => organ.selector)
+          ? selectedOrgansBeforeFilter.map((organ) => organ.selector ?? '')
           : currentlySelectedOrgans;
       this.store.dispatch(new UpdateSelectedOrgansBeforeFilter([]));
       sessionStorage.setItem('selectedOrgans', newSelectedOrgans.join(','));
@@ -746,11 +748,11 @@ export class SheetState {
   private unionOldSelectedAndNewSelected(
     beforeFilterOrgans: selectedOrganBeforeFilter[],
     currentlySelectedOrgans: string[]
-  ) {
+  ): string[] {
     // Don't add if was removed by user in currentlySelected
     const filteredOutBeforeFilterOrgans = beforeFilterOrgans
       .filter((organ) => organ.filteredOut)
-      .map((organ) => organ.selector);
+      .map((organ) => organ.selector ?? '');
     return [
       ...new Set([
         ...filteredOutBeforeFilterOrgans,
@@ -759,7 +761,10 @@ export class SheetState {
     ];
   }
 
-  private organFiltering(selectedOrgans, omapSelectedOrgans): string[] {
+  private organFiltering(
+    selectedOrgans: string[],
+    omapSelectedOrgans: string[]
+  ): string[] {
     // If no OMAP organs selected
     if (omapSelectedOrgans.length > 0 && omapSelectedOrgans[0] != '') {
       const selectedOmapOrgans = omapSelectedOrgans.map((organ) =>
@@ -778,7 +783,7 @@ export class SheetState {
             selectedOrgan.split('-')[0].toLowerCase()
         );
         if (
-          sheetOrgan.representation_of.some((rep) =>
+          sheetOrgan?.representation_of?.some((rep) =>
             filteredOmapOrgans.includes(rep)
           )
         ) {
@@ -790,7 +795,7 @@ export class SheetState {
       const omapUberonIds = this.omapSheetConfig.map(
         (organ) => organ.uberon_id
       );
-      const newSelectedOrgans = [];
+      const newSelectedOrgans: string[] = [];
       selectedOrgans.forEach((selectedOrgan) => {
         const sheetOrgan = this.sheetConfig.find(
           (organ) =>
@@ -798,7 +803,7 @@ export class SheetState {
             selectedOrgan.split('-')[0].toLowerCase()
         );
         if (
-          sheetOrgan.representation_of.some((rep) =>
+          sheetOrgan?.representation_of?.some((rep) =>
             omapUberonIds.includes(rep)
           )
         ) {
@@ -860,7 +865,8 @@ export class SheetState {
       ),
     });
 
-    const requests$: Array<Observable<any>> = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const requests$: Observable<any>[] = [];
     let dataAll: Row[] = [];
     const organsNames: string[] = [];
     const organsTableVersions: string[] = [];
@@ -870,15 +876,19 @@ export class SheetState {
         continue;
       } else {
         requests$.push(
-          this.sheetService.fetchSheetData(s.sheetId, s.gid, s.csvUrl)
+          this.sheetService.fetchSheetData(
+            s.sheetId ?? '',
+            s.gid ?? '',
+            s.csvUrl
+          )
         );
         organsNames.push(s.name);
         organsTableVersions.push(
-          s.version.find((i) => i.value === s.name).viewValue
+          s.version?.find((i) => i.value === s.name)?.viewValue ?? ''
         );
       }
     }
-    let asData = [];
+    let asData: Row[] = [];
 
     forkJoin(requests$).subscribe(
       (allresults) => {
@@ -944,9 +954,15 @@ export class SheetState {
     const state = getState();
 
     return this.sheetService
-      .fetchSheetData(sheet.sheetId, sheet.gid, sheet.csvUrl, sheet.formData)
+      .fetchSheetData(
+        sheet.sheetId ?? '',
+        sheet.gid ?? '',
+        sheet.csvUrl,
+        sheet.formData
+      )
       .pipe(
-        tap((res: ResponseData) => {
+        tap((r) => {
+          const res = r as ResponseData;
           res.data = this.sheetService.getDataWithBody(res.data, sheet.name);
           setState({
             ...state,
@@ -1034,7 +1050,7 @@ export class SheetState {
 
     return this.sheetService.fetchDataFromAssets(version, sheet).pipe(
       tap((res) => {
-        const parsedData = parse(res, { skipEmptyLines: true });
+        const parsedData = parse<unknown[]>(res, { skipEmptyLines: true });
         parsedData.data.splice(0, this.headerCount);
         parsedData.data.map((i) => {
           i.push(false);
@@ -1044,7 +1060,7 @@ export class SheetState {
         setState({
           ...state,
           version,
-          data: parsedData.data,
+          data: parsedData.data as unknown as Row[],
           sheet,
           sheetConfig: { ...sheet.config, show_ontology: true },
         });
@@ -1087,7 +1103,7 @@ export class SheetState {
    */
   @Action(UpdateConfig)
   updateConfig(
-    { getState, setState, dispatch }: StateContext<SheetStateModel>,
+    { getState, setState }: StateContext<SheetStateModel>,
     { config }: UpdateConfig
   ) {
     const state = getState();
@@ -1167,7 +1183,7 @@ export class SheetState {
     setState,
     dispatch,
   }: StateContext<SheetStateModel>) {
-    const sheet: Sheet = this.exampleSheet;
+    const sheet = this.exampleSheet as Sheet;
     const mode = getState().mode;
     dispatch(new OpenLoading('Fetching playground data...'));
     dispatch(new StateReset(TreeState));
@@ -1180,8 +1196,9 @@ export class SheetState {
     };
 
     return this.sheetService.fetchPlaygroundData().pipe(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       tap((res: any) => {
-        res.data.forEach((row) => {
+        res.data.forEach((row: Row) => {
           row.anatomical_structures.unshift(organ);
           row.organName = sheet.name;
           row.tableVersion = '';
@@ -1227,7 +1244,7 @@ export class SheetState {
     { getState, setState, dispatch }: StateContext<SheetStateModel>,
     { data }: UpdatePlaygroundData
   ) {
-    const sheet: Sheet = this.exampleSheet;
+    const sheet = this.exampleSheet as Sheet;
     const state = getState();
     dispatch(new OpenLoading('Fetching playground data...'));
     dispatch(new StateReset(TreeState));
@@ -1247,8 +1264,9 @@ export class SheetState {
     };
 
     return this.sheetService.updatePlaygroundData(data).pipe(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       tap((res: any) => {
-        res.data.forEach((row) => {
+        res.data.forEach((row: Row) => {
           row.anatomical_structures.unshift(organ);
           row.organName = sheet.name;
           row.tableVersion = '';
@@ -1303,6 +1321,7 @@ export class SheetState {
     return this.sheetService
       .fetchBottomSheetData(data.ontologyId, data.name)
       .pipe(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         tap((res: any) => {
           setState({
             ...state,
@@ -1351,7 +1370,7 @@ export class SheetState {
    */
   @Action(UpdateBottomSheetDOI)
   updateBottomSheetDOI(
-    { getState, setState, dispatch }: StateContext<SheetStateModel>,
+    { getState, setState }: StateContext<SheetStateModel>,
     { data }: UpdateBottomSheetDOI
   ) {
     const state = getState();
@@ -1382,7 +1401,8 @@ export class SheetState {
     patchState,
   }: StateContext<SheetStateModel>) {
     const state = getState();
-    const requests$: Array<Observable<any>> = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const requests$: Observable<any>[] = [];
 
     if (
       state.omapSelectedOrgans.length > 0 &&
@@ -1394,50 +1414,50 @@ export class SheetState {
         const sheetDetails = this.omapSheetConfig.find(
           (omap) => omap.name.toLowerCase() === organName.toLowerCase()
         );
-        const version = sheetDetails.version.find(
+        const version = sheetDetails?.version?.find(
           (v) => v.value.toLowerCase() === s.toLowerCase()
         );
         requests$.push(
           this.sheetService.fetchSheetData(
-            version.sheetId,
-            version.gid,
-            version.csvUrl,
-            null,
-            null,
+            version?.sheetId ?? '',
+            version?.gid ?? '',
+            version?.csvUrl,
+            undefined,
+            undefined,
             state.getFromCache
           )
         );
       }
     } else {
       for (const s of this.omapSheetConfig) {
-        const version = [...s.version].pop();
+        const version = [...(s.version ?? [])].pop();
         requests$.push(
           this.sheetService.fetchSheetData(
-            version.sheetId,
-            version.gid,
-            version.csvUrl,
-            null,
-            null,
+            version?.sheetId ?? '',
+            version?.gid ?? '',
+            version?.csvUrl,
+            undefined,
+            undefined,
             state.getFromCache
           )
         );
       }
     }
 
-    const existingProtiens = [];
+    const existingProtiens: string[] = [];
     for (const r of state.data) {
       r.biomarkers_protein.forEach((protein) => {
-        existingProtiens.push(protein.name);
+        existingProtiens.push(protein.name ?? '');
       });
     }
     for (const data of state.compareData) {
       data.biomarkers_protein.forEach((protein) => {
-        existingProtiens.push(protein.name);
+        existingProtiens.push(protein.name ?? '');
       });
     }
     const allOmapProtiens = new Set();
     forkJoin(requests$).subscribe((allresults) => {
-      allresults.map((res: ResponseData, index) => {
+      allresults.map((res: ResponseData) => {
         for (const row of res.data) {
           row.biomarkers_protein.forEach((protein) => {
             allOmapProtiens.add(protein.name);

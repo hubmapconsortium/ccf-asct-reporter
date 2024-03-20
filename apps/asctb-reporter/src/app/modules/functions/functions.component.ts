@@ -1,38 +1,38 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Store, Select } from '@ngxs/store';
-import {
-  bimodalCTSizeOptions,
-  bimodalBSizeOptions,
-  bimodalSortOptions,
-  BimodalConfig,
-  bimodalBTypeOptions,
-} from '../../models/bimodal.model';
-import { TreeState } from '../../store/tree.state';
-import { Observable } from 'rxjs';
+import { Component, Input } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
-import { UpdateBimodalConfig } from '../../actions/tree.actions';
-import { BimodalService } from '../../modules/tree/bimodal.service';
-import { Error } from '../../models/response.model';
 import { faDna } from '@fortawesome/free-solid-svg-icons';
+import { Select, Store } from '@ngxs/store';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
+import { Observable } from 'rxjs';
+import { UpdateBimodalConfig } from '../../actions/tree.actions';
+import {
+  BimodalConfig,
+  bimodalBSizeOptions,
+  bimodalBTypeOptions,
+  bimodalCTSizeOptions,
+  bimodalSortOptions,
+} from '../../models/bimodal.model';
 import { GaAction, GaCategory } from '../../models/ga.model';
+import { Error } from '../../models/response.model';
+import { BimodalService } from '../../modules/tree/bimodal.service';
+import { TreeState } from '../../store/tree.state';
 
 @Component({
   selector: 'app-functions',
   templateUrl: './functions.component.html',
   styleUrls: ['./functions.component.scss'],
 })
-export class FunctionsComponent implements OnInit {
+export class FunctionsComponent {
   bmSizeOptions = bimodalBSizeOptions;
   sortOptions = bimodalSortOptions;
   ctSizeOptions = bimodalCTSizeOptions;
   bimodalBTypeOptions = bimodalBTypeOptions;
-  bimodalConfig: BimodalConfig;
+  bimodalConfig!: BimodalConfig;
   faDna = faDna;
 
-  @Input() error: Error;
+  @Input() error!: Error;
 
-  @Select(TreeState.getBimodalConfig) config$: Observable<BimodalConfig>;
+  @Select(TreeState.getBimodalConfig) config$!: Observable<BimodalConfig>;
 
   constructor(
     public store: Store,
@@ -44,10 +44,10 @@ export class FunctionsComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
-
   changeOptions(type: string, field: string, event: MatSelectChange) {
-    this.bimodalConfig[type][field] = event.value;
+    (this.bimodalConfig as unknown as Record<string, Record<string, unknown>>)[
+      type
+    ][field] = event.value;
     this.updateBimodal();
     this.ga.event(
       GaAction.CLICK,

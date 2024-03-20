@@ -1,28 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
+import { Spec, View, parse } from 'vega';
 import vegaTooltip from 'vega-tooltip';
-import * as vega from 'vega';
-import { Signals } from './spec/signals';
-import { Data } from './spec/data';
-import { Scales } from './spec/scales';
-import { Legends } from './spec/legends';
-import { Marks } from './spec/marks';
-import { UpdateVegaView, UpdateLinksData } from '../../actions/tree.actions';
-import { BimodalService } from './bimodal.service';
+import { ReportLog } from '../../actions/logs.actions';
+import { UpdateLinksData, UpdateVegaView } from '../../actions/tree.actions';
 import {
-  OpenBottomSheet,
   CloseLoading,
   HasError,
+  OpenBottomSheet,
   OpenBottomSheetDOI,
 } from '../../actions/ui.actions';
-import { Error } from '../../models/response.model';
-import { ReportLog } from '../../actions/logs.actions';
-import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
-import { Sheet, SheetConfig } from '../../models/sheet.model';
-import { TNode } from '../../models/tree.model';
-import { Signal } from 'vega';
-import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory, GaNodeInfo } from '../../models/ga.model';
+import { LOG_ICONS, LOG_TYPES } from '../../models/logs.model';
+import { Error } from '../../models/response.model';
+import { DOI, Sheet, SheetConfig } from '../../models/sheet.model';
+import { TNode } from '../../models/tree.model';
+import { OpenBottomSheetData } from '../../models/ui.model';
+import { BimodalService } from './bimodal.service';
+import { Data } from './spec/data';
+import { Legends } from './spec/legends';
+import { Marks } from './spec/marks';
+import { Scales } from './spec/scales';
+import { Signals } from './spec/signals';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +32,7 @@ export class VegaService {
    * Sheet configuration to be applied while building
    * the tree and the bimodal network
    */
-  sheetConfig: SheetConfig;
+  sheetConfig!: SheetConfig;
 
   constructor(
     public readonly store: Store,
@@ -45,10 +45,10 @@ export class VegaService {
    *
    * @param config vega spec
    */
-  async renderGraph(config: any) {
+  async renderGraph(config: Spec) {
     try {
-      const runtime: vega.Runtime = vega.parse(config, {});
-      const treeView: any = new vega.View(runtime)
+      const runtime = parse(config, {});
+      const treeView = new View(runtime)
         .renderer('svg')
         .initialize('#vis')
         .hover();
@@ -64,9 +64,10 @@ export class VegaService {
       this.makeBimodal(treeView);
     } catch (error) {
       console.log(error);
+      const error2 = error as { name: string; status: number };
       const err: Error = {
-        msg: `${error.name} (Status: ${error.status})`,
-        status: error.status,
+        msg: `${error2.name} (Status: ${error2.status})`,
+        status: error2.status,
         hasError: true,
       };
       this.store.dispatch(
@@ -76,6 +77,7 @@ export class VegaService {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public makeNodeInfoString(node: any) {
     const nodeInfo: GaNodeInfo = {
       name: node.name,
@@ -93,11 +95,11 @@ export class VegaService {
    *
    * @param view vega view
    */
-  addSignalListeners(view: any) {
+  addSignalListeners(view: View) {
     // node name click event to open bottom sheet
     view.addSignalListener(
       'bimodal_text__click',
-      (signal: Signal, node: any) => {
+      (_signal: unknown, node: OpenBottomSheetData) => {
         if (node && Object.entries(node).length) {
           this.store.dispatch(new OpenBottomSheet(node));
           this.ga.event(
@@ -110,21 +112,24 @@ export class VegaService {
     );
 
     // node click listener to emit ga event
-    view.addSignalListener('node__click', (signal: Signal, nodeId: any) => {
-      if (nodeId != null) {
-        this.ga.event(
-          GaAction.CLICK,
-          GaCategory.GRAPH,
-          'Selected (clicked) a node',
-          0
-        );
-      } else {
-        this.ga.event(GaAction.CLICK, GaCategory.GRAPH, 'Deselected a node');
+    view.addSignalListener(
+      'node__click',
+      (_signal: string, nodeId: unknown) => {
+        if (nodeId != null) {
+          this.ga.event(
+            GaAction.CLICK,
+            GaCategory.GRAPH,
+            'Selected (clicked) a node',
+            0
+          );
+        } else {
+          this.ga.event(GaAction.CLICK, GaCategory.GRAPH, 'Deselected a node');
+        }
       }
-    });
+    );
 
     // path click event to show doi/references
-    view.addSignalListener('path__click', (signal: Signal, text: any) => {
+    view.addSignalListener('path__click', (_signal: string, text: DOI[]) => {
       if (text.length) {
         this.store.dispatch(new OpenBottomSheetDOI(text));
       }
@@ -137,7 +142,7 @@ export class VegaService {
    *
    * @param view vega view
    */
-  makeBimodal(view: any) {
+  makeBimodal(view: View) {
     this.store.dispatch(new UpdateVegaView(view)).subscribe((states) => {
       const data = states.sheetState.data;
       const treeData = states.treeState.treeData;
@@ -176,9 +181,9 @@ export class VegaService {
     currentSheet: Sheet,
     treeData: TNode[],
     sheetConfig: SheetConfig,
-    multiParentLinksData?: []
+    _multiParentLinksData?: []
   ) {
-    const config: any = {
+    const config: Spec = {
       $schema: 'https://vega.github.io/schema/vega/v5.json',
       autosize: 'pad',
       padding: {
@@ -187,11 +192,11 @@ export class VegaService {
         bottom: 20,
         left: 30,
       },
-      signals: new Signals(sheetConfig),
-      data: new Data(currentSheet, treeData, sheetConfig),
-      scales: new Scales(),
-      legends: new Legends(),
-      marks: new Marks(),
+      signals: Signals.create(sheetConfig),
+      data: Data.create(currentSheet, treeData, sheetConfig),
+      scales: Scales.create(),
+      legends: Legends.create(),
+      marks: Marks.create(),
     };
     return config;
   }

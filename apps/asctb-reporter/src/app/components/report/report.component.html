@@ -700,7 +700,7 @@
       </mat-tab>
       <mat-tab *ngIf="!hideReportCompareTab" label="Compare Sheets">
         <!-- <div *ngIf="compareData.length === 0"> -->
-        <div *ngIf="(compareData | async).data.length === 0">
+        <div *ngIf="(compareData | async)?.data?.length === 0">
           <p class="i2">You have not linked any sheets to compare yet.</p>
           <!-- <div style="width: 100%; display: flex; justify-content: center;">
             <button mat-flat-button style="background-color: rgb(77, 155, 103); color: white;">
@@ -708,7 +708,7 @@
             </button>
           </div> -->
         </div>
-        <div *ngIf="(compareData | async).data.length > 0">
+        <div *ngIf="((compareData | async)?.data?.length ?? 0) > 0">
           <br />
           <div *ngFor="let sheet of compareReport; let i = index">
             <mat-expansion-panel

@@ -1,5 +1,5 @@
-import { Degree, NODE_TYPE } from './tree.model';
 import { PROTEIN_PRESENCE, Reference } from './sheet.model';
+import { Degree, NODE_TYPE } from './tree.model';
 
 const groupNameMapper = {
   1: 'Anatomical Structures',
@@ -15,13 +15,13 @@ export class BMNode {
   fontSize: number;
   x: number;
   y: number;
-  id: number;
+  id: number = 0;
   color: string;
   nodeSize: number;
-  targets: Array<number>;
-  sources: Array<number>;
+  targets: number[];
+  sources: number[];
 
-  problem: boolean;
+  problem: boolean = false;
   pathColor: string;
   isNew: boolean;
   type: string;
@@ -36,13 +36,13 @@ export class BMNode {
   organName: string;
 
   constructor(
-    name,
-    group,
-    x,
-    y,
-    fontSize,
-    notes,
-    organName,
+    name: string,
+    group: number,
+    x: number,
+    y: number,
+    fontSize: number,
+    notes: string,
+    organName: string,
     ontologyId = '',
     color = '#E41A1C',
     nodeSize = 300,
@@ -57,7 +57,7 @@ export class BMNode {
     this.nodeSize = nodeSize === 0 ? 50 : nodeSize;
     this.targets = [];
     this.sources = [];
-    this.groupName = groupNameMapper[group];
+    this.groupName = groupNameMapper[group as keyof typeof groupNameMapper];
     this.ontologyId = ontologyId;
     this.pathColor = '#ccc';
     this.isNew = false;
@@ -79,10 +79,10 @@ export interface DD {
 }
 
 export interface ASCTD {
-  nodes: Array<BMNode>;
-  links: Array<Link>;
-  compareDD?: Array<DD>;
-  searchIds?: Array<number>;
+  nodes: BMNode[];
+  links: Link[];
+  compareDD?: DD[];
+  searchIds?: number[];
 }
 
 export const bimodalSortOptions = ['Alphabetically', 'Degree'];

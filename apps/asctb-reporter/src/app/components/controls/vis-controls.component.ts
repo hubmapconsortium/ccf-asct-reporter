@@ -1,24 +1,25 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Sheet, SheetConfig } from '../../models/sheet.model';
-import { Error } from '../../models/response.model';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { GaAction, GaCategory } from '../../models/ga.model';
+import { Error } from '../../models/response.model';
+import { Sheet, SheetConfig } from '../../models/sheet.model';
 
 @Component({
   selector: 'app-vis-controls',
   templateUrl: './vis-controls.component.html',
   styleUrls: ['./vis-controls.component.scss'],
 })
-export class VisControlsComponent implements OnInit {
-  @Input() config: SheetConfig;
-  @Input() error: Error;
-  @Input() currentSheet: Sheet;
-  @Input() selectedOrgans: string[];
+export class VisControlsComponent {
+  @Input() config!: SheetConfig;
+  @Input() error!: Error;
+  @Input() currentSheet!: Sheet;
+  @Input() selectedOrgans!: string[];
 
-  @Output() updatedConfig: EventEmitter<any> = new EventEmitter<any>();
+  @Output() updatedConfig = new EventEmitter<{
+    property: string;
+    config: SheetConfig;
+  }>();
   constructor(public ga: GoogleAnalyticsService) {}
-
-  ngOnInit(): void {}
 
   changeWidth() {
     this.updatedConfig.emit({
@@ -143,11 +144,11 @@ export class VisControlsComponent implements OnInit {
       GaAction.TOGGLE,
       GaCategory.CONTROLS,
       'Toggle AS Visibility',
-      +this.config.show_all_AS
+      +(this.config.show_all_AS ?? false)
     );
   }
 
-  exportControls(event: any) {
+  exportControls(event: Event) {
     event.stopPropagation();
     const sJson = JSON.stringify(this.config);
     const element = document.createElement('a');
@@ -165,7 +166,7 @@ export class VisControlsComponent implements OnInit {
       GaAction.CLICK,
       GaCategory.CONTROLS,
       'Export Vis Controls',
-      null
+      undefined
     );
   }
 }

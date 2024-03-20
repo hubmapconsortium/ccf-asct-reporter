@@ -1,24 +1,20 @@
-import { GroupMark } from 'vega';
+import { GroupMark, Mark } from 'vega';
 
-export interface VegaBimodalGroup {
-  /**
-   * Vega mark group
-   */
+export class BimodalMarkGroup {
+  static create(): GroupMark {
+    return new BimodalMarkGroup().group;
+  }
+
   group: GroupMark;
-}
-
-export class BimodalMarkGroup implements VegaBimodalGroup {
-  group: any;
 
   constructor() {
     this.group = this.makeBimodalMarkGroup();
-    return this.group;
   }
 
   /**
    * Function to create the mark groups for the bimodal network
    */
-  makeBimodalMarkGroup() {
+  makeBimodalMarkGroup(): GroupMark {
     return {
       type: 'group',
       signals: [{ name: 'bgoffset', value: 8 }],
@@ -39,7 +35,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
   /**
    * Rectangle around the bimodal text mark
    */
-  makeBimodalTextSearchMarks() {
+  makeBimodalTextSearchMarks(): Mark {
     return {
       name: 'rectmark',
       type: 'rect',
@@ -77,7 +73,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
               value: 1,
             },
             {
-              value: '0',
+              value: 0,
             },
           ],
         },
@@ -88,7 +84,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
   /**
    * Rectangle around the bimodal text mark when discrepency label toggle is turned on
    */
-  makeBimodalTextDiscrepencyLabelMarks() {
+  makeBimodalTextDiscrepencyLabelMarks(): Mark {
     return {
       name: 'rectmarkdiscrepencylabel',
       type: 'rect',
@@ -126,7 +122,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
               value: 1,
             },
             {
-              value: '0',
+              value: 0,
             },
           ],
         },
@@ -137,7 +133,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
   /**
    * Rectangle around the bimodal text mark when discrepency Id toggle is turned on
    */
-  makeBimodalTextDiscrepencyIdMarks() {
+  makeBimodalTextDiscrepencyIdMarks(): Mark {
     return {
       name: 'rectmarkdiscrepencyid',
       type: 'rect',
@@ -175,7 +171,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
               value: 1,
             },
             {
-              value: '0',
+              value: 0,
             },
           ],
         },
@@ -186,7 +182,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
   /**
    * Rectangle around the bimodal text mark when duplicate Id toggle is turned on
    */
-  makeBimodalTextDuplicateIdMarks() {
+  makeBimodalTextDuplicateIdMarks(): Mark {
     return {
       name: 'rectmarkduplicateid',
       type: 'rect',
@@ -224,7 +220,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
               value: 1,
             },
             {
-              value: '0',
+              value: 0,
             },
           ],
         },
@@ -235,7 +231,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
   /**
    * Bimodal paths
    */
-  makeBimodalPathMarks() {
+  makeBimodalPathMarks(): Mark {
     return {
       type: 'path',
       name: 'bimodal-path',
@@ -400,7 +396,7 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
   /**
    * Bimodal symbols
    */
-  makeBimodalSymbolMarks() {
+  makeBimodalSymbolMarks(): Mark {
     return {
       type: 'symbol',
       name: 'bimodal-symbol',
@@ -461,12 +457,11 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
   /**
    * Bimodal link texts
    */
-  makeBiomodalTextLinkMarks() {
+  makeBiomodalTextLinkMarks(): Mark {
     return {
       type: 'text',
       name: 'textlinkmark',
       zindex: 5,
-      dx: 5,
       from: { data: 'nodes' },
       encode: {
         update: {
@@ -542,12 +537,11 @@ export class BimodalMarkGroup implements VegaBimodalGroup {
   /**
    * Bimodal text marks
    */
-  makeBiomodalTextMarks() {
+  makeBiomodalTextMarks(): Mark {
     return {
       type: 'text',
       name: 'textmark',
       zindex: 5,
-      dx: 5,
       from: { data: 'nodes' },
       encode: {
         update: {

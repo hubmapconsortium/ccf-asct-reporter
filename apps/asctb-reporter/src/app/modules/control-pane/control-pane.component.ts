@@ -1,28 +1,28 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ToggleControlPane } from '../../actions/ui.actions';
-import { Error } from '../../models/response.model';
-import { SheetState } from '../../store/sheet.state';
-import { Sheet, SheetConfig, CompareData } from '../../models/sheet.model';
-import { TreeState, TreeStateModel } from '../../store/tree.state';
-import { DiscrepencyStructure, TNode } from '../../models/tree.model';
-import { VegaService } from '../tree/vega.service';
+import {
+  FetchSelectedOrganData,
+  ToggleShowAllAS,
+  UpdateConfig,
+} from '../../actions/sheet.actions';
 import {
   DiscrepencyId,
   DiscrepencyLabel,
   DuplicateId,
   UpdateOmapConfig,
 } from '../../actions/tree.actions';
-import {
-  UpdateConfig,
-  ToggleShowAllAS,
-  FetchSelectedOrganData,
-} from '../../actions/sheet.actions';
-import { BimodalService } from '../tree/bimodal.service';
+import { ToggleControlPane } from '../../actions/ui.actions';
+import { ConfigService } from '../../app-config.service';
 import { BMNode } from '../../models/bimodal.model';
 import { OmapConfig } from '../../models/omap.model';
-import { ConfigService } from '../../app-config.service';
+import { Error } from '../../models/response.model';
+import { CompareData, Sheet, SheetConfig } from '../../models/sheet.model';
+import { DiscrepencyStructure, TNode } from '../../models/tree.model';
+import { SheetState } from '../../store/sheet.state';
+import { TreeState, TreeStateModel } from '../../store/tree.state';
+import { BimodalService } from '../tree/bimodal.service';
+import { VegaService } from '../tree/vega.service';
 
 @Component({
   selector: 'app-control-pane',
@@ -30,26 +30,29 @@ import { ConfigService } from '../../app-config.service';
   styleUrls: ['./control-pane.component.scss'],
 })
 export class ControlPaneComponent implements OnInit {
-  @Input() error: Error;
+  @Input() error!: Error;
 
-  @Select(SheetState.getSheetConfig) config$: Observable<SheetConfig>;
-  @Select(SheetState.getSheet) sheet$: Observable<Sheet>;
-  @Select(TreeState.getVegaView) view$: Observable<any>;
-  @Select(SheetState.getSelectedOrgans) selectedOrgans$: Observable<string[]>;
+  @Select(SheetState.getSheetConfig) config$!: Observable<SheetConfig>;
+  @Select(SheetState.getSheet) sheet$!: Observable<Sheet>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  @Select(TreeState.getVegaView) view$!: Observable<any>;
+  @Select(SheetState.getSelectedOrgans) selectedOrgans$!: Observable<string[]>;
 
-  @Select(TreeState.getTreeData) td$: Observable<TNode[]>;
-  @Select(TreeState.getBimodal) bm$: Observable<any>;
-  @Select(SheetState.getCompareSheets) cs$: Observable<CompareData[]>;
+  @Select(TreeState.getTreeData) td$!: Observable<TNode[]>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  @Select(TreeState.getBimodal) bm$!: Observable<any>;
+  @Select(SheetState.getCompareSheets) cs$!: Observable<CompareData[]>;
 
-  @Select(TreeState) tree$: Observable<TreeStateModel>;
+  @Select(TreeState) tree$!: Observable<TreeStateModel>;
 
-  @Select(TreeState.getOmapConfig) omapConfig$: Observable<OmapConfig>;
-  @Select(SheetState.getFilteredProtiens) filteredProteins$: Observable<
+  @Select(TreeState.getOmapConfig) omapConfig$!: Observable<OmapConfig>;
+  @Select(SheetState.getFilteredProtiens) filteredProteins$!: Observable<
     string[]
   >;
 
-  nodes: BMNode[];
-  treeData: TNode[];
+  nodes: BMNode[] = [];
+  treeData: TNode[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   view: any;
   groupName = 'Anatomical Structures';
 
@@ -64,7 +67,7 @@ export class ControlPaneComponent implements OnInit {
       this.nodes = tree.bimodal.nodes;
     });
 
-    this.filteredProteins$.subscribe((proteins) => {
+    this.filteredProteins$.subscribe(() => {
       const data = this.store.selectSnapshot(SheetState.getData);
       const treeData = this.store.selectSnapshot(TreeState.getTreeData);
       const bimodalConfig = this.store.selectSnapshot(
@@ -95,7 +98,7 @@ export class ControlPaneComponent implements OnInit {
     });
   }
 
-  updateConfigInSheet(prop) {
+  updateConfigInSheet(prop: { property: string; config: SheetConfig }) {
     switch (prop.property) {
       case 'width':
         this.vs.makeBimodal(this.view.signal('as_width', prop.config.width));
@@ -140,7 +143,7 @@ export class ControlPaneComponent implements OnInit {
 
   makeBimodalWithDiscrepencyLabel(config: SheetConfig) {
     this.store.dispatch(new UpdateConfig(config));
-    let discrepencyLabels = [];
+    let discrepencyLabels: DiscrepencyStructure[] = [];
     if (config.discrepencyLabel) {
       const discrepencySet = new Set<DiscrepencyStructure>();
       for (const node of this.treeData) {
@@ -181,7 +184,7 @@ export class ControlPaneComponent implements OnInit {
 
   makeBimodalWithDiscrepencyId(config: SheetConfig) {
     this.store.dispatch(new UpdateConfig(config));
-    let discrepencyIds = [];
+    let discrepencyIds: DiscrepencyStructure[] = [];
     if (config.discrepencyId) {
       const discrepencySet = new Set<DiscrepencyStructure>();
       for (const node of this.treeData) {
@@ -219,7 +222,7 @@ export class ControlPaneComponent implements OnInit {
 
   makeDuplicateId(config: SheetConfig) {
     this.store.dispatch(new UpdateConfig(config));
-    let duplicateId = [];
+    let duplicateId: DiscrepencyStructure[] = [];
     if (config.duplicateId) {
       const duplicateIdSet = new Set<DiscrepencyStructure>();
       for (const node of this.treeData) {
@@ -255,7 +258,7 @@ export class ControlPaneComponent implements OnInit {
         acc[e.ontologyId]++;
         acc[e.ontologyId] = acc[e.ontologyId] || 0;
         return acc;
-      }, {});
+      }, {} as Record<string, number>);
       const duplicateIdsTree = duplicateId.filter(
         (e) => dataLookup[e.ontologyId]
       );

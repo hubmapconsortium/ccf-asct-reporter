@@ -1,19 +1,19 @@
 import { Data as VegaDataInterface } from 'vega';
-import { TNode } from '../../../models/tree.model';
 import { Sheet, SheetConfig } from '../../../models/sheet.model';
+import { TNode } from '../../../models/tree.model';
 
-interface VegaData {
-  /**
-   * List of vega data interfaces
-   */
-  data: Array<VegaDataInterface>;
-}
-
-export class Data implements VegaData {
+export class Data {
+  static create(
+    currentSheet: Sheet,
+    treeData: TNode[],
+    sheetConfig: SheetConfig
+  ): VegaDataInterface[] {
+    return new Data(currentSheet, treeData, sheetConfig).data;
+  }
   /**
    * List of data functions
    */
-  data: any;
+  data: VegaDataInterface[];
 
   constructor(
     currentSheet: Sheet,
@@ -40,15 +40,13 @@ export class Data implements VegaData {
       this.makeDiscrepencyIdData(),
       this.makeDuplicateIdData(),
     ];
-
-    return this.data;
   }
 
   /**
    * Stores the list of IDs that should show on the graph
    * when search is used
    */
-  makeSearchIdsData() {
+  makeSearchIdsData(): VegaDataInterface {
     return {
       name: 'search',
       values: [],
@@ -59,7 +57,7 @@ export class Data implements VegaData {
    * Stores the list of IDs that should show on the graph
    * when Discrepency ID feature is used
    */
-  makeDiscrepencyIdData() {
+  makeDiscrepencyIdData(): VegaDataInterface {
     return {
       name: 'discrepencyId',
       values: [],
@@ -70,7 +68,7 @@ export class Data implements VegaData {
    * Stores the list of IDs that should show on the graph
    * when Duplicate ID feature is used
    */
-  makeDuplicateIdData() {
+  makeDuplicateIdData(): VegaDataInterface {
     return {
       name: 'duplicateId',
       values: [],
@@ -81,7 +79,7 @@ export class Data implements VegaData {
    * Stores the list of Labels that should show on the graph
    * when Discrepency Labels feature is used
    */
-  makeDiscrepencyLabelData() {
+  makeDiscrepencyLabelData(): VegaDataInterface {
     return {
       name: 'discrepencyLabel',
       values: [],
@@ -94,7 +92,11 @@ export class Data implements VegaData {
    *
    * @param treeData tree data from tree service
    */
-  makeASTreeData(currentSheet: Sheet, treeData: TNode[], config: SheetConfig) {
+  makeASTreeData(
+    _currentSheet: Sheet,
+    treeData: TNode[],
+    _config: SheetConfig
+  ): VegaDataInterface {
     return {
       name: 'tree',
       values: treeData,
@@ -108,7 +110,7 @@ export class Data implements VegaData {
           type: 'tree',
           method: 'cluster',
           size: [{ signal: 'as_height' }, { signal: 'as_width' }],
-          separation: { value: false },
+          separation: false,
           as: ['y', 'x', 'depth', 'children'],
         },
       ],
@@ -118,7 +120,7 @@ export class Data implements VegaData {
   /**
    * Creates links in the vega tree
    */
-  makeASTreeLinksData() {
+  makeASTreeLinksData(): VegaDataInterface {
     return {
       name: 'links',
       source: 'tree',
@@ -137,7 +139,9 @@ export class Data implements VegaData {
    * Function to create edges between multi parents (depricated)
    * @param multiParentLinksData multi parent links (depricated)
    */
-  makeASMultiParentEdgesData(multiParentLinksData) {
+  makeASMultiParentEdgesData(
+    multiParentLinksData: unknown[]
+  ): VegaDataInterface {
     return {
       name: 'multi_parent_edges',
       values: multiParentLinksData,
@@ -165,7 +169,7 @@ export class Data implements VegaData {
   /**
    * Stores the nodes data of the bimodal network
    */
-  makeBimodalNodesData() {
+  makeBimodalNodesData(): VegaDataInterface {
     return {
       name: 'nodes',
       values: [],
@@ -175,7 +179,7 @@ export class Data implements VegaData {
   /**
    * Stores the edges of the bimodal network
    */
-  makeBimodalEdgesData() {
+  makeBimodalEdgesData(): VegaDataInterface {
     return {
       name: 'edges',
       values: [],
@@ -203,7 +207,7 @@ export class Data implements VegaData {
   /**
    * Stores the targets of a node that has been hovered on
    */
-  makeTargetsHoverData() {
+  makeTargetsHoverData(): VegaDataInterface {
     return {
       name: 'targets_hovered_array',
       source: 'nodes',
@@ -219,7 +223,7 @@ export class Data implements VegaData {
   /**
    * Stores the sources of a node that has been hovered on
    */
-  makeSourcesHoverData() {
+  makeSourcesHoverData(): VegaDataInterface {
     return {
       name: 'sources_hovered_array',
       source: 'nodes',
@@ -235,7 +239,7 @@ export class Data implements VegaData {
   /**
    * Stores the targets of a node that has been clicked on
    */
-  makeTargetsClickData() {
+  makeTargetsClickData(): VegaDataInterface {
     return {
       name: 'targets_clicked_array',
       source: 'nodes',
@@ -251,7 +255,7 @@ export class Data implements VegaData {
   /**
    * Stores the sources of a node that has been clicked on
    */
-  makeSourcesClickData() {
+  makeSourcesClickData(): VegaDataInterface {
     return {
       name: 'sources_clicked_array',
       source: 'nodes',
@@ -267,7 +271,7 @@ export class Data implements VegaData {
   /**
    * Stores the targets or targets of a node that has been clicked on
    */
-  makeTargetsOfTargetsClickData() {
+  makeTargetsOfTargetsClickData(): VegaDataInterface {
     return {
       name: 'targets_of_targets__click',
       source: 'nodes',
@@ -287,7 +291,7 @@ export class Data implements VegaData {
   /**
    * Stores the sources or sources of a node that has been clicked on
    */
-  makeSourcesOfSourcesClickData() {
+  makeSourcesOfSourcesClickData(): VegaDataInterface {
     return {
       name: 'sources_of_sources__click',
       source: 'nodes',
@@ -307,7 +311,7 @@ export class Data implements VegaData {
   /**
    * Stores the targets or targets of a node that has been hovered on
    */
-  makeTargetsOfTargetsHoverData() {
+  makeTargetsOfTargetsHoverData(): VegaDataInterface {
     return {
       name: 'targets_of_targets__hover',
       source: 'nodes',
@@ -327,7 +331,7 @@ export class Data implements VegaData {
   /**
    * Stores the sources or sources of a node that has been hovered on
    */
-  makeSourcesOfSourcesHoverData() {
+  makeSourcesOfSourcesHoverData(): VegaDataInterface {
     return {
       name: 'sources_of_sources__hover',
       source: 'nodes',
@@ -347,7 +351,7 @@ export class Data implements VegaData {
   /**
    * Stores the nodes whole opacity needs to be reduced when a node is clicked on
    */
-  makeViewModeClickData() {
+  makeViewModeClickData(): VegaDataInterface {
     return {
       name: 'view_mode__click',
       source: 'nodes',
@@ -363,7 +367,7 @@ export class Data implements VegaData {
   /**
    * Stores the nodes whole opacity needs to be reduced when a node is hovered on
    */
-  makeViewModeHoverData() {
+  makeViewModeHoverData(): VegaDataInterface {
     return {
       name: 'view_mode__hover',
       source: 'nodes',

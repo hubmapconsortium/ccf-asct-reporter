@@ -1,32 +1,31 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SelectionModel } from '@angular/cdk/collections';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
+import { ConfigService } from '../../app-config.service';
 import { GaAction, GaCategory, GaOrgansInfo } from '../../models/ga.model';
 import {
   OrganTableOnClose,
   OrganTableSelect,
   SheetDetails,
-  SheetOptions,
 } from '../../models/sheet.model';
-import { ConfigService } from '../../app-config.service';
 
 @Component({
   selector: 'app-organ-table-selector',
   templateUrl: './organ-table-selector.component.html',
   styleUrls: ['./organ-table-selector.component.scss'],
 })
-export class OrganTableSelectorComponent implements OnInit {
+export class OrganTableSelectorComponent {
   /**
    * Sheet configs
    */
-  sheetOptions;
+  sheetOptions: SheetDetails[] = [];
 
   /**
    * Sheet configs of Omap config file
    */
-  omapSheetOptions;
+  omapSheetOptions: SheetDetails[] = [];
   /**
    * Has some selected organs
    */
@@ -43,9 +42,9 @@ export class OrganTableSelectorComponent implements OnInit {
   /**
    * Organ sheet selected
    */
-  selectedSheetOption: string;
-  organs = [];
-  omapOrgans = [];
+  selectedSheetOption: string = '';
+  organs: string[] = [];
+  omapOrgans: string[] = [];
   getFromCache: boolean;
   displayedColumns: string[] = ['select', 'name', 'version'];
   omapdisplayedColumns: string[] = [
@@ -56,8 +55,8 @@ export class OrganTableSelectorComponent implements OnInit {
     'OMAP-ID',
     'Version',
   ];
-  selection = new SelectionModel(true, []);
-  omapselection = new SelectionModel(true, []);
+  selection = new SelectionModel<SheetDetails>(true, []);
+  omapselection = new SelectionModel<SheetDetails>(true, []);
   componentActive = 0;
   /**
    * Data to emit when dialog is closed
@@ -67,8 +66,8 @@ export class OrganTableSelectorComponent implements OnInit {
     cache: true,
   };
 
-  dataSource: MatTableDataSource<unknown>;
-  omapdataSource: MatTableDataSource<unknown>;
+  dataSource!: MatTableDataSource<SheetDetails>;
+  omapdataSource!: MatTableDataSource<SheetDetails>;
 
   constructor(
     public configService: ConfigService,
@@ -80,7 +79,7 @@ export class OrganTableSelectorComponent implements OnInit {
       this.omapSheetOptions = sheetOptions.filter((o) => o.name !== 'some');
       this.omapdataSource = new MatTableDataSource(this.omapSheetOptions);
       this.omapdataSource.data?.forEach((de: SheetDetails) => {
-        de?.version?.forEach((v, i) => {
+        de.version?.forEach((v) => {
           de.symbol = v.value;
         });
       });
@@ -95,15 +94,15 @@ export class OrganTableSelectorComponent implements OnInit {
     this.onClose.cache = data.getFromCache;
     this.organs = data.organs ? data.organs : [];
     this.omapOrgans = data.omapOrgans ? data.omapOrgans : [];
-    this.dataSource.data.forEach((dataElement: SheetOptions) => {
-      dataElement?.version?.forEach((v, i) => {
+    this.dataSource.data.forEach((dataElement) => {
+      dataElement.version?.forEach((v) => {
         dataElement.symbol = v.value;
       });
     });
 
     this.organs.forEach((item) => {
-      this.dataSource.data.forEach((dataElement: SheetOptions) => {
-        dataElement?.version?.forEach((v, i) => {
+      this.dataSource.data.forEach((dataElement) => {
+        dataElement?.version?.forEach((v) => {
           if (v.value === item) {
             dataElement.symbol = item;
             this.selection.select(dataElement);
@@ -112,8 +111,8 @@ export class OrganTableSelectorComponent implements OnInit {
       });
     });
     this.omapOrgans.forEach((item) => {
-      this.omapdataSource.data.forEach((dataElement: SheetOptions) => {
-        dataElement?.version?.forEach((v, i) => {
+      this.omapdataSource.data.forEach((dataElement) => {
+        dataElement?.version?.forEach((v) => {
           if (v.value === item) {
             dataElement.symbol = item;
             this.omapselection.select(dataElement);
@@ -123,9 +122,7 @@ export class OrganTableSelectorComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
-
-  addSheets(sheets) {
+  addSheets() {
     const ga_details: GaOrgansInfo = {
       selectedOrgans: [],
       numOrgans: 0,
@@ -159,9 +156,9 @@ export class OrganTableSelectorComponent implements OnInit {
         0
       );
     }
-    const omapOrgans = [];
+    const omapOrgans: string[] = [];
     this.omapselection.selected.forEach((element) => {
-      omapOrgans.push(element.symbol);
+      omapOrgans.push(element.symbol ?? '');
     });
     this.dialogRef.close({
       organs: this.organs,
@@ -197,7 +194,7 @@ export class OrganTableSelectorComponent implements OnInit {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.position + 1
+      (row.position ?? 0) + 1
     }`;
   }
 
@@ -213,9 +210,9 @@ export class OrganTableSelectorComponent implements OnInit {
   selectByHraVersion(row: SheetDetails): void {
     const selectedVersion =
       row.symbol?.split('-')[1] ?? row.version?.slice(-1)[0].hraVersion;
-    this.dataSource.data.forEach((dataElement: SheetOptions) => {
+    this.dataSource.data.forEach((dataElement) => {
       const version = dataElement.version?.find((v) =>
-        v.hraVersion?.includes(selectedVersion)
+        v.hraVersion?.includes(selectedVersion ?? '')
       );
       if (version) {
         dataElement.symbol = version.value;
@@ -242,7 +239,7 @@ export class OrganTableSelectorComponent implements OnInit {
     }
   }
 
-  changeTab(tabIndex) {
+  changeTab(tabIndex: number) {
     this.componentActive = tabIndex;
   }
 }

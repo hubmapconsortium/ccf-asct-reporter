@@ -1,21 +1,17 @@
-import { Mark } from 'vega';
-
-import { TreeMarkGroup } from './groups/tree';
-import { MultiParentMarkGroup } from './groups/multiparent';
+import { GroupMark, Mark } from 'vega';
 import { BimodalMarkGroup } from './groups/bimodal';
+import { MultiParentMarkGroup } from './groups/multiparent';
+import { TreeMarkGroup } from './groups/tree';
 
-interface VegaMark {
+export class Marks {
+  static create(): Mark[] {
+    return new Marks().marks;
+  }
+
   /**
    * List of vega marks
    */
-  marks: Array<Mark>;
-}
-
-export class Marks implements VegaMark {
-  /**
-   * List of vega marks
-   */
-  marks: any;
+  marks: Mark[];
 
   constructor() {
     this.marks = [
@@ -23,28 +19,26 @@ export class Marks implements VegaMark {
       this.makeTreeMarkGroup(),
       this.makeBimodalMarkGroup(),
     ];
-
-    return this.marks;
   }
 
   /**
    * Creates mark group for the AS tree
    */
-  makeTreeMarkGroup() {
-    return new TreeMarkGroup();
+  makeTreeMarkGroup(): GroupMark {
+    return TreeMarkGroup.create();
   }
 
   /**
    * Creates mark group for multiparent (depricated)
    */
-  makeMultiParentMarkGroup() {
-    return new MultiParentMarkGroup();
+  makeMultiParentMarkGroup(): GroupMark {
+    return MultiParentMarkGroup.create();
   }
 
   /**
    * Creates mark group for bimodal network
    */
-  makeBimodalMarkGroup() {
-    return new BimodalMarkGroup();
+  makeBimodalMarkGroup(): GroupMark {
+    return BimodalMarkGroup.create();
   }
 }

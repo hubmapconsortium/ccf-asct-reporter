@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { BMNode, Link, BimodalConfig } from '../../models/bimodal.model';
-import { makeCellTypes, makeAS, makeBioMarkers } from './tree.functions';
-import { CT_BLUE, B_GREEN, TNode, AS, CT, B } from '../../models/tree.model';
+import { Spec, ValuesData, View } from 'vega';
+import { ReportLog } from '../../actions/logs.actions';
 import {
   UpdateBimodal,
-  UpdateVegaSpec,
   UpdateLinksData,
+  UpdateVegaSpec,
 } from '../../actions/tree.actions';
 import { CloseLoading, HasError } from '../../actions/ui.actions';
-import { ReportLog } from '../../actions/logs.actions';
-import { LOG_TYPES, LOG_ICONS } from '../../models/logs.model';
-import { Error } from '../../models/response.model';
-import { Row, SheetConfig, PROTEIN_PRESENCE } from '../../models/sheet.model';
-import { TreeState } from '../../store/tree.state';
+import { BMNode, BimodalConfig, Link } from '../../models/bimodal.model';
+import { LOG_ICONS, LOG_TYPES } from '../../models/logs.model';
 import { OmapConfig } from '../../models/omap.model';
+import { Error } from '../../models/response.model';
+import { PROTEIN_PRESENCE, Row, SheetConfig } from '../../models/sheet.model';
+import { AS, B, B_GREEN, CT, CT_BLUE, TNode } from '../../models/tree.model';
+import { TreeState } from '../../store/tree.state';
+import { makeAS, makeBioMarkers, makeCellTypes } from './tree.functions';
 
 @Injectable({
   providedIn: 'root',
@@ -43,16 +44,16 @@ export class BimodalService {
       filteredProtiens =
         filteredProtiens?.map((word) => word.toLowerCase()) ?? [];
       const anatomicalStructuresData = makeAS(sheetData);
-      const links = [];
-      const nodes = [];
+      const links: { s: number; t: number; pathColor?: string }[] = [];
+      const nodes: BMNode[] = [];
       let treeX = 0;
       let treeY = 50;
       let AS_CT_LINKS = 0;
       let CT_BM_LINKS = 0;
-      const CT_BM = {};
-      const AS_CT = {};
-      const distance = sheetConfig.bimodal_distance_x;
-      const distanceY = sheetConfig.bimodal_distance_y;
+      const CT_BM: Record<string, number> = {};
+      const AS_CT: Record<string, number> = {};
+      const distance = sheetConfig?.bimodal_distance_x ?? 0;
+      const distanceY = sheetConfig?.bimodal_distance_y ?? 0;
       let id = treeData.length + 1;
       let biomarkers = [];
       treeData.forEach((td) => {
@@ -121,9 +122,9 @@ export class BimodalService {
         case 'Degree':
           cellTypes.sort((a, b) => {
             return (
-              b.outdegree.size +
-              b.indegree.size -
-              (a.outdegree.size + a.indegree.size)
+              (b.outdegree?.size ?? 0) +
+              (b.indegree?.size ?? 0) -
+              ((a.outdegree?.size ?? 0) + (a.indegree?.size ?? 0))
             );
           });
           break;
@@ -134,17 +135,18 @@ export class BimodalService {
           break;
         case 'Degree':
           cellTypes.forEach((c) => {
-            c.nodeSize = (c.indegree.size + c.outdegree.size) * 25;
+            c.nodeSize =
+              ((c.indegree?.size ?? 0) + (c.outdegree?.size ?? 0)) * 25;
           });
           break;
         case 'Indegree':
           cellTypes.forEach((c) => {
-            c.nodeSize = c.indegree.size * 25;
+            c.nodeSize = (c.indegree?.size ?? 0) * 25;
           });
           break;
         case 'Outdegree':
           cellTypes.forEach((c) => {
-            c.nodeSize = c.outdegree.size * 25;
+            c.nodeSize = (c.outdegree?.size ?? 0) * 25;
           });
           break;
       }
@@ -182,7 +184,7 @@ export class BimodalService {
       biomarkers = await makeBioMarkers(sheetData);
       if (omapConfig?.proteinsOnly) {
         biomarkers = biomarkers.filter((elem) =>
-          filteredProtiens.includes(elem.comparatorName.toLowerCase())
+          filteredProtiens?.includes(elem.comparatorName?.toLowerCase() ?? '')
         );
       }
       switch (bimodalConfig.BM.sort) {
@@ -198,7 +200,7 @@ export class BimodalService {
 
         case 'Degree':
           biomarkers.sort((a, b) => {
-            return b.indegree.size - a.indegree.size;
+            return (b.indegree?.size ?? 0) - (a.indegree?.size ?? 0);
           });
           break;
       }
@@ -208,7 +210,9 @@ export class BimodalService {
           break;
         case 'Degree':
           biomarkers.forEach((b) => {
-            b.nodeSize += (b.indegree.size + b.outdegree.size) * 25;
+            b.nodeSize =
+              (b.nodeSize ?? 0) +
+              ((b.indegree?.size ?? 0) + (b.outdegree?.size ?? 0)) * 25;
           });
           break;
       }
@@ -234,7 +238,7 @@ export class BimodalService {
       }
 
       // making group 3: bio markers
-      biomarkers.forEach((marker: B, i) => {
+      biomarkers.forEach((marker: B) => {
         const newNode = new BMNode(
           marker.structure,
           3,
@@ -261,7 +265,7 @@ export class BimodalService {
         id += 1;
       });
 
-      nodes.forEach((node, index) => {
+      nodes.forEach((node) => {
         if (node.group === 1) {
           node.sources = [];
           node.outdegree?.forEach((str) => {
@@ -285,8 +289,8 @@ export class BimodalService {
         }
 
         if (node.group === 3) {
-          node.indegree.forEach((str) => {
-            let pathColor: string;
+          node.indegree?.forEach((str) => {
+            let pathColor = '';
             let foundIndex: number;
             if (str.id) {
               foundIndex = nodes.findIndex(
@@ -300,7 +304,7 @@ export class BimodalService {
             ) {
               node.sources.push(nodes[foundIndex].id);
             }
-            nodes[foundIndex].outdegree.forEach((cellOut) => {
+            nodes[foundIndex].outdegree?.forEach((cellOut) => {
               if (cellOut.name === node.name) {
                 if (cellOut.proteinPresence === PROTEIN_PRESENCE.POS) {
                   pathColor = '#00008B';
@@ -318,20 +322,20 @@ export class BimodalService {
         }
       });
 
-      nodes.forEach((node: BMNode, i) => {
+      nodes.forEach((node: BMNode) => {
         if (node.group === 2) {
-          node.outdegree.forEach((str) => {
+          node.outdegree?.forEach((str) => {
             const tt = nodes
               .map((val, idx) => ({ val, idx }))
-              .filter(({ val, idx }) => {
+              .filter(({ val }) => {
                 if (str.id) {
                   return val.ontologyId === str.id;
                 } else {
                   return val.name === str.name;
                 }
               })
-              .map(({ val, idx }) => idx);
-            const targets = [];
+              .map(({ idx }) => idx);
+            const targets: number[] = [];
             tt.forEach((s) => {
               targets.push(nodes[s].id);
             });
@@ -354,18 +358,18 @@ export class BimodalService {
             });
           });
           // make sources only if there is a link from AS to CT
-          node.indegree.forEach((str) => {
+          node.indegree?.forEach((str) => {
             const ss = nodes
               .map((val, idx) => ({ val, idx }))
-              .filter(({ val, idx }) => {
+              .filter(({ val }) => {
                 if (str.id && str.id.toLowerCase() !== 'not found') {
                   return val.ontologyId === str.id;
                 } else {
                   return val.name === str.name;
                 }
               })
-              .map(({ val, idx }) => idx);
-            const sources = [];
+              .map(({ idx }) => idx);
+            const sources: number[] = [];
             ss.forEach((s) => {
               sources.push(nodes[s].id);
             });
@@ -409,16 +413,17 @@ export class BimodalService {
             AS_CT,
             CT_BM,
             0,
-            null,
+            undefined,
             true
           )
         );
       }
     } catch (error) {
       console.log(error);
+      const status = (error as { status: number }).status;
       const err: Error = {
-        msg: `${error} (Status: ${error.status})`,
-        status: error.status,
+        msg: `${error} (Status: ${status})`,
+        status: status,
         hasError: true,
       };
       this.store.dispatch(
@@ -436,10 +441,12 @@ export class BimodalService {
    * @param nodes bimodal network nodes
    * @param links bimodal network links
    */
-  updateBimodalData(view: any, spec: any, nodes: BMNode[], links: Link[]) {
-    view._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
-    view._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
-    view._runtime.signals.targets__click.value = [];
+  updateBimodalData(view: View, spec: Spec, nodes: BMNode[], links: Link[]) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const anyView: any = view;
+    anyView._runtime.signals.node__click.value = null; // removing clicked highlighted nodes if at all
+    anyView._runtime.signals.sources__click.value = []; // removing clicked bold source nodes if at all
+    anyView._runtime.signals.targets__click.value = [];
     view.data('nodes', nodes).data('edges', links).resize().runAsync();
 
     this.updateSpec(spec, nodes, links);
@@ -461,9 +468,16 @@ export class BimodalService {
    * @param nodes bimodal network nodes
    * @param links bimodal network links
    */
-  updateSpec(spec: any, nodes: BMNode[], links: Link[]) {
-    spec.data[spec.data.findIndex((i) => i.name === 'nodes')].values = nodes;
-    spec.data[spec.data.findIndex((i) => i.name === 'edges')].values = links;
+  updateSpec(spec: Spec, nodes: BMNode[], links: Link[]) {
+    const data = spec.data ?? [];
+    const nodeData = data[
+      data.findIndex((i) => i.name === 'nodes')
+    ] as ValuesData;
+    const edgeData = data[
+      data.findIndex((i) => i.name === 'edges')
+    ] as ValuesData;
+    nodeData.values = nodes;
+    edgeData.values = links;
 
     this.store.dispatch(new UpdateVegaSpec(spec));
   }

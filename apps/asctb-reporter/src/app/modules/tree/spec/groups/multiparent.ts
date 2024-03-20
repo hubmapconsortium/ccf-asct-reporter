@@ -2,19 +2,18 @@
 
 import { GroupMark } from 'vega';
 
-export interface VegaMultiParentMarkGroup {
-  group: GroupMark;
-}
+export class MultiParentMarkGroup {
+  static create(): GroupMark {
+    return new MultiParentMarkGroup().group;
+  }
 
-export class MultiParentMarkGroup implements VegaMultiParentMarkGroup {
-  group: any;
+  group: GroupMark;
 
   constructor() {
     this.group = this.makeMultiParentMarkGroup();
-    return this.group;
   }
 
-  makeMultiParentMarkGroup() {
+  makeMultiParentMarkGroup(): GroupMark {
     return {
       type: 'group',
       name: 'multiParent',

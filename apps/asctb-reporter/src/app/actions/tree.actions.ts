@@ -9,11 +9,13 @@ export class UpdateGraphWidth {
 
 export class UpdateVegaSpec {
   static readonly type = '[UPDATE] Vega Spec';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(public spec: any) {}
 }
 
 export class UpdateVegaView {
   static readonly type = '[UPDATE] Vega View';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(public view: any) {}
 }
 
@@ -51,6 +53,7 @@ export class DuplicateId {
 
 export class UpdateBottomSheetData {
   static readonly type = '[UPDATE] Bottom Sheet Data';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(public data: any) {}
 }
 

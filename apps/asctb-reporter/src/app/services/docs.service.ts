@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { REGISTRY } from '../static/docs';
-import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { REGISTRY } from '../static/docs';
 
 @Injectable({
   providedIn: 'root',

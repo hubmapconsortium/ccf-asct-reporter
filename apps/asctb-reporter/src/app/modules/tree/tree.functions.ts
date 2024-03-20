@@ -1,14 +1,14 @@
+import { Row, Structure } from '../../models/sheet.model';
 import {
   AS,
-  CT,
-  B,
   AS_RED,
-  CT_BLUE,
+  B,
   B_GREEN,
+  CT,
+  CT_BLUE,
   ST_ID,
 } from '../../models/tree.model';
-import { Row, Structure } from '../../models/sheet.model';
-type TypeStructue = AS | CT | B;
+type TypeStructure = AS | CT | B;
 
 /**
  * Function to compute the Anatomical Structures from the given Data Table.
@@ -21,8 +21,8 @@ export function makeAS(
   data: Row[],
   isForReport = false,
   isReportNotOrganWise = false
-): Array<AS> {
-  const anatomicalStructures: Array<AS> = [];
+): AS[] {
+  const anatomicalStructures: AS[] = [];
   let id = ST_ID;
   try {
     data.forEach((row) => {
@@ -42,36 +42,36 @@ export function makeAS(
           let newStructure: AS;
           if (foundIndex === -1) {
             newStructure = {
-              structure: str.name,
-              uberon: str.id,
+              structure: str.name ?? '',
+              uberon: str.id ?? '',
               isNew: 'isNew' in str ? true : false,
               color: 'isNew' in str ? str.color : AS_RED,
               outdegree: new Set(),
               indegree: new Set(),
-              comparator: str.name + str.id,
+              comparator: (str.name ?? '') + (str.id ?? ''),
               comparatorId: str.id,
               comparatorName: str.name,
               label: str.rdfs_label,
               id,
               organName: row.organName,
-              notes: str.notes,
+              notes: str.notes ?? '',
             };
             id += 1;
 
             if (row.cell_types.length) {
               row.cell_types.forEach((cell) => {
-                newStructure.outdegree.add({
-                  id: cell.id,
-                  name: cell.name,
+                newStructure.outdegree?.add({
+                  id: cell.id ?? '',
+                  name: cell.name ?? '',
                 });
               });
             }
             if (i > 0) {
               // needed for the first element to not throw an error
 
-              newStructure.indegree.add({
-                id: row.anatomical_structures[i - 1].id,
-                name: row.anatomical_structures[i - 1].name,
+              newStructure.indegree?.add({
+                id: row.anatomical_structures[i - 1].id ?? '',
+                name: row.anatomical_structures[i - 1].name ?? '',
               });
             }
 
@@ -79,16 +79,16 @@ export function makeAS(
           } else {
             if (row.cell_types.length) {
               row.cell_types.forEach((cell) => {
-                anatomicalStructures[foundIndex].outdegree.add({
-                  id: cell.id,
-                  name: cell.name,
+                anatomicalStructures[foundIndex].outdegree?.add({
+                  id: cell.id ?? '',
+                  name: cell.name ?? '',
                 });
               });
             }
             if (i > 0) {
-              anatomicalStructures[foundIndex].indegree.add({
-                id: row.anatomical_structures[i - 1].id,
-                name: row.anatomical_structures[i - 1].name,
+              anatomicalStructures[foundIndex].indegree?.add({
+                id: row.anatomical_structures[i - 1].id ?? '',
+                name: row.anatomical_structures[i - 1].name ?? '',
               });
             }
           }
@@ -112,8 +112,8 @@ export function makeCellTypes(
   data: Row[],
   isForReport = false,
   isReportNotOrganWise = false
-): Array<CT> {
-  const cellTypes = [];
+): CT[] {
+  const cellTypes: CT[] = [];
   try {
     data.forEach((row) => {
       row.cell_types.forEach((str) => {
@@ -128,10 +128,10 @@ export function makeCellTypes(
         let newStructure: CT;
         if (foundIndex === -1) {
           newStructure = {
-            structure: str.name,
-            link: str.id,
+            structure: str.name ?? '',
+            link: str.id ?? '',
             isNew: 'isNew' in str ? true : false,
-            color: 'isNew' in str ? str.color : CT_BLUE,
+            color: 'isNew' in str ? str.color ?? '' : CT_BLUE,
             outdegree: new Set(),
             indegree: new Set(),
             comparator: `${str.name}${str.id}`,
@@ -140,7 +140,7 @@ export function makeCellTypes(
             label: str.rdfs_label,
             references: row.references,
             organName: row.organName,
-            notes: str.notes,
+            notes: str.notes ?? '',
           };
 
           if (row.anatomical_structures.length > 0) {
@@ -150,30 +150,32 @@ export function makeCellTypes(
             const sid =
               row.anatomical_structures[row.anatomical_structures.length - 1]
                 .id;
-            newStructure.indegree.add({
-              id: sid,
-              name: sn,
+            newStructure.indegree?.add({
+              id: sid ?? '',
+              name: sn ?? '',
             });
           }
 
           // calculate outdegree (CT -> B)
           row.biomarkers.forEach((marker) => {
-            newStructure.outdegree.add({
-              id: marker.id,
-              name: marker.name,
+            newStructure.outdegree?.add({
+              id: marker.id ?? '',
+              name: marker.name ?? '',
               proteinPresence: marker.proteinPresence,
             });
           });
           cellTypes.push(newStructure);
         } else {
           if ('isNew' in str) {
-            cellTypes[foundIndex].color = str.color;
-            cellTypes[foundIndex].pathColor = str.color;
+            cellTypes[foundIndex].color = str.color ?? '';
+            (
+              cellTypes[foundIndex] as unknown as { pathColor: string }
+            ).pathColor = str.color ?? '';
           }
           row.biomarkers.forEach((marker) => {
-            cellTypes[foundIndex].outdegree.add({
-              id: marker.id,
-              name: marker.name,
+            cellTypes[foundIndex].outdegree?.add({
+              id: marker.id ?? '',
+              name: marker.name ?? '',
               proteinPresence: marker.proteinPresence,
             });
           });
@@ -183,9 +185,9 @@ export function makeCellTypes(
           const sid =
             row.anatomical_structures[row.anatomical_structures.length - 1].id;
 
-          cellTypes[foundIndex].indegree.add({
-            id: sid,
-            name: sn,
+          cellTypes[foundIndex].indegree?.add({
+            id: sid ?? '',
+            name: sn ?? '',
           });
         }
       });
@@ -207,8 +209,8 @@ export function makeBioMarkers(
   type?: string,
   isForReport = false,
   isReportNotOrganWise = false
-): Array<B> {
-  const bioMarkers = [];
+): B[] {
+  const bioMarkers: B[] = [];
   try {
     data.forEach((row) => {
       let currentBiomarkers = [];
@@ -246,10 +248,10 @@ export function makeBioMarkers(
         let newStructure: B;
         if (foundIndex === -1) {
           newStructure = {
-            structure: str.name,
-            link: str.id,
+            structure: str.name ?? '',
+            link: str.id ?? '',
             isNew: 'isNew' in str ? true : false,
-            color: 'isNew' in str ? str.color : B_GREEN,
+            color: 'isNew' in str ? str.color ?? '' : B_GREEN,
             outdegree: new Set(),
             indegree: new Set(),
             comparator: `${str.name}${str.id}`,
@@ -258,15 +260,15 @@ export function makeBioMarkers(
             nodeSize: 300,
             bType: str.b_type,
             organName: row.organName,
-            notes: str.notes,
+            notes: str.notes ?? '',
             proteinPresence: str.proteinPresence,
           };
 
           if (row.cell_types.length) {
             row.cell_types.forEach((cell) => {
-              newStructure.indegree.add({
-                id: cell.id,
-                name: cell.name,
+              newStructure.indegree?.add({
+                id: cell.id ?? '',
+                name: cell.name ?? '',
               });
             });
           }
@@ -274,14 +276,16 @@ export function makeBioMarkers(
           bioMarkers.push(newStructure);
         } else {
           if ('isNew' in str) {
-            bioMarkers[foundIndex].color = str.color;
-            bioMarkers[foundIndex].pathColor = str.color;
+            bioMarkers[foundIndex].color = str.color ?? '';
+            (
+              bioMarkers[foundIndex] as unknown as { pathColor: string }
+            ).pathColor = str.color ?? '';
           }
           if (row.cell_types.length) {
             row.cell_types.forEach((cell) => {
-              bioMarkers[foundIndex].indegree.add({
-                id: cell.id,
-                name: cell.name,
+              bioMarkers[foundIndex].indegree?.add({
+                id: cell.id ?? '',
+                name: cell.name ?? '',
               });
             });
           }
@@ -305,7 +309,7 @@ export function makeBioMarkers(
  */
 function getFoundIndex(
   str: Structure,
-  typeData: Array<TypeStructue>,
+  typeData: TypeStructure[],
   isForReport: boolean,
   row: Row,
   isBiomarker = false,
@@ -313,31 +317,32 @@ function getFoundIndex(
 ): number {
   let foundIndex: number;
   if (str.id && str.id.toLowerCase() !== 'not found') {
-    foundIndex = typeData.findIndex((i: any) => {
+    foundIndex = typeData.findIndex((i) => {
       if (!isForReport) {
         return (
-          i.comparatorId === str.id && (!isBiomarker || i.bType === str.b_type)
+          i.comparatorId === str.id &&
+          (!isBiomarker || (i as B).bType === str.b_type)
         );
       } else {
         return (
           i.comparatorId === str.id &&
           (i.organName === row.organName || isReportNotOrganWise) &&
-          (!isBiomarker || i.bType === str.b_type)
+          (!isBiomarker || (i as B).bType === str.b_type)
         );
       }
     });
   } else {
-    foundIndex = typeData.findIndex((i: any) => {
+    foundIndex = typeData.findIndex((i) => {
       if (!isForReport) {
         return (
           i.comparatorName === str.name &&
-          (!isBiomarker || i.bType === str.b_type)
+          (!isBiomarker || (i as B).bType === str.b_type)
         );
       } else {
         return (
           i.comparatorName === str.name &&
           (i.organName === row.organName || isReportNotOrganWise) &&
-          (!isBiomarker || i.bType === str.b_type)
+          (!isBiomarker || (i as B).bType === str.b_type)
         );
       }
     });

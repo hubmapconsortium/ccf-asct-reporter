@@ -18,23 +18,31 @@ export class TNode {
   ontologyId: string;
   color: string;
   problem: boolean;
-  found: boolean;
+  found: boolean = false;
   groupName: string;
   isNew: boolean;
   pathColor: string;
-  parents: Array<number>;
-  children: number;
-  x: number;
-  y: number;
+  parents: number[];
+  children: number = 0;
+  x: number = 0;
+  y: number = 0;
   type: string;
   comparator: string;
   comparatorName: string;
   comparatorId: string;
-  label: string;
+  label: string = '';
   notes: string;
   organName: string;
 
-  constructor(id, name, parent, uId, notes, organName, color = '#808080') {
+  constructor(
+    id: number,
+    name: string,
+    parent: string,
+    uId: string,
+    notes: string,
+    organName: string,
+    color = '#808080'
+  ) {
     this.id = id;
     this.name = name;
     this.parent = parent;
@@ -80,7 +88,7 @@ export interface Degree {
 }
 
 export interface ASCTBConfig {
-  report_cols?: Array<number>;
+  report_cols?: number[];
   cell_col?: number;
   marker_col?: number;
   uberon_col?: number;
@@ -116,7 +124,7 @@ export interface B extends Base {
 
 export class Cell {
   structure: string;
-  parents: Array<string>;
+  parents: string[];
   link: string;
   isNew: boolean;
   color: string;
@@ -132,12 +140,12 @@ export class Cell {
 
 export class Marker {
   structure: string;
-  parents: Array<string>;
+  parents: string[];
   count: number;
   isNew: boolean;
   color: string;
 
-  constructor(structure, count) {
+  constructor(structure: string, count: number) {
     this.structure = structure;
     this.parents = [];
     this.count = count;
@@ -146,12 +154,12 @@ export class Marker {
   }
 }
 
-export class Organ {
+export interface Organ {
   body: string;
   organ: string;
   cellType: string;
   markers: string;
-  organRow: Array<Organ>;
+  organRow: Organ[];
 }
 
 export interface SearchStructure {
@@ -171,7 +179,7 @@ export interface DiscrepencyStructure {
   ontologyId: string;
 }
 
-export interface linksASCTBData {
+export interface LinksASCTBData {
   AS_CT: number;
   CT_B: number;
   AS_AS: number;
@@ -180,7 +188,7 @@ export interface linksASCTBData {
   AS_AS_organWise: Record<string, number>;
 }
 
-export interface bmCtPairings {
+export interface BmCtPairings {
   BM_NAME: string;
   BM_ID: string;
   CT_NAME: string;

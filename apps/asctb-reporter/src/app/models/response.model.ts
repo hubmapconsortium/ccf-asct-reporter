@@ -1,4 +1,5 @@
 export interface Response {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any;
   msg: string;
   status: number;
@@ -19,5 +20,6 @@ export enum SnackbarType {
 
 export interface ExportVega {
   option: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   spec?: any;
 }

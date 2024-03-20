@@ -1,57 +1,46 @@
 import {
   Component,
-  OnInit,
+  EventEmitter,
   OnDestroy,
   Output,
-  EventEmitter,
   ViewChild,
 } from '@angular/core';
-import { SheetState } from './../../store/sheet.state';
-import { TreeState } from './../../store/tree.state';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
 import {
-  UpdateReport,
-  DeleteCompareSheet,
-  UpdateMode,
-  FetchSelectedOrganData,
-  FetchAllOrganData,
-  FetchSheetData,
-  FetchDataFromAssets,
-  FetchInitialPlaygroundData,
-  UpdateGetFromCache,
-} from './../../actions/sheet.actions';
-import { TreeService } from './../tree/tree.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UIState, UIStateModel } from '../../store/ui.state';
-import {
-  HasError,
-  CloseSnackbar,
-  CloseRightSideNav,
-  CloseCompare,
-  CloseLoading,
-  OpenBottomSheet,
-} from '../../actions/ui.actions';
-import { Error } from '../../models/response.model';
+  MatBottomSheet,
+  MatBottomSheetRef,
+} from '@angular/material/bottom-sheet';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { LoadingComponent } from '../../components/loading/loading.component';
 import {
   MatSnackBar,
   MatSnackBarConfig,
   MatSnackBarRef,
   TextOnlySnackBar,
 } from '@angular/material/snack-bar';
-import { IndentedListService } from '../../components/indented-list/indented-list.service';
-import { StateReset } from 'ngxs-reset-plugin';
-import { Logs, OpenBottomSheetData, Snackbar } from '../../models/ui.model';
-import { ReportService } from '../../components/report/report.service';
-import { LogsState } from '../../store/logs.state';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
 import * as moment from 'moment';
+import { StateReset } from 'ngxs-reset-plugin';
+import { Observable } from 'rxjs';
+import { View } from 'vega';
+import { UpdateBimodalConfig } from '../../actions/tree.actions';
 import {
-  MatBottomSheet,
-  MatBottomSheetRef,
-} from '@angular/material/bottom-sheet';
+  CloseCompare,
+  CloseLoading,
+  CloseRightSideNav,
+  CloseSnackbar,
+  HasError,
+  OpenBottomSheet,
+} from '../../actions/ui.actions';
+import { ConfigService } from '../../app-config.service';
+import { DoiComponent } from '../../components/doi/doi.component';
+import { IndentedListService } from '../../components/indented-list/indented-list.service';
 import { InfoComponent } from '../../components/info/info.component';
+import { LoadingComponent } from '../../components/loading/loading.component';
+import { OrganTableSelectorComponent } from '../../components/organ-table-selector/organ-table-selector.component';
+import { ReportService } from '../../components/report/report.service';
+import { BimodalConfig, BimodalData } from '../../models/bimodal.model';
+import { Report } from '../../models/report.model';
+import { Error } from '../../models/response.model';
 import {
   CompareData,
   DOI,
@@ -63,59 +52,74 @@ import {
   SheetInfo,
   VersionDetail,
 } from '../../models/sheet.model';
-import { DoiComponent } from '../../components/doi/doi.component';
-import { SearchStructure } from '../../models/tree.model';
+import {
+  LinksASCTBData,
+  SearchStructure,
+  TNode,
+} from '../../models/tree.model';
+import { Logs, OpenBottomSheetData, Snackbar } from '../../models/ui.model';
 import { SheetService } from '../../services/sheet.service';
-import { OrganTableSelectorComponent } from '../../components/organ-table-selector/organ-table-selector.component';
-import { TreeComponent } from '../tree/tree.component';
-import { ConfigService } from '../../app-config.service';
-import { Report } from '../../models/report.model';
-import { UpdateBimodalConfig } from '../../actions/tree.actions';
-import { BimodalConfig } from '../../models/bimodal.model';
+import { LogsState } from '../../store/logs.state';
+import { UIState, UIStateModel } from '../../store/ui.state';
 import { BimodalService } from '../tree/bimodal.service';
+import { TreeComponent } from '../tree/tree.component';
+import {
+  DeleteCompareSheet,
+  FetchAllOrganData,
+  FetchDataFromAssets,
+  FetchInitialPlaygroundData,
+  FetchSelectedOrganData,
+  FetchSheetData,
+  UpdateGetFromCache,
+  UpdateMode,
+  UpdateReport,
+} from './../../actions/sheet.actions';
+import { SheetState } from './../../store/sheet.state';
+import { TreeState } from './../../store/tree.state';
+import { TreeService } from './../tree/tree.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './root.component.html',
   styleUrls: ['./root.component.scss'],
 })
-export class RootComponent implements OnInit, OnDestroy {
+export class RootComponent implements OnDestroy {
   /**
    * Organ sheet data
    */
-  data: Row[];
+  data: Row[] = [];
   /**
    * Denotes if loading
    */
-  loading: boolean;
+  loading: boolean = true;
   /**
    * Vega view
    */
-  view: any;
+  view!: View;
   /**
    * Selected sheet
    */
-  sheet: Sheet;
+  sheet!: Sheet;
   /**
    * Denotesthe error state
    */
-  hasError: boolean;
+  hasError: boolean = false;
   /**
    * Stores the error
    */
-  error: Error;
+  error!: Error;
   /**
    * Reference to the snackbar
    */
-  snackbarRef: MatSnackBarRef<TextOnlySnackBar>;
+  snackbarRef!: MatSnackBarRef<TextOnlySnackBar>;
   /**
    * Dnotes of sidebar control pane is open
    */
-  isControlPaneOpen: boolean;
+  isControlPaneOpen: boolean = false;
   /**
    * Botton input sheet ref
    */
-  infoSheetRef: MatBottomSheetRef;
+  infoSheetRef!: MatBottomSheetRef;
   /**
    * Mode of the application. Playground or visualiization
    * Default is vis
@@ -128,60 +132,60 @@ export class RootComponent implements OnInit, OnDestroy {
   /**
    * Bimodal filter values to snd via snackbar update
    */
-  bimodalConfig: BimodalConfig;
+  bimodalConfig!: BimodalConfig;
 
   // The container used for vertical scrolling of the viz is different than the one used for horizontal scrolling
   // Here we get references to both values.
-  @ViewChild(TreeComponent) verticalScrollEntity: TreeComponent;
-  @Output() export: EventEmitter<any> = new EventEmitter<any>();
+  @ViewChild(TreeComponent) verticalScrollEntity!: TreeComponent;
+  @Output() export = new EventEmitter<unknown>();
 
   // Sheet Observables
-  @Select(SheetState.getData) data$: Observable<any>;
-  @Select(SheetState.getCompareSheets) compareSheets$: Observable<
+  @Select(SheetState.getData) data$!: Observable<Row[]>;
+  @Select(SheetState.getCompareSheets) compareSheets$!: Observable<
     CompareData[]
   >;
-  @Select(SheetState.getReportdata) rd$: Observable<Report>;
-  @Select(SheetState.getCompareData) compareData$: Observable<Row[]>;
-  @Select(SheetState.getAllCompareData) allCompareData$: Observable<any>;
-  @Select(SheetState.getMode) mode$: Observable<string>;
+  @Select(SheetState.getReportdata) rd$!: Observable<Report>;
+  @Select(SheetState.getCompareData) compareData$!: Observable<Row[]>;
+  @Select(SheetState.getAllCompareData) allCompareData$!: Observable<unknown>;
+  @Select(SheetState.getMode) mode$!: Observable<string>;
   @Select(SheetState.getBottomSheetInfo)
-  bottomSheetInfo$: Observable<SheetInfo>;
-  @Select(SheetState.getBottomSheetDOI) bottomSheetDOI$: Observable<DOI[]>;
-  @Select(SheetState.getSheetConfig) sheetConfig$: Observable<SheetConfig>;
-  @Select(SheetState.getFullAsData) fullAsData$: Observable<any>;
-  @Select(SheetState.getFullDataByOrgan) fullDataByOrgan$: Observable<any>;
-  @Select(SheetState.getDataFromCache) getFromCache$: Observable<boolean>;
+  bottomSheetInfo$!: Observable<SheetInfo>;
+  @Select(SheetState.getBottomSheetDOI) bottomSheetDOI$!: Observable<DOI[]>;
+  @Select(SheetState.getSheetConfig) sheetConfig$!: Observable<SheetConfig>;
+  @Select(SheetState.getFullAsData) fullAsData$!: Observable<Row[]>;
+  @Select(SheetState.getFullDataByOrgan) fullDataByOrgan$!: Observable<Row[][]>;
+  @Select(SheetState.getDataFromCache) getFromCache$!: Observable<boolean>;
 
   // Tree Observables
-  @Select(TreeState.getTreeData) treeData$: Observable<any>;
-  @Select(TreeState.getBottomSheetData) bsd$: Observable<any>;
-  @Select(TreeState.getLinksData) links$: Observable<any>;
-  @Select(TreeState.getBimodal) bm$: Observable<any>;
-  @Select(TreeState.getBiomarkerType) bmType$: Observable<string>;
+  @Select(TreeState.getTreeData) treeData$!: Observable<TNode[]>;
+  // @Select(TreeState.getBottomSheetData) bsd$!: Observable<any>;
+  @Select(TreeState.getLinksData) links$!: Observable<LinksASCTBData>;
+  @Select(TreeState.getBimodal) bm$!: Observable<BimodalData>;
+  @Select(TreeState.getBiomarkerType) bmType$!: Observable<string>;
   @Select(TreeState.getLatestSearchStructure)
-  searchOption$: Observable<SearchStructure>;
-  @Select(TreeState.getBimodalConfig) config$: Observable<BimodalConfig>;
+  searchOption$!: Observable<SearchStructure>;
+  @Select(TreeState.getBimodalConfig) config$!: Observable<BimodalConfig>;
 
   // Control Pane Observables
-  @Select(UIState.getControlPaneState) pane$: Observable<boolean>;
-  @Select(UIState.getIndentList) il$: Observable<boolean>;
+  @Select(UIState.getControlPaneState) pane$!: Observable<boolean>;
+  @Select(UIState.getIndentList) il$!: Observable<boolean>;
 
   // UI Observables
-  @Select(UIState.getError) error$: Observable<any>;
-  @Select(UIState.getLoading) loading$: Observable<boolean>;
-  @Select(UIState.getLoadingText) loadingText$: Observable<string>;
-  @Select(UIState) uiState$: Observable<UIStateModel>;
-  @Select(UIState.getSnackbar) snack$: Observable<Snackbar>;
-  @Select(UIState.getReport) report$: Observable<boolean>;
-  @Select(UIState.getDebugLog) dl$: Observable<boolean>;
-  @Select(UIState.getBottomSheet) bs$: Observable<boolean>;
-  @Select(UIState.getCompareState) c$: Observable<boolean>;
+  @Select(UIState.getError) error$!: Observable<{ error: Error }>;
+  @Select(UIState.getLoading) loading$!: Observable<boolean>;
+  @Select(UIState.getLoadingText) loadingText$!: Observable<string>;
+  @Select(UIState) uiState$!: Observable<UIStateModel>;
+  @Select(UIState.getSnackbar) snack$!: Observable<Snackbar>;
+  @Select(UIState.getReport) report$!: Observable<boolean>;
+  @Select(UIState.getDebugLog) dl$!: Observable<boolean>;
+  @Select(UIState.getBottomSheet) bs$!: Observable<boolean>;
+  @Select(UIState.getCompareState) c$!: Observable<boolean>;
 
   // Logs Oberservables
-  @Select(LogsState) logs$: Observable<Logs>;
+  @Select(LogsState) logs$!: Observable<Logs>;
 
-  sheetConfig: SheetDetails[];
-  omapSheetConfig: SheetDetails[];
+  sheetConfig: SheetDetails[] = [];
+  omapSheetConfig: SheetDetails[] = [];
 
   constructor(
     public configService: ConfigService,
@@ -213,7 +217,7 @@ export class RootComponent implements OnInit, OnDestroy {
         } catch (err) {
           console.log(err);
           this.store.dispatch(
-            new HasError({ hasError: true, msg: err, status: 400 })
+            new HasError({ hasError: true, msg: err as string, status: 400 })
           );
         }
       }
@@ -269,12 +273,12 @@ export class RootComponent implements OnInit, OnDestroy {
         (comparisonCSV || comparisonHasFile)
       ) {
         store.dispatch(new UpdateMode('vis'));
-        const comparisonCSVURLList = comparisonCSV.split('|');
+        const comparisonCSVURLList = comparisonCSV?.split('|');
         const comparisonColorList = comparisonColor?.split('|');
         const comparisonNameList = comparisonName?.split('|');
 
         const comparisonDetails = this.compareDetails;
-        this.sheet = this.sheetConfig.find((i) => i.name === 'some');
+        this.sheet = this.sheetConfig.find((i) => i.name === 'some') as Sheet;
 
         if (!comparisonDetails.length) {
           const colors = [
@@ -289,17 +293,19 @@ export class RootComponent implements OnInit, OnDestroy {
             '#067BC2',
             '#ECC30B',
           ];
-          comparisonCSVURLList.forEach((linkUrl, index) => {
+          comparisonCSVURLList?.forEach((linkUrl, index) => {
             linkUrl = linkUrl.trim();
             comparisonDetails.push({
               title:
-                comparisonNameList?.length - 1 >= index
+                comparisonNameList !== undefined &&
+                comparisonNameList.length - 1 >= index
                   ? comparisonNameList[index]
                   : `Sheet ${index + 1}`,
               description: '',
               link: linkUrl,
               color:
-                comparisonColorList?.length - 1 >= index
+                comparisonColorList !== undefined &&
+                comparisonColorList.length - 1 >= index
                   ? comparisonColorList[index]
                   : colors[index % colors.length],
               sheetId: this.parseSheetUrl(linkUrl).sheetID,
@@ -325,7 +331,7 @@ export class RootComponent implements OnInit, OnDestroy {
         playground !== 'true'
       ) {
         store.dispatch(new UpdateMode('vis'));
-        this.sheet = this.sheetConfig.find((i) => i.name === 'some');
+        this.sheet = this.sheetConfig.find((i) => i.name === 'some') as Sheet;
         store.dispatch(
           new FetchSelectedOrganData(
             this.sheet,
@@ -339,12 +345,12 @@ export class RootComponent implements OnInit, OnDestroy {
         }
       } else if (playground === 'true') {
         store.dispatch(new UpdateMode('playground'));
-        this.sheet = this.sheetConfig.find((i) => i.name === 'some');
+        this.sheet = this.sheetConfig.find((i) => i.name === 'some') as Sheet;
         this.store.dispatch(new FetchInitialPlaygroundData());
         store.dispatch(new CloseLoading());
       } else {
         store.dispatch(new UpdateMode('vis'));
-        this.sheet = this.sheetConfig.find((i) => i.name === sheet);
+        this.sheet = this.sheetConfig.find((i) => i.name === sheet) as Sheet;
         localStorage.setItem('sheet', this.sheet.name);
         if (version === 'latest') {
           if (this.sheet.name === 'all') {
@@ -353,7 +359,7 @@ export class RootComponent implements OnInit, OnDestroy {
             store.dispatch(new FetchSheetData(this.sheet));
           }
         } else {
-          store.dispatch(new FetchDataFromAssets(version, this.sheet));
+          store.dispatch(new FetchDataFromAssets(version ?? '', this.sheet));
         }
       }
     });
@@ -460,8 +466,6 @@ export class RootComponent implements OnInit, OnDestroy {
       if (omapSheets.length > 0) this.openSnackBarToUpdateFilter();
     });
   }
-
-  ngOnInit(): void {}
 
   ngOnDestroy() {
     this.store.dispatch(new StateReset(SheetState));
@@ -609,7 +613,7 @@ export class RootComponent implements OnInit, OnDestroy {
     const omapSelectedOrgans = this.store.selectSnapshot(
       SheetState.getOMAPSelectedOrgans
     );
-    const urls = [];
+    const urls: string[] = [];
     if (sheet.name === 'all' || sheet.name === 'some') {
       for (const organ of selectedOrgans) {
         this.sheetConfig.forEach((config) => {
@@ -619,7 +623,10 @@ export class RootComponent implements OnInit, OnDestroy {
                 urls.push(version.csvUrl);
               } else {
                 urls.push(
-                  this.sheetService.formURL(version.sheetId, version.gid)
+                  this.sheetService.formURL(
+                    version.sheetId ?? '',
+                    version.gid ?? ''
+                  )
                 );
               }
             }
@@ -634,7 +641,10 @@ export class RootComponent implements OnInit, OnDestroy {
                 urls.push(version.csvUrl);
               } else {
                 urls.push(
-                  this.sheetService.formURL(version.sheetId, version.gid)
+                  this.sheetService.formURL(
+                    version.sheetId ?? '',
+                    version.gid ?? ''
+                  )
                 );
               }
             }
@@ -647,13 +657,14 @@ export class RootComponent implements OnInit, OnDestroy {
     if (option === 'Graph Data') {
       this.sheetService
         .fetchSheetData(
-          sheet.sheetId,
-          sheet.gid,
+          sheet.sheetId ?? '',
+          sheet.gid ?? '',
           csvURL ? csvURL : sheet.csvUrl,
-          null,
+          undefined,
           'graph'
         )
-        .subscribe((graphData: GraphData) => {
+        .subscribe((g) => {
+          const graphData = g as GraphData;
           const graphDataStr =
             'data:text/json;charset=utf-8,' +
             encodeURIComponent(JSON.stringify(graphData.data));
@@ -684,13 +695,14 @@ export class RootComponent implements OnInit, OnDestroy {
     } else if (option === 'JSON-LD') {
       this.sheetService
         .fetchSheetData(
-          sheet.sheetId,
-          sheet.gid,
+          sheet.sheetId ?? '',
+          sheet.gid ?? '',
           csvURL ? csvURL : sheet.csvUrl,
-          null,
+          undefined,
           'jsonld'
         )
-        .subscribe((graphData: any) => {
+        .subscribe((g) => {
+          const graphData = g as GraphData;
           const graphDataStr =
             'data:text/json;charset=utf-8,' +
             encodeURIComponent(JSON.stringify(graphData));
@@ -707,16 +719,17 @@ export class RootComponent implements OnInit, OnDestroy {
     } else if (option === 'OWL (RDF/XML)') {
       this.sheetService
         .fetchSheetData(
-          sheet.sheetId,
-          sheet.gid,
+          sheet.sheetId ?? '',
+          sheet.gid ?? '',
           csvURL ? csvURL : sheet.csvUrl,
-          null,
+          undefined,
           'owl'
         )
-        .subscribe((graphData: any) => {
+        .subscribe((g) => {
+          const graphData = g as GraphData;
           const graphDataStr =
             'data:application/rdf+xml;charset=utf-8,' +
-            encodeURIComponent(graphData);
+            encodeURIComponent(JSON.stringify(graphData));
           const downloadAnchorNode = document.createElement('a');
           downloadAnchorNode.setAttribute('href', graphDataStr);
           downloadAnchorNode.setAttribute(

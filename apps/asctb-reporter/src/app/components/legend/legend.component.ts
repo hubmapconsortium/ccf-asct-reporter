@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { LegendService } from './legend.service';
-import { Legend } from '../../models/legend.model';
-import { TNode } from '../../models/tree.model';
-import { CompareData } from '../../models/sheet.model';
-import { Error } from '../../models/response.model';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { BimodalData } from '../../models/bimodal.model';
+import { Legend } from '../../models/legend.model';
+import { Error } from '../../models/response.model';
+import { CompareData } from '../../models/sheet.model';
+import { TNode } from '../../models/tree.model';
+import { LegendService } from './legend.service';
 
 @Component({
   selector: 'app-legend',
@@ -12,12 +12,12 @@ import { BimodalData } from '../../models/bimodal.model';
   styleUrls: ['./legend.component.scss'],
 })
 export class LegendComponent implements OnInit, OnChanges {
-  legends: Legend[];
+  legends: Legend[] = [];
 
-  @Input() treeData: TNode[];
-  @Input() bimodalData: BimodalData;
-  @Input() compareData: CompareData[];
-  @Input() error: Error;
+  @Input() treeData: TNode[] = [];
+  @Input() bimodalData!: BimodalData;
+  @Input() compareData: CompareData[] = [];
+  @Input() error!: Error;
 
   constructor(public ls: LegendService) {}
 

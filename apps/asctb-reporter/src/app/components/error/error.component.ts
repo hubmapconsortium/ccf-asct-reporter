@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Error } from '../../models/response.model';
 
 @Component({
@@ -6,10 +6,6 @@ import { Error } from '../../models/response.model';
   templateUrl: './error.component.html',
   styleUrls: ['./error.component.scss'],
 })
-export class ErrorComponent implements OnInit {
-  @Input() error: Error;
-
-  constructor() {}
-
-  ngOnInit(): void {}
+export class ErrorComponent {
+  @Input() error!: Error;
 }

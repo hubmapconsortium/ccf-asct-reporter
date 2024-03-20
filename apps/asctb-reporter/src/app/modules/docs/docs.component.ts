@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { DocsService } from '../../services/docs.service';
-import { REGISTRY } from '../../static/docs';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
-  faPhone,
-  faEnvelope,
   faChevronRight,
+  faEnvelope,
+  faPhone,
 } from '@fortawesome/free-solid-svg-icons';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
-import { GaAction, GaCategory } from '../../models/ga.model';
 import { ConfigService } from '../../app-config.service';
+import { GaAction, GaCategory } from '../../models/ga.model';
+import { DocsService } from '../../services/docs.service';
+import { REGISTRY } from '../../static/docs';
 
 @Component({
   selector: 'app-docs',
@@ -22,11 +22,11 @@ export class DocsComponent implements OnInit {
   faEnvelope = faEnvelope;
   faChevronRight = faChevronRight;
   showHeader = true;
-  docsData: string;
+  docsData!: string;
   REGISTRY = REGISTRY;
-  selected: number;
+  selected!: number;
   copyrightYear = new Date().getFullYear();
-  masterSheetLink;
+  masterSheetLink!: string;
 
   constructor(
     public configService: ConfigService,
@@ -36,15 +36,15 @@ export class DocsComponent implements OnInit {
     public ga: GoogleAnalyticsService
   ) {
     this.configService.config$.subscribe((config) => {
-      this.masterSheetLink = config.masterSheetLink;
+      this.masterSheetLink = config['masterSheetLink'] as string;
     });
   }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
-      if (this.docsService.getID(params.id) >= 0) {
-        this.selected = this.docsService.getID(params.id);
-        this.docsService.getData(params.id);
+      if (this.docsService.getID(params['id']) >= 0) {
+        this.selected = this.docsService.getID(params['id']);
+        this.docsService.getData(params['id']);
       } else {
         this.router.navigate(['/docs', 'introduction']);
       }

@@ -1,37 +1,42 @@
 import {
   Component,
-  OnInit,
-  Input,
-  Output,
   EventEmitter,
-  AfterViewInit,
+  Input,
+  OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
-import { ReportService } from './report.service';
 import {
   BiomarkersCounts,
   BiomarkersNamesInReport,
   CByOrgan,
   Report,
 } from '../../models/report.model';
-import { CompareData, Row, Sheet, SheetConfig } from '../../models/sheet.model';
+import {
+  CompareData,
+  CompareReport,
+  Row,
+  Sheet,
+  SheetConfig,
+} from '../../models/sheet.model';
+import { ReportService } from './report.service';
 
-import * as XLSX from 'xlsx';
-import * as moment from 'moment';
-import { Observable } from 'rxjs';
-import { GoogleAnalyticsService } from 'ngx-google-analytics';
-import { GaAction, GaCategory } from '../../models/ga.model';
-import { TreeService } from '../../modules/tree/tree.service';
-import { bmCtPairings, linksASCTBData } from '../../models/tree.model';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import * as moment from 'moment';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
+import { Observable } from 'rxjs';
+import * as XLSX from 'xlsx';
+import { GaAction, GaCategory } from '../../models/ga.model';
+import { BmCtPairings, LinksASCTBData } from '../../models/tree.model';
+import { TreeService } from '../../modules/tree/tree.service';
 
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.scss'],
 })
-export class ReportComponent implements OnInit, AfterViewInit {
+export class ReportComponent implements OnInit {
   reportData: Report = {
     anatomicalStructures: [],
     cellTypes: [],
@@ -52,7 +57,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
     ASWithNoCT: [],
     CTWithNoB: [],
   };
-  countsByOrgan: MatTableDataSource<CByOrgan[]> = new MatTableDataSource();
+  countsByOrgan: MatTableDataSource<CByOrgan> = new MatTableDataSource();
   displayedColumns: string[] = [
     'organName',
     'ASWithNoLink',
@@ -66,32 +71,33 @@ export class ReportComponent implements OnInit, AfterViewInit {
     'anatomicalStructures',
     'cellTypes',
   ];
-  biomarkersSeperateNames: BiomarkersNamesInReport[];
-  compareReport: any;
+  biomarkersSeperateNames: BiomarkersNamesInReport[] = [];
+  compareReport: CompareReport[] = [];
   clickButton = false; // for mat expansion panel download button
 
-  @ViewChild(MatSort) sort: MatSort;
-  ontologyLinkGraphData = [];
-  SheetConfig: SheetConfig;
-  total_AS_AS: number;
+  @ViewChild(MatSort) sort!: MatSort;
+  ontologyLinkGraphData: ReturnType<typeof this.makeOntologyLinksGraphData> =
+    [];
+  SheetConfig!: SheetConfig;
+  total_AS_AS: number = 0;
   biomarkersCounts: BiomarkersCounts[] = [];
 
-  @Input() compareSheets: CompareData[];
-  @Input() sheetData: Row[];
-  @Input() asFullData: Row[];
-  @Input() fullDataByOrgan: Array<Row[]>;
-  @Input() currentSheet: Sheet;
-  @Input() linksData$: Observable<linksASCTBData>;
-  @Input() inputReportData: Observable<Report>;
-  @Input() currentSheetConfig: Observable<SheetConfig>;
-  @Input() compareData: Observable<any>;
-  @Input() bmType: string;
+  @Input() compareSheets: CompareData[] = [];
+  @Input() sheetData: Row[] = [];
+  @Input() asFullData: Row[] = [];
+  @Input() fullDataByOrgan: Row[][] = [];
+  @Input() currentSheet!: Sheet;
+  @Input() linksData$!: Observable<LinksASCTBData>;
+  @Input() inputReportData!: Observable<Report>;
+  @Input() currentSheetConfig!: Observable<SheetConfig>;
+  @Input() compareData!: Observable<{ data: Row[]; sheets: CompareData[] }>;
+  @Input() bmType: string = '';
   @Input() hideReportCompareTab = false;
-  @Output() closeReport: EventEmitter<any> = new EventEmitter<any>();
-  @Output() computedReport: EventEmitter<any> = new EventEmitter<any>();
-  @Output() deleteSheet: EventEmitter<any> = new EventEmitter<any>();
-  total_AS_CT: number;
-  total_CT_B: number;
+  @Output() closeReport = new EventEmitter<void>();
+  @Output() computedReport = new EventEmitter<Report>();
+  @Output() deleteSheet = new EventEmitter<number>();
+  total_AS_CT: number = 0;
+  total_CT_B: number = 0;
 
   constructor(
     public reportService: ReportService,
@@ -101,11 +107,11 @@ export class ReportComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.reportService.reportData$.subscribe((data) => {
-      this.reportData = data.data;
-      this.computedReport.emit(data.data);
+      this.reportData = data.data as Report;
+      this.computedReport.emit(data.data as Report);
 
       this.ontologyLinkGraphData = this.makeOntologyLinksGraphData(
-        data.data,
+        data.data as Report,
         this.sheetData
       );
     });
@@ -145,8 +151,6 @@ export class ReportComponent implements OnInit, AfterViewInit {
     );
   }
 
-  ngAfterViewInit() {}
-
   makeOntologyLinksGraphData(reportData: Report, sheetData: Row[]) {
     const { result, biomarkersSeperateNames } =
       this.reportService.makeAllOrganReportDataByOrgan(
@@ -154,7 +158,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
         this.asFullData
       );
 
-    const biomarkerCols = [];
+    const biomarkerCols: string[] = [];
     biomarkersSeperateNames.forEach((bm) => {
       if (this.displayedColumns.includes(bm.name) === false) {
         biomarkerCols.push(bm.name);
@@ -187,13 +191,15 @@ export class ReportComponent implements OnInit, AfterViewInit {
       this.countsByOrgan = new MatTableDataSource(
         this.reportService
           .makeAllOrganReportDataCountsByOrgan(result, data, tableVersions)
-          .sort((a, b) => a.organName.localeCompare(b.organName))
+          .sort((a, b) => a.organName?.localeCompare(b.organName ?? '') ?? 0)
       );
       this.biomarkersCounts = [];
       this.biomarkersSeperateNames.forEach((bm) => {
         this.biomarkersCounts.push({
           name: bm.name,
-          value: this.countsByOrgan.data[0][bm.name],
+          value: this.countsByOrgan.data[0][
+            bm.name as keyof CByOrgan
+          ] as number,
         });
       });
       this.countsByOrgan.sort = this.sort;
@@ -237,7 +243,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
     ];
   }
 
-  getBiomarkerLabel(bmType) {
+  getBiomarkerLabel(bmType: string) {
     return bmType === 'Gene'
       ? 'Total Gene Biomarkers'
       : bmType === 'Protein'
@@ -260,10 +266,10 @@ export class ReportComponent implements OnInit, AfterViewInit {
       'with HGNC Links': '#4DAF4A',
       'without HGNC Links': '#bce8be',
     };
-    return mapper[v];
+    return mapper[v as keyof typeof mapper];
   }
 
-  deleteCompareSheetReport(i) {
+  deleteCompareSheetReport(i: number) {
     this.clickButton = true;
     this.compareReport.splice(i, 1);
     this.deleteSheet.emit(i);
@@ -276,14 +282,16 @@ export class ReportComponent implements OnInit, AfterViewInit {
     );
   }
 
-  getTotals(data: CByOrgan[][], key: string) {
+  getTotals(data: CByOrgan[], key: string) {
     return data
-      .map((t) => (t[key] ? t[key] : 0))
+      .map((t) =>
+        t[key as keyof CByOrgan] ? (t[key as keyof CByOrgan] as number) : 0
+      )
       .reduce((acc, value) => acc + value, 0);
   }
 
   downloadData() {
-    const download = [];
+    const download: Record<string, string>[] = [];
     const totalRows = 6;
     for (
       let i = 0;
@@ -295,7 +303,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
       );
       i++
     ) {
-      const row = {};
+      const row: Record<string, string> = {};
       if (i < this.reportData.anatomicalStructures.length) {
         row['Unique Anatomical Structures'] =
           this.reportData.anatomicalStructures[i].structure;
@@ -374,7 +382,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
     const sheetName = 'countByOrgan';
     const fileName = 'countsByOrgans';
     const targetTableElm = document.getElementById('countsByOrgans');
-    const allReport = [];
+    const allReport: ReturnType<typeof this.downloadData>[] = [];
 
     const organsList: string[] = [];
 
@@ -416,14 +424,19 @@ export class ReportComponent implements OnInit, AfterViewInit {
       newB: 'New Biomarkers',
     };
 
-    let download = [];
+    let download: Record<string, string>[] = [];
     const keys = Object.keys(this.compareReport[i]);
 
     for (const key of keys) {
-      if (typeof sheet[key] === 'object' && key in keyMapper) {
-        for (const [idx, value] of sheet[key].entries()) {
-          const t = {};
-          t[keyMapper[key]] = value;
+      if (
+        typeof sheet[key as keyof CompareReport] === 'object' &&
+        key in keyMapper
+      ) {
+        for (const [idx, value] of (
+          sheet[key as keyof CompareReport] as string[]
+        ).entries()) {
+          const t: Record<string, string> = {};
+          t[keyMapper[key as keyof typeof keyMapper]] = value;
 
           if (download[idx]) {
             download[idx] = { ...download[idx], ...t };
@@ -433,7 +446,10 @@ export class ReportComponent implements OnInit, AfterViewInit {
         }
       }
     }
-    download = this.getBMCTAS(sheet.identicalBMCTPair, download);
+    download = this.getBMCTAS(
+      sheet.identicalBMCTPair as unknown as BmCtPairings[],
+      download
+    );
     const sheetWS = XLSX.utils.json_to_sheet(download, {
       header: Object.values(keyMapper),
     });
@@ -449,7 +465,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
       GaAction.CLICK,
       GaCategory.REPORT,
       'Compare sheet download',
-      sn
+      sn as never
     );
 
     return {
@@ -459,7 +475,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
     };
   }
 
-  getBMCTAS(bmCtPairs: Set<bmCtPairings>, download: Record<string, string>[]) {
+  getBMCTAS(bmCtPairs: BmCtPairings[], download: Record<string, string>[]) {
     const AS_CT_BM: Set<string> = new Set<string>();
     let index = 0;
     bmCtPairs.forEach((pair) => {

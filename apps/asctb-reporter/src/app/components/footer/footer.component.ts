@@ -1,22 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import {
-  faGithub,
   faFacebookSquare,
+  faGithub,
   faTwitterSquare,
 } from '@fortawesome/free-brands-svg-icons';
-import { faGlobe, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { faGlobe, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { GoogleAnalyticsService } from 'ngx-google-analytics';
-import { Router } from '@angular/router';
-import { GaAction, GaCategory } from '../../models/ga.model';
 import { ConfigService } from '../../app-config.service';
+import { GaAction, GaCategory } from '../../models/ga.model';
 
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss'],
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent {
   faGlobe = faGlobe;
   faGithub = faGithub;
   faPhone = faPhone;
@@ -25,7 +25,7 @@ export class FooterComponent implements OnInit {
   faTwitterSquare = faTwitterSquare;
 
   copyrightYear = new Date().getFullYear();
-  masterSheetLink: string;
+  masterSheetLink: string = '';
 
   constructor(
     public configService: ConfigService,
@@ -33,11 +33,9 @@ export class FooterComponent implements OnInit {
     public ga: GoogleAnalyticsService
   ) {
     this.configService.config$.subscribe((config) => {
-      this.masterSheetLink = config.masterSheetLink as string;
+      this.masterSheetLink = config['masterSheetLink'] as string;
     });
   }
-
-  ngOnInit(): void {}
 
   openDocs() {
     this.router.navigate(['/docs']);

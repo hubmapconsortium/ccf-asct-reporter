@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Router, NavigationEnd } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { environment } from '../environments/environment';
-import { ConsentService } from './services/consent.service';
 import { TrackingPopupComponent } from './components/tracking-popup/tracking-popup.component';
+import { ConsentService } from './services/consent.service';
 
-declare let gtag: (arg1?, arg2?, arg3?) => void;
+declare let gtag: (arg1?: unknown, arg2?: unknown, arg3?: unknown) => void;
 
 @Component({
   selector: 'app-reporter',

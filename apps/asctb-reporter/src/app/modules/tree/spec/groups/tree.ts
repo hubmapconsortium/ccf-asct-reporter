@@ -1,25 +1,20 @@
-import { GroupMark } from 'vega';
+import { GroupMark, Mark } from 'vega';
 
-export interface VegaTreeMarkGroup {
-  /**
-   * Vega mark group
-   */
+export class TreeMarkGroup {
+  static create(): GroupMark {
+    return new TreeMarkGroup().group;
+  }
+
   group: GroupMark;
-}
-
-export class TreeMarkGroup implements VegaTreeMarkGroup {
-  group: any;
 
   constructor() {
     this.group = this.makeTreeMarkGroup();
-
-    return this.group;
   }
 
   /**
    * Mark group for the AS tree
    */
-  makeTreeMarkGroup() {
+  makeTreeMarkGroup(): GroupMark {
     return {
       type: 'group',
       signals: [{ name: 'bgoffset', value: 6 }],
@@ -40,7 +35,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
   /**
    * Mark for the blue rectangle for search
    */
-  makeBimodalTextSearchMarks() {
+  makeBimodalTextSearchMarks(): Mark {
     return {
       name: 'rectmark',
       type: 'rect',
@@ -101,7 +96,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
               value: 1,
             },
             {
-              value: '0',
+              value: 0,
             },
           ],
         },
@@ -112,7 +107,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
   /**
    * Rectangle around the bimodal text mark when discrepency label toggle is turned on
    */
-  makeBimodalTextDiscrepencyLabelMarks() {
+  makeBimodalTextDiscrepencyLabelMarks(): Mark {
     return {
       name: 'rectmarkdiscrepencylabel',
       type: 'rect',
@@ -173,7 +168,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
               value: 1,
             },
             {
-              value: '0',
+              value: 0,
             },
           ],
         },
@@ -184,7 +179,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
   /**
    * Rectangle around the bimodal text mark when discrepency Id toggle is turned on
    */
-  makeBimodalTextDiscrepencyIdMarks() {
+  makeBimodalTextDiscrepencyIdMarks(): Mark {
     return {
       name: 'rectmarkdiscrepencyid',
       type: 'rect',
@@ -245,7 +240,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
               value: 1,
             },
             {
-              value: '0',
+              value: 0,
             },
           ],
         },
@@ -256,7 +251,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
   /**
    * Rectangle around the bimodal text mark when duplicate Id toggle is turned on
    */
-  makeBimodalTextDuplicateIdMarks() {
+  makeBimodalTextDuplicateIdMarks(): Mark {
     return {
       name: 'rectmarkduplicateid',
       type: 'rect',
@@ -317,7 +312,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
               value: 1,
             },
             {
-              value: '0',
+              value: 0,
             },
           ],
         },
@@ -328,7 +323,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
   /**
    * AS Tree paths marks
    */
-  makeTreePathMarks() {
+  makeTreePathMarks(): Mark {
     return {
       type: 'path',
       from: { data: 'links' },
@@ -361,7 +356,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
   /**
    * AS tree symbol marks
    */
-  makeTreeSymbolMarks() {
+  makeTreeSymbolMarks(): Mark {
     return {
       type: 'symbol',
       from: { data: 'tree' },
@@ -405,7 +400,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
   /**
    * AS tree link text marks (these are clikable to get info )
    */
-  makeTreeTextLinkMarks() {
+  makeTreeTextLinkMarks(): Mark {
     return {
       type: 'text',
       name: 'aslinktextmark',
@@ -460,7 +455,7 @@ export class TreeMarkGroup implements VegaTreeMarkGroup {
   /**
    * AS Tree text marks
    */
-  makeTreeTextMarks() {
+  makeTreeTextMarks(): Mark {
     return {
       type: 'text',
       name: 'astextmark',

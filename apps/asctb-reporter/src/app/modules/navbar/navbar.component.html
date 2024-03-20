@@ -16,7 +16,7 @@
     >
       <mat-icon class="toolbar-icons">menu</mat-icon>
     </app-nav-item>
-    <div *ngIf="(ui$ | async).controlPaneOpen === false">
+    <div *ngIf="(ui$ | async)?.controlPaneOpen === false">
       <img
         src="./assets/logo.svg"
         alt=""
@@ -28,7 +28,9 @@
       />
     </div>
     <div class="search ml-1">
-      <app-search [disabled]="(ui$ | async).error.hasError"></app-search>
+      <app-search
+        [disabled]="(ui$ | async)?.error?.hasError ?? false"
+      ></app-search>
     </div>
 
     <button
@@ -58,7 +60,7 @@
       <mat-icon class="toolbar-icons">table_view</mat-icon>
       <app-table-nested-menu
         #nestedMenu
-        [sheetDetails]="configService.allSheetConfigurations$ | async"
+        [sheetDetails]="(configService.allSheetConfigurations$ | async) ?? []"
       ></app-table-nested-menu>
     </app-nav-item>
 
@@ -92,7 +94,7 @@
       #tooltip="matTooltip"
       matTooltip="Indented List"
       matTooltipPosition="below"
-      [disabled]="(ui$ | async).error.hasError"
+      [disabled]="(ui$ | async)?.error?.hasError ?? false"
       mat-icon-button
     >
       <mat-icon class="toolbar-icons">format_indent_increase</mat-icon>
@@ -100,7 +102,7 @@
 
     <app-nav-item
       [label]="'Compare'"
-      [disabled]="(ui$ | async).error.hasError"
+      [disabled]="(ui$ | async)?.error?.hasError ?? false"
       mat-icon-button
       (click)="toggleCompare()"
       #tooltip="matTooltip"
@@ -113,7 +115,7 @@
 
     <app-nav-item
       [label]="'Report'"
-      [disabled]="(ui$ | async).error.hasError"
+      [disabled]="(ui$ | async)?.error?.hasError ?? false"
       mat-icon-button
       (click)="toggleReport()"
       #tooltip="matTooltip"
@@ -135,7 +137,7 @@
 
     <app-nav-item
       [label]="'Export'"
-      [disabled]="(ui$ | async).error.hasError"
+      [disabled]="(ui$ | async)?.error?.hasError ?? false"
       autofocus="false"
       mat-icon-button
       #tooltip="matTooltip"

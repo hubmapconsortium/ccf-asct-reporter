@@ -1,24 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Legend } from '../../models/legend.model';
-import { TNode } from '../../models/tree.model';
 import { BMNode } from '../../models/bimodal.model';
+import { Legend } from '../../models/legend.model';
 import { CompareData, PROTEIN_PRESENCE } from '../../models/sheet.model';
+import { TNode } from '../../models/tree.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LegendService {
-  private legendData = new Subject<any>();
+  private legendData = new Subject<Legend[]>();
   legendData$ = this.legendData.asObservable();
-  constructor() {}
 
   makeLegendData(
     treeData: TNode[],
     bimodalData: BMNode[],
-    compareData?: CompareData[]
-  ): Array<Legend> {
-    const legends: Array<Legend> = [];
+    compareData: CompareData[] = []
+  ): Legend[] {
+    const legends: Legend[] = [];
     let addedBMBG = false;
     let addedBMBP = false;
     let addedBMBL = false;
@@ -41,7 +40,7 @@ export class LegendService {
         if (legends.findIndex((l) => l.color === i.color) === -1) {
           if (compareData.length) {
             legends.push({
-              name: compareData.find((c) => c.color === i.color).title,
+              name: compareData.find((c) => c.color === i.color)?.title ?? '',
               color: i.color,
               style: '',
               sortOrder: 10,
@@ -49,7 +48,7 @@ export class LegendService {
 
             legends.push({
               name:
-                compareData.find((c) => c.color === i.color).title +
+                (compareData.find((c) => c.color === i.color)?.title ?? '') +
                 ' - New Nodes',
               color: i.color,
               style: 'stroke',
@@ -65,7 +64,7 @@ export class LegendService {
         if (legends.findIndex((l) => l.color === i.color) === -1) {
           if (compareData.length) {
             legends.push({
-              name: compareData.find((c) => c.color === i.color).title,
+              name: compareData.find((c) => c.color === i.color)?.title ?? '',
               color: i.color,
               style: '',
               sortOrder: 10,
@@ -73,7 +72,7 @@ export class LegendService {
 
             legends.push({
               name:
-                compareData.find((c) => c.color === i.color).title +
+                (compareData.find((c) => c.color === i.color)?.title ?? '') +
                 ' - New Nodes',
               color: i.color,
               style: 'stroke',

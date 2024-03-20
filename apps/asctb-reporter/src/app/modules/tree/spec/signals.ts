@@ -1,18 +1,15 @@
 import { Signal } from 'vega';
 import { SheetConfig } from '../../../models/sheet.model';
 
-interface VegaSignals {
-  /**
-   * A list of vega signals
-   */
-  signals: Array<Signal>;
-}
+export class Signals {
+  static create(config: SheetConfig): Signal[] {
+    return new Signals(config).signals;
+  }
 
-export class Signals implements VegaSignals {
   /**
    * List of signals
    */
-  signals: any;
+  signals: Signal[];
 
   constructor(config: SheetConfig) {
     this.signals = [
@@ -27,12 +24,10 @@ export class Signals implements VegaSignals {
       this.makeBimodalTextHoverSignal(),
       this.makeASTreeWidthSignal(config.width),
       this.makeASTreeHeightSignal(config.height),
-      this.makeShowOntologyIDSignal(config.show_ontology),
+      this.makeShowOntologyIDSignal(config.show_ontology ?? false),
       this.makeBiomodalPathDOISignal(),
       this.makeDiscrepencySignal(),
     ];
-
-    return this.signals;
   }
 
   /**

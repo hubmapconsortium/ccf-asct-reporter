@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
+import { MatMenu } from '@angular/material/menu';
 import { SheetDetails } from '../../models/sheet.model';
 
 @Component({
@@ -6,15 +7,12 @@ import { SheetDetails } from '../../models/sheet.model';
   templateUrl: './table-nested-menu.component.html',
   styleUrls: ['./table-nested-menu.component.scss'],
 })
-export class TableNestedMenuComponent implements OnInit {
-  @Input() sheetDetails: SheetDetails[];
-  @Input() title: string;
+export class TableNestedMenuComponent {
+  @Input() sheetDetails: SheetDetails[] = [];
+  @Input() title: string = '';
   window = window;
-  @ViewChild('childMenu', { static: true }) public childMenu;
+  @ViewChild('childMenu', { static: true }) public childMenu!: MatMenu;
   sheetURL = 'https://docs.google.com/spreadsheets/d/';
-  constructor() {}
-
-  ngOnInit(): void {}
 
   openURL(sheetId: string, gid: string) {
     this.window.open(`${this.sheetURL}${sheetId}/edit#gid=${gid}`, '_blank');

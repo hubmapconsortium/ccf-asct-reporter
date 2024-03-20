@@ -11,7 +11,7 @@
         <!-- Versions node menu items -->
         <span *ngIf="version">
           <button
-            (click)="openURL(version.sheetId, version.gid)"
+            (click)="openURL(version.sheetId ?? '', version.gid ?? '')"
             mat-menu-item
             color="primary"
           >

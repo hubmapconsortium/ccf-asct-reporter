@@ -1,23 +1,19 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { REGISTRY } from '../../../static/docs';
-import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-docs-nav',
   templateUrl: './docs-nav.component.html',
   styleUrls: ['./docs-nav.component.scss'],
 })
-export class DocsNavComponent implements OnInit {
+export class DocsNavComponent{
   REGISTRY = REGISTRY;
   faArrowRight = faArrowRight;
   faArrowLeft = faArrowLeft;
 
-  @Input() next: number | null;
-  @Input() prev: number | null;
+  @Input() next: number | null = null;
+  @Input() prev: number | null = null;
   @Output() nextClick = new EventEmitter();
   @Output() prevClick = new EventEmitter();
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

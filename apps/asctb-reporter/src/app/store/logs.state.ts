@@ -1,11 +1,11 @@
-import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
 
 import { Injectable } from '@angular/core';
-import { ReportLog, ClearSheetLogs } from '../actions/logs.actions';
+import { ClearSheetLogs, ReportLog } from '../actions/logs.actions';
 import { Log, LogEntry } from '../models/logs.model';
 
 /** Class to keep track of the logs */
-export class LogsStateModel {
+export interface LogsStateModel {
   /**
    * Id of the log
    */
@@ -46,8 +46,6 @@ export class LogsStateModel {
 })
 @Injectable()
 export class LogsState {
-  constructor() {}
-
   /**
    * Returns the sheet logs and all logs
    */
@@ -74,35 +72,35 @@ export class LogsState {
 
     switch (type) {
       case 'MSG': {
-        const newLog: LogEntry = { text: message, icon, version };
+        const newLog: LogEntry = { text: message, icon: icon ?? '', version };
         sheetLogs.messages.push(newLog);
 
         const foundLog = allLogs.find((l) => l.id === id);
-        foundLog.messages.push(newLog);
+        foundLog?.messages.push(newLog);
         break;
       }
       case 'NO_OUT_LINKS': {
         sheetLogs.NO_OUT_LINKS.push(message);
         const foundNOLLog = allLogs.find((l) => l.id === id);
-        foundNOLLog.NO_OUT_LINKS.push(message);
+        foundNOLLog?.NO_OUT_LINKS.push(message);
         break;
       }
       case 'NO_IN_LINKS': {
         sheetLogs.NO_IN_LINKS.push(message);
         const foundNILLog = allLogs.find((l) => l.id === id);
-        foundNILLog.NO_IN_LINKS.push(message);
+        foundNILLog?.NO_IN_LINKS.push(message);
         break;
       }
       case 'MULTI_IN_LINKS': {
         sheetLogs.MULTI_IN_LINKS.push(message);
         const foundMILLLog = allLogs.find((l) => l.id === id);
-        foundMILLLog.MULTI_IN_LINKS.push(message);
+        foundMILLLog?.MULTI_IN_LINKS.push(message);
         break;
       }
       case 'SELF_LINKS': {
         sheetLogs.SELF_LINKS.push(message);
         const foundSLLog = allLogs.find((l) => l.id === id);
-        foundSLLog.SELF_LINKS.push(message);
+        foundSLLog?.SELF_LINKS.push(message);
         break;
       }
     }

@@ -6,7 +6,12 @@ export class ILNode {
   comparator: string;
   type: string;
 
-  constructor(name, children, ontologyId, color = '#808080') {
+  constructor(
+    name: string,
+    children: ILNode[],
+    ontologyId: string,
+    color = '#808080'
+  ) {
     this.name = name;
     this.children = children;
     this.ontologyId = ontologyId;
@@ -15,10 +20,10 @@ export class ILNode {
     this.type = '';
   }
 
-  public search(name) {
-    for (const i in this.children) {
-      if (this.children[i].name.toLowerCase() === name.toLowerCase()) {
-        return this.children[i];
+  public search(name: string) {
+    for (const child of this.children ?? []) {
+      if (child.name.toLowerCase() === name.toLowerCase()) {
+        return child;
       }
     }
     return {};

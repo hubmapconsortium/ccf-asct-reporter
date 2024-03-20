@@ -42,7 +42,7 @@ import { Snackbar } from '../models/ui.model';
 import { TreeState } from './tree.state';
 
 /** Interface to keep track of all UI elements */
-export class UIStateModel {
+export interface UIStateModel {
   /**
    * Keep track of the right sidebar
    */
@@ -335,7 +335,7 @@ export class UIState {
       loadingText: '',
     });
 
-    dispatch(new OpenSnackbar(text, SnackbarType.success));
+    dispatch(new OpenSnackbar(text ?? '', SnackbarType.success));
   }
 
   /**
@@ -347,14 +347,18 @@ export class UIState {
     { getState, setState, dispatch }: StateContext<UIStateModel>,
     { error }: HasError
   ) {
-    dispatch(new ReportLog(LOG_TYPES.MSG, error.msg, LOG_ICONS.error));
+    dispatch(new ReportLog(LOG_TYPES.MSG, error.msg ?? '', LOG_ICONS.error));
     const state = getState();
     setState({
       ...state,
       error,
       loading: false,
       loadingText: '',
-      snackbar: { opened: true, text: error.msg, type: SnackbarType.error },
+      snackbar: {
+        opened: true,
+        text: error.msg ?? '',
+        type: SnackbarType.error,
+      },
     });
   }
 
@@ -467,7 +471,7 @@ export class UIState {
    */
   @Action(OpenBottomSheetDOI)
   OpenBottomSheetDOI(
-    { getState, setState, dispatch }: StateContext<UIStateModel>,
+    { dispatch }: StateContext<UIStateModel>,
     { data }: OpenBottomSheetDOI
   ) {
     dispatch(new CloseBottomSheet());

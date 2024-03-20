@@ -1,31 +1,30 @@
 import {
   Component,
-  Input,
-  ViewChild,
   ElementRef,
   HostListener,
+  Input,
+  ViewChild,
 } from '@angular/core';
-
+import { NavigationEnd, Router } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { Observable } from 'rxjs';
-import { BimodalService } from '../../modules/tree/bimodal.service';
-import { Store, Select } from '@ngxs/store';
-import { TreeState, TreeStateModel } from '../../store/tree.state';
-import { SearchStructure, TNode } from '../../models/tree.model';
+import { UpdateConfig } from '../../actions/sheet.actions';
 import {
   DiscrepencyId,
   DiscrepencyLabel,
   DoSearch,
   DuplicateId,
 } from '../../actions/tree.actions';
-import { BMNode } from '../../models/bimodal.model';
-import { GoogleAnalyticsService } from 'ngx-google-analytics';
-import { GaAction, GaCategory } from '../../models/ga.model';
-import { UIState, UIStateModel } from '../../store/ui.state';
 import { CloseSearch, OpenSearch } from '../../actions/ui.actions';
-import { Router, NavigationEnd } from '@angular/router';
-import { UpdateConfig } from '../../actions/sheet.actions';
-import { SheetState } from '../../store/sheet.state';
+import { BMNode } from '../../models/bimodal.model';
+import { GaAction, GaCategory } from '../../models/ga.model';
 import { SheetConfig } from '../../models/sheet.model';
+import { SearchStructure, TNode } from '../../models/tree.model';
+import { BimodalService } from '../../modules/tree/bimodal.service';
+import { SheetState } from '../../store/sheet.state';
+import { TreeState, TreeStateModel } from '../../store/tree.state';
+import { UIState, UIStateModel } from '../../store/ui.state';
 
 @Component({
   selector: 'app-search',
@@ -43,20 +42,20 @@ export class SearchComponent {
   // Contains the subset of structures matching the group name button toggle
   public groupFilteredStructures: SearchStructure[] = [];
 
-  @ViewChild('searchField', { static: false }) searchFieldContent: ElementRef;
+  @ViewChild('searchField', { static: false }) searchFieldContent!: ElementRef;
 
-  @Select(TreeState) tree$: Observable<TreeStateModel>;
-  @Select(UIState) ui$: Observable<UIStateModel>;
-  @Select(UIState.getSearchState) searchState$: Observable<boolean>;
-  @Select(SheetState.getSheetConfig) sheetConfig$: Observable<SheetConfig>;
+  @Select(TreeState) tree$!: Observable<TreeStateModel>;
+  @Select(UIState) ui$!: Observable<UIStateModel>;
+  @Select(UIState.getSearchState) searchState$!: Observable<boolean>;
+  @Select(SheetState.getSheetConfig) sheetConfig$!: Observable<SheetConfig>;
 
-  treeData: TNode[];
-  nodes: BMNode[];
+  treeData: TNode[] = [];
+  nodes: BMNode[] = [];
   searchValue = '';
   selectedValues = '';
-  selectedOptions: SearchStructure[];
+  selectedOptions: SearchStructure[] = [];
   selectionMemory: SearchStructure[] = [];
-  sheetConfig: SheetConfig;
+  sheetConfig!: SheetConfig;
   searchOpen = false;
   selectionCompareFunction = (o1: SearchStructure, o2: SearchStructure) =>
     o1.id === o2.id;
@@ -106,7 +105,9 @@ export class SearchComponent {
     this.sheetConfig.duplicateId = false;
     this.store.dispatch(new UpdateConfig(this.sheetConfig));
     // Dispatch the search data to the tree store
-    this.store.dispatch(new DoSearch(this.selectedOptions, lastClickedOption));
+    this.store.dispatch(
+      new DoSearch(this.selectedOptions, lastClickedOption as SearchStructure)
+    );
 
     // Clearing Discrepency fields so that searched options can appear
     this.store.dispatch(new DiscrepencyLabel([]));
@@ -139,7 +140,9 @@ export class SearchComponent {
     this.selectedOptions = [];
     this.selectionMemory = [];
     this.selectedValues = '';
-    this.store.dispatch(new DoSearch(this.selectedOptions, null));
+    this.store.dispatch(
+      new DoSearch(this.selectedOptions, null as unknown as SearchStructure)
+    );
     this.ga.event(
       GaAction.CLICK,
       GaCategory.NAVBAR,

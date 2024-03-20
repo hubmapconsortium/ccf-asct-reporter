@@ -1,7 +1,7 @@
 /*eslint no-underscore-dangle: "off" */
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Spec } from 'vega';
+import { Spec, View } from 'vega';
 import {
   DiscrepencyId,
   DiscrepencyLabel,
@@ -11,20 +11,20 @@ import {
   UpdateBimodalConfig,
   UpdateBottomSheetData,
   UpdateLinksData,
+  UpdateOmapConfig,
   UpdateVegaSpec,
   UpdateVegaView,
-  UpdateOmapConfig,
 } from '../actions/tree.actions';
 import { BMNode, BimodalConfig, Link } from '../models/bimodal.model';
+import { OmapConfig } from '../models/omap.model';
 import {
   DiscrepencyStructure,
   SearchStructure,
   TNode,
 } from '../models/tree.model';
-import { OmapConfig } from '../models/omap.model';
 
 /** Class to keep track of all data and events related to the visualization */
-export class TreeStateModel {
+export interface TreeStateModel {
   /**
    * Stores the Vega Specification
    */
@@ -36,7 +36,7 @@ export class TreeStateModel {
   /**
    * Store the Vega view object which enables us to use the Vega API
    */
-  view: any;
+  view: View;
   /**
    * Store the width of the visualization
    */
@@ -99,7 +99,7 @@ export class TreeStateModel {
   defaults: {
     spec: {},
     treeData: [],
-    view: {},
+    view: {} as View,
     width: 0,
     height: document.getElementsByTagName('body')[0].clientHeight,
     bimodal: {
@@ -111,7 +111,7 @@ export class TreeStateModel {
       },
     },
     search: [],
-    lastSearch: null,
+    lastSearch: null as unknown as SearchStructure,
     bottomSheetData: {},
     links: {
       AS_CT: 0,
@@ -231,7 +231,7 @@ export class TreeState {
    */
   @Action(UpdateVegaView)
   updateVegaView(
-    { getState, patchState }: StateContext<TreeStateModel>,
+    { patchState }: StateContext<TreeStateModel>,
     { view }: UpdateVegaView
   ) {
     patchState({

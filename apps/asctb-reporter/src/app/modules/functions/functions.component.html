@@ -32,7 +32,7 @@
           <mat-select
             [disabled]="error.hasError"
             (selectionChange)="changeOptions('CT', 'sort', $event)"
-            [value]="(config$ | async).CT.sort"
+            [value]="(config$ | async)?.CT?.sort"
             [hideSingleSelectionIndicator]="true"
             [panelClass]="'cell-types-panel'"
           >
@@ -63,7 +63,7 @@
           <mat-select
             [disabled]="error.hasError"
             (selectionChange)="changeOptions('CT', 'size', $event)"
-            [value]="(config$ | async).CT.size"
+            [value]="(config$ | async)?.CT?.size"
             [hideSingleSelectionIndicator]="true"
             [panelClass]="'cell-types-panel'"
           >
@@ -108,7 +108,7 @@
           <mat-select
             [disabled]="error.hasError"
             (selectionChange)="changeOptions('BM', 'sort', $event)"
-            [value]="(config$ | async).BM.sort"
+            [value]="(config$ | async)?.BM?.sort"
             [hideSingleSelectionIndicator]="true"
             [panelClass]="'cell-types-panel'"
           >
@@ -139,7 +139,7 @@
           <mat-select
             [disabled]="error.hasError"
             (selectionChange)="changeOptions('BM', 'size', $event)"
-            [value]="(config$ | async).BM.size"
+            [value]="(config$ | async)?.BM?.size"
             [hideSingleSelectionIndicator]="true"
             [panelClass]="'cell-types-panel'"
           >
@@ -170,7 +170,7 @@
           <mat-select
             [disabled]="error.hasError"
             (selectionChange)="changeOptions('BM', 'type', $event)"
-            [value]="(config$ | async).BM.type"
+            [value]="(config$ | async)?.BM?.type"
             [hideSingleSelectionIndicator]="true"
             [panelClass]="'cell-types-panel'"
           >
