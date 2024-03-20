@@ -159,7 +159,7 @@ export class BimodalService {
           treeY,
           14,
           cell.notes,
-          cell.organName,
+          cell.organName ?? '',
           cell.link,
           CT_BLUE,
           cell.nodeSize
@@ -246,7 +246,7 @@ export class BimodalService {
           treeY,
           14,
           marker.notes,
-          marker.organName,
+          marker.organName ?? '',
           marker.link,
           B_GREEN,
           marker.nodeSize,

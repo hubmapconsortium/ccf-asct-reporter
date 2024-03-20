@@ -146,7 +146,10 @@ export class RootComponent implements OnDestroy {
   >;
   @Select(SheetState.getReportdata) rd$!: Observable<Report>;
   @Select(SheetState.getCompareData) compareData$!: Observable<Row[]>;
-  @Select(SheetState.getAllCompareData) allCompareData$!: Observable<unknown>;
+  @Select(SheetState.getAllCompareData) allCompareData$!: Observable<{
+    data: Row[];
+    sheets: CompareData[];
+  }>;
   @Select(SheetState.getMode) mode$!: Observable<string>;
   @Select(SheetState.getBottomSheetInfo)
   bottomSheetInfo$!: Observable<SheetInfo>;
@@ -592,8 +595,8 @@ export class RootComponent implements OnDestroy {
    * Dispatch action to open bottom sheet
    * @param id ontology id
    */
-  getStructureInfo(data: OpenBottomSheetData) {
-    this.store.dispatch(new OpenBottomSheet(data));
+  getStructureInfo(data: { name: string; ontologyId: string }) {
+    this.store.dispatch(new OpenBottomSheet(data as OpenBottomSheetData));
   }
 
   /**

@@ -119,10 +119,10 @@ export class TreeService {
       const allParentIds = new Set();
       const root = new TNode(
         id,
-        data[0].anatomical_structures[0].name,
+        data[0].anatomical_structures[0].name ?? '',
         0,
-        data[0].anatomical_structures[0].id,
-        data[0].anatomical_structures[0].notes,
+        data[0].anatomical_structures[0].id ?? '',
+        data[0].anatomical_structures[0].notes ?? '',
         'Body',
         AS_RED
       );
@@ -187,10 +187,10 @@ export class TreeService {
               id,
               structure.id && idNameSet[structure.id]
                 ? idNameSet[structure.id]
-                : structure.name,
+                : structure.name ?? '',
               parent.id,
-              structure.id,
-              structure.notes,
+              structure.id ?? '',
+              structure.notes ?? '',
               row.organName,
               AS_RED
             );

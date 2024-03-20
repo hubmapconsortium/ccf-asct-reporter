@@ -14,7 +14,7 @@ export enum NODE_TYPE {
 export class TNode {
   id: number;
   name: string;
-  parent: string;
+  parent: number;
   ontologyId: string;
   color: string;
   problem: boolean;
@@ -37,7 +37,7 @@ export class TNode {
   constructor(
     id: number,
     name: string,
-    parent: string,
+    parent: number,
     uId: string,
     notes: string,
     organName: string,
