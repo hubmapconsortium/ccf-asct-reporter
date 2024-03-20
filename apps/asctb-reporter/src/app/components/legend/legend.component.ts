@@ -5,6 +5,7 @@ import { Error } from '../../models/response.model';
 import { CompareData } from '../../models/sheet.model';
 import { TNode } from '../../models/tree.model';
 import { LegendService } from './legend.service';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-legend',
@@ -22,7 +23,7 @@ export class LegendComponent implements OnInit, OnChanges {
   constructor(public ls: LegendService) {}
 
   ngOnInit(): void {
-    this.ls.legendData$.subscribe((data) => {
+    this.ls.legendData$.pipe(delay(0)).subscribe((data) => {
       if (data.length) {
         this.legends = data;
       }

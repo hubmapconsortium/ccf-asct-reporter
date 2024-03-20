@@ -112,6 +112,10 @@ export class TreeService {
     isReport = false
   ): void {
     try {
+      if (data.length === 0) {
+        return;
+      }
+
       const idNameSet: Record<string, string> = {};
       let id = 1;
       let parent: TNode;
