@@ -5,7 +5,6 @@ import { PLAYGROUND_CSV } from '../../const';
 import { makeASCTBData } from '../functions/api.functions';
 
 export function setupPlaygroundRoutes(app: Express): void {
-
   /**
    * Get the toy CSV data set for the default playground view
    */
@@ -19,7 +18,7 @@ export function setupPlaygroundRoutes(app: Express): void {
         metadata: asctbData.metadata,
         csv: PLAYGROUND_CSV,
         parsed: parsed,
-        warnings: asctbData.warnings
+        warnings: asctbData.warnings,
       });
     } catch (err) {
       console.log(err);

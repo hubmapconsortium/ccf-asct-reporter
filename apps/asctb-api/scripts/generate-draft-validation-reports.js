@@ -1,7 +1,5 @@
 const sheetConfig = require("../../projects/v2/src/assets/sheet-config.json");
 const axios = require("axios");
-const fs = require("fs");
-const path = require("path");
 const XLSX = require("xlsx");
 
 let XLSX_FILE = "validation-report.xlsx";

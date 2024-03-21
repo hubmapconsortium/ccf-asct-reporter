@@ -1,8 +1,6 @@
 import { Express, RequestHandler } from 'express';
-import { resolve } from 'path';
 
 export const browserRoute: RequestHandler = (_req, res, _next) => {
-
   res.send(`<!doctype html>
     <html lang="en">
     <head>
@@ -19,10 +17,10 @@ export const browserRoute: RequestHandler = (_req, res, _next) => {
 };
 
 export const openApiRoute: RequestHandler = (_req, res, _next) => {
-  const apiFile = resolve('asctb-api-spec.yaml');
-  res.sendFile(apiFile);
+  res.sendFile('assets/asctb-api-spec.yaml', {
+    root: __dirname,
+  });
 };
-
 
 export function setupOpenApiSpecRoutes(app: Express): void {
   app.get('/', browserRoute);

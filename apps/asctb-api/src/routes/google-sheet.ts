@@ -7,7 +7,6 @@ import { makeASCTBData } from '../functions/api.functions';
 import { makeGraphData } from '../functions/graph.functions';
 
 export function setupGoogleSheetRoutes(app: Express): void {
-
   /**
    * Fetch a Google Sheet given the sheet id and gid. Parses the data and returns JSON format.
    */
@@ -18,7 +17,7 @@ export function setupGoogleSheetRoutes(app: Express): void {
     const f2 = req.params.gid;
 
     try {
-      let response: {data: string};
+      let response: { data: string };
 
       if (f1 === '0' && f2 === '0') {
         response = { data: PLAYGROUND_CSV };
@@ -37,7 +36,7 @@ export function setupGoogleSheetRoutes(app: Express): void {
         warnings: asctbData.warnings,
         csv: response.data,
         parsed: data,
-        isOmap: asctbData.isOmap
+        isOmap: asctbData.isOmap,
       });
     } catch (err) {
       console.log(err);
@@ -56,7 +55,7 @@ export function setupGoogleSheetRoutes(app: Express): void {
     const sheetID = req.params.sheetid;
     const gID = req.params.gid;
     try {
-      let resp: {data: string};
+      let resp: { data: string };
 
       if (sheetID === '0' && gID === '0') {
         resp = { data: PLAYGROUND_CSV };
@@ -70,7 +69,7 @@ export function setupGoogleSheetRoutes(app: Express): void {
       const graphData = makeGraphData(asctbData.data);
 
       return res.send({
-        data: graphData
+        data: graphData,
       });
     } catch (err) {
       console.log(err);

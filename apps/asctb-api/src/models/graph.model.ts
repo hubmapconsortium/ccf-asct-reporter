@@ -18,7 +18,7 @@ export enum Edge_type {
   CT_BM = 'CTmetabolites',
   CT_BF = 'CTproteoforms',
   AS_G = 'ASgene', // Not supported, but shows up in the data
-  AS_P = 'ASprotein' // Not supported, but shows up in the data
+  AS_P = 'ASprotein', // Not supported, but shows up in the data
 }
 
 export class GNode {
@@ -39,7 +39,7 @@ export class GNode {
     label: string,
     type: string,
     references: Reference[],
-    bType?: string,
+    bType?: string
   ) {
     this.id = id;
     this.parent = parent;
@@ -61,7 +61,13 @@ export class Metadata {
   bmType?: string;
   references: Reference[];
 
-  constructor(name: string, ontologyId: string, label: string, references: Reference[], bmType?: string) {
+  constructor(
+    name: string,
+    ontologyId: string,
+    label: string,
+    references: Reference[],
+    bmType?: string
+  ) {
     this.name = name;
     this.ontologyId = ontologyId;
     if (ontologyId.toLowerCase().startsWith('fma')) {
@@ -70,8 +76,7 @@ export class Metadata {
         ontologyId = ontologyId.split(':')[1];
       }
       ontologyId = 'FMA:' + ontologyId;
-    }
-    else if (ontologyId.toLowerCase().startsWith('uberon')) {
+    } else if (ontologyId.toLowerCase().startsWith('uberon')) {
       ontologyId = ontologyId.substring('uberon'.length);
       if (ontologyId.includes(':')) {
         ontologyId = ontologyId.split(':')[1];

@@ -9,7 +9,7 @@ export enum WarningCode {
   MissingCTorAnatomy = 6,
   UnmappedData = 7,
   BadColumn = 8,
-  NoIdInCT1 = 9
+  NoIdInCT1 = 9,
 }
 
 export const WarningLabels = {

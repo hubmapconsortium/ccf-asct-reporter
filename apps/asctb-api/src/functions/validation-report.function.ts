@@ -24,7 +24,7 @@ export function makeValidationReport(data: ASCTBData): string {
       if (codeByWarnings[code]) {
         codeByWarnings[code].push(warning);
       } else {
-        codeByWarnings[code] = [ warning ];
+        codeByWarnings[code] = [warning];
       }
     }
   }
@@ -32,7 +32,9 @@ export function makeValidationReport(data: ASCTBData): string {
   // Loop for checking the group of errors, and if length of the group errors is more then 0 then it has failed the validation and vise versa
   for (const [codeString, label] of Object.entries(WarningLabels)) {
     const code: WarningCode = parseInt(codeString);
-    lines.push(`Validation ${label} ${ codeByWarnings[code] ? 'failed' : 'passed' }`);
+    lines.push(
+      `Validation ${label} ${codeByWarnings[code] ? 'failed' : 'passed'}`
+    );
   }
 
   // Adding extra lines for space

@@ -1,7 +1,6 @@
 import { RequestHandler } from 'express';
 import mcache from 'memory-cache';
 
-
 export function routeCache(duration: number): RequestHandler {
   return (req, res, next) => {
     // query parameters

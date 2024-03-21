@@ -2,7 +2,13 @@
 export const DELIMETER = ';';
 export const TITLE_ROW_INDEX = 0;
 
-export const metadataArrayFields = ['author_names', 'author_orcids', 'reviewer_names', 'reviewer_orcids', 'general_publications'];
+export const metadataArrayFields = [
+  'author_names',
+  'author_orcids',
+  'reviewer_names',
+  'reviewer_orcids',
+  'general_publications',
+];
 export const metadataNameMap: Record<string, string> = {
   'Author Name(s):': 'author_names',
   'Author ORCID(s):': 'author_orcids',
@@ -11,7 +17,7 @@ export const metadataNameMap: Record<string, string> = {
   'General Publication(s):': 'general_publications',
   'Data DOI:': 'data_doi',
   'Date:': 'date',
-  'Version Number:': 'version'
+  'Version Number:': 'version',
 };
 export enum BM_TYPE {
   G = 'gene',
@@ -22,22 +28,76 @@ export enum BM_TYPE {
 }
 
 export const OMAP_ORGAN: Record<string, Structure> = {
-  'https://doi.org/10.48539/HBM467.LRKZ.884': { name: 'skin', rdfs_label: 'skin of body', id: 'UBERON:0002097', setBiomarkerProperties: undefined, isValid: undefined },
-  'https://doi.org/10.48539/HBM577.SBHH.454': { name: 'skin', rdfs_label: 'skin of body', id: 'UBERON:0002097', setBiomarkerProperties: undefined, isValid: undefined },
-  'https://doi.org/10.48539/HBM674.DJKV.876': { name: 'lymph node', rdfs_label: 'lymph node', id: 'UBERON: 0000029', setBiomarkerProperties: undefined, isValid: undefined },
-  'https://doi.org/10.48539/HBM794.CSBJ.358': { name: 'intestine', rdfs_label: 'intestine', id: 'UBERON:0000160', setBiomarkerProperties: undefined, isValid: undefined },
-  'https://doi.org/10.48539/HBM568.RMZB.377': { name: 'kidney', rdfs_label: 'kidney', id: 'UBERON:0002113', setBiomarkerProperties: undefined, isValid: undefined },
-  'https://doi.org/10.48539/HBM495.QBSV.777': { name: 'liver', rdfs_label: 'liver', id: 'UBERON:0002107', setBiomarkerProperties: undefined, isValid: undefined },
-  'https://doi.org/10.48539/HBM868.XLTM.922': { name: 'Pancreas', rdfs_label: 'Pancreas', id: 'UBERON:0001264', setBiomarkerProperties: undefined, isValid: undefined },
-  'https://doi.org/10.48539/HBM972.WHPW.455': { name: 'Lung', rdfs_label: 'Lung', id: 'UBERON:0002048', setBiomarkerProperties: undefined, isValid: undefined },
-  'default': { name: 'unknown', rdfs_label: 'unknown', id: 'unknown', setBiomarkerProperties: undefined, isValid: undefined }
+  'https://doi.org/10.48539/HBM467.LRKZ.884': {
+    name: 'skin',
+    rdfs_label: 'skin of body',
+    id: 'UBERON:0002097',
+    setBiomarkerProperties: undefined,
+    isValid: undefined,
+  },
+  'https://doi.org/10.48539/HBM577.SBHH.454': {
+    name: 'skin',
+    rdfs_label: 'skin of body',
+    id: 'UBERON:0002097',
+    setBiomarkerProperties: undefined,
+    isValid: undefined,
+  },
+  'https://doi.org/10.48539/HBM674.DJKV.876': {
+    name: 'lymph node',
+    rdfs_label: 'lymph node',
+    id: 'UBERON: 0000029',
+    setBiomarkerProperties: undefined,
+    isValid: undefined,
+  },
+  'https://doi.org/10.48539/HBM794.CSBJ.358': {
+    name: 'intestine',
+    rdfs_label: 'intestine',
+    id: 'UBERON:0000160',
+    setBiomarkerProperties: undefined,
+    isValid: undefined,
+  },
+  'https://doi.org/10.48539/HBM568.RMZB.377': {
+    name: 'kidney',
+    rdfs_label: 'kidney',
+    id: 'UBERON:0002113',
+    setBiomarkerProperties: undefined,
+    isValid: undefined,
+  },
+  'https://doi.org/10.48539/HBM495.QBSV.777': {
+    name: 'liver',
+    rdfs_label: 'liver',
+    id: 'UBERON:0002107',
+    setBiomarkerProperties: undefined,
+    isValid: undefined,
+  },
+  'https://doi.org/10.48539/HBM868.XLTM.922': {
+    name: 'Pancreas',
+    rdfs_label: 'Pancreas',
+    id: 'UBERON:0001264',
+    setBiomarkerProperties: undefined,
+    isValid: undefined,
+  },
+  'https://doi.org/10.48539/HBM972.WHPW.455': {
+    name: 'Lung',
+    rdfs_label: 'Lung',
+    id: 'UBERON:0002048',
+    setBiomarkerProperties: undefined,
+    isValid: undefined,
+  },
+  default: {
+    name: 'unknown',
+    rdfs_label: 'unknown',
+    id: 'unknown',
+    setBiomarkerProperties: undefined,
+    isValid: undefined,
+  },
 };
 
 export enum PROTEIN_PRESENCE {
   POS = 'Positive',
   NEG = 'Negative',
   UNKNOWN = 'Unknown',
-  INTERMEDIATE = 'Intermediate'
+  INTERMEDIATE = 'Intermediate',
 }
 
 export const ASCT_HEADER_FIRST_COLUMN = 'AS/1';
@@ -58,27 +118,38 @@ export const arrayNameMap: Record<string, arrayNameType> = {
   BPROTEOFORM: 'biomarkers_prot',
   BL: 'biomarkers_lipids',
   BM: 'biomarkers_meta',
-  BF: 'biomarkers_prot'
+  BF: 'biomarkers_prot',
 };
 
-export type arrayNameType = 'anatomical_structures' | 'cell_types' | 'ftu_types' |
-  'biomarkers_gene' | 'biomarkers_protein' | 'biomarkers_lipids' | 'biomarkers_meta' | 'biomarkers_prot' | 'references';
+export type arrayNameType =
+  | 'anatomical_structures'
+  | 'cell_types'
+  | 'ftu_types'
+  | 'biomarkers_gene'
+  | 'biomarkers_protein'
+  | 'biomarkers_lipids'
+  | 'biomarkers_meta'
+  | 'biomarkers_prot'
+  | 'references';
 
 export const objectFieldMap: Record<string, string> = {
   ID: 'id',
   LABEL: 'rdfs_label',
   DOI: 'doi',
   NOTES: 'notes',
-  NOTE: 'notes'
+  NOTE: 'notes',
 };
 
-export function createObject(name: string, structureType: string): Structure | Reference {
+export function createObject(
+  name: string,
+  structureType: string
+): Structure | Reference {
   switch (structureType) {
-  case 'REF':
-    return new Reference(name);
-  case 'AS':
-  default:
-    return new Structure(name, structureType);
+    case 'REF':
+      return new Reference(name);
+    case 'AS':
+    default:
+      return new Structure(name, structureType);
   }
 }
 
@@ -161,26 +232,30 @@ export class Row {
   ftu_types: Array<Structure> = [];
   references: Reference[] = [];
 
-  constructor(public rowNumber: number) { }
+  constructor(public rowNumber: number) {}
 
   finalize(): void {
-    this.anatomical_structures = this.anatomical_structures.filter(s => s.isValid());
-    this.cell_types = this.cell_types.filter(s => s.isValid());
-    this.ftu_types = this.ftu_types.filter(s => s.isValid());
-    this.references = this.references.filter(s => s.isValid());
+    this.anatomical_structures = this.anatomical_structures.filter((s) =>
+      s.isValid()
+    );
+    this.cell_types = this.cell_types.filter((s) => s.isValid());
+    this.ftu_types = this.ftu_types.filter((s) => s.isValid());
+    this.references = this.references.filter((s) => s.isValid());
 
-    this.biomarkers_gene = this.biomarkers_gene.filter(s => s.isValid());
-    this.biomarkers_protein = this.biomarkers_protein.filter(s => s.isValid());
-    this.biomarkers_lipids = this.biomarkers_lipids.filter(s => s.isValid());
-    this.biomarkers_meta = this.biomarkers_meta.filter(s => s.isValid());
-    this.biomarkers_prot = this.biomarkers_prot.filter(s => s.isValid());
+    this.biomarkers_gene = this.biomarkers_gene.filter((s) => s.isValid());
+    this.biomarkers_protein = this.biomarkers_protein.filter((s) =>
+      s.isValid()
+    );
+    this.biomarkers_lipids = this.biomarkers_lipids.filter((s) => s.isValid());
+    this.biomarkers_meta = this.biomarkers_meta.filter((s) => s.isValid());
+    this.biomarkers_prot = this.biomarkers_prot.filter((s) => s.isValid());
 
     this.biomarkers = [
       ...this.biomarkers_gene,
       ...this.biomarkers_protein,
       ...this.biomarkers_lipids,
       ...this.biomarkers_meta,
-      ...this.biomarkers_prot
+      ...this.biomarkers_prot,
     ];
   }
 }
@@ -190,7 +265,7 @@ export interface UploadedFile {
   /** file name */
   name: string;
   /** A function to move the file elsewhere on your server */
-  mv(path: string, callback: (err: any) => void): void;
+  mv(path: string, callback: (err: unknown) => void): void;
   mv(path: string): Promise<void>;
   /** Encoding type of the file */
   encoding: string;

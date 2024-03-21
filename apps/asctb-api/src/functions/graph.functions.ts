@@ -1,6 +1,5 @@
-/* tslint:disable:variable-name */
-import { GraphData, GNode, Node_type } from '../models/graph.model';
-import { Row } from '../models/api.model';
+import { Row, Structure } from '../models/api.model';
+import { GNode, GraphData, Node_type } from '../models/graph.model';
 
 export function buildgraphAS(data: Row[], graphData: GraphData) {
   let id = -1;
@@ -14,7 +13,7 @@ export function buildgraphAS(data: Row[], graphData: GraphData) {
     Node_type.R,
     []
   );
-  const idNameSet: { [key: string]: string; } = {};
+  const idNameSet: { [key: string]: string } = {};
   root.comparator = root.metadata.name;
   root.comparatorName = root.metadata.name;
   root.comparatorId = root.metadata.ontologyId;
@@ -43,7 +42,9 @@ export function buildgraphAS(data: Row[], graphData: GraphData) {
         id += 1;
         const newNode = new GNode(
           id,
-          structure.id && idNameSet[structure.id] ? idNameSet[structure.id]  : structure.name,
+          structure.id && idNameSet[structure.id]
+            ? idNameSet[structure.id]
+            : structure.name,
           parent.id,
           structure.id,
           structure.rdfs_label,
@@ -129,7 +130,7 @@ export function buildgraphBM(data: Row[], graphData: GraphData, id: number) {
 
         row.biomarkers.forEach((biomarker) => {
           let s: number;
-          if (biomarker.id)  {
+          if (biomarker.id) {
             s = graphData.nodes.findIndex(
               (i: GNode) => i.comparatorId === biomarker.id
             );
@@ -171,12 +172,12 @@ export function makeGraphData(data: Row[]) {
   const graphData: GraphData = { nodes: [], edges: [] };
 
   for (const row of data) {
-    const organ: any = {
+    const organ = {
       name: 'Body',
       id: 'UBERON:0013702',
       rdfs_label: 'body proper',
     };
-    row.anatomical_structures.unshift(organ);
+    row.anatomical_structures.unshift(organ as Structure);
   }
 
   let id = buildgraphAS(data, graphData);
