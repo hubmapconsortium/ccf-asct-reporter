@@ -64,6 +64,19 @@
         "sheetId": "",
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-1-human-lymph-node-ibex.html"
+      },
+      {
+        "viewValue": "v1.4",
+        "hraVersion": "v2.1",
+        "value": "OMAP-1-Lymph_Node-v1.4",
+        "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/1-human-lymph-node-ibex/v1.4/assets/omap-1-human-lymph-node-ibex.csv",
+        "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/1-human-lymph-node-ibex/v1.4/assets/omap-1-human-lymph-node-ibex.xlsx",
+        "as": 28,
+        "ct": 32,
+        "bp": 39,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://purl.humanatlas.io/omap/1-human-lymph-node-ibex/v1.4"
       }
     ]
   },
@@ -119,6 +132,32 @@
         "sheetId": "",
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-2-intestine-codex.html"
+      },
+      {
+        "viewValue": "v1.3",
+        "hraVersion": "v2.0",
+        "value": "OMAP-2-Intestines-v1.3",
+        "csvUrl": "https://cdn.humanatlas.io/hra-releases/v2.0/omap/omap-2-intestine-codex.csv",
+        "xlsx": "https://cdn.humanatlas.io/hra-releases/v2.0/omap/omap-2-intestine-codex.xlsx",
+        "as": 30,
+        "ct": 33,
+        "bp": 54,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://cdn.humanatlas.io/hra-releases/v2.0/docs/omap/omap-2-intestine-codex.html"
+      },
+      {
+        "viewValue": "v1.4",
+        "hraVersion": "v2.1",
+        "value": "OMAP-2-Intestines-v1.4",
+        "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/2-intestine-codex/v1.4/assets/omap-2-intestine-codex.csv",
+        "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/2-intestine-codex/v1.4/assets/omap-2-intestine-codex.xlsx",
+        "as": 30,
+        "ct": 33,
+        "bp": 54,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://purl.humanatlas.io/omap/2-intestine-codex/v1.4"
       }
     ]
   },
@@ -174,7 +213,20 @@
         "sheetId": "",
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-3-kidney-codex.html"
-      }
+      },
+      {
+      "viewValue": "v1.3",
+      "hraVersion": "v2.1",
+      "value": "OMAP-3-Kidney-v1.3",
+      "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/3-kidney-codex/v1.3/assets/omap-3-kidney-codex.csv",
+      "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/3-kidney-codex/v1.3/assets/omap-3-kidney-codex.xlsx",
+      "as": 28,
+      "ct": 38,
+      "bp": 24,
+      "sheetId": "",
+      "gid": "",
+      "url": "https://purl.humanatlas.io/omap/3-kidney-codex/v1.3"
+    }
     ]
   },
   {
@@ -229,6 +281,19 @@
         "sheetId": "",
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-4-skin-cell-dive.html"
+      },
+      {
+        "viewValue": "v1.3",
+        "hraVersion": "v2.1",
+        "value": "OMAP-4-Skin-v1.3",
+        "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/4-skin-cell-dive/v1.3/assets/omap-4-skin-cell-dive.csv",
+        "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/4-skin-cell-dive/v1.3/assets/omap-4-skin-cell-dive.xlsx",
+        "as": 22,
+        "ct": 13,
+        "bp": 18,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://purl.humanatlas.io/omap/4-skin-cell-dive/v1.3"
       }
     ]
   },
@@ -284,6 +349,19 @@
         "sheetId": "",
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-5-liver-sims.html"
+      },
+      {
+        "viewValue": "v1.3",
+        "hraVersion": "v2.1",
+        "value": "OMAP-5-Liver-v1.3",
+        "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/5-liver-sims/v1.3/assets/omap-5-liver-sims.csv",
+        "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/5-liver-sims/v1.3/assets/omap-5-liver-sims.xlsx",
+        "as": 24,
+        "ct": 14,
+        "bp": 20,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://purl.humanatlas.io/omap/5-liver-sims/v1.3"
       }
     ]
   },
@@ -339,6 +417,19 @@
         "sheetId": "",
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-6-pancreas-codex.html"
+      },
+      {
+        "viewValue": "v1.3",
+        "hraVersion": "v2.1",
+        "value": "OMAP-6-Pancreas-v1.3",
+        "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/6-pancreas-codex/v1.3/assets/omap-6-pancreas-codex.csv",
+        "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/6-pancreas-codex/v1.3/assets/omap-6-pancreas-codex.xlsx",
+        "as": 10,
+        "ct": 11,
+        "bp": 12,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://purl.humanatlas.io/omap/6-pancreas-codex/v1.3"
       }
     ]
   },
@@ -394,6 +485,19 @@
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-7-lung-cell-dive.html",
         "sheetId": "",
         "gid": ""
+      },
+      {
+        "viewValue": "v1.3",
+        "hraVersion": "v2.1",
+        "value": "OMAP-7-Lung-v1.3",
+        "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/7-lung-cell-dive/v1.3/assets/omap-7-lung-cell-dive.csv",
+        "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/7-lung-cell-dive/v1.3/assets/omap-7-lung-cell-dive.xlsx",
+        "as": 28,
+        "ct": 36,
+        "bp": 30,
+        "url": "",
+        "sheetId": "",
+        "gid": "https://purl.humanatlas.io/omap/7-lung-cell-dive/v1.3"
       }
     ]
   },
@@ -423,6 +527,19 @@
         "sheetId": "",
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-8-placenta-full-term-imc.html"
+      },
+      {
+        "viewValue": "v1.1",
+        "hraVersion": "v2.1",
+        "value": "OMAP-8-Placenta-Full-Term-v1.1",
+        "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/8-placenta-full-term-imc/v1.1/assets/omap-8-placenta-full-term-imc.csv",
+        "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/8-placenta-full-term-imc/v1.1/assets/omap-8-placenta-full-term-imc.xlsx",
+        "as": 29,
+        "ct": 31,
+        "bp": 40,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://purl.humanatlas.io/omap/8-placenta-full-term-imc/v1.1"
       }
     ]
   },
@@ -452,6 +569,32 @@
         "sheetId": "",
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-9-kidney-codex.html"
+      },
+      {
+        "viewValue": "v1.1",
+        "hraVersion": "v2.0",
+        "value": "OMAP-9-Kidney-v1.1",
+        "csvUrl": "https://cdn.humanatlas.io/hra-releases/v1.4/omap/omap-9-kidney-codex.csv",
+        "xlsx": "https://cdn.humanatlas.io/hra-releases/v2.0/omap/omap-9-kidney-codex.xlsx",
+        "as": 29,
+        "ct": 31,
+        "bp": 40,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://cdn.humanatlas.io/hra-releases/v2.0/docs/omap/omap-9-kidney-codex.html"
+      },
+      {
+        "viewValue": "v1.2",
+        "hraVersion": "v2.1",
+        "value": "OMAP-9-Kidney-v1.2",
+        "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/9-kidney-codex/v1.2/assets/omap-9-kidney-codex.csv",
+        "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/9-kidney-codex/v1.2/assets/omap-9-kidney-codex.xlsx",
+        "as": 29,
+        "ct": 31,
+        "bp": 40,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://purl.humanatlas.io/omap/9-kidney-codex/v1.2"
       }
     ]
   },
@@ -460,7 +603,7 @@
     "display": "Palatine tonsil",
     "omapId": "OMAP-10",
     "tissuePreservationMethod": "PFA fixed",
-    "imagingMethod": "MACSima",
+    "imagingMethod": "MICS",
     "config": {
       "bimodal_distance_x": 250,
       "bimodal_distance_y": 60,
@@ -481,6 +624,19 @@
         "sheetId": "",
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-10-palatine-tonsil-macsima.html"
+      },
+      {
+        "viewValue": "v1.1",
+        "hraVersion": "v2.1",
+        "value": "OMAP-10-Palatine-Tonsil-v1.1",
+        "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/10-palatine-tonsil-mics/v1.1/assets/omap-10-palatine-tonsil-mics.csv",
+        "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/10-palatine-tonsil-mics/v1.1/assets/omap-10-palatine-tonsil-mics.xlsx",
+        "as": 29,
+        "ct": 31,
+        "bp": 40,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://purl.humanatlas.io/omap/10-palatine-tonsil-mics/v1.1"
       }
     ]
   },
@@ -510,6 +666,19 @@
         "sheetId": "",
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-11-spleen-ibex.html"
+      },
+      {
+        "viewValue": "v1.1",
+        "hraVersion": "v2.1",
+        "value": "OMAP-11-Spleen-v1.1",
+        "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/11-spleen-ibex/v1.1/assets/omap-11-spleen-ibex.csv",
+        "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/11-spleen-ibex/v1.1/assets/omap-11-spleen-ibex.xlsx",
+        "as": 29,
+        "ct": 31,
+        "bp": 40,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://purl.humanatlas.io/omap/11-spleen-ibex/v1.1"
       }
     ]
   },
@@ -539,6 +708,19 @@
         "sheetId": "",
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-12-eye-retina-ibex.html"
+      },
+      {
+        "viewValue": "v1.1",
+        "hraVersion": "v2.1",
+        "value": "OMAP-12-Eye-Retina-v1.1",
+        "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/12-eye-retina-ibex/v1.1/assets/omap-12-eye-retina-ibex.csv",
+        "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/12-eye-retina-ibex/v1.1/assets/omap-12-eye-retina-ibex.xlsx",
+        "as": 29,
+        "ct": 31,
+        "bp": 40,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://purl.humanatlas.io/omap/12-eye-retina-ibex/v1.1"
       }
     ]
   },
@@ -568,7 +750,256 @@
         "sheetId": "",
         "gid": "",
         "url": "https://hubmapconsortium.github.io/ccf-releases/v1.4/docs/omap/omap-13-pancreas-codex.html"
+      },
+      {
+        "viewValue": "v1.1",
+        "hraVersion": "v2.1",
+        "value": "OMAP-13-Pancreas-v1.1",
+        "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/13-pancreas-codex/v1.1/assets/omap-13-pancreas-codex.csv",
+        "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/13-pancreas-codex/v1.1/assets/omap-13-pancreas-codex.xlsx",
+        "as": 29,
+        "ct": 31,
+        "bp": 40,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://purl.humanatlas.io/omap/13-pancreas-codex/v1.1"
       }
     ]
+  },
+  {
+    "name": "Kidney",
+    "display": "Kidney",
+    "omapId": "OMAP-14",
+    "tissuePreservationMethod": "Fresh Frozen",
+    "imagingMethod": "CODEX",
+    "config": {
+      "bimodal_distance_x": 250,
+      "bimodal_distance_y": 60,
+      "width": 700,
+      "height": 2250
+    },
+    "uberon_id": "UBERON:0002113",
+    "version": [
+      {
+        "viewValue": "v1.0",
+        "hraVersion": "v2.1",
+        "value": "OMAP-14-Kidney-v1.0",
+        "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/14-kidney-cycif/v1.0/assets/omap-14-kidney-cycif.csv",
+        "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/14-kidney-cycif/v1.0/assets/omap-14-kidney-cycif.xlsx",
+        "as": 8,
+        "ct": 9,
+        "bp": 17,
+        "sheetId": "",
+        "gid": "",
+        "url": "https://purl.humanatlas.io/omap/14-kidney-cycif/v1.0"
+      }
+    ]
+},
+{
+"omapId": "OMAP-15",
+"name": "Intestines",
+"display": "Intestines",
+"tissuePreservationMethod": "FFPE",
+"imagingMethod": "CODEX",
+"config": {
+  "bimodal_distance_x": 250,
+  "bimodal_distance_y": 60,
+  "width": 700,
+  "height": 2250
+},
+"uberon_id": "UBERON:0000160",
+"version": [
+  {
+    "viewValue": "v1.0",
+    "hraVersion": "v2.1",
+    "value": "OMAP-15-Intestines-v1.0",
+    "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/15-intestine-codex/v1.0/assets/omap-15-intestine-codex.csv",
+    "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/15-intestine-codex/v1.0/assets/omap-15-intestine-codex.xlsx",
+    "as": 30,
+    "ct": 38,
+    "bp": 54,
+    "sheetId": "",
+    "gid": "",
+    "url": "https://purl.humanatlas.io/omap/15-intestine-codex/v1.0"
   }
 ]
+},
+{
+"omapId": "OMAP-16",
+"name": "Lung",
+"display": "Lung",
+"tissuePreservationMethod": "FFPE",
+"imagingMethod": "CODEX",
+"config": {
+  "bimodal_distance_x": 250,
+  "bimodal_distance_y": 60,
+  "width": 700,
+  "height": 2250
+},
+"uberon_id": "UBERON:0002048",
+"version": [
+  {
+    "viewValue": "v1.0",
+    "hraVersion": "v2.1",
+    "value": "OMAP-16-Lung-v1.0",
+    "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/16-lung-codex/v1.0/assets/omap-16-lung-cell-codex.csv",
+    "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/16-lung-codex/v1.0/assets/omap-16-lung-cell-codex.xlsx",
+    "as": 3,
+    "ct": 35,
+    "bp": 34,
+    "url": "https://purl.humanatlas.io/omap/16-lung-codex/v1.0",
+    "sheetId": "",
+    "gid": ""
+  }
+]
+},
+{
+"omapId": "OMAP-17",
+"name": "Thymus",
+"display": "Thymus",
+"tissuePreservationMethod": "1% PFA Fixed Frozen",
+"imagingMethod": "IBEX",
+"config": {
+  "bimodal_distance_x": 250,
+  "bimodal_distance_y": 60,
+  "width": 700,
+  "height": 2250
+},
+"uberon_id": "UBERON:0002370",
+"version": [
+  {
+    "viewValue": "v1.0",
+    "hraVersion": "v2.1",
+    "value": "OMAP-17-Thymus-v1.0",
+    "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/17-thymus-ibex/v1.0/assets/omap-17-thymus-ibex.csv",
+    "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/17-thymus-ibex/v1.0/assets/omap-17-thymus-ibex.xlsx",
+    "as": 7,
+    "ct": 30,
+    "bp": 43,
+    "url": "https://purl.humanatlas.io/omap/17-thymus-ibex/v1.0",
+    "sheetId": "",
+    "gid": ""
+  }
+]
+},
+{
+"omapId": "OMAP-18",
+"name": "Lymph Node",
+"display": "Lymph Node",
+"tissuePreservationMethod": "FFPE",
+"imagingMethod": "Cell DIVE-IBEX",
+"config": {
+  "bimodal_distance_x": 250,
+  "bimodal_distance_y": 60,
+  "width": 700,
+  "height": 2250
+},
+"uberon_id": "UBERON: 0000029",
+"version": [
+  {
+    "viewValue": "v1.0",
+    "hraVersion": "v2.1",
+    "value": "OMAP-18-Lymph-Node-v1.0",
+    "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/18-lymph-node-cell-dive-ibex/v1.0/assets/omap-18-lymph-node-cell-dive-ibex.csv",
+    "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/18-lymph-node-cell-dive-ibex/v1.0/assets/omap-18-lymph-node-cell-dive-ibex.xlsx",
+    "as": 15,
+    "ct": 11,
+    "bp": 11,
+    "url": "https://purl.humanatlas.io/omap/18-lymph-node-cell-dive-ibex/v1.0",
+    "sheetId": "",
+    "gid": ""
+  }
+]
+},
+{
+"omapId": "OMAP-19",
+"name": "Palatine tonsil",
+"display": "Palatine tonsil",
+"tissuePreservationMethod": "FFPE",
+"imagingMethod": "IBEX",
+"config": {
+  "bimodal_distance_x": 250,
+  "bimodal_distance_y": 60,
+  "width": 700,
+  "height": 2250
+},
+"uberon_id": "UBERON:0002373",
+"version": [
+  {
+    "viewValue": "v1.0",
+    "hraVersion": "v2.1",
+    "value": "OMAP-19-Palatine-Tonsil-v1.0",
+    "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/19-palatine-tonsil-ibex/v1.0/assets/omap-19-palatine-tonsil-ibex.csv",
+    "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/19-palatine-tonsil-ibex/v1.0/assets/omap-19-palatine-tonsil-ibex.xlsx",
+    "as": 10,
+    "ct": 16,
+    "bp": 20,
+    "url": "https://purl.humanatlas.io/omap/19-palatine-tonsil-ibex/v1.0",
+    "sheetId": "",
+    "gid": ""
+  }
+]
+},
+{
+"omapId": "OMAP-20",
+"name": "Kidney",
+"display": "Kidney",
+"tissuePreservationMethod": "Fresh Frozen",
+"imagingMethod": "CyCIF",
+"config": {
+  "bimodal_distance_x": 250,
+  "bimodal_distance_y": 60,
+  "width": 700,
+  "height": 2250
+},
+"uberon_id": "UBERON:0002113",
+"version": [
+  {
+    "viewValue": "v1.0",
+    "hraVersion": "v2.1",
+    "value": "OMAP-20-kidney-v1.0",
+    "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/20-kidney-ims-cycif/v1.0/assets/omap-20-kidney-ims-cycif.csv",
+    "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/20-kidney-ims-cycif/v1.0/assets/omap-20-kidney-ims-cycif.xlsx",
+    "as": 3,
+    "ct": 4,
+    "bp": 10,
+    "url": "https://purl.humanatlas.io/omap/20-kidney-ims-cycif/v1.0",
+    "sheetId": "",
+    "gid": ""
+  }
+]
+},
+{
+"omapId": "OMAP-21",
+"name": "Palatine tonsil",
+"display": "Palatine tonsil",
+"tissuePreservationMethod": "FFPE",
+"imagingMethod": "MICS",
+"config": {
+  "bimodal_distance_x": 250,
+  "bimodal_distance_y": 60,
+  "width": 700,
+  "height": 2250
+},
+"uberon_id": "UBERON:0002373",
+"version": [
+  {
+    "viewValue": "v1.0",
+    "hraVersion": "v2.1",
+    "value": "OMAP-21-Palatine-Tonsil-v1.0",
+    "csvUrl": "https://cdn.humanatlas.io/digital-objects/omap/21-palatine-tonsil-mics/v1.0/assets/omap-21-palatine-tonsil-mics.csv",
+    "xlsx": "https://cdn.humanatlas.io/digital-objects/omap/21-palatine-tonsil-mics/v1.0/assets/omap-21-palatine-tonsil-mics.xlsx",
+    "as": 12,
+    "ct": 16,
+    "bp": 46,
+    "url": "https://purl.humanatlas.io/omap/21-palatine-tonsil-mics/v1.0",
+    "sheetId": "",
+    "gid": ""
+  }
+]
+
+
+
+
+
+
