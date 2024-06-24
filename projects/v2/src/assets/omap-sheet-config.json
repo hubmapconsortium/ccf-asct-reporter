@@ -945,7 +945,7 @@
 "name": "Kidney",
 "display": "Kidney",
 "tissuePreservationMethod": "Fresh Frozen",
-"imagingMethod": "CyCIF",
+"imagingMethod": "IMS-CyCIF",
 "config": {
   "bimodal_distance_x": 250,
   "bimodal_distance_y": 60,
