@@ -13,7 +13,7 @@ export class OmapDataTransformer {
     constructor(data: string[][], legacy?: boolean) {
       this.isLegacyOmap = legacy ?? false;
       this.data = data;
-      this.headerRow = legacy ? findHeaderIndex(0, this.data, LEGACY_OMAP_HEADER_FIRST_COLUMN) : 
+      this.headerRow = legacy ? findHeaderIndex(0, this.data, LEGACY_OMAP_HEADER_FIRST_COLUMN) :
         findHeaderIndex(0, this.data, OMAP_HEADER_FIRST_COLUMN);
       this.metaData = this.getMetaData();
       this._warnings = new Set<string>();
@@ -63,11 +63,11 @@ export class OmapDataTransformer {
       dataObject.forEach(data => {
         const uniprots = data.uniprot_accession_number.split(', ');
         const hgncIds = data.HGNC_ID.split(', ');
-        const targetNames = data.target_name.split(', ');
+        const targetNames = data.target_symbol?.split(', ') ?? [];
         if (!(uniprots.length === hgncIds.length && hgncIds.length === targetNames.length)) {
           this.warnings.add('WARNING: Number of entires in column uniprot_accession_number, HGNC_ID,' +
-                    `target_name are not equal in row ${data.rowNo}. uniprot_accession_number: ${uniprots.length};` +
-                    `HGNC_ID: ${hgncIds.length}; target_name: ${targetNames.length}`);
+                    `target_symbol are not equal in row ${data.rowNo}. uniprot_accession_number: ${uniprots.length};` +
+                    `HGNC_ID: ${hgncIds.length}; target_symbol: ${targetNames.length}`);
         }
         let notes = `Extra information in "${title}", Row ${data.rowNo} \n`;
         notes += data.notes;
@@ -85,7 +85,7 @@ export class OmapDataTransformer {
             organUberonMissingWarningAdded = true;
           }
         }
-        if (data.uniprot_accession_number != '' && data.HGNC_ID != '' && data.target_name != '') {
+        if (data.uniprot_accession_number != '' && data.HGNC_ID != '' && data.target_symbol != '' && data.target_symbol !== undefined) {
           const newrow = this.isLegacyOmap ? [organ.name, organ.rdfs_label, organ.id] : [data.organ, data.organ, data.organ_uberon];
           const maxBPs = Math.max(uniprots.length, hgncIds.length, targetNames.length);
           for (let i = 0; i < maxBPs; i++) {
@@ -118,7 +118,7 @@ export class OmapDataTransformer {
           acc[key] = subArr[i];
           return acc;
         }, {});
-        // 4 = Two blank rows + 1 for 0 indexing of headerrow + 1 for 0 indexing for subArr 
+        // 4 = Two blank rows + 1 for 0 indexing of headerrow + 1 for 0 indexing for subArr
         keyValuePairs.rowNo = (index + this.headerRow + 4).toString();
         dataObject.push(keyValuePairs);
       });
@@ -127,7 +127,7 @@ export class OmapDataTransformer {
     }
 
     private createNotes(dataObject: Record<string, string>[]): Record<string, string>[] {
-      const excludedKeys = ['uniprot_accession_number', 'HGNC_ID', 'target_name', 'rowNo'];
+      const excludedKeys = ['uniprot_accession_number', 'HGNC_ID', 'target_symbol', 'rowNo'];
       dataObject.forEach(obj => {
         const entries = Object.entries(obj);
         const formattedEntries = entries
