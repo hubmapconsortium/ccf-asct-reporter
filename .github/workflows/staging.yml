@@ -38,7 +38,7 @@ jobs:
           cp dist/v2/index.html dist/v2/404.html
           touch dist/v2/.nojekyll
 
-      - uses: peaceiris/actions-gh-pages@v3
+      - uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: dist/v2
