@@ -42,6 +42,6 @@
     "@typescript-eslint/parser": "^4.33.0",
     "eslint": "^7.31.0",
     "nodemon": "^2.0.22",
-    "ts-node": "^9.1.1"
+    "ts-node": "^10.9.2"
   }
 }
