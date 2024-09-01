@@ -32,7 +32,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
-    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@ngxs/devtools-plugin": "^3.8.1",
     "@ngxs/logger-plugin": "^3.8.1",
     "@ngxs/storage-plugin": "^3.8.1",
