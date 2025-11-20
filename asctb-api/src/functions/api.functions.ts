@@ -32,7 +32,7 @@ function setData(column: string[], columnNumber: number, row: Row, value: string
     const arrayName: arrayNameType = arrayNameMap[column[0]];
     const originalArrayName = column[0];
     const objectArray: any[] = row[arrayName] || [];
-    
+
     if (!arrayName) {
       warnings.add(`WARNING: unmapped array found ${originalArrayName} (Code ${WarningCode.UnmappedData})`);
     }
@@ -100,7 +100,7 @@ function validateDataCell(value: string, rowIndex: number, columnIndex: number, 
  */
 export const buildMetadata = (metadataRows: string[][], warnings: Set<string>): Record<string, string | string[]> => {
   const [titleRow] = metadataRows.splice(TITLE_ROW_INDEX, 1);
-  const [title] = titleRow.slice(0, 1);
+  const [title] = titleRow?.slice(0, 1) ?? [''];
 
   const result: Record<string, string | string[]> = {
     title
@@ -144,10 +144,10 @@ export function findHeaderIndex(headerRow: number, data: string[][], firstColumn
   return headerRow;
 }
 function validateHeaderRow(headerData: string[][], rowIndex: number, warnings: Set<string>){
-  
+
   let columnIndex = 0;
   headerData.forEach((value) => {
-    /** 
+    /**
      * Validate the Header of length 3: i.e after splitting header with ("/")
      */
     if (value.length === 3) {
@@ -166,8 +166,8 @@ function validateHeaderRow(headerData: string[][], rowIndex: number, warnings: S
         warnings.add(invalidHeader);
       }
     }
-    
-    /** 
+
+    /**
      * Validate the Header of length 2: i.e after splitting header with ("/")
      */
     if (value.length === 2) {
@@ -190,8 +190,8 @@ function validateHeaderRow(headerData: string[][], rowIndex: number, warnings: S
   });
 }
 function checkMissingIds(column: string[], index: number, row: Row, value: string ,rowData:string[], warnings: Set<string>) {
-  /** 
-   * check for missing Uberon/CL IDs: 
+  /**
+   * check for missing Uberon/CL IDs:
   */
   const lastElement = column[column.length - 1];
   const isId = lastElement.toLowerCase() === objectFieldMap.ID;
@@ -256,7 +256,7 @@ export function makeASCTBDataWork(data: string[][]): ASCTBData {
   const headerRow = findHeaderIndex(0, data, ASCT_HEADER_FIRST_COLUMN);
   const columns = data[headerRow].map((col: string) => col.toUpperCase().split('/').map(s => s.trim()));
   const warnings: Set<string> = new Set<string>();
-  
+
   validateHeaderRow(columns, headerRow+2, warnings);
 
   const results = data.slice(headerRow + 1).map((rowData: string[], rowNumber) => {
